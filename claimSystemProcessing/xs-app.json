@@ -9,6 +9,12 @@
       "source": "^/claimSystemProcessing/(.*)$",
       "target": "$1",
       "localDir": "webapp"
-    }
+    },
+              {
+      "source": "/node(.*)",
+      "destination": " claimSystemProcessing-node-backend",
+      "csrfProtection": false,
+      "authenticationType": "none"
+    },
   ]
 }
