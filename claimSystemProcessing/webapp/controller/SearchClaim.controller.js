@@ -126,11 +126,11 @@ sap.ui.define([
 		},
 
 		handleSelectClaimGroupFinish: function (oEvent) {
-			var oArr = oEvent.getParameters().selectedItems;
+			this.oArr = oEvent.getParameters().selectedItems;
 			this.oStatusKey = [];
-			for (var i in oArr) {
-				if (!$.isEmptyObject(oArr[i].getKey())) {
-					this.oStatusKey.push(oArr[i].getKey());
+			for (var i in this.oArr) {
+				if (!$.isEmptyObject(this.oArr[i].getKey())) {
+					this.oStatusKey.push(this.oArr[i].getKey());
 				}
 			}
 			console.log(this.oStatusKey);
@@ -147,10 +147,13 @@ sap.ui.define([
 		onPressSearch: function (oEvent) {
 
 			var sQueryDealer = this.getView().byId("idDealerCode").getSelectedKey();
+			console.log(sQueryDealer, this.oStatusKey);
 			var sQuerySearchBy = this.getView().byId("idSearchBy").getSelectedKey();
 			var sQuerySearchText = this.getView().byId("idSearchText").getValue();
 			var sQueryClaimGroup = this.getView().byId("idClaimGroup").getSelectedKey();
 			var sQueryClaimType = this.getView().byId("idClaimType").getSelectedKey();
+
+			var sQueryStat = this.byId("idClaimStatus").getSelectedKeys();
 			var oDateFormat = sap.ui.core.format.DateFormat.getDateInstance({
 				pattern: "yyyy-MM-ddTHH:mm:ss"
 			});
@@ -162,6 +165,7 @@ sap.ui.define([
 			var ToDateFormat = ToDate.toDateString();
 			console.log(FromDateFormat, ToDateFormat);
 			var sDate = "";
+			var oResult = [];
 			if (sQuerySearchBy === "RepairOrderNumberExternal") {
 				sDate = "RepairDate";
 
@@ -169,11 +173,22 @@ sap.ui.define([
 				sDate = "ReferenceDate";
 
 			}
+
 			//var oFilterArr = [];
 			//var orFilter = [];
 			//var newFilter = [];
 			//	console.log(sQueryDealer, sQuerySearchBy, sQuerySearchText, sQueryClaimGroup, sQueryClaimType, this.oStatusKey);
-			if (!$.isEmptyObject(sQueryDate, sQueryDealer) && $.isEmptyObject(sQuerySearchText, sQueryClaimType, this.oStatusKey)) {
+
+			if (!$.isEmptyObject(sQueryStat)) {
+
+				for (var j = 0; j < sQueryStat.length; j++) {
+
+					oResult.push(new sap.ui.model.Filter("ProcessingStatusOfWarrantyClm", sap.ui.model.FilterOperator.EQ, sQueryStat[j]));
+
+				}
+			}
+
+			if (!$.isEmptyObject(sQueryDate, sQueryDealer) && $.isEmptyObject(sQuerySearchText, sQueryClaimType, sQueryStat)) {
 
 				andFilter = new sap.ui.model.Filter({
 					filters: [
@@ -182,7 +197,7 @@ sap.ui.define([
 					],
 					and: true
 				});
-			} else if (!$.isEmptyObject(sQueryDate, sQueryDealer, sQuerySearchText) && $.isEmptyObject(sQueryClaimType, this.oStatusKey)) {
+			} else if (!$.isEmptyObject(sQueryDate, sQueryDealer, sQuerySearchText) && $.isEmptyObject(sQueryClaimType, sQueryStat)) {
 				andFilter = new sap.ui.model.Filter({
 					filters: [
 						new sap.ui.model.Filter(sDate, sap.ui.model.FilterOperator.BT, FromDateFormat, ToDateFormat),
@@ -192,7 +207,7 @@ sap.ui.define([
 					],
 					and: true
 				});
-			} else if (!$.isEmptyObject(sQueryDate, sQueryDealer, sQuerySearchText, sQueryClaimType) && $.isEmptyObject(this.oStatusKey)) {
+			} else if (!$.isEmptyObject(sQuerySearchText, sQueryClaimType, sQueryDate, sQueryDealer) && $.isEmptyObject(sQueryStat)) {
 				andFilter = new sap.ui.model.Filter({
 					filters: [
 						new sap.ui.model.Filter(sDate, sap.ui.model.FilterOperator.BT, FromDateFormat, ToDateFormat),
@@ -202,38 +217,65 @@ sap.ui.define([
 					],
 					and: true
 				});
-			} else if (!$.isEmptyObject(sQueryDealer, sQuerySearchText, sQueryClaimType, this.oStatusKey, sQueryDate)) {
-				for (var j in this.oStatusKey) {
-					//	oFilterArr.push(new sap.ui.model.Filter("ProcessingStatusOfWarrantyClm", sap.ui.model.FilterOperator.EQ, this.oStatusKey[j]));
+			} else if (!$.isEmptyObject(sQueryClaimType, sQueryDate, sQueryDealer) && $.isEmptyObject(sQueryStat, sQuerySearchText)) {
+				andFilter = new sap.ui.model.Filter({
+					filters: [
+						new sap.ui.model.Filter(sDate, sap.ui.model.FilterOperator.BT, FromDateFormat, ToDateFormat),
+						new sap.ui.model.Filter("Partner", sap.ui.model.FilterOperator.EQ, sQueryDealer),
+						new sap.ui.model.Filter("WarrantyClaimType", sap.ui.model.FilterOperator.EQ, sQueryClaimType)
+					],
+					and: true
+				});
+			} else if (!$.isEmptyObject(sQueryStat, sQueryClaimType, sQueryDate, sQueryDealer) && $.isEmptyObject(sQuerySearchText)) {
 
-					//console.log(oFilterArr);
+				andFilter = new sap.ui.model.Filter({
+					filters: [
+						new sap.ui.model.Filter("Partner", sap.ui.model.FilterOperator.EQ, sQueryDealer),
+						new sap.ui.model.Filter("WarrantyClaimType", sap.ui.model.FilterOperator.EQ, sQueryClaimType),
+						new sap.ui.model.Filter(sDate, sap.ui.model.FilterOperator.BT, FromDateFormat, ToDateFormat),
+						new sap.ui.model.Filter(oResult)
 
-					// orFilter = new sap.ui.model.Filter({
-					// 	filters: [
-					// 		oFilterArr
-					// 	],
-					// 	and: true
-					// });
+					],
+					and: true
+				});
 
-					andFilter = new sap.ui.model.Filter({
-						filters: [
+			} else if (!$.isEmptyObject(sQueryStat, sQuerySearchText, sQueryDate, sQueryDealer) && $.isEmptyObject(
+					sQueryClaimType)) {
+				andFilter = new sap.ui.model.Filter({
+					filters: [
+						new sap.ui.model.Filter("Partner", sap.ui.model.FilterOperator.EQ, sQueryDealer),
+						new sap.ui.model.Filter(sQuerySearchBy, sap.ui.model.FilterOperator.EQ, sQuerySearchText),
+						new sap.ui.model.Filter(sDate, sap.ui.model.FilterOperator.BT, FromDateFormat, ToDateFormat),
+						new sap.ui.model.Filter(oResult)
 
-							new sap.ui.model.Filter("Partner", sap.ui.model.FilterOperator.EQ, sQueryDealer),
-							new sap.ui.model.Filter(sQuerySearchBy, sap.ui.model.FilterOperator.EQ, sQuerySearchText),
-							new sap.ui.model.Filter("WarrantyClaimType", sap.ui.model.FilterOperator.EQ, sQueryClaimType),
-							new sap.ui.model.Filter(sDate, sap.ui.model.FilterOperator.BT, FromDateFormat, ToDateFormat),
-							new sap.ui.model.Filter("ProcessingStatusOfWarrantyClm", sap.ui.model.FilterOperator.EQ, this.oStatusKey[j])
+					],
+					and: true
+				});
 
-						],
-						and: true
-					});
-				}
-				// newFilter = new sap.ui.model.Filter({
-				// 	filters: [
-				// 		orFilter, andFilter
-				// 	],
-				// 	and: true
-				// });
+			} else if (!$.isEmptyObject(sQueryStat, sQueryDate, sQueryDealer) && $.isEmptyObject(sQueryClaimType, sQuerySearchText)) {
+
+				andFilter = new sap.ui.model.Filter({
+					filters: [
+						new sap.ui.model.Filter("Partner", sap.ui.model.FilterOperator.EQ, sQueryDealer),
+						new sap.ui.model.Filter(sDate, sap.ui.model.FilterOperator.BT, FromDateFormat, ToDateFormat),
+						new sap.ui.model.Filter(oResult)
+					],
+					and: true
+				});
+
+			} else if (!$.isEmptyObject(sQueryDate, sQueryDealer, sQuerySearchText, sQueryClaimType, sQueryStat)) {
+
+				andFilter = new sap.ui.model.Filter({
+					filters: [
+
+						new sap.ui.model.Filter("Partner", sap.ui.model.FilterOperator.EQ, sQueryDealer),
+						new sap.ui.model.Filter(sQuerySearchBy, sap.ui.model.FilterOperator.EQ, sQuerySearchText),
+						new sap.ui.model.Filter("WarrantyClaimType", sap.ui.model.FilterOperator.EQ, sQueryClaimType),
+						new sap.ui.model.Filter(sDate, sap.ui.model.FilterOperator.BT, FromDateFormat, ToDateFormat),
+						new sap.ui.model.Filter(oResult)
+					],
+					and: true
+				});
 
 			}
 			var oTable = this.getView().byId("idClaimTable");

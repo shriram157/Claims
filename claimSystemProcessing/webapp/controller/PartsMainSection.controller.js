@@ -4,8 +4,9 @@ sap.ui.define([
 	'sap/m/Label',
 	'sap/m/MessageToast',
 	'sap/m/Text',
-	"zclaimProcessing/controller/BaseController"
-], function (Button, Dialog, Label, MessageToast, Text, BaseController) {
+	"zclaimProcessing/controller/BaseController",
+	"zclaimProcessing/libs/jQuery.base64"
+], function (Button, Dialog, Label, MessageToast, Text, BaseController, base64) {
 	"use strict";
 
 	return BaseController.extend("zclaimProcessing.controller.PartsMainSection", {
@@ -24,28 +25,59 @@ sap.ui.define([
 			});
 			this.getView().setModel(oDateModel, "DateModel");
 			var oNodeModel = new sap.ui.model.json.JSONModel();
-			oNodeModel.loadData(jQuery.sap.getModulePath("zclaimProcessing.utils", "/Nodes.json"));
+			oNodeModel.setData({
+				"currentLocationText": "Attachments",
+				"history": [],
+				"items": []
+			});
+			this.getView().setModel(oNodeModel, "ClaimModel");
+
+			var oAttachments = new sap.ui.model.json.JSONModel();
+			oAttachments.setData({
+				"currentLocationText": "Attachments",
+				"history": [],
+				"items": []
+			});
+			this.getView().setModel(oAttachments, "AttachmentModel");
+			//oNodeModel.loadData(jQuery.sap.getModulePath("zclaimProcessing.utils", "/Nodes.json"));
 			var oMultiHeaderConfig = {
 				multiheader1: [3, 1],
 				multiheader2: [2, 1],
 				multiheader3: [6, 1],
+				multiheader5: 4,
 				partDamage: true,
 				partMiscellanious: false,
 				partDiscrepancies: false,
-				partTransportation: false
+				partTransportation: false,
+				uploader: true,
+				OrderedPartDesc: false,
+				RetainPartV: false,
+				PartNumberRcV: false,
+				PartDescriptionOrdRcv: false,
+				RepairAmtV: true,
+				DealerNetPrcV: false,
+				DealerNetPrcEdt: true,
+				PartRepaired: true
 			};
 
 			this.getView().setModel(new sap.ui.model.json.JSONModel(oMultiHeaderConfig), "multiHeaderConfig");
-
-			//this.getView().setModel(this.oUploadModel, "UploadedItems");
-			this.getView().setModel(oNodeModel, "ClaimModel");
-			this.oUploadCollection = this.byId("UploadCollection");
-			this.oBreadcrumbs = this.byId("breadcrumbs");
+			this.oUploadCollection = this.byId("UploadSupportingDoc");
+			this.oBreadcrumbs = this.byId("breadcrumbsSupportingDoc");
 			this.bindUploadCollectionItems("ClaimModel>/items");
 			this.oUploadCollection.addEventDelegate({
 				onAfterRendering: function () {
 					var iCount = this.oUploadCollection.getItems().length;
 					this.oBreadcrumbs.setCurrentLocationText(this.getCurrentLocationText() + " (" + iCount + ")");
+				}.bind(this)
+			});
+
+			this.oUploadCollection01 = this.byId("UploadCollection");
+			this.oBreadcrumbs01 = this.byId("breadcrumbs");
+			this.bindUploadCollectionItems01("AttachmentModel>/items");
+			this.oUploadCollection01.addEventDelegate({
+				onAfterRendering: function () {
+					var iCount = this.oUploadCollection01.getItems().length;
+					this.oBreadcrumbs01.setCurrentLocationText(this.getCurrentLocationText01() + " (" + iCount + ")");
 				}.bind(this)
 			});
 
@@ -58,16 +90,33 @@ sap.ui.define([
 				},
 				success: $.proxy(function (data) {
 					oArr.push(data.results[0], data.results[3]);
-					console.log(oArr);
 					this.getModel("LocalDataModel").setProperty("/ClaimSum", oArr);
 				}, this)
 			});
+
+			var HeadSetData = new sap.ui.model.json.JSONModel({
+				"WarrantyClaimType": "",
+				"Delivery": "",
+				"DeliveryDate": "",
+				"TCIWaybillNumber": "",
+				"ShipmentReceivedDate": "",
+				"DealerContact": "",
+				"HeadText": ""
+			});
+			HeadSetData.setDefaultBindingMode("TwoWay");
+			this.getView().setModel(HeadSetData, "HeadSetData");
 
 		},
 
 		getCurrentLocationText: function () {
 			// Remove the previously added number of items from the currentLocationText in order to not show the number twice after rendering.
 			var sText = this.oBreadcrumbs.getCurrentLocationText().replace(/\s\([0-9]*\)/, "");
+			return sText;
+		},
+
+		getCurrentLocationText01: function () {
+			// Remove the previously added number of items from the currentLocationText in order to not show the number twice after rendering.
+			var sText = this.oBreadcrumbs01.getCurrentLocationText().replace(/\s\([0-9]*\)/, "");
 			return sText;
 		},
 
@@ -83,54 +132,100 @@ sap.ui.define([
 				this.getView().byId("idPdcCode").setProperty("editable", false);
 				this.getView().byId("idTCIWayBill").setProperty("editable", true);
 				this.getView().getModel("multiHeaderConfig").setProperty("/partDamage", true);
-				this.getView().getModel("multiHeaderConfig").setProperty("/partMiscellanious", false);
-				this.getView().getModel("multiHeaderConfig").setProperty("/partDiscrepancies", false);
-				this.getView().getModel("multiHeaderConfig").setProperty("/partTransportation", false);
+
+				this.getView().getModel("multiHeaderConfig").setProperty("/RetainPartV", false);
+				this.getView().getModel("multiHeaderConfig").setProperty("/PartNumberRcV", false);
+				this.getView().getModel("multiHeaderConfig").setProperty("/PartDescriptionOrdRcv", false);
+				this.getView().getModel("multiHeaderConfig").setProperty("/RepairAmtV", true);
+				this.getView().getModel("multiHeaderConfig").setProperty("/DealerNetPrcV", false);
+				this.getView().getModel("multiHeaderConfig").setProperty("/PartRepaired", true);
+				this.getView().getModel("multiHeaderConfig").setProperty("/uploader", true);
+				this.getView().getModel("multiHeaderConfig").setProperty("/multiheader5", 4);
 				console.log(oEvent.getParameters().selectedItem.getText() + "PDC");
 
 			} else if (oEvent.getParameters().selectedItem.getKey() === "PMS") {
 				this.getView().byId("idPdcCode").setProperty("editable", false);
 				this.getView().byId("idTCIWayBill").setProperty("editable", true);
-				this.getView().getModel("multiHeaderConfig").setProperty("/partDamage", false);
-				this.getView().getModel("multiHeaderConfig").setProperty("/partMiscellanious", true);
-				this.getView().getModel("multiHeaderConfig").setProperty("/partDiscrepancies", false);
-				this.getView().getModel("multiHeaderConfig").setProperty("/partTransportation", false);
-				console.log(oEvent.getParameters().selectedItem.getText() + "PMS");
+				// this.getView().getModel("multiHeaderConfig").setProperty("/partDamage", false);
+				// this.getView().getModel("multiHeaderConfig").setProperty("/partMiscellanious", true);
+				// this.getView().getModel("multiHeaderConfig").setProperty("/partDiscrepancies", false);
+				// this.getView().getModel("multiHeaderConfig").setProperty("/partTransportation", false);
+
+				this.getView().getModel("multiHeaderConfig").setProperty("/RetainPartV", false);
+				this.getView().getModel("multiHeaderConfig").setProperty("/PartNumberRcV", false);
+				this.getView().getModel("multiHeaderConfig").setProperty("/PartDescriptionOrdRcv", false);
+				this.getView().getModel("multiHeaderConfig").setProperty("/RepairAmtV", true);
+				this.getView().getModel("multiHeaderConfig").setProperty("/DealerNetPrcV", false);
+				this.getView().getModel("multiHeaderConfig").setProperty("/PartRepaired", true);
+				this.getView().getModel("multiHeaderConfig").setProperty("/uploader", true);
+				this.getView().getModel("multiHeaderConfig").setProperty("/multiheader5", 4);
+				//console.log(oEvent.getParameters().selectedItem.getText() + "PMS");
 			} else if (oEvent.getParameters().selectedItem.getKey() === "PTS") {
 				this.getView().byId("idPdcCode").setProperty("editable", false);
 				this.getView().byId("idTCIWayBill").setProperty("editable", true);
-				this.getView().getModel("multiHeaderConfig").setProperty("/partDamage", false);
-				this.getView().getModel("multiHeaderConfig").setProperty("/partMiscellanious", false);
-				this.getView().getModel("multiHeaderConfig").setProperty("/partDiscrepancies", false);
-				this.getView().getModel("multiHeaderConfig").setProperty("/partTransportation", true);
-				console.log(oEvent.getParameters().selectedItem.getText() + "PTS");
+				// this.getView().getModel("multiHeaderConfig").setProperty("/partDamage", false);
+				// this.getView().getModel("multiHeaderConfig").setProperty("/partMiscellanious", false);
+				// this.getView().getModel("multiHeaderConfig").setProperty("/partDiscrepancies", false);
+				// this.getView().getModel("multiHeaderConfig").setProperty("/partTransportation", true);
+				// console.log(oEvent.getParameters().selectedItem.getText() + "PTS");
+				this.getView().getModel("multiHeaderConfig").setProperty("/RetainPartV", false);
+				this.getView().getModel("multiHeaderConfig").setProperty("/PartNumberRcV", false);
+				this.getView().getModel("multiHeaderConfig").setProperty("/PartDescriptionOrdRcv", false);
+				this.getView().getModel("multiHeaderConfig").setProperty("/RepairAmtV", true);
+				this.getView().getModel("multiHeaderConfig").setProperty("/PartRepaired", true);
+				this.getView().getModel("multiHeaderConfig").setProperty("/DealerNetPrcV", false);
+				this.getView().getModel("multiHeaderConfig").setProperty("/uploader", true);
+				this.getView().getModel("multiHeaderConfig").setProperty("/multiheader5", 4);
 
 			} else if (oEvent.getParameters().selectedItem.getKey() === "PPD") {
 				console.log(oEvent.getParameters().selectedItem.getText() + "PPD");
 				this.getView().byId("idPdcCode").setProperty("editable", false);
 				this.getView().byId("idTCIWayBill").setProperty("editable", false);
-				this.getView().getModel("multiHeaderConfig").setProperty("/partDamage", false);
+				this.getView().getModel("multiHeaderConfig").setProperty("/OrderedPartDesc", false);
 				this.getView().getModel("multiHeaderConfig").setProperty("/partMiscellanious", false);
 				this.getView().getModel("multiHeaderConfig").setProperty("/partDiscrepancies", true);
 				this.getView().getModel("multiHeaderConfig").setProperty("/partTransportation", false);
+				this.getView().getModel("multiHeaderConfig").setProperty("/multiheader5", 5);
+				this.getView().getModel("multiHeaderConfig").setProperty("/uploader", false);
+				this.getView().getModel("multiHeaderConfig").setProperty("/RetainPartV", true);
+				this.getView().getModel("multiHeaderConfig").setProperty("/PartNumberRcV", true);
+				this.getView().getModel("multiHeaderConfig").setProperty("/PartDescriptionOrdRcv", true);
+				this.getView().getModel("multiHeaderConfig").setProperty("/RepairAmtV", false);
+				this.getView().getModel("multiHeaderConfig").setProperty("/PartRepaired", false);
+				this.getView().getModel("multiHeaderConfig").setProperty("/DealerNetPrcEdt", false);
+				this.getView().getModel("multiHeaderConfig").setProperty("/DealerNetPrcV", true);
+
 			}
 
 		},
 
+		onUplaodChange: function (oEvent) {
+			this.oUploadedFile = oEvent.getParameter("files")[0];
+			var reader = new FileReader();
+			reader.readAsBinaryString(this.oUploadedFile);
+			//reader.content = reader.result;
+			//var base64string = btoa(reader.content);
+			reader.onload = $.proxy(function (e) {
+				if (reader.result) reader.content = reader.result;
+				this.oBase = btoa(reader.content);
+				console.log(this.oBase);
+			}, this);
+		},
+
 		onUploadComplete: function (oEvent) {
-			debugger;
+
 			var sCurrentPath = this.getCurrentFolderPath();
 			var oData = this.getView().getModel("ClaimModel").getProperty(sCurrentPath);
 			var aItems = oData && oData.items;
 			var oItem;
-			var sUploadedFile = oEvent.getParameter("files")[0].fileName;
 
+			var sUploadedFile = oEvent.getParameter("files")[0].fileName;
 			oItem = {
 				"documentId": jQuery.now().toString(), // generate Id,
 				"fileName": sUploadedFile,
-				"mimeType": "",
-				"thumbnailUrl": "",
-				"url": ""
+				"Type": this.oUploadedFile.type,
+				"size": this.oUploadedFile.size,
+				"url": this.oBase
 			};
 			if (aItems.length === 0) {
 				aItems.push(oItem);
@@ -144,12 +239,51 @@ sap.ui.define([
 				}
 			}
 			this.getView().getModel("ClaimModel").setProperty(sCurrentPath + "/items", aItems);
-			jQuery.sap.delayedCall(2000, this, function () {
+			console.log(this.getView().getModel("ClaimModel"));
+			jQuery.sap.delayedCall(1000, this, function () {
 				MessageToast.show("UploadComplete event triggered.");
 			});
 		},
+
+		onUploadComplete02: function (oEvent) {
+
+			var sCurrentPath = this.getCurrentFolderPath();
+			var oData = this.getView().getModel("AttachmentModel").getProperty(sCurrentPath);
+			var aItems = oData && oData.items;
+			var oItem;
+
+			var sUploadedFile = oEvent.getParameter("files")[0].fileName;
+			oItem = {
+				"documentId": jQuery.now().toString(), // generate Id,
+				"fileName": sUploadedFile,
+				"Type": this.oUploadedFile.type,
+				"size": this.oUploadedFile.size,
+				"url": this.oBase
+			};
+			if (aItems.length === 0) {
+				aItems.push(oItem);
+			} else {
+				// insert file after all folders
+				for (var i = 0; i < aItems.length; i++) {
+					if (aItems[i].type !== "folder") {
+						aItems.splice(i, 0, oItem);
+						break;
+					}
+				}
+			}
+			this.getView().getModel("AttachmentModel").setProperty(sCurrentPath + "/items", aItems);
+			console.log(this.getView().getModel("AttachmentModel"));
+			jQuery.sap.delayedCall(1000, this, function () {
+				MessageToast.show("UploadComplete event triggered.");
+			});
+		},
+
 		onFileDeleted: function (oEvent) {
-			this.deleteItemById(oEvent.getParameter("documentId"));
+			this.deleteItemById(oEvent.getParameter("documentId"), "ClaimModel");
+			MessageToast.show("FileDeleted event triggered.");
+		},
+		onFileDeleted02: function (oEvent) {
+			this.deleteItemById(oEvent.getParameter("documentId"), "AttachmentModel");
 			MessageToast.show("FileDeleted event triggered.");
 		},
 		bindUploadCollectionItems: function (path) {
@@ -159,27 +293,23 @@ sap.ui.define([
 			});
 		},
 
-		deleteItemByPath: function (sItemPath) {
-			var sCurrentPath = this.getCurrentFolderPath();
-			var oData = this.getView().getModel("ClaimModel").getProperty(sCurrentPath);
-			var aItems = oData && oData.items;
-			var oItemData = this.getView().getModel("ClaimModel").getProperty(sItemPath);
-			if (oItemData && aItems) {
-				aItems.splice(aItems.indexOf(oItemData), 1);
-				this.getView().getModel("ClaimModel").setProperty(sCurrentPath + "/items", aItems);
-			}
+		bindUploadCollectionItems01: function (path) {
+			this.oUploadCollection01.bindItems({
+				path: path,
+				factory: this.uploadCollectionItemFactory01.bind(this)
+			});
 		},
 
-		deleteItemById: function (sItemToDeleteId) {
+		deleteItemById: function (sItemToDeleteId, mModel) {
 			var sCurrentPath = this.getCurrentFolderPath();
-			var oData = this.getView().getModel("ClaimModel").getProperty(sCurrentPath);
+			var oData = this.getView().getModel(mModel).getProperty(sCurrentPath);
 			var aItems = oData && oData.items;
 			jQuery.each(aItems, function (index) {
 				if (aItems[index] && aItems[index].documentId === sItemToDeleteId) {
 					aItems.splice(index, 1);
 				}
 			});
-			this.getView().getModel("ClaimModel").setProperty(sCurrentPath + "/items", aItems);
+			this.getView().getModel(mModel).setProperty(sCurrentPath + "/items", aItems);
 		},
 
 		uploadCollectionItemFactory: function (id, context) {
@@ -199,26 +329,45 @@ sap.ui.define([
 			return oItem;
 		},
 
-		// 		handleUploadComplete: function (oEvent) {
-		// 			var sResponse = oEvent.getParameter("response");
-		// 			if (sResponse) {
-		// 				var sMsg = "";
-		// 				var m = /^\[(\d\d\d)\]:(.*)$/.exec(sResponse);
-		// 				if (m[1] == "200") {
-		// 					sMsg = "Return Code: " + m[1] + "\n" + m[2] + "(Upload Success)";
-		// 					oEvent.getSource().setValue("");
-		// 				} else {
-		// 					sMsg = "Return Code: " + m[1] + "\n" + m[2] + "(Upload Error)";
-		// 				}
+		uploadCollectionItemFactory01: function (id, context) {
+			var oItem = new sap.m.UploadCollectionItem(id, {
+				documentId: "{AttachmentModel>documentId}",
+				fileName: "{AttachmentModel>fileName}",
+				mimeType: "{AttachmentModel>mimeType}",
+				thumbnailUrl: "{AttachmentModel>thumbnailUrl}",
+				url: "{AttachmentModel>url}"
+			});
 
-		// 				MessageToast.show(sMsg);
-		// 			}
-		// 		},
+			if (context.getProperty("type") === "folder") {
+				oItem.attachPress(this.onFolderPress, this);
+				oItem.attachDeletePress(this.onFolderDeletePress, this);
+				oItem.setAriaLabelForPicture("Folder");
+			}
+			return oItem;
+		},
 
-		// 		handleUploadPress: function (oEvent) {
-		// 			var oFileUploader = this.byId("fileUploader");
-		// 			oFileUploader.upload();
-		// 		},
+		onSaveClaim: function (oEvent) {
+			var obj = {
+				WarrantyClaimType: this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType"),
+				Delivery: this.getView().getModel("HeadSetData").getProperty("/Delivery"),
+				DeliveryDate: this.getView().getModel("HeadSetData").getProperty("/DeliveryDate"),
+				TCIWaybillNumber: this.getView().getModel("HeadSetData").getProperty("/TCIWaybillNumber"),
+				ShipmentReceivedDate: this.getView().getModel("HeadSetData").getProperty("/ShipmentReceivedDate"),
+				DealerContact: this.getView().getModel("HeadSetData").getProperty("/DealerContact"),
+				HeadText: this.getView().getModel("HeadSetData").getProperty("/HeadText")
+			};
+			var oClaimModel = this.getModel("ProssingModel");
+			oClaimModel.create("/zc_headSet", obj, {
+
+				success: $.proxy(function () {
+					console.log("success");
+
+				}, this),
+				error: function (err) {
+					console.log(err);
+				}
+			});
+		},
 
 		onStep01Next: function (oEvent) {
 			var oFormContent = this.getView().byId("idRepairForm").getContent();

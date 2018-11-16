@@ -24,7 +24,7 @@
 												additionalText="{OBusinessModel>BusinessPartnerName}"/>
 										</ComboBox>
 										<Label text="{i18n>SearchBy}" textAlign="Begin"/>
-										<ComboBox items="" id="idSearchBy" selectionChange="onSearchBy">
+										<ComboBox id="idSearchBy" selectionChange="onSearchBy">
 											<core:Item key="RepairOrderNumberExternal" text="Repair Order Number"/>
 											<core:Item key="ExternalNumberOfClaim" text="Dealer Claim Number"/>
 											<core:Item key="NumberOfWarrantyClaim" text="TCI Claim Number"/>
@@ -65,43 +65,43 @@
 							<VBox>
 								<Table id="idClaimTable" inset="false" alternateRowColors="true" items="{ path: '/ZC_CLAIM_HEAD'}">
 									<columns>
-										<Column width="8em">
+										<Column width="8em" hAlign="Center">
 											<Text text="{i18n>TCIClaim}"/>
 										</Column>
-										<Column minScreenWidth="Tablet" width="8em" demandPopin="true">
+										<Column minScreenWidth="Tablet" width="8em" demandPopin="true" hAlign="Center">
 											<Text text="{i18n>DealerClaim}"/>
 										</Column>
-										<Column minScreenWidth="Tablet" width="8em" demandPopin="true">
+										<Column minScreenWidth="Tablet" width="8em" demandPopin="true" hAlign="Center">
 											<Text text="{i18n>RepairOrder}"/>
 										</Column>
-										<Column minScreenWidth="Tablet" width="8em" demandPopin="true">
+										<Column minScreenWidth="Tablet" width="8em" demandPopin="true" hAlign="Center">
 											<Text text="{i18n>RepairOrderDate}"/>
 										</Column>
-										<Column minScreenWidth="Tablet" width="8em" demandPopin="true">
+										<Column minScreenWidth="Tablet" width="8em" demandPopin="true" hAlign="Center">
 											<Text text="{i18n>ClaimSubmissionDate}"/>
 										</Column>
-										<Column minScreenWidth="Tablet" demandPopin="true">
+										<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
 											<Text text="{i18n>ClaimType}"/>
 										</Column>
-										<Column minScreenWidth="Tablet" demandPopin="true" hAlign="End">
+										<Column minScreenWidth="Tablet" width="12em" demandPopin="true" hAlign="Center">
 											<Text text="{i18n>VIN}"/>
 										</Column>
-										<Column minScreenWidth="Tablet" demandPopin="true">
+										<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
 											<Text text="{i18n>ClaimStatus}"/>
 										</Column>
-										<Column minScreenWidth="Tablet" width="9em" demandPopin="true">
+										<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
 											<Text text="{i18n>OFP}"/>
 										</Column>
-										<Column minScreenWidth="Tablet" demandPopin="true">
+										<Column minScreenWidth="Tablet" width="10em" demandPopin="true" hAlign="Center">
 											<Text text="{i18n>MainOpCode}"/>
 										</Column>
-										<Column minScreenWidth="Tablet" demandPopin="true">
+										<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
 											<Text text="{i18n>ClaimAge}"/>
 										</Column>
-										<Column minScreenWidth="Tablet" demandPopin="true">
+										<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
 											<Text text="{i18n>ClaimAmount}"/>
 										</Column>
-										<Column>
+										<Column hAlign="Center">
 											<Text text="{i18n>AuthStatus}"/>
 										</Column>
 									</columns>

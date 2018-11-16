@@ -35,3 +35,7 @@
     background: #fdfdfd;
     border: 1px solid #cccccc;
 }
+
+.oVisible {
+    display: none;
+}

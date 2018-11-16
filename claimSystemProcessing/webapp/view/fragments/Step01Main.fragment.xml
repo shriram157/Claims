@@ -33,7 +33,7 @@
 					<Label text="Final Processed Date"/>
 					<Text text="{ path: 'DateModel>/secondDateValueDRS2', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium' } }"/>
 					<Label text=""></Label>
-					<Button text="Save Claim" type="Emphasized">
+					<Button text="Save Claim" type="Emphasized" press="onSaveClaim">
 						<layoutData>
 							<l:GridData span="XL3 L3 M3 S4"/>
 						</layoutData>
@@ -47,9 +47,9 @@
 			<f:content>
 				<core:Title text=""/>
 				<Label text="Outbound Delivery Number"/>
-				<Input value="" required="true"/>
+				<Input value="{HeadSetData>/Delivery}" required="true"/>
 				<Label text="Received Date"/>
-				<DatePicker dateValue="" required="true"/>
+				<DatePicker value="{HeadSetData>/ShipmentReceivedDate}" required="true"/>
 				<Label text="Shipping Parts to PDC"/>
 				<Select id="idPartsShipping">
 					<items>
@@ -59,14 +59,14 @@
 				</Select>
 				<core:Title text=""/>
 				<Label text="Outbound Delivery Date"/>
-				<DatePicker dateValue="" required="true"/>
+				<DatePicker value="{HeadSetData>/DeliveryDate}" required="true"/>
 				<Label text="PDC Code"/>
 				<Input value="" id="idPdcCode" editable="false"/>
 				<Label text="Dealer Contact"/>
-				<Input value="" required="true"/>
+				<Input value="{HeadSetData>/DealerContact}" required="true"/>
 				<core:Title text=""/>
 				<Label text="TCI Waybill No"/>
-				<Input value="" id="idTCIWayBill"/>
+				<Input value="{HeadSetData>/TCIWaybillNumber}" id="idTCIWayBill"/>
 				<Label text="Carrier Name"/>
 				<Input value=""/>
 			</f:content>
@@ -76,7 +76,7 @@
 			singleContainerFullSize="false">
 			<f:content>
 				<core:Title text="Comments"/>
-				<TextArea height="8rem">
+				<TextArea height="8rem" value="{HeadSetData>/HeadText}">
 					<layoutData>
 						<l:GridData span="XL8 L8 M8 S4"/>
 					</layoutData>
@@ -100,7 +100,7 @@
 				adjustLabelSpan="false" emptySpanXL="4" emptySpanL="4" emptySpanM="0" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1"
 				singleContainerFullSize="false">
 				<f:content>
-					<UploadCollection id="UploadSupportingDoc" uploadComplete="onUploadComplete" fileDeleted="onFileDeleted">
+					<UploadCollection change="onUplaodChange" id="UploadSupportingDoc" uploadComplete="onUploadComplete" fileDeleted="onFileDeleted">
 						<toolbar>
 							<OverflowToolbar>
 								<Breadcrumbs id="breadcrumbsSupportingDoc" currentLocationText="{ClaimModel>/currentLocationText}" links="{ClaimModel>/history}">
