@@ -1,6 +1,6 @@
 {
   "welcomeFile": "/claimSystemProcessing/index.html",
-  "authenticationMethod": "route",
+  "authenticationMethod": "none",
   "logout": {
     "logoutEndpoint": "/do/logout"
   },
