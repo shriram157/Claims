@@ -30,7 +30,7 @@ sap.ui.define([
 
 			var mConfig = this.getMetadata().getManifestEntry("/sap.app/dataSources/ZDLR_CLAIM_SRV");
 			var oDataModel = new ODataModel(mConfig.uri, {
-				useBatch: true,
+				useBatch: false,
 				disableHeadRequestForToken: true,
 				defaultUpdateMethod: 'PATCH',
 				json: true
@@ -38,7 +38,7 @@ sap.ui.define([
 			this.setModel(oDataModel, "ProssingModel");
 			var mConfig01 = this.getMetadata().getManifestEntry("/sap.app/dataSources/API_BUSINESS_PARTNER");
 			var oDataModel01 = new ODataModel(mConfig01.uri, {
-				useBatch: true,
+				useBatch: false,
 				disableHeadRequestForToken: true,
 				defaultUpdateMethod: 'PATCH',
 				json: true
