@@ -1,0 +1,27 @@
+<mvc:View controllerName="zclaimProcessing.controller.App" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:mvc="sap.ui.core.mvc"
+	displayBlock="true" xmlns="sap.m">
+	<App >
+		<Page showFooter="true">
+			<customHeader>
+				<Bar class="sapUiSmallPaddingBeginEnd clCustomHeaderBg">
+					<contentLeft>
+						<Image id="idLexusLogo" src="images/Lexus_EN.png" width="100px"/>
+						<Text text="|" class="sapUiTinyMarginBeginEnd"/>
+						<Text class="clCustomFont" text="Claim Processing"/>
+					</contentLeft>
+					<contentRight>
+						<Button text="Logout"/>
+					</contentRight>
+				</Bar>
+			</customHeader>
+			<content>
+				<App id="idAppControl"/>
+			</content>
+			<footer>
+				<OverflowToolbar>
+					<ToolbarSpacer/>
+				</OverflowToolbar>
+			</footer>
+		</Page>
+	</App>
+</mvc:View>

@@ -1,0 +1,55 @@
+<mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" controllerName="zclaimProcessing.controller.MainClaimSection"
+	xmlns:html="http://www.w3.org/1999/xhtml" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:uxap="sap.uxap">
+	<core:Fragment fragmentName="zclaimProcessing.view.fragments.ToolHeader" type="XML"/>
+	<uxap:ObjectPageLayout id="ObjectPageLayout">
+		<uxap:sections>
+			<uxap:ObjectPageSection title="Main Claim Section">
+				<uxap:subSections>
+					<uxap:ObjectPageSubSection title=" ">
+						<uxap:blocks >
+							<VBox>
+								<MessageStrip id="idMainClaimMessage" text="" showIcon="true" showCloseButton="false" class="sapUiMediumMarginBottom" visible="false"></MessageStrip>
+								<IconTabBar select="onSelectTab" id="idIconTabMainClaim" expanded="{device>/isNoPhone}"
+									class=" sapUiLargePaddingBottom sapUiLargeMarginBottom" selectedKey="Tab1">
+									<items>
+										<IconTabFilter icon="sap-icon://home" text="{i18n>Main}" key="Tab1" id="idFilter01">
+											<core:Fragment fragmentName="zclaimProcessing.view.fragments.Step01Main" type="XML"/>
+										</IconTabFilter>
+										<IconTabSeparator icon="sap-icon://open-command-field"/>
+										<IconTabFilter icon="sap-icon://official-service" text="{i18n>Authorization}" id="idFilter02" key="Tab2">
+											<core:Fragment fragmentName="zclaimProcessing.view.fragments.Step02Authorization" type="XML"/>
+										</IconTabFilter>
+										<IconTabSeparator icon="sap-icon://open-command-field"/>
+										<IconTabFilter icon="sap-icon://shelf" text="{i18n>Parts}" enabled="true" id="idFilter03" key="Tab3">
+											<core:Fragment fragmentName="zclaimProcessing.view.fragments.Step03Parts" type="XML"/>
+										</IconTabFilter>
+										<IconTabSeparator icon="sap-icon://open-command-field"/>
+										<IconTabFilter icon="sap-icon://user-settings" text="{i18n>Labour}" enabled="false" id="idFilter04" key="Tab4">
+											<core:Fragment fragmentName="zclaimProcessing.view.fragments.Step04Labour" type="XML"/>
+										</IconTabFilter>
+										<IconTabSeparator icon="sap-icon://open-command-field"/>
+										<IconTabFilter icon="sap-icon://palette" text="{i18n>PaintRust}" enabled="false" id="idFilter05" key="Tab5">
+											<core:Fragment fragmentName="zclaimProcessing.view.fragments.Step05PaintRust" type="XML"/>
+										</IconTabFilter>
+										<IconTabSeparator icon="sap-icon://open-command-field"/>
+										<IconTabFilter icon="sap-icon://activity-2" text="{i18n>Sublet}" enabled="false" id="idFilter06" key="Tab6">
+											<core:Fragment fragmentName="zclaimProcessing.view.fragments.Step06Sublet" type="XML"/>
+										</IconTabFilter>
+										<IconTabSeparator icon="sap-icon://open-command-field"/>
+										<IconTabFilter icon="sap-icon://validate" text="{i18n>Validate}" enabled="false" id="idFilter07" key="Tab7">
+											<core:Fragment fragmentName="zclaimProcessing.view.fragments.Step07ValidateSubmit" type="XML"/>
+										</IconTabFilter>
+										<IconTabSeparator icon="sap-icon://open-command-field"/>
+										<IconTabFilter icon="sap-icon://complete" text="{i18n>Submit}" enabled="false" id="idFilter08" key="Tab8">
+											<core:Fragment fragmentName="zclaimProcessing.view.fragments.Step07ValidateSubmit" type="XML"/>
+										</IconTabFilter>
+									</items>
+								</IconTabBar>
+							</VBox>
+						</uxap:blocks>
+					</uxap:ObjectPageSubSection>
+				</uxap:subSections>
+			</uxap:ObjectPageSection>
+		</uxap:sections>
+	</uxap:ObjectPageLayout>
+</mvc:View>

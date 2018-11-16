@@ -1,0 +1,14 @@
+{
+  "welcomeFile": "/claimSystemProcessing/index.html",
+  "authenticationMethod": "route",
+  "logout": {
+    "logoutEndpoint": "/do/logout"
+  },
+  "routes": [
+    {
+      "source": "^/claimSystemProcessing/(.*)$",
+      "target": "$1",
+      "localDir": "webapp"
+    }
+  ]
+}

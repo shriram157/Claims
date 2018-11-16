@@ -1,0 +1,75 @@
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:u="sap.ui.unified" xmlns:l="sap.ui.layout"
+	xmlns="sap.m" xmlns:t="sap.ui.table">
+	<VBox class="sapUiSmallMargin">
+		<f:SimpleForm editable="true" layout="ResponsiveGridLayout" title="Claim Details" labelSpanXL="6" labelSpanL="6" labelSpanM="12"
+			labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="6" columnsL="6" columnsM="4"
+			singleContainerFullSize="false">
+			<f:content>
+				<core:Title text=""/>
+				<Label text="TCI Claim #"/>
+				<Text text="999999999"/>
+				<Label text="VIN"/>
+				<Text text=""/>
+				<core:Title text=""/>
+				<Label text="Dlr. Claim #"/>
+				<Text text="999999999"/>
+				<Label text="OFP"/>
+				<Text text=""/>
+				<core:Title text=""/>
+				<Label text="RO #."/>
+				<Text text="999999999"/>
+				<Label text="Op #."/>
+				<Text text=""/>
+				<core:Title text=""/>
+				<Label text="Repair Date"/>
+				<Text text="999999999"/>
+				<Label text="Reg. Date"/>
+				<Text text=""/>
+				<core:Title text=""/>
+				<Label text="Odometer"/>
+				<Text text="999999999"/>
+				<Label text="Elapse"/>
+				<Text text=""/>
+				<core:Title text=""/>
+				<Label text="Type"/>
+				<Text text="999999999"/>
+				<Label text="Status"/>
+				<Text text=""/>
+			</f:content>
+		</f:SimpleForm>
+		<Table id="SubletTable" class="sapUiMediumMarginTop" items="{/Categories}" mode="MultiSelect" selectionChange="OnSelectionChange">
+			<headerToolbar>
+				<Toolbar design="Solid">
+					<Title text="Sublet Details" level="H2"/>
+					<ToolbarSpacer></ToolbarSpacer>
+					<Button class="sapUiTinyMarginBeginEnd" press="onAddPartLine" text="{i18n>AddSubletLine}"/>
+					<Button class="sapUiTinyMarginBeginEnd" press="onDeletePartLine" text="{i18n>DeleteSubletLine}" type="Reject"/>
+				</Toolbar>
+			</headerToolbar>
+			<columns>
+				<Column>
+					<Text text="Line #"/>
+				</Column>
+				<Column>
+					<Text text="Main Op#"/>
+				</Column>
+				<Column>
+					<Text text="Position Code"/>
+				</Column>
+			</columns>
+			<items>
+				<ColumnListItem>
+					<cells>
+						<Input type="Number" value="{ID}"/>
+						<Input value="{Name}"/>
+						<Input type="Number" value="{ID}"/>
+					</cells>
+				</ColumnListItem>
+			</items>
+		</Table>
+		<HBox alignContent="Center" justifyContent="Center" class="sapUiTinyMarginTop">
+			<Button class="sapUiTinyMarginBeginEnd" type="Back" press="onPressBack" text="{i18n>Back}"/>
+			<Button class="sapUiTinyMarginBeginEnd" press="onStep06Next" text="{i18n>Next}" type="Emphasized"/>
+		</HBox>
+	</VBox>
+</core:FragmentDefinition>

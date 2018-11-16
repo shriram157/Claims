@@ -1,0 +1,37 @@
+/* Enter your custom styles here */
+
+
+/*======================= Start custom fonts and custom color on header style ==========================*/
+
+@import url('https://fonts.googleapis.com/css?family=Raleway');
+.clCustomFont {
+    font-family: 'Raleway', sans-serif;
+}
+
+.sapContrastPlus.clCustomHeaderBg {
+    background-color: #fff!important;
+    color: #2f3c48;
+    text-shadow: none;
+}
+
+.sapContrastPlus.clCustomHeaderBg .sapMBtnInner {
+    color: #2f3c48;
+    text-shadow: none;
+}
+
+.sapContrastPlus.clCustomHeaderBg .sapMText {
+    color: #2f3c48;
+}
+
+.sapContrastPlus.sapMIBar-CTX.clCustomHeaderBg .sapMBtn:hover>.sapMBtnHoverable:not(.sapMBtnActive) {
+    background-color: transparent;
+    color: #346187;
+}
+
+
+/*======================= End custom fonts and custom color on header style ==========================*/
+
+.clBgColor {
+    background: #fdfdfd;
+    border: 1px solid #cccccc;
+}

@@ -1,0 +1,40 @@
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:l="sap.ui.layout" xmlns="sap.m" xmlns:tnt="sap.tnt">
+	<tnt:ToolHeader>
+		<Button text="{i18n>NewClaim}" press="handleLinkPress" type="Transparent">
+			<layoutData>
+				<OverflowToolbarLayoutData priority="High"/>
+			</layoutData>
+		</Button>
+		<Button text="{i18n>ViewUpdateClaims}" press="handleLinkPress" type="Transparent">
+			<layoutData>
+				<OverflowToolbarLayoutData priority="High"/>
+			</layoutData>
+		</Button>
+		<Button text="{i18n>ClaimAuthorizaiton}" press="handleLinkPress" type="Transparent">
+			<layoutData>
+				<OverflowToolbarLayoutData priority="High"/>
+			</layoutData>
+		</Button>
+		<Button text="{i18n>ViewUpdateAuthorization}" press="handleLinkPress" type="Transparent">
+			<layoutData>
+				<OverflowToolbarLayoutData priority="High"/>
+			</layoutData>
+		</Button>
+		<Button text="{i18n>ClaimInquiry}" press="handleLinkPress" type="Transparent">
+			<layoutData>
+				<OverflowToolbarLayoutData priority="High"/>
+			</layoutData>
+		</Button>
+		<Button text="{i18n>VehicleServiceHistory}" press="handleLinkPress" type="Transparent">
+			<layoutData>
+				<OverflowToolbarLayoutData priority="High"/>
+			</layoutData>
+		</Button>
+		<Button text="{i18n>DealerLabourRateInquiry}" press="handleLinkPress" type="Transparent">
+			<layoutData>
+				<OverflowToolbarLayoutData priority="High"/>
+			</layoutData>
+		</Button>
+		<tnt:ToolHeaderUtilitySeparator/>
+	</tnt:ToolHeader>
+</core:FragmentDefinition>

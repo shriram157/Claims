@@ -1,0 +1,19 @@
+<edmx:Edmx xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx"
+	xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData" Version="1.0">
+	<edmx:DataServices m:DataServiceVersion="2.0">
+		<Schema xmlns="http://schemas.microsoft.com/ado/2008/09/edm" Namespace="Z_CLAIMS_PROCESSING_SRV" xml:lang="en" sap:schema-version="1">
+			<EntityType Name="Zt1DescSrchhelp" sap:content-version="1">
+				<Key><PropertyRef Name="T1_Warranty_Codes"/><PropertyRef Name="T1_Warrranty_Codes_text"/><PropertyRef Name="Language_Key"/></Key><Property Name="T1_Warranty_Codes" Type="Edm.String" Nullable="false" MaxLength="20" sap:unicode="false" sap:label="T1 Warranty Code"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="T1_Warrranty_Codes_text" Type="Edm.String" Nullable="false" MaxLength="60" sap:unicode="false"
+					sap:label="T1 Warranty Code Txt" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Language_Key" Type="Edm.String" Nullable="false" MaxLength="2" sap:unicode="false" sap:label="Language"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/></EntityType>
+			<EntityType Name="Zt2DescSrchhelp" sap:content-version="1">
+				<Key><PropertyRef Name="T2_Warranty_Codes"/><PropertyRef Name="T2_Warranty_Codes_Text"/><PropertyRef Name="Language_Key"/></Key><Property Name="T2_Warranty_Codes" Type="Edm.String" Nullable="false" MaxLength="20" sap:unicode="false" sap:label="T2 Warranty Codes"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="T2_Warranty_Codes_Text" Type="Edm.String" Nullable="false" MaxLength="60" sap:unicode="false"
+					sap:label="T2 Warranty Code Tex" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Language_Key" Type="Edm.String" Nullable="false" MaxLength="2" sap:unicode="false" sap:label="Language"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/></EntityType>
+			<EntityContainer Name="Z_CLAIMS_PROCESSING_SRV_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json xlsx"><EntitySet Name="t1CodeAndDescriptionSet" EntityType="Z_CLAIMS_PROCESSING_SRV.Zt1DescSrchhelp" sap:creatable="false" sap:updatable="false"
+				sap:deletable="false" sap:searchable="true" sap:content-version="1"/><EntitySet Name="t2CodeAndDescriptionSet" EntityType="Z_CLAIMS_PROCESSING_SRV.Zt2DescSrchhelp" sap:creatable="false" sap:updatable="false"
+				sap:deletable="false" sap:searchable="true" sap:content-version="1"/></EntityContainer><atom:link xmlns:atom="http://www.w3.org/2005/Atom" rel="self" href="./sap/opu/odata/sap/Z_CLAIMS_PROCESSING_SRV/$metadata"/><atom:link xmlns:atom="http://www.w3.org/2005/Atom" rel="latest-version" href="./sap/opu/odata/sap/Z_CLAIMS_PROCESSING_SRV/$metadata"/></Schema>
+	</edmx:DataServices>
+</edmx:Edmx>

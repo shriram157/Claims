@@ -1,0 +1,135 @@
+<mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" controllerName="zclaimProcessing.controller.SearchClaim"
+	xmlns:html="http://www.w3.org/1999/xhtml" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:uxap="sap.uxap">
+	<core:Fragment fragmentName="zclaimProcessing.view.fragments.ToolHeader" type="XML"/>
+	<uxap:ObjectPageLayout id="ObjectPageLayout" enableLazyLoading="true">
+		<uxap:sections>
+			<uxap:ObjectPageSection title="{i18n>SearchClaims}">
+				<uxap:subSections>
+					<uxap:ObjectPageSubSection title="">
+						<uxap:blocks>
+							<VBox>
+								<MessageStrip id="idNewClaimMsgStrp" text="" showIcon="true" showCloseButton="true" class="sapUiMediumMarginBottom" visible="false"></MessageStrip>
+								<f:SimpleForm id="SimpleFormChange354" editable="true" layout="ResponsiveGridLayout" title="{i18n>Entertheapplicationdaterange}"
+									labelSpanXL="4" labelSpanL="4" labelSpanM="3" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0"
+									emptySpanS="0" columnsXL="3" columnsL="3" columnsM="1" singleContainerFullSize="false">
+									<f:content>
+										<core:Title text=""/>
+										<Label text="{i18n>DealerCode}" textAlign="Begin"/>
+										<Text
+											text="{parts: [{path: 'LocalDataModel>/DealerText'}, {path: 'LocalDataModel>/AdditionalText'}], formatter: 'zclaimProcessing.utils.formatter.fnFormatter'}"/>
+										<ComboBox showSecondaryValues="true" id="idDealerCode" filterSecondaryValues="true" selectionChange="fnOnSelectDealer"
+											items="{ path: 'OBusinessModel>/A_BusinessPartner', filters : [ { path : 'BusinessPartnerType', operator : 'EQ', value1 : 'Z001'}], sorter: { path: 'BusinessPartner' }, length:300 }">
+											<core:ListItem key="{OBusinessModel>BusinessPartner}"
+												text="{path:'OBusinessModel>BusinessPartner', formatter:'zclaimProcessing.utils.formatter.fnFormatCustomer'}"
+												additionalText="{OBusinessModel>BusinessPartnerName}"/>
+										</ComboBox>
+										<Label text="{i18n>SearchBy}" textAlign="Begin"/>
+										<ComboBox items="" id="idSearchBy" selectionChange="onSearchBy">
+											<core:Item key="RepairOrderNumberExternal" text="Repair Order Number"/>
+											<core:Item key="ExternalNumberOfClaim" text="Dealer Claim Number"/>
+											<core:Item key="NumberOfWarrantyClaim" text="TCI Claim Number"/>
+											<core:Item key="ExternalObjectNumber" text="VIN"/>
+											<core:Item key="AgreementNumber" text="ECP Agreement Number"/>
+											<core:Item key="MainOpsCode" text="Main Operation Code"/>
+										</ComboBox>
+										<Label text="{i18n>SearchText}" textAlign="Begin"/>
+										<Input value="" id="idSearchText"/>
+										<Label text="{i18n>ClaimSubDate}" textAlign="Begin" id="idCLREDate"/>
+										<DateRangeSelection id="DRS2" dateValue="{path:'DateModel>/dateValueDRS2'}" secondDateValue="{path:'DateModel>/secondDateValueDRS2'}"
+											minDate="" maxDate="" change="handleChange"/>
+										<core:Title text=""/>
+										<Label text="{i18n>ClaimTypeGroup}" textAlign="Begin"/>
+										<ComboBox items="{path:'LocalDataModel>/ClaimStatusDataGroup'}" id="idClaimGroup" selectionChange="onSelectGroup">
+											<core:Item key="{LocalDataModel>CLaimGroupDes}" text="{LocalDataModel>CLaimGroupDes}"/>
+										</ComboBox>
+										<Label text="{i18n>ClaimType}" textAlign="Begin"/>
+										<ComboBox items="{ path: 'LocalDataModel>/ClaimType'}" id="idClaimType">
+											<core:Item key="{LocalDataModel>WarrantyClaimType}" text="{LocalDataModel>WarrantyClaimType} - {LocalDataModel>ALMClaimTypeDes}"/>
+										</ComboBox>
+										<Label text="{i18n>ClaimStatus}" textAlign="Begin"/>
+										<MultiComboBox items="{ path: 'LocalDataModel>/ClaimStatus'}" selectionChange="handleSelectClaimGroup"
+											selectionFinish="handleSelectClaimGroupFinish" id="idClaimStatus">
+											<core:Item key="{LocalDataModel>Status}" text="{LocalDataModel>Description}"/>
+										</MultiComboBox>
+										<core:Title text=""/>
+										<Button text="{i18n>Search}" press="onPressSearch" type="Emphasized"/>
+										<Button text="{i18n>Clear}" press="onPressClear"/>
+										<Button text="{i18n>NewClaim}" press="onCreateNewClaim"/>
+									</f:content>
+								</f:SimpleForm>
+							</VBox>
+						</uxap:blocks>
+					</uxap:ObjectPageSubSection>
+					<uxap:ObjectPageSubSection title="Claim List">
+						<uxap:blocks>
+							<VBox>
+								<Table id="idClaimTable" inset="false" alternateRowColors="true" items="{ path: '/ZC_CLAIM_HEAD'}">
+									<columns>
+										<Column width="8em">
+											<Text text="{i18n>TCIClaim}"/>
+										</Column>
+										<Column minScreenWidth="Tablet" width="8em" demandPopin="true">
+											<Text text="{i18n>DealerClaim}"/>
+										</Column>
+										<Column minScreenWidth="Tablet" width="8em" demandPopin="true">
+											<Text text="{i18n>RepairOrder}"/>
+										</Column>
+										<Column minScreenWidth="Tablet" width="8em" demandPopin="true">
+											<Text text="{i18n>RepairOrderDate}"/>
+										</Column>
+										<Column minScreenWidth="Tablet" width="8em" demandPopin="true">
+											<Text text="{i18n>ClaimSubmissionDate}"/>
+										</Column>
+										<Column minScreenWidth="Tablet" demandPopin="true">
+											<Text text="{i18n>ClaimType}"/>
+										</Column>
+										<Column minScreenWidth="Tablet" demandPopin="true" hAlign="End">
+											<Text text="{i18n>VIN}"/>
+										</Column>
+										<Column minScreenWidth="Tablet" demandPopin="true">
+											<Text text="{i18n>ClaimStatus}"/>
+										</Column>
+										<Column minScreenWidth="Tablet" width="9em" demandPopin="true">
+											<Text text="{i18n>OFP}"/>
+										</Column>
+										<Column minScreenWidth="Tablet" demandPopin="true">
+											<Text text="{i18n>MainOpCode}"/>
+										</Column>
+										<Column minScreenWidth="Tablet" demandPopin="true">
+											<Text text="{i18n>ClaimAge}"/>
+										</Column>
+										<Column minScreenWidth="Tablet" demandPopin="true">
+											<Text text="{i18n>ClaimAmount}"/>
+										</Column>
+										<Column>
+											<Text text="{i18n>AuthStatus}"/>
+										</Column>
+									</columns>
+									<items>
+										<ColumnListItem>
+											<cells>
+												<Link text="{NumberOfWarrantyClaim}" press="onPressClaim"/>
+												<Text text="{ExternalNumberOfClaim}"/>
+												<Text text="{RepairOrderNumberExternal}"/>
+												<Text text="{path:'RepairDate', type: 'sap.ui.model.type.Date'}"/>
+												<Text text="{path:'ReferenceDate', type: 'sap.ui.model.type.Date'}"/>
+												<Text text="{WarrantyClaimType}"/>
+												<Text text="{ExternalObjectNumber}"/>
+												<Text text="{ProcessingStatusOfWarrantyClm}"/>
+												<Text text="{OFP}"/>
+												<Text text="{MainOpsCode}"/>
+												<Text text="{ClaimAge}"/>
+												<Text text="{AmountClaimedByClaimant}"/>
+												<Text text="{AuthorizationNumber}"/>
+											</cells>
+										</ColumnListItem>
+									</items>
+								</Table>
+							</VBox>
+						</uxap:blocks>
+					</uxap:ObjectPageSubSection>
+				</uxap:subSections>
+			</uxap:ObjectPageSection>
+		</uxap:sections>
+	</uxap:ObjectPageLayout>
+</mvc:View>

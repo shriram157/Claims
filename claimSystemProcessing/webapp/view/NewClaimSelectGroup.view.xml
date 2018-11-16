@@ -1,0 +1,49 @@
+<mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m"
+	controllerName="zclaimProcessing.controller.NewClaimSelectGroup" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:uxap="sap.uxap"
+	xmlns:html="http://www.w3.org/1999/xhtml">
+	<core:Fragment fragmentName="zclaimProcessing.view.fragments.ToolHeader" type="XML"/>
+	<uxap:ObjectPageLayout id="ObjectPageLayout" enableLazyLoading="true">
+		<uxap:sections>
+			<uxap:ObjectPageSection title="New Claim">
+				<uxap:subSections>
+					<uxap:ObjectPageSubSection title=" ">
+						<uxap:blocks>
+							<VBox>
+								<MessageStrip id="idNewClaimMsgStrp" text="" showIcon="true" showCloseButton="false" class="sapUiMediumMarginBottom" visible="false"></MessageStrip>
+								<f:SimpleForm id="SimpleFormChange354" editable="true" layout="ResponsiveGridLayout" title="" labelSpanXL="4" labelSpanL="4" labelSpanM="3"
+									labelSpanS="12" adjustLabelSpan="false" emptySpanXL="2" emptySpanL="2" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="2"
+									singleContainerFullSize="false">
+									<f:content>
+										<core:Title text="Please Select a Claim Type Group and Request Type for your Claim"/>
+										<Label text="Claim Type Group" textAlign="Begin" textDirection="LTR"/>
+										<Select id="idClaimType" selectedKey="{Warrenty}">
+											<items>
+												<core:Item text="Warranty/ECP Claim" key="Warrenty"/>
+												<core:Item text="Vehicle Logistics" key="Vehicle"/>
+												<core:Item text="SETR" key="SETR"/>
+												<core:Item text="Parts Warehouse Claims" key="Parts"/>
+												<core:Item text="Core Return" key="Core"/>
+												<core:Item text="Smart Parts" key="Smart"/>
+												<core:Item text="Direct to Dealer" key="Direct"/>
+											</items>
+										</Select>
+										<Label text="Request Type" textAlign="Begin"/>
+										<RadioButtonGroup selectedIndex="0" columns="2" id="idRequestType" select="onSelectRequestType">
+											<buttons>
+												<RadioButton text="Claim"/>
+												<RadioButton text=" Authorization"/>
+											</buttons>
+										</RadioButtonGroup>
+										<core:Title text=""/>
+										<Button text="Next" type="Emphasized" press="onClaimAuthorization"/>
+										<Button text="Cancel" type="Reject"/>
+									</f:content>
+								</f:SimpleForm>
+							</VBox>
+						</uxap:blocks>
+					</uxap:ObjectPageSubSection>
+				</uxap:subSections>
+			</uxap:ObjectPageSection>
+		</uxap:sections>
+	</uxap:ObjectPageLayout>
+</mvc:View>
