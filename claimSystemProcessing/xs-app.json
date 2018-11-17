@@ -12,9 +12,9 @@
     },
               {
       "source": "/node(.*)",
-      "destination": " claimSystemProcessing-node-backend",
+      "destination": "claimSystemProcessing-node-backend",
       "csrfProtection": false,
       "authenticationType": "none"
-    },
+    }
   ]
 }
