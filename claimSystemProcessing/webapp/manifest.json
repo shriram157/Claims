@@ -15,7 +15,7 @@
 		},
 		"dataSources": {
 			"ZDLR_CLAIM_SRV": {
-				"uri": "/Claim_Destination/node/ZDLR_CLAIM_SRV/",
+				"uri": "/node/ZDLR_CLAIM_SRV/",
 				"type": "OData",
 				"settings": {
 					"odataVersion": "2.0",
@@ -23,7 +23,7 @@
 				}
 			},
 			"API_BUSINESS_PARTNER": {
-				"uri": "/Claim_Destination/node/API_BUSINESS_PARTNER/",
+				"uri": "/node/API_BUSINESS_PARTNER/",
 				"type": "OData",
 				"settings": {
 					"odataVersion": "2.0",
