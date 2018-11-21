@@ -1,12 +1,12 @@
 <core:FragmentDefinition xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:u="sap.ui.unified" xmlns:l="sap.ui.layout"
 	xmlns="sap.m" xmlns:table="sap.ui.table">
-	<VBox class="sapUiSmallMargin ">
+	<VBox class="sapUiSmallMargin" id="idpart01Form">
 		<Panel width="auto" class="sapUiSmallMarginBottom" accessibleRole="Region">
 			<headerToolbar>
 				<Toolbar height="3rem">
 					<Title text="{i18n>ClaimDetails}"/>
 					<ToolbarSpacer/>
-					<Title text="TCI Claim or Authorization Number: xxxxxxxxx" textAlign="End"/>
+					<Title text="TCI Claim or Authorization Number: {HeadSetData>/NumberOfWarrantyClaim}" textAlign="End"/>
 				</Toolbar>
 			</headerToolbar>
 			<f:SimpleForm editable="true" layout="ResponsiveGridLayout" title="" labelSpanXL="6" labelSpanL="6" labelSpanM="12" labelSpanS="12"
@@ -15,23 +15,23 @@
 					<core:Title text=""/>
 					<Label text="Claim Type"/>
 					<Select items="{path:'/ZC_CLAIM_GROUP', filters : [{path:'ClaimGroupDes', operator:'EQ', value1 : 'PART WAREHOUSE' }]}"
-						change="onSelectClaim">
+						change="onSelectClaim" selectedKey="{HeadSetData>/WarrantyClaimType}">
 						<items>
 							<core:Item text="{ALMClaimTypeDes}" key="{ALMClaimType}"/>
 						</items>
 					</Select>
 					<core:Title text=""/>
 					<Label text="First Submission Date"/>
-					<Text text="{ path: 'DateModel>/dateValueDRS2', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium' } }"/>
+					<Text text="{ path: 'HeadSetData>/ReferenceDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium' } }"/>
 					<Label text="Claim Age"/>
-					<Text text=""/>
+					<Text text="{HeadSetData>/ClaimAge}"/>
 					<Label text="Last Modified by"/>
-					<Text text=""/>
+					<Text text="{HeadSetData>/NameOfPersonRespWhoChangedObj}"/>
 					<core:Title text=""/>
 					<Label text="Last Submission Date"/>
-					<Text text="{ path: 'DateModel>/secondDateValueDRS2', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium' } }"/>
+					<Text text="{ path: 'HeadSetData>/DateOfApplication', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium' } }"/>
 					<Label text="Final Processed Date"/>
-					<Text text="{ path: 'DateModel>/secondDateValueDRS2', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium' } }"/>
+					<Text text="{ path: 'HeadSetData>/FinalProcdDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium' } }"/>
 					<Label text=""></Label>
 					<Button text="Save Claim" type="Emphasized" press="onSaveClaim">
 						<layoutData>
@@ -41,34 +41,53 @@
 				</f:content>
 			</f:SimpleForm>
 		</Panel>
-		<f:SimpleForm editable="true" layout="ResponsiveGridLayout" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12"
+		<f:SimpleForm editable="true" id="idClaimForm" layout="ResponsiveGridLayout" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12"
 			adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="3" columnsL="3" columnsM="3"
 			singleContainerFullSize="false">
 			<f:content>
 				<core:Title text=""/>
 				<Label text="Outbound Delivery Number"/>
-				<Input value="{HeadSetData>/Delivery}" required="true"/>
+				<Input value="{path:'HeadSetData>/Delivery', type : 'sap.ui.model.type.String', 
+                                  constraints : { 
+                                      minLength : 3, 
+                                      maxLength : 10 
+                                  }
+                              }" required="true" id="idOutboundDNum"/>
 				<Label text="Received Date"/>
-				<DatePicker value="{HeadSetData>/ShipmentReceivedDate}" required="true"/>
+				<DatePicker value="{path:'HeadSetData>/ShipmentReceivedDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium' }
+                              }" required="true" id="idShipmentRDate"/>
 				<Label text="Shipping Parts to PDC"/>
-				<Select id="idPartsShipping">
+				<Select id="idPartsShipping" >
 					<items>
 						<core:Item text="Yes" key="Yes"/>
 						<core:Item text="No" key="No"/>
 					</items>
 				</Select>
+			
 				<core:Title text=""/>
 				<Label text="Outbound Delivery Date"/>
-				<DatePicker value="{HeadSetData>/DeliveryDate}" required="true"/>
+				<DatePicker value="{path:'HeadSetData>/DeliveryDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium' }}"/>
 				<Label text="PDC Code"/>
 				<Input value="" id="idPdcCode" editable="false"/>
 				<Label text="Dealer Contact"/>
-				<Input value="{HeadSetData>/DealerContact}" required="true"/>
+				<Input value="{path:'HeadSetData>/DealerContact',  type : 'sap.ui.model.type.String', 
+                                  constraints : { 
+                                      minLength : 3, 
+                                      maxLength : 10 
+                                  }
+                              }" required="true" id="idDealerContact"/>
 				<core:Title text=""/>
 				<Label text="TCI Waybill No"/>
 				<Input value="{HeadSetData>/TCIWaybillNumber}" id="idTCIWayBill"/>
 				<Label text="Carrier Name"/>
-				<Input value=""/>
+				<Input value="{ 
+                                 path : 'HeadSetData>/DeliveringCarrier', 
+                                  type : 'sap.ui.model.type.String', 
+                                  constraints : { 
+                                      minLength : 3, 
+                                      maxLength : 10 
+                                  }
+                              }" required="true" id="idCarrierName"/>
 			</f:content>
 		</f:SimpleForm>
 		<f:SimpleForm id="idConditionForm" editable="true" title="" layout="ResponsiveGridLayout" labelSpanXL="3" labelSpanL="3" labelSpanM="3"

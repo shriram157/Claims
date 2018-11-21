@@ -63,7 +63,7 @@
 					<uxap:ObjectPageSubSection title="Claim List">
 						<uxap:blocks>
 							<VBox>
-								<Table id="idClaimTable" inset="false" alternateRowColors="true" items="{ path: '/ZC_CLAIM_HEAD'}">
+								<Table  id="idClaimTable" inset="false" growingThreshold="10"  growingScrollToLoad="true" growing="true" alternateRowColors="true" items="{ path: '/ZC_CLAIM_HEAD'}">
 									<columns>
 										<Column width="8em" hAlign="Center">
 											<Text text="{i18n>TCIClaim}"/>

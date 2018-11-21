@@ -1,12 +1,12 @@
 <core:FragmentDefinition xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:u="sap.ui.unified" xmlns:l="sap.ui.layout"
 	xmlns="sap.m" xmlns:t="sap.ui.table">
-	<VBox class="sapUiSmallMargin">
+	<VBox class="sapUiSmallMargin" id="idPartForm">
 		<Panel width="auto" class="sapUiSmallMarginBottom" accessibleRole="Region">
 			<headerToolbar>
 				<Toolbar height="3rem">
 					<Title text="Parts Details"/>
 					<ToolbarSpacer/>
-					<Title text="TCI Claim or Authorization Number: xxxxxxxxx" textAlign="End"/>
+					<Title text="TCI Claim or Authorization Number: {HeadSetData>/NumberOfWarrantyClaim}" textAlign="End"/>
 				</Toolbar>
 			</headerToolbar>
 			<HBox justifyContent="End">
@@ -101,12 +101,19 @@
 						</Button>
 					</f:content>
 				</f:SimpleForm>
-				<f:SimpleForm class="sapUiSmallMarginBegin" editable="true" labelSpanL="12" title="" labelSpanXL="12" layout="ResponsiveGridLayout"
+				<f:SimpleForm id="idRow01Form" class="sapUiSmallMarginBegin" editable="true" labelSpanL="12" title="" labelSpanXL="12" layout="ResponsiveGridLayout"
 					columnsM="2" columnsL="5" columnsXL="5">
 					<f:content>
 						<core:Title text="Ordered"/>
 						<Label text="Line #:"></Label>
-						<Input required="true"></Input>
+						<Input value="{ 
+                                 path : 'HeadSetData>/text', 
+                                  type : 'sap.ui.model.type.String', 
+                                  constraints : { 
+                                      minLength : 3, 
+                                      maxLength : 10 
+                                  }
+                              }" required="true"></Input>
 						<core:Title text=""/>
 						<Label text="Part Description"></Label>
 						<Input id="idOrderedPartDesc" editable="{multiHeaderConfig>/OrderedPartDesc}"></Input>
@@ -115,17 +122,31 @@
 						<Input editable="{multiHeaderConfig>/DealerNetPrcEdt}"></Input>
 						<core:Title text=""/>
 						<Label text="Quantity"></Label>
-						<Input required="true">
+						<Input value="{ 
+                                 path : 'HeadSetData>/text', 
+                                  type : 'sap.ui.model.type.String', 
+                                  constraints : { 
+                                      minLength : 3, 
+                                      maxLength : 10 
+                                  }
+                              }" required="true">
 							<layoutData>
 								<l:GridData span="XL8 L8"/>
 							</layoutData>
 						</Input>
 						<core:Title text=""/>
 						<Label text="Part Number Ordered"></Label>
-						<Input required="true"></Input>
+						<Input value="{ 
+                                 path : 'HeadSetData>/text', 
+                                  type : 'sap.ui.model.type.String', 
+                                  constraints : { 
+                                      minLength : 3, 
+                                      maxLength : 10 
+                                  }
+                              }" required="true"></Input>
 					</f:content>
 				</f:SimpleForm>
-				<f:SimpleForm class="sapUiSmallMarginBegin sapUiSmallMarginBottom" editable="true" title="" layout="ResponsiveGridLayout" labelSpanL="12"
+				<f:SimpleForm id="idRow02Form" class="sapUiSmallMarginBegin sapUiSmallMarginBottom" editable="true" title="" layout="ResponsiveGridLayout" labelSpanL="12"
 					labelSpanXL="12" columnsM="2" columnsL="{multiHeaderConfig>/multiheader5}" columnsXL="{multiHeaderConfig>/multiheader5}">
 					<f:content>
 						<core:Title text="Claimed"/>
@@ -142,7 +163,14 @@
 							</toolbar>
 						</UploadCollection>
 						<Label text="Retain Part" visible="{multiHeaderConfig>/RetainPartV}"></Label>
-						<Input required="true" visible="{multiHeaderConfig>/RetainPartV}"></Input>
+						<Input value="{ 
+                                 path : 'HeadSetData>/text', 
+                                  type : 'sap.ui.model.type.String', 
+                                  constraints : { 
+                                      minLength : 3, 
+                                      maxLength : 10 
+                                  }
+                              }" required="true" visible="{multiHeaderConfig>/RetainPartV}"></Input>
 						<core:Title text=""/>
 						<Label text="Part Description" visible="{multiHeaderConfig>/PartDescriptionOrdRcv}"></Label>
 						<Input id="idOrderedReceivedPartDesc" editable="{multiHeaderConfig>/OrderedPartDesc}" visible="{multiHeaderConfig>/PartDescriptionOrdRcv}"></Input>
@@ -157,17 +185,34 @@
 						<Label text="Dealer Net Price" visible="{multiHeaderConfig>/DealerNetPrcV}"></Label>
 						<Input id="idDealerNetPrc" visible="{multiHeaderConfig>/DealerNetPrcV}" editable="{multiHeaderConfig>/DealerNetPrcEdt}"></Input>
 						<Label text="Repair Amount" visible="{multiHeaderConfig>/RepairAmtV}"></Label>
-						<Input id="idReceivedAmt" visible="{multiHeaderConfig>/RepairAmtV}"></Input>
+						<Input id="idReceivedAmt" value="" type="Number" visible="{multiHeaderConfig>/RepairAmtV}"></Input>
 						<core:Title text=""/>
 						<Label text="Quantity"></Label>
-						<Input required="true" id="idReceivedQnt">
+						<Input value="{ 
+                                  path : 'HeadSetData>/number', 
+                                  type : 'sap.ui.model.type.Integer', 
+                                  formatOptions : {
+                                      groupingEnabled : true
+                                  },
+                                  constraints : { 
+                                      minimum : 50, 
+                                      maximum : 10000000 
+                                  }
+                              }" required="true" id="idReceivedQnt">
 							<layoutData>
 								<l:GridData span="XL8 L8"/>
 							</layoutData>
 						</Input>
 						<core:Title text=""/>
 						<Label text="Part Number Received" visible="{multiHeaderConfig>/PartNumberRcV}"></Label>
-						<Input required="true" visible="{multiHeaderConfig>/PartNumberRcV}"></Input>
+						<Input value="{ 
+                                 path : 'HeadSetData>/text', 
+                                  type : 'sap.ui.model.type.String', 
+                                  constraints : { 
+                                      minLength : 3, 
+                                      maxLength : 10 
+                                  }
+                              }" required="true" visible="{multiHeaderConfig>/PartNumberRcV}"></Input>
 					</f:content>
 				</f:SimpleForm>
 			</VBox>
@@ -311,13 +356,22 @@
 			<!--		</f:content>-->
 			<!--	</f:SimpleForm>-->
 			<!--</VBox>-->
-			<Table id="partTable" mode="MultiSelect" class="sapUiMediumMarginTop" items="{/Categories}" selectionChange="OnSelectionChange">
+			<Table id="partTable" mode="MultiSelect" items="{LocalDataModel>/PartDetailList}" class="sapUiMediumMarginTop"  selectionChange="OnSelectionChange">
 				<columns>
 					<Column>
 						<Text text="Line #"/>
 					</Column>
-					<Column>
+					<Column visible="{multiHeaderConfig>/DiscrepancyCol}">
 						<Text text="Discrepancy Type"/>
+					</Column>
+					<Column visible="{multiHeaderConfig>/DamageConditionCol}">
+						<Text text="Damage Condition"/>
+					</Column>
+					<Column visible="{multiHeaderConfig>/MiscellaneousCol}">
+						<Text text="Miscellaneous Code*"/>
+					</Column>
+					<Column visible="{multiHeaderConfig>/TransportCol}">
+						<Text text="Transportation Storage"/>
 					</Column>
 					<Column>
 						<Text text="Part Number*"/>
@@ -329,13 +383,22 @@
 						<Text text="Dealer Net Price"/>
 					</Column>
 					<Column>
+						<Text text="Part Repaired" visible="{multiHeaderConfig>/PartRepCol}"/>
+					</Column>
+					<Column>
+						<Text text="Repair Amount" visible="{multiHeaderConfig>/RepAmountCol}"/>
+					</Column>
+					<Column>
 						<Text text="Quantity"/>
 					</Column>
 					<Column>
-						<Text text="Retain Part"/>
+						<Text text="Retain Part" visible="{multiHeaderConfig>/RetainPartCol}"/>
 					</Column>
 					<Column>
 						<Text text="Amount Claimed"/>
+					</Column>
+					<Column>
+						<Text text="Attachment" visible="{multiHeaderConfig>/AttachmentCol}"/>
 					</Column>
 					<Column>
 						<Text text="TCI Amount Approved"/>
@@ -348,14 +411,20 @@
 					<ColumnListItem>
 						<cells>
 							<Text text=""/>
+							<Text text="{LocalDataModel>DiscrepancyCodes}"/>
+							<Text text="{LocalDataModel>DamageSeverityCodes}"/>
+							<Text text="{LocalDataModel>DamageAreaCode}"/>
+							<Text text="{LocalDataModelDamageTypeCode>}"/>
+							<Text text="{LocalDataModel>MaterialNumber}"/>
 							<Text text=""/>
 							<Text text=""/>
 							<Text text=""/>
+							<Text text="{LocalDataModel>RepairAmount}"/>
+							<Text text="{LocalDataModel>QuantityClaimed}"/>
+							<Text text="{LocalDataModel>RetainPart}"/>
+							<Text text="{LocalDataModel>AmountClaimedByClaimant}"/>
 							<Text text=""/>
-							<Text text=""/>
-							<Text text=""/>
-							<Text text=""/>
-							<Text text=""/>
+							<Text text="{LocalDataModel>AmountApprovedToClaimant}"/>
 							<Text text=""/>
 						</cells>
 					</ColumnListItem>

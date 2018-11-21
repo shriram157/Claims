@@ -23,13 +23,13 @@ sap.ui.define([
 			var oBusinessModel = this.getModel("ApiBusinessModel");
 			this.getView().setModel(oBusinessModel, "OBusinessModel");
 			//console.log(sap.ui.getCore().getConfiguration().getLanguage());
+			this.getView().setModel(this.getModel("ProssingModel"));
 			var oClaimModel = this.getModel("ProssingModel");
 			var oClaimGroupdata = [];
 			var oClaimGroupObj = [];
 			oClaimModel.read("/ZC_CLAIM_GROUP", {
 
 				success: $.proxy(function (data) {
-					console.log(data.results);
 					var oClaimData = data.results;
 					for (var i = 0; i < oClaimData.length; i++) {
 						if (oClaimGroupdata.indexOf(oClaimData[i].ClaimGroupDes) < 0) {
@@ -297,7 +297,9 @@ sap.ui.define([
 		},
 		onPressClaim: function (oEvent) {
 			var oClaimNum = oEvent.getSource().getText();
-			this.getOwnerComponent().getRouter().navTo("PartsMainSection");
+			this.getOwnerComponent().getRouter().navTo("PartsMainSection", {
+				claimNum : oClaimNum
+			});
 		},
 		onCreateNewClaim: function () {
 			this.getRouter().navTo("NewClaimSelectGroup");

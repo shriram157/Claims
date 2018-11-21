@@ -31,8 +31,6 @@ sap.ui.define([
 			var mConfig = this.getMetadata().getManifestEntry("/sap.app/dataSources/ZDLR_CLAIM_SRV");
 			var oDataModel = new ODataModel(mConfig.uri, {
 				useBatch: false,
-				disableHeadRequestForToken: true,
-				defaultUpdateMethod: 'PATCH',
 				json: true
 			});
 			this.setModel(oDataModel, "ProssingModel");

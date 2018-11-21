@@ -145,7 +145,7 @@
 				},
 				{
 					"name": "PartsMainSection",
-					"pattern": "PartsMain",
+					"pattern": "PartsMain/{claimNum}",
 					"target": [
 						"PartsMainSection"
 					]
