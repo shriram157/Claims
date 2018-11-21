@@ -16,5 +16,6 @@
       "csrfProtection": false,
       "authenticationType": "none"
     }
+ 
   ]
 }

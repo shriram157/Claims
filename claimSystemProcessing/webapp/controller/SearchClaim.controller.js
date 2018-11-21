@@ -11,8 +11,9 @@ sap.ui.define([
 		 * @memberOf zclaimProcessing.view.SearchClaim
 		 */
 		onInit: function () {
-
-			var oDateModel = new sap.ui.model.json.JSONModel();
+	
+			
+		var oDateModel = new sap.ui.model.json.JSONModel();
 			var PriorDate = new Date();
 			oDateModel.setData({
 				dateValueDRS2: new Date(new Date().setDate(PriorDate.getDate() - 30)),
