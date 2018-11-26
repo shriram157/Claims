@@ -36,7 +36,7 @@
 										</RadioButtonGroup>
 										<core:Title text=""/>
 										<Button text="Next" type="Emphasized" press="onClaimAuthorization"/>
-										<Button text="Cancel" type="Reject"/>
+										<Button text="Cancel" type="Reject" press="onPressCancel"/>
 									</f:content>
 								</f:SimpleForm>
 							</VBox>

@@ -26,6 +26,10 @@ sap.ui.define([
 					claimNum : oClaimNum
 				});
 			}
+		},
+		
+		onPressCancel : function(){
+			this.getRouter().navTo("SearchClaim");
 		}
 
 		/**

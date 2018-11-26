@@ -491,27 +491,28 @@ sap.ui.define([
 			// 	console.log('Error retrieving CSRF Token');
 
 			// }, false);
-			// var oToken = "";
-			// oClaimModel.read("/zc_headSet", {
+			var oToken = "";
+			oClaimModel.read("/zc_headSet", {
 
-			// 	headers: {
-			// 		"Content-Type": "application/json",
-			// 		"X-CSRF-Token": "Fetch"
+				headers: {
+					"Content-Type": "application/json",
+					"X-CSRF-Token": "Fetch"
+				},
 
-			// 	},
+				success: $.proxy(function (data, response) {
+					console.log("success");
 
-			// 	success: $.proxy(function (data, response) {
-			// 		console.log("success");
-
-			// 		oToken = response.headers['x-csrf-token'];
-
+					oToken = response.headers['x-csrf-token'];
+					console.log(oToken);
 					
 
-			// 	}, this),
-			// 	error: function (err) {
-			// 		console.log(err);
-			// 	}
-			// });
+				}, this),
+				error: function (err) {
+					console.log(err);
+				}
+			});
+			
+		
 			
 			oClaimModel.create("/zc_headSet", obj, {
 						success: $.proxy(function () {
@@ -803,6 +804,40 @@ sap.ui.define([
 					this.getRouter().navTo("SearchClaim");
 				}
 
+			},
+			onCancelClaim : function(oEvent){
+			var	oBundle = this.getView().getModel("i18n").getResourceBundle();
+			var dialog = new Dialog({
+					title: oBundle.getText("CancelClaim"),
+					type: "Message",
+					content: new Text({
+						text: oBundle.getText("AreYouSureYouLikeToCancel")
+					}),
+
+					buttons: [
+						new Button({
+							text: oBundle.getText("Yes"),
+							press: $.proxy(function () {
+								this.getRouter().navTo("SearchClaim");
+
+								dialog.close();
+							}, this)
+						}),
+						new Button({
+							text: oBundle.getText("Cancel"),
+							press: function () {
+								dialog.close();
+							}
+						})
+
+					],
+
+					afterClose: function () {
+						dialog.destroy();
+					}
+				});
+
+				dialog.open();
 			}
 			/**
 			 * Similar to onAfterRendering, but this hook is invoked before the controller's View is re-rendered
