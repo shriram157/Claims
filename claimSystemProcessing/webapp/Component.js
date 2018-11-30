@@ -29,12 +29,31 @@ sap.ui.define([
 			this.setModel(models.createLocalDataModel(), "LocalDataModel");
 
 			var mConfig = this.getMetadata().getManifestEntry("/sap.app/dataSources/ZDLR_CLAIM_SRV");
+			//  if running on a local version,  use the destination otherwise use /node.			
+
+			var sLocation = window.location.host;
+			var sLocation_conf = sLocation.search("webide");
+
+			if (sLocation_conf == 0) {
+				mConfig.uri = "/Claim_Destination" + mConfig.uri;
+			} else {
+
+			}
+
 			var oDataModel = new ODataModel(mConfig.uri, {
 				useBatch: false,
 				json: true
 			});
 			this.setModel(oDataModel, "ProssingModel");
 			var mConfig01 = this.getMetadata().getManifestEntry("/sap.app/dataSources/API_BUSINESS_PARTNER");
+
+			if (sLocation_conf == 0) {
+				mConfig01.uri = "/Claim_Destination" + mConfig01.uri;
+			} else {
+		
+
+			} // facilitate local testing.
+
 			var oDataModel01 = new ODataModel(mConfig01.uri, {
 				useBatch: false,
 				disableHeadRequestForToken: true,
