@@ -13,7 +13,7 @@
 									class=" sapUiLargePaddingBottom sapUiLargeMarginBottom" selectedKey="Tab1">
 									<items>
 										<IconTabFilter icon="sap-icon://home" text="{i18n>Main}" key="Tab1" id="idFilter01">
-											<core:Fragment fragmentName="zclaimProcessing.view.fragments.Step01Main" type="XML"/>
+											<core:Fragment fragmentName="zclaimProcessing.view.fragments.Step01MainWarrentyECP" type="XML"/>
 										</IconTabFilter>
 										<IconTabSeparator icon="sap-icon://open-command-field"/>
 										<IconTabFilter icon="sap-icon://official-service" text="{i18n>Authorization}" id="idFilter02" key="Tab2">

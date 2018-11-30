@@ -10,26 +10,18 @@
 				<OverflowToolbarLayoutData priority="High"/>
 			</layoutData>
 		</Button>
-		<Button text="{i18n>ClaimAuthorizaiton}" press="handleLinkPress" type="Transparent">
-			<layoutData>
-				<OverflowToolbarLayoutData priority="High"/>
-			</layoutData>
-		</Button>
+	
 		<Button text="{i18n>ViewUpdateAuthorization}" press="handleLinkPress" type="Transparent">
 			<layoutData>
 				<OverflowToolbarLayoutData priority="High"/>
 			</layoutData>
 		</Button>
-		<Button text="{i18n>ClaimInquiry}" press="handleLinkPress" type="Transparent">
+		<Button text="{i18n>QuickCoverageTool}" press="handleLinkPress" type="Transparent">
 			<layoutData>
 				<OverflowToolbarLayoutData priority="High"/>
 			</layoutData>
 		</Button>
-		<Button text="{i18n>VehicleServiceHistory}" press="handleLinkPress" type="Transparent">
-			<layoutData>
-				<OverflowToolbarLayoutData priority="High"/>
-			</layoutData>
-		</Button>
+		
 		<Button text="{i18n>DealerLabourRateInquiry}" press="handleLinkPress" type="Transparent">
 			<layoutData>
 				<OverflowToolbarLayoutData priority="High"/>
