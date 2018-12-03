@@ -41,60 +41,205 @@
 				</f:content>
 			</f:SimpleForm>
 		</Panel>
-		<f:SimpleForm editable="true" id="idClaimForm" layout="ResponsiveGridLayout" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12"
+		<f:SimpleForm editable="true" id="idClaimForm" title="Repair Order Information" layout="ResponsiveGridLayout" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12"
 			adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="3" columnsL="3" columnsM="3"
 			singleContainerFullSize="false">
 			<f:content>
 				<core:Title text=""/>
-				<Label text="Outbound Delivery Number"/>
-				<Input value="{path:'HeadSetData>/Delivery', type : 'sap.ui.model.type.String', 
-                                  constraints : { 
-                                      minLength : 3, 
-                                      maxLength : 10 
-                                  }
-                              }" required="true" id="idOutboundDNum"/>
-				<Label text="Received Date"/>
-				<DatePicker value="{path:'HeadSetData>/ShipmentReceivedDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium' }
-                              }" required="true" id="idShipmentRDate"/>
-				<Label text="Shipping Parts to PDC"/>
-				<Select id="idPartsShipping" >
-					<items>
-						<core:Item text="Yes" key="Yes"/>
-						<core:Item text="No" key="No"/>
-					</items>
-				</Select>
+				<Label text="Dealer Name"/>
+				<Input value=" " required="true" id="idOutboundDNum"/>
+				<Label text="Dealer Claim"/>
+			<Input value=" " required="true" id="idDealerClaim"/>
+				
 			
 				<core:Title text=""/>
-				<Label text="Outbound Delivery Date"/>
+				<Label text="Repair Date"/>
 				<DatePicker value="{path:'HeadSetData>/DeliveryDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium' }}"/>
-				<Label text="PDC Code"/>
-				<Input value="" id="idPdcCode" editable="false"/>
 				<Label text="Dealer Contact"/>
-				<Input value="{path:'HeadSetData>/DealerContact',  type : 'sap.ui.model.type.String', 
-                                  constraints : { 
-                                      minLength : 3, 
-                                      maxLength : 10 
-                                  }
-                              }" required="true" id="idDealerContact"/>
+				<Input value="" id="idDealerContact" editable="false"/>
+				
 				<core:Title text=""/>
-				<Label text="TCI Waybill No"/>
-				<Input value="{HeadSetData>/TCIWaybillNumber}" id="idTCIWayBill"/>
-				<Label text="Carrier Name"/>
-				<Input value="{ 
-                                 path : 'HeadSetData>/DeliveringCarrier', 
-                                  type : 'sap.ui.model.type.String', 
-                                  constraints : { 
-                                      minLength : 3, 
-                                      maxLength : 10 
-                                  }
-                              }" required="true" id="idCarrierName"/>
+				<Label text="Repair Order"/>
+				<Input value="{HeadSetData>/TCIWaybillNumber}" id="idRepairOrder"/>
+				<Label text="R.O. Odometer"/>
+				<Input value="" required="true" id="idOdometer"/>
 			</f:content>
 		</f:SimpleForm>
+		
+			<f:SimpleForm editable="true" id="idVehicleInfo" title="Vehicle Information - Toyota Corola LE CVT 2018" layout="ResponsiveGridLayout" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12"
+			adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="3" columnsL="3" columnsM="3"
+			singleContainerFullSize="false">
+			<f:content>
+				<core:Title text=""/>
+				
+					<RadioButtonGroup selectedIndex="0" columns="2" id="idRequestType" select="onSelectRequestType">
+											<buttons>
+												<RadioButton text="VIN"/>
+												<RadioButton text=" Non Vehicle"/>
+											</buttons>
+										</RadioButtonGroup>
+			
+			<Input value=" " required="true" id="idVinNum"/>
+				
+			
+				<core:Title text=""/>
+				<Label text="Reg. Date"/>
+				<Text text="{path:'HeadSetData>/DeliveryDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium' }}"/>
+				<Label text="Vehicle Age"/>
+				<Text text="" id="idVehicleAge"/>
+				
+				<core:Title text=""/>
+				<Label text="Foreign VIN"/>
+				<Text text="{HeadSetData>/TCIWaybillNumber}" id="idForeignVin"/>
+				<Label text="Written-Off"/>
+				<Text text=""  id="idWrittenoff"/>
+				<Label text="Special VIN Review"/>
+				<Text text=""  id="idSpecialVin"/>
+			</f:content>
+		</f:SimpleForm>
+		<table:Table id="idActiveAgreement" class="classRCPTable" selectionMode="Single" rows=""
+				visibleRowCountMode="Auto" rowSelectionChange="onNavigate" selectionBehavior="Row" showNoData="true" threshold="20"
+				enableBusyIndicator="true">
+				<table:toolbar>
+					<Toolbar>
+						<Title text="Active Agreeement(s)" level="H2"/>
+					
+					</Toolbar>
+				</table:toolbar>
+				<table:columns autoResizable="true">
+					<table:Column width="17rem">
+						<table:multiLabels>
+							<Label text="ECP Agreement" textAlign="Center" width="100%"/>
+						</table:multiLabels>
+						<table:template>
+							<Text text="{LocalDataModel>ItemType}" wrapping="false"/>
+						</table:template>
+					</table:Column>
+					
+					<table:Column width="17rem">
+						<table:multiLabels>
+							<Label text="Plan Code" textAlign="Center" width="100%"/>
+						</table:multiLabels>
+						<table:template>
+							<Text text="{LocalDataModel>ItemType}" wrapping="false"/>
+						</table:template>
+					</table:Column>
+					
+					<table:Column width="17rem">
+						<table:multiLabels>
+							<Label text="Status" textAlign="Center" width="100%"/>
+						</table:multiLabels>
+						<table:template>
+							<Text text="{LocalDataModel>ItemType}" wrapping="false"/>
+						</table:template>
+					</table:Column>
+					
+						<table:Column width="17rem">
+						<table:multiLabels>
+							<Label text="Status Date" textAlign="Center" width="100%"/>
+						</table:multiLabels>
+						<table:template>
+							<Text text="{LocalDataModel>ItemType}" wrapping="false"/>
+						</table:template>
+					</table:Column>
+					
+						<table:Column width="17rem">
+						<table:multiLabels>
+							<Label text="Expiry Date" textAlign="Center" width="100%"/>
+						</table:multiLabels>
+						<table:template>
+							<Text text="{LocalDataModel>ItemType}" wrapping="false"/>
+						</table:template>
+					</table:Column>
+					
+						<table:Column width="17rem">
+						<table:multiLabels>
+							<Label text="Expiry KM" textAlign="Center" width="100%"/>
+						</table:multiLabels>
+						<table:template>
+							<Text text="{LocalDataModel>ItemType}" wrapping="false"/>
+						</table:template>
+					</table:Column>
+					
+				</table:columns>
+			</table:Table>
+			<f:SimpleForm editable="true"  title="" layout="ResponsiveGridLayout" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12"
+			adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="3" columnsL="3" columnsM="3"
+			singleContainerFullSize="false">
+			<f:content>
+				<core:Title text=""/>
+				<Label text="Client's Last Name"/>
+				<Input value=" " required="true"/>
+				<Label text="Agreement Number"/>
+			    <Text text=""/>
+				
+			
+				<core:Title text=""/>
+				<Label text="Postal Code"/>
+				<Input value=" " required="true"/>
+			
+				<core:Title text=""/>
+				<Button text="Lookup ECP Agreements"/>
+				<Button text="Perform CIC"/>
+			</f:content>
+		</f:SimpleForm>
+		
+		<f:SimpleForm editable="true"  title="Repair Details" layout="ResponsiveGridLayout" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12"
+			adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="3" columnsL="3" columnsM="3"
+			singleContainerFullSize="false">
+			<f:content>
+				<core:Title text=""/>
+				<Label text="OFP"/>
+				<Input value=" " required="true"/>
+				<Label text="Main Op"/>
+			    <Input value=" " required="true"/>
+				<Label text="Battery Test Code"/>
+				<Input value=""/>
+				<Label text="Condition"/>
+				<TextArea></TextArea>
+				<core:Title text=""/>
+				<Label text="OFP Description"/>
+				<Text text=" "/>
+				<Label text="Main Op Description"/>
+				<Text text=" "/>
+				<Label text="Field Action Code"/>
+				<Input value=""/>
+					<Label text="Cause"/>
+				<TextArea></TextArea>
+				<core:Title text=""/>
+				<Label text="Applied Coverage"/>
+				<Text text=""/>
+				<Label text="T1 Code"/>
+				<Select
+					
+					selectedKey="{/ProductCollection/2/ProductId}"
+					items="{
+						path: '/ProductCollection',
+						sorter: { path: 'Name' }
+					}">
+					<core:Item key="{ProductId}" text="{Name}" />
+				</Select>
+				<Label text="T2 Code"/>
+				<Select
+					
+					selectedKey="{/ProductCollection/2/ProductId}"
+				
+					items="{
+						path: '/ProductCollection',
+						sorter: { path: 'Name' }
+					}">
+					<core:Item key="{ProductId}" text="{Name}" />
+				</Select>
+				<Label text="Remedy"/>
+				<TextArea></TextArea>
+			</f:content>
+		</f:SimpleForm>
+		
 		<f:SimpleForm id="idConditionForm" editable="true" title="" layout="ResponsiveGridLayout" labelSpanXL="3" labelSpanL="3" labelSpanM="3"
 			labelSpanS="12" adjustLabelSpan="false" emptySpanXL="1" emptySpanL="1" emptySpanM="1" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1"
 			singleContainerFullSize="false">
 			<f:content>
-				<core:Title text="Comments"/>
+				<core:Title text="Claim Comments"/>
 				<TextArea height="8rem" value="{HeadSetData>/HeadText}">
 					<layoutData>
 						<l:GridData span="XL8 L8 M8 S4"/>
@@ -107,7 +252,7 @@
 				</Button>
 			</f:content>
 		</f:SimpleForm>
-	</VBox>
+		
 	<Panel width="auto" class="sapUiSmallMarginBottom" accessibleRole="Region">
 		<headerToolbar>
 			<Toolbar height="3rem">
@@ -141,7 +286,7 @@
 				enableBusyIndicator="true">
 				<table:toolbar>
 					<Toolbar>
-						<Title id="idTableTitle" text="Claim Amount Summary" level="H2"/>
+						<Title id="idClaimWarrenty" text="Claim Amount Summary" level="H2"/>
 						<ToolbarSpacer/>
 						<!--<Button tooltip="View Settings" icon="sap-icon://drop-down-list" press="handleViewSettingsDialogButtonPressed"/>-->
 					</Toolbar>
@@ -233,4 +378,5 @@
 			<Button class="sapUiTinyMarginBeginEnd" press="onStep01Next" text="{i18n>Next}" type="Emphasized"/>
 		</HBox>
 	</Panel>
+	</VBox>
 </core:FragmentDefinition>

@@ -16,6 +16,9 @@
       "csrfProtection": false,
       "authenticationType": "none"
     }
+<<<<<<< HEAD
  
+=======
+>>>>>>> refs/heads/master
   ]
 }

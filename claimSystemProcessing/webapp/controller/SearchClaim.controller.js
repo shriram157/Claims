@@ -146,9 +146,9 @@ sap.ui.define([
 			}
 		},
 		onPressSearch: function (oEvent) {
-
+		
 			var sQueryDealer = this.getView().byId("idDealerCode").getSelectedKey();
-			console.log(sQueryDealer, this.oStatusKey);
+			// console.log(sQueryDealer, this.oStatusKey);
 			var sQuerySearchBy = this.getView().byId("idSearchBy").getSelectedKey();
 			var sQuerySearchText = this.getView().byId("idSearchText").getValue();
 			var sQueryClaimGroup = this.getView().byId("idClaimGroup").getSelectedKey();
@@ -162,8 +162,8 @@ sap.ui.define([
 			var sQueryDate = this.getView().byId("DRS2").getValue();
 			var FromDate = this.getView().getModel("DateModel").getProperty("/dateValueDRS2");
 			var ToDate = this.getView().getModel("DateModel").getProperty("/secondDateValueDRS2");
-			var FromDateFormat = FromDate.toDateString();
-			var ToDateFormat = ToDate.toDateString();
+			var FromDateFormat = oDateFormat.format(FromDate);
+			var ToDateFormat = oDateFormat.format(ToDate);
 			console.log(FromDateFormat, ToDateFormat);
 			var sDate = "";
 			var oResult = [];
@@ -189,7 +189,7 @@ sap.ui.define([
 				}
 			}
 
-			if (!$.isEmptyObject(sQueryDate, sQueryDealer) && $.isEmptyObject(sQuerySearchText, sQueryClaimType, sQueryStat)) {
+			if (sQueryDate!= ""  && sQueryDealer != "" && sQuerySearchText == "" && sQueryClaimType=="" && sQueryStat == "") {
 
 				andFilter = new sap.ui.model.Filter({
 					filters: [
@@ -198,7 +198,8 @@ sap.ui.define([
 					],
 					and: true
 				});
-			} else if (!$.isEmptyObject(sQueryDate, sQueryDealer, sQuerySearchText) && $.isEmptyObject(sQueryClaimType, sQueryStat)) {
+			} else if (sQueryDate != ""  && sQueryDealer != ""  && sQuerySearchText != ""   && sQueryClaimType =="" &&  sQueryStat =="") {
+				
 				andFilter = new sap.ui.model.Filter({
 					filters: [
 						new sap.ui.model.Filter(sDate, sap.ui.model.FilterOperator.BT, FromDateFormat, ToDateFormat),
@@ -208,7 +209,7 @@ sap.ui.define([
 					],
 					and: true
 				});
-			} else if (!$.isEmptyObject(sQuerySearchText, sQueryClaimType, sQueryDate, sQueryDealer) && $.isEmptyObject(sQueryStat)) {
+			} else if (sQuerySearchText != "" && sQueryClaimType != ""  && sQueryDate != ""  && sQueryDealer != "" && sQueryStat  =="") {
 				andFilter = new sap.ui.model.Filter({
 					filters: [
 						new sap.ui.model.Filter(sDate, sap.ui.model.FilterOperator.BT, FromDateFormat, ToDateFormat),
@@ -218,16 +219,17 @@ sap.ui.define([
 					],
 					and: true
 				});
-			} else if (!$.isEmptyObject(sQueryClaimType, sQueryDate, sQueryDealer) && $.isEmptyObject(sQueryStat, sQuerySearchText)) {
+			} else if (sQueryClaimType != "" && sQueryDate != "" && sQueryDealer != "" && sQueryStat == "" && sQuerySearchText == "") {
 				andFilter = new sap.ui.model.Filter({
 					filters: [
+						new sap.ui.model.Filter("WarrantyClaimType", sap.ui.model.FilterOperator.EQ, sQueryClaimType),
 						new sap.ui.model.Filter(sDate, sap.ui.model.FilterOperator.BT, FromDateFormat, ToDateFormat),
-						new sap.ui.model.Filter("Partner", sap.ui.model.FilterOperator.EQ, sQueryDealer),
-						new sap.ui.model.Filter("WarrantyClaimType", sap.ui.model.FilterOperator.EQ, sQueryClaimType)
+						new sap.ui.model.Filter("Partner", sap.ui.model.FilterOperator.EQ, sQueryDealer)
+					
 					],
 					and: true
 				});
-			} else if (!$.isEmptyObject(sQueryStat, sQueryClaimType, sQueryDate, sQueryDealer) && $.isEmptyObject(sQuerySearchText)) {
+			} else if (sQueryStat != "" && sQueryClaimType != "" && sQueryDate != "" && sQueryDealer != ""  && sQuerySearchText == "" ) {
 
 				andFilter = new sap.ui.model.Filter({
 					filters: [
@@ -240,8 +242,7 @@ sap.ui.define([
 					and: true
 				});
 
-			} else if (!$.isEmptyObject(sQueryStat, sQuerySearchText, sQueryDate, sQueryDealer) && $.isEmptyObject(
-					sQueryClaimType)) {
+			} else if (sQueryStat != "" && sQuerySearchText != "" && sQueryDate != "" && sQueryDealer != ""  && sQueryClaimType == "") {
 				andFilter = new sap.ui.model.Filter({
 					filters: [
 						new sap.ui.model.Filter("Partner", sap.ui.model.FilterOperator.EQ, sQueryDealer),
@@ -253,7 +254,7 @@ sap.ui.define([
 					and: true
 				});
 
-			} else if (!$.isEmptyObject(sQueryStat, sQueryDate, sQueryDealer) && $.isEmptyObject(sQueryClaimType, sQuerySearchText)) {
+			} else if (sQueryStat != "" && sQueryDate != "" && sQueryDealer != "" && sQueryClaimType == "" && sQuerySearchText == "") {
 
 				andFilter = new sap.ui.model.Filter({
 					filters: [
@@ -264,7 +265,7 @@ sap.ui.define([
 					and: true
 				});
 
-			} else if (!$.isEmptyObject(sQueryDate, sQueryDealer, sQuerySearchText, sQueryClaimType, sQueryStat)) {
+			} else if (sQueryDate != "" && sQueryDealer != "" && sQuerySearchText != "" && sQueryClaimType != "" && sQueryStat != "") {
 
 				andFilter = new sap.ui.model.Filter({
 					filters: [

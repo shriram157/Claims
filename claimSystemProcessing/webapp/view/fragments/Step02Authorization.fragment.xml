@@ -1,4 +1,4 @@
-<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:l="sap.ui.layout" xmlns="sap.m">
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:l="sap.ui.layout" xmlns="sap.m" xmlns:table="sap.ui.table">
 	<VBox class="sapUiSmallMargin">
 		<f:SimpleForm editable="true" layout="ResponsiveGridLayout" title="Claim Details" labelSpanXL="6" labelSpanL="6" labelSpanM="12"
 			labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="6" columnsL="6" columnsM="4"
@@ -57,29 +57,160 @@
 				<Text text="xxxxx"/>
 			</f:content>
 		</f:SimpleForm>
-		<f:SimpleForm id="idDiscrountForm" editable="true" layout="ResponsiveGridLayout" title="Discount Details" labelSpanXL="4" labelSpanL="4"
-			labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="3"
-			columnsL="2" columnsM="2" singleContainerFullSize="false">
-			<f:content>
-				<core:Title text=""/>
-				<Label text="Parts Discount"/>
-				<Text text="20.00%"/>
-				<Label text="Labour Discount"/>
-				<Text text="20.00%"/>
-				<Label text="Total Claim Amount (CAD)"/>
-				<Text text="$250.24"/>
-				<core:Title text=""/>
-				<Label text="Parts Mark-up Discount"/>
-				<Text text="20.00%"/>
-				<Label text="Sublet Discount"/>
-				<Text text="20.00%"></Text>
-				<Button text="Re-calculate Claim Amount" press="onPressRecalculateClaim">
-					<layoutData>
-						<l:GridData span="XL10 L10 M4 S4"/>
-					</layoutData>
-				</Button>
-			</f:content>
-		</f:SimpleForm>
+		<!--<f:SimpleForm id="idDiscrountForm" editable="true" layout="ResponsiveGridLayout" title="Discount Details" labelSpanXL="4" labelSpanL="4"-->
+		<!--	labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="3"-->
+		<!--	columnsL="2" columnsM="2" singleContainerFullSize="false">-->
+		<!--	<f:content>-->
+		<!--		<core:Title text=""/>-->
+		<!--		<Label text="Parts Discount"/>-->
+		<!--		<Text text="20.00%"/>-->
+		<!--		<Label text="Labour Discount"/>-->
+		<!--		<Text text="20.00%"/>-->
+		<!--		<Label text="Total Claim Amount (CAD)"/>-->
+		<!--		<Text text="$250.24"/>-->
+		<!--		<core:Title text=""/>-->
+		<!--		<Label text="Parts Mark-up Discount"/>-->
+		<!--		<Text text="20.00%"/>-->
+		<!--		<Label text="Sublet Discount"/>-->
+		<!--		<Text text="20.00%"></Text>-->
+		<!--		<Button text="Re-calculate Claim Amount" press="onPressRecalculateClaim">-->
+		<!--			<layoutData>-->
+		<!--				<l:GridData span="XL10 L10 M4 S4"/>-->
+		<!--			</layoutData>-->
+		<!--		</Button>-->
+		<!--	</f:content>-->
+		<!--</f:SimpleForm>-->
+		<table:Table class="classRCPTable" selectionMode="Single" rows="{path:'LocalDataModel>/ClaimSum'}"
+				visibleRowCountMode="Auto" rowSelectionChange="onNavigate" selectionBehavior="Row" showNoData="true" threshold="20"
+				enableBusyIndicator="true">
+				<table:toolbar>
+					<Toolbar>
+						<ToolbarSpacer/>
+						<Button text="Re-calculate Claim Amount" press="onPressRecalculate"/>
+					</Toolbar>
+				</table:toolbar>
+				<table:columns autoResizable="true">
+					<table:Column width="17rem">
+						<table:multiLabels>
+							<Label text="" textAlign="Center" width="100%"/>
+						</table:multiLabels>
+						<table:template>
+							<Text text="{LocalDataModel>ItemType}" wrapping="false"/>
+						</table:template>
+					</table:Column>
+					<table:Column width="11rem">
+						<table:multiLabels>
+							<Label text="Repair Amount" textAlign="Center" width="100%"/>
+						</table:multiLabels>
+						<table:template>
+							<Text text="{LocalDataModel>DealerClaim}" wrapping="false"/>
+						</table:template>
+					</table:Column>
+					<table:Column width="11rem">
+						<table:multiLabels>
+							<Label text="Customer" textAlign="Center" width="100%"/>
+						</table:multiLabels>
+						<table:template>
+							<Text text="{LocalDataModel>TCIAppr}" wrapping="false"/>
+						</table:template>
+					</table:Column>
+					<table:Column width="11rem">
+						<table:multiLabels>
+							<Label text="Dealer" textAlign="Center" width="100%"/>
+						</table:multiLabels>
+						<table:template>
+							<Text text="{LocalDataModel>Diff}" wrapping="false"/>
+						</table:template>
+					</table:Column>
+					
+						<table:Column width="11rem">
+						<table:multiLabels>
+							<Label text="TCI" textAlign="Center" width="100%"/>
+						</table:multiLabels>
+						<table:template>
+							<Text text="{LocalDataModel>Diff}" wrapping="false"/>
+						</table:template>
+					</table:Column>
+					
+				</table:columns>
+			</table:Table>
+			
+			<table:Table class="classRCPTable" selectionMode="Single" rows="{path:'LocalDataModel>/ClaimSum'}"
+				visibleRowCountMode="Auto" rowSelectionChange="onNavigate" selectionBehavior="Row" showNoData="true" threshold="20"
+				enableBusyIndicator="true">
+			
+				<table:columns autoResizable="true">
+					<table:Column width="17rem">
+						<table:multiLabels>
+							<Label text="" textAlign="Center" width="100%"/>
+						</table:multiLabels>
+						<table:template>
+							<Text text="{LocalDataModel>ItemType}" wrapping="false"/>
+						</table:template>
+					</table:Column>
+					<table:Column width="11rem">
+						<table:multiLabels>
+							<Label text="Amount" textAlign="Center" width="100%"/>
+						</table:multiLabels>
+						<table:template>
+							<Text text="{LocalDataModel>DealerClaim}" wrapping="false"/>
+						</table:template>
+					</table:Column>
+					<table:Column width="11rem">
+						<table:multiLabels>
+							<Label text="Mark-up %" textAlign="Center" width="100%"/>
+						</table:multiLabels>
+						<table:template>
+							<Text text="{LocalDataModel>TCIAppr}" wrapping="false"/>
+						</table:template>
+					</table:Column>
+					<table:Column width="11rem">
+						<table:multiLabels>
+							<Label text="Sub-total" textAlign="Center" width="100%"/>
+						</table:multiLabels>
+						<table:template>
+							<Text text="{LocalDataModel>Diff}" wrapping="false"/>
+						</table:template>
+					</table:Column>
+					
+						<table:Column width="11rem">
+						<table:multiLabels>
+							<Label text="Discount %" textAlign="Center" width="100%"/>
+						</table:multiLabels>
+						<table:template>
+							<Text text="{LocalDataModel>Diff}" wrapping="false"/>
+						</table:template>
+					</table:Column>
+					
+						<table:Column width="11rem">
+						<table:multiLabels>
+							<Label text="Discount Amount" textAlign="Center" width="100%"/>
+						</table:multiLabels>
+						<table:template>
+							<Text text="{LocalDataModel>Diff}" wrapping="false"/>
+						</table:template>
+					</table:Column>
+					
+						<table:Column width="11rem">
+						<table:multiLabels>
+							<Label text="Claim Amount" textAlign="Center" width="100%"/>
+						</table:multiLabels>
+						<table:template>
+							<Text text="{LocalDataModel>Diff}" wrapping="false"/>
+						</table:template>
+					</table:Column>
+					
+					<table:Column width="11rem">
+						<table:multiLabels>
+							<Label text="Authorized Amount" textAlign="Center" width="100%"/>
+						</table:multiLabels>
+						<table:template>
+							<Text text="{LocalDataModel>Diff}" wrapping="false"/>
+						</table:template>
+					</table:Column>
+					
+				</table:columns>
+			</table:Table>
 	</VBox>
 	<VBox justifyContent="Center" alignContent="Center" alignItems="Center" class="sapUiLargeMarginBottom">
 		<Text class="sapUiSmallMarginBottom" text="What is the source of this info. Authorization that was converted to Calim?"/>

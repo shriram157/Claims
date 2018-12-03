@@ -15,17 +15,23 @@ sap.ui.define([
 		},
 
 		onClaimAuthorization: function (oEvent) {
-			var oSelectedIndex = this.getView().byId("idRequestType").getSelectedIndex();
+			//var oSelectedIndex = this.getView().byId("idRequestType").getSelectedIndex();
 			var oSelectedKey = this.getView().byId("idClaimType").getSelectedKey();
 			var oClaimNum = "nun";
 			if (oSelectedKey === "Warrenty") {
 				console.log("Enter");
-				this.getRouter().navTo("MainClaimSection");
+				this.getRouter().navTo("MainClaimSection", {
+					claimNum : oClaimNum
+				});
 			} else if (oSelectedKey === "Parts") {
 				this.getRouter().navTo("PartsMainSection", {
 					claimNum : oClaimNum
 				});
 			}
+		},
+		
+		onPressCancel : function(){
+			this.getRouter().navTo("SearchClaim");
 		}
 
 		/**
