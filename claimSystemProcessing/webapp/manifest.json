@@ -149,7 +149,23 @@
 					"target": [
 						"PartsMainSection"
 					]
+				},
+				{
+					"name": "QueryCoverageTools",
+					"pattern": "QueryCoverage",
+					"target": [
+						"QueryCoverageTools"
+					]
+				},
+				{
+					"name": "ClaimInquiry",
+					"pattern": "Inquiry",
+					"target": [
+						"ClaimInquiry"
+					]
 				}
+				
+				
 			],
 			"targets": {
 				"SearchClaim": {
@@ -185,6 +201,14 @@
 				"PartsMainSection": {
 					"viewType": "XML",
 					"viewName": "PartsMainSection"
+				},
+				"QueryCoverageTools": {
+					"viewType": "XML",
+					"viewName": "QueryCoverageTools"
+				},
+				"ClaimInquiry": {
+					"viewType": "XML",
+					"viewName": "ClaimInquiry"
 				}
 			}
 		}

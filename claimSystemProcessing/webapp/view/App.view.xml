@@ -5,7 +5,8 @@
 			<customHeader>
 				<Bar class="sapUiSmallPaddingBeginEnd clCustomHeaderBg">
 					<contentLeft>
-						<Image id="idLexusLogo" src="images/Lexus_EN.png" width="100px"/>
+						<Image id="idLexusLogo" src="images/Lexus_ENV1.png" width="100px"/>
+						<!--<Image id="idToyotaLogo" src="images/toyota_logo.png" width="100px"/>-->
 						<Text text="|" class="sapUiTinyMarginBeginEnd"/>
 						<Text class="clCustomFont" text="Claim Processing"/>
 					</contentLeft>

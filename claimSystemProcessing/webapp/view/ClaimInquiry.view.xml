@@ -1,0 +1,167 @@
+<mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" controllerName="zclaimProcessing.controller.ClaimInquiry"
+	xmlns:html="http://www.w3.org/1999/xhtml" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:uxap="sap.uxap"
+	xmlns:table="sap.ui.table">
+	<core:Fragment fragmentName="zclaimProcessing.view.fragments.ToolHeader" type="XML"/>
+	<uxap:ObjectPageLayout id="ObjectPageLayout" enableLazyLoading="true">
+		<uxap:sections>
+			<uxap:ObjectPageSection title="{i18n>ClaimInquiry}">
+				<uxap:subSections>
+					<uxap:ObjectPageSubSection title="">
+						<uxap:blocks>
+							<VBox>
+								<MessageStrip id="idNewClaimMsgStrp" text="" showIcon="true" showCloseButton="true" class="sapUiMediumMarginBottom" visible="false"></MessageStrip>
+								<f:SimpleForm id="SimpleFormChange354" editable="true" layout="ResponsiveGridLayout" title="{i18n>Entertheapplicationdaterange}"
+									labelSpanXL="4" labelSpanL="4" labelSpanM="3" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0"
+									emptySpanS="0" columnsXL="3" columnsL="3" columnsM="1" singleContainerFullSize="false">
+									<f:content>
+										<core:Title text=""/>
+										<Label text="{i18n>VIN}" textAlign="Begin"/>
+										<Input value=""/>
+										<core:Title text=""/>
+										<Label text="{i18n>ClaimSubDate}" textAlign="Begin"/>
+										<DateRangeSelection id="DRS2" dateValue="{path:'DateModel>/dateValueDRS2'}" secondDateValue="{path:'DateModel>/secondDateValueDRS2'}"
+											minDate="" maxDate="" change="handleChange"/>
+										<core:Title text=""/>
+										<Button text="{i18n>Search}" press="onPressSearch" type="Emphasized">
+											<layoutData>
+												<l:GridData span="XL3 L3 "/>
+											</layoutData>
+										</Button>
+									</f:content>
+								</f:SimpleForm>
+							</VBox>
+						</uxap:blocks>
+					</uxap:ObjectPageSubSection>
+					<uxap:ObjectPageSubSection title="">
+						<uxap:blocks>
+							<VBox>
+								<table:Table id="idActiveAgreement" class="classRCPTable" selectionMode="Single" rows="{ path: '/ZC_CLAIM_HEAD'}" visibleRowCountMode="Auto"
+									rowSelectionChange="onNavigate" selectionBehavior="Row" showNoData="true" threshold="20" enableBusyIndicator="true">
+									<!--<table:toolbar>-->
+									<!--	<Toolbar>-->
+									<!--		<Title text="" level="H2"/>-->
+									<!--	</Toolbar>-->
+									<!--</table:toolbar>-->
+									<table:columns autoResizable="true">
+										<table:Column width="11rem">
+											<table:multiLabels>
+												<Label text="{i18n>DealerClaim}" textAlign="Center" width="100%"/>
+											</table:multiLabels>
+											<table:template>
+												<Text text="{ExternalNumberOfClaim}" wrapping="false"/>
+											</table:template>
+										</table:Column>
+										<table:Column width="11rem">
+											<table:multiLabels>
+												<Label text="{i18n>DealerCode}" textAlign="Center" width="100%"/>
+											</table:multiLabels>
+											<table:template>
+												<Text text="{ExternalNumberOfClaim}" wrapping="false"/>
+											</table:template>
+										</table:Column>
+										<table:Column width="11rem">
+											<table:multiLabels>
+												<Label text="{i18n>TCIClaim}" textAlign="Center" width="100%"/>
+											</table:multiLabels>
+											<table:template>
+												<Text text="{NumberOfWarrantyClaim}" wrapping="false"/>
+											</table:template>
+										</table:Column>
+										<table:Column width="11rem">
+											<table:multiLabels>
+												<Label text="{i18n>RepairOrder}" textAlign="Center" width="100%"/>
+											</table:multiLabels>
+											<table:template>
+												<Text text="{RepairOrderNumberExternal}" wrapping="false"/>
+											</table:template>
+										</table:Column>
+										<table:Column width="11rem">
+											<table:multiLabels>
+												<Label text="{i18n>RepairOrderDate}" textAlign="Center" width="100%"/>
+											</table:multiLabels>
+											<table:template>
+												<Text text="{path:'RepairDate', type: 'sap.ui.model.type.Date'}" wrapping="false"/>
+											</table:template>
+										</table:Column>
+										<table:Column width="11rem">
+											<table:multiLabels>
+												<Label text="{i18n>ClaimSubmissionDate}" textAlign="Center" width="100%"/>
+											</table:multiLabels>
+											<table:template>
+												<Text text="{path:'ReferenceDate', type: 'sap.ui.model.type.Date'}" wrapping="false"/>
+											</table:template>
+										</table:Column>
+										<table:Column width="11rem">
+											<table:multiLabels>
+												<Label text="{i18n>ClaimType}" textAlign="Center" width="100%"/>
+											</table:multiLabels>
+											<table:template>
+												<Text text="{WarrantyClaimType}" wrapping="false"/>
+											</table:template>
+										</table:Column>
+										<table:Column width="11rem">
+											<table:multiLabels>
+												<Label text="{i18n>VIN}" textAlign="Center" width="100%"/>
+											</table:multiLabels>
+											<table:template>
+												<Text text="{ExternalObjectNumber}" wrapping="false"/>
+											</table:template>
+										</table:Column>
+										<table:Column width="11rem">
+											<table:multiLabels>
+												<Label text="{i18n>ClaimStatus}" textAlign="Center" width="100%"/>
+											</table:multiLabels>
+											<table:template>
+												<Text text="{ProcessingStatusOfWarrantyClm}" wrapping="false"/>
+											</table:template>
+										</table:Column>
+										<table:Column width="11rem">
+											<table:multiLabels>
+												<Label text="{i18n>OFP}" textAlign="Center" width="100%"/>
+											</table:multiLabels>
+											<table:template>
+												<Text text="{OFP}" wrapping="false"/>
+											</table:template>
+										</table:Column>
+										<table:Column width="11rem">
+											<table:multiLabels>
+												<Label text="{i18n>MainOpCode}" textAlign="Center" width="100%"/>
+											</table:multiLabels>
+											<table:template>
+												<Text text="{MainOpsCode}" wrapping="false"/>
+											</table:template>
+										</table:Column>
+										<table:Column width="11rem">
+											<table:multiLabels>
+												<Label text="{i18n>FieldActionCode}" textAlign="Center" width="100%"/>
+											</table:multiLabels>
+											<table:template>
+												<Text text="{ClaimAge}" wrapping="false"/>
+											</table:template>
+										</table:Column>
+										<table:Column width="11rem">
+											<table:multiLabels>
+												<Label text="{i18n>ClaimAge}" textAlign="Center" width="100%"/>
+											</table:multiLabels>
+											<table:template>
+												<Text text="{ClaimAge}" wrapping="false"/>
+											</table:template>
+										</table:Column>
+										<table:Column width="11rem">
+											<table:multiLabels>
+												<Label text="{i18n>ClaimAmount}" textAlign="Center" width="100%"/>
+											</table:multiLabels>
+											<table:template>
+												<Text text="{AmountClaimedByClaimant}" wrapping="false"/>
+											</table:template>
+										</table:Column>
+									</table:columns>
+								</table:Table>
+							</VBox>
+						</uxap:blocks>
+					</uxap:ObjectPageSubSection>
+				</uxap:subSections>
+			</uxap:ObjectPageSection>
+		</uxap:sections>
+	</uxap:ObjectPageLayout>
+</mvc:View>

@@ -55,6 +55,7 @@
 				<Text text="xxxxx"/>
 				<Label text="Claim Submission Type:"/>
 				<Text text="xxxxx"/>
+				<Button text="Save Claim" press="onPressSave" type="Emphasized"/>
 			</f:content>
 		</f:SimpleForm>
 		<!--<f:SimpleForm id="idDiscrountForm" editable="true" layout="ResponsiveGridLayout" title="Discount Details" labelSpanXL="4" labelSpanL="4"-->
@@ -80,7 +81,7 @@
 		<!--		</Button>-->
 		<!--	</f:content>-->
 		<!--</f:SimpleForm>-->
-		<table:Table class="classRCPTable" selectionMode="Single" rows="{path:'LocalDataModel>/ClaimSum'}"
+		<table:Table class="classRCPTable sapUiMediumMarginBottom" selectionMode="Single" rows="{path:'LocalDataModel>/ClaimSum'}"
 				visibleRowCountMode="Auto" rowSelectionChange="onNavigate" selectionBehavior="Row" showNoData="true" threshold="20"
 				enableBusyIndicator="true">
 				<table:toolbar>

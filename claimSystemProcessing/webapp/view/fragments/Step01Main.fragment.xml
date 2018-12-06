@@ -35,7 +35,7 @@
 					<Label text=""></Label>
 					<Button text="Save Claim" type="Emphasized" press="onSaveClaim">
 						<layoutData>
-							<l:GridData span="XL3 L3 M3 S4"/>
+							<l:GridData span="XL3 L3 "/>
 						</layoutData>
 					</Button>
 				</f:content>

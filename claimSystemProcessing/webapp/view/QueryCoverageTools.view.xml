@@ -1,0 +1,193 @@
+<mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" controllerName="zclaimProcessing.controller.QueryCoverageTools"
+	xmlns:html="http://www.w3.org/1999/xhtml" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:uxap="sap.uxap"
+	xmlns:table="sap.ui.table">
+	<core:Fragment fragmentName="zclaimProcessing.view.fragments.ToolHeader" type="XML"/>
+	<uxap:ObjectPageLayout id="ObjectPageLayout" enableLazyLoading="true">
+		<uxap:sections>
+			<uxap:ObjectPageSection title="{i18n>QuickCoverageTool}">
+				<uxap:subSections>
+					<uxap:ObjectPageSubSection title="">
+						<uxap:blocks>
+							<VBox>
+								<MessageStrip id="idNewClaimMsgStrp" text="" showIcon="true" showCloseButton="true" class="sapUiMediumMarginBottom" visible="false"></MessageStrip>
+								<f:SimpleForm id="SimpleFormChange354" editable="true" layout="ResponsiveGridLayout" title="{i18n>EnterCoverageSearch}" labelSpanXL="4"
+									labelSpanL="4" labelSpanM="3" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
+									columnsXL="3" columnsL="3" columnsM="1" singleContainerFullSize="false">
+									<f:content>
+										<core:Title text=""/>
+										<Label text="{i18n>VIN}" textAlign="Begin"/>
+										<Input value=""/>
+										<core:Title text=""/>
+										<Label text="{i18n>Odometer}" textAlign="Begin"/>
+										<Input value=""/>
+										<core:Title text=""/>
+										<Button text="{i18n>Search}" press="onPressSearch" type="Emphasized"/>
+										<Button text="{i18n>Reset}" press="onPressClear"/>
+									</f:content>
+								</f:SimpleForm>
+								<f:SimpleForm editable="true" layout="ResponsiveGridLayout" title="" labelSpanXL="6" labelSpanL="6" labelSpanM="12" labelSpanS="12"
+									emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="3" columnsL="3" columnsM="3">
+									<f:content>
+										<core:Title text=""/>
+										<Label text="Model"/>
+										<Text text=""/>
+										<Label text="In Service Date"/>
+										<Text text=""/>
+										<Label text="Age"/>
+										<Text text=""/>
+										<core:Title text=""/>
+										<Label text="Model Year"/>
+										<Text text=""/>
+										<Label text="Written-Off"/>
+										<Text text=""/>
+										<core:Title text=""/>
+										<Label text="Foreign VIN"/>
+										<Text text=""/>
+										<Label text="Special VIN Review"/>
+										<Text text=""/>
+									</f:content>
+								</f:SimpleForm>
+							</VBox>
+						</uxap:blocks>
+					</uxap:ObjectPageSubSection>
+					<uxap:ObjectPageSubSection >
+						<uxap:blocks>
+							<VBox>
+								<table:Table id="idActiveAgreement" class="classRCPTable" selectionMode="Single" rows="" visibleRowCountMode="Auto"
+									rowSelectionChange="onNavigate" selectionBehavior="Row" showNoData="true" threshold="20" enableBusyIndicator="true">
+									<table:toolbar>
+										<Toolbar>
+											<Title text="Active Agreeement(s)" level="H2"/>
+										</Toolbar>
+									</table:toolbar>
+									<table:columns autoResizable="true">
+										<table:Column width="17rem">
+											<table:multiLabels>
+												<Label text="ECP Agreement" textAlign="Center" width="100%"/>
+											</table:multiLabels>
+											<table:template>
+												<Text text="{LocalDataModel>ItemType}" wrapping="false"/>
+											</table:template>
+										</table:Column>
+										<table:Column width="17rem">
+											<table:multiLabels>
+												<Label text="Plan Code" textAlign="Center" width="100%"/>
+											</table:multiLabels>
+											<table:template>
+												<Text text="{LocalDataModel>ItemType}" wrapping="false"/>
+											</table:template>
+										</table:Column>
+										<table:Column width="17rem">
+											<table:multiLabels>
+												<Label text="Status" textAlign="Center" width="100%"/>
+											</table:multiLabels>
+											<table:template>
+												<Text text="{LocalDataModel>ItemType}" wrapping="false"/>
+											</table:template>
+										</table:Column>
+										<table:Column width="17rem">
+											<table:multiLabels>
+												<Label text="Status Date" textAlign="Center" width="100%"/>
+											</table:multiLabels>
+											<table:template>
+												<Text text="{LocalDataModel>ItemType}" wrapping="false"/>
+											</table:template>
+										</table:Column>
+										<table:Column width="17rem">
+											<table:multiLabels>
+												<Label text="Expiry Date" textAlign="Center" width="100%"/>
+											</table:multiLabels>
+											<table:template>
+												<Text text="{LocalDataModel>ItemType}" wrapping="false"/>
+											</table:template>
+										</table:Column>
+										<table:Column width="17rem">
+											<table:multiLabels>
+												<Label text="Expiry KM" textAlign="Center" width="100%"/>
+											</table:multiLabels>
+											<table:template>
+												<Text text="{LocalDataModel>ItemType}" wrapping="false"/>
+											</table:template>
+										</table:Column>
+									</table:columns>
+								</table:Table>
+								<table:Table class="classRCPTable" selectionMode="Single" rows="" visibleRowCountMode="Auto" rowSelectionChange="onNavigate"
+									selectionBehavior="Row" showNoData="true" threshold="20" enableBusyIndicator="true">
+									<table:toolbar>
+										<f:SimpleForm editable="true" layout="ResponsiveGridLayout" title="" labelSpanXL="6" labelSpanL="6" labelSpanM="12" labelSpanS="12"
+											emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="3" columnsL="3" columnsM="3">
+											<f:content>
+												<core:Title text=""/>
+												<Label text="Part# (OFP)" textAlign="Left" />
+												<Input value=""/>
+												<core:Title text=""/>
+												<Label text="Main Op. #" textAlign="Left"/>
+												<Input value=""/>
+												<core:Title text=""/>
+												<Button text="Look Up" type="Emphasized" press="onPressLookUp">
+													<layoutData>
+														<l:GridData span="XL3 L3 "/>
+													</layoutData>
+												</Button>
+											</f:content>
+										</f:SimpleForm>
+									</table:toolbar>
+									<table:columns autoResizable="true">
+										<table:Column width="17rem">
+											<table:multiLabels>
+												<Label text="Part # (OFP)" textAlign="Center" width="100%"/>
+											</table:multiLabels>
+											<table:template>
+												<Text text="" wrapping="false"/>
+											</table:template>
+										</table:Column>
+										<table:Column width="17rem">
+											<table:multiLabels>
+												<Label text="Part Description" textAlign="Center" width="100%"/>
+											</table:multiLabels>
+											<table:template>
+												<Text text="" wrapping="false"/>
+											</table:template>
+										</table:Column>
+										<table:Column width="17rem">
+											<table:multiLabels>
+												<Label text="Main Op. #" textAlign="Center" width="100%"/>
+											</table:multiLabels>
+											<table:template>
+												<Text text="" wrapping="false"/>
+											</table:template>
+										</table:Column>
+										<table:Column width="17rem">
+											<table:multiLabels>
+												<Label text="Operation Description" textAlign="Center" width="100%"/>
+											</table:multiLabels>
+											<table:template>
+												<Text text="" wrapping="false"/>
+											</table:template>
+										</table:Column>
+										<table:Column width="17rem">
+											<table:multiLabels>
+												<Label text="Coverage" textAlign="Center" width="100%"/>
+											</table:multiLabels>
+											<table:template>
+												<Text text="" wrapping="false"/>
+											</table:template>
+										</table:Column>
+									</table:columns>
+								</table:Table>
+								<List headerText="Important Notes:">
+								
+										<DisplayListItem
+											value="This Coverage Inquiry is based on the date that the search is being performed and assumed to be the Repair Date on Repair Order. If the Repair Date on the Repair Order is different, the Coverage Inquiry results could differ especially if the vehicle is close to coverage expiry. Always perform the inquiry on the actual Repair Date to ensure accuracy."/>
+										<DisplayListItem
+											value="This Coverage Inquiry is provided for the purpose of easily determining the claim coverage of a vehicle component/repair. Claim coverage is limited to an actual customer complaint as a result of a defect in material or workmanship. The inquiry and resultant coverage results does not constitute the approval or authorization of a claim. All policies and procedures as outlined in the Warranty and ECP Policies and Procedures Manual still apply. "/>
+								
+								</List>
+							</VBox>
+						</uxap:blocks>
+					</uxap:ObjectPageSubSection>
+				</uxap:subSections>
+			</uxap:ObjectPageSection>
+		</uxap:sections>
+	</uxap:ObjectPageLayout>
+</mvc:View>

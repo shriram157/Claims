@@ -8,7 +8,7 @@
 					<uxap:ObjectPageSubSection title=" ">
 						<uxap:blocks>
 							<MessageStrip id="idMainClaimMessage" text="" showIcon="true" showCloseButton="false" class="sapUiMediumMarginBottom" visible="false"></MessageStrip>
-							<IconTabBar id="idPartClaimIconBar" expanded="{device>/isNoPhone}" class="sapUiResponsiveContentPadding sapUiLargeMarginBottom">
+							<IconTabBar headerMode="Inline" id="idPartClaimIconBar"  expanded="{device>/isNoPhone}" class="sapUiResponsiveContentPadding sapUiLargeMarginBottom" >
 								<items>
 									<IconTabFilter icon="sap-icon://home" text="{i18n>Main}" key="Tab1" id="idFilter01">
 										<core:Fragment fragmentName="zclaimProcessing.view.fragments.Step01Main" type="XML"/>

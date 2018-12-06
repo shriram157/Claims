@@ -96,7 +96,7 @@ sap.ui.define([
 			var oArr = [];
 			oProssingModel.read("/ZC_CLAIM_SUM", {
 				urlParameters: {
-					"$filter": "clmno eq '18'"
+					"$filter": "p_clmno eq '299'"
 				},
 				success: $.proxy(function (data) {
 					oArr.push(data.results[0], data.results[3]);
@@ -431,17 +431,7 @@ sap.ui.define([
 				pattern: "yyyyMMdd"
 			});
 			var oTotalTime = oDateFormat.format(oDateNew);
-			//console.log(oECPData.elm);
-			//var oDateFrom = new Date(oDateFormat.parse(elm));
-			//var oDateFrom = oDateFormat.format(oDateNew);
-			//	console.log(oDateFrom);
-			// var newDateFrom = new Date(Date.UTC(oDateNew.getFullYear(), oDateNew.getMonth(), oDateNew.getDate(), oDateNew.getHours(),
-			// 	oDateNew.getMinutes(), oDateNew.getSeconds(), oDateNew.getMilliseconds()));
-			// console.log(newDateFrom.getTime());
-			// var oNumTime = newDateFrom.getTime();
-			// //var saleTime = "\/Date(" + newDateFrom.getTime() + ")\/";
-			// var saleTime = "\/Date(" + oNumTime + ")\/";
-			// var oTotalTime = saleTime.replace(/\s+/g, '');
+		
 			return oTotalTime;
 		},
 
@@ -450,7 +440,7 @@ sap.ui.define([
 			var obj = {
 				WarrantyClaimType: this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType"),
 				Partner: "2400034030",
-				PartnerRole: "aaa",
+				PartnerRole: "ZLC004",
 				ReferenceDate: this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/DeliveryDate")),
 				DateOfApplication: this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/DeliveryDate")),
 				FinalProcdDate: this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/DeliveryDate")),
@@ -491,26 +481,26 @@ sap.ui.define([
 			// 	console.log('Error retrieving CSRF Token');
 
 			// }, false);
-			var oToken = "";
-			oClaimModel.read("/zc_headSet", {
+			// var oToken = "";
+			// oClaimModel.read("/zc_headSet", {
 
-				headers: {
-					"Content-Type": "application/json",
-					"X-CSRF-Token": "Fetch"
-				},
+			// 	headers: {
+			// 		"Content-Type": "application/json",
+			// 		"X-CSRF-Token": "Fetch"
+			// 	},
 
-				success: $.proxy(function (data, response) {
-					console.log("success");
+			// 	success: $.proxy(function (data, response) {
+			// 		console.log("success");
 
-					oToken = response.headers['x-csrf-token'];
-					console.log(oToken);
+			// 		oToken = response.headers['x-csrf-token'];
+			// 		console.log(oToken);
 					
 
-				}, this),
-				error: function (err) {
-					console.log(err);
-				}
-			});
+			// 	}, this),
+			// 	error: function (err) {
+			// 		console.log(err);
+			// 	}
+			// });
 			
 		
 			
