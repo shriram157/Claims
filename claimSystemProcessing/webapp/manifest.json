@@ -85,7 +85,7 @@
 					"defaultCountMode": "Request"
 				},
 				"dataSource": "ZDLR_CLAIM_SRV",
-				"preload": true
+				"preload": false
 			},
 			"API_BUSINESS_PARTNER": {
 				"uri": "/node/API_BUSINESS_PARTNER/",
@@ -96,7 +96,7 @@
 					"defaultCountMode": "Request"
 				},
 				"dataSource": "API_BUSINESS_PARTNER",
-				"preload": true
+				"preload": false
 			}
 		},
 		"resources": {

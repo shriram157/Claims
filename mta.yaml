@@ -4,7 +4,6 @@ description: Application MTA Project for Claims System Processing
 version: 0.0.1
 
 modules:
-
  - name: claimSystemProcessing_Node
    type: nodejs
    path: claimSystemProcessing_Node
@@ -15,12 +14,13 @@ modules:
       service-url: '${default-url}'
       disk-quota: 256MB
       memory: 256MB
+   requires:
+    - name: CLAIM_SYSTEM_PROCESSING_CUPS   
    provides:
     - name: claimSystemProcessing_Node_api
       properties:
          url: ${default-url} 
-   requires:
-    - name: CLAIM_SYSTEM_PROCESSING_CUPS
+
     
  - name: claimSystemProcessing
    type: html5
@@ -43,7 +43,9 @@ modules:
           name: claimSystemProcessing-node-backend
           url: '~{url}'
           forwardAuthToken: true 
-
+   provides:
+    - name: claimSystemProcessing
+   
 resources:
  - name: uaa_claimsSystemProcessing
    parameters:
