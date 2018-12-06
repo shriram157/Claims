@@ -425,14 +425,19 @@ sap.ui.define([
 
 		_fnDateFormat: function (elm) {
 
-			var oDateNew = new Date('"' + elm + '"');
-			console.log(oDateNew);
-			var oDateFormat = sap.ui.core.format.DateFormat.getDateInstance({
-				pattern: "yyyyMMdd"
-			});
-			var oTotalTime = oDateFormat.format(oDateNew);
+			// var oDateNew = new Date('"' + elm + '"');
+			
+			// var oDateFormat = sap.ui.core.format.DateFormat.getDateInstance({
+			// 	pattern: "yyyyMMdd"
+			// });
+			// var oTotalTime = oDateFormat.format(oDateNew);
 		
-			return oTotalTime;
+			// return oTotalTime;
+			var oNumTime = elm.getTime();
+
+			var oTime = "\/Date(" + oNumTime + ")\/";
+			//var oTotalTime = saleTime.replace(/\s+/g, '');
+			return oTime;
 		},
 
 		onSaveClaim: function (oEvent) {
