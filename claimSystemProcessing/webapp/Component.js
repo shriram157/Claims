@@ -56,7 +56,7 @@ sap.ui.define([
 
 			var oDataModel01 = new ODataModel(mConfig01.uri, {
 				useBatch: false,
-				disableHeadRequestForToken: true,
+				// disableHeadRequestForToken: true,
 				defaultUpdateMethod: 'PATCH',
 				json: true
 			});

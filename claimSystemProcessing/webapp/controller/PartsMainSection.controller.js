@@ -426,12 +426,12 @@ sap.ui.define([
 		_fnDateFormat: function (elm) {
 
 			// var oDateNew = new Date('"' + elm + '"');
-			
+
 			// var oDateFormat = sap.ui.core.format.DateFormat.getDateInstance({
 			// 	pattern: "yyyyMMdd"
 			// });
 			// var oTotalTime = oDateFormat.format(oDateNew);
-		
+
 			// return oTotalTime;
 			var oNumTime = elm.getTime();
 
@@ -443,19 +443,32 @@ sap.ui.define([
 		onSaveClaim: function (oEvent) {
 			//	var oCurrentDt = new Date();
 			var obj = {
-				WarrantyClaimType: this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType"),
-				Partner: "2400034030",
-				PartnerRole: "ZLC004",
-				ReferenceDate: this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/DeliveryDate")),
-				DateOfApplication: this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/DeliveryDate")),
-				FinalProcdDate: this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/DeliveryDate")),
-				Delivery: this.getView().getModel("HeadSetData").getProperty("/Delivery"),
-				DeliveryDate: this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/DeliveryDate")),
-				DeliveringCarrier: this.getView().getModel("HeadSetData").getProperty("/DeliveringCarrier"),
-				TCIWaybillNumber: this.getView().getModel("HeadSetData").getProperty("/TCIWaybillNumber"),
-				ShipmentReceivedDate: this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/ShipmentReceivedDate")),
-				DealerContact: this.getView().getModel("HeadSetData").getProperty("/DealerContact"),
-				HeadText: this.getView().getModel("HeadSetData").getProperty("/HeadText")
+				// WarrantyClaimType: this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType"),
+				// Partner: "2400034030",
+				// PartnerRole: "ZLC004",
+				// ReferenceDate: this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/DeliveryDate")),
+				// DateOfApplication: this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/DeliveryDate")),
+				// FinalProcdDate: this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/DeliveryDate")),
+				// Delivery: this.getView().getModel("HeadSetData").getProperty("/Delivery"),
+				// DeliveryDate: this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/DeliveryDate")),
+				// DeliveringCarrier: this.getView().getModel("HeadSetData").getProperty("/DeliveringCarrier"),
+				// TCIWaybillNumber: this.getView().getModel("HeadSetData").getProperty("/TCIWaybillNumber"),
+				// ShipmentReceivedDate: this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/ShipmentReceivedDate")),
+				// DealerContact: this.getView().getModel("HeadSetData").getProperty("/DealerContact"),
+				// HeadText: this.getView().getModel("HeadSetData").getProperty("/HeadText")
+				"WarrantyClaimType": "ZWVE",
+				"Partner": "2400034030",
+				"PartnerRole": "AS",
+				"ReferenceDate": "\/Date(1539354352088)\/",
+				"DateOfApplication": "\/Date(1539354352088)\/",
+				"FinalProcdDate": null,
+				"Delivery": "10001111",
+				"DeliveryDate": "\/Date(1539354352088)\/",
+				"TCIWaybillNumber": "WBN0011",
+				"ShipmentReceivedDate": "\/Date(1539354707890)\/",
+				"DealerContact": "Mr.A",
+				"DeliveringCarrier": "Speedway",
+				"HeadText": "This is a long text.  Dealer claim will be created in SAP Warranty system through OXLO Interface based on the repair order data. Though these claims are in draft/ Incomplete status where dealer must review each claim through ALM portal and update data if required then submit claim. Other way around, dealer can create and submit new claim through ALM portal as well."
 			};
 
 			// 	var	obj = {
@@ -499,25 +512,22 @@ sap.ui.define([
 
 			// 		oToken = response.headers['x-csrf-token'];
 			// 		console.log(oToken);
-					
 
 			// 	}, this),
 			// 	error: function (err) {
 			// 		console.log(err);
 			// 	}
 			// });
-			
-		
-			
-			oClaimModel.create("/zc_headSet", obj, {
-						success: $.proxy(function () {
-							console.log("success");
 
-						}, this),
-						error: function (err) {
-							console.log(err);
-						}
-					});
+			oClaimModel.create("/zc_headSet", obj, {
+				success: $.proxy(function () {
+					console.log("success");
+
+				}, this),
+				error: function (err) {
+					console.log(err);
+				}
+			});
 
 			// var requestBody = {
 			// 	WarrantyClaimType: this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType"),
@@ -702,107 +712,107 @@ sap.ui.define([
 		// },
 
 		onPressBack: function (oEvent) {
-				this.oBundle = this.getView().getModel("i18n").getResourceBundle();
-				var that = this;
-				var oValidator = new Validator();
-				oValidator.validate(this.byId("idClaimForm"));
-				var dialog = new Dialog({
-					title: that.oBundle.getText("SaveChanges"),
-					type: "Message",
-					content: new Text({
-						text: that.oBundle.getText("WillYouLikeSaveChanges")
+			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
+			var that = this;
+			var oValidator = new Validator();
+			oValidator.validate(this.byId("idClaimForm"));
+			var dialog = new Dialog({
+				title: that.oBundle.getText("SaveChanges"),
+				type: "Message",
+				content: new Text({
+					text: that.oBundle.getText("WillYouLikeSaveChanges")
+				}),
+
+				buttons: [
+					new Button({
+						text: that.oBundle.getText("Yes"),
+						press: $.proxy(function () {
+							// that.oECPData = that.getView().getModel("EcpFieldData").getData();
+							// var objSave = that._fnObject("SAVE", "PENDING");
+							// var oEcpModel = that.getModel("EcpSalesModel");
+
+							if (!oValidator.isValid()) {
+
+								//do something additional to drawing red borders? message box?
+								this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+								this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
+								this.getView().byId("idMainClaimMessage").setType("Error");
+								return;
+							} else {
+								//var oCurrentDt = new Date();
+								// var obj = {
+								// 	WarrantyClaimType: this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType"),
+								// 	Partner: "",
+								// 	PartnerRole: "",
+								// 	ReferenceDate: oCurrentDt,
+								// 	DateOfApplication: oCurrentDt,
+								// 	FinalProcdDate: oCurrentDt,
+								// 	DeliveringCarrier: this.getView().getModel("HeadSetData").getProperty("/DeliveringCarrier"),
+								// 	NameOfPersonRespWhoChangedObj: this.getView().getModel("HeadSetData").getProperty("/NameOfPersonRespWhoChangedObj"),
+								// 	ClaimAge: this.getView().getModel("HeadSetData").getProperty("/ClaimAge"),
+								// 	Delivery: this.getView().getModel("HeadSetData").getProperty("/Delivery"),
+								// 	DeliveryDate: this.getView().getModel("HeadSetData").getProperty("/DeliveryDate"),
+								// 	TCIWaybillNumber: this.getView().getModel("HeadSetData").getProperty("/TCIWaybillNumber"),
+								// 	ShipmentReceivedDate: this.getView().getModel("HeadSetData").getProperty("/ShipmentReceivedDate"),
+								// 	DealerContact: this.getView().getModel("HeadSetData").getProperty("/DealerContact"),
+								// 	HeadText: this.getView().getModel("HeadSetData").getProperty("/HeadText")
+								// };
+
+								// var oClaimModel = this.getModel("ProssingModel");
+								// oClaimModel.create("/zc_headSet", obj, {
+
+								// 	success: $.proxy(function () {
+								// 		console.log("success");
+
+								// 	}, this),
+								// 	error: function (err) {
+								// 		console.log(err);
+								// 	}
+								// });
+							}
+
+							dialog.close();
+						}, this)
 					}),
 
-					buttons: [
-						new Button({
-							text: that.oBundle.getText("Yes"),
-							press: $.proxy(function () {
-								// that.oECPData = that.getView().getModel("EcpFieldData").getData();
-								// var objSave = that._fnObject("SAVE", "PENDING");
-								// var oEcpModel = that.getModel("EcpSalesModel");
+					new Button({
+						text: that.oBundle.getText("No"),
+						press: function () {
 
-								if (!oValidator.isValid()) {
+							that.getRouter().navTo("SearchClaim");
+							dialog.close();
+						}
+					}),
+					new Button({
+						text: that.oBundle.getText("Cancel"),
+						press: function () {
+							dialog.close();
+						}
+					})
 
-									//do something additional to drawing red borders? message box?
-									this.getView().byId("idMainClaimMessage").setProperty("visible", true);
-									this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
-									this.getView().byId("idMainClaimMessage").setType("Error");
-									return;
-								} else {
-									//var oCurrentDt = new Date();
-									// var obj = {
-									// 	WarrantyClaimType: this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType"),
-									// 	Partner: "",
-									// 	PartnerRole: "",
-									// 	ReferenceDate: oCurrentDt,
-									// 	DateOfApplication: oCurrentDt,
-									// 	FinalProcdDate: oCurrentDt,
-									// 	DeliveringCarrier: this.getView().getModel("HeadSetData").getProperty("/DeliveringCarrier"),
-									// 	NameOfPersonRespWhoChangedObj: this.getView().getModel("HeadSetData").getProperty("/NameOfPersonRespWhoChangedObj"),
-									// 	ClaimAge: this.getView().getModel("HeadSetData").getProperty("/ClaimAge"),
-									// 	Delivery: this.getView().getModel("HeadSetData").getProperty("/Delivery"),
-									// 	DeliveryDate: this.getView().getModel("HeadSetData").getProperty("/DeliveryDate"),
-									// 	TCIWaybillNumber: this.getView().getModel("HeadSetData").getProperty("/TCIWaybillNumber"),
-									// 	ShipmentReceivedDate: this.getView().getModel("HeadSetData").getProperty("/ShipmentReceivedDate"),
-									// 	DealerContact: this.getView().getModel("HeadSetData").getProperty("/DealerContact"),
-									// 	HeadText: this.getView().getModel("HeadSetData").getProperty("/HeadText")
-									// };
+				],
 
-									// var oClaimModel = this.getModel("ProssingModel");
-									// oClaimModel.create("/zc_headSet", obj, {
-
-									// 	success: $.proxy(function () {
-									// 		console.log("success");
-
-									// 	}, this),
-									// 	error: function (err) {
-									// 		console.log(err);
-									// 	}
-									// });
-								}
-
-								dialog.close();
-							}, this)
-						}),
-
-						new Button({
-							text: that.oBundle.getText("No"),
-							press: function () {
-
-								that.getRouter().navTo("SearchClaim");
-								dialog.close();
-							}
-						}),
-						new Button({
-							text: that.oBundle.getText("Cancel"),
-							press: function () {
-								dialog.close();
-							}
-						})
-
-					],
-
-					afterClose: function () {
-						dialog.destroy();
-					}
-				});
-
-				dialog.open();
-
-				this.ogetSelectedKey = this.getView().byId("idPartClaimIconBar").getSelectedKey();
-				var ogetKey = this.ogetSelectedKey.split("Tab")[1];
-
-				if (ogetKey > 1 && ogetKey <= 8) {
-					var oSelectedNum = ogetKey - 1;
-					this.getView().byId("idPartClaimIconBar").setSelectedKey("Tab" + oSelectedNum + "");
-				} else {
-					this.getRouter().navTo("SearchClaim");
+				afterClose: function () {
+					dialog.destroy();
 				}
+			});
 
-			},
-			onCancelClaim : function(oEvent){
-			var	oBundle = this.getView().getModel("i18n").getResourceBundle();
-			var dialog = new Dialog({
+			dialog.open();
+
+			this.ogetSelectedKey = this.getView().byId("idPartClaimIconBar").getSelectedKey();
+			var ogetKey = this.ogetSelectedKey.split("Tab")[1];
+
+			if (ogetKey > 1 && ogetKey <= 8) {
+				var oSelectedNum = ogetKey - 1;
+				this.getView().byId("idPartClaimIconBar").setSelectedKey("Tab" + oSelectedNum + "");
+			} else {
+				this.getRouter().navTo("SearchClaim");
+			}
+
+		},
+		onCancelClaim: function (oEvent) {
+				var oBundle = this.getView().getModel("i18n").getResourceBundle();
+				var dialog = new Dialog({
 					title: oBundle.getText("CancelClaim"),
 					type: "Message",
 					content: new Text({
