@@ -1,5 +1,5 @@
 <core:FragmentDefinition xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:u="sap.ui.unified" xmlns:l="sap.ui.layout"
-	xmlns="sap.m" xmlns:t="sap.ui.table">
+	xmlns="sap.m" xmlns:table="sap.ui.table">
 	<VBox class="sapUiSmallMargin">
 		<f:SimpleForm editable="true" layout="ResponsiveGridLayout" title="Claim Details" labelSpanXL="6" labelSpanL="6" labelSpanM="12"
 			labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="6" columnsL="6" columnsM="4"
@@ -37,39 +37,93 @@
 				<Text text=""/>
 			</f:content>
 		</f:SimpleForm>
-		<Table id="PaintTable" class="sapUiMediumMarginTop" items="{/Categories}" mode="MultiSelect" selectionChange="OnSelectionChange">
-			<headerToolbar>
-				<Toolbar design="Solid">
-					<Title text="Paint Details" level="H2"/>
-					<ToolbarSpacer></ToolbarSpacer>
-					<Button class="sapUiTinyMarginBeginEnd" press="onAddPartLine" text="{i18n>AddPaintLine}"/>
-					<Button class="sapUiTinyMarginBeginEnd" press="onDeletePartLine" text="{i18n>DeletePaintLine}" type="Reject"/>
-				</Toolbar>
-			</headerToolbar>
-			<columns>
-				<Column>
-					<Text text="Line #"/>
-				</Column>
-				<Column>
-					<Text text="Main Op#"/>
-				</Column>
-				<Column>
-					<Text text="Position Code"/>
-				</Column>
-			</columns>
-			<items>
-				<ColumnListItem>
-					<cells>
-						<Input type="Number" value="{ID}"/>
-						<Input value="{Name}"/>
-						<Input type="Number" value="{ID}"/>
-					</cells>
-				</ColumnListItem>
-			</items>
-		</Table>
+		<f:SimpleForm editable="true" class=" sapUiTinyMarginBottom" layout="ResponsiveGridLayout" title="" labelSpanXL="7" labelSpanL="7"
+			labelSpanM="12" labelSpanS="12" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="4" columnsL="4" columnsM="4">
+			<f:content>
+				<core:Title text=""/>
+				<Button text="Add Paint LIne" type="Emphasized" press="onPressSaveLabour">
+					<layoutData>
+						<l:GridData span="XL8 L8 "/>
+					</layoutData>
+				</Button>
+				<core:Title text=""/>
+				<Button text="Update Paint Line" press="onPressSaveLabour">
+						<layoutData>
+						<l:GridData span="XL8 L8 "/>
+					</layoutData>
+				</Button>
+				<core:Title text=""/>
+				<Button text="Delete Paint Line" type="Reject" press="onPressSaveLabour">
+						<layoutData>
+						<l:GridData span="XL8 L8 "/>
+					</layoutData>
+				</Button>
+				<core:Title text=""/>
+				<Button text="Save Claim" type="Emphasized" press="onPressSaveLabour">
+						<layoutData>
+						<l:GridData span="XL8 L8 "/>
+					</layoutData>
+				</Button>
+			</f:content>
+		</f:SimpleForm>
+		<l:Grid containerQuery="true" defaultSpan="XL10 L10 M12 S12">
+			<VBox class="clBgColor" wrap="Wrap" displayInline="true" alignContent="Center">
+				<f:SimpleForm editable="true" width="90%" class="sapUiResponsiveMargin" layout="ResponsiveGridLayout" title="" labelSpanXL="12" labelSpanL="12"
+					labelSpanM="12" labelSpanS="12" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="4" columnsL="4" columnsM="4">
+					<f:content>
+						<core:Title text=""/>
+						<Label text="Line #*" textAlign="Left"/>
+						<Text text=""/>
+						<core:Title text=""/>
+						<Label text="Position Code" textAlign="Left"/>
+						<Select forceSelection="false" required="true">
+							<items>
+							<core:Item key="P5210 - Front Bumper" text="P5210 - Front Bumper"/>
+							</items>
+						</Select>
+						<core:Title text=""/>
+						<Label text=" " class="clTextIndent"/>
+						<Button text="Save Paint" type="Emphasized" press="onPressSaveLabour">
+							<!--<layoutData>-->
+							<!--	<l:GridData span="XL10 L10 "/>-->
+							<!--</layoutData>-->
+						</Button>
+						<core:Title text=""/>
+						<Label text=" " class="clTextIndent"/>
+						<Button text="Cancel" type="Transparent" press="onPressSaveLabour">
+							<!--<layoutData>-->
+							<!--	<l:GridData span="XL9 L9 "/>-->
+							<!--</layoutData>-->
+						</Button>
+					</f:content>
+				</f:SimpleForm>
+			</VBox>
+		</l:Grid>
+		<table:Table class="classRCPTable" selectionMode="Single" rows="" visibleRowCountMode="Auto" rowSelectionChange="onNavigate"
+			selectionBehavior="Row" showNoData="true" threshold="20" enableBusyIndicator="true">
+			<table:columns autoResizable="true">
+				<table:Column width="17rem">
+					<table:multiLabels>
+						<Label text="Line #" textAlign="Center" width="100%"/>
+					</table:multiLabels>
+					<table:template>
+						<Text text="" wrapping="false"/>
+					</table:template>
+				</table:Column>
+				<table:Column width="17rem">
+					<table:multiLabels>
+						<Label text="Position Code" textAlign="Center" width="100%"/>
+					</table:multiLabels>
+					<table:template>
+						<Text text="" wrapping="false"/>
+					</table:template>
+				</table:Column>
+				
+			</table:columns>
+		</table:Table>
 		<HBox alignContent="Center" justifyContent="Center" class="sapUiTinyMarginTop">
 			<Button class="sapUiTinyMarginBeginEnd" type="Back" press="onPressBack" text="{i18n>Back}"/>
-			<Button class="sapUiTinyMarginBeginEnd" press="onStep05Next" text="{i18n>Next}" type="Emphasized"/>
+			<Button class="sapUiTinyMarginBeginEnd" press="onStep04Next" text="{i18n>Next}" type="Emphasized"/>
 		</HBox>
 	</VBox>
 </core:FragmentDefinition>

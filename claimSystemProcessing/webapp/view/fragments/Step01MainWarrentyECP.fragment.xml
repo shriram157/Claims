@@ -179,6 +179,7 @@
 				<Input value=" " required="true"/>
 			
 				<core:Title text=""/>
+				<Label text=" " class="clTextIndent"/>
 				<Button text="Lookup ECP Agreements"/>
 				<Button text="Perform CIC"/>
 			</f:content>

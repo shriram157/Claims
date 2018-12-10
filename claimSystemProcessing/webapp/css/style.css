@@ -39,3 +39,5 @@
 .oVisible {
     display: none;
 }
+.clBgColor .sapUiFormTitleH5 {height:1rem!important; line-height:1rem!important;}
+.clTextIndent {text-indent:-9999999px;}

@@ -80,8 +80,8 @@
 			<!--		</f:content>-->
 			<!--	</f:SimpleForm>-->
 			<!--</VBox>-->
-			<VBox id="idPartArea" visible="{multiHeaderConfig>/partDamage}" class="clBgColor sapUiSmallMarginTop">
-				<f:SimpleForm editable="true" labelSpanL="4" title="" labelSpanXL="12" layout="ResponsiveGridLayout" emptySpanXL="1" emptySpanL="1"
+			<VBox id="idPartArea" visible="{multiHeaderConfig>/partDamage}" class="clBgColor sapUiSmallMarginTop" wrap="Wrap" width="100%">
+				<f:SimpleForm editable="true" labelSpanL="4" width="90%" title="" labelSpanXL="12" layout="ResponsiveGridLayout" emptySpanXL="1" emptySpanL="1"
 					columnsM="2" columnsL="1" columnsXL="1">
 					<f:content>
 						<Label text="Discrepancy Type" textAlign="Begin"/>
