@@ -116,16 +116,23 @@ module.exports = function () {
 
 			}
 			console.log("csrfToken NOT received for", method);
-			console.log('Response from sap Received Success for', method);
+			
+			if (method == 'GET' && !(response.headers['x-csrf-token']) ) {
+				csrfToken = csrfToken;  //self assign this to retain the value. 
+				console.log ("The earlier call returned blank CSRF and so we are reusing this one", csrfToken);
+			}
+
+			console.log('Response from sap Received Success and if csrf available it will be here & Csrf Token', method, csrfToken);
 
 			xRequest.pipe(res);
 
 		}).on('error', (error) => {
 			next(error);
+			
+			console.log("This is inside error");
 		});
 
 	});
 
 	return app;
 };
-
