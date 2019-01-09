@@ -16,15 +16,10 @@
 									<f:content>
 										<core:Title text="Please Select a Claim Type Group and Request Type for your Claim"/>
 										<Label text="Claim Type Group" textAlign="Begin" textDirection="LTR"/>
-										<Select id="idClaimType" selectedKey="{Warrenty}">
+										<Select id="idClaimType"  items="{LocalDataModel>/ClaimGroupData}">
 											<items>
-												<core:Item text="Warranty/ECP Claim" key="Warrenty"/>
-												<core:Item text="Vehicle Logistics" key="Vehicle"/>
-												<core:Item text="SETR" key="SETR"/>
-												<core:Item text="Parts Warehouse Claims" key="Parts"/>
-												<core:Item text="Core Return" key="Core"/>
-												<core:Item text="Smart Parts" key="Smart"/>
-												<core:Item text="Direct to Dealer" key="Direct"/>
+												<core:Item text="{LocalDataModel>ClaimGroupDes}" key="{LocalDataModel>ClaimGroupDes}"/>
+											
 											</items>
 										</Select>
 										<Label text="Request Type" textAlign="Begin"/>

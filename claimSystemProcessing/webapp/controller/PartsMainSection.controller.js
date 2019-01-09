@@ -94,10 +94,8 @@ sap.ui.define([
 			this.setModel(this.getModel("ProssingModel"));
 			var oProssingModel = this.getModel("ProssingModel");
 			var oArr = [];
-			oProssingModel.read("/ZC_CLAIM_SUM", {
-				urlParameters: {
-					"$filter": "p_clmno eq '299'"
-				},
+			oProssingModel.read("/ZC_CLAIM_SUM(p_clmno='299')/Set", {
+
 				success: $.proxy(function (data) {
 					oArr.push(data.results[0], data.results[3]);
 					this.getModel("LocalDataModel").setProperty("/ClaimSum", oArr);
@@ -106,11 +104,17 @@ sap.ui.define([
 
 			var HeadSetData = new sap.ui.model.json.JSONModel({
 				"WarrantyClaimType": "",
+				"Partner": "",
+				"PartnerRole": "",
+				"ReferenceDate": "",
+				"DateOfApplication": "",
+				"FinalProcdDate": "",
 				"Delivery": "",
 				"DeliveryDate": "",
 				"TCIWaybillNumber": "",
 				"ShipmentReceivedDate": "",
 				"DealerContact": "",
+				"DeliveringCarrier": "",
 				"HeadText": "",
 				"text": null,
 				"number": 0
@@ -126,6 +130,7 @@ sap.ui.define([
 			});
 
 			this.getOwnerComponent().getRouter().attachRoutePatternMatched(this._onRoutMatched, this);
+			
 
 		},
 
@@ -424,104 +429,36 @@ sap.ui.define([
 		},
 
 		_fnDateFormat: function (elm) {
-
-			// var oDateNew = new Date('"' + elm + '"');
-
-			// var oDateFormat = sap.ui.core.format.DateFormat.getDateInstance({
-			// 	pattern: "yyyyMMdd"
-			// });
-			// var oTotalTime = oDateFormat.format(oDateNew);
-
-			// return oTotalTime;
 			var oNumTime = elm.getTime();
-
 			var oTime = "\/Date(" + oNumTime + ")\/";
-			//var oTotalTime = saleTime.replace(/\s+/g, '');
 			return oTime;
 		},
 
 		onSaveClaim: function (oEvent) {
-			//	var oCurrentDt = new Date();
+			var oCurrentDt = new Date();
 			var obj = {
-				// WarrantyClaimType: this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType"),
-				// Partner: "2400034030",
-				// PartnerRole: "ZLC004",
-				// ReferenceDate: this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/DeliveryDate")),
-				// DateOfApplication: this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/DeliveryDate")),
-				// FinalProcdDate: this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/DeliveryDate")),
-				// Delivery: this.getView().getModel("HeadSetData").getProperty("/Delivery"),
-				// DeliveryDate: this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/DeliveryDate")),
-				// DeliveringCarrier: this.getView().getModel("HeadSetData").getProperty("/DeliveringCarrier"),
-				// TCIWaybillNumber: this.getView().getModel("HeadSetData").getProperty("/TCIWaybillNumber"),
-				// ShipmentReceivedDate: this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/ShipmentReceivedDate")),
-				// DealerContact: this.getView().getModel("HeadSetData").getProperty("/DealerContact"),
-				// HeadText: this.getView().getModel("HeadSetData").getProperty("/HeadText")
 				"WarrantyClaimType": "ZWVE",
 				"Partner": "2400034030",
 				"PartnerRole": "AS",
-				"ReferenceDate": "\/Date(1539354352088)\/",
-				"DateOfApplication": "\/Date(1539354352088)\/",
-				"FinalProcdDate": null,
-				"Delivery": "10001111",
-				"DeliveryDate": "\/Date(1539354352088)\/",
-				"TCIWaybillNumber": "WBN0011",
-				"ShipmentReceivedDate": "\/Date(1539354707890)\/",
-				"DealerContact": "Mr.A",
-				"DeliveringCarrier": "Speedway",
-				"HeadText": "This is a long text.  Dealer claim will be created in SAP Warranty system through OXLO Interface based on the repair order data. Though these claims are in draft/ Incomplete status where dealer must review each claim through ALM portal and update data if required then submit claim. Other way around, dealer can create and submit new claim through ALM portal as well."
+				"ReferenceDate": this._fnDateFormat(oCurrentDt),
+				"DateOfApplication": this._fnDateFormat(oCurrentDt),
+				"FinalProcdDate": this._fnDateFormat(new Date()),
+				"Delivery": this.getView().getModel("HeadSetData").getProperty("/Delivery"),
+				"DeliveryDate": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/DeliveryDate")),
+				"TCIWaybillNumber": this.getView().getModel("HeadSetData").getProperty("/TCIWaybillNumber"),
+				"ShipmentReceivedDate": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/ShipmentReceivedDate")),
+				"DealerContact": this.getView().getModel("HeadSetData").getProperty("/DealerContact"),
+				"DeliveringCarrier": this.getView().getModel("HeadSetData").getProperty("/DeliveringCarrier"),
+				"HeadText": this.getView().getModel("HeadSetData").getProperty("/HeadText")
 			};
 
-			// 	var	obj = {
-			//      "WarrantyClaimType" : "ZWVE",
-			//      "Partner" : "2400034030",
-			//      "PartnerRole" : "AS",
-			//      "ReferenceDate" : "20180916",
-			//      "DateOfApplication" : "20180917",
-			//      "FinalProcdDate" : "",
-			//      "Delivery" : "10001111",
-			//      "DeliveryDate" : "20180704",
-			//      "TCIWaybillNumber" : "WBN0011",
-			//      "ShipmentReceivedDate" : "20180815",
-			//      "DealerContact" : "Mr.A",
-			//      "DeliveringCarrier" : "Speedway",
-			//      "HeadText" : "This is a long text.  Dealer claim will be created in SAP Warranty system through OXLO Interface based on the repair order data. Though these claims are in draft/ Incomplete status where dealer must review each claim through ALM portal and update data if required then submit claim. Other way around, dealer can create and submit new claim through ALM portal as well."
-			//}
 			console.log(obj);
 			var oClaimModel = this.getModel("ProssingModel");
-			// oClaimModel.refreshSecurityToken(function (data) {
-
-			// 	console.log(data, 'Succesfully retrieved CSRF Token');
-
-			// 	// oModel.create()
-
-			// }, function () {
-
-			// 	console.log('Error retrieving CSRF Token');
-
-			// }, false);
-			// var oToken = "";
-			// oClaimModel.read("/zc_headSet", {
-
-			// 	headers: {
-			// 		"Content-Type": "application/json",
-			// 		"X-CSRF-Token": "Fetch"
-			// 	},
-
-			// 	success: $.proxy(function (data, response) {
-			// 		console.log("success");
-
-			// 		oToken = response.headers['x-csrf-token'];
-			// 		console.log(oToken);
-
-			// 	}, this),
-			// 	error: function (err) {
-			// 		console.log(err);
-			// 	}
-			// });
+		
 
 			oClaimModel.create("/zc_headSet", obj, {
 				success: $.proxy(function () {
-					console.log("success");
+					MessageToast.show("Claim has been saved successfully");
 
 				}, this),
 				error: function (err) {

@@ -1,96 +1,106 @@
 <core:FragmentDefinition xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:u="sap.ui.unified" xmlns:l="sap.ui.layout"
 	xmlns="sap.m" xmlns:table="sap.ui.table">
 	<VBox class="sapUiSmallMargin">
-		<f:SimpleForm editable="true" layout="ResponsiveGridLayout" title="Claim Details" labelSpanXL="6" labelSpanL="6" labelSpanM="12"
-			labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="6" columnsL="6" columnsM="4"
-			singleContainerFullSize="false">
-			<f:content>
-				<core:Title text=""/>
-				<Label text="TCI Claim #"/>
-				<Text text="999999999"/>
-				<Label text="VIN"/>
-				<Text text=""/>
-				<core:Title text=""/>
-				<Label text="Dlr. Claim #"/>
-				<Text text="999999999"/>
-				<Label text="OFP"/>
-				<Text text=""/>
-				<core:Title text=""/>
-				<Label text="RO #."/>
-				<Text text="999999999"/>
-				<Label text="Op #."/>
-				<Text text=""/>
-				<core:Title text=""/>
-				<Label text="Repair Date"/>
-				<Text text="999999999"/>
-				<Label text="Reg. Date"/>
-				<Text text=""/>
-				<core:Title text=""/>
-				<Label text="Odometer"/>
-				<Text text="999999999"/>
-				<Label text="Elapse"/>
-				<Text text=""/>
-				<core:Title text=""/>
-				<Label text="Type"/>
-				<Text text="999999999"/>
-				<Label text="Status"/>
-				<Text text=""/>
-			</f:content>
-		</f:SimpleForm>
+		<Panel width="100%" class="sapUiSmallMarginBottom">
+			<headerToolbar>
+				<Toolbar height="3rem">
+					<Title text="{i18n>ClaimDetails}"/>
+					<ToolbarSpacer/>
+					<Title text="TCI Claim or Authorization Number: {LocalDataModel>/ClaimDetails/NumberOfWarrantyClaim}" textAlign="End"/>
+				</Toolbar>
+			</headerToolbar>
+			<f:SimpleForm editable="true" layout="ResponsiveGridLayout" title="" labelSpanXL="6" labelSpanL="6" labelSpanM="12" labelSpanS="12"
+				adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="6" columnsL="6" columnsM="4"
+				singleContainerFullSize="false">
+				<f:content>
+					<core:Title text=""/>
+					<Label text="TCI Claim #"/>
+					<Text text="{LocalDataModel>/ClaimDetails/NumberOfWarrantyClaim}"/>
+					<Label text="VIN"/>
+					<Text text="{LocalDataModel>/ClaimDetails/ExternalObjectNumber}"/>
+					<core:Title text=""/>
+					<Label text="Dlr. Claim #"/>
+					<Text text="{LocalDataModel>/ClaimDetails/ExternalNumberOfClaim}"/>
+					<Label text="OFP"/>
+					<Text text="{LocalDataModel>/ClaimDetails/OFP}"/>
+					<core:Title text=""/>
+					<Label text="RO #."/>
+					<Text text="{LocalDataModel>/ClaimDetails/RepairOrderNumberExternal}"/>
+					<Label text="Op #."/>
+					<Text text="{LocalDataModel>/ClaimDetails/MainOpsCode}"/>
+					<core:Title text=""/>
+					<Label text="Repair Date"/>
+					<Text text="{path:'LocalDataModel>/ClaimDetails/RepairDate'}"/>
+					<Label text="Reg. Date"/>
+					<Text text="{path:'LocalDataModel>/ClaimDetails/RegDate'}"/>
+					<core:Title text=""/>
+					<Label text="Odometer"/>
+					<Text text="{LocalDataModel>/ClaimDetails/OdometerReading}"/>
+					<Label text="Elapse"/>
+					<Text text="{LocalDataModel>/ClaimDetails/ElapsedMonths}"/>
+					<core:Title text=""/>
+					<Label text="Type"/>
+					<Text text="{LocalDataModel>/ClaimDetails/WarrantyClaimType}"/>
+					<Label text="Status"/>
+					<Text text="{LocalDataModel>/ClaimDetails/ProcessingStatusOfWarrantyClm}"/>
+				</f:content>
+			</f:SimpleForm>
+		</Panel>
 		<f:SimpleForm editable="true" class=" sapUiTinyMarginBottom" layout="ResponsiveGridLayout" title="" labelSpanXL="7" labelSpanL="7"
 			labelSpanM="12" labelSpanS="12" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="4" columnsL="4" columnsM="4">
 			<f:content>
 				<core:Title text=""/>
-				<Button text="Add Paint LIne" type="Emphasized" press="onPressSaveLabour">
+				<Button text="Add Paint LIne" type="Emphasized" press="onPressAddPaint">
 					<layoutData>
 						<l:GridData span="XL8 L8 "/>
 					</layoutData>
 				</Button>
 				<core:Title text=""/>
-				<Button text="Update Paint Line" press="onPressSaveLabour">
-						<layoutData>
+				<!--<Button text="Update Paint Line" press="onPressUpdatePaint">-->
+				<!--	<layoutData>-->
+				<!--		<l:GridData span="XL8 L8 "/>-->
+				<!--	</layoutData>-->
+				<!--</Button>-->
+				<core:Title text=""/>
+				<Button text="Delete Paint Line" type="Reject" press="onPressDeletePaint">
+					<layoutData>
 						<l:GridData span="XL8 L8 "/>
 					</layoutData>
 				</Button>
 				<core:Title text=""/>
-				<Button text="Delete Paint Line" type="Reject" press="onPressSaveLabour">
-						<layoutData>
-						<l:GridData span="XL8 L8 "/>
-					</layoutData>
-				</Button>
-				<core:Title text=""/>
-				<Button text="Save Claim" type="Emphasized" press="onPressSaveLabour">
-						<layoutData>
+				<Button text="Save Claim" type="Emphasized" press="onPressSavePaint" enabled="{DateModel>/paintLine}">
+					<layoutData>
 						<l:GridData span="XL8 L8 "/>
 					</layoutData>
 				</Button>
 			</f:content>
 		</f:SimpleForm>
-		<l:Grid containerQuery="true" defaultSpan="XL10 L10 M12 S12">
+		<l:Grid containerQuery="true" defaultSpan="XL11 L10 M12 S12">
 			<VBox class="clBgColor" wrap="Wrap" displayInline="true" alignContent="Center">
-				<f:SimpleForm editable="true" width="90%" class="sapUiResponsiveMargin" layout="ResponsiveGridLayout" title="" labelSpanXL="12" labelSpanL="12"
-					labelSpanM="12" labelSpanS="12" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="4" columnsL="4" columnsM="4">
+				<f:SimpleForm editable="true" width="100%" class="sapUiResponsiveMargin ClsubHeadingLineHeight" layout="ResponsiveGridLayout" title=""
+					labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="4"
+					columnsL="4" columnsM="4">
 					<f:content>
 						<core:Title text=""/>
 						<Label text="Line #*" textAlign="Left"/>
 						<Text text=""/>
 						<core:Title text=""/>
 						<Label text="Position Code" textAlign="Left"/>
-						<Select forceSelection="false" required="true">
-							<items>
-							<core:Item key="P5210 - Front Bumper" text="P5210 - Front Bumper"/>
-							</items>
-						</Select>
+						<ComboBox required="true" items="{path:'LocalDataModel>/paintSetData'}" change="onSelectPositionCode"
+							selectedKey="{PaintDataModel>/PaintPositionCode}" enabled="{DateModel>/paintLine}">
+							<core:Item text="{path:'LocalDataModel>PaintPositionCode', formatter: 'zclaimProcessing.utils.formatter.fnFormatPositionCode'} - {LocalDataModel>PaintPositionDescription}"
+								key="{LocalDataModel>PaintPositionCode}"/>
+						</ComboBox>
 						<core:Title text=""/>
 						<Label text=" " class="clTextIndent"/>
-						<Button text="Save Paint" type="Emphasized" press="onPressSaveLabour">
+						<Button text="Save Paint" type="Emphasized" press="onPressSavePaint" enabled="{DateModel>/paintLine}">
 							<!--<layoutData>-->
 							<!--	<l:GridData span="XL10 L10 "/>-->
 							<!--</layoutData>-->
 						</Button>
 						<core:Title text=""/>
 						<Label text=" " class="clTextIndent"/>
-						<Button text="Cancel" type="Transparent" press="onPressSaveLabour">
+						<Button text="Cancel" type="Transparent" press="onPressSavePaint" >
 							<!--<layoutData>-->
 							<!--	<l:GridData span="XL9 L9 "/>-->
 							<!--</layoutData>-->
@@ -99,8 +109,8 @@
 				</f:SimpleForm>
 			</VBox>
 		</l:Grid>
-		<table:Table class="classRCPTable" selectionMode="Single" rows="" visibleRowCountMode="Auto" rowSelectionChange="onNavigate"
-			selectionBehavior="Row" showNoData="true" threshold="20" enableBusyIndicator="true">
+		<table:Table id="idPaintTable" class="classRCPTable" selectionMode="MultiToggle" rows="{LocalDataModel>/PaintPricingDataModel}"  
+			 showNoData="true" threshold="10" enableBusyIndicator="true" visibleRowCount="10">
 			<table:columns autoResizable="true">
 				<table:Column width="17rem">
 					<table:multiLabels>
@@ -115,15 +125,14 @@
 						<Label text="Position Code" textAlign="Center" width="100%"/>
 					</table:multiLabels>
 					<table:template>
-						<Text text="" wrapping="false"/>
+						<Text text="{LocalDataModel>matnr}" wrapping="false"/>
 					</table:template>
 				</table:Column>
-				
 			</table:columns>
 		</table:Table>
 		<HBox alignContent="Center" justifyContent="Center" class="sapUiTinyMarginTop">
-			<Button class="sapUiTinyMarginBeginEnd" type="Back" press="onPressBack" text="{i18n>Back}"/>
-			<Button class="sapUiTinyMarginBeginEnd" press="onStep04Next" text="{i18n>Next}" type="Emphasized"/>
+			<Button class="sapUiTinyMarginBeginEnd" type="Back" press="onStep05Back" text="{i18n>Back}"/>
+			<Button class="sapUiTinyMarginBeginEnd" press="onStep05Next" text="{i18n>Next}" type="Emphasized"/>
 		</HBox>
 	</VBox>
 </core:FragmentDefinition>

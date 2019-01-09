@@ -1,0 +1,12 @@
+<core:FragmentDefinition  xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:u="sap.ui.unified" xmlns:l="sap.ui.layout"
+	xmlns="sap.m" xmlns:table="sap.ui.table">
+	<Dialog class="sapUiSizeCompact" title="Foreign VIN Notification" stretch="true">
+		<content>
+			<VBox>
+				<Text text="- Foreign VIN must have Odometer Readings entered in Miles. Do not Covert to KMs."/>
+				<Text text="- Ensure you have checked TIS for outstanding Field Actions and Salvage Status."/>
+				<Button text="Ok"/>
+			</VBox>
+		</content>
+		</Dialog>
+</core:FragmentDefinition>

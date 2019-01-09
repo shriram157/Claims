@@ -29,6 +29,14 @@
 					"odataVersion": "2.0",
 					"localUri": "localService/API_BUSINESS_PARTNER/metadata.xml"
 				}
+			},
+			"MD_PRODUCT_FS_SRV": {
+				"uri": "/node/MD_PRODUCT_FS_SRV/",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "2.0",
+					"localUri": "localService/MD_PRODUCT_FS_SRV/metadata.xml"
+				}
 			}
 		}
 	},
@@ -138,7 +146,7 @@
 				},
 				{
 					"name": "MainClaimSection",
-					"pattern": "MainClaim",
+					"pattern": "MainClaim/{claimNum}",
 					"target": [
 						"MainClaimSection"
 					]
@@ -164,8 +172,6 @@
 						"ClaimInquiry"
 					]
 				}
-				
-				
 			],
 			"targets": {
 				"SearchClaim": {
@@ -209,6 +215,10 @@
 				"ClaimInquiry": {
 					"viewType": "XML",
 					"viewName": "ClaimInquiry"
+				},
+				"ClaimInquiryDetails": {
+					"viewType": "XML",
+					"viewName": "ClaimInquiryDetails"
 				}
 			}
 		}

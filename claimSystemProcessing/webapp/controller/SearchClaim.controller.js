@@ -281,7 +281,7 @@ sap.ui.define([
 
 			}
 			var oTable = this.getView().byId("idClaimTable");
-			var oBindItems = oTable.getBinding("items");
+			var oBindItems = oTable.getBinding("rows");
 			oBindItems.filter(andFilter);
 
 		},
@@ -290,7 +290,7 @@ sap.ui.define([
 
 			var andFilter = [];
 			var oTable = this.getView().byId("idClaimTable");
-			var oBindItems = oTable.getBinding("items");
+			var oBindItems = oTable.getBinding("rows");
 			oBindItems.filter(andFilter);
 			this.getView().byId("idSearchText").setValue("");
 			this.getView().byId("idClaimGroup").setSelectedKey("");
@@ -299,7 +299,7 @@ sap.ui.define([
 		},
 		onPressClaim: function (oEvent) {
 			var oClaimNum = oEvent.getSource().getText();
-			this.getOwnerComponent().getRouter().navTo("PartsMainSection", {
+			this.getOwnerComponent().getRouter().navTo("MainClaimSection", {
 				claimNum : oClaimNum
 			});
 		},

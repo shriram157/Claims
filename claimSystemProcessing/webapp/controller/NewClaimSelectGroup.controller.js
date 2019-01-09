@@ -11,6 +11,32 @@ sap.ui.define([
 		 * @memberOf zclaimProcessing.view.NewClaimSelectGroup
 		 */
 		onInit: function () {
+			var oProssingModel = this.getModel("ProssingModel");
+			var oClaimGroup = [];
+			var oClaimGroupJson = [];
+			oProssingModel.read("/ZC_CLAIM_GROUP", {
+				success: $.proxy(function (data) {
+					var odata = data.results;
+					for (var i = 0; i < odata.length; i++) {
+						if (oClaimGroup.indexOf(odata[i].ClaimGroupDes) < 0 && !$.isEmptyObject(odata[i].ClaimGroupDes)) {
+							oClaimGroup.push(
+								odata[i].ClaimGroupDes
+							);
+						}
+						
+					}
+
+					for (var j = 0; j < oClaimGroup.length; j++) {
+						oClaimGroupJson.push({
+							ClaimGroupDes: oClaimGroup[j]
+						});
+					}
+					this.getOwnerComponent().getModel("LocalDataModel").setProperty("/ClaimGroupData", oClaimGroupJson);
+				
+
+				}, this),
+				error : function(){}
+			});
 
 		},
 
@@ -18,12 +44,12 @@ sap.ui.define([
 			//var oSelectedIndex = this.getView().byId("idRequestType").getSelectedIndex();
 			var oSelectedKey = this.getView().byId("idClaimType").getSelectedKey();
 			var oClaimNum = "nun";
-			if (oSelectedKey === "Warrenty") {
-				console.log("Enter");
+			if (oSelectedKey === "WARRANTY") {
+				
 				this.getRouter().navTo("MainClaimSection", {
 					claimNum : oClaimNum
 				});
-			} else if (oSelectedKey === "Parts") {
+			} else if (oSelectedKey === "PART WAREHOUSE") {
 				this.getRouter().navTo("PartsMainSection", {
 					claimNum : oClaimNum
 				});

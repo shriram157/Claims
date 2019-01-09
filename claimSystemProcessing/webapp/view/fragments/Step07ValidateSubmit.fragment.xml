@@ -142,7 +142,7 @@
 			</f:content>
 		</f:SimpleForm>
 		<HBox alignContent="Center" justifyContent="Center" class="sapUiTinyMarginTop">
-			<Button class="sapUiTinyMarginBeginEnd" type="Back" press="onPressBack" text="{i18n>Back}"/>
+			<Button class="sapUiTinyMarginBeginEnd" type="Back" press="onStep07Back" text="{i18n>Back}"/>
 			<Button class="sapUiTinyMarginBeginEnd" press="onRevalidate" text="{i18n>SaveClaim}"/>
 			<Button class="sapUiTinyMarginBeginEnd" press="onSubmitTci" text="{i18n>SubmitToTCI}" type="Emphasized"/>
 		</HBox>

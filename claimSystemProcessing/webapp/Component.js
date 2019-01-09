@@ -56,15 +56,23 @@ sap.ui.define([
 
 			var oDataModel01 = new ODataModel(mConfig01.uri, {
 				useBatch: false,
-<<<<<<< HEAD
-				// disableHeadRequestForToken: true,
-=======
-			//	disableHeadRequestForToken: true,
->>>>>>> refs/remotes/origin/XSJS_Requirements
-				defaultUpdateMethod: 'PATCH',
 				json: true
 			});
 			this.setModel(oDataModel01, "ApiBusinessModel");
+			
+			var mConfig02 = this.getMetadata().getManifestEntry("/sap.app/dataSources/MD_PRODUCT_FS_SRV");
+			if (sLocation_conf == 0) {
+				mConfig02.uri = "/Claim_Destination" + mConfig02.uri;
+			} else {
+		
+
+			} // facilitate local testing.
+
+			var oDataModel02 = new ODataModel(mConfig02.uri, {
+				useBatch: false,
+				json: true
+			});
+			this.setModel(oDataModel02, "ProductMaster");
 		}
 	});
 });

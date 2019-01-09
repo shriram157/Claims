@@ -14,12 +14,16 @@
 				<f:content>
 					<core:Title text=""/>
 					<Label text="Claim Type"/>
-					<Select items="{path:'/ZC_CLAIM_GROUP', filters : [{path:'ClaimGroupDes', operator:'EQ', value1 : 'PART WAREHOUSE' }]}"
-						change="onSelectClaim" selectedKey="{HeadSetData>/WarrantyClaimType}">
-						<items>
-							<core:Item text="{ALMClaimTypeDes}" key="{ALMClaimType}"/>
-						</items>
-					</Select>
+					<!--<Select items="{path:'/ZC_CLAIM_GROUP', filters : [{path:'ClaimGroupDes', operator:'EQ', value1 : 'PART WAREHOUSE' }]}"-->
+					<!--	change="onSelectClaim" selectedKey="{HeadSetData>/WarrantyClaimType}">-->
+					<!--	<items>-->
+					<!--		<core:Item text="{ALMClaimTypeDes}" key="{ALMClaimType}"/>-->
+					<!--	</items>-->
+					<!--</Select>-->
+					<ComboBox
+			 items="{path:'/ZC_CLAIM_GROUP', filters : [{path:'ClaimGroupDes', operator:'EQ', value1 : 'PART WAREHOUSE' }]}" change="onSelectClaim" selectedKey="{HeadSetData>/WarrantyClaimType}">
+				<core:Item text="{ALMClaimTypeDes}" key="{ALMClaimType}"/>
+			</ComboBox>
 					<core:Title text=""/>
 					<Label text="First Submission Date"/>
 					<Text text="{ path: 'HeadSetData>/ReferenceDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium' } }"/>

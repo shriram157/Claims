@@ -16,7 +16,7 @@
 									<f:content>
 										<core:Title text=""/>
 										<Label text="{i18n>VIN}" textAlign="Begin"/>
-										<Input value=""/>
+										<Input value="" id="idVin"/>
 										<core:Title text=""/>
 										<Label text="{i18n>ClaimSubDate}" textAlign="Begin"/>
 										<DateRangeSelection id="DRS2" dateValue="{path:'DateModel>/dateValueDRS2'}" secondDateValue="{path:'DateModel>/secondDateValueDRS2'}"
@@ -35,8 +35,8 @@
 					<uxap:ObjectPageSubSection title="">
 						<uxap:blocks>
 							<VBox>
-								<table:Table id="idActiveAgreement" class="classRCPTable" selectionMode="Single" rows="{ path: '/ZC_CLAIM_HEAD'}" visibleRowCountMode="Auto"
-									rowSelectionChange="onNavigate" selectionBehavior="Row" showNoData="true" threshold="20" enableBusyIndicator="true">
+								<table:Table id="idClaimInquiryTable" class="classRCPTable" selectionMode="Single" rows="{ path: '/ZC_CLAIM_HEAD'}" visibleRowCountMode="Auto"
+									rowSelectionChange="onNavigate" selectionBehavior="Row" showNoData="true" threshold="50" enableBusyIndicator="true">
 									<!--<table:toolbar>-->
 									<!--	<Toolbar>-->
 									<!--		<Title text="" level="H2"/>-->
@@ -48,7 +48,7 @@
 												<Label text="{i18n>DealerClaim}" textAlign="Center" width="100%"/>
 											</table:multiLabels>
 											<table:template>
-												<Text text="{ExternalNumberOfClaim}" wrapping="false"/>
+												<Link text="{ExternalNumberOfClaim}" wrapping="false" press="onPressClaimInquiryDetails"/>
 											</table:template>
 										</table:Column>
 										<table:Column width="11rem">

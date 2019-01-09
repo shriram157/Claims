@@ -1,41 +1,52 @@
 <core:FragmentDefinition xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:l="sap.ui.layout" xmlns="sap.m" xmlns:table="sap.ui.table">
 	<VBox class="sapUiSmallMargin">
-		<f:SimpleForm editable="true" layout="ResponsiveGridLayout" title="Claim Details" labelSpanXL="6" labelSpanL="6" labelSpanM="12"
-			labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="6" columnsL="6" columnsM="4"
-			singleContainerFullSize="false">
-			<f:content>
-				<core:Title text=""/>
-				<Label text="TCI Claim #"/>
-				<Text text="999999999"/>
-				<Label text="VIN"/>
-				<Text text=""/>
-				<core:Title text=""/>
-				<Label text="Dlr. Claim #"/>
-				<Text text="999999999"/>
-				<Label text="OFP"/>
-				<Text text=""/>
-				<core:Title text=""/>
-				<Label text="RO #."/>
-				<Text text="999999999"/>
-				<Label text="Op #."/>
-				<Text text=""/>
-				<core:Title text=""/>
-				<Label text="Repair Date"/>
-				<Text text="999999999"/>
-				<Label text="Reg. Date"/>
-				<Text text=""/>
-				<core:Title text=""/>
-				<Label text="Odometer"/>
-				<Text text="999999999"/>
-				<Label text="Elapse"/>
-				<Text text=""/>
-				<core:Title text=""/>
-				<Label text="Type"/>
-				<Text text="999999999"/>
-				<Label text="Status"/>
-				<Text text=""/>
-			</f:content>
-		</f:SimpleForm>
+		<Panel width="100%" class="sapUiSmallMarginBottom">
+			<headerToolbar>
+				<Toolbar height="3rem">
+					<Title text="{i18n>ClaimDetails}"/>
+					<ToolbarSpacer/>
+					<Title text="TCI Claim or Authorization Number: {LocalDataModel>/ClaimDetails/NumberOfWarrantyClaim}" textAlign="End"/>
+				</Toolbar>
+			</headerToolbar>
+			<f:SimpleForm editable="true" layout="ResponsiveGridLayout" title="" labelSpanXL="6" labelSpanL="6" labelSpanM="12" labelSpanS="12"
+				adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="6" columnsL="6" columnsM="4"
+				singleContainerFullSize="false">
+				<f:content>
+					<core:Title text=""/>
+					<Label text="TCI Claim #"/>
+					<Text text="{LocalDataModel>/ClaimDetails/NumberOfWarrantyClaim}"/>
+					<Label text="VIN"/>
+					<Text text="{LocalDataModel>/ClaimDetails/ExternalObjectNumber}"/>
+					<core:Title text=""/>
+					<Label text="Dlr. Claim #"/>
+					<Text text="{LocalDataModel>/ClaimDetails/ExternalNumberOfClaim}"/>
+					<Label text="OFP"/>
+					<Text text="{LocalDataModel>/ClaimDetails/OFP}"/>
+					<core:Title text=""/>
+					<Label text="RO #."/>
+					<Text text="{LocalDataModel>/ClaimDetails/RepairOrderNumberExternal}"/>
+					<Label text="Op #."/>
+					<Text text="{LocalDataModel>/ClaimDetails/MainOpsCode}"/>
+					<core:Title text=""/>
+					<Label text="Repair Date"/>
+					<Text
+						text="{path:'LocalDataModel>/ClaimDetails/RepairDate'}"/>
+					<Label text="Reg. Date"/>
+					<Text
+						text="{path:'LocalDataModel>/ClaimDetails/RegDate'}"/>
+					<core:Title text=""/>
+					<Label text="Odometer"/>
+					<Text text="{LocalDataModel>/ClaimDetails/OdometerReading}"/>
+					<Label text="Elapse"/>
+					<Text text="{LocalDataModel>/ClaimDetails/ElapsedMonths}"/>
+					<core:Title text=""/>
+					<Label text="Type"/>
+					<Text text="{LocalDataModel>/ClaimDetails/WarrantyClaimType}"/>
+					<Label text="Status"/>
+					<Text text="{LocalDataModel>/ClaimDetails/ProcessingStatusOfWarrantyClm}"/>
+				</f:content>
+			</f:SimpleForm>
+		</Panel>
 		<f:SimpleForm id="idAuthorizationForm" editable="true" layout="ResponsiveGridLayout" title="Authorization Details" labelSpanXL="6"
 			labelSpanL="6" labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
 			columnsXL="3" columnsL="3" columnsM="2" singleContainerFullSize="false">
@@ -48,12 +59,12 @@
 				<core:Title text=""/>
 				<Label text="Territory Code"/>
 				<Text text="xxxxx"/>
-				<Label text="Authorization Date:"/>
+				<Label text="Authorization Date"/>
 				<Text text="{ path: 'DateModel>/dateValueDRS2', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium' } }"/>
 				<core:Title text=""/>
-				<Label text="Dealer Authorization Level:"/>
+				<Label text="Dealer Authorization Level"/>
 				<Text text="xxxxx"/>
-				<Label text="Claim Submission Type:"/>
+				<Label text="Claim Submission Type"/>
 				<Text text="xxxxx"/>
 				<Button text="Save Claim" press="onPressSave" type="Emphasized"/>
 			</f:content>
@@ -216,7 +227,7 @@
 	<VBox justifyContent="Center" alignContent="Center" alignItems="Center" class="sapUiLargeMarginBottom">
 		<Text class="sapUiSmallMarginBottom" text="What is the source of this info. Authorization that was converted to Calim?"/>
 		<HBox>
-			<Button text="Back" class="sapUiTinyMarginEnd" type="Back" press="onPressBack"/>
+			<Button text="Back" class="sapUiTinyMarginEnd" type="Back" press="onStep02Back"/>
 			<Button text="Next" type="Emphasized" press="onStep02Next"/>
 		</HBox>
 	</VBox>

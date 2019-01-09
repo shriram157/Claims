@@ -1,122 +1,134 @@
 <core:FragmentDefinition xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:u="sap.ui.unified" xmlns:l="sap.ui.layout"
 	xmlns="sap.m" xmlns:table="sap.ui.table">
-	<VBox class="sapUiSmallMargin" >
-		<f:SimpleForm editable="true" layout="ResponsiveGridLayout" title="Claim Details" labelSpanXL="6" labelSpanL="6" labelSpanM="12"
-			labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="6" columnsL="6" columnsM="4"
-			singleContainerFullSize="false">
-			<f:content>
-				<core:Title text=""/>
-				<Label text="TCI Claim #"/>
-				<Text text="999999999"/>
-				<Label text="VIN"/>
-				<Text text=""/>
-				<core:Title text=""/>
-				<Label text="Dlr. Claim #"/>
-				<Text text="999999999"/>
-				<Label text="OFP"/>
-				<Text text=""/>
-				<core:Title text=""/>
-				<Label text="RO #."/>
-				<Text text="999999999"/>
-				<Label text="Op #."/>
-				<Text text=""/>
-				<core:Title text=""/>
-				<Label text="Repair Date"/>
-				<Text text="999999999"/>
-				<Label text="Reg. Date"/>
-				<Text text=""/>
-				<core:Title text=""/>
-				<Label text="Odometer"/>
-				<Text text="999999999"/>
-				<Label text="Elapse"/>
-				<Text text=""/>
-				<core:Title text=""/>
-				<Label text="Type"/>
-				<Text text="999999999"/>
-				<Label text="Status"/>
-				<Text text=""/>
-			</f:content>
-		</f:SimpleForm>
+	<VBox class="sapUiSmallMargin">
+		<Panel width="100%" class="sapUiSmallMarginBottom">
+			<headerToolbar>
+				<Toolbar height="3rem">
+					<Title text="{i18n>ClaimDetails}"/>
+					<ToolbarSpacer/>
+					<Title text="TCI Claim or Authorization Number: {LocalDataModel>/ClaimDetails/NumberOfWarrantyClaim}" textAlign="End"/>
+				</Toolbar>
+			</headerToolbar>
+			<f:SimpleForm editable="true" layout="ResponsiveGridLayout" title="" labelSpanXL="6" labelSpanL="6" labelSpanM="12" labelSpanS="12"
+				adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="6" columnsL="6" columnsM="4"
+				singleContainerFullSize="false">
+				<f:content>
+					<core:Title text=""/>
+					<Label text="TCI Claim #"/>
+					<Text text="{LocalDataModel>/ClaimDetails/NumberOfWarrantyClaim}"/>
+					<Label text="VIN"/>
+					<Text text="{LocalDataModel>/ClaimDetails/ExternalObjectNumber}"/>
+					<core:Title text=""/>
+					<Label text="Dlr. Claim #"/>
+					<Text text="{LocalDataModel>/ClaimDetails/ExternalNumberOfClaim}"/>
+					<Label text="OFP"/>
+					<Text text="" id="idOFPart"/>
+					<core:Title text="" />
+					<Label text="RO #."/>
+					<Text text="{LocalDataModel>/ClaimDetails/RepairOrderNumberExternal}"/>
+					<Label text="Op #."/>
+					<Text text="{LocalDataModel>/ClaimDetails/MainOpsCode}"/>
+					<core:Title text=""/>
+					<Label text="Repair Date"/>
+					<Text text="{path:'LocalDataModel>/ClaimDetails/RepairDate'}"/>
+					<Label text="Reg. Date"/>
+					<Text text="{path:'LocalDataModel>/ClaimDetails/RegDate'}"/>
+					<core:Title text=""/>
+					<Label text="Odometer"/>
+					<Text text="{LocalDataModel>/ClaimDetails/OdometerReading}"/>
+					<Label text="Elapse"/>
+					<Text text="{LocalDataModel>/ClaimDetails/ElapsedMonths}"/>
+					<core:Title text=""/>
+					<Label text="Type"/>
+					<Text text="{LocalDataModel>/ClaimDetails/WarrantyClaimType}"/>
+					<Label text="Status"/>
+					<Text text="{LocalDataModel>/ClaimDetails/ProcessingStatusOfWarrantyClm}"/>
+				</f:content>
+			</f:SimpleForm>
+		</Panel>
 		<f:SimpleForm editable="true" class=" sapUiTinyMarginBottom" layout="ResponsiveGridLayout" title="" labelSpanXL="7" labelSpanL="7"
 			labelSpanM="12" labelSpanS="12" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="6" columnsL="6" columnsM="6">
 			<f:content>
 				<core:Title text=""/>
-				<Button text="Add Labour Line" type="Emphasized" press="onPressSaveLabour"/>
+				<Button text="Add Part Line" press="onPressAddPart"/>
 				<core:Title text=""/>
-				<Button text="Update Labour Line"  press="onPressSaveLabour"/>
+				<Button text="Update Part Line" press="onPressUpdatePart"/>
 				<core:Title text=""/>
-				<Button text="Delete Labour Line" type="Reject" press="onPressSaveLabour"/>
+				<Button text="Delete Part Line" type="Reject" press="onPressDeletePart"/>
 				<core:Title text=""/>
-				<Button text="Suggested Operations"  press="onPressSaveLabour"/>
+				<Button text="Generate Packing Slip" press="onPressSuggestPart"/>
 				<core:Title text=""/>
 				<Label text="Parts Mark-up"/>
 				<Text text="35%"/>
 				<core:Title text=""/>
-				<Button text="Save Claim" type="Emphasized" press="onPressSaveLabour"/>
-				
+				<Button text="Save Claim" type="Emphasized" press="onPressSavePart" enabled="{DateModel>/partLine}"/>
 			</f:content>
 		</f:SimpleForm>
-		
-		<l:Grid containerQuery="true"  defaultSpan="XL10 L10 M10 S12">
-			<VBox class="clBgColor" wrap="Wrap" displayInline="true" alignContent="Center">
-			<f:SimpleForm editable="true" class="sapUiResponsiveMargin" width="90%" layout="ResponsiveGridLayout" title="" labelSpanXL="12"
-					labelSpanL="12" labelSpanM="12" labelSpanS="12" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="6" columnsL="6"
-					columnsM="3" >
+		<!--<HBox justifyContent="End" width="100%">-->
+		<!--<Button text="Add Part Line" type="Emphasized" press="onPressAddLabour"/>-->
+		<!--	<Button text="Save Claim" type="Emphasized" press="onPressSaveClaimItem"/>-->
+		<!--</HBox>-->
+		<l:Grid containerQuery="true" defaultSpan="XL10 L10 M10 S12">
+			<VBox class="clBgColor" wrap="Wrap" displayInline="true" alignContent="Center" visible="true">
+				<f:SimpleForm editable="true" class="sapUiResponsiveMargin ClsubHeadingLineHeight" width="90%" layout="ResponsiveGridLayout" title=""
+					labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="6"
+					columnsL="6" columnsM="3">
 					<f:content>
 						<core:Title text=""/>
-						<Label text="Line #*" textAlign="Left"/>
+						<Label text="Line #" textAlign="Left"/>
 						<Text text=""/>
 						<core:Title text=""/>
-						<Label text="Part Number*" textAlign="Left"/>
-						<Input value=""/>
+						<Label text="Part Number" textAlign="Left"/>
+						<Input value="{PartDataModel>/matnr}" required="true" id="idPartNumber" showValueHelp="true" valueHelpOnly="true"
+							valueHelpRequest="handleValueHelp" enabled="{DateModel>/partLine}"/>
 						<core:Title text=""/>
 						<Label text="Part Description" textAlign="Left"/>
-						<Input value=""/>
+						<Input value="" editable="false" id="idPartDes"/>
 						<core:Title text=""/>
 						<Label text="Dealer Net Price" textAlign="Left"/>
-						<Input value=""/>
+						<Input value="" editable="false"/>
 						<core:Title text=""/>
 						<Label text="Quantity" textAlign="Left"/>
-						<Input value=""/>
+						<Input value="{PartDataModel>/quant}" enabled="{DateModel>/partLine}"/>
 						<core:Title text=""/>
-						<Label text=" " class="clTextIndent" />
-						<Button text="Save Part" type="Emphasized" press="onPressSaveLabour">
+						<Label text=" " class="clTextIndent"/>
+						<Button text="Save Part" type="Emphasized" press="onPressSavePart" enabled="{DateModel>/partLine}">
 							<layoutData>
-								<l:GridData span="XL8 L8 "/>
+								<l:GridData span="XL7 L7 "/>
 							</layoutData>
 						</Button>
 					</f:content>
 				</f:SimpleForm>
-				</VBox>
+			</VBox>
 		</l:Grid>
-		<table:Table class="classRCPTable" selectionMode="Single" rows="" visibleRowCountMode="Auto" rowSelectionChange="onNavigate"
-			selectionBehavior="Row" showNoData="true" threshold="20" enableBusyIndicator="true">
+		<table:Table class="classRCPTable" id="idTableParts" selectionMode="MultiToggle" rows="{LocalDataModel>/PricingDataModel}"
+		visibleRowCount="10"  showNoData="true" threshold="10" enableBusyIndicator="true">
 			<table:columns autoResizable="true">
-				<table:Column width="17rem">
+				<table:Column width="5rem">
 					<table:multiLabels>
 						<Label text="Line #" textAlign="Center" width="100%"/>
 					</table:multiLabels>
 					<table:template>
-						<Text text="" wrapping="false"/>
+						<Text text="{LocalDataModel>versn}" wrapping="false"/>
 					</table:template>
 				</table:Column>
-				<table:Column width="17rem">
+				<table:Column width="5rem">
 					<table:multiLabels>
 						<Label text="OFP" textAlign="Center" width="100%"/>
 					</table:multiLabels>
 					<table:template>
-						<Text text="" wrapping="false"/>
+						<RadioButton groupName="A"  id="idPartRadio" select="onSelectOFP"/>
 					</table:template>
 				</table:Column>
-				<table:Column width="17rem">
+				<table:Column width="10rem">
 					<table:multiLabels>
 						<Label text="Part Number" textAlign="Center" width="100%"/>
 					</table:multiLabels>
 					<table:template>
-						<Text text="" wrapping="false"/>
+						<Text text="{LocalDataModel>matnr}" wrapping="false"/>
 					</table:template>
 				</table:Column>
-				<table:Column width="17rem">
+				<table:Column width="11rem">
 					<table:multiLabels>
 						<Label text="Description" textAlign="Center" width="100%"/>
 					</table:multiLabels>
@@ -124,83 +136,144 @@
 						<Text text="" wrapping="false"/>
 					</table:template>
 				</table:Column>
-				<table:Column width="17rem">
+				<table:Column width="9rem">
 					<table:multiLabels>
-						<Label text="Dealer Net  Price" textAlign="Center" width="100%"/>
+						<Label text="Dealer Net Price" textAlign="Center" width="100%"/>
 					</table:multiLabels>
 					<table:template>
-						<Text text="" wrapping="false"/>
+						<Text text="{LocalDataModel>DealerNet}" wrapping="false"/>
 					</table:template>
 				</table:Column>
-				<table:Column width="17rem">
+				<table:Column width="9rem">
 					<table:multiLabels>
 						<Label text="Quantity" textAlign="Center" width="100%"/>
 					</table:multiLabels>
 					<table:template>
-						<Text text="" wrapping="false"/>
+						<Text text="{LocalDataModel>PartQty}" wrapping="false"/>
 					</table:template>
 				</table:Column>
-				<table:Column width="17rem">
+				<table:Column width="9rem">
 					<table:multiLabels>
 						<Label text="Extended Value" textAlign="Center" width="100%"/>
 					</table:multiLabels>
 					<table:template>
-						<Text text="" wrapping="false"/>
+						<Text text="{LocalDataModel>ExtendedValue}" wrapping="false"/>
 					</table:template>
 				</table:Column>
-				<table:Column width="17rem">
+				<table:Column width="9rem">
 					<table:multiLabels>
 						<Label text="Mark-up Amount" textAlign="Center" width="100%"/>
 					</table:multiLabels>
 					<table:template>
-						<Text text="" wrapping="false"/>
+						<Text text="{LocalDataModel>MarkUp}" wrapping="false"/>
 					</table:template>
 				</table:Column>
-				<table:Column width="17rem">
+				<table:Column width="9rem">
 					<table:multiLabels>
 						<Label text="Amount Claimed" textAlign="Center" width="100%"/>
 					</table:multiLabels>
 					<table:template>
-						<Text text="" wrapping="false"/>
+						<Text text="{LocalDataModel>AmtClaimed}" wrapping="false"/>
 					</table:template>
 				</table:Column>
-				<table:Column width="17rem">
+				<table:Column width="9rem">
 					<table:multiLabels>
 						<Label text="Total After Discount" textAlign="Center" width="100%"/>
 					</table:multiLabels>
 					<table:template>
-						<Text text="" wrapping="false"/>
+						<Text text="{LocalDataModel>TotalAfterDisct}" wrapping="false"/>
 					</table:template>
 				</table:Column>
-				<table:Column width="17rem">
+				<table:Column width="10rem">
 					<table:multiLabels>
 						<Label text="TCI Quantity Approved" textAlign="Center" width="100%"/>
 					</table:multiLabels>
 					<table:template>
-						<Text text="" wrapping="false"/>
+						<Text text="{LocalDataModel>TCIApprQty}" wrapping="false"/>
 					</table:template>
 				</table:Column>
-					<table:Column width="17rem">
+				<table:Column width="9rem">
 					<table:multiLabels>
 						<Label text="TCI Amount Approved" textAlign="Center" width="100%"/>
 					</table:multiLabels>
 					<table:template>
-						<Text text="" wrapping="false"/>
+						<Text text="{LocalDataModel>TCIApprAmt}" wrapping="false"/>
 					</table:template>
 				</table:Column>
-					<table:Column width="17rem">
+				<table:Column width="9rem">
 					<table:multiLabels>
 						<Label text="Difference" textAlign="Center" width="100%"/>
 					</table:multiLabels>
 					<table:template>
-						<Text text="" wrapping="false"/>
+						<Text text="{LocalDataModel>DiffAmt}" wrapping="false"/>
+					</table:template>
+				</table:Column>
+			</table:columns>
+		</table:Table>
+		<table:Table class="classRCPTable sapUiSmallMarginTop" id="idTablePartsTotal" selectionMode="None" rows="{LocalDataModel>/PricingDataModel}" showNoData="true"
+			threshold="1" enableBusyIndicator="true" visibleRowCount="1">
+			<table:columns autoResizable="true">
+				<table:Column width="8rem">
+					<table:multiLabels>
+					</table:multiLabels>
+					<table:template>
+						<Text text="Sub-total" wrapping="false"/>
+					</table:template>
+				</table:Column>
+				<table:Column width="10rem">
+					<table:multiLabels>
+						<Label text="Total Extended Values" textAlign="Center" width="100%"/>
+					</table:multiLabels>
+					<table:template>
+						<Text text="{LocalDataModel>ExtendedTotal}" wrapping="false"/>
+					</table:template>
+				</table:Column>
+				<table:Column width="10rem">
+					<table:multiLabels>
+						<Label text="Total Mark-Up Amount" textAlign="Center" width="100%"/>
+					</table:multiLabels>
+					<table:template>
+						<Text text="{LocalDataModel>MarkupTotal}" wrapping="false"/>
+					</table:template>
+				</table:Column>
+				<table:Column width="10rem">
+					<table:multiLabels>
+						<Label text="Total Amount Claimed" textAlign="Center" width="100%"/>
+					</table:multiLabels>
+					<table:template>
+						<Text text="{LocalDataModel>AmtClaimed}" wrapping="false"/>
+					</table:template>
+				</table:Column>
+				<table:Column width="12rem">
+					<table:multiLabels>
+						<Label text="Grand Total After Discount" textAlign="Center" width="100%"/>
+					</table:multiLabels>
+					<table:template>
+						<Text text="{LocalDataModel>GrandTotalAfterDiscount}" wrapping="false"/>
+					</table:template>
+				</table:Column>
+				
+				<table:Column width="11rem">
+					<table:multiLabels>
+						<Label text="TCI Approved Amount Total" textAlign="Center" width="100%"/>
+					</table:multiLabels>
+					<table:template>
+						<Text text="{LocalDataModel>TCIApprovedAmtTotal}" wrapping="false"/>
+					</table:template>
+				</table:Column>
+				<table:Column width="9rem">
+					<table:multiLabels>
+						<Label text="Difference Total" textAlign="Center" width="100%"/>
+					</table:multiLabels>
+					<table:template>
+						<Text text="{LocalDataModel>DifferenceTotal}" wrapping="false"/>
 					</table:template>
 				</table:Column>
 			</table:columns>
 		</table:Table>
 		<HBox alignContent="Center" justifyContent="Center" class="sapUiTinyMarginTop">
-			<Button class="sapUiTinyMarginBeginEnd" type="Back" press="onPressBack" text="{i18n>Back}"/>
-			<Button class="sapUiTinyMarginBeginEnd" press="onStep04Next" text="{i18n>Next}" type="Emphasized"/>
+			<Button class="sapUiTinyMarginBeginEnd" type="Back" press="onStep03Back" text="{i18n>Back}"/>
+			<Button class="sapUiTinyMarginBeginEnd" press="onStep03Next" text="{i18n>Next}" type="Emphasized"/>
 		</HBox>
 	</VBox>
 </core:FragmentDefinition>
