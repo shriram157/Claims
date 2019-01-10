@@ -1,41 +1,40 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
-<TableSelectDialog
-		noDataText="No Products Found"
-		title="Select Product"
-		search="handleSearch"
-		confirm="handleClose"
-		cancel="handleClose"
-		items="{
-			path : '/ProductCollection',
-			sorter : {
-				path : 'Name',
-				descending : false
-			}
-		}">
+	<Dialog title="Suggested Operations for OFP : ">
+		<content>
+			<Table  mode="SingleSelectLeft" selectionChange="onSelectOperation" items="{ path : 'LocalDataModel>/SuggetionOperationListFiltered' }">
+				<columns>
+					<Column width="12em">
+						<header>
+							<Text text="Operation Number"/>
+						</header>
+					</Column>
+					<Column width="12em">
+						<header>
+							<Text text="Operation Description"/>
+						</header>
+					</Column>
+					<Column width="12em">
+						<header>
+							<Text text="Labour Hours"/>
+						</header>
+					</Column>
+				</columns>
+				<ColumnListItem>
+					<cells>
+						<Text text="{LocalDataModel>J_3GKATNRC}"/>
+						<Text text="{LocalDataModel>LTEXT}"/>
+						<Text text="{LocalDataModel>TIME}"/>
+					</cells>
+				</ColumnListItem>
+			</Table>
+			<HBox justifyContent="End" class="clOpFooter sapUiSmallMarginTop">
+			<Button  text="Add Selected Operation to Claim" enabled="{DateModel>/SuggestBtn}" type="Emphasized" press="handleConfirmLabour"/>
+			<Button class="sapUiSmallMarginBeginEnd" type="Reject" text="Close" press="onCloseLabour"/>
+			</HBox>
+		</content>
 		
-		<columns>
-			<Column width="12em">
-				<header>
-					<Text text="Operation Number" />
-				</header>
-			</Column>
-			<Column width="12em">
-				<header>
-					<Text text="Operation Description" />
-				</header>
-			</Column>
-			<Column width="12em">
-				<header>
-					<Text text="Labour Hours" />
-				</header>
-			</Column>
-		</columns>
-		<ColumnListItem>
-			<cells>
-				<Text text="{SupplierName}" />
-				<Text text="{SupplierName}" />
-				<Text text="{SupplierName}" />
-			</cells>
-		</ColumnListItem>
-	</TableSelectDialog>
+		
+			
+	
+	</Dialog>
 </core:FragmentDefinition>

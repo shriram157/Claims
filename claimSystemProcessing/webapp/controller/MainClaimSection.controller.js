@@ -34,7 +34,8 @@ sap.ui.define([
 				partLine: false,
 				labourLine: false,
 				paintLine: false,
-				subletLine: false
+				subletLine: false,
+				SuggestBtn : false
 			});
 			this.getView().setModel(oDateModel, "DateModel");
 			var oNodeModel = new sap.ui.model.json.JSONModel();
@@ -450,7 +451,7 @@ sap.ui.define([
 			/****************To Fetch CSRF Token*******************/
 
 		},
-			getCurrentFolderPath: function () {
+		getCurrentFolderPath: function () {
 			var aHistory = this.getView().getModel("ClaimModel").getProperty("/history");
 			// get the current folder path
 			var sPath = aHistory.length > 0 ? aHistory[aHistory.length - 1].path : "/";
@@ -462,21 +463,21 @@ sap.ui.define([
 			// var fileType = this.oUploadedFile.type;
 			// var oFile = oClaimModel.read("zc_attachSet(NumberOfWarrantyClaim='"+oClaimNum+"',FileName='"+fileType+"')/$value");
 			// this.getModel("LocalDataModel").setProperty("/oAttachmentSet", oFile);
-			
+
 			var sUploadedFile = oEvent.getParameter("files")[0].fileName;
 			var sCurrentPath = this.getCurrentFolderPath();
 			var oData = this.getView().getModel("ClaimModel").getProperty(sCurrentPath);
 			var aItems = oData && oData.items;
 			var oItem;
-				var fileName = this.oUploadedFile.name;
+			var fileName = this.oUploadedFile.name;
 			var isProxy = "";
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
-			
+
 			if (window.document.domain == "localhost") {
 				isProxy = "proxy";
 			}
 			var oUrl = window.open(isProxy +
-				"/node/ZDLR_CLAIM_SRV/zc_attachSet(NumberOfWarrantyClaim='"+oClaimNum+"',FileName='"+sUploadedFile+"')/$value",
+				"/node/ZDLR_CLAIM_SRV/zc_attachSet(NumberOfWarrantyClaim='" + oClaimNum + "',FileName='" + sUploadedFile + "')/$value",
 				'_blank');
 			oItem = {
 				"documentId": jQuery.now().toString(), // generate Id,
@@ -501,10 +502,10 @@ sap.ui.define([
 			jQuery.sap.delayedCall(1000, this, function () {
 				MessageToast.show("UploadComplete event triggered.");
 			});
-			
+
 		},
-		
-		onBreadcrumbPress : function(){
+
+		onBreadcrumbPress: function () {
 			var isProxy = "";
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			var filename = this.oUploadedFile.name;
@@ -512,10 +513,10 @@ sap.ui.define([
 				isProxy = "proxy";
 			}
 			var w = window.open(isProxy +
-				"/node/ZDLR_CLAIM_SRV/zc_attachSet(NumberOfWarrantyClaim='"+oClaimNum+"',FileName='"+filename+"')/$value",
+				"/node/ZDLR_CLAIM_SRV/zc_attachSet(NumberOfWarrantyClaim='" + oClaimNum + "',FileName='" + filename + "')/$value",
 				'_blank');
 			if (w == null) {
-			
+
 				//MessageBox.warning(oBundle.getText("Error.PopUpBloqued"));
 			}
 
@@ -677,6 +678,7 @@ sap.ui.define([
 
 		onStep03Next: function () {
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
+			var oOFP = this.getModel("LocalDataModel").getProperty("/ClaimDetails/OFP");
 			if (this.oKey == "P2") {
 				this.getView().byId("idFilter07").setProperty("enabled", true);
 				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab7");
@@ -686,13 +688,25 @@ sap.ui.define([
 			}
 			var oProssingModel = this.getModel("ProssingModel");
 			oProssingModel.read("/zc_get_operation_numberSet", {
-				urlParameters : {
-					"$filter" : "CLMNO eq '"+ oClaimNum +"' "
+				urlParameters: {
+					"$filter": "CLMNO eq '" + oClaimNum + "' "
 				},
-				success : $.proxy(function(data){
+				success: $.proxy(function (data) {
 					this.getModel("LocalDataModel").setProperty("/SuggetionOperationList", data.results);
-				},this),
-				error : function(){
+				}, this),
+				error: function () {
+					console.log("Error");
+				}
+			});
+
+			oProssingModel.read("/zc_get_suggested_operationsSet", {
+				urlParameters: {
+					"$filter": "CLMNO eq '" + oClaimNum + "'and OFP_GROUP eq '" + oOFP + "' "
+				},
+				success: $.proxy(function (data) {
+					this.getModel("LocalDataModel").setProperty("/SuggetionOperationListFiltered", data.results);
+				}, this),
+				error: function () {
 					console.log("Error");
 				}
 			});
@@ -1070,16 +1084,68 @@ sap.ui.define([
 		},
 		onSelectOFP: function (oEvent) {
 			var table = this.getView().byId("idTableParts");
+
 			var oSelectedPart = oEvent.getSource().getParent().getCells()[2].getText();
 			this.getView().byId("idOFPart").setText(oSelectedPart);
+
 			table.setSelectedIndex(-1);
 
 		},
 		onSelectOFPLabour: function (oEvent) {
 			var table = this.getView().byId("idLabourTable");
 			var oSelectedPart = oEvent.getSource().getParent().getCells()[2].getText();
+			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			this.getView().byId("idOFPLabour").setText(oSelectedPart);
+			var oProssingModel = this.getModel("ProssingModel");
+			oProssingModel.read("/zc_get_suggested_operationsSet", {
+				urlParameters: {
+					"$filter": "CLMNO eq '" + oClaimNum + "'and OFP_GROUP eq '" + oSelectedPart + "' "
+				},
+				success: $.proxy(function (data) {
+					this.getModel("LocalDataModel").setProperty("/SuggetionOperationListFiltered", data.results);
+				}, this),
+				error: function () {
+					console.log("Error");
+				}
+			});
 			table.setSelectedIndex(-1);
+		},
+		onPressSuggestLabour: function (oEvent) {
+
+			var oDialogBox = sap.ui.xmlfragment("zclaimProcessing.view.fragments.operationList", this);
+			this.getView().addDependent(oDialogBox);
+			oDialogBox.open();
+		},
+		onCloseLabour: function (oEvent) {
+			oEvent.getSource().getParent().getParent().close();
+		},
+		onSelectOperation: function (oEvent) {
+			var oPath = oEvent.getSource().getSelectedContexts()[0].sPath;
+			var obj = this.getModel("LocalDataModel").getProperty(oPath);
+			this.SelectedOpNum = {
+				"J_3GKATNRC": obj.J_3GKATNRC,
+				"CLMNO": obj.CLMNO,
+				"RELOB_EXT": obj.RELOB_EXT
+			};
+			this.getView().getModel("DateModel").setProperty("/SuggestBtn", true);
+		},
+		handleConfirmLabour: function (oEvent) {
+			var oOperationListSuggestion = this.getModel("LocalDataModel").getProperty("/SuggetionOperationListFiltered");
+			var oOperationList = this.getModel("LocalDataModel").getProperty("/SuggetionOperationList");
+			// for(var i=0; i<oOperationListSuggestion.length; i++){
+			// 	if(oOperationList.indexOf(oOperationListSuggestion[i].J_3GKATNRC) < 0){
+			// 		oOperationList.push(this.SelectedOpNum);
+					
+			// 	}else {
+			// 		MessageToast.show("Operation Number Already Exist");
+			// 	}
+			// }
+			oOperationList.push(this.SelectedOpNum);
+			oOperationListSuggestion.pop(this.SelectedOpNum);
+			
+			this.getModel("LocalDataModel").setProperty("/SuggetionOperationList", oOperationList);
+			this.getModel("LocalDataModel").setProperty("/SuggetionOperationListFiltered", oOperationListSuggestion);
+			oEvent.getSource().getParent().getParent().close();
 		},
 		onPressSaveClaimItemLabour: function () {
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");

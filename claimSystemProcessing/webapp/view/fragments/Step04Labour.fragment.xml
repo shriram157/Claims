@@ -22,7 +22,7 @@
 					<Label text="Dlr. Claim #"/>
 					<Text text="{LocalDataModel>/ClaimDetails/ExternalNumberOfClaim}"/>
 					<Label text="OFP"/>
-					<Text text="" id="idOFPLabour"/>
+					<Text text="{LocalDataModel>/ClaimDetails/OFP}" id="idOFPLabour"/>
 					<core:Title text=""/>
 					<Label text="RO #."/>
 					<Text text="{LocalDataModel>/ClaimDetails/RepairOrderNumberExternal}"/>
