@@ -35,7 +35,7 @@ sap.ui.define([
 				labourLine: false,
 				paintLine: false,
 				subletLine: false,
-				SuggestBtn : false
+				SuggestBtn: false
 			});
 			this.getView().setModel(oDateModel, "DateModel");
 			var oNodeModel = new sap.ui.model.json.JSONModel();
@@ -137,7 +137,7 @@ sap.ui.define([
 			});
 
 			this.getOwnerComponent().getRouter().attachRoutePatternMatched(this._onRoutMatched, this);
-			this.getModel("LocalDataModel").setProperty("/step01Next", true);
+			this.getModel("LocalDataModel").setProperty("/step01Next", false);
 
 			// :::::::::::::::::: Claim Items post object start ::::::::::::::::::::
 			this.ArrIndex = [];
@@ -308,9 +308,8 @@ sap.ui.define([
 
 			var oCurrentDt = new Date();
 			var oValidator = new Validator();
-			var oFormContent = this.getView().byId("idClaimForm").getContent();
-			var oValid = true;
-			oValidator.validate(this.getView().byId("idpart01Form"));
+
+			var oValid = oValidator.validate(this.getView().byId("idpart01Form"));
 
 			if (!oValid) {
 
@@ -319,7 +318,7 @@ sap.ui.define([
 				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
 				this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
 				this.getView().byId("idMainClaimMessage").setType("Error");
-				return;
+				return false;
 			} else if (oValid) {
 				var obj = {
 					"WarrantyClaimType": this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType"),
@@ -352,7 +351,12 @@ sap.ui.define([
 				};
 
 				var oClaimModel = this.getModel("ProssingModel");
-
+				this._oToken = oClaimModel.getHeaders()['x-csrf-token'];
+				$.ajaxSetup({
+					headers: {
+						'X-CSRF-Token': this._oToken
+					}
+				});
 				oClaimModel.create("/zc_headSet", obj, {
 					success: $.proxy(function (data, response) {
 						this.getModel("LocalDataModel").setProperty("/WarrantyClaimNum", response.data.NumberOfWarrantyClaim);
@@ -392,9 +396,10 @@ sap.ui.define([
 						console.log(err);
 					}
 				});
+				this.getView().byId("idMainClaimMessage").setProperty("visible", false);
 				this.getModel("LocalDataModel").setProperty("/step01Next", true);
 
-			};
+			}
 		},
 		onSaveClaim: function (oEvent) {
 			this._fnSaveClaim();
@@ -415,7 +420,30 @@ sap.ui.define([
 
 				}, this);
 
-				var oClaimModel = this.getModel("ProssingModel");
+				
+			} else {
+				MessageToast.show("Please Save Claim then try Attachments");
+			}
+
+			/****************To Fetch CSRF Token*******************/
+
+		},
+		getCurrentFolderPath: function () {
+			var aHistory = this.getView().getModel("ClaimModel").getProperty("/history");
+			// get the current folder path
+			var sPath = aHistory.length > 0 ? aHistory[aHistory.length - 1].path : "/";
+			return sPath;
+		},
+		onUploadComplete: function (oEvent) {
+			// var oClaimModel = this.getModel("ProssingModel");
+			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
+			// var fileType = this.oUploadedFile.type;
+			// var oFile = oClaimModel.read("zc_attachSet(NumberOfWarrantyClaim='"+oClaimNum+"',FileName='"+fileType+"')/$value");
+			// this.getModel("LocalDataModel").setProperty("/oAttachmentSet", oFile);
+			
+			//================================================
+			
+			var oClaimModel = this.getModel("ProssingModel");
 				this._oToken = oClaimModel.getHeaders()['x-csrf-token'];
 				$.ajaxSetup({
 					headers: {
@@ -444,64 +472,45 @@ sap.ui.define([
 						console.log(err);
 					}
 				});
-			} else {
-				MessageToast.show("Please Save Claim then try Attachments");
-			}
 
-			/****************To Fetch CSRF Token*******************/
-
-		},
-		getCurrentFolderPath: function () {
-			var aHistory = this.getView().getModel("ClaimModel").getProperty("/history");
-			// get the current folder path
-			var sPath = aHistory.length > 0 ? aHistory[aHistory.length - 1].path : "/";
-			return sPath;
-		},
-		onUploadComplete: function (oEvent) {
-			// var oClaimModel = this.getModel("ProssingModel");
+			// var sUploadedFile = oEvent.getParameter("files")[0].fileName;
+			// var sCurrentPath = this.getCurrentFolderPath();
+			// var oData = this.getView().getModel("ClaimModel").getProperty(sCurrentPath);
+			// var aItems = oData && oData.items;
+			// var oItem;
+			// var fileName = this.oUploadedFile.name;
+			// var isProxy = "";
 			// var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
-			// var fileType = this.oUploadedFile.type;
-			// var oFile = oClaimModel.read("zc_attachSet(NumberOfWarrantyClaim='"+oClaimNum+"',FileName='"+fileType+"')/$value");
-			// this.getModel("LocalDataModel").setProperty("/oAttachmentSet", oFile);
 
-			var sUploadedFile = oEvent.getParameter("files")[0].fileName;
-			var sCurrentPath = this.getCurrentFolderPath();
-			var oData = this.getView().getModel("ClaimModel").getProperty(sCurrentPath);
-			var aItems = oData && oData.items;
-			var oItem;
-			var fileName = this.oUploadedFile.name;
-			var isProxy = "";
-			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
-
-			if (window.document.domain == "localhost") {
-				isProxy = "proxy";
-			}
-			var oUrl = window.open(isProxy +
-				"/node/ZDLR_CLAIM_SRV/zc_attachSet(NumberOfWarrantyClaim='" + oClaimNum + "',FileName='" + sUploadedFile + "')/$value",
-				'_blank');
-			oItem = {
-				"documentId": jQuery.now().toString(), // generate Id,
-				"fileName": sUploadedFile,
-				"Type": this.oUploadedFile.type,
-				"size": this.oUploadedFile.size,
-				"url": oUrl
-			};
-			if (aItems.length === 0) {
-				aItems.push(oItem);
-			} else {
-				// insert file after all folders
-				for (var i = 0; i < aItems.length; i++) {
-					if (aItems[i].type !== "folder") {
-						aItems.splice(i, 0, oItem);
-						break;
-					}
-				}
-			}
-			this.getView().getModel("ClaimModel").setProperty(sCurrentPath + "/items", aItems);
-			console.log(this.getView().getModel("ClaimModel"));
-			jQuery.sap.delayedCall(1000, this, function () {
-				MessageToast.show("UploadComplete event triggered.");
-			});
+			// if (window.document.domain == "localhost") {
+			// 	isProxy = "proxy";
+			// }
+			// var oUrl = window.open(isProxy +
+			// 	"/node/ZDLR_CLAIM_SRV/zc_attachSet(NumberOfWarrantyClaim='" + oClaimNum + "',FileName='" + sUploadedFile + "')/$value",
+			// 	'_blank');
+			// oItem = {
+			// 	"documentId": jQuery.now().toString(), // generate Id,
+			// 	"fileName": sUploadedFile,
+			// 	"Type": this.oUploadedFile.type,
+			// 	"size": this.oUploadedFile.size,
+			// 	"url": oUrl
+			// };
+			// if (aItems.length === 0) {
+			// 	aItems.push(oItem);
+			// } else {
+			// 	// insert file after all folders
+			// 	for (var i = 0; i < aItems.length; i++) {
+			// 		if (aItems[i].type !== "folder") {
+			// 			aItems.splice(i, 0, oItem);
+			// 			break;
+			// 		}
+			// 	}
+			// }
+			// this.getView().getModel("ClaimModel").setProperty(sCurrentPath + "/items", aItems);
+			// console.log(this.getView().getModel("ClaimModel"));
+			// jQuery.sap.delayedCall(1000, this, function () {
+			// 	MessageToast.show("UploadComplete event triggered.");
+			// });
 
 		},
 
@@ -980,6 +989,13 @@ sap.ui.define([
 
 			var oClaimModel = this.getModel("ProssingModel");
 
+			this._oToken = oClaimModel.getHeaders()['x-csrf-token'];
+			$.ajaxSetup({
+				headers: {
+					'X-CSRF-Token': this._oToken
+				}
+			});
+
 			oClaimModel.create("/zc_headSet", this.obj, {
 				success: $.proxy(function (data, response) {
 					var pricinghData = response.data.zc_claim_item_price_data.results;
@@ -1016,7 +1032,9 @@ sap.ui.define([
 			var oTableIndex = oTable.getSelectedIndices();
 
 			if (oTableIndex.length == 1) {
+
 				var oString = oTableIndex.toString();
+				var oTableStringSplit = oTableIndex.toString().split(",");
 				var oSelectedRow = "/PricingDataModel/" + oString;
 				var obj = this.getView().getModel("LocalDataModel").getProperty(oSelectedRow);
 				var PartNum = obj.matnr;
@@ -1024,12 +1042,22 @@ sap.ui.define([
 				this.getView().getModel("PartDataModel").setProperty("/matnr", PartNum);
 				this.getView().getModel("PartDataModel").setProperty("/quant", PartQt);
 				this.getView().getModel("DateModel").setProperty("/partLine", true);
-				for (var j = 0; j < this.obj.zc_itemSet.results.length; j++) {
-					if (this.obj.zc_itemSet.results[j].MaterialNumber == PartNum) {
-						this.obj.zc_itemSet.results.splice(j);
-					}
-				}
+				// for (var j = 0; j < this.obj.zc_itemSet.results.length; j++) {
+				// 	if (this.obj.zc_itemSet.results[j].MaterialNumber == PartNum) {
+				// 		this.obj.zc_itemSet.results.splice(j);
+				// 	}
+				// }
+
+				//	Array.prototype.splice.apply(this.obj.zc_itemSet.results, oTableStringSplit);
+				var oIndex = oTable.getSelectedIndex();
+				this.obj.zc_itemSet.results.splice(oIndex, 1);
 				var oClaimModel = this.getModel("ProssingModel");
+				this._oToken = oClaimModel.getHeaders()['x-csrf-token'];
+				$.ajaxSetup({
+					headers: {
+						'X-CSRF-Token': this._oToken
+					}
+				});
 
 				oClaimModel.create("/zc_headSet", this.obj, {
 					success: $.proxy(function (data, response) {
@@ -1056,11 +1084,19 @@ sap.ui.define([
 			var oTableIndex = oTable.getSelectedIndices();
 
 			if (oTableIndex.length == 1) {
-				var oTableStringSplit = oTableIndex.toString().split(",");
-				Array.prototype.splice.apply(this.obj.zc_itemSet.results, oTableStringSplit);
+				// var oTableStringSplit = oTableIndex.toString().split(",");
+				// Array.prototype.splice.apply(this.obj.zc_itemSet.results, oTableStringSplit);
+
+				var oIndex = oTable.getSelectedIndex();
+				this.obj.zc_itemSet.results.splice(oIndex, 1);
 
 				var oClaimModel = this.getModel("ProssingModel");
-
+				this._oToken = oClaimModel.getHeaders()['x-csrf-token'];
+				$.ajaxSetup({
+					headers: {
+						'X-CSRF-Token': this._oToken
+					}
+				});
 				oClaimModel.create("/zc_headSet", this.obj, {
 					success: $.proxy(function (data, response) {
 						var pricinghData = response.data.zc_claim_item_price_data.results;
@@ -1135,14 +1171,14 @@ sap.ui.define([
 			// for(var i=0; i<oOperationListSuggestion.length; i++){
 			// 	if(oOperationList.indexOf(oOperationListSuggestion[i].J_3GKATNRC) < 0){
 			// 		oOperationList.push(this.SelectedOpNum);
-					
+
 			// 	}else {
 			// 		MessageToast.show("Operation Number Already Exist");
 			// 	}
 			// }
 			oOperationList.push(this.SelectedOpNum);
 			oOperationListSuggestion.pop(this.SelectedOpNum);
-			
+
 			this.getModel("LocalDataModel").setProperty("/SuggetionOperationList", oOperationList);
 			this.getModel("LocalDataModel").setProperty("/SuggetionOperationListFiltered", oOperationListSuggestion);
 			oEvent.getSource().getParent().getParent().close();
@@ -1162,6 +1198,12 @@ sap.ui.define([
 			this.obj.zc_claim_item_labourSet.results.push(itemObj);
 
 			var oClaimModel = this.getModel("ProssingModel");
+			this._oToken = oClaimModel.getHeaders()['x-csrf-token'];
+			$.ajaxSetup({
+				headers: {
+					'X-CSRF-Token': this._oToken
+				}
+			});
 
 			oClaimModel.create("/zc_headSet", this.obj, {
 				success: $.proxy(function (data, response) {
@@ -1200,8 +1242,16 @@ sap.ui.define([
 
 			if (oTableIndex.length == 1) {
 				var oTableStringSplit = oTableIndex.toString().split(",");
-				Array.prototype.splice.apply(this.obj.zc_claim_item_labourSet.results, oTableStringSplit);
+				//Array.prototype.splice.apply(this.obj.zc_claim_item_labourSet.results, oTableStringSplit);
+				var oIndex = oTable.getSelectedIndex();
+				this.obj.zc_claim_item_labourSet.results.splice(oIndex, 1);
 				var oClaimModel = this.getModel("ProssingModel");
+				this._oToken = oClaimModel.getHeaders()['x-csrf-token'];
+				$.ajaxSetup({
+					headers: {
+						'X-CSRF-Token': this._oToken
+					}
+				});
 
 				oClaimModel.create("/zc_headSet", this.obj, {
 					success: $.proxy(function (data, response) {
@@ -1242,12 +1292,20 @@ sap.ui.define([
 				this.getView().getModel("LabourDataModel").setProperty("/LabourOp", LabourNum);
 				this.getView().getModel("LabourDataModel").setProperty("/ClaimedHours", LabourHr);
 				this.getView().getModel("DateModel").setProperty("/LabourLine", true);
-				for (var j = 0; j < this.obj.zc_claim_item_labourSet.results.length; j++) {
-					if (this.obj.zc_claim_item_labourSet.results[j].LabourNumber == LabourNum) {
-						this.obj.zc_claim_item_labourSet.results.splice(j);
-					}
-				}
+				// for (var j = 0; j < this.obj.zc_claim_item_labourSet.results.length; j++) {
+				// 	if (this.obj.zc_claim_item_labourSet.results[j].LabourNumber == LabourNum) {
+				// 		this.obj.zc_claim_item_labourSet.results.splice(j);
+				// 	}
+				// }
+					var oIndex = oTable.getSelectedIndex();
+				this.obj.zc_claim_item_labourSet.results.splice(oIndex, 1);
 				var oClaimModel = this.getModel("ProssingModel");
+				this._oToken = oClaimModel.getHeaders()['x-csrf-token'];
+				$.ajaxSetup({
+					headers: {
+						'X-CSRF-Token': this._oToken
+					}
+				});
 
 				oClaimModel.create("/zc_headSet", this.obj, {
 					success: $.proxy(function (data, response) {
@@ -1283,6 +1341,12 @@ sap.ui.define([
 			this.obj.zc_claim_item_paintSet.results.push(itemObj);
 
 			var oClaimModel = this.getModel("ProssingModel");
+			this._oToken = oClaimModel.getHeaders()['x-csrf-token'];
+			$.ajaxSetup({
+				headers: {
+					'X-CSRF-Token': this._oToken
+				}
+			});
 
 			oClaimModel.create("/zc_headSet", this.obj, {
 				success: $.proxy(function (data, response) {
@@ -1320,15 +1384,21 @@ sap.ui.define([
 
 			if (oTableIndex.length == 1) {
 				var oTableStringSplit = oTableIndex.toString().split(",");
-				Array.prototype.splice.apply(this.obj.zc_claim_item_paintSet.results, oTableStringSplit);
+				// Array.prototype.splice.apply(this.obj.zc_claim_item_paintSet.results, oTableStringSplit);
+				var oIndex = oTable.getSelectedIndex();
+				this.obj.zc_claim_item_paintSet.results.splice(oIndex, 1);
 				var oClaimModel = this.getModel("ProssingModel");
-
+				this._oToken = oClaimModel.getHeaders()['x-csrf-token'];
+				$.ajaxSetup({
+					headers: {
+						'X-CSRF-Token': this._oToken
+					}
+				});
 				oClaimModel.create("/zc_headSet", this.obj, {
 					success: $.proxy(function (data, response) {
 						var pricinghData = response.data.zc_claim_item_price_data.results;
 						var oFilteredData = pricinghData.filter(function (val) {
 							return val.Type === "PAINT";
-
 						});
 						console.log(oFilteredData);
 						this.getModel("LocalDataModel").setProperty("/PaintPricingDataModel", oFilteredData);
@@ -1363,7 +1433,12 @@ sap.ui.define([
 			this.obj.zc_item_subletSet.results.push(itemObj);
 
 			var oClaimModel = this.getModel("ProssingModel");
-
+			this._oToken = oClaimModel.getHeaders()['x-csrf-token'];
+			$.ajaxSetup({
+				headers: {
+					'X-CSRF-Token': this._oToken
+				}
+			});
 			oClaimModel.create("/zc_headSet", this.obj, {
 				success: $.proxy(function (data, response) {
 					console.log(response);
@@ -1412,13 +1487,22 @@ sap.ui.define([
 				this.getView().getModel("SubletDataModel").setProperty("/InvoiceNo", SubletInv);
 				this.getView().getModel("SubletDataModel").setProperty("/Amount", SubletAmount);
 				this.getView().getModel("DateModel").setProperty("/subletLine", true);
-				for (var j = 0; j < this.obj.zc_item_subletSet.results.length; j++) {
-					if (this.obj.zc_item_subletSet.results[j].SubletType == SubletNum) {
-						this.obj.zc_item_subletSet.results.splice(j);
-					}
-				}
+				// for (var j = 0; j < this.obj.zc_item_subletSet.results.length; j++) {
+				// 	if (this.obj.zc_item_subletSet.results[j].SubletType == SubletNum) {
+				// 		this.obj.zc_item_subletSet.results.splice(j);
+				// 	}
+				// }
+				
+				var oIndex = oTable.getSelectedIndex();
+				this.obj.zc_item_subletSet.results.splice(oIndex, 1);
+				
 				var oClaimModel = this.getModel("ProssingModel");
-
+				this._oToken = oClaimModel.getHeaders()['x-csrf-token'];
+				$.ajaxSetup({
+					headers: {
+						'X-CSRF-Token': this._oToken
+					}
+				});
 				oClaimModel.create("/zc_headSet", this.obj, {
 					success: $.proxy(function (data, response) {
 						var pricinghData = response.data.zc_claim_item_price_data.results;
@@ -1445,10 +1529,16 @@ sap.ui.define([
 
 			if (oTableIndex.length == 1) {
 				var oTableStringSplit = oTableIndex.toString().split(",");
-				Array.prototype.splice.apply(this.obj.zc_item_subletSet.results, oTableStringSplit);
-
+				//Array.prototype.splice.apply(this.obj.zc_item_subletSet.results, oTableStringSplit);
+var oIndex = oTable.getSelectedIndex();
+				this.obj.zc_item_subletSet.results.splice(oIndex, 1);
 				var oClaimModel = this.getModel("ProssingModel");
-
+				this._oToken = oClaimModel.getHeaders()['x-csrf-token'];
+				$.ajaxSetup({
+					headers: {
+						'X-CSRF-Token': this._oToken
+					}
+				});
 				oClaimModel.create("/zc_headSet", this.obj, {
 					success: $.proxy(function (data, response) {
 						var pricinghData = response.data.zc_claim_item_price_data.results;

@@ -141,11 +141,11 @@
 				<Text text="{HeadSetData>/AppliedWarrantyCoverage}"/>
 				<Label text="T1 Code"/>
 				<Select selectedKey="{HeadSetData>/T1WarrantyCodes}" items="{ path: '/Zt1DescSrchhelpSet' }">
-					<core:Item key="{T1}" text="{T1Text}"/>
+					<core:Item key="{T1}" text="{T1} - {T1Text}"/>
 				</Select>
 				<Label text="T2 Code"/>
 				<Select selectedKey="{HeadSetData>/T2WarrantyCodes}" items="{ path: '/Zt2DescSrchhelpSet' }">
-					<core:Item key="{T2}" text="{T2Text}"/>
+					<core:Item key="{T2}" text="{T2} - {T2Text}"/>
 				</Select>
 				<Label text="Remedy"/>
 				<TextArea required="true"
