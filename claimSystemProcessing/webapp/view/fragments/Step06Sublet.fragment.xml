@@ -1,12 +1,12 @@
 <core:FragmentDefinition xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:u="sap.ui.unified" xmlns:l="sap.ui.layout"
 	xmlns="sap.m" xmlns:table="sap.ui.table">
-	<VBox class="sapUiSmallMargin">
+	<VBox class="sapUiSmallMargin clFormTitleGap">
 		<Panel width="100%" class="sapUiSmallMarginBottom">
 			<headerToolbar>
 				<Toolbar height="3rem">
 					<Title text="{i18n>ClaimDetails}"/>
 					<ToolbarSpacer/>
-					<Title text="TCI Claim or Authorization Number: {LocalDataModel>/ClaimDetails/NumberOfWarrantyClaim}" textAlign="End"/>
+					<Title text="TCI Claim Number: {LocalDataModel>/ClaimDetails/NumberOfWarrantyClaim}" textAlign="End"/>
 				</Toolbar>
 			</headerToolbar>
 			<f:SimpleForm editable="true" layout="ResponsiveGridLayout" title="" labelSpanXL="6" labelSpanL="6" labelSpanM="12" labelSpanS="12"
@@ -31,7 +31,7 @@
 					<core:Title text=""/>
 					<Label text="Repair Date"/>
 					<Text
-						text="{path:'LocalDataModel>/ClaimDetails/RepairDate'}"/>
+						text="{path:'LocalDataModel>/ClaimDetails/RepairDate', type: 'sap.ui.model.type.Date', constraints: {displayFormat: 'Date' }, formatOptions: { style: 'medium', strictParsing: true , UTC: true}}"/>
 					<Label text="Reg. Date"/>
 					<Text
 						text="{path:'LocalDataModel>/ClaimDetails/RegDate'}"/>
@@ -120,18 +120,26 @@
 					<f:content>
 						<core:Title text=""/>
 						<Label text="Attachments" textAlign="Left"/>
-						<UploadCollection id="UploadSublet" change="onUplaodChange" uploadComplete="onUploadComplete02" fileDeleted="onFileDeleted02"
-							visible="{multiHeaderConfig>/uploader}">
+						<UploadCollection id="UploadSublet" change="onUplaodChange" uploadComplete="onSubletUploadComplete" fileDeleted="onFileDeleted02"
+							visible="{multiHeaderConfig>/uploader}" items="{ path: 'ClaimModel>/subletitemes', templateShareable: false }">
 							<toolbar>
 								<OverflowToolbar>
-									<Breadcrumbs id="breadcrumbSublet" currentLocationText="{AttachmentModel>/currentLocationText}" links="{AttachmentModel>/history}">
-										<Link press="onBreadcrumbPress" text="{AttachmentModel>name}"/>
+									<Breadcrumbs id="breadcrumbsSupportingDoc02" currentLocationText="{ClaimModel>/currentLocationText}" links="{ClaimModel>/history}">
+										<Link press="onBreadcrumbPress" text="{ClaimModel>fileName}"/>
 									</Breadcrumbs>
 									<ToolbarSpacer/>
 									<UploadCollectionToolbarPlaceholder/>
 								</OverflowToolbar>
 							</toolbar>
+							<items>
+								<UploadCollectionItem documentId="{ClaimModel>DOC_ID}" fileName="{ClaimModel>FileName}" mimeType="{ClaimModel>MIMETYPE}"
+									thumbnailUrl="{ClaimModel>url}" url="{ClaimModel>URI}" enableEdit="{settings>/enableEdit}" enableDelete="{settings>/enableDelete}"
+									visibleDelete="{settings>/visibleDelete}" visibleEdit="{settings>/visibleEdit}">
+									
+								</UploadCollectionItem>
+							</items>
 						</UploadCollection>
+						
 						<core:Title text=""/>
 						<Label text="# Days" textAlign="Left"/>
 						<Input value="{SubletDataModel>/days}" enabled="{DateModel>/subletLine}"/>
@@ -156,14 +164,14 @@
 			</VBox>
 		</l:Grid>
 		<table:Table id="idSubletTable" class="classRCPTable" selectionMode="MultiToggle" rows="{LocalDataModel>/SubletPricingDataModel}" 
-			 showNoData="true" threshold="20" enableBusyIndicator="true" visibleRowCount="10">
+			 showNoData="true" threshold="5" enableBusyIndicator="true" visibleRowCount="5">
 			<table:columns autoResizable="true">
 				<table:Column width="17rem">
 					<table:multiLabels>
 						<Label text="Line #" textAlign="Center" width="100%"/>
 					</table:multiLabels>
 					<table:template>
-						<Text text="" wrapping="false"/>
+						<Text text="{LocalDataModel>posnr}" wrapping="false"/>
 					</table:template>
 				</table:Column>
 				<table:Column width="17rem">

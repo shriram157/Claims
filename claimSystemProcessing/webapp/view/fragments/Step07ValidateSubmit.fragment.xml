@@ -1,48 +1,57 @@
 <core:FragmentDefinition xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:u="sap.ui.unified" xmlns:l="sap.ui.layout"
 	xmlns="sap.m" xmlns:table="sap.ui.table">
-	<VBox class="sapUiSmallMargin">
-		<f:SimpleForm editable="true" layout="ResponsiveGridLayout" title="Claim Details" labelSpanXL="6" labelSpanL="6" labelSpanM="12"
-			labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="6" columnsL="6" columnsM="4"
-			singleContainerFullSize="false">
-			<f:content>
-				<core:Title text=""/>
-				<Label text="TCI Claim #"/>
-				<Text text="999999999"/>
-				<Label text="VIN"/>
-				<Text text=""/>
-				<core:Title text=""/>
-				<Label text="Dlr. Claim #"/>
-				<Text text="999999999"/>
-				<Label text="OFP"/>
-				<Text text=""/>
-				<core:Title text=""/>
-				<Label text="RO #."/>
-				<Text text="999999999"/>
-				<Label text="Op #."/>
-				<Text text=""/>
-				<core:Title text=""/>
-				<Label text="Repair Date"/>
-				<Text text="999999999"/>
-				<Label text="Reg. Date"/>
-				<Text text=""/>
-				<core:Title text=""/>
-				<Label text="Odometer"/>
-				<Text text="999999999"/>
-				<Label text="Elapse"/>
-				<Text text=""/>
-				<core:Title text=""/>
-				<Label text="Type"/>
-				<Text text="999999999"/>
-				<Label text="Status"/>
-				<Text text=""/>
-			</f:content>
-		</f:SimpleForm>
-		<table:Table class="classRCPTable" selectionMode="Single" rows="{path:'LocalDataModel>/ClaimSum'}"
-			visibleRowCountMode="Auto" rowSelectionChange="onNavigate" selectionBehavior="Row" showNoData="true" threshold="20"
-			enableBusyIndicator="true">
+	<VBox class="sapUiSmallMargin clFormTitleGap">
+		<Panel width="100%" class="sapUiSmallMarginBottom">
+			<headerToolbar>
+				<Toolbar height="3rem">
+					<Title text="{i18n>ClaimDetails}"/>
+					<ToolbarSpacer/>
+					<Title text="TCI Claim Number: {LocalDataModel>/ClaimDetails/NumberOfWarrantyClaim}" textAlign="End"/>
+				</Toolbar>
+			</headerToolbar>
+			<f:SimpleForm editable="true" layout="ResponsiveGridLayout" title="" labelSpanXL="6" labelSpanL="6" labelSpanM="12" labelSpanS="12"
+				adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="6" columnsL="6" columnsM="4"
+				singleContainerFullSize="false">
+				<f:content>
+					<core:Title text=""/>
+					<Label text="TCI Claim #"/>
+					<Text text="{LocalDataModel>/ClaimDetails/NumberOfWarrantyClaim}"/>
+					<Label text="VIN"/>
+					<Text text="{LocalDataModel>/ClaimDetails/ExternalObjectNumber}"/>
+					<core:Title text=""/>
+					<Label text="Dlr. Claim #"/>
+					<Text text="{LocalDataModel>/ClaimDetails/ExternalNumberOfClaim}"/>
+					<Label text="OFP"/>
+					<Text text="{LocalDataModel>/ClaimDetails/OFP}"/>
+					<core:Title text=""/>
+					<Label text="RO #."/>
+					<Text text="{LocalDataModel>/ClaimDetails/RepairOrderNumberExternal}"/>
+					<Label text="Op #."/>
+					<Text text="{LocalDataModel>/ClaimDetails/MainOpsCode}"/>
+					<core:Title text=""/>
+					<Label text="Repair Date"/>
+					<Text
+						text="{path:'LocalDataModel>/ClaimDetails/RepairDate', type: 'sap.ui.model.type.Date', constraints: {displayFormat: 'Date' }, formatOptions: { style: 'medium', strictParsing: true , UTC: true}}"/>
+					<Label text="Reg. Date"/>
+					<Text text="{path:'LocalDataModel>/ClaimDetails/RegDate'}"/>
+					<core:Title text=""/>
+					<Label text="Odometer"/>
+					<Text text="{LocalDataModel>/ClaimDetails/OdometerReading}"/>
+					<Label text="Elapse"/>
+					<Text text="{LocalDataModel>/ClaimDetails/ElapsedMonths}"/>
+					<core:Title text=""/>
+					<Label text="Type"/>
+					<Text text="{LocalDataModel>/ClaimDetails/WarrantyClaimType}"/>
+					<Label text="Status"/>
+					<Text text="{LocalDataModel>/ClaimDetails/ProcessingStatusOfWarrantyClm}"/>
+				</f:content>
+			</f:SimpleForm>
+		</Panel>
+		<table:Table class="classRCPTable" selectionMode="Single" rows="{path:'LocalDataModel>/ClaimSum'}" visibleRowCount="5"
+			rowSelectionChange="onNavigate" selectionBehavior="Row" showNoData="true" threshold="5" enableBusyIndicator="true">
 			<table:toolbar>
 				<Toolbar>
-					<Title  text="Claim Amount Summary" level="H2"/>
+					<Title text="Claim Amount Summary" level="H2"/>
 					<ToolbarSpacer/>
 					<!--<Button tooltip="View Settings" icon="sap-icon://drop-down-list" press="handleViewSettingsDialogButtonPressed"/>-->
 				</Toolbar>
@@ -126,24 +135,27 @@
 				</table:Column>
 			</table:columns>
 		</table:Table>
-		<f:SimpleForm editable="true" layout="ResponsiveGridLayout" title="Validation Results" labelSpanXL="6" labelSpanL="6" labelSpanM="12"
-			labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="2"
-			singleContainerFullSize="false">
-			<f:content>
-				<core:Title text=""/>
-				<Label text="Error #"/>
-				<Text text="xxxxx "/>
-				<Label text=" Error Type"/>
-				<Text text="xxxxx"/>
-				<Label text="Page"/>
-				<Text text="xxxxx"/>
-				<Label text="Error Description"/>
-				<Text text="xxxxx"/>
-			</f:content>
-		</f:SimpleForm>
+		<List headerText="Error List" items="{ path: 'LocalDataModel>/oErrorSet' }">
+			<StandardListItem title="{LocalDataModel>ID}" description="{LocalDataModel>MESSAGE}"/>
+		</List>
+		<!--<f:SimpleForm editable="true" layout="ResponsiveGridLayout" title="Validation Results" labelSpanXL="6" labelSpanL="6" labelSpanM="12"-->
+		<!--	labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="2"-->
+		<!--	singleContainerFullSize="false">-->
+		<!--	<f:content>-->
+		<!--		<core:Title text=""/>-->
+		<!--		<Label text="Error #"/>-->
+		<!--		<Text text="xxxxx "/>-->
+		<!--		<Label text=" Error Type"/>-->
+		<!--		<Text text="xxxxx"/>-->
+		<!--		<Label text="Page"/>-->
+		<!--		<Text text="xxxxx"/>-->
+		<!--		<Label text="Error Description"/>-->
+		<!--		<Text text="xxxxx"/>-->
+		<!--	</f:content>-->
+		<!--</f:SimpleForm>-->
 		<HBox alignContent="Center" justifyContent="Center" class="sapUiTinyMarginTop">
 			<Button class="sapUiTinyMarginBeginEnd" type="Back" press="onStep07Back" text="{i18n>Back}"/>
-			<Button class="sapUiTinyMarginBeginEnd" press="onRevalidate" text="{i18n>SaveClaim}"/>
+			<Button class="sapUiTinyMarginBeginEnd" press="onRevalidate" text="{i18n>SaveClaim}" enabled="{DateModel>SaveClaim07}"/>
 			<Button class="sapUiTinyMarginBeginEnd" press="onSubmitTci" text="{i18n>SubmitToTCI}" type="Emphasized"/>
 		</HBox>
 	</VBox>

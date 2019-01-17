@@ -1,12 +1,12 @@
 <core:FragmentDefinition xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:u="sap.ui.unified" xmlns:l="sap.ui.layout"
 	xmlns="sap.m" xmlns:table="sap.ui.table">
-	<VBox class="sapUiSmallMargin">
+	<VBox class="sapUiSmallMargin clFormTitleGap">
 		<Panel width="100%" class="sapUiSmallMarginBottom">
 			<headerToolbar>
 				<Toolbar height="3rem">
 					<Title text="{i18n>ClaimDetails}"/>
 					<ToolbarSpacer/>
-					<Title text="TCI Claim or Authorization Number: {LocalDataModel>/ClaimDetails/NumberOfWarrantyClaim}" textAlign="End"/>
+					<Title text="TCI Claim Number: {LocalDataModel>/ClaimDetails/NumberOfWarrantyClaim}" textAlign="End"/>
 				</Toolbar>
 			</headerToolbar>
 			<f:SimpleForm editable="true" layout="ResponsiveGridLayout" title="" labelSpanXL="6" labelSpanL="6" labelSpanM="12" labelSpanS="12"
@@ -30,7 +30,7 @@
 					<Text text="{LocalDataModel>/ClaimDetails/MainOpsCode}"/>
 					<core:Title text=""/>
 					<Label text="Repair Date"/>
-					<Text text="{path:'LocalDataModel>/ClaimDetails/RepairDate'}"/>
+					<Text text="{path:'LocalDataModel>/ClaimDetails/RepairDate', type: 'sap.ui.model.type.Date', constraints: {displayFormat: 'Date' }, formatOptions: { style: 'medium', strictParsing: true , UTC: true}}"/>
 					<Label text="Reg. Date"/>
 					<Text text="{path:'LocalDataModel>/ClaimDetails/RegDate'}"/>
 					<core:Title text=""/>
@@ -102,14 +102,14 @@
 			</VBox>
 		</l:Grid>
 		<table:Table class="classRCPTable" id="idTableParts" selectionMode="MultiToggle" rows="{LocalDataModel>/PricingDataModel}"
-		visibleRowCount="10"  showNoData="true" threshold="10" enableBusyIndicator="true">
+		visibleRowCount="5"  showNoData="true" threshold="5" enableBusyIndicator="true">
 			<table:columns autoResizable="true">
 				<table:Column width="5rem">
 					<table:multiLabels>
 						<Label text="Line #" textAlign="Center" width="100%"/>
 					</table:multiLabels>
 					<table:template>
-						<Text text="{LocalDataModel>versn}" wrapping="false"/>
+						<Text text="{LocalDataModel>posnr}" wrapping="false"/>
 					</table:template>
 				</table:Column>
 				<table:Column width="5rem">

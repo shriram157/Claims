@@ -37,6 +37,8 @@ sap.ui.define([
 				}, this),
 				error : function(){}
 			});
+			
+			sap.ui.getCore().getEventBus().subscribe("App", "oType", this.onSelectRequestType01, this);
 
 		},
 
@@ -48,12 +50,19 @@ sap.ui.define([
 				
 				this.getRouter().navTo("MainClaimSection", {
 					claimNum : oClaimNum
+					
 				});
 			} else if (oSelectedKey === "PART WAREHOUSE") {
 				this.getRouter().navTo("PartsMainSection", {
 					claimNum : oClaimNum
 				});
 			}
+		},
+		
+		onSelectRequestType01 : function(oEvent){
+			var oUniqIndex = this.getView().byId("idRequestType").getSelectedIndex();
+		
+			// sap.ui.getCore().getEventBus().publish("App", "oType", {text : oUniqIndex});
 		},
 		
 		onPressCancel : function(){

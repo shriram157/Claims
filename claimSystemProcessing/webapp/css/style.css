@@ -27,6 +27,7 @@
     background-color: transparent;
     color: #346187;
 }
+.clFormTitleGap .sapUiFormM .sapUiFormContainerTitle>.sapUiFormTitle {height:0;}
 
 
 /*======================= End custom fonts and custom color on header style ==========================*/
@@ -39,7 +40,7 @@
 .oVisible {
     display: none;
 }
-.ClsubHeadingLineHeight .sapUiFormTitleH5 {height:1rem!important; line-height:1rem!important;}
+/*.ClsubHeadingLineHeight .sapUiFormTitleH5 {height:1rem!important; line-height:1rem!important;}*/
 .clTextIndent {text-indent:-9999999px;}
 .sapMITBScrollContainer {text-align:center;}
 .clOpFooter {background : #2f3c47;}

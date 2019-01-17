@@ -1,12 +1,12 @@
 <core:FragmentDefinition xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:u="sap.ui.unified" xmlns:l="sap.ui.layout"
 	xmlns="sap.m" xmlns:table="sap.ui.table">
-	<VBox class="sapUiSmallMargin" id="idpart01Form">
+	<VBox class="sapUiSmallMargin clFormTitleGap" id="idpart01Form">
 		<Panel width="auto" class="sapUiSmallMarginBottom" accessibleRole="Region">
 			<headerToolbar>
 				<Toolbar height="3rem">
 					<Title text="{i18n>ClaimDetails}"/>
 					<ToolbarSpacer/>
-					<Title text="TCI Claim or Authorization Number: {HeadSetData>/NumberOfWarrantyClaim}" textAlign="End"/>
+					<Title text="TCI Claim Number: {LocalDataModel>/ClaimDetails/NumberOfWarrantyClaim}" textAlign="End"/>
 				</Toolbar>
 			</headerToolbar>
 			<f:SimpleForm editable="true" layout="ResponsiveGridLayout" title="" labelSpanXL="6" labelSpanL="6" labelSpanM="12" labelSpanS="12"
@@ -15,9 +15,9 @@
 					<core:Title text=""/>
 					<Label text="Claim Type"/>
 					<ComboBox required="true"
-						items="{path:'/ZC_CLAIM_GROUP', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 100 }, filters : [{path:'ClaimGroupDes', operator:'EQ', value1 : 'WARRANTY' }]}"
+						items="{path:'LocalDataModel>/ClaimGroupSet'}"
 						change="onSelectClaimTpe" selectedKey="{HeadSetData>/WarrantyClaimType}">
-						<core:Item text="{ALMClaimType} - {ALMClaimTypeDes}" key="{ALMClaimType}"/>
+						<core:Item text="{LocalDataModel>ALMClaimType} - {LocalDataModel>ALMClaimTypeDes}" key="{LocalDataModel>ALMClaimType}"/>
 					</ComboBox>
 					<core:Title text=""/>
 					<Label text="First Submission Date"/>
@@ -36,17 +36,17 @@
 						text="{ path: 'HeadSetData>/FinalProcdDate', type: 'sap.ui.model.type.Date', constraints: {displayFormat: 'Date' }, formatOptions: { style: 'medium', strictParsing: true , UTC: true} }"/>
 					<Label>
 						<layoutData>
-							<l:GridData span="XL3 L3 M3 S4"/>
+							<l:GridData span="XL2 "/>
 						</layoutData>
 					</Label>
-					<Button text="Save Claim" type="Emphasized" press="onSaveClaim">
+					<Button text="Save Claim" type="Emphasized" press="onSaveClaim" enabled="{DateModel>/saveClaimSt}">
 						<layoutData>
-							<l:GridData span="XL3 L3 M3 S4"/>
+							<l:GridData span="XL3 L4 M6 S12"/>
 						</layoutData>
 					</Button>
 					<Button text="Copy to Claim" type="Default" press="onCopyClaim">
 						<layoutData>
-							<l:GridData span="XL4 L4 M3 S4"/>
+							<l:GridData span="XL4 L4 M6 S12"/>
 						</layoutData>
 					</Button>
 				</f:content>
@@ -88,13 +88,13 @@
 				<core:Title text=""/>
 				<RadioButtonGroup selectedIndex="0" columns="2" id="idRequestType" select="onSelectRequestType">
 					<buttons>
-						<RadioButton text="VIN"/>
-						<RadioButton text=" Non Vehicle"/>
+						<RadioButton groupName="C" text="VIN"/>
+						<RadioButton  groupName="C" text=" Non Vehicle"/>
 					</buttons>
 				</RadioButtonGroup>
 				<Input
 					value="{path:'HeadSetData>/ExternalObjectNumber', type : 'sap.ui.model.type.String', constraints : { minLength : 16, maxLength : 17 }}"
-					required="true" id="idVinNum"/>
+					required="true" id="idVinNum" change="onEnterVIN"/>
 				<core:Title text=""/>
 				<Label text="Reg. Date"/>
 				<Text text="{HeadSetData>/RegDate}"/>
@@ -102,13 +102,13 @@
 				<Text text="" id="idVehicleAge"/>
 				<core:Title text=""/>
 				<Label text="Foreign VIN"/>
-				<Text text="" id="idForeignVin"/>
+				<Text text="{HeadSetData>/ForeignVINIndicator}" id="idForeignVin"/>
 				<Button icon="sap-icon://message-warning" type="Transparent" press="onPressForeignVin"/>
 				<Label text="Written-Off"/>
 				<Text text="{HeadSetData>/WrittenOffCode}" id="idWrittenoff"/>
 				<Button icon="sap-icon://message-warning" type="Transparent" press="onPressWrittenOff"/>
 				<Label text="Special VIN Review"/>
-				<Text text="" id="idSpecialVin"/>
+				<Text text="{HeadSetData>/SpecialVINReview}" id="idSpecialVin"/>
 				<Button icon="sap-icon://message-warning" type="Transparent" press="onPressSpecialVin"/>
 			</f:content>
 		</f:SimpleForm>
@@ -192,9 +192,11 @@
 								</OverflowToolbar>
 							</toolbar>
 							<items>
-								<UploadCollectionItem documentId="{ClaimModel>documentId}" fileName="{ClaimModel>fileName}" mimeType="{ClaimModel>Type}"
-									thumbnailUrl="{ClaimModel>url}" url="{ClaimModel>url}" enableEdit="{settings>/enableEdit}" enableDelete="{settings>/enableDelete}"
-									visibleDelete="{settings>/visibleDelete}" visibleEdit="{settings>/visibleEdit}"></UploadCollectionItem>
+								<UploadCollectionItem documentId="{ClaimModel>DOC_ID}" fileName="{ClaimModel>FileName}" mimeType="{ClaimModel>MIMETYPE}"
+									thumbnailUrl="{ClaimModel>url}" url="{ClaimModel>URI}" enableEdit="{settings>/enableEdit}" enableDelete="{settings>/enableDelete}"
+									visibleDelete="{settings>/visibleDelete}" visibleEdit="{settings>/visibleEdit}">
+									
+								</UploadCollectionItem>
 							</items>
 						</UploadCollection>
 					</f:content>
@@ -204,7 +206,7 @@
 		<Panel width="auto" class="sapUiSmallMarginBottom" accessibleRole="Region">
 			<content>
 				<table:Table id="idRCPTable" class="classRCPTable" selectionMode="Single" rows="{path:'LocalDataModel>/ClaimSum'}"
-					visibleRowCountMode="Auto" rowSelectionChange="onNavigate" selectionBehavior="Row" showNoData="true" threshold="20"
+				 rowSelectionChange="onNavigate" selectionBehavior="Row" showNoData="true" threshold="4" visibleRowCount="4"
 					enableBusyIndicator="true">
 					<table:toolbar>
 						<Toolbar>

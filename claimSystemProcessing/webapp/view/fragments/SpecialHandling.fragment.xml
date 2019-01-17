@@ -2,7 +2,7 @@
 	xmlns="sap.m" xmlns:table="sap.ui.table">
 	<Dialog class="sapUiSizeCompact" title="Special Handling Details for VIN : " stretch="true">
 		<content>
-			<table:Table class="classRCPTable" selectionMode="MultiToggle" rows="{LocalDataModel>/PaintPricingDataModel}" visibleRowCountMode="Auto"
+			<table:Table class="classRCPTable" selectionMode="MultiToggle" rows="{LocalDataModel>/SPWROF}" visibleRowCountMode="Auto"
 				rowSelectionChange="onNavigatePaint" selectionBehavior="Row" showNoData="true" threshold="20" enableBusyIndicator="true">
 				<table:columns autoResizable="true">
 					<table:Column width="17rem">
@@ -10,7 +10,7 @@
 							<Label text="Code" textAlign="Center" width="100%"/>
 						</table:multiLabels>
 						<table:template>
-							<Text text="" wrapping="false"/>
+							<Text text="{LocalDataModel>SPHLCode}" wrapping="false"/>
 						</table:template>
 					</table:Column>
 					<table:Column width="17rem">
@@ -18,7 +18,7 @@
 							<Label text="Description" textAlign="Center" width="100%"/>
 						</table:multiLabels>
 						<table:template>
-							<Text text="{LocalDataModel>matnr}" wrapping="false"/>
+							<Text text="{LocalDataModel>CodeDesc}" wrapping="false"/>
 						</table:template>
 					</table:Column>
 					<table:Column width="17rem">
@@ -26,11 +26,14 @@
 							<Label text="Date Issued" textAlign="Center" width="100%"/>
 						</table:multiLabels>
 						<table:template>
-							<Text text="{LocalDataModel>matnr}" wrapping="false"/>
+							<Text text="{LocalDataModel>RegistrationDate}" wrapping="false"/>
 						</table:template>
 					</table:Column>
 				</table:columns>
 			</table:Table>
 		</content>
+		<HBox class="sapUiSmallMarginTop">
+			<Button class="sapUiSmallMarginBeginEnd" type="Emphasized" text="Close" press="onCloseWrittenOf"/>
+		</HBox>
 	</Dialog>
 </core:FragmentDefinition>

@@ -1,36 +1,39 @@
-<core:FragmentDefinition  xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:u="sap.ui.unified" xmlns:l="sap.ui.layout"
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:u="sap.ui.unified" xmlns:l="sap.ui.layout"
 	xmlns="sap.m" xmlns:table="sap.ui.table">
-	<Dialog class="sapUiSizeCompact" title="Written Off Details for VIN:" stretch="true">
+	<Dialog class="sapUiSizeCompact" title="Written Off Details for VIN:" >
 		<content>
-	<table:Table class="classRCPTable" selectionMode="MultiToggle" rows="{LocalDataModel>/PaintPricingDataModel}" visibleRowCountMode="Auto" rowSelectionChange="onNavigatePaint"
-			selectionBehavior="Row" showNoData="true" threshold="20" enableBusyIndicator="true">
-			<table:columns autoResizable="true">
-				<table:Column width="17rem">
-					<table:multiLabels>
-						<Label text="Code" textAlign="Center" width="100%"/>
-					</table:multiLabels>
-					<table:template>
-						<Text text="" wrapping="false"/>
-					</table:template>
-				</table:Column>
-				<table:Column width="17rem">
-					<table:multiLabels>
-						<Label text="Description" textAlign="Center" width="100%"/>
-					</table:multiLabels>
-					<table:template>
-						<Text text="{LocalDataModel>matnr}" wrapping="false"/>
-					</table:template>
-				</table:Column>
-				<table:Column width="17rem">
-					<table:multiLabels>
-						<Label text="Date Issued" textAlign="Center" width="100%"/>
-					</table:multiLabels>
-					<table:template>
-						<Text text="{LocalDataModel>matnr}" wrapping="false"/>
-					</table:template>
-				</table:Column>
-			</table:columns>
-		</table:Table>
+			<table:Table class="classRCPTable" selectionMode="MultiToggle" rows="{LocalDataModel>/SPWROF}" visibleRowCountMode="Auto"
+				rowSelectionChange="onNavigatePaint" selectionBehavior="Row" showNoData="true" threshold="20" enableBusyIndicator="true">
+				<table:columns autoResizable="true">
+					<table:Column width="17rem">
+						<table:multiLabels>
+							<Label text="Code" textAlign="Center" width="100%"/>
+						</table:multiLabels>
+						<table:template>
+							<Text text="{LocalDataModel>WROFCode}" wrapping="false"/>
+						</table:template>
+					</table:Column>
+					<table:Column width="17rem">
+						<table:multiLabels>
+							<Label text="Description" textAlign="Center" width="100%"/>
+						</table:multiLabels>
+						<table:template>
+							<Text text="{LocalDataModel>CodeDesc}" wrapping="false"/>
+						</table:template>
+					</table:Column>
+					<table:Column width="17rem">
+						<table:multiLabels>
+							<Label text="Date Issued" textAlign="Center" width="100%"/>
+						</table:multiLabels>
+						<table:template>
+							<Text text="{LocalDataModel>SWCreatedOn}" wrapping="false"/>
+						</table:template>
+					</table:Column>
+				</table:columns>
+			</table:Table>
 		</content>
-		</Dialog>
+		<HBox class="sapUiSmallMarginTop">
+			<Button class="sapUiSmallMarginBeginEnd" type="Emphasized" text="Close" press="onCloseWrittenOf"/>
+		</HBox>
+	</Dialog>
 </core:FragmentDefinition>

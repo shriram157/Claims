@@ -1,5 +1,5 @@
 <core:FragmentDefinition xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:l="sap.ui.layout" xmlns="sap.m" xmlns:table="sap.ui.table">
-	<VBox class="sapUiSmallMargin">
+	<VBox class="sapUiSmallMargin clFormTitleGap">
 		<Panel width="100%" class="sapUiSmallMarginBottom">
 			<headerToolbar>
 				<Toolbar height="3rem">
@@ -30,7 +30,7 @@
 					<core:Title text=""/>
 					<Label text="Repair Date"/>
 					<Text
-						text="{path:'LocalDataModel>/ClaimDetails/RepairDate'}"/>
+						text="{path:'LocalDataModel>/ClaimDetails/RepairDate', type: 'sap.ui.model.type.Date', constraints: {displayFormat: 'Date' }, formatOptions: { style: 'medium', strictParsing: true , UTC: true}}"/>
 					<Label text="Reg. Date"/>
 					<Text
 						text="{path:'LocalDataModel>/ClaimDetails/RegDate'}"/>
