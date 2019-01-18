@@ -38,7 +38,7 @@ sap.ui.define([
 				error : function(){}
 			});
 			
-			sap.ui.getCore().getEventBus().subscribe("App", "oType", this.onSelectRequestType01, this);
+			//sap.ui.getCore().getEventBus().subscribe("App", "oType", this.onSelectRequestType01, this);
 
 		},
 

@@ -1,6 +1,6 @@
 <core:FragmentDefinition xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:u="sap.ui.unified" xmlns:l="sap.ui.layout"
 	xmlns="sap.m" xmlns:table="sap.ui.table">
-	<VBox class="sapUiSmallMargin clFormTitleGap" id="idpart01Form">
+	<VBox class="sapUiSmallMargin clFormTitleGap" id="idClaimMainForm">
 		<Panel width="auto" class="sapUiSmallMarginBottom" accessibleRole="Region">
 			<headerToolbar>
 				<Toolbar height="3rem">
@@ -52,7 +52,7 @@
 				</f:content>
 			</f:SimpleForm>
 		</Panel>
-		<f:SimpleForm editable="true" id="idClaimForm" title="Repair Order Information" layout="ResponsiveGridLayout" labelSpanXL="12"
+		<f:SimpleForm editable="true"  title="Repair Order Information" layout="ResponsiveGridLayout" labelSpanXL="12"
 			labelSpanL="12" labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
 			columnsXL="3" columnsL="3" columnsM="3" singleContainerFullSize="false">
 			<f:content>
@@ -66,7 +66,7 @@
 				<core:Title text=""/>
 				<Label text="Repair Date"/>
 				<DatePicker required="true"
-					value="{path:'HeadSetData>/RepairDate', type: 'sap.ui.model.type.Date', constraints: {displayFormat: 'Date' }, formatOptions: { style: 'medium', strictParsing: true , UTC: true}}"/>
+					value="{path:'HeadSetData>/RepairDate', type: 'sap.ui.model.type.Date'}"/>
 				<Label text="Dealer Contact"/>
 				<Input required="true"
 					value="{path:'HeadSetData>/DealerContact', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 30 }}"
@@ -112,7 +112,7 @@
 				<Button icon="sap-icon://message-warning" type="Transparent" press="onPressSpecialVin"/>
 			</f:content>
 		</f:SimpleForm>
-		<f:SimpleForm editable="true" title="Repair Details" layout="ResponsiveGridLayout" labelSpanXL="12" labelSpanL="12" labelSpanM="12"
+		<f:SimpleForm  id="idpart01Form" editable="true" title="Repair Details" layout="ResponsiveGridLayout" labelSpanXL="12" labelSpanL="12" labelSpanM="12"
 			labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="3" columnsL="3" columnsM="3"
 			singleContainerFullSize="false">
 			<f:content>
@@ -152,7 +152,8 @@
 					value="{path:'HeadSetData>/Remedy', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 100 }}"></TextArea>
 			</f:content>
 		</f:SimpleForm>
-		<f:SimpleForm id="idConditionForm" editable="true" title="" layout="ResponsiveGridLayout" labelSpanXL="3" labelSpanL="3" labelSpanM="3"
+		
+		<f:SimpleForm  editable="true" title="" layout="ResponsiveGridLayout" labelSpanXL="3" labelSpanL="3" labelSpanM="3"
 			labelSpanS="12" adjustLabelSpan="false" emptySpanXL="1" emptySpanL="1" emptySpanM="1" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1"
 			singleContainerFullSize="false">
 			<f:content>
@@ -169,6 +170,8 @@
 				</Button>
 			</f:content>
 		</f:SimpleForm>
+		</VBox>
+		<VBox>
 		<Panel width="auto" class="sapUiSmallMarginBottom" accessibleRole="Region">
 			<headerToolbar>
 				<Toolbar height="3rem">

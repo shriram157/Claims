@@ -20,7 +20,7 @@ sap.ui.define([
 		 * @memberOf zclaimProcessing.view.MainClaimSection
 		 */
 		onInit: function () {
-			
+
 			var oDateModel = new sap.ui.model.json.JSONModel();
 			oDateModel.setData({
 				dateValueDRS2: new Date(2018, 1, 1),
@@ -70,21 +70,21 @@ sap.ui.define([
 				}, this),
 				error: function () {}
 			});
-			
+
 			oProssingModel.read("/ZC_CLAIM_GROUP", {
-				urlParameters : {
-					"$filter" : "ClaimGroupDes eq 'WARRANTY'"
+				urlParameters: {
+					"$filter": "ClaimGroupDes eq 'WARRANTY'"
 				},
 				success: $.proxy(function (data) {
-					
+
 					var oResult = data.results;
-					var oFilteredData = oResult.filter(function(v, t){ return v.ALMClaimType != "CD" && v.ALMClaimType != "WO"});
+					var oFilteredData = oResult.filter(function (v, t) {
+						return v.ALMClaimType != "CD" && v.ALMClaimType != "WO";
+					});
 					this.getModel("LocalDataModel").setProperty("/ClaimGroupSet", oFilteredData);
 				}, this),
 				error: function () {}
 			});
-
-
 
 			var HeadSetData = new sap.ui.model.json.JSONModel({
 				"WarrantyClaimType": "",
@@ -323,13 +323,12 @@ sap.ui.define([
 			}
 
 		},
-		
-		onSelectRequestType : function(oEvent){
+
+		onSelectRequestType: function (oEvent) {
 			var oIndex = oEvent.getSource().getSelectedIndex();
-			if(oIndex == 1) {
+			if (oIndex == 1) {
 				this.getView().byId("idVinNum").setProperty("enabled", false);
-			}
-			else{
+			} else {
 				this.getView().byId("idVinNum").setProperty("enabled", true);
 			}
 		},
@@ -362,19 +361,19 @@ sap.ui.define([
 		_fnSaveClaim: function () {
 
 			var oCurrentDt = new Date();
-			var oValidator = new Validator();
+			//var oValidator = new Validator();
 
-			var oValid = oValidator.validate(this.getView().byId("idpart01Form"));
+			//var oValid = oValidator.validate(this.getView().byId("idClaimMainForm"));
 
-			if (!oValid) {
+			// if (!oValid) {
 
-				this.getModel("LocalDataModel").setProperty("/step01Next", false);
-				//do something additional to drawing red borders? message box?
-				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
-				this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
-				this.getView().byId("idMainClaimMessage").setType("Error");
-				return false;
-			} else if (oValid) {
+			// 	this.getModel("LocalDataModel").setProperty("/step01Next", false);
+			// 	//do something additional to drawing red borders? message box?
+			// 	this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+			// 	this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
+			// 	this.getView().byId("idMainClaimMessage").setType("Error");
+			// 	return false;
+			// } else if (oValid) {
 				var obj = {
 					"WarrantyClaimType": this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType"),
 					"Partner": "2400034030",
@@ -456,7 +455,7 @@ sap.ui.define([
 				this.getView().byId("idMainClaimMessage").setProperty("visible", false);
 				this.getModel("LocalDataModel").setProperty("/step01Next", true);
 
-			}
+			//}
 		},
 		onSaveClaim: function (oEvent) {
 			this._fnSaveClaim();
