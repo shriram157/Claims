@@ -146,14 +146,14 @@
 				},
 				{
 					"name": "MainClaimSection",
-					"pattern": "MainClaim/{claimNum}",
+					"pattern": "MainClaim/{claimNum}/{oClaimGroup}",
 					"target": [
 						"MainClaimSection"
 					]
 				},
 				{
 					"name": "PartsMainSection",
-					"pattern": "PartsMain/{claimNum}",
+					"pattern": "PartsMain/{claimNum}/{oClaimGroup}",
 					"target": [
 						"PartsMainSection"
 					]

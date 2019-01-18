@@ -17,7 +17,7 @@
 					<ComboBox required="true"
 						items="{path:'LocalDataModel>/ClaimGroupSet'}"
 						change="onSelectClaimTpe" selectedKey="{HeadSetData>/WarrantyClaimType}"
-						
+						enabled="{DateModel>/claimTypeEn}"
 						>
 						<core:Item text="{LocalDataModel>ALMClaimType} - {LocalDataModel>ALMClaimTypeDes}" key="{LocalDataModel>ALMClaimType}"/>
 					</ComboBox>
@@ -41,7 +41,7 @@
 							<l:GridData span="XL2 "/>
 						</layoutData>
 					</Label>
-					<Button text="Save Claim" type="Emphasized" press="onSaveClaim" enabled="{DateModel>/saveClaimSt}">
+					<Button text="Save Claim" type="Emphasized" press="onSaveClaim">
 						<layoutData>
 							<l:GridData span="XL3 L4 M6 S12"/>
 						</layoutData>
