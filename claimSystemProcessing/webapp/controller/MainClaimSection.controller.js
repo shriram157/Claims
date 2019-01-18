@@ -37,7 +37,8 @@ sap.ui.define([
 				subletLine: false,
 				SuggestBtn: false,
 				saveClaimSt: true,
-				SaveClaim07: true
+				SaveClaim07: true,
+				claimTypeEn : true
 			});
 			this.getView().setModel(oDateModel, "DateModel");
 			var oNodeModel = new sap.ui.model.json.JSONModel();
@@ -220,6 +221,7 @@ sap.ui.define([
 		},
 
 		_onRoutMatched: function (oEvent) {
+			this.getView().getModel("DateModel").setProperty("/claimTypeEn", false);
 			var oClaim = oEvent.getParameters().arguments.claimNum;
 			if (oClaim != "nun" && oClaim != undefined) {
 				var oProssingModel = this.getModel("ProssingModel");
@@ -236,6 +238,17 @@ sap.ui.define([
 					}, this),
 					error: function () {}
 				});
+				
+				oProssingModel.read("/ZC_CLAIM_HEAD", {
+							urlParameters: {
+								"$filter": "NumberOfWarrantyClaim eq '" + oClaim + "'"
+							},
+							success: $.proxy(function (sdata) {
+								//console.log(sdata);
+								this.getModel("LocalDataModel").setProperty("/ClaimDetails", sdata.results[0]);
+								
+							}, this)
+						});
 
 				oProssingModel.read("/ZC_CLAIM_HEAD", {
 					urlParameters: {
@@ -429,8 +442,11 @@ sap.ui.define([
 								"$filter": "NumberOfWarrantyClaim eq '" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") + "'"
 							},
 							success: $.proxy(function (sdata) {
-								console.log(sdata);
+								//console.log(sdata);
 								this.getModel("LocalDataModel").setProperty("/ClaimDetails", sdata.results[0]);
+								var oCLaim = this.getModel("LocalDataModel").getProperty("/ClaimDetails/NumberOfWarrantyClaim");
+								this.getView().getModel("HeadSetData").setProperty("/NumberOfWarrantyClaim", oCLaim);
+								
 							}, this)
 						});
 

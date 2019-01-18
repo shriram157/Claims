@@ -6,7 +6,7 @@
 				<Toolbar height="3rem">
 					<Title text="{i18n>ClaimDetails}"/>
 					<ToolbarSpacer/>
-					<Title text="TCI Claim Number: {LocalDataModel>/ClaimDetails/NumberOfWarrantyClaim}" textAlign="End"/>
+					<Title text="TCI Claim Number: {HeadSetData>/NumberOfWarrantyClaim}" textAlign="End"/>
 				</Toolbar>
 			</headerToolbar>
 			<f:SimpleForm editable="true" layout="ResponsiveGridLayout" title="" labelSpanXL="6" labelSpanL="6" labelSpanM="12" labelSpanS="12"
@@ -16,7 +16,9 @@
 					<Label text="Claim Type"/>
 					<ComboBox required="true"
 						items="{path:'LocalDataModel>/ClaimGroupSet'}"
-						change="onSelectClaimTpe" selectedKey="{HeadSetData>/WarrantyClaimType}">
+						change="onSelectClaimTpe" selectedKey="{HeadSetData>/WarrantyClaimType}"
+						
+						>
 						<core:Item text="{LocalDataModel>ALMClaimType} - {LocalDataModel>ALMClaimTypeDes}" key="{LocalDataModel>ALMClaimType}"/>
 					</ComboBox>
 					<core:Title text=""/>
