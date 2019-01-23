@@ -1,20 +1,133 @@
 {
-  "xsappname": "claimsSystemProcessing",
-  "tenant-mode": "dedicated",
-  "description": "Security profile of called application",
-  "scopes": [
-    {
-      "name": "uaa.user",
-      "description": "UAA"
-    }
-  ],
-  "role-templates": [
-    {
-      "name": "Claims_Token",
-      "description": "UAA",
-      "scope-references": [
-        "uaa.user"
-      ]
-    }
-  ]
+	"xsappname": "claimsSystemProcessing",
+	"tenant-mode": "dedicated",
+	"description": "Security profile of called application",
+	"scopes": [{
+		"name": "$XSAPPNAME.Manage_Sevice_Claims",
+		"description": "Manage Service Claims"
+	}, {
+		"name": "$XSAPPNAME.Manage_Parts_Claims",
+		"description": "Manage Parts Claims"
+	}, {
+		"name": "$XSAPPNAME.View_Service_Claims",
+		"description": "View service claims"
+	}, {
+		"name": "$XSAPPNAME.View_Parts_Claims",
+		"description": "View Parts Claims"
+	}, {
+		"name": "$XSAPPNAME.View_Claim_Inquiry",
+		"description": "View Claims Inquiry"
+	}, {
+		"name": "$XSAPPNAME.View_Quick_Coverage_Tool",
+		"description": "View Quick Coverage Tool"
+	}, {
+		"name": "$XSAPPNAME.View_Dealer_Labor_Rate",
+		"description": "View Dealer labor rate"
+	}],
+	"attributes": [{
+		"name": "DealerCode",
+		"description": "Dealer Code",
+		"valueType": "s"
+	}, {
+		"name": "Language",
+		"description": "Language",
+		"valueType": "s"
+	}, {
+		"name": "UserType",
+		"description": "UserType, identifies dealer or not",
+		"valueType": "s"
+	}, {
+		"name": "Zone",
+		"description": "restrict based on Zone",
+		"valueType": "s"
+	}],
+
+	"role-templates": [{
+		"name": "Dealer_Services_Admin",
+		"description": "Dealer Services Admin",
+		"scope-references": [
+			"$XSAPPNAME.Manage_Sevice_Claims",
+			"$XSAPPNAME.View_Quick_Coverage_Tool",
+			"$XSAPPNAME.View_Dealer_Labor_Rate",
+			"$XSAPPNAME.View_Claim_Inquiry"
+
+		],
+		"attribute-references": [
+			"DealerCode",
+			"Language",
+			"UserType"
+		]
+	}, {
+		"name": "Dealer_Parts_Admin",
+		"description": "Dealer Parts Admin User",
+		"scope-references": [
+			"$XSAPPNAME.Manage_Parts_Claims",
+			"$XSAPPNAME.View_Quick_Coverage_Tool",
+			"$XSAPPNAME.View_Dealer_Labor_Rate",
+			"$XSAPPNAME.View_Claim_Inquiry"
+		],
+		"attribute-references": [
+			"DealerCode",
+			"Language",
+			"UserType"
+		]
+	}, {
+		"name": "Dealer_User",
+		"description": "Dealer USer",
+		"scope-references": [
+			"$XSAPPNAME.View_Quick_Coverage_Tool",
+			"$XSAPPNAME.View_Dealer_Labor_Rate",
+			"$XSAPPNAME.View_Claim_Inquiry"
+
+		],
+		"attribute-references": [
+			"DealerCode",
+			"Language",
+			"UserType"
+		]
+
+	}, {
+		"name": "TCI_Admin",
+		"description": "This is a TCI Admin",
+		"scope-references": [
+			"$XSAPPNAME.View_Service_Claims",
+			"$XSAPPNAME.View_Parts_Claims",
+			"$XSAPPNAME.View_Quick_Coverage_Tool",
+			"$XSAPPNAME.View_Dealer_Labor_Rate",
+			"$XSAPPNAME.View_Claim_Inquiry"
+		],
+		"attribute-references": [
+
+			"Language",
+			"UserType"
+		]
+	}, {
+		"name": "Zone_User",
+		"description": "This is a TCI Zone User",
+		"scope-references": [
+			"$XSAPPNAME.View_Service_Claims",
+			"$XSAPPNAME.View_Parts_Claims",
+			"$XSAPPNAME.View_Quick_Coverage_Tool",
+			"$XSAPPNAME.View_Dealer_Labor_Rate",
+			"$XSAPPNAME.View_Claim_Inquiry"
+		],
+		"attribute-references": [
+			"Language",
+			"UserType",
+			"Zone"
+		]
+	}, {
+		"name": "TCI_User",
+		"description": "This is a TCI User",
+		"scope-references": [
+			"$XSAPPNAME.View_Quick_Coverage_Tool",
+			"$XSAPPNAME.View_Claim_Inquiry"
+		],
+		"attribute-references": [
+			"Language",
+			"UserType"
+
+		]
+
+	}]
 }

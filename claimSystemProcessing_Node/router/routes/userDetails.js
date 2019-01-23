@@ -11,9 +11,7 @@ module.exports = function () {
 	var auth64;
 
 var winston = require('winston');
-
-
-
+ 
 
 //var express = require('express');
 // const correlator = require('correlation-id');
@@ -134,45 +132,45 @@ app.use(log.logNetwork);
 
 		} else {
           
-            if (userType == 'Zone') {
+ //           if (userType == 'Zone') {
             	
- // he is a zone user.            	
-            	var userZone;
-            	  switch (zoneToWhichUSerBelongs) {
-                    case "1":
-                       userZone = "1000";
-                        break;
-                    case "2":
-                        userZone = "2000";
-                        break;
-                    case "3":
-                       userZone = "3000";   
-                        break;
-                    case "4":
-                       userZone = "5000";
-                        break;
-                    case "5":
-                        userZone = "4000";  
-                        break;
-                    case "7":
-                         userZone = "9000";  
-                        break;                      
+ //// he is a zone user.            	
+ //           	var userZone;
+ //           	  switch (zoneToWhichUSerBelongs) {
+ //                   case "1":
+ //                      userZone = "1000";
+ //                       break;
+ //                   case "2":
+ //                       userZone = "2000";
+ //                       break;
+ //                   case "3":
+ //                      userZone = "3000";   
+ //                       break;
+ //                   case "4":
+ //                      userZone = "5000";
+ //                       break;
+ //                   case "5":
+ //                       userZone = "4000";  
+ //                       break;
+ //                   case "7":
+ //                        userZone = "9000";  
+ //                       break;                      
                         
                         
-                    default:
+ //                   default:
 
 
-                    }
+ //                   }
             	
             	
-            	var url1 = "API_BUSINESS_PARTNER/A_CustomerSalesArea?&sap-client=" + client +"&$format=json&$filter=SalesOffice eq "+ userZone ; 
+ //           	var url1 = "API_BUSINESS_PARTNER/A_CustomerSalesArea?&sap-client=" + client +"&$format=json&$filter=SalesOffice eq "+ userZone ; 
             	
             	
             	
-            } else {
+ //           } else {
 			var url1 = "/API_BUSINESS_PARTNER/A_BusinessPartner/?$format=json&$expand=to_Customer&?sap-client=" + client +
 				"&$filter=(BusinessPartnerType eq 'Z001' or BusinessPartnerType eq 'Z004' or BusinessPartnerType eq 'Z005') and zstatus ne 'X' &$orderby=BusinessPartner asc";
-            }
+         //   }
 		}
 	//	ctx.logMessage('Final url being fetched', url + url1);
 	  req.logMessage('info','Final url being fetched', url + url1);
