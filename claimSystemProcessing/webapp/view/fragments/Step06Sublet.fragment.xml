@@ -94,7 +94,7 @@
 						
 						<ComboBox required="true" items="{path:'/ZC_CLAIM_SUBLET_CODE', type : 'sap.ui.model.type.String'}" change="onSelectPositionCode"
 							selectedKey="{SubletDataModel>/SubletCode}" enabled="{DateModel>/subletLine}">
-							<core:Item text="{path:'SubletCode'}"
+							<core:Item text="{path:'SubletCode'} - {path:'MaterialDesc'}" 
 								key="{SubletCode}"/>
 						</ComboBox>
 						<core:Title text=""/>

@@ -25,8 +25,8 @@
 										<Label text="Request Type" textAlign="Begin"/>
 										<RadioButtonGroup selectedIndex="0" columns="2" id="idRequestType" select="onSelectRequestType01">
 											<buttons>
-												<RadioButton text="Claim"/>
-												<RadioButton text=" Authorization"/>
+												<RadioButton text="Claim" groupName="A"/>
+												<RadioButton text=" Authorization" groupName="A"/>
 											</buttons>
 										</RadioButtonGroup>
 										<core:Title text=""/>

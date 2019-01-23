@@ -46,22 +46,31 @@ sap.ui.define([
 			//var oSelectedIndex = this.getView().byId("idRequestType").getSelectedIndex();
 			var oSelectedKey = this.getView().byId("idClaimType").getSelectedKey();
 			var oClaimNum = "nun";
+			
+			var oUniqIndex = this.getView().byId("idRequestType").getSelectedIndex();
+			if(oUniqIndex == 1){
+				this.oSelectedClaimGroup = "Authorization";
+			}else if(oUniqIndex == 0) {
+				this.oSelectedClaimGroup = "Claim";
+			}
+			
 			if (oSelectedKey === "WARRANTY") {
 				
 				this.getRouter().navTo("MainClaimSection", {
-					claimNum : oClaimNum
+					claimNum : oClaimNum,
+					oClaimGroup : this.oSelectedClaimGroup
 					
 				});
 			} else if (oSelectedKey === "PART WAREHOUSE") {
 				this.getRouter().navTo("PartsMainSection", {
-					claimNum : oClaimNum
+					claimNum : oClaimNum,
+					oClaimGroup : this.oSelectedClaimGroup
 				});
 			}
 		},
 		
 		onSelectRequestType01 : function(oEvent){
-			var oUniqIndex = this.getView().byId("idRequestType").getSelectedIndex();
-		
+			
 			// sap.ui.getCore().getEventBus().publish("App", "oType", {text : oUniqIndex});
 		},
 		

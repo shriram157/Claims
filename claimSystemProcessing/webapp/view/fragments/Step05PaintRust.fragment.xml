@@ -112,12 +112,12 @@
 		<table:Table id="idPaintTable" class="classRCPTable" selectionMode="MultiToggle" rows="{LocalDataModel>/PaintPricingDataModel}"  
 			 showNoData="true" threshold="5" enableBusyIndicator="true" visibleRowCount="5">
 			<table:columns autoResizable="true">
-				<table:Column width="17rem">
+				<table:Column width="11rem">
 					<table:multiLabels>
 						<Label text="Line #" textAlign="Center" width="100%"/>
 					</table:multiLabels>
 					<table:template>
-						<Text text="{LocalDataModel>posnr}" wrapping="false"/>
+						<Text text="{LocalDataModel>posnr}" wrapping="false" textAlign="Center"/>
 					</table:template>
 				</table:Column>
 				<table:Column width="17rem">
@@ -125,7 +125,7 @@
 						<Label text="Position Code" textAlign="Center" width="100%"/>
 					</table:multiLabels>
 					<table:template>
-						<Text text="{LocalDataModel>matnr}" wrapping="false"/>
+						<Text text="{path:'LocalDataModel>ItemKey', formatter: 'zclaimProcessing.utils.formatter.fnFormatPositionCode'}" wrapping="false" textAlign="Center"/>
 					</table:template>
 				</table:Column>
 			</table:columns>

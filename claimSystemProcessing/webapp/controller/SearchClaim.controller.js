@@ -11,9 +11,8 @@ sap.ui.define([
 		 * @memberOf zclaimProcessing.view.SearchClaim
 		 */
 		onInit: function () {
-	
-			
-		var oDateModel = new sap.ui.model.json.JSONModel();
+
+			var oDateModel = new sap.ui.model.json.JSONModel();
 			var PriorDate = new Date();
 			oDateModel.setData({
 				dateValueDRS2: new Date(new Date().setDate(PriorDate.getDate() - 30)),
@@ -146,7 +145,7 @@ sap.ui.define([
 			}
 		},
 		onPressSearch: function (oEvent) {
-		
+
 			var sQueryDealer = this.getView().byId("idDealerCode").getSelectedKey();
 			// console.log(sQueryDealer, this.oStatusKey);
 			var sQuerySearchBy = this.getView().byId("idSearchBy").getSelectedKey();
@@ -189,7 +188,7 @@ sap.ui.define([
 				}
 			}
 
-			if (sQueryDate!= ""  && sQueryDealer != "" && sQuerySearchText == "" && sQueryClaimType=="" && sQueryStat == "") {
+			if (sQueryDate != "" && sQueryDealer != "" && sQuerySearchText == "" && sQueryClaimType == "" && sQueryStat == "") {
 
 				andFilter = new sap.ui.model.Filter({
 					filters: [
@@ -198,8 +197,8 @@ sap.ui.define([
 					],
 					and: true
 				});
-			} else if (sQueryDate != ""  && sQueryDealer != ""  && sQuerySearchText != ""   && sQueryClaimType =="" &&  sQueryStat =="") {
-				
+			} else if (sQueryDate != "" && sQueryDealer != "" && sQuerySearchText != "" && sQueryClaimType == "" && sQueryStat == "") {
+
 				andFilter = new sap.ui.model.Filter({
 					filters: [
 						new sap.ui.model.Filter(sDate, sap.ui.model.FilterOperator.BT, FromDateFormat, ToDateFormat),
@@ -209,7 +208,7 @@ sap.ui.define([
 					],
 					and: true
 				});
-			} else if (sQuerySearchText != "" && sQueryClaimType != ""  && sQueryDate != ""  && sQueryDealer != "" && sQueryStat  =="") {
+			} else if (sQuerySearchText != "" && sQueryClaimType != "" && sQueryDate != "" && sQueryDealer != "" && sQueryStat == "") {
 				andFilter = new sap.ui.model.Filter({
 					filters: [
 						new sap.ui.model.Filter(sDate, sap.ui.model.FilterOperator.BT, FromDateFormat, ToDateFormat),
@@ -225,11 +224,11 @@ sap.ui.define([
 						new sap.ui.model.Filter("WarrantyClaimType", sap.ui.model.FilterOperator.EQ, sQueryClaimType),
 						new sap.ui.model.Filter(sDate, sap.ui.model.FilterOperator.BT, FromDateFormat, ToDateFormat),
 						new sap.ui.model.Filter("Partner", sap.ui.model.FilterOperator.EQ, sQueryDealer)
-					
+
 					],
 					and: true
 				});
-			} else if (sQueryStat != "" && sQueryClaimType != "" && sQueryDate != "" && sQueryDealer != ""  && sQuerySearchText == "" ) {
+			} else if (sQueryStat != "" && sQueryClaimType != "" && sQueryDate != "" && sQueryDealer != "" && sQuerySearchText == "") {
 
 				andFilter = new sap.ui.model.Filter({
 					filters: [
@@ -242,7 +241,7 @@ sap.ui.define([
 					and: true
 				});
 
-			} else if (sQueryStat != "" && sQuerySearchText != "" && sQueryDate != "" && sQueryDealer != ""  && sQueryClaimType == "") {
+			} else if (sQueryStat != "" && sQuerySearchText != "" && sQueryDate != "" && sQueryDealer != "" && sQueryClaimType == "") {
 				andFilter = new sap.ui.model.Filter({
 					filters: [
 						new sap.ui.model.Filter("Partner", sap.ui.model.FilterOperator.EQ, sQueryDealer),
@@ -299,9 +298,31 @@ sap.ui.define([
 		},
 		onPressClaim: function (oEvent) {
 			var oClaimNum = oEvent.getSource().getText();
-			this.getOwnerComponent().getRouter().navTo("MainClaimSection", {
-				claimNum : oClaimNum
+			var oClaimModel = this.getModel("ProssingModel");
+
+			oClaimModel.read("/ZC_CLAIM_HEAD", {
+				urlParameters: {
+					"$filter": "NumberOfWarrantyClaim eq '" + oClaimNum + "'"
+				},
+				success: $.proxy(function (sdata) {
+					//console.log(sdata);
+					//this.getModel("LocalDataModel").setProperty("/ClaimDetails", sdata.results[0]);
+					var oClaimType = sdata.results[0].WarrantyClaimType;
+
+					if (oClaimType == "ZACD" || oClaimType == "ZAUT") {
+						this.oSelectedClaimGroup = "Authorization";
+					} else {
+						this.oSelectedClaimGroup = "Claim";
+					}
+
+					this.getOwnerComponent().getRouter().navTo("MainClaimSection", {
+						claimNum: oClaimNum,
+						oClaimGroup: this.oSelectedClaimGroup
+					});
+
+				}, this)
 			});
+
 		},
 		onCreateNewClaim: function () {
 			this.getRouter().navTo("NewClaimSelectGroup");

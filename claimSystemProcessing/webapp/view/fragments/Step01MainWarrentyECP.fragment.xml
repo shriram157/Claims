@@ -1,6 +1,6 @@
 <core:FragmentDefinition xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:u="sap.ui.unified" xmlns:l="sap.ui.layout"
 	xmlns="sap.m" xmlns:table="sap.ui.table">
-	<VBox class="sapUiSmallMargin clFormTitleGap" id="idClaimMainForm">
+	<VBox class="sapUiSmallMargin clFormTitleGap">
 		<Panel width="auto" class="sapUiSmallMarginBottom" accessibleRole="Region">
 			<headerToolbar>
 				<Toolbar height="3rem">
@@ -14,17 +14,14 @@
 				<f:content>
 					<core:Title text=""/>
 					<Label text="Claim Type"/>
-					<ComboBox required="true"
-						items="{path:'LocalDataModel>/ClaimGroupSet'}"
-						change="onSelectClaimTpe" selectedKey="{HeadSetData>/WarrantyClaimType}"
-						
-						>
+					<ComboBox required="true" items="{path:'LocalDataModel>/ClaimGroupSet'}" change="onSelectClaimTpe"
+						selectedKey="{HeadSetData>/WarrantyClaimType}" enabled="{DateModel>/claimTypeEn}">
 						<core:Item text="{LocalDataModel>ALMClaimType} - {LocalDataModel>ALMClaimTypeDes}" key="{LocalDataModel>ALMClaimType}"/>
 					</ComboBox>
 					<core:Title text=""/>
 					<Label text="First Submission Date"/>
 					<Text
-						text="{ path: 'HeadSetData>/ReferenceDate', type: 'sap.ui.model.type.Date', constraints: {displayFormat: 'Date' }, formatOptions: { style: 'medium', strictParsing: true , UTC: true} }"/>
+						text="{ path: 'HeadSetData>/ReferenceDate', type : 'sap.ui.model.type.Date', formatOptions : { source: { pattern: 'dd-MM-yyyy' }, pattern: 'dd-MM-yyyy' }, constraints : { minimum : '01-01-1990' } }"/>
 					<Label text="Claim Age"/>
 					<Text text="{HeadSetData>/ClaimAge}"/>
 					<Label text="Last Modified by"/>
@@ -36,25 +33,30 @@
 					<Label text="Final Processed Date"/>
 					<Text
 						text="{ path: 'HeadSetData>/FinalProcdDate', type: 'sap.ui.model.type.Date', constraints: {displayFormat: 'Date' }, formatOptions: { style: 'medium', strictParsing: true , UTC: true} }"/>
-					<Label>
-						<layoutData>
-							<l:GridData span="XL2 "/>
-						</layoutData>
-					</Label>
-					<Button text="Save Claim" type="Emphasized" press="onSaveClaim" enabled="{DateModel>/saveClaimSt}">
+					
+				</f:content>
+			</f:SimpleForm>
+			<HBox justifyContent="End">
+				<Button text="Save Claim" class="sapUiSmallMarginEnd" type="Emphasized" press="onSaveClaim" visible="{DateModel>/saveClaimSt}">
 						<layoutData>
 							<l:GridData span="XL3 L4 M6 S12"/>
 						</layoutData>
 					</Button>
+					
+					<Button text="Save Claim"  class="sapUiSmallMarginEnd" type="Emphasized" press="onUpdateClaim" visible="{DateModel>/updateClaimSt}">
+						<layoutData>
+							<l:GridData span="XL3 L4 M6 S12"/>
+						</layoutData>
+					</Button>
+					
 					<Button text="Copy to Claim" type="Default" press="onCopyClaim">
 						<layoutData>
 							<l:GridData span="XL4 L4 M6 S12"/>
 						</layoutData>
 					</Button>
-				</f:content>
-			</f:SimpleForm>
+			</HBox>
 		</Panel>
-		<f:SimpleForm editable="true"  title="Repair Order Information" layout="ResponsiveGridLayout" labelSpanXL="12"
+		<f:SimpleForm id="idClaimMainForm" editable="true" title="Repair Order Information" layout="ResponsiveGridLayout" labelSpanXL="12"
 			labelSpanL="12" labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
 			columnsXL="3" columnsL="3" columnsM="3" singleContainerFullSize="false">
 			<f:content>
@@ -67,8 +69,7 @@
 					required="true" id="idDealerClaim"/>
 				<core:Title text=""/>
 				<Label text="Repair Date"/>
-				<DatePicker required="true"
-					value="{path:'HeadSetData>/RepairDate', type: 'sap.ui.model.type.Date'}"/>
+				<DatePicker required="true" value="{path:'HeadSetData>/RepairDate',type : 'sap.ui.model.type.Date'}"/>
 				<Label text="Dealer Contact"/>
 				<Input required="true"
 					value="{path:'HeadSetData>/DealerContact', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 30 }}"
@@ -91,7 +92,7 @@
 				<RadioButtonGroup selectedIndex="0" columns="2" id="idRequestType" select="onSelectRequestType">
 					<buttons>
 						<RadioButton groupName="C" text="VIN"/>
-						<RadioButton  groupName="C" text=" Non Vehicle"/>
+						<RadioButton groupName="C" text=" Non Vehicle"/>
 					</buttons>
 				</RadioButtonGroup>
 				<Input
@@ -114,9 +115,9 @@
 				<Button icon="sap-icon://message-warning" type="Transparent" press="onPressSpecialVin"/>
 			</f:content>
 		</f:SimpleForm>
-		<f:SimpleForm  id="idpart01Form" editable="true" title="Repair Details" layout="ResponsiveGridLayout" labelSpanXL="12" labelSpanL="12" labelSpanM="12"
-			labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="3" columnsL="3" columnsM="3"
-			singleContainerFullSize="false">
+		<f:SimpleForm id="idpart01Form" editable="true" title="Repair Details" layout="ResponsiveGridLayout" labelSpanXL="12" labelSpanL="12"
+			labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="3"
+			columnsL="3" columnsM="3" singleContainerFullSize="false">
 			<f:content>
 				<core:Title text=""/>
 				<Label text="OFP"/>
@@ -154,12 +155,40 @@
 					value="{path:'HeadSetData>/Remedy', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 100 }}"></TextArea>
 			</f:content>
 		</f:SimpleForm>
-		
-		<f:SimpleForm  editable="true" title="" layout="ResponsiveGridLayout" labelSpanXL="3" labelSpanL="3" labelSpanM="3"
+		<Button text="View CCR Abbreviations" press="onPressAbbr"/>
+		<f:SimpleForm visible="{DateModel>/AcA1}" editable="true" title="Accessory Installation/Purchase" layout="ResponsiveGridLayout"
+			labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0"
+			emptySpanS="0" columnsXL="3" columnsL="3" columnsM="3" singleContainerFullSize="false">
+			<f:content>
+				<core:Title text=""/>
+				<Label text="Install Date"/>
+				<DatePicker required="true" value="{path:'HeadSetData>/RepairDate',type : 'sap.ui.model.type.Date'}"/>
+				<core:Title text=""/>
+				<Label text="Install Odometer"/>
+				<Input value=" "/>
+				<core:Title text=""/>
+			</f:content>
+		</f:SimpleForm>
+		<f:SimpleForm visible="{DateModel>/P1p2}" editable="true" title="Original/Previous Installation" layout="ResponsiveGridLayout"
+			labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0"
+			emptySpanS="0" columnsXL="3" columnsL="3" columnsM="3" singleContainerFullSize="false">
+			<f:content>
+				<core:Title text=""/>
+				<Label text="Previous R.O./Invoice #"/>
+				<Input value=" "/>
+				<core:Title text=""/>
+				<Label text="R.O./Invoice Date"/>
+				<DatePicker required="true" value="{path:'HeadSetData>/RepairDate',type : 'sap.ui.model.type.Date'}"/>
+				<core:Title text=""/>
+				<Label text="R.O. Odometer"/>
+				<Input value=" "/>
+			</f:content>
+		</f:SimpleForm>
+		<f:SimpleForm editable="true" title="Claim Comments" layout="ResponsiveGridLayout" labelSpanXL="3" labelSpanL="3" labelSpanM="3"
 			labelSpanS="12" adjustLabelSpan="false" emptySpanXL="1" emptySpanL="1" emptySpanM="1" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1"
 			singleContainerFullSize="false">
 			<f:content>
-				<core:Title text="Claim Comments"/>
+				<core:Title text=""/>
 				<TextArea height="8rem" value="{HeadSetData>/HeadText}">
 					<layoutData>
 						<l:GridData span="XL8 L8 M8 S12"/>
@@ -172,8 +201,8 @@
 				</Button>
 			</f:content>
 		</f:SimpleForm>
-		</VBox>
-		<VBox>
+	</VBox>
+	<VBox>
 		<Panel width="auto" class="sapUiSmallMarginBottom" accessibleRole="Region">
 			<headerToolbar>
 				<Toolbar height="3rem">
@@ -199,9 +228,7 @@
 							<items>
 								<UploadCollectionItem documentId="{ClaimModel>DOC_ID}" fileName="{ClaimModel>FileName}" mimeType="{ClaimModel>MIMETYPE}"
 									thumbnailUrl="{ClaimModel>url}" url="{ClaimModel>URI}" enableEdit="{settings>/enableEdit}" enableDelete="{settings>/enableDelete}"
-									visibleDelete="{settings>/visibleDelete}" visibleEdit="{settings>/visibleEdit}">
-									
-								</UploadCollectionItem>
+									visibleDelete="{settings>/visibleDelete}" visibleEdit="{settings>/visibleEdit}"></UploadCollectionItem>
 							</items>
 						</UploadCollection>
 					</f:content>
@@ -211,8 +238,7 @@
 		<Panel width="auto" class="sapUiSmallMarginBottom" accessibleRole="Region">
 			<content>
 				<table:Table id="idRCPTable" class="classRCPTable" selectionMode="Single" rows="{path:'LocalDataModel>/ClaimSum'}"
-				 rowSelectionChange="onNavigate" selectionBehavior="Row" showNoData="true" threshold="4" visibleRowCount="4"
-					enableBusyIndicator="true">
+					rowSelectionChange="onNavigate" selectionBehavior="Row" showNoData="true" threshold="4" visibleRowCount="4" enableBusyIndicator="true">
 					<table:toolbar>
 						<Toolbar>
 							<Title id="idClaimWarrenty" text="Claim Amount Summary" level="H2"/>
