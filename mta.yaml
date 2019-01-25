@@ -16,6 +16,7 @@ modules:
       memory: 256MB
    requires:
     - name: CLAIM_SYSTEM_PROCESSING_CUPS   
+    - name: uaa_claimsSystemProcessing
    provides:
     - name: claimSystemProcessing_Node_api
       properties:
