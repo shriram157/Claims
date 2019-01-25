@@ -80,7 +80,7 @@
 					value="{path:'HeadSetData>/RepairOrderNumberExternal', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 10 }}"
 					id="idRepairOrder"/>
 				<Label text="R.O. Odometer"/>
-				<Input value="{path:'HeadSetData>/OdometerReading', type : 'sap.ui.model.type.String', constraints : { minLength : 2, maxLength : 7 }}"
+				<Input value="{path:'HeadSetData>/Odometer', type : 'sap.ui.model.type.String', constraints : { minLength : 2, maxLength : 7 }}"
 					required="true" id="idOdometer"/>
 			</f:content>
 		</f:SimpleForm>
@@ -162,10 +162,10 @@
 			<f:content>
 				<core:Title text=""/>
 				<Label text="Install Date"/>
-				<DatePicker required="true" value="{path:'HeadSetData>/RepairDate',type : 'sap.ui.model.type.Date'}"/>
+				<DatePicker required="true" value="{path:'HeadSetData>/AccessoryInstallDate',type : 'sap.ui.model.type.Date'}"/>
 				<core:Title text=""/>
 				<Label text="Install Odometer"/>
-				<Input value=" "/>
+				<Input value="{path:'HeadSetData>/AccessoryInstallOdometer'}"/>
 				<core:Title text=""/>
 			</f:content>
 		</f:SimpleForm>
@@ -175,13 +175,13 @@
 			<f:content>
 				<core:Title text=""/>
 				<Label text="Previous R.O./Invoice #"/>
-				<Input value=" "/>
+				<Input value="{path:'HeadSetData>/PreviousROInvoice'}"/>
 				<core:Title text=""/>
 				<Label text="R.O./Invoice Date"/>
-				<DatePicker required="true" value="{path:'HeadSetData>/RepairDate',type : 'sap.ui.model.type.Date'}"/>
+				<DatePicker required="true" value="{path:'HeadSetData>/PreviousROInvoiceDate',type : 'sap.ui.model.type.Date'}"/>
 				<core:Title text=""/>
 				<Label text="R.O. Odometer"/>
-				<Input value=" "/>
+				<Input value="{path:'HeadSetData>/PreviousROOdometer'}"/>
 			</f:content>
 		</f:SimpleForm>
 		<f:SimpleForm editable="true" title="Claim Comments" layout="ResponsiveGridLayout" labelSpanXL="3" labelSpanL="3" labelSpanM="3"

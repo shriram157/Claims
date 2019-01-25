@@ -96,6 +96,12 @@ sap.ui.define([
 					this.getModel("LocalDataModel").setProperty("/WarrantyClaimGroups", oClaimGroup);
 				}, this)
 			});
+
+			var oRowCount = {
+				rowCount: 0
+			};
+
+			this.getView().setModel(new sap.ui.model.json.JSONModel(oRowCount), "RowCountModel");
 		},
 		onAfterRendering: function () {
 			this.getView().byId("idDealerCode").setSelectedKey("2400042350");
@@ -186,6 +192,7 @@ sap.ui.define([
 					oResult.push(new sap.ui.model.Filter("ProcessingStatusOfWarrantyClm", sap.ui.model.FilterOperator.EQ, sQueryStat[j]));
 
 				}
+				this.getView().getModel("RowCountModel").setProperty("/rowCount", 10);
 			}
 
 			if (sQueryDate != "" && sQueryDealer != "" && sQuerySearchText == "" && sQueryClaimType == "" && sQueryStat == "") {
@@ -208,6 +215,7 @@ sap.ui.define([
 					],
 					and: true
 				});
+				this.getView().getModel("RowCountModel").setProperty("/rowCount", 10);
 			} else if (sQuerySearchText != "" && sQueryClaimType != "" && sQueryDate != "" && sQueryDealer != "" && sQueryStat == "") {
 				andFilter = new sap.ui.model.Filter({
 					filters: [
@@ -228,6 +236,7 @@ sap.ui.define([
 					],
 					and: true
 				});
+				this.getView().getModel("RowCountModel").setProperty("/rowCount", 10);
 			} else if (sQueryStat != "" && sQueryClaimType != "" && sQueryDate != "" && sQueryDealer != "" && sQuerySearchText == "") {
 
 				andFilter = new sap.ui.model.Filter({
@@ -241,6 +250,8 @@ sap.ui.define([
 					and: true
 				});
 
+				this.getView().getModel("RowCountModel").setProperty("/rowCount", 10);
+
 			} else if (sQueryStat != "" && sQuerySearchText != "" && sQueryDate != "" && sQueryDealer != "" && sQueryClaimType == "") {
 				andFilter = new sap.ui.model.Filter({
 					filters: [
@@ -252,7 +263,7 @@ sap.ui.define([
 					],
 					and: true
 				});
-
+				this.getView().getModel("RowCountModel").setProperty("/rowCount", 10);
 			} else if (sQueryStat != "" && sQueryDate != "" && sQueryDealer != "" && sQueryClaimType == "" && sQuerySearchText == "") {
 
 				andFilter = new sap.ui.model.Filter({
@@ -263,6 +274,7 @@ sap.ui.define([
 					],
 					and: true
 				});
+				this.getView().getModel("RowCountModel").setProperty("/rowCount", 10);
 
 			} else if (sQueryDate != "" && sQueryDealer != "" && sQuerySearchText != "" && sQueryClaimType != "" && sQueryStat != "") {
 
@@ -277,7 +289,7 @@ sap.ui.define([
 					],
 					and: true
 				});
-
+				this.getView().getModel("RowCountModel").setProperty("/rowCount", 10);
 			}
 			var oTable = this.getView().byId("idClaimTable");
 			var oBindItems = oTable.getBinding("rows");
@@ -317,6 +329,7 @@ sap.ui.define([
 
 					this.getOwnerComponent().getRouter().navTo("MainClaimSection", {
 						claimNum: oClaimNum,
+						oKey: "nun",
 						oClaimGroup: this.oSelectedClaimGroup
 					});
 

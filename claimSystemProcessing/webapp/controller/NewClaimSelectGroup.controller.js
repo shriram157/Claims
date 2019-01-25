@@ -58,13 +58,22 @@ sap.ui.define([
 				
 				this.getRouter().navTo("MainClaimSection", {
 					claimNum : oClaimNum,
+					oKey : "WARRANTY",
 					oClaimGroup : this.oSelectedClaimGroup
 					
 				});
 			} else if (oSelectedKey === "PART WAREHOUSE") {
 				this.getRouter().navTo("PartsMainSection", {
 					claimNum : oClaimNum,
+					oKey : "PART WAREHOUSE",
 					oClaimGroup : this.oSelectedClaimGroup
+				});
+			}else if (oSelectedKey === "FIELD ACTION") {
+					this.getRouter().navTo("MainClaimSection", {
+					claimNum : oClaimNum,
+					oKey : "FIELD ACTION",
+					oClaimGroup : this.oSelectedClaimGroup
+					
 				});
 			}
 		},

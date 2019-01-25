@@ -48,7 +48,7 @@ zclaimProcessing.utils.formatter = {
 					return a + b;
 
 				}
-			);
+			).toFixed(2);
 		}
 		return oNum;
 	},
@@ -67,7 +67,7 @@ zclaimProcessing.utils.formatter = {
 					return a + b;
 
 				}
-			);
+			).toFixed(2);
 		}
 		return oNum;
 	},
@@ -86,7 +86,7 @@ zclaimProcessing.utils.formatter = {
 					return a + b;
 
 				}
-			);
+			).toFixed(2);
 		}
 		return oNum;
 	},
@@ -105,7 +105,7 @@ zclaimProcessing.utils.formatter = {
 					return a + b;
 
 				}
-			);
+			).toFixed(2);
 		}
 		return oNum;
 	},
@@ -124,7 +124,7 @@ zclaimProcessing.utils.formatter = {
 					return a + b;
 
 				}
-			);
+			).toFixed(2);
 		}
 		return oNum;
 	},
@@ -143,7 +143,7 @@ zclaimProcessing.utils.formatter = {
 					return a + b;
 
 				}
-			);
+			).toFixed(2);
 		}
 		return oNum;
 	},
@@ -162,7 +162,7 @@ zclaimProcessing.utils.formatter = {
 					return a + b;
 
 				}
-			);
+			).toFixed(2);
 		}
 		return oNum;
 	},
@@ -181,7 +181,7 @@ zclaimProcessing.utils.formatter = {
 					return a + b;
 
 				}
-			);
+			).toFixed(2);
 		}
 		return oNum;
 	},
@@ -200,7 +200,7 @@ zclaimProcessing.utils.formatter = {
 					return a + b;
 
 				}
-			);
+			).toFixed(2);
 		}
 		return oNum;
 	},
@@ -219,7 +219,7 @@ zclaimProcessing.utils.formatter = {
 					return a + b;
 
 				}
-			);
+			).toFixed(2);
 		}
 		return oNum;
 	},
@@ -238,7 +238,7 @@ zclaimProcessing.utils.formatter = {
 					return a + b;
 
 				}
-			);
+			).toFixed(2);
 		}
 		return oNum;
 	},
@@ -257,7 +257,7 @@ zclaimProcessing.utils.formatter = {
 					return a + b;
 
 				}
-			);
+			).toFixed(2);
 		}
 		return oNum;
 	},
@@ -276,7 +276,7 @@ zclaimProcessing.utils.formatter = {
 					return a + b;
 
 				}
-			);
+			).toFixed(2);
 		}
 		return oNum;
 	},
@@ -295,7 +295,7 @@ zclaimProcessing.utils.formatter = {
 					return a + b;
 
 				}
-			);
+			).toFixed(2);
 		}
 		return oNum;
 	},
@@ -314,7 +314,7 @@ zclaimProcessing.utils.formatter = {
 					return a + b;
 
 				}
-			);
+			).toFixed(2);
 		}
 		return oNum;
 	}

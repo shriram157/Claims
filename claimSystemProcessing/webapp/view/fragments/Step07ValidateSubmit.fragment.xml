@@ -136,7 +136,15 @@
 			</table:columns>
 		</table:Table>
 		<List headerText="Error List" items="{ path: 'LocalDataModel>/oErrorSet' }">
-			<StandardListItem title="{LocalDataModel>ID}" description="{LocalDataModel>MESSAGE}"/>
+			<ObjectListItem >
+				<attributes>
+					<ObjectAttribute text="Error #: {LocalDataModel>NUMBER}"/>
+					<ObjectAttribute text="Error Type: {LocalDataModel>TYPE}"/>
+					<ObjectAttribute text="Page:"/>
+					<ObjectAttribute text="Line #: {LocalDataModel>POSNR}"/>
+					<ObjectAttribute text="Error Description: {LocalDataModel>MESSAGE}"/>
+				</attributes>
+			</ObjectListItem>
 		</List>
 		<!--<f:SimpleForm editable="true" layout="ResponsiveGridLayout" title="Validation Results" labelSpanXL="6" labelSpanL="6" labelSpanM="12"-->
 		<!--	labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="2"-->
