@@ -1501,10 +1501,8 @@ sap.ui.define([
 		// 	// this.PartNum = obj.matnr;
 		// },
 		onPressDeleteLabour: function () {
-
 			var oTable = this.getView().byId("idLabourTable");
 			var oTableIndex = oTable._aSelectedPaths;
-
 			if (oTableIndex.length == 1) {
 				// var oTableStringSplit = oTableIndex.toString().split(",");
 				// Array.prototype.splice.apply(this.obj.zc_itemSet.results, oTableStringSplit);
