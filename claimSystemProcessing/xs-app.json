@@ -1,20 +1,122 @@
 {
-  "welcomeFile": "/claimSystemProcessing/index.html",
-  "authenticationMethod": "none",
-  "logout": {
-    "logoutEndpoint": "/do/logout"
-  },
-  "routes": [
-    {
-      "source": "^/claimSystemProcessing/(.*)$",
-      "target": "$1",
-      "localDir": "webapp"
-    },
-              {
-      "source": "/node(.*)",
-      "destination": "claimSystemProcessing-node-backend",
-      "csrfProtection": false,
-      "authenticationType": "none"
-    }
-  ]
+	"welcomeFile": "/claimSystemProcessing/index.html",
+	"authenticationMethod": "route",
+	"logout": {
+		"logoutEndpoint": "/do/logout"
+	},
+	"routes": [{
+			"source": "^/claimSystemProcessing/(.*)$",
+			"target": "$1",
+			"localDir": "webapp",
+			"authenticationType": "xsuaa",
+			"scope": {
+				"GET": [
+					"$XSAPPNAME.View_Service_Claims",
+					"$XSAPPNAME.View_Parts_Claims",
+					"$XSAPPNAME.View_Claim_Inquiry",
+					"$XSAPPNAME.View_Quick_Coverage_Tool",
+					"$XSAPPNAME.View_Dealer_Labor_Rate"
+					
+				],
+				"POST": [
+					"$XSAPPNAME.Manage_Sevice_Claims",
+					"$XSAPPNAME.Manage_Parts_Claims",
+					"$XSAPPNAME.View_Service_Claims",
+					"$XSAPPNAME.View_Parts_Claims",
+					"$XSAPPNAME.View_Claim_Inquiry",
+					"$XSAPPNAME.View_Quick_Coverage_Tool",
+					"$XSAPPNAME.View_Dealer_Labor_Rate"
+					
+				],
+				"PUT": [
+					"$XSAPPNAME.Manage_Sevice_Claims",
+					"$XSAPPNAME.Manage_Parts_Claims",
+					"$XSAPPNAME.View_Service_Claims",
+					"$XSAPPNAME.View_Parts_Claims",
+					"$XSAPPNAME.View_Claim_Inquiry",
+					"$XSAPPNAME.View_Quick_Coverage_Tool",
+					"$XSAPPNAME.View_Dealer_Labor_Rate"
+				],
+				"DELETE": [
+					"$XSAPPNAME.Manage_Sevice_Claims",
+					"$XSAPPNAME.Manage_Parts_Claims",
+					"$XSAPPNAME.View_Service_Claims",
+					"$XSAPPNAME.View_Parts_Claims",
+					"$XSAPPNAME.View_Claim_Inquiry",
+					"$XSAPPNAME.View_Quick_Coverage_Tool",
+					"$XSAPPNAME.View_Dealer_Labor_Rate"
+				],
+				"HEAD": [
+					"$XSAPPNAME.Manage_Sevice_Claims",
+					"$XSAPPNAME.Manage_Parts_Claims",
+					"$XSAPPNAME.View_Service_Claims",
+					"$XSAPPNAME.View_Parts_Claims",
+					"$XSAPPNAME.View_Claim_Inquiry",
+					"$XSAPPNAME.View_Quick_Coverage_Tool",
+					"$XSAPPNAME.View_Dealer_Labor_Rate"
+				]
+
+			}
+
+		}, {
+			"source": "/node(.*)",
+			"destination": "claimSystemProcessing-node-backend",
+			"csrfProtection": false,
+			"authenticationType": "xsuaa",
+			"scope": {
+				"GET": [
+					"$XSAPPNAME.View_Service_Claims",
+					"$XSAPPNAME.View_Parts_Claims",
+					"$XSAPPNAME.View_Claim_Inquiry",
+					"$XSAPPNAME.View_Quick_Coverage_Tool",
+					"$XSAPPNAME.View_Dealer_Labor_Rate"
+				],
+				"POST": [
+					"$XSAPPNAME.Manage_Sevice_Claims",
+					"$XSAPPNAME.Manage_Parts_Claims",
+					"$XSAPPNAME.View_Service_Claims",
+					"$XSAPPNAME.View_Parts_Claims",
+					"$XSAPPNAME.View_Claim_Inquiry",
+					"$XSAPPNAME.View_Quick_Coverage_Tool",
+					"$XSAPPNAME.View_Dealer_Labor_Rate"
+				],
+				"PUT": [
+					"$XSAPPNAME.Manage_Sevice_Claims",
+					"$XSAPPNAME.Manage_Parts_Claims",
+					"$XSAPPNAME.View_Service_Claims",
+					"$XSAPPNAME.View_Parts_Claims",
+					"$XSAPPNAME.View_Claim_Inquiry",
+					"$XSAPPNAME.View_Quick_Coverage_Tool",
+					"$XSAPPNAME.View_Dealer_Labor_Rate"
+				],
+				"DELETE": [
+					"$XSAPPNAME.Manage_Sevice_Claims",
+					"$XSAPPNAME.Manage_Parts_Claims",
+					"$XSAPPNAME.View_Service_Claims",
+					"$XSAPPNAME.View_Parts_Claims",
+					"$XSAPPNAME.View_Claim_Inquiry",
+					"$XSAPPNAME.View_Quick_Coverage_Tool",
+					"$XSAPPNAME.View_Dealer_Labor_Rate"
+				],
+				"HEAD": [
+					"$XSAPPNAME.Manage_Sevice_Claims",
+					"$XSAPPNAME.Manage_Parts_Claims",
+					"$XSAPPNAME.View_Service_Claims",
+					"$XSAPPNAME.View_Parts_Claims",
+					"$XSAPPNAME.View_Claim_Inquiry",
+					"$XSAPPNAME.View_Quick_Coverage_Tool",
+					"$XSAPPNAME.View_Dealer_Labor_Rate"
+				]
+
+			}
+		}, {
+			"source": "/userDetails(.*)",
+			"destination": "claimSystemProcessing-node-backend",
+			"csrfProtection": false,
+			"authenticationType": "xsuaa"
+
+			}
+		
+
+	]
 }

@@ -69,8 +69,7 @@ module.exports = function () {
 		//   console.log(req.headers.cookie);
 
 		if (method == 'GET') {
-			//	 delete (req.headers.cookie);  // TODO: to be revisited, if this solvs
-
+		
 			var reqHeader = {
 				"Authorization": auth64,
 				"Content-Type": "application/json",
@@ -80,7 +79,10 @@ module.exports = function () {
 
 		}
 
-		//  if the method = post you need a csrf token.   
+		//  the backeend request is only taking PUT, not post
+		  //if (method == 'POST') {
+		  //	method = 'PUT';
+		  //}
 
 		if (method == 'POST' || method == 'DELETE' || method == 'PUT' || method == 'HEAD') {
 			reqHeader = {

@@ -1,7 +1,5 @@
 {
-	"dependencies": {},
-	"description": "Node module for claims Systems processing",
-	"devDependencies": {
+	"dependencies": {
 		"@sap/xsenv": "1.2.9",
 		"@sap/xssec": "2.1.10",
 		"@sap/hdbext": "4.3.4",
@@ -9,10 +7,15 @@
 		"@sap/logging": "^3.3.1",
 		"@sap/jobs-client": "1.1.1",
 		"passport": "0.3.2",
-		"express": "4.12.3",
-		"request": "",
+		"express": "^4.16.4",
 		"async": "2.5.0",
 		"ws": "1.1.4",
+		"body-parser": "^1.18.3",
+		"boom": "^2.10.1",
+		"cf-nodejs-logging-support": "^3.0.13"
+	},
+	"description": "Node module for claims Systems processing",
+	"devDependencies": {
 		"gulp": "3.9.1",
 		"gulp-replace": "0.5.4",
 		"jasmine-reporters": "2.1.1",
