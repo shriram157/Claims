@@ -23,14 +23,15 @@
 					<Text text="{LocalDataModel>/ClaimDetails/ExternalNumberOfClaim}"/>
 					<Label text="OFP"/>
 					<Text text="{LocalDataModel>/ClaimDetails/OFP}" id="idOFPart"/>
-					<core:Title text="" />
+					<core:Title text=""/>
 					<Label text="RO #."/>
 					<Text text="{LocalDataModel>/ClaimDetails/RepairOrderNumberExternal}"/>
 					<Label text="Op #."/>
 					<Text text="{LocalDataModel>/ClaimDetails/MainOpsCode}"/>
 					<core:Title text=""/>
 					<Label text="Repair Date"/>
-					<Text text="{path:'LocalDataModel>/ClaimDetails/RepairDate', type: 'sap.ui.model.type.Date', constraints: {displayFormat: 'Date' }, formatOptions: { style: 'medium', strictParsing: true , UTC: true}}"/>
+					<Text
+						text="{path:'LocalDataModel>/ClaimDetails/RepairDate', type: 'sap.ui.model.type.Date', constraints: {displayFormat: 'Date' }, formatOptions: { style: 'medium', strictParsing: true , UTC: true}}"/>
 					<Label text="Reg. Date"/>
 					<Text text="{path:'LocalDataModel>/ClaimDetails/RegDate'}"/>
 					<core:Title text=""/>
@@ -90,187 +91,241 @@
 						<core:Title text=""/>
 						<Label text="Quantity" textAlign="Left"/>
 						<Input value="{PartDataModel>/quant}" enabled="{DateModel>/partLine}"/>
+						<Text text="{LocalDataModel>/BaseUnit}"/>
 						<core:Title text=""/>
 						<Label text=" " class="clTextIndent"/>
 						<Button text="Save Part" type="Emphasized" press="onPressSavePart" enabled="{DateModel>/partLine}">
 							<layoutData>
-								<l:GridData span="XL7 L7 "/>
+								<l:GridData span="XL10 L10 "/>
 							</layoutData>
 						</Button>
 					</f:content>
 				</f:SimpleForm>
 			</VBox>
 		</l:Grid>
-		<table:Table class="classRCPTable" id="idTableParts" selectionMode="MultiToggle" rows="{LocalDataModel>/PricingDataModel}"
-		visibleRowCount="5"  showNoData="true" threshold="5" enableBusyIndicator="true">
-			<table:columns autoResizable="true">
-				<table:Column width="5rem">
-					<table:multiLabels>
-						<Label text="Line #" textAlign="Center" width="100%"/>
-					</table:multiLabels>
-					<table:template>
-						<Text text="{LocalDataModel>posnr}" wrapping="false"/>
-					</table:template>
-				</table:Column>
-				<table:Column width="5rem">
-					<table:multiLabels>
-						<Label text="OFP" textAlign="Center" width="100%"/>
-					</table:multiLabels>
-					<table:template>
-						<RadioButton groupName="A"  id="idPartRadio" select="onSelectOFP"/>
-					</table:template>
-				</table:Column>
-				<table:Column width="10rem">
-					<table:multiLabels>
-						<Label text="Part Number" textAlign="Center" width="100%"/>
-					</table:multiLabels>
-					<table:template>
+		<Table id="idTableParts" mode="SingleSelectLeft" items="{path: 'LocalDataModel>/PricingDataModel'}" growing="true" growingThreshold="5" noDataText="No Data" showNoData="true">
+			<columns>
+				<Column><Text text="Line #"/></Column>
+				<Column><Text text="OFP"/></Column>
+				<Column><Text text="Part Number"/></Column>
+				<Column><Text text="Description"/></Column>
+				<Column>
+					<Text text="Dealer Net Price"/>
+				</Column>
+				<Column><Text text="Quantity"/>
+				<footer><Text text="Sub-total : "/></footer>
+				</Column>
+				<Column>
+					<Text text="Extended Value"/>
+					<footer><Text text="{path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnSumExtendedVal'}"/></footer>
+					</Column>
+				<Column>
+					<Text text="Mark-up Amount"/>
+					<footer><Text text="{path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnSumMarkUpVal'}"/></footer>
+				</Column>
+				<Column>
+					<Text text="Amount Claimed"/>
+					<footer><Text text="{path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnAmountClaimVal'}"/></footer>
+				</Column>
+				<Column><Text text="Total After Discount"/>
+				<footer><Text text="{path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnAfterDiscVal'}"/></footer>
+				</Column>
+				<Column><Text text="TCI Quantity Approved"/></Column>
+				<Column><Text text="TCI Amount Approved"/>
+				<footer><Text text="{path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnTCIAmtVal'}"/></footer>
+				</Column>
+				<Column><Text text="Difference"/>
+				<footer><Text text="{path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnDiffVal'}"/></footer>
+				</Column>
+			</columns>
+			<items>
+				<ColumnListItem>
+					<cells>
+						<Text text="{LocalDataModel>posnr}"/>
+						<RadioButton groupName="A" id="idPartRadio" select="onSelectOFP"/>
 						<Text text="{LocalDataModel>matnr}" wrapping="false"/>
-					</table:template>
-				</table:Column>
-				<table:Column width="11rem">
-					<table:multiLabels>
-						<Label text="Description" textAlign="Center" width="100%"/>
-					</table:multiLabels>
-					<table:template>
-						<Text text="" wrapping="false"/>
-					</table:template>
-				</table:Column>
-				<table:Column width="9rem">
-					<table:multiLabels>
-						<Label text="Dealer Net Price" textAlign="Center" width="100%"/>
-					</table:multiLabels>
-					<table:template>
-						<Text text="{LocalDataModel>DealerNet}" wrapping="false"/>
-					</table:template>
-				</table:Column>
-				<table:Column width="9rem">
-					<table:multiLabels>
-						<Label text="Quantity" textAlign="Center" width="100%"/>
-					</table:multiLabels>
-					<table:template>
+						<Text text="{LocalDataModel>PartDescription}" wrapping="false"/>
+						<Text text="{LocalDataModel>DealerNet}"/>
 						<Text text="{LocalDataModel>PartQty}" wrapping="false"/>
-					</table:template>
-				</table:Column>
-				<table:Column width="9rem">
-					<table:multiLabels>
-						<Label text="Extended Value" textAlign="Center" width="100%"/>
-					</table:multiLabels>
-					<table:template>
 						<Text text="{LocalDataModel>ExtendedValue}" wrapping="false"/>
-					</table:template>
-				</table:Column>
-				<table:Column width="9rem">
-					<table:multiLabels>
-						<Label text="Mark-up Amount" textAlign="Center" width="100%"/>
-					</table:multiLabels>
-					<table:template>
 						<Text text="{LocalDataModel>MarkUp}" wrapping="false"/>
-					</table:template>
-				</table:Column>
-				<table:Column width="9rem">
-					<table:multiLabels>
-						<Label text="Amount Claimed" textAlign="Center" width="100%"/>
-					</table:multiLabels>
-					<table:template>
 						<Text text="{LocalDataModel>AmtClaimed}" wrapping="false"/>
-					</table:template>
-				</table:Column>
-				<table:Column width="9rem">
-					<table:multiLabels>
-						<Label text="Total After Discount" textAlign="Center" width="100%"/>
-					</table:multiLabels>
-					<table:template>
 						<Text text="{LocalDataModel>TotalAfterDisct}" wrapping="false"/>
-					</table:template>
-				</table:Column>
-				<table:Column width="10rem">
-					<table:multiLabels>
-						<Label text="TCI Quantity Approved" textAlign="Center" width="100%"/>
-					</table:multiLabels>
-					<table:template>
 						<Text text="{LocalDataModel>TCIApprQty}" wrapping="false"/>
-					</table:template>
-				</table:Column>
-				<table:Column width="9rem">
-					<table:multiLabels>
-						<Label text="TCI Amount Approved" textAlign="Center" width="100%"/>
-					</table:multiLabels>
-					<table:template>
 						<Text text="{LocalDataModel>TCIApprAmt}" wrapping="false"/>
-					</table:template>
-				</table:Column>
-				<table:Column width="9rem">
-					<table:multiLabels>
-						<Label text="Difference" textAlign="Center" width="100%"/>
-					</table:multiLabels>
-					<table:template>
 						<Text text="{LocalDataModel>DiffAmt}" wrapping="false"/>
-					</table:template>
-				</table:Column>
-			</table:columns>
-		</table:Table>
-		<table:Table class="classRCPTable sapUiSmallMarginTop" id="idTablePartsTotal" selectionMode="None" rows="{LocalDataModel>/PricingDataModel}" showNoData="true"
-			threshold="1" enableBusyIndicator="true" visibleRowCount="1">
-			<table:columns autoResizable="true">
-				<table:Column width="8rem">
-					<table:multiLabels>
-					</table:multiLabels>
-					<table:template>
-						<Text text="Sub-total" wrapping="false"/>
-					</table:template>
-				</table:Column>
-				<table:Column width="10rem">
-					<table:multiLabels>
-						<Label text="Total Extended Values" textAlign="Center" width="100%"/>
-					</table:multiLabels>
-					<table:template>
-						<Text text="{LocalDataModel>ExtendedTotal}" wrapping="false"/>
-					</table:template>
-				</table:Column>
-				<table:Column width="10rem">
-					<table:multiLabels>
-						<Label text="Total Mark-Up Amount" textAlign="Center" width="100%"/>
-					</table:multiLabels>
-					<table:template>
-						<Text text="{LocalDataModel>MarkupTotal}" wrapping="false"/>
-					</table:template>
-				</table:Column>
-				<table:Column width="10rem">
-					<table:multiLabels>
-						<Label text="Total Amount Claimed" textAlign="Center" width="100%"/>
-					</table:multiLabels>
-					<table:template>
-						<Text text="{LocalDataModel>AmtClaimed}" wrapping="false"/>
-					</table:template>
-				</table:Column>
-				<table:Column width="12rem">
-					<table:multiLabels>
-						<Label text="Grand Total After Discount" textAlign="Center" width="100%"/>
-					</table:multiLabels>
-					<table:template>
-						<Text text="{LocalDataModel>GrandTotalAfterDiscount}" wrapping="false"/>
-					</table:template>
-				</table:Column>
-				
-				<table:Column width="11rem">
-					<table:multiLabels>
-						<Label text="TCI Approved Amount Total" textAlign="Center" width="100%"/>
-					</table:multiLabels>
-					<table:template>
-						<Text text="{LocalDataModel>TCIApprovedAmtTotal}" wrapping="false"/>
-					</table:template>
-				</table:Column>
-				<table:Column width="9rem">
-					<table:multiLabels>
-						<Label text="Difference Total" textAlign="Center" width="100%"/>
-					</table:multiLabels>
-					<table:template>
-						<Text text="{LocalDataModel>DifferenceTotal}" wrapping="false"/>
-					</table:template>
-				</table:Column>
-			</table:columns>
-		</table:Table>
+					</cells>
+				</ColumnListItem>
+			</items>
+		</Table>
+		<!--<table:Table class="classRCPTable" id="idTableParts" selectionMode="MultiToggle" rows="{LocalDataModel>/PricingDataModel}"-->
+		<!--	visibleRowCount="5" showNoData="true" threshold="5" enableBusyIndicator="true">-->
+		<!--	<table:columns autoResizable="true">-->
+		<!--		<table:Column width="5rem">-->
+		<!--			<table:multiLabels>-->
+		<!--				<Label text="Line #" textAlign="Center" width="100%"/>-->
+		<!--			</table:multiLabels>-->
+		<!--			<table:template>-->
+		<!--				<Text text="{LocalDataModel>posnr}" wrapping="false"/>-->
+		<!--			</table:template>-->
+		<!--		</table:Column>-->
+		<!--		<table:Column width="5rem">-->
+		<!--			<table:multiLabels>-->
+		<!--				<Label text="OFP" textAlign="Center" width="100%"/>-->
+		<!--			</table:multiLabels>-->
+		<!--			<table:template>-->
+		<!--				<RadioButton groupName="A" id="idPartRadio" select="onSelectOFP"/>-->
+		<!--			</table:template>-->
+		<!--		</table:Column>-->
+		<!--		<table:Column width="10rem">-->
+		<!--			<table:multiLabels>-->
+		<!--				<Label text="Part Number" textAlign="Center" width="100%"/>-->
+		<!--			</table:multiLabels>-->
+		<!--			<table:template>-->
+		<!--				<Text text="{LocalDataModel>matnr}" wrapping="false"/>-->
+		<!--			</table:template>-->
+		<!--		</table:Column>-->
+		<!--		<table:Column width="11rem">-->
+		<!--			<table:multiLabels>-->
+		<!--				<Label text="Description" textAlign="Center" width="100%"/>-->
+		<!--			</table:multiLabels>-->
+		<!--			<table:template>-->
+		<!--				<Text text="{LocalDataModel>PartDescription}" wrapping="false"/>-->
+		<!--			</table:template>-->
+		<!--		</table:Column>-->
+		<!--		<table:Column width="9rem">-->
+		<!--			<table:multiLabels>-->
+		<!--				<Label text="Dealer Net Price" textAlign="Center" width="100%"/>-->
+		<!--			</table:multiLabels>-->
+		<!--			<table:template>-->
+		<!--				<Text text="{LocalDataModel>DealerNet}" wrapping="false"/>-->
+		<!--			</table:template>-->
+		<!--		</table:Column>-->
+		<!--		<table:Column width="9rem">-->
+		<!--			<table:multiLabels>-->
+		<!--				<Label text="Quantity" textAlign="Center" width="100%"/>-->
+		<!--			</table:multiLabels>-->
+		<!--			<table:template>-->
+		<!--				<Text text="{LocalDataModel>PartQty}" wrapping="false"/>-->
+		<!--			</table:template>-->
+		<!--		</table:Column>-->
+		<!--		<table:Column width="9rem">-->
+		<!--			<table:multiLabels>-->
+		<!--				<Label text="Extended Value" textAlign="Center" width="100%"/>-->
+		<!--			</table:multiLabels>-->
+		<!--			<table:template>-->
+		<!--				<Text text="{LocalDataModel>ExtendedValue}" wrapping="false"/>-->
+		<!--			</table:template>-->
+		<!--		</table:Column>-->
+		<!--		<table:Column width="9rem">-->
+		<!--			<table:multiLabels>-->
+		<!--				<Label text="Mark-up Amount" textAlign="Center" width="100%"/>-->
+		<!--			</table:multiLabels>-->
+		<!--			<table:template>-->
+		<!--				<Text text="{LocalDataModel>MarkUp}" wrapping="false"/>-->
+		<!--			</table:template>-->
+		<!--		</table:Column>-->
+		<!--		<table:Column width="9rem">-->
+		<!--			<table:multiLabels>-->
+		<!--				<Label text="Amount Claimed" textAlign="Center" width="100%"/>-->
+		<!--			</table:multiLabels>-->
+		<!--			<table:template>-->
+		<!--				<Text text="{LocalDataModel>AmtClaimed}" wrapping="false"/>-->
+		<!--			</table:template>-->
+		<!--		</table:Column>-->
+		<!--		<table:Column width="9rem">-->
+		<!--			<table:multiLabels>-->
+		<!--				<Label text="Total After Discount" textAlign="Center" width="100%"/>-->
+		<!--			</table:multiLabels>-->
+		<!--			<table:template>-->
+		<!--				<Text text="{LocalDataModel>TotalAfterDisct}" wrapping="false"/>-->
+		<!--			</table:template>-->
+		<!--		</table:Column>-->
+		<!--		<table:Column width="10rem">-->
+		<!--			<table:multiLabels>-->
+		<!--				<Label text="TCI Quantity Approved" textAlign="Center" width="100%"/>-->
+		<!--			</table:multiLabels>-->
+		<!--			<table:template>-->
+		<!--				<Text text="{LocalDataModel>TCIApprQty}" wrapping="false"/>-->
+		<!--			</table:template>-->
+		<!--		</table:Column>-->
+		<!--		<table:Column width="9rem">-->
+		<!--			<table:multiLabels>-->
+		<!--				<Label text="TCI Amount Approved" textAlign="Center" width="100%"/>-->
+		<!--			</table:multiLabels>-->
+		<!--			<table:template>-->
+		<!--				<Text text="{LocalDataModel>TCIApprAmt}" wrapping="false"/>-->
+		<!--			</table:template>-->
+		<!--		</table:Column>-->
+		<!--		<table:Column width="9rem">-->
+		<!--			<table:multiLabels>-->
+		<!--				<Label text="Difference" textAlign="Center" width="100%"/>-->
+		<!--			</table:multiLabels>-->
+		<!--			<table:template>-->
+		<!--				<Text text="{LocalDataModel>DiffAmt}" wrapping="false"/>-->
+		<!--			</table:template>-->
+		<!--		</table:Column>-->
+		<!--	</table:columns>-->
+		<!--</table:Table>-->
+		<!--<table:Table class="classRCPTable sapUiSmallMarginTop" id="idTablePartsTotal" selectionMode="None" rows="{LocalDataModel>/PricingDataModel}"-->
+		<!--	showNoData="true" threshold="1" enableBusyIndicator="true" visibleRowCount="1">-->
+		<!--	<table:columns autoResizable="true">-->
+		<!--		<table:Column width="8rem">-->
+		<!--			<table:multiLabels></table:multiLabels>-->
+		<!--			<table:template>-->
+		<!--				<Text text="Sub-total" wrapping="false"/>-->
+		<!--			</table:template>-->
+		<!--		</table:Column>-->
+		<!--		<table:Column width="10rem">-->
+		<!--			<table:multiLabels>-->
+		<!--				<Label text="Total Extended Values" textAlign="Center" width="100%"/>-->
+		<!--			</table:multiLabels>-->
+		<!--			<table:template>-->
+		<!--				<Text text="{LocalDataModel>ExtendedTotal}" wrapping="false"/>-->
+		<!--			</table:template>-->
+		<!--		</table:Column>-->
+		<!--		<table:Column width="10rem">-->
+		<!--			<table:multiLabels>-->
+		<!--				<Label text="Total Mark-Up Amount" textAlign="Center" width="100%"/>-->
+		<!--			</table:multiLabels>-->
+		<!--			<table:template>-->
+		<!--				<Text text="{LocalDataModel>MarkupTotal}" wrapping="false"/>-->
+		<!--			</table:template>-->
+		<!--		</table:Column>-->
+		<!--		<table:Column width="10rem">-->
+		<!--			<table:multiLabels>-->
+		<!--				<Label text="Total Amount Claimed" textAlign="Center" width="100%"/>-->
+		<!--			</table:multiLabels>-->
+		<!--			<table:template>-->
+		<!--				<Text text="{LocalDataModel>AmtClaimed}" wrapping="false"/>-->
+		<!--			</table:template>-->
+		<!--		</table:Column>-->
+		<!--		<table:Column width="12rem">-->
+		<!--			<table:multiLabels>-->
+		<!--				<Label text="Grand Total After Discount" textAlign="Center" width="100%"/>-->
+		<!--			</table:multiLabels>-->
+		<!--			<table:template>-->
+		<!--				<Text text="{LocalDataModel>GrandTotalAfterDiscount}" wrapping="false"/>-->
+		<!--			</table:template>-->
+		<!--		</table:Column>-->
+		<!--		<table:Column width="11rem">-->
+		<!--			<table:multiLabels>-->
+		<!--				<Label text="TCI Approved Amount Total" textAlign="Center" width="100%"/>-->
+		<!--			</table:multiLabels>-->
+		<!--			<table:template>-->
+		<!--				<Text text="{LocalDataModel>TCIApprovedAmtTotal}" wrapping="false"/>-->
+		<!--			</table:template>-->
+		<!--		</table:Column>-->
+		<!--		<table:Column width="9rem">-->
+		<!--			<table:multiLabels>-->
+		<!--				<Label text="Difference Total" textAlign="Center" width="100%"/>-->
+		<!--			</table:multiLabels>-->
+		<!--			<table:template>-->
+		<!--				<Text text="{LocalDataModel>DifferenceTotal}" wrapping="false"/>-->
+		<!--			</table:template>-->
+		<!--		</table:Column>-->
+		<!--	</table:columns>-->
+		<!--</table:Table>-->
 		<HBox alignContent="Center" justifyContent="Center" class="sapUiTinyMarginTop">
 			<Button class="sapUiTinyMarginBeginEnd" type="Back" press="onStep03Back" text="{i18n>Back}"/>
 			<Button class="sapUiTinyMarginBeginEnd" press="onStep03Next" text="{i18n>Next}" type="Emphasized"/>

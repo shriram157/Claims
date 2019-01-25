@@ -37,6 +37,14 @@
 					"odataVersion": "2.0",
 					"localUri": "localService/MD_PRODUCT_FS_SRV/metadata.xml"
 				}
+			},
+			"Z_VEHICLE_MASTER_SRV": {
+				"uri": "/node/Z_VEHICLE_MASTER_SRV/",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "2.0",
+					"localUri": "localService/Z_VEHICLE_MASTER_SRV/metadata.xml"
+				}
 			}
 		}
 	},
@@ -105,6 +113,18 @@
 				},
 				"dataSource": "API_BUSINESS_PARTNER",
 				"preload": false
+			},
+			"Z_VEHICLE_MASTER_SRV": {
+				"uri": "/node/Z_VEHICLE_MASTER_SRV/",
+				"type": "sap.ui.model.odata.v2.ODataModel",
+				"settings": {
+					"defaultOperationMode": "Server",
+					"defaultBindingMode": "OneWay",
+					"defaultCountMode": "Request"
+				},
+				"dataSource": "Z_VEHICLE_MASTER_SRV",
+					"preload": false
+		
 			}
 		},
 		"resources": {

@@ -109,27 +109,44 @@
 				</f:SimpleForm>
 			</VBox>
 		</l:Grid>
-		<table:Table id="idPaintTable" class="classRCPTable" selectionMode="MultiToggle" rows="{LocalDataModel>/PaintPricingDataModel}"  
-			 showNoData="true" threshold="5" enableBusyIndicator="true" visibleRowCount="5">
-			<table:columns autoResizable="true">
-				<table:Column width="11rem">
-					<table:multiLabels>
-						<Label text="Line #" textAlign="Center" width="100%"/>
-					</table:multiLabels>
-					<table:template>
+		
+		<Table id="idPaintTable" mode="SingleSelectLeft" items="{path: 'LocalDataModel>/PaintPricingDataModel'}" growing="true" growingThreshold="5"
+			noDataText="No Data" showNoData="true">
+			<columns>
+				<Column><Text text="Line #"/></Column>
+				<Column><Text text="Position Code"/></Column>
+				
+			</columns>
+			<items>
+				<ColumnListItem>
+					<cells>
 						<Text text="{LocalDataModel>posnr}" wrapping="false" textAlign="Center"/>
-					</table:template>
-				</table:Column>
-				<table:Column width="17rem">
-					<table:multiLabels>
-						<Label text="Position Code" textAlign="Center" width="100%"/>
-					</table:multiLabels>
-					<table:template>
 						<Text text="{path:'LocalDataModel>ItemKey', formatter: 'zclaimProcessing.utils.formatter.fnFormatPositionCode'}" wrapping="false" textAlign="Center"/>
-					</table:template>
-				</table:Column>
-			</table:columns>
-		</table:Table>
+					</cells>
+				</ColumnListItem>
+			</items>
+		</Table>
+		<!--<table:Table id="idPaintTable" class="classRCPTable" selectionMode="MultiToggle" rows="{LocalDataModel>/PaintPricingDataModel}"  -->
+		<!--	 showNoData="true" threshold="5" enableBusyIndicator="true" visibleRowCount="5">-->
+		<!--	<table:columns autoResizable="true">-->
+		<!--		<table:Column width="11rem">-->
+		<!--			<table:multiLabels>-->
+		<!--				<Label text="Line #" textAlign="Center" width="100%"/>-->
+		<!--			</table:multiLabels>-->
+		<!--			<table:template>-->
+		<!--				<Text text="{LocalDataModel>posnr}" wrapping="false" textAlign="Center"/>-->
+		<!--			</table:template>-->
+		<!--		</table:Column>-->
+		<!--		<table:Column width="17rem">-->
+		<!--			<table:multiLabels>-->
+		<!--				<Label text="Position Code" textAlign="Center" width="100%"/>-->
+		<!--			</table:multiLabels>-->
+		<!--			<table:template>-->
+		<!--				<Text text="{path:'LocalDataModel>ItemKey', formatter: 'zclaimProcessing.utils.formatter.fnFormatPositionCode'}" wrapping="false" textAlign="Center"/>-->
+		<!--			</table:template>-->
+		<!--		</table:Column>-->
+		<!--	</table:columns>-->
+		<!--</table:Table>-->
 		<HBox alignContent="Center" justifyContent="Center" class="sapUiTinyMarginTop">
 			<Button class="sapUiTinyMarginBeginEnd" type="Back" press="onStep05Back" text="{i18n>Back}"/>
 			<Button class="sapUiTinyMarginBeginEnd" press="onStep05Next" text="{i18n>Next}" type="Emphasized"/>

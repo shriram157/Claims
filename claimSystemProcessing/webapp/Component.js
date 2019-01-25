@@ -73,6 +73,18 @@ sap.ui.define([
 				json: true
 			});
 			this.setModel(oDataModel02, "ProductMaster");
+			
+			var mConfig04 = this.getMetadata().getManifestEntry("/sap.app/dataSources/Z_VEHICLE_MASTER_SRV");
+			if (sLocation_conf == 0) {
+				mConfig04.uri = "/Claim_Destination" + mConfig04.uri;
+			}
+			var oDataModel04 = new ODataModel(mConfig04.uri, {
+				useBatch: false,
+				json: true
+			});
+
+			this.setModel(oDataModel04, "ZVehicleMasterModel");
+			
 		}
 	});
 });

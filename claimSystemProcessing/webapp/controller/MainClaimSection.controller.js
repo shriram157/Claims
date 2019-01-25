@@ -58,6 +58,7 @@ sap.ui.define([
 
 			this.getView().setModel(oNodeModel, "ClaimModel");
 			this.setModel(this.getModel("ProductMaster"), "ProductMasterModel");
+			this.setModel(this.getModel("ZVehicleMasterModel"), "ZVehicleMasterModel");
 			this.setModel(this.getModel("ProssingModel"));
 			var oProssingModel = this.getModel("ProssingModel");
 			oProssingModel.read("/zc_claim_item_labourSet", {
@@ -285,15 +286,15 @@ sap.ui.define([
 				});
 				//	var sCurrentPath = this.getCurrentFolderPath();
 
-				oProssingModel.read("/zc_claim_attachmentsSet", {
-					urlParameters: {
-						"$filter": "NumberOfWarrantyClaim eq '" + oClaim + "'"
-					},
-					success: $.proxy(function (odata) {
-						// this.getModel("LocalDataModel").setProperty("/oAttachmentSet", );
-						this.getView().getModel("ClaimModel").setProperty("/" + "/items", odata.results);
-					}, this)
-				});
+				// oProssingModel.read("/zc_claim_attachmentsSet", {
+				// 	urlParameters: {
+				// 		"$filter": "NumberOfWarrantyClaim eq '" + oClaim + "'"
+				// 	},
+				// 	success: $.proxy(function (odata) {
+				// 		// this.getModel("LocalDataModel").setProperty("/oAttachmentSet", );
+				// 		this.getView().getModel("ClaimModel").setProperty("/" + "/items", odata.results);
+				// 	}, this)
+				// });
 
 				var oArr = [];
 				oProssingModel.read("/ZC_CLAIM_SUM(p_clmno='" + oClaim + "')/Set", {
@@ -415,6 +416,17 @@ sap.ui.define([
 
 			var oVin = oEvent.getParameters().value;
 			var oProssingModel = this.getModel("ProssingModel");
+			var oVehicleModel = this.getModel("ZVehicleMasterModel");
+			
+			oVehicleModel.read("/zc_c_vehicle", {
+				success : function(data){
+					console.log(data);
+				},
+				error : function(data){
+					console.log(data);
+				}
+			});
+
 			oProssingModel.read("/ZC_CLAIM_SPHL_WROF(p_vhvin='" + oVin + "',p_langu='E')/Set", {
 				success: $.proxy(function (data) {
 					this.getModel("LocalDataModel").setProperty("/SPWROF", data.results);
@@ -455,6 +467,7 @@ sap.ui.define([
 				return false;
 			} else if (oValid && oValid01 && oValid02) {
 				var obj = {
+					"DBOperation": "POST",
 					"WarrantyClaimType": this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType"),
 					"Partner": "2400034030",
 					"PartnerRole": "AS",
@@ -556,7 +569,8 @@ sap.ui.define([
 			});
 			var oCurrentDt = new Date();
 			var obj = {
-				"NumberOfWarrantyClaim" : oClaimNum,
+				"DBOperation": "PUT",
+				"NumberOfWarrantyClaim": oClaimNum,
 				"WarrantyClaimType": this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType"),
 				"Partner": "2400034030",
 				"PartnerRole": "AS",
@@ -587,10 +601,10 @@ sap.ui.define([
 				"Remedy": this.getView().getModel("HeadSetData").getProperty("/Remedy")
 			};
 
-			oClaimModel.update("/zc_headSet('" + oClaimNum + "')", obj, {
-				method: "PUT",
+			oClaimModel.create("/zc_headSet", obj, {
+
 				success: $.proxy(function (response) {
-					console.log("success");
+					MessageToast.show("Claim has been Updated successfully");
 				}, this),
 				error: function () {
 
@@ -611,6 +625,7 @@ sap.ui.define([
 				reader.readAsBinaryString(this.oUploadedFile);
 
 				reader.onload = $.proxy(function (e) {
+					var strCSV = e.target.result;
 					if (reader.result) reader.content = reader.result;
 					this.oBase = btoa(reader.content);
 
@@ -653,14 +668,14 @@ sap.ui.define([
 				}
 			});
 			var sCurrentPath = this.getCurrentFolderPath();
-			var oData = this.getView().getModel("ClaimModel").getProperty(sCurrentPath);
-			var aItems = oData && oData.items;
-			var oItem;
+			//var oData = this.getView().getModel("ClaimModel").getProperty(sCurrentPath);
+			// var aItems = oData && oData.items;
+			// var oItem;
 
 			oClaimModel.create("/zc_headSet", this.obj, {
 				success: $.proxy(function (data, response) {
-
 					MessageToast.show("SuccesFully Uploaded");
+					this.obj.zc_claim_attachmentsSet.results.pop();
 					oClaimModel.read("/zc_claim_attachmentsSet", {
 						urlParameters: {
 							"$filter": "NumberOfWarrantyClaim eq '" + oClaimNum + "'"
@@ -1077,8 +1092,9 @@ sap.ui.define([
 		_handleValueHelpClose: function (evt) {
 			this.oSelectedItem = evt.getParameter("selectedItem");
 			this.oSelectedTitle = this.oSelectedItem.getTitle();
-			this.getView().getModel("LocalDataModel").setProperty("/MaterialDescription", this.oSelectedItem.getInfo());
-			this.getView().byId("idPartDes").setValue(this.oSelectedItem.getInfo());
+			this.getView().getModel("LocalDataModel").setProperty("/MaterialDescription", this.oSelectedItem.getDescription());
+			this.getView().getModel("LocalDataModel").setProperty("/BaseUnit", this.oSelectedItem.getInfo());
+			this.getView().byId("idPartDes").setValue(this.oSelectedItem.getDescription());
 			if (this.oSelectedItem) {
 				var productInput = this.byId(this.inputId);
 				productInput.setValue(this.oSelectedItem.getTitle());
@@ -1178,7 +1194,9 @@ sap.ui.define([
 				"ItemType": "",
 				"ControllingItemType": "MAT",
 				"MaterialNumber": this.getView().getModel("PartDataModel").getProperty("/matnr"),
-				"PartQty": this.getView().getModel("PartDataModel").getProperty("/quant")
+				"PartQty": this.getView().getModel("PartDataModel").getProperty("/quant"),
+				"PartDescription": this.getView().getModel("LocalDataModel").getProperty("/MaterialDescription"),
+				"UnitOfMeasure": this.getView().getModel("LocalDataModel").getProperty("/BaseUnit")
 			};
 
 			this.obj.zc_itemSet.results.push(itemObj);
@@ -1207,7 +1225,7 @@ sap.ui.define([
 					this.getView().getModel("PartDataModel").setProperty("/matnr", "");
 					this.getView().getModel("PartDataModel").setProperty("/quant", "");
 					this.getView().byId("idPartDes").setValue("");
-					oTable.setSelectedIndex(-1);
+					oTable.removeSelections("true");
 
 				}, this),
 				error: function (err) {
@@ -1226,13 +1244,13 @@ sap.ui.define([
 
 		onPressUpdatePart: function (oEvent) {
 			var oTable = this.getView().byId("idTableParts");
-			var oTableIndex = oTable.getSelectedIndices();
+			var oTableIndex = oTable._aSelectedPaths;
 
 			if (oTableIndex.length == 1) {
 
-				var oString = oTableIndex.toString();
-				var oTableStringSplit = oTableIndex.toString().split(",");
-				var oSelectedRow = "/PricingDataModel/" + oString;
+				// var oString = oTableIndex.toString();
+				// var oTableStringSplit = oTableIndex.toString().split(",");
+				var oSelectedRow = oTableIndex.toString();
 				var obj = this.getView().getModel("LocalDataModel").getProperty(oSelectedRow);
 				var PartNum = obj.matnr;
 				var PartQt = obj.quant;
@@ -1246,7 +1264,7 @@ sap.ui.define([
 				// }
 
 				//	Array.prototype.splice.apply(this.obj.zc_itemSet.results, oTableStringSplit);
-				var oIndex = oTable.getSelectedIndex();
+				var oIndex = oTableIndex.toString().split("/")[2];
 				this.obj.zc_itemSet.results.splice(oIndex, 1);
 				var oClaimModel = this.getModel("ProssingModel");
 				this._oToken = oClaimModel.getHeaders()['x-csrf-token'];
@@ -1273,18 +1291,18 @@ sap.ui.define([
 				});
 			} else {
 				MessageToast.show("Please select 1 row.");
-				oTable.setSelectedIndex(-1);
+				oTable.removeSelections("true");
 			}
 		},
 		onPressDeletePart: function () {
 			var oTable = this.getView().byId("idTableParts");
-			var oTableIndex = oTable.getSelectedIndices();
+			var oTableIndex = oTable._aSelectedPaths;
 
 			if (oTableIndex.length == 1) {
 				// var oTableStringSplit = oTableIndex.toString().split(",");
 				// Array.prototype.splice.apply(this.obj.zc_itemSet.results, oTableStringSplit);
 
-				var oIndex = oTable.getSelectedIndex();
+				var oIndex = oTable._aSelectedPaths.toString().split("/")[2];
 				this.obj.zc_itemSet.results.splice(oIndex, 1);
 
 				var oClaimModel = this.getModel("ProssingModel");
@@ -1303,7 +1321,7 @@ sap.ui.define([
 						});
 						console.log(oFilteredData);
 						this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
-						oTable.setSelectedIndex(-1);
+						oTable.removeSelections("true");
 						MessageToast.show("Claim has been deleted successfully");
 					}, this),
 					error: function (err) {
@@ -1312,7 +1330,7 @@ sap.ui.define([
 				});
 			} else {
 				MessageToast.show("Please select 1 row.");
-				oTable.setSelectedIndex(-1);
+				oTable.removeSelections("true");
 			}
 		},
 		onSelectOFP: function (oEvent) {
@@ -1321,7 +1339,7 @@ sap.ui.define([
 			var oSelectedPart = oEvent.getSource().getParent().getCells()[2].getText();
 			this.getView().byId("idOFPart").setText(oSelectedPart);
 
-			table.setSelectedIndex(-1);
+			table.removeSelections("true");
 
 		},
 		onSelectOFPLabour: function (oEvent) {
@@ -1350,6 +1368,12 @@ sap.ui.define([
 		},
 		onCloseLabour: function (oEvent) {
 			oEvent.getSource().getParent().getParent().close();
+		},
+		onSelectPositionCode: function (oEvent) {
+			console.log(oEvent);
+			var oText = oEvent.getSource().getSelectedItem().getAdditionalText();
+			this.getModel("LocalDataModel").setProperty("/labourDes", oText);
+			this.getView().byId("idLabourDes").setValue(oText);
 		},
 		onSelectOperation: function (oEvent) {
 			var oPath = oEvent.getSource().getSelectedContexts()[0].sPath;
@@ -1386,11 +1410,13 @@ sap.ui.define([
 			var oTable = this.getView().byId("idLabourTable");
 			this.obj.Message = "";
 			this.obj.RefWarrantyClaim = oClaimNum;
-
+         
 			var itemObj = {
 				"Type": "LABOUR",
-				"OperationNo": this.getView().getModel("LabourDataModel").getProperty("/LabourOp"),
-				"ClaimedHours": this.getView().getModel("LabourDataModel").getProperty("/ClaimedHours")
+				"ItemType" : "FR",
+				"LabourNumber": this.getView().getModel("LabourDataModel").getProperty("/LabourOp"),
+				"ClaimedHours": this.getView().getModel("LabourDataModel").getProperty("/ClaimedHours"),
+				"LabourDescription": this.getModel("LocalDataModel").getProperty("/labourDes")
 			};
 
 			this.obj.zc_claim_item_labourSet.results.push(itemObj);
@@ -1417,7 +1443,7 @@ sap.ui.define([
 					this.getView().getModel("DateModel").setProperty("/labourLine", false);
 					this.getView().getModel("LabourDataModel").setProperty("/LabourOp", "");
 					this.getView().getModel("LabourDataModel").setProperty("/ClaimedHours", "");
-					oTable.setSelectedIndex(-1);
+					oTable.removeSelections("true");
 				}, this),
 				error: function (err) {
 					console.log(err);
@@ -1436,12 +1462,13 @@ sap.ui.define([
 		onPressDeleteLabour: function () {
 
 			var oTable = this.getView().byId("idLabourTable");
-			var oTableIndex = oTable.getSelectedIndices();
+			var oTableIndex = oTable._aSelectedPaths;
 
 			if (oTableIndex.length == 1) {
-				var oTableStringSplit = oTableIndex.toString().split(",");
-				//Array.prototype.splice.apply(this.obj.zc_claim_item_labourSet.results, oTableStringSplit);
-				var oIndex = oTable.getSelectedIndex();
+				// var oTableStringSplit = oTableIndex.toString().split(",");
+				// Array.prototype.splice.apply(this.obj.zc_itemSet.results, oTableStringSplit);
+
+				var oIndex = oTable._aSelectedPaths.toString().split("/")[2];
 				this.obj.zc_claim_item_labourSet.results.splice(oIndex, 1);
 				var oClaimModel = this.getModel("ProssingModel");
 				this._oToken = oClaimModel.getHeaders()['x-csrf-token'];
@@ -1460,7 +1487,7 @@ sap.ui.define([
 						console.log(oFilteredData);
 						this.getModel("LocalDataModel").setProperty("/LabourPricingDataModel", oFilteredData);
 						MessageToast.show("Claim has been deleted successfully");
-						oTable.setSelectedIndex(-1);
+						oTable.removeSelections("true");
 						// this.getView().getModel("DateModel").setProperty("/partLine", false);
 						// this.getView().getModel("PartDataModel").setProperty("/matnr", "");
 						// this.getView().getModel("PartDataModel").setProperty("/quant", "");
@@ -1473,29 +1500,30 @@ sap.ui.define([
 				});
 			} else {
 				MessageToast.show("Please select 1 row.");
-				oTable.setSelectedIndex(-1);
+				oTable.removeSelections("true");
 			}
 		},
 
 		onPressUpdateLabour: function (oEvent) {
 			var oTable = this.getView().byId("idLabourTable");
-			var oTableIndex = oTable.getSelectedIndices();
+			var oTableIndex = oTable._aSelectedPaths;
 
 			if (oTableIndex.length == 1) {
-				var oString = oTableIndex.toString();
-				var oSelectedRow = "/LabourPricingDataModel/" + oString;
+				// var oString = oTableIndex.toString();
+				var oSelectedRow = oTableIndex.toString();
 				var obj = this.getView().getModel("LocalDataModel").getProperty(oSelectedRow);
-				var LabourNum = obj.matnr;
+				var LabourNum = obj.ItemKey;
 				var LabourHr = obj.QtyHrs;
 				this.getView().getModel("LabourDataModel").setProperty("/LabourOp", LabourNum);
 				this.getView().getModel("LabourDataModel").setProperty("/ClaimedHours", LabourHr);
 				this.getView().getModel("DateModel").setProperty("/labourLine", true);
+				this.getView().byId("idLabourDes").setText(obj.LabourDescription);
 				// for (var j = 0; j < this.obj.zc_claim_item_labourSet.results.length; j++) {
 				// 	if (this.obj.zc_claim_item_labourSet.results[j].LabourNumber == LabourNum) {
 				// 		this.obj.zc_claim_item_labourSet.results.splice(j);
 				// 	}
 				// }
-				var oIndex = oTable.getSelectedIndex();
+				var oIndex = oTable._aSelectedPaths.toString().split("/")[2];
 				this.obj.zc_claim_item_labourSet.results.splice(oIndex, 1);
 				var oClaimModel = this.getModel("ProssingModel");
 				this._oToken = oClaimModel.getHeaders()['x-csrf-token'];
@@ -1513,7 +1541,7 @@ sap.ui.define([
 						});
 						console.log(oFilteredData);
 						this.getModel("LocalDataModel").setProperty("/LabourPricingDataModel", oFilteredData);
-						oTable.setSelectedIndex(-1);
+						oTable.removeSelections("true");
 						//MessageToast.show("Claim has been deleted successfully");
 					}, this),
 					error: function (err) {
@@ -1522,7 +1550,7 @@ sap.ui.define([
 				});
 			} else {
 				MessageToast.show("Please select 1 row.");
-				oTable.setSelectedIndex(-1);
+				oTable.removeSelections("true");
 			}
 		},
 
@@ -1560,7 +1588,7 @@ sap.ui.define([
 					MessageToast.show("Claim Item has been saved successfully");
 					this.getView().getModel("DateModel").setProperty("/paintLine", false);
 					this.getView().getModel("PaintDataModel").setProperty("/PaintPositionCode", "");
-					oTable.setSelectedIndex(-1);
+					oTable.removeSelections("true");
 				}, this),
 				error: function (err) {
 					console.log(err);
@@ -1579,12 +1607,13 @@ sap.ui.define([
 		// },
 		onPressDeletePaint: function () {
 			var oTable = this.getView().byId("idPaintTable");
-			var oTableIndex = oTable.getSelectedIndices();
+		var oTableIndex = oTable._aSelectedPaths;
 
 			if (oTableIndex.length == 1) {
-				var oTableStringSplit = oTableIndex.toString().split(",");
-				// Array.prototype.splice.apply(this.obj.zc_claim_item_paintSet.results, oTableStringSplit);
-				var oIndex = oTable.getSelectedIndex();
+				// var oTableStringSplit = oTableIndex.toString().split(",");
+				// Array.prototype.splice.apply(this.obj.zc_itemSet.results, oTableStringSplit);
+
+				var oIndex = oTable._aSelectedPaths.toString().split("/")[2];
 				this.obj.zc_claim_item_paintSet.results.splice(oIndex, 1);
 				var oClaimModel = this.getModel("ProssingModel");
 				this._oToken = oClaimModel.getHeaders()['x-csrf-token'];
@@ -1602,7 +1631,7 @@ sap.ui.define([
 						console.log(oFilteredData);
 						this.getModel("LocalDataModel").setProperty("/PaintPricingDataModel", oFilteredData);
 						MessageToast.show("Claim has been deleted successfully");
-						oTable.setSelectedIndex(-1);
+						oTable.removeSelections("true");
 					}, this),
 					error: function (err) {
 						console.log(err);
@@ -1610,7 +1639,7 @@ sap.ui.define([
 				});
 			} else {
 				MessageToast.show("Please select 1 row.");
-				oTable.setSelectedIndex(-1);
+				oTable.removeSelections("true");
 			}
 		},
 		onPressSaveClaimItemSublet: function () {
@@ -1618,15 +1647,27 @@ sap.ui.define([
 			var oTable = this.getView().byId("idSubletTable");
 			this.obj.Message = "";
 			this.obj.RefWarrantyClaim = oClaimNum;
+			//"UnitOfMeasure" : "EA"
+
+			// "SubletDescription": "TEST_SUBLET",
+			//           "Type": "SUBLET",
+			//           "ItemType": "SUBL",
+			//           "SubletType": "AC",
+			//           "Brand": "C2",
+			//           "RetalDays": "1",
+			//           "InvoiceNo": "TEST_INV",
+			//           "Amount": "100.000"
+			//	"Brand": this.getView().getModel("SubletDataModel").getProperty("/brand"),
+			//"RetalDays": this.getView().getModel("SubletDataModel").getProperty("/days"),
+			//"Type": "SUBLET",
 
 			var itemObj = {
-				"Type": "SUBLET",
-				"ItemType": "",
+				
+				"ItemType": "SUBL",
 				"SubletType": this.getView().getModel("SubletDataModel").getProperty("/SubletCode"),
-				"Brand": this.getView().getModel("SubletDataModel").getProperty("/brand"),
-				"RetalDays": this.getView().getModel("SubletDataModel").getProperty("/days"),
 				"InvoiceNo": this.getView().getModel("SubletDataModel").getProperty("/InvoiceNo"),
 				"Amount": this.getView().getModel("SubletDataModel").getProperty("/Amount")
+				
 
 			};
 
@@ -1654,7 +1695,7 @@ sap.ui.define([
 					this.getView().getModel("SubletDataModel").setProperty("/SubletCode", "");
 					this.getView().getModel("SubletDataModel").setProperty("/InvoiceNo", "");
 					this.getView().getModel("SubletDataModel").setProperty("/Amount", "");
-					oTable.setSelectedIndex(-1);
+					oTable.removeSelections("true");
 
 				}, this),
 				error: function (err) {
@@ -1674,11 +1715,11 @@ sap.ui.define([
 
 		onPressUpdateSublet: function (oEvent) {
 			var oTable = this.getView().byId("idSubletTable");
-			var oTableIndex = oTable.getSelectedIndices();
+			var oTableIndex = oTable._aSelectedPaths;
 
 			if (oTableIndex.length == 1) {
-				var oString = oTableIndex.toString();
-				var oSelectedRow = "/SubletPricingDataModel/" + oString;
+				//var oString = oTableIndex.toString();
+				var oSelectedRow = oTableIndex.toString();
 				var obj = this.getView().getModel("LocalDataModel").getProperty(oSelectedRow);
 				var SubletNum = obj.matnr;
 				var SubletInv = obj.InvoiceNo;
@@ -1693,7 +1734,7 @@ sap.ui.define([
 				// 	}
 				// }
 
-				var oIndex = oTable.getSelectedIndex();
+				var oIndex = oTable._aSelectedPaths.toString().split("/")[2];
 				this.obj.zc_item_subletSet.results.splice(oIndex, 1);
 
 				var oClaimModel = this.getModel("ProssingModel");
@@ -1711,7 +1752,7 @@ sap.ui.define([
 						});
 						console.log(oFilteredData);
 						this.getModel("LocalDataModel").setProperty("/SubletPricingDataModel", oFilteredData);
-						oTable.setSelectedIndex(-1);
+						oTable.removeSelections("true");
 						//MessageToast.show("Claim has been deleted successfully");
 					}, this),
 					error: function (err) {
@@ -1720,17 +1761,18 @@ sap.ui.define([
 				});
 			} else {
 				MessageToast.show("Please select 1 row.");
-				oTable.setSelectedIndex(-1);
+				oTable.removeSelections("true");
 			}
 		},
 		onPressDeleteSublet: function () {
 			var oTable = this.getView().byId("idSubletTable");
-			var oTableIndex = oTable.getSelectedIndices();
+			var oTableIndex = oTable._aSelectedPaths;
 
 			if (oTableIndex.length == 1) {
-				var oTableStringSplit = oTableIndex.toString().split(",");
-				//Array.prototype.splice.apply(this.obj.zc_item_subletSet.results, oTableStringSplit);
-				var oIndex = oTable.getSelectedIndex();
+				// var oTableStringSplit = oTableIndex.toString().split(",");
+				// Array.prototype.splice.apply(this.obj.zc_itemSet.results, oTableStringSplit);
+
+				var oIndex = oTable._aSelectedPaths.toString().split("/")[2];
 				this.obj.zc_item_subletSet.results.splice(oIndex, 1);
 				var oClaimModel = this.getModel("ProssingModel");
 				this._oToken = oClaimModel.getHeaders()['x-csrf-token'];
@@ -1749,7 +1791,7 @@ sap.ui.define([
 						console.log(oFilteredData);
 						this.getModel("LocalDataModel").setProperty("/SubletPricingDataModel", oFilteredData);
 						MessageToast.show("Claim has been deleted successfully");
-						oTable.setSelectedIndex(-1);
+						oTable.removeSelections("true");
 
 					}, this),
 					error: function (err) {
@@ -1758,7 +1800,7 @@ sap.ui.define([
 				});
 			} else {
 				MessageToast.show("Please select 1 row.");
-				oTable.setSelectedIndex(-1);
+				oTable.removeSelections("true");
 			}
 		},
 

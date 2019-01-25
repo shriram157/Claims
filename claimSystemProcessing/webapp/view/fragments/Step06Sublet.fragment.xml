@@ -92,10 +92,11 @@
 						<core:Title text=""/>
 						<Label text="Sublet Type" textAlign="Left"/>
 						
-						<ComboBox required="true" items="{path:'/ZC_CLAIM_SUBLET_CODE', type : 'sap.ui.model.type.String'}" change="onSelectPositionCode"
-							selectedKey="{SubletDataModel>/SubletCode}" enabled="{DateModel>/subletLine}">
-							<core:Item text="{path:'SubletCode'} - {path:'MaterialDesc'}" 
-								key="{SubletCode}"/>
+						<ComboBox required="true" items="{path:'/ZC_CLAIM_SUBLET_CODE', type : 'sap.ui.model.type.String'}" 
+							selectedKey="{SubletDataModel>/SubletCode}" enabled="{DateModel>/subletLine}" 
+							filterSecondaryValues="true" showSecondaryValues= "true">
+							<core:ListItem text="{path:'SubletCode'} - {path:'MaterialDesc'}" 
+								key="{SubletCode}"  additionalText = "{UnitOfMeasure}"/>
 						</ComboBox>
 						<core:Title text=""/>
 						<Label text="Invoice #" textAlign="Left"/>
@@ -163,131 +164,173 @@
 				</f:SimpleForm>
 			</VBox>
 		</l:Grid>
-		<table:Table id="idSubletTable" class="classRCPTable" selectionMode="MultiToggle" rows="{LocalDataModel>/SubletPricingDataModel}" 
-			 showNoData="true" threshold="5" enableBusyIndicator="true" visibleRowCount="5">
-			<table:columns autoResizable="true">
-				<table:Column width="17rem">
-					<table:multiLabels>
-						<Label text="Line #" textAlign="Center" width="100%"/>
-					</table:multiLabels>
-					<table:template>
-						<Text text="{LocalDataModel>posnr}" wrapping="false"/>
-					</table:template>
-				</table:Column>
-				<table:Column width="17rem">
-					<table:multiLabels>
-						<Label text="Sublet Type" textAlign="Center" width="100%"/>
-					</table:multiLabels>
-					<table:template>
-						<Text text="{LocalDataModel>matnr}" wrapping="false"/>
-					</table:template>
-				</table:Column>
-				<table:Column width="17rem">
-					<table:multiLabels>
-						<Label text="Invoice #" textAlign="Center" width="100%"/>
-					</table:multiLabels>
-					<table:template>
-						<Text text="{LocalDataModel>InvoiceNo}" wrapping="false"/>
-					</table:template>
-				</table:Column>
-				<table:Column width="17rem">
-					<table:multiLabels>
-						<Label text="Attachment" textAlign="Center" width="100%"/>
-					</table:multiLabels>
-					<table:template>
-						<Text text="" wrapping="false"/>
-					</table:template>
-				</table:Column>
-				<table:Column width="17rem">
-					<table:multiLabels>
-						<Label text="Description" textAlign="Center" width="100%"/>
-					</table:multiLabels>
-					<table:template>
-						<Text text="{LocalDataModel>SubletDescription}" wrapping="false"/>
-					</table:template>
-				</table:Column>
-				<table:Column width="17rem">
-					<table:multiLabels>
-						<Label text="Amount" textAlign="Center" width="100%"/>
-					</table:multiLabels>
-					<table:template>
-						<Text text="{LocalDataModel>Amount}" wrapping="false"/>
-					</table:template>
-				</table:Column>
-				<table:Column width="17rem">
-					<table:multiLabels>
-						<Label text="Total After Discount" textAlign="Center" width="100%"/>
-					</table:multiLabels>
-					<table:template>
-						<Text text="{LocalDataModel>TotalAfterDisct}" wrapping="false"/>
-					</table:template>
-				</table:Column>
-				<table:Column width="17rem">
-					<table:multiLabels>
-						<Label text="TCI Amount Approved" textAlign="Center" width="100%"/>
-					</table:multiLabels>
-					<table:template>
-						<Text text="{LocalDataModel>TCIApprAmt}" wrapping="false"/>
-					</table:template>
-				</table:Column>
-				<table:Column width="17rem">
-					<table:multiLabels>
-						<Label text="Difference" textAlign="Center" width="100%"/>
-					</table:multiLabels>
-					<table:template>
-						<Text text="{LocalDataModel>DiffAmt}" wrapping="false"/>
-					</table:template>
-				</table:Column>
-				
-			</table:columns>
-		</table:Table>
 		
-		<table:Table class="classRCPTable sapUiSmallMarginTop" id="idTableSubletTotal" selectionMode="None" rows="{LocalDataModel>/SubletPricingDataModel}" showNoData="true"
-			threshold="1" enableBusyIndicator="true" visibleRowCount="1">
-			<table:columns autoResizable="true">
-				<table:Column width="9rem">
-					<table:multiLabels>
-					</table:multiLabels>
-					<table:template>
-						<Text text="Sub-total" wrapping="false"/>
-					</table:template>
-				</table:Column>
-				<table:Column width="9rem">
-					<table:multiLabels>
-						<Label text="Amount Total" textAlign="Center" width="100%"/>
-					</table:multiLabels>
-					<table:template>
-						<Text text="{LocalDataModel>ExtendedTotal}" wrapping="false"/>
-					</table:template>
-				</table:Column>
-			
-				<table:Column width="9rem">
-					<table:multiLabels>
-						<Label text="Grand Total After Discount" textAlign="Center" width="100%"/>
-					</table:multiLabels>
-					<table:template>
-						<Text text="{LocalDataModel>GrandTotalAfterDiscount}" wrapping="false"/>
-					</table:template>
-				</table:Column>
+		<Table id="idSubletTable" mode="SingleSelectLeft" items="{path: 'LocalDataModel>/SubletPricingDataModel'}" growing="true" growingThreshold="5"
+			noDataText="No Data" showNoData="true">
+			<columns>
+				<Column><Text text="Line #"/></Column>
+				<Column><Text text="Sublet Type*"/></Column>
+				<Column><Text text="Invoice #*"/></Column>
+				<Column><Text text="Attachment*"/></Column>
+				<Column><Text text="Description"/>
+				<footer><Text text="Sub-total : "/></footer>
+				</Column>
+				<Column>
+				<Text text="Amount*"/>
+				<footer><Text text="{path: 'LocalDataModel>/SubletPricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnAmountSublet'}"/></footer>
+				</Column>
+				<Column><Text text="Total After Discount"/>
+				<footer><Text text="{path: 'LocalDataModel>/SubletPricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnTotalSubletAfDisc'}"/></footer>
+				</Column>
+				<Column><Text text="TCI Amount Approved"/>
+				<footer><Text text="{path: 'LocalDataModel>/SubletPricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnTCISubletApr'}"/></footer>
+				</Column>
+				<Column><Text text="Difference"/>
+				<footer><Text text="{path: 'LocalDataModel>/SubletPricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnSubletDif'}"/></footer>
+				</Column>
+			</columns>
+			<items>
+				<ColumnListItem>
+					<cells>
+						<Text text="{LocalDataModel>posnr}" wrapping="false"/>
+						<Text text="{LocalDataModel>matnr}" wrapping="false"/>
+						<Text text="{LocalDataModel>InvoiceNo}" wrapping="false"/>
+						<Text text="" wrapping="false"/>
+						<Text text="{LocalDataModel>SubletDescription}" wrapping="false"/>
+						<Text text="{LocalDataModel>Amount}" wrapping="false"/>
+						<Text text="{LocalDataModel>TotalAfterDisct}" wrapping="false"/>
+						<Text text="{LocalDataModel>TCIApprAmt}" wrapping="false"/>
+						<Text text="{LocalDataModel>DiffAmt}" wrapping="false"/>
+					</cells>
+				</ColumnListItem>
+			</items>
+		</Table>
+		
+		<!--<table:Table id="idSubletTable" class="classRCPTable" selectionMode="MultiToggle" rows="{LocalDataModel>/SubletPricingDataModel}" -->
+		<!--	 showNoData="true" threshold="5" enableBusyIndicator="true" visibleRowCount="5">-->
+		<!--	<table:columns autoResizable="true">-->
+		<!--		<table:Column width="17rem">-->
+		<!--			<table:multiLabels>-->
+		<!--				<Label text="Line #" textAlign="Center" width="100%"/>-->
+		<!--			</table:multiLabels>-->
+		<!--			<table:template>-->
+		<!--				<Text text="{LocalDataModel>posnr}" wrapping="false"/>-->
+		<!--			</table:template>-->
+		<!--		</table:Column>-->
+		<!--		<table:Column width="17rem">-->
+		<!--			<table:multiLabels>-->
+		<!--				<Label text="Sublet Type" textAlign="Center" width="100%"/>-->
+		<!--			</table:multiLabels>-->
+		<!--			<table:template>-->
+		<!--				<Text text="{LocalDataModel>matnr}" wrapping="false"/>-->
+		<!--			</table:template>-->
+		<!--		</table:Column>-->
+		<!--		<table:Column width="17rem">-->
+		<!--			<table:multiLabels>-->
+		<!--				<Label text="Invoice #" textAlign="Center" width="100%"/>-->
+		<!--			</table:multiLabels>-->
+		<!--			<table:template>-->
+		<!--				<Text text="{LocalDataModel>InvoiceNo}" wrapping="false"/>-->
+		<!--			</table:template>-->
+		<!--		</table:Column>-->
+		<!--		<table:Column width="17rem">-->
+		<!--			<table:multiLabels>-->
+		<!--				<Label text="Attachment" textAlign="Center" width="100%"/>-->
+		<!--			</table:multiLabels>-->
+		<!--			<table:template>-->
+		<!--				<Text text="" wrapping="false"/>-->
+		<!--			</table:template>-->
+		<!--		</table:Column>-->
+		<!--		<table:Column width="17rem">-->
+		<!--			<table:multiLabels>-->
+		<!--				<Label text="Description" textAlign="Center" width="100%"/>-->
+		<!--			</table:multiLabels>-->
+		<!--			<table:template>-->
+		<!--				<Text text="{LocalDataModel>SubletDescription}" wrapping="false"/>-->
+		<!--			</table:template>-->
+		<!--		</table:Column>-->
+		<!--		<table:Column width="17rem">-->
+		<!--			<table:multiLabels>-->
+		<!--				<Label text="Amount" textAlign="Center" width="100%"/>-->
+		<!--			</table:multiLabels>-->
+		<!--			<table:template>-->
+		<!--				<Text text="{LocalDataModel>Amount}" wrapping="false"/>-->
+		<!--			</table:template>-->
+		<!--		</table:Column>-->
+		<!--		<table:Column width="17rem">-->
+		<!--			<table:multiLabels>-->
+		<!--				<Label text="Total After Discount" textAlign="Center" width="100%"/>-->
+		<!--			</table:multiLabels>-->
+		<!--			<table:template>-->
+		<!--				<Text text="{LocalDataModel>TotalAfterDisct}" wrapping="false"/>-->
+		<!--			</table:template>-->
+		<!--		</table:Column>-->
+		<!--		<table:Column width="17rem">-->
+		<!--			<table:multiLabels>-->
+		<!--				<Label text="TCI Amount Approved" textAlign="Center" width="100%"/>-->
+		<!--			</table:multiLabels>-->
+		<!--			<table:template>-->
+		<!--				<Text text="{LocalDataModel>TCIApprAmt}" wrapping="false"/>-->
+		<!--			</table:template>-->
+		<!--		</table:Column>-->
+		<!--		<table:Column width="17rem">-->
+		<!--			<table:multiLabels>-->
+		<!--				<Label text="Difference" textAlign="Center" width="100%"/>-->
+		<!--			</table:multiLabels>-->
+		<!--			<table:template>-->
+		<!--				<Text text="{LocalDataModel>DiffAmt}" wrapping="false"/>-->
+		<!--			</table:template>-->
+		<!--		</table:Column>-->
 				
-				<table:Column width="9rem">
-					<table:multiLabels>
-						<Label text="TCI Approved Amount Total" textAlign="Center" width="100%"/>
-					</table:multiLabels>
-					<table:template>
-						<Text text="{LocalDataModel>TCIApprovedAmtTotal}" wrapping="false"/>
-					</table:template>
-				</table:Column>
-				<table:Column width="9rem">
-					<table:multiLabels>
-						<Label text="Labour Difference Total" textAlign="Center" width="100%"/>
-					</table:multiLabels>
-					<table:template>
-						<Text text="{LocalDataModel>DifferenceTotal}" wrapping="false"/>
-					</table:template>
-				</table:Column>
-			</table:columns>
-		</table:Table>
+		<!--	</table:columns>-->
+		<!--</table:Table>-->
+		
+		<!--<table:Table class="classRCPTable sapUiSmallMarginTop" id="idTableSubletTotal" selectionMode="None" rows="{LocalDataModel>/SubletPricingDataModel}" showNoData="true"-->
+		<!--	threshold="1" enableBusyIndicator="true" visibleRowCount="1">-->
+		<!--	<table:columns autoResizable="true">-->
+		<!--		<table:Column width="9rem">-->
+		<!--			<table:multiLabels>-->
+		<!--			</table:multiLabels>-->
+		<!--			<table:template>-->
+		<!--				<Text text="Sub-total" wrapping="false"/>-->
+		<!--			</table:template>-->
+		<!--		</table:Column>-->
+		<!--		<table:Column width="9rem">-->
+		<!--			<table:multiLabels>-->
+		<!--				<Label text="Amount Total" textAlign="Center" width="100%"/>-->
+		<!--			</table:multiLabels>-->
+		<!--			<table:template>-->
+		<!--				<Text text="{LocalDataModel>ExtendedTotal}" wrapping="false"/>-->
+		<!--			</table:template>-->
+		<!--		</table:Column>-->
+			
+		<!--		<table:Column width="9rem">-->
+		<!--			<table:multiLabels>-->
+		<!--				<Label text="Grand Total After Discount" textAlign="Center" width="100%"/>-->
+		<!--			</table:multiLabels>-->
+		<!--			<table:template>-->
+		<!--				<Text text="{LocalDataModel>GrandTotalAfterDiscount}" wrapping="false"/>-->
+		<!--			</table:template>-->
+		<!--		</table:Column>-->
+				
+		<!--		<table:Column width="9rem">-->
+		<!--			<table:multiLabels>-->
+		<!--				<Label text="TCI Approved Amount Total" textAlign="Center" width="100%"/>-->
+		<!--			</table:multiLabels>-->
+		<!--			<table:template>-->
+		<!--				<Text text="{LocalDataModel>TCIApprovedAmtTotal}" wrapping="false"/>-->
+		<!--			</table:template>-->
+		<!--		</table:Column>-->
+		<!--		<table:Column width="9rem">-->
+		<!--			<table:multiLabels>-->
+		<!--				<Label text="Labour Difference Total" textAlign="Center" width="100%"/>-->
+		<!--			</table:multiLabels>-->
+		<!--			<table:template>-->
+		<!--				<Text text="{LocalDataModel>DifferenceTotal}" wrapping="false"/>-->
+		<!--			</table:template>-->
+		<!--		</table:Column>-->
+		<!--	</table:columns>-->
+		<!--</table:Table>-->
 		<HBox alignContent="Center" justifyContent="Center" class="sapUiTinyMarginTop">
 			<Button class="sapUiTinyMarginBeginEnd" type="Back" press="onStep06Back" text="{i18n>Back}"/>
 			<Button class="sapUiTinyMarginBeginEnd" press="onStep06Next" text="{i18n>Next}" type="Emphasized"/>
