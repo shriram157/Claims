@@ -3,7 +3,7 @@
 	"tenant-mode": "dedicated",
 	"description": "Security profile of called application",
 	"scopes": [{
-		"name": "$XSAPPNAME.Manage_Sevice_Claims",
+		"name": "$XSAPPNAME.Manage_Service_Claims",
 		"description": "Manage Service Claims"
 	}, {
 		"name": "$XSAPPNAME.Manage_Parts_Claims",
@@ -46,7 +46,7 @@
 		"name": "Dealer_Services_Admin",
 		"description": "Dealer Services Admin",
 		"scope-references": [
-			"$XSAPPNAME.Manage_Sevice_Claims",
+			"$XSAPPNAME.Manage_Service_Claims",
 			"$XSAPPNAME.View_Quick_Coverage_Tool",
 			"$XSAPPNAME.View_Dealer_Labor_Rate",
 			"$XSAPPNAME.View_Claim_Inquiry"
