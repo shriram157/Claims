@@ -171,7 +171,7 @@ sap.ui.define([
 				"results": []
 			};
 
-			this.obj.zc_claim_item_price_data = {
+			this.obj.zc_claim_item_price_dataSet = {
 				"results": [{
 					"PartQty": "0.000",
 					"AmtClaimed": "0.000",
@@ -219,7 +219,8 @@ sap.ui.define([
 			if (oClaim != "nun" && oClaim != undefined) {
 				this.getModel("LocalDataModel").setProperty("/WarrantyClaimNum", oClaim);
 				this.getView().getModel("DateModel").setProperty("/claimTypeEn", false);
-
+				this.getView().getModel("DateModel").setProperty("/saveClaimSt", false);
+				this.getView().getModel("DateModel").setProperty("/updateClaimSt", true);
 				oProssingModel.read("/ZC_CLAIM_HEAD", {
 					urlParameters: {
 						"$filter": "NumberOfWarrantyClaim eq '" + oClaim + "' "
@@ -257,14 +258,14 @@ sap.ui.define([
 				// 	error: function () {}
 				// });
 
-				oProssingModel.read("/zc_headSet", {
+				oProssingModel.read("/zc_claim_item_price_dataSet", {
 					urlParameters: {
-						"$filter": "NumberOfWarrantyClaim eq '" + oClaim + "' ",
-						"$expand": "zc_claim_attachmentsSet,zc_claim_claim_totalSet,zc_claim_item_labourSet,zc_claim_item_paintSet,zc_claim_item_price_data,zc_claim_vsrSet,zc_item_subletSet,zc_itemSet"
+						"$filter": "NumberOfWarrantyClaim eq '" + oClaim + "' "
+
 					},
 					success: $.proxy(function (data) {
 
-						var pricinghData = data.results[0].zc_claim_item_price_data.results;
+						var pricinghData = data.results;
 						var oFilteredData = pricinghData.filter(function (val) {
 							return val.ItemType === "MAT";
 						});
@@ -296,13 +297,15 @@ sap.ui.define([
 				// 	}, this)
 				// });
 
-				var oArr = [];
-				oProssingModel.read("/ZC_CLAIM_SUM(p_clmno='" + oClaim + "')/Set", {
-					success: $.proxy(function (data) {
-						oArr.push(data.results[0], data.results[3]);
-						this.getModel("LocalDataModel").setProperty("/ClaimSum", oArr);
-					}, this)
-				});
+				// var oArr = [];
+				// oProssingModel.read("/ZC_CLAIM_SUM(p_clmno='" + oClaim + "')/Set", {
+				// 	success: $.proxy(function (data) {
+				// 		oArr.push(data.results[0], data.results[3]);
+				// 		this.getModel("LocalDataModel").setProperty("/ClaimSum", oArr);
+				// 	}, this)
+				// });
+
+				this._fnClaimSum();
 
 			} else {
 				oProssingModel.refresh();
@@ -454,9 +457,29 @@ sap.ui.define([
 			// 	}
 			// });
 
+			oProssingModel.read("/ZC_GET_FORE_VIN(p_vhvin='" + oVin + "')/Set", {
+				success: $.proxy(function (data) {
+
+					var oVinModel = data.results[0].Model;
+					if (oVinModel == "I_VEH_US") {
+						this.getView().getModel("HeadSetData").setProperty("/ForeignVINIndicator", "Yes");
+					} else {
+						this.getView().getModel("HeadSetData").setProperty("/ForeignVINIndicator", "No");
+					}
+
+				}, this),
+				error: function () {}
+			});
+
 			oProssingModel.read("/ZC_CLAIM_SPHL_WROF(p_vhvin='" + oVin + "',p_langu='E')/Set", {
 				success: $.proxy(function (data) {
 					this.getModel("LocalDataModel").setProperty("/SPWROF", data.results);
+					var oVinModel = data.results[0].Model;
+					if (oVinModel == "I_VEH_US") {
+						this.getView().getModel("HeadSetData").setProperty("/ForeignVINIndicator", "Yes");
+					} else {
+						this.getView().getModel("HeadSetData").setProperty("/ForeignVINIndicator", "No");
+					}
 					if (data.results.length < 1) {
 						this.getView().getModel("HeadSetData").setProperty("/WrittenOffCode", "No");
 						this.getView().getModel("HeadSetData").setProperty("/SpecialVINReview", "No");
@@ -545,15 +568,16 @@ sap.ui.define([
 					success: $.proxy(function (data, response) {
 						this.getModel("LocalDataModel").setProperty("/WarrantyClaimNum", response.data.NumberOfWarrantyClaim);
 						MessageToast.show("Claim has been saved successfully");
-						var oArr = [];
-						oClaimModel.read("/ZC_CLAIM_SUM(p_clmno='" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") + "')/Set", {
-							success: $.proxy(function (odata) {
-								oArr.push(odata.results[0], odata.results[3]);
-								this.getModel("LocalDataModel").setProperty("/ClaimSum", oArr);
-								this.getView().getModel("DateModel").setProperty("/saveClaimSt", false);
-								this.getView().getModel("DateModel").setProperty("/updateClaimSt", true);
-							}, this)
-						});
+						//var oArr = [];
+						// oClaimModel.read("/ZC_CLAIM_SUM(p_clmno='" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") + "')/Set", {
+						// 	success: $.proxy(function (odata) {
+						// 		oArr.push(odata.results[0], odata.results[3]);
+						// 		this.getModel("LocalDataModel").setProperty("/ClaimSum", oArr);
+						// 		this.getView().getModel("DateModel").setProperty("/saveClaimSt", false);
+						// 		this.getView().getModel("DateModel").setProperty("/updateClaimSt", true);
+						// 	}, this)
+						// });
+						this._fnClaimSum();
 						oClaimModel.read("/ZC_CLAIM_HEAD", {
 							urlParameters: {
 								"$filter": "NumberOfWarrantyClaim eq '" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") + "'"
@@ -650,6 +674,17 @@ sap.ui.define([
 				error: function () {
 
 				}
+			});
+		},
+
+		_fnClaimSum: function (e) {
+			var oClaimModel = this.getModel("ProssingModel");
+			oClaimModel.read("/ZC_CLAIM_SUM(p_clmno='" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") + "')/Set", {
+				success: $.proxy(function (data) {
+
+					this.getModel("LocalDataModel").setProperty("/ClaimSum", data.results);
+
+				}, this)
 			});
 		},
 
@@ -1255,7 +1290,7 @@ sap.ui.define([
 
 			oClaimModel.create("/zc_headSet", this.obj, {
 				success: $.proxy(function (data, response) {
-					var pricinghData = response.data.zc_claim_item_price_data.results;
+					var pricinghData = response.data.zc_claim_item_price_dataSet.results;
 					var oFilteredData = pricinghData.filter(function (val) {
 						return val.ItemType === "MAT";
 					});
@@ -1267,6 +1302,8 @@ sap.ui.define([
 					this.getView().getModel("PartDataModel").setProperty("/quant", "");
 					this.getView().byId("idPartDes").setValue("");
 					oTable.removeSelections("true");
+
+					this._fnClaimSum();
 
 				}, this),
 				error: function (err) {
@@ -1317,13 +1354,13 @@ sap.ui.define([
 
 				oClaimModel.create("/zc_headSet", this.obj, {
 					success: $.proxy(function (data, response) {
-						var pricinghData = response.data.zc_claim_item_price_data.results;
+						var pricinghData = response.data.zc_claim_item_price_dataSet.results;
 						var oFilteredData = pricinghData.filter(function (val) {
 							return val.ItemType === "MAT";
 						});
 						console.log(oFilteredData);
 						this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
-
+						this._fnClaimSum();
 						//MessageToast.show("Claim has been deleted successfully");
 					}, this),
 					error: function (err) {
@@ -1355,7 +1392,7 @@ sap.ui.define([
 				});
 				oClaimModel.create("/zc_headSet", this.obj, {
 					success: $.proxy(function (data, response) {
-						var pricinghData = response.data.zc_claim_item_price_data.results;
+						var pricinghData = response.data.zc_claim_item_price_dataSet.results;
 						var oFilteredData = pricinghData.filter(function (val) {
 							return val.ItemType === "MAT";
 
@@ -1364,6 +1401,7 @@ sap.ui.define([
 						this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
 						oTable.removeSelections("true");
 						MessageToast.show("Claim has been deleted successfully");
+						this._fnClaimSum();
 					}, this),
 					error: function (err) {
 						console.log(err);
@@ -1473,7 +1511,7 @@ sap.ui.define([
 			oClaimModel.create("/zc_headSet", this.obj, {
 				success: $.proxy(function (data, response) {
 					console.log(response);
-					var pricinghData = response.data.zc_claim_item_price_data.results;
+					var pricinghData = response.data.zc_claim_item_price_dataSet.results;
 					var oFilteredData = pricinghData.filter(function (val) {
 						return val.ItemType === "FR" && val.ItemKey[14] != "P";
 					});
@@ -1484,6 +1522,7 @@ sap.ui.define([
 					this.getView().getModel("DateModel").setProperty("/labourLine", false);
 					this.getView().getModel("LabourDataModel").setProperty("/LabourOp", "");
 					this.getView().getModel("LabourDataModel").setProperty("/ClaimedHours", "");
+					this._fnClaimSum();
 					oTable.removeSelections("true");
 				}, this),
 				error: function (err) {
@@ -1519,7 +1558,7 @@ sap.ui.define([
 
 				oClaimModel.create("/zc_headSet", this.obj, {
 					success: $.proxy(function (data, response) {
-						var pricinghData = response.data.zc_claim_item_price_data.results;
+						var pricinghData = response.data.zc_claim_item_price_dataSet.results;
 						var oFilteredData = pricinghData.filter(function (val) {
 							return val.ItemType === "FR" && val.ItemKey[14] != "P";
 						});
@@ -1527,6 +1566,7 @@ sap.ui.define([
 						this.getModel("LocalDataModel").setProperty("/LabourPricingDataModel", oFilteredData);
 						MessageToast.show("Claim has been deleted successfully");
 						oTable.removeSelections("true");
+						this._fnClaimSum();
 						// this.getView().getModel("DateModel").setProperty("/partLine", false);
 						// this.getView().getModel("PartDataModel").setProperty("/matnr", "");
 						// this.getView().getModel("PartDataModel").setProperty("/quant", "");
@@ -1574,13 +1614,14 @@ sap.ui.define([
 
 				oClaimModel.create("/zc_headSet", this.obj, {
 					success: $.proxy(function (data, response) {
-						var pricinghData = response.data.zc_claim_item_price_data.results;
+						var pricinghData = response.data.zc_claim_item_price_dataSet.results;
 						var oFilteredData = pricinghData.filter(function (val) {
 							return val.ItemType === "FR" && val.ItemKey[14] != "P";
 						});
 						console.log(oFilteredData);
 						this.getModel("LocalDataModel").setProperty("/LabourPricingDataModel", oFilteredData);
 						oTable.removeSelections("true");
+						this._fnClaimSum();
 						//MessageToast.show("Claim has been deleted successfully");
 					}, this),
 					error: function (err) {
@@ -1617,7 +1658,7 @@ sap.ui.define([
 			oClaimModel.create("/zc_headSet", this.obj, {
 				success: $.proxy(function (data, response) {
 					console.log(response);
-					var pricinghData = response.data.zc_claim_item_price_data.results;
+					var pricinghData = response.data.zc_claim_item_price_dataSet.results;
 					var oFilteredData = pricinghData.filter(function (val) {
 						return val.ItemType === "FR" && val.ItemKey[14] == "P";
 					});
@@ -1663,7 +1704,7 @@ sap.ui.define([
 				});
 				oClaimModel.create("/zc_headSet", this.obj, {
 					success: $.proxy(function (data, response) {
-						var pricinghData = response.data.zc_claim_item_price_data.results;
+						var pricinghData = response.data.zc_claim_item_price_dataSet.results;
 						var oFilteredData = pricinghData.filter(function (val) {
 							return val.ItemType === "FR" && val.ItemKey[14] == "P";
 						});
@@ -1722,7 +1763,7 @@ sap.ui.define([
 			oClaimModel.create("/zc_headSet", this.obj, {
 				success: $.proxy(function (data, response) {
 					console.log(response);
-					var pricinghData = response.data.zc_claim_item_price_data.results;
+					var pricinghData = response.data.zc_claim_item_price_dataSet.results;
 					var oFilteredData = pricinghData.filter(function (val) {
 						return val.ItemType === "SUBL";
 					});
@@ -1735,6 +1776,7 @@ sap.ui.define([
 					this.getView().getModel("SubletDataModel").setProperty("/InvoiceNo", "");
 					this.getView().getModel("SubletDataModel").setProperty("/Amount", "");
 					oTable.removeSelections("true");
+					this._fnClaimSum();
 
 				}, this),
 				error: function (err) {
@@ -1785,13 +1827,14 @@ sap.ui.define([
 				});
 				oClaimModel.create("/zc_headSet", this.obj, {
 					success: $.proxy(function (data, response) {
-						var pricinghData = response.data.zc_claim_item_price_data.results;
+						var pricinghData = response.data.zc_claim_item_price_dataSet.results;
 						var oFilteredData = pricinghData.filter(function (val) {
 							return val.ItemType === "SUBL";
 						});
 						console.log(oFilteredData);
 						this.getModel("LocalDataModel").setProperty("/SubletPricingDataModel", oFilteredData);
 						oTable.removeSelections("true");
+						this._fnClaimSum();
 						//MessageToast.show("Claim has been deleted successfully");
 					}, this),
 					error: function (err) {
@@ -1822,7 +1865,7 @@ sap.ui.define([
 				});
 				oClaimModel.create("/zc_headSet", this.obj, {
 					success: $.proxy(function (data, response) {
-						var pricinghData = response.data.zc_claim_item_price_data.results;
+						var pricinghData = response.data.zc_claim_item_price_dataSet.results;
 						var oFilteredData = pricinghData.filter(function (val) {
 							return val.ItemType === "SUBL";
 
@@ -1831,6 +1874,7 @@ sap.ui.define([
 						this.getModel("LocalDataModel").setProperty("/SubletPricingDataModel", oFilteredData);
 						MessageToast.show("Claim has been deleted successfully");
 						oTable.removeSelections("true");
+						this._fnClaimSum();
 
 					}, this),
 					error: function (err) {
@@ -1876,11 +1920,11 @@ sap.ui.define([
 			var oObj = {
 				"NumberOfWarrantyClaim": oClaimNum,
 				"POSNR": "",
-				"NUMBER":"",
+				"NUMBER": "",
 				"TYPE": "",
 				"MESSAGE": ""
 			};
-			
+
 			this.obj.zc_claim_vsrSet.results.push(oObj);
 			this._oToken = oClaimModel.getHeaders()['x-csrf-token'];
 			$.ajaxSetup({
