@@ -549,7 +549,7 @@ sap.ui.define([
 			} else if (oValid && oValid01 && oValid02) {
 				var obj = {
 					"DBOperation": "POST",
-					"WarrantyClaimType": this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType"),
+					"WarrantyClaimType": this.getView().getModel("HeadSetData").getProperty("/ClaimType"),
 					"Partner": this.getModel("LocalDataModel").getProperty("/BPDealerDetails/BusinessPartnerKey"),
 					"PartnerRole": "AS",
 					"ReferenceDate": this._fnDateFormat(oCurrentDt),
@@ -666,7 +666,7 @@ sap.ui.define([
 				"DBOperation": "PUT",
 				"ActionCode": oActionCode,
 				"NumberOfWarrantyClaim": oClaimNum,
-				"WarrantyClaimType": this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType"),
+				"WarrantyClaimType": this.getView().getModel("HeadSetData").getProperty("/ClaimType"),
 				"Partner": this.getModel("LocalDataModel").getProperty("/BPDealerDetails/BusinessPartnerKey"),
 				"PartnerRole": "AS",
 				"ReferenceDate": this._fnDateFormat(oCurrentDt),
