@@ -10,11 +10,11 @@
 				</Toolbar>
 			</headerToolbar>
 			<HBox justifyContent="End">
-				<Button text="Add Part LIne" type="Emphasized"/>
-				<Button text="Update Part Line" class="sapUiTinyMarginBeginEnd"/>
-				<Button text="Delete Part Line" class="sapUiTinyMarginBeginEnd" type="Reject"/>
-				<Button text="Letter Of Intent" class="sapUiTinyMarginBeginEnd"/>
-				<Button text="Save Claim" class="sapUiTinyMarginBeginEnd" type="Emphasized"/>
+				<Button text="Add Part LIne" type="Emphasized" enabled="{DateModel>/oFormEdit}"/>
+				<Button text="Update Part Line" class="sapUiTinyMarginBeginEnd" enabled="{DateModel>/oFormEdit}"/>
+				<Button text="Delete Part Line" class="sapUiTinyMarginBeginEnd" type="Reject" enabled="{DateModel>/oFormEdit}"/>
+				<Button text="Letter Of Intent" class="sapUiTinyMarginBeginEnd" enabled="{DateModel>/oFormEdit}"/>
+				<Button text="Save Claim" class="sapUiTinyMarginBeginEnd" type="Emphasized" enabled="{DateModel>/oFormEdit}"/>
 			</HBox>
 			<!--<f:SimpleForm editable="true" labelSpanL="12" title="" labelSpanXL="12" layout="ResponsiveGridLayout" columnsM="2" columnsL="5"-->
 			<!--	columnsXL="5">-->

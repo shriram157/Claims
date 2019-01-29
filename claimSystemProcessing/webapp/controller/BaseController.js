@@ -29,12 +29,16 @@ sap.ui.define([
 			var oGetText = oEvent.getSource().getText();
 			if(oGetText === oBundle.getText("NewClaim")) {
 				this.getOwnerComponent().getRouter().navTo("NewClaimSelectGroup");
+				this.getModel("ProssingModel").refresh();
 			}else if(oGetText === oBundle.getText("ViewUpdateClaims")){
 				this.getOwnerComponent().getRouter().navTo("SearchClaim");
+				this.getModel("ProssingModel").refresh();
 			}else if(oGetText === oBundle.getText("QuickCoverageTool")){
 				this.getOwnerComponent().getRouter().navTo("QueryCoverageTools");
+				this.getModel("ProssingModel").refresh();
 			}else if(oGetText === oBundle.getText("ClaimInquiry")){
 				this.getOwnerComponent().getRouter().navTo("ClaimInquiry");
+				this.getModel("ProssingModel").refresh();
 			}
 			
 			
@@ -144,14 +148,15 @@ sap.ui.define([
 					//that.getModel("LocalDataModel").setProperty("/BpDealerKey", BpDealer[0].BusinessPartnerKey);
 					//that.getView().setModel(new sap.ui.model.json.JSONModel(BpDealer), "BpDealerModel");
 					// read the saml attachments the same way 
-					return BpDealer[0].BusinessPartnerKey;
+					
 
 				}.bind(this),
 				error: function (response) {
 					sap.ui.core.BusyIndicator.hide();
 				}
 			}).done(function (data, textStatus, jqXHR) {
-
+			
+				that.getModel("LocalDataModel").setProperty("/BPDealerDetails", data.attributes[0]);
 			
 			});
 

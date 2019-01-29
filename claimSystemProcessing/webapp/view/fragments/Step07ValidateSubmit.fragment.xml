@@ -62,7 +62,7 @@
 						<Label text="(Totals included mark-up and discounts)" textAlign="Center" width="100%"/>
 					</table:multiLabels>
 					<table:template>
-						<Text text="{LocalDataModel>ItemType}" wrapping="false"/>
+						<Text text="{path:'LocalDataModel>ItemType', formatter: 'zclaimProcessing.utils.formatter.fnFormatText'}" wrapping="false"/>
 					</table:template>
 				</table:Column>
 				<table:Column width="11rem">

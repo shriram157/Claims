@@ -56,13 +56,13 @@
 			columnsM="6">
 			<f:content>
 				<core:Title text=""/>
-				<Button text="Add Labour Line" press="onPressAddLabour"/>
+				<Button text="Add Labour Line" press="onPressAddLabour" enabled="{DateModel>/oFormEdit}"/>
 				<core:Title text=""/>
-				<Button text="Update Labour Line" press="onPressUpdateLabour"/>
+				<Button text="Update Labour Line" press="onPressUpdateLabour" enabled="{DateModel>/oFormEdit}"/>
 				<core:Title text=""/>
-				<Button text="Delete Labour Line" type="Reject" press="onPressDeleteLabour"/>
+				<Button text="Delete Labour Line" type="Reject" press="onPressDeleteLabour" enabled="{DateModel>/oFormEdit}"/>
 				<core:Title text=""/>
-				<Button text="Suggested Operations" press="onPressSuggestLabour"/>
+				<Button text="Suggested Operations" press="onPressSuggestLabour" enabled="{DateModel>/oFormEdit}"/>
 				<core:Title text=""/>
 				<Label text="Labour Rate"/>
 				<Text text="$12.00"/>

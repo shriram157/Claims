@@ -50,7 +50,7 @@
 			labelSpanM="12" labelSpanS="12" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="4" columnsL="4" columnsM="4">
 			<f:content>
 				<core:Title text=""/>
-				<Button text="Add Paint LIne" type="Emphasized" press="onPressAddPaint">
+				<Button text="Add Paint LIne" type="Emphasized" press="onPressAddPaint" enabled="{DateModel>/oFormEdit}">
 					<layoutData>
 						<l:GridData span="XL8 L8 "/>
 					</layoutData>
@@ -62,7 +62,7 @@
 				<!--	</layoutData>-->
 				<!--</Button>-->
 				<core:Title text=""/>
-				<Button text="Delete Paint Line" type="Reject" press="onPressDeletePaint">
+				<Button text="Delete Paint Line" type="Reject" press="onPressDeletePaint" enabled="{DateModel>/oFormEdit}">
 					<layoutData>
 						<l:GridData span="XL8 L8 "/>
 					</layoutData>

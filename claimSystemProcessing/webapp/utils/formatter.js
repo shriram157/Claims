@@ -317,6 +317,19 @@ zclaimProcessing.utils.formatter = {
 			).toFixed(2);
 		}
 		return oNum;
+	},
+	fnFormatText : function(val){
+		var oText = "";
+		if(val == "MAT"){
+			oText = "Parts:" ;
+		}else if(val == "FR"){
+			oText = "Labour:" ;
+		}else if(val == "SUBL"){
+			oText = "Sublet:" ;
+		}else if(val == "TOTL"){
+			oText = "Total:" ;
+		}
+		return oText;
 	}
 
 };

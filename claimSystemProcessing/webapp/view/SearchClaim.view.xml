@@ -65,7 +65,7 @@
 							<VBox>
 								<table:Table id="idClaimTable" class="classRCPTable" selectionMode="Single" rows="{ path: '/ZC_CLAIM_HEAD'}" rowSelectionChange="onNavigate"
 									visibleRowCount="{RowCountModel>/rowCount}" selectionBehavior="Row" showNoData="true" threshold="{RowCountModel>/rowCount}"
-									enableBusyIndicator="true">
+									enableBusyIndicator="false">
 									<table:columns>
 										<table:Column width="9rem">
 											<Label text="{i18n>TCIClaim}" textAlign="Center" width="100%"/>
@@ -112,7 +112,7 @@
 										<table:Column width="9rem">
 											<Label text="{i18n>ClaimStatus}" textAlign="Center" width="100%"/>
 											<table:template>
-												<Text text="{ProcessingStatusOfWarrantyClm}"/>
+												<Text text="{DecisionCode}"/>
 											</table:template>
 										</table:Column>
 										<table:Column width="8rem">

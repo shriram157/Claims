@@ -239,6 +239,31 @@ sap.ui.define([
 
 			this.getView().setModel(new sap.ui.model.json.JSONModel(oRowCount), "RowCountModel");
 		},
+		
+		_onObjectMatched: function (oEvent) {
+			var oProssingModel = this.getModel("ProssingModel");
+			// var issueDealer = this.getModel("LocalDataModel").getProperty("/currentIssueDealer");
+			// var oDateFormat = sap.ui.core.format.DateFormat.getDateInstance({
+			// 	pattern: "yyyy-MM-ddTHH:mm:ss"
+			// });
+			// var oPriorDate = oDateFormat.format(this.priordate);
+			// var oCurrentDate = oDateFormat.format(this.beforedate);
+			// if (oEvent.getParameters().name === "ApplicationList") {
+			// 	this.getOwnerComponent().getModel("EcpSalesModel").refresh();
+			// 	oProssingModel.read("/ZC_CLAIM_HEAD", {
+			// 		urlParameters: {
+			// 			"$filter": "ReferenceDate ge datetime'" + oPriorDate + "'and ReferenceDate le datetime'" + oCurrentDate +
+			// 				"'and Partner eq '" + issueDealer + "'"
+			// 		},
+			// 		success: $.proxy(function (data) {
+			// 			this.getModel("LocalDataModel").setProperty("/EcpApplication", data.results);
+			// 		}, this)
+			// 	});
+
+			// }
+		},
+
+
 		onAfterRendering: function () {
 			// this.getView().byId("idDealerCode").setSelectedKey("2400042350");
 			// this.getView().byId("idDealerCode").setValue("42350");

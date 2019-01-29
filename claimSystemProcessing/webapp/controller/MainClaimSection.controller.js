@@ -35,7 +35,10 @@ sap.ui.define([
 				SaveClaim07: true,
 				claimTypeEn: true,
 				AcA1: false,
-				P1p2: false
+				P1p2: false,
+				oFormEdit: true,
+				claimEditSt: false,
+				oztac : false
 			});
 			this.getView().setModel(oDateModel, "DateModel");
 			var oNodeModel = new sap.ui.model.json.JSONModel();
@@ -148,67 +151,13 @@ sap.ui.define([
 			// :::::::::::::::::: Claim Items post object start ::::::::::::::::::::
 			this.ArrIndex = [];
 			this.ArrIndexLabour = [];
-			this.obj = {};
-			this.obj.DBOperation = "SAVE";
-			this.obj.zc_itemSet = {};
-			this.obj.zc_itemSet.results = [];
-			this.obj.zc_item_subletSet = {
-				"results": []
-			};
 
-			this.obj.zc_claim_item_labourSet = {
-				"results": []
-			};
-
-			this.obj.zc_claim_item_paintSet = {
-				"results": []
-			};
-			this.obj.zc_claim_attachmentsSet = {
-				"results": []
-			};
-
-			this.obj.zc_claim_vsrSet = {
-				"results": []
-			};
-
-			this.obj.zc_claim_item_price_dataSet = {
-				"results": [{
-					"PartQty": "0.000",
-					"AmtClaimed": "0.000",
-					"clmno": "",
-					"DealerNet": "0.000",
-					"DiffAmt": "0.000",
-					"ExtendedValue": "0.000",
-					"ItemType": "",
-					"kappl": "",
-					"kateg": "",
-					"kawrt": "0.000",
-					"kbetr": "0.000",
-					"knumv": "",
-					"kposn": "",
-					"kschl": "",
-					"kvsl1": "",
-					"kwert": "0.000",
-					"MarkUp": "0.000",
-					"matnr": "",
-					"posnr": "",
-					"QtyHrs": "0.000",
-					"quant": "0.000",
-					"TCIApprAmt": "0.000",
-					"TCIApprQty": "0.000",
-					"TotalAfterDisct": "0.000",
-					"v_rejcd": "",
-					"valic": "0.000",
-					"valoc": "0.000",
-					"verknumv": "",
-					"versn": ""
-				}]
-			};
 			// :::::::::::::::::: Claim Items post object end ::::::::::::::::::::
 
 		},
 
 		_onRoutMatched: function (oEvent) {
+
 			var oProssingModel = this.getModel("ProssingModel");
 			oProssingModel.refresh();
 			var oClaim = oEvent.getParameters().arguments.claimNum;
@@ -231,6 +180,22 @@ sap.ui.define([
 						HeadSetData.setDefaultBindingMode("TwoWay");
 						this.getView().setModel(HeadSetData, "HeadSetData");
 						this.getView().getModel("LocalDataModel").setProperty("/step01Next", true);
+
+						if (data.results[0].DecisionCode === "ZTRC" || data.results[0].DecisionCode === "ZTIC") {
+							this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
+							this.getView().getModel("DateModel").setProperty("/claimEditSt", false);
+						} else if (data.results[0].DecisionCode == "") {
+							this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
+							this.getView().getModel("DateModel").setProperty("/claimEditSt", false);
+						} else if (data.results[0].DecisionCode == "ZTAC") {
+							this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
+							this.getView().getModel("DateModel").setProperty("/claimEditSt", true);
+
+						} else {
+							this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
+							this.getView().getModel("DateModel").setProperty("/claimEditSt", false);
+						}
+
 					}, this),
 					error: function () {}
 				});
@@ -276,6 +241,11 @@ sap.ui.define([
 						});
 						this.getModel("LocalDataModel").setProperty("/LabourPricingDataModel", oFilteredDataLabour);
 
+						var oFilteredDataPaint = pricinghData.filter(function (val) {
+							return val.ItemType === "FR" && val.ItemKey[14] == "P";
+						});
+						this.getModel("LocalDataModel").setProperty("/PaintPricingDataModel", oFilteredDataPaint);
+
 						var oFilteredDataSubl = pricinghData.filter(function (val) {
 							return val.ItemType === "SUBL";
 						});
@@ -309,6 +279,62 @@ sap.ui.define([
 
 			} else {
 				oProssingModel.refresh();
+				this.obj = {};
+				this.obj.DBOperation = "SAVE";
+				this.obj.zc_itemSet = {};
+				this.obj.zc_itemSet.results = [];
+				this.obj.zc_item_subletSet = {
+					"results": []
+				};
+
+				this.obj.zc_claim_item_labourSet = {
+					"results": []
+				};
+
+				this.obj.zc_claim_item_paintSet = {
+					"results": []
+				};
+				this.obj.zc_claim_attachmentsSet = {
+					"results": []
+				};
+
+				this.obj.zc_claim_vsrSet = {
+					"results": []
+				};
+
+				this.obj.zc_claim_item_price_dataSet = {
+					"results": [{
+						"PartQty": "0.000",
+						"AmtClaimed": "0.000",
+						"clmno": "",
+						"DealerNet": "0.000",
+						"DiffAmt": "0.000",
+						"ExtendedValue": "0.000",
+						"ItemType": "",
+						"kappl": "",
+						"kateg": "",
+						"kawrt": "0.000",
+						"kbetr": "0.000",
+						"knumv": "",
+						"kposn": "",
+						"kschl": "",
+						"kvsl1": "",
+						"kwert": "0.000",
+						"MarkUp": "0.000",
+						"matnr": "",
+						"posnr": "",
+						"QtyHrs": "0.000",
+						"quant": "0.000",
+						"TCIApprAmt": "0.000",
+						"TCIApprQty": "0.000",
+						"TotalAfterDisct": "0.000",
+						"v_rejcd": "",
+						"valic": "0.000",
+						"valoc": "0.000",
+						"verknumv": "",
+						"versn": ""
+					}]
+				};
 				this.getView().getModel("DateModel").setProperty("/claimTypeEn", true);
 				if (oGroupDescription == "WARRANTY") {
 					oProssingModel.read("/ZC_CLAIM_GROUP", {
@@ -355,6 +381,7 @@ sap.ui.define([
 					this.getView().getModel("DateModel").setProperty("/Paint", false);
 					this.getView().getModel("DateModel").setProperty("/Authorization", false);
 				}
+				this.getDealer();
 			}
 		},
 
@@ -523,7 +550,7 @@ sap.ui.define([
 				var obj = {
 					"DBOperation": "POST",
 					"WarrantyClaimType": this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType"),
-					"Partner": "2400034030",
+					"Partner": this.getModel("LocalDataModel").getProperty("/BPDealerDetails/BusinessPartnerKey"),
 					"PartnerRole": "AS",
 					"ReferenceDate": this._fnDateFormat(oCurrentDt),
 					"DateOfApplication": this._fnDateFormat(oCurrentDt),
@@ -628,11 +655,19 @@ sap.ui.define([
 				}
 			});
 			var oCurrentDt = new Date();
+			var oActionCode = "";
+			if(this.getView().getModel("DateModel").getProperty("/oztac") == true){
+				oActionCode = "ZTEA";
+			}
+			else {
+				oActionCode = "";
+			}
 			var obj = {
 				"DBOperation": "PUT",
+				"ActionCode": oActionCode,
 				"NumberOfWarrantyClaim": oClaimNum,
 				"WarrantyClaimType": this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType"),
-				"Partner": "2400034030",
+				"Partner": this.getModel("LocalDataModel").getProperty("/BPDealerDetails/BusinessPartnerKey"),
 				"PartnerRole": "AS",
 				"ReferenceDate": this._fnDateFormat(oCurrentDt),
 				"DateOfApplication": this._fnDateFormat(oCurrentDt),
@@ -675,6 +710,41 @@ sap.ui.define([
 
 				}
 			});
+		},
+
+		onEditClaim: function (e) {
+			//var that = this;
+			var dialog = new Dialog({
+				title: "Edit Claim",
+				type: "Message",
+				content: new Text({
+					text: "Claim is ACCEPTED, Do you still want to EDIT the ACCEPTED claim?"
+				}),
+
+				buttons: [
+					new Button({
+						text: "Yes",
+						press: $.proxy(function () {
+							this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
+							this.getView().getModel("DateModel").setProperty("/oztac", true);
+							dialog.close();
+						}, this)
+					}),
+					new Button({
+						text: "Cancel",
+						press: function () {
+							dialog.close();
+						}
+					})
+
+				],
+
+				afterClose: function () {
+					dialog.destroy();
+				}
+			});
+
+			dialog.open();
 		},
 
 		_fnClaimSum: function (e) {
