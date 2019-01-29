@@ -16,14 +16,13 @@
 									<f:content>
 										<core:Title text=""/>
 										<Label text="{i18n>DealerCode}" textAlign="Begin"/>
-										<Text
-											text="{parts: [{path: 'LocalDataModel>/DealerText'}, {path: 'LocalDataModel>/AdditionalText'}], formatter: 'zclaimProcessing.utils.formatter.fnFormatter'}"/>
-										<ComboBox showSecondaryValues="true" id="idDealerCode" filterSecondaryValues="true" selectionChange="fnOnSelectDealer"
-											items="{ path: 'OBusinessModel>/A_BusinessPartner', filters : [ { path : 'BusinessPartnerType', operator : 'EQ', value1 : 'Z001'}], sorter: { path: 'BusinessPartner' }, length:300 }">
-											<core:ListItem key="{OBusinessModel>BusinessPartner}"
-												text="{path:'OBusinessModel>BusinessPartner', formatter:'zclaimProcessing.utils.formatter.fnFormatCustomer'}"
-												additionalText="{OBusinessModel>BusinessPartnerName}"/>
-										</ComboBox>
+										<!--<Text-->
+										<!--	text="{parts: [{path: 'LocalDataModel>/DealerText'}, {path: 'LocalDataModel>/AdditionalText'}], formatter: 'zclaimProcessing.utils.formatter.fnFormatter'}"/>-->
+										<Select showSecondaryValues="true" id="idDealerCode" change="onSelectiDealer" items="{LocalDataModel>/BpDealerModel}"
+												selectedKey="{LocalDataModel>/BpDealerModel/0/BusinessPartnerKey}">
+												<core:ListItem key="{LocalDataModel>BusinessPartnerKey}" text="{path:'LocalDataModel>BusinessPartner'}"
+													additionalText="{LocalDataModel>BusinessPartnerName}"/>
+											</Select>
 										<Label text="{i18n>SearchBy}" textAlign="Begin"/>
 										<ComboBox id="idSearchBy" selectionChange="onSearchBy">
 											<core:Item key="RepairOrderNumberExternal" text="Repair Order Number"/>

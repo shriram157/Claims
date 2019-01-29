@@ -53,6 +53,110 @@ sap.ui.define([
 		getResourceBundle: function () {
 			return this.getOwnerComponent().getModel("i18n").getResourceBundle();
 		},
+		
+		getDealer : function(){
+				var sLocation = window.location.host;
+			var sLocation_conf = sLocation.search("webide");
+			if (sLocation_conf == 0) {
+				this.sPrefix = "/Claim_Destination"; //ecpSales_node_secured
+				this.attributeUrl = "/userDetails/attributesforlocaltesting";
+			} else {
+				this.sPrefix = "";
+				this.attributeUrl = "/userDetails/attributes";
+			}
+
+			//======================================================================================================================//			
+			//  on init method,  get the token attributes and authentication details to the UI from node layer.  - begin
+			//======================================================================================================================//		
+			//  get the Scopes to the UI 
+			//this.sPrefix ="";
+			var that = this;
+			$.ajax({
+				url: this.sPrefix + "/userDetails/currentScopesForUser",
+				type: "GET",
+				dataType: "json",
+				success: function (oData) {
+					// var userScopes = oData;
+					// userScopes.forEach(function (data) {
+
+					var userType = oData.loggedUserType[0];
+					switch (userType) {
+					case "Dealer_Parts_Admin":
+						console.log("Dealer Parts");
+
+						break;
+					case "Dealer_Services_Admin":
+
+						console.log("Dealer_Services_Admin");
+						break;
+
+					case "Dealer_User":
+						console.log("Dealer_User");
+
+						break;
+					case "TCI_Admin":
+						console.log("TCI_Admin");
+						break;
+					case "TCI_User":
+						console.log("TCI_User");
+						break;
+
+					case "Zone_User":
+						console.log("Zone_User");
+						break;
+					default:
+						// raise a message, because this should not be allowed. 
+
+					}
+				}
+
+				// if (data === "ecpSales!t1188.Manage_ECP_Application") {
+				// 	that.getView().getModel("oDateModel").setProperty("/oCreateButton", true);
+				// 	that.getModel("LocalDataModel").setProperty("/newAppLink", true);
+				// } 
+
+			});
+
+			// get the attributes and BP Details - Minakshi to confirm if BP details needed		// TODO: 
+			$.ajax({
+				url: this.sPrefix + this.attributeUrl,
+				type: "GET",
+				dataType: "json",
+
+				success: function (oData) {
+					var BpDealer = [];
+					var userAttributes = [];
+
+					$.each(oData.attributes, function (i, item) {
+						var BpLength = item.BusinessPartner.length;
+
+						BpDealer.push({
+							"BusinessPartnerKey": item.BusinessPartnerKey,
+							"BusinessPartner": item.BusinessPartner, //.substring(5, BpLength),
+							"BusinessPartnerName": item.BusinessPartnerName, //item.OrganizationBPName1 //item.BusinessPartnerFullName
+							"Division": item.Division,
+							"BusinessPartnerType": item.BusinessPartnerType,
+							"searchTermReceivedDealerName": item.SearchTerm2
+						});
+
+					});
+					that.getModel("LocalDataModel").setProperty("/BpDealerModel", BpDealer);
+					//that.getModel("LocalDataModel").setProperty("/BpDealerKey", BpDealer[0].BusinessPartnerKey);
+					//that.getView().setModel(new sap.ui.model.json.JSONModel(BpDealer), "BpDealerModel");
+					// read the saml attachments the same way 
+					return BpDealer[0].BusinessPartnerKey;
+
+				}.bind(this),
+				error: function (response) {
+					sap.ui.core.BusyIndicator.hide();
+				}
+			}).done(function (data, textStatus, jqXHR) {
+
+			
+			});
+
+		
+		},
 
 		/**
 		 * Event handler for navigating back.

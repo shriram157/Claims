@@ -11,6 +11,142 @@ sap.ui.define([
 		 * @memberOf zclaimProcessing.view.SearchClaim
 		 */
 		onInit: function () {
+			
+			
+			var sLocation = window.location.host;
+			var sLocation_conf = sLocation.search("webide");
+			if (sLocation_conf == 0) {
+				this.sPrefix = "/Claim_Destination"; //ecpSales_node_secured
+				this.attributeUrl = "/userDetails/attributesforlocaltesting";
+			} else {
+				this.sPrefix = "";
+				this.attributeUrl = "/userDetails/attributes";
+			}
+
+			//======================================================================================================================//			
+			//  on init method,  get the token attributes and authentication details to the UI from node layer.  - begin
+			//======================================================================================================================//		
+			//  get the Scopes to the UI 
+			//this.sPrefix ="";
+			var that = this;
+			$.ajax({
+				url: this.sPrefix + "/userDetails/currentScopesForUser",
+				type: "GET",
+				dataType: "json",
+				success: function (oData) {
+					// var userScopes = oData;
+					// userScopes.forEach(function (data) {
+
+					var userType = oData.loggedUserType[0];
+					switch (userType) {
+					case "Dealer_Parts_Admin":
+						console.log("Dealer Parts");
+
+						break;
+					case "Dealer_Services_Admin":
+
+						console.log("Dealer_Services_Admin");
+						break;
+
+					case "Dealer_User":
+						console.log("Dealer_User");
+
+						break;
+					case "TCI_Admin":
+						console.log("TCI_Admin");
+						break;
+					case "TCI_User":
+						console.log("TCI_User");
+						break;
+
+					case "Zone_User":
+						console.log("Zone_User");
+						break;
+					default:
+						// raise a message, because this should not be allowed. 
+
+					}
+				}
+
+				// if (data === "ecpSales!t1188.Manage_ECP_Application") {
+				// 	that.getView().getModel("oDateModel").setProperty("/oCreateButton", true);
+				// 	that.getModel("LocalDataModel").setProperty("/newAppLink", true);
+				// } 
+
+			});
+
+			// get the attributes and BP Details - Minakshi to confirm if BP details needed		// TODO: 
+			$.ajax({
+				url: this.sPrefix + this.attributeUrl,
+				type: "GET",
+				dataType: "json",
+
+				success: function (oData) {
+					var BpDealer = [];
+					var userAttributes = [];
+
+					$.each(oData.attributes, function (i, item) {
+						var BpLength = item.BusinessPartner.length;
+
+						BpDealer.push({
+							"BusinessPartnerKey": item.BusinessPartnerKey,
+							"BusinessPartner": item.BusinessPartner, //.substring(5, BpLength),
+							"BusinessPartnerName": item.BusinessPartnerName, //item.OrganizationBPName1 //item.BusinessPartnerFullName
+							"Division": item.Division,
+							"BusinessPartnerType": item.BusinessPartnerType,
+							"searchTermReceivedDealerName": item.SearchTerm2
+						});
+
+					});
+					that.getModel("LocalDataModel").setProperty("/BpDealerModel", BpDealer);
+					that.getModel("LocalDataModel").setProperty("/BpDealerKey", BpDealer[0].BusinessPartnerKey);
+					//that.getView().setModel(new sap.ui.model.json.JSONModel(BpDealer), "BpDealerModel");
+					// read the saml attachments the same way 
+					$.each(oData.samlAttributes, function (i, item) {
+						userAttributes.push({
+							"UserType": item.UserType[0],
+							"DealerCode": item.DealerCode[0],
+							"Language": item.Language[0]
+								// "Zone": item.Zone[0]   ---    Not yet available
+						});
+
+					});
+
+					that.getView().setModel(new sap.ui.model.json.JSONModel(userAttributes), "userAttributesModel");
+
+					//	that._getTheUserAttributes();
+
+				}.bind(this),
+				error: function (response) {
+					sap.ui.core.BusyIndicator.hide();
+				}
+			}).done(function (data, textStatus, jqXHR) {
+
+				var oRouter = sap.ui.core.UIComponent.getRouterFor(that);
+				oRouter.attachRouteMatched(that._onObjectMatched, that);
+			});
+
+			// scopes to be used as below. // TODO: Minakshi to continue the below integration
+
+			//if you see scopes   Manage_ECP_Application,  then treat the user as Dealer Sales USer,  this is the only user with manage application
+			// TODO:  in the ui for this user,  everything is available and default landing page need to be set view/update application page
+
+			// if you see scopes view ECP Claim & view ECP Agreement & inquiry with  user attribute dealer code then this is a Dealer Service user. 
+			// TODO: Suppress the tabs new application and View/update application.  only enable Agreement inquiry and make this a landing page. 
+
+			//if you see scopes view ecp application, view ecp claim, view ecp agreement, view inquiry with no dealer code and no zone then this is a Internal TCIUser Admin[ECP Dept]
+			// TODO: Make view/update application as the landing page,  suppress new applicaiton creation button  ( Internal user cannot create an application but view/update is allowed)
+
+			//if you see scopes view ecp application, view ecp claim, view ecp agreement, view inquiry with no dealer code and  zone then this is a  ECP ZONE USER
+			// TODO: For ECP Zone user restrict the Drop down of dealers only from that zone you received from the attribute. 
+			//suppress new application creation button and make landing page as view/update application
+
+			// if you see scopes View ECP Claim, view ECP Agreement, Inqyiry with no delaer code no zone then this is a Internal TCI User
+			// TODO: Suppress the tabs new application and View/update application.  only enable Agreement inquiry and make this a landing page. 
+
+			//======================================================================================================================//			
+			//  on init method,  get the token attributes and authentication details to the UI from node layer.  - End
+			//======================================================================================================================//	
 
 			var oDateModel = new sap.ui.model.json.JSONModel();
 			var PriorDate = new Date();
@@ -104,11 +240,11 @@ sap.ui.define([
 			this.getView().setModel(new sap.ui.model.json.JSONModel(oRowCount), "RowCountModel");
 		},
 		onAfterRendering: function () {
-			this.getView().byId("idDealerCode").setSelectedKey("2400042350");
-			this.getView().byId("idDealerCode").setValue("42350");
+			// this.getView().byId("idDealerCode").setSelectedKey("2400042350");
+			// this.getView().byId("idDealerCode").setValue("42350");
 
-			this.getOwnerComponent().getModel("LocalDataModel").setProperty("/DealerText", "42350");
-			this.getOwnerComponent().getModel("LocalDataModel").setProperty("/AdditionalText", "Bolton Toyota 2033664 ONTARIO LTD.");
+			// this.getOwnerComponent().getModel("LocalDataModel").setProperty("/DealerText", "42350");
+			// this.getOwnerComponent().getModel("LocalDataModel").setProperty("/AdditionalText", "Bolton Toyota 2033664 ONTARIO LTD.");
 			//var ogetAdditionalText = this.getView().byId("idDealerCode").getValue();
 		},
 		fnOnSelectDealer: function (oEvent) {
@@ -331,6 +467,7 @@ sap.ui.define([
 						claimNum: oClaimNum,
 						oKey: "nun",
 						oClaimGroup: this.oSelectedClaimGroup
+					
 					});
 
 				}, this)
@@ -343,6 +480,9 @@ sap.ui.define([
 		}
 
 		/**
+		 * {
+				customerNum : this.getModel("LocalDataModel").getProperty("/BpDealerKey")
+			}
 		 * Similar to onAfterRendering, but this hook is invoked before the controller's View is re-rendered
 		 * (NOT before the first rendering! onInit() is used for that one!).
 		 * @memberOf zclaimProcessing.view.SearchClaim
