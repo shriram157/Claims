@@ -38,7 +38,7 @@ sap.ui.define([
 				P1p2: false,
 				oFormEdit: true,
 				claimEditSt: false,
-				oztac : false
+				oztac: false
 			});
 			this.getView().setModel(oDateModel, "DateModel");
 			var oNodeModel = new sap.ui.model.json.JSONModel();
@@ -162,6 +162,7 @@ sap.ui.define([
 			oProssingModel.refresh();
 			var oClaim = oEvent.getParameters().arguments.claimNum;
 			var oGroupDescription = oEvent.getParameters().arguments.oKey;
+			this.getModel("LocalDataModel").setProperty("/oFieldAction", oEvent.getParameters().arguments.oKey);
 			this.getModel("LocalDataModel").setProperty("/WarrantyClaimNum", oClaim);
 			var oClaimSelectedGroup = oEvent.getParameters().arguments.oClaimGroup;
 			//this.getModel("LocalDataModel").setProperty("/oClaimSelectedGroup", );
@@ -486,27 +487,27 @@ sap.ui.define([
 
 			oProssingModel.read("/ZC_GET_FORE_VIN(p_vhvin='" + oVin + "')/Set", {
 				success: $.proxy(function (data) {
-
-					var oVinModel = data.results[0].Model;
-					if (oVinModel == "I_VEH_US") {
-						this.getView().getModel("HeadSetData").setProperty("/ForeignVINIndicator", "Yes");
-					} else {
-						this.getView().getModel("HeadSetData").setProperty("/ForeignVINIndicator", "No");
+					if (data.results.length > 0) {
+						var oVinModel = data.results[0].Model;
+						if (oVinModel == "I_VEH_US") {
+							this.getView().getModel("HeadSetData").setProperty("/ForeignVINIndicator", "Yes");
+						} else {
+							this.getView().getModel("HeadSetData").setProperty("/ForeignVINIndicator", "No");
+						}
 					}
-
 				}, this),
 				error: function () {}
 			});
 
 			oProssingModel.read("/ZC_CLAIM_SPHL_WROF(p_vhvin='" + oVin + "',p_langu='E')/Set", {
 				success: $.proxy(function (data) {
-					this.getModel("LocalDataModel").setProperty("/SPWROF", data.results);
-					var oVinModel = data.results[0].Model;
-					if (oVinModel == "I_VEH_US") {
-						this.getView().getModel("HeadSetData").setProperty("/ForeignVINIndicator", "Yes");
-					} else {
-						this.getView().getModel("HeadSetData").setProperty("/ForeignVINIndicator", "No");
-					}
+					// this.getModel("LocalDataModel").setProperty("/SPWROF", data.results);
+					//var oVinModel = data.results[0].Model;
+					// if (oVinModel == "I_VEH_US") {
+					// 	this.getView().getModel("HeadSetData").setProperty("/ForeignVINIndicator", "Yes");
+					// } else {
+					// 	this.getView().getModel("HeadSetData").setProperty("/ForeignVINIndicator", "No");
+					// }
 					if (data.results.length < 1) {
 						this.getView().getModel("HeadSetData").setProperty("/WrittenOffCode", "No");
 						this.getView().getModel("HeadSetData").setProperty("/SpecialVINReview", "No");
@@ -604,6 +605,8 @@ sap.ui.define([
 						// 		this.getView().getModel("DateModel").setProperty("/updateClaimSt", true);
 						// 	}, this)
 						// });
+						this.getView().getModel("DateModel").setProperty("/saveClaimSt", false);
+						this.getView().getModel("DateModel").setProperty("/updateClaimSt", true);
 						this._fnClaimSum();
 						oClaimModel.read("/ZC_CLAIM_HEAD", {
 							urlParameters: {
@@ -656,10 +659,9 @@ sap.ui.define([
 			});
 			var oCurrentDt = new Date();
 			var oActionCode = "";
-			if(this.getView().getModel("DateModel").getProperty("/oztac") == true){
+			if (this.getView().getModel("DateModel").getProperty("/oztac") == true) {
 				oActionCode = "ZTEA";
-			}
-			else {
+			} else {
 				oActionCode = "";
 			}
 			var obj = {
@@ -1017,7 +1019,7 @@ sap.ui.define([
 			// 	}, this)
 			// });
 
-			if (this.oKey != "A1" && this.oKey != "A2" && this.oKey != "AC" && this.oKey != "MS") {
+			if (this.oKey != "A1" && this.oKey != "A2" && this.oKey != "AC" && this.oKey != "MS" && this.getModel("LocalDataModel").getProperty("/oFieldAction") != "FIELD ACTION") {
 				this.getView().byId("idFilter02").setProperty("enabled", true);
 				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab2");
 			} else if (this.oKey == "MS") {
@@ -1031,7 +1033,7 @@ sap.ui.define([
 		},
 
 		onStep02Next: function () {
-			if (this.oKey != "MS" && this.oKey != "A1" && this.oKey != "A2" && this.oKey != "AC") {
+			if (this.oKey != "MS" && this.oKey != "A1" && this.oKey != "A2" && this.oKey != "AC" ) {
 				this.getView().byId("idFilter03").setProperty("enabled", true);
 				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab3");
 			}
@@ -1080,7 +1082,7 @@ sap.ui.define([
 
 		},
 		onStep03Back: function () {
-			if (this.oKey != "MS" && this.oKey != "A1" && this.oKey != "A2" && this.oKey != "AC") {
+			if (this.oKey != "MS" && this.oKey != "A1" && this.oKey != "A2" && this.oKey != "AC" && this.getModel("LocalDataModel").getProperty("/oFieldAction") != "FIELD ACTION") {
 				this.getView().byId("idFilter02").setProperty("enabled", true);
 				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab2");
 			} else {
@@ -1090,7 +1092,7 @@ sap.ui.define([
 		},
 
 		onStep04Next: function () {
-			if (this.oKey != "MS" && this.oKey != "A1" && this.oKey != "A2" && this.oKey != "AC" && this.oKey != "P1") {
+			if (this.oKey != "MS" && this.oKey != "A1" && this.oKey != "A2" && this.oKey != "AC" && this.oKey != "P1" && this.getModel("LocalDataModel").getProperty("/oFieldAction") != "FIELD ACTION") {
 				this.getView().byId("idFilter05").setProperty("enabled", true);
 				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab5");
 			} else {
@@ -1106,7 +1108,7 @@ sap.ui.define([
 		},
 
 		onStep05Next: function () {
-			if (this.oKey != "MS" && this.oKey != "A1" && this.oKey != "A2" && this.oKey != "AC") {
+			if (this.oKey != "MS" && this.oKey != "A1" && this.oKey != "A2" && this.oKey != "AC" && this.getModel("LocalDataModel").getProperty("/oFieldAction") != "FIELD ACTION") {
 				this.getView().byId("idFilter06").setProperty("enabled", true);
 				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab6");
 			}
@@ -1134,6 +1136,10 @@ sap.ui.define([
 			} else {
 				this.getView().byId("idFilter05").setProperty("enabled", true);
 				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab5");
+			}
+			if(this.getModel("LocalDataModel").getProperty("/oFieldAction") == "FIELD ACTION"){
+				this.getView().byId("idFilter04").setProperty("enabled", true);
+				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab4");
 			}
 
 		},
@@ -1508,7 +1514,8 @@ sap.ui.define([
 					console.log("Error");
 				}
 			});
-			table.setSelectedIndex(-1);
+			table.removeSelections("true");
+			// table.setSelectedIndex(-1);
 		},
 		onPressSuggestLabour: function (oEvent) {
 			var oDialogBox = sap.ui.xmlfragment("zclaimProcessing.view.fragments.operationList", this);
