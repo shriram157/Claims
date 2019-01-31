@@ -30,7 +30,8 @@
 					<Text text="{LocalDataModel>/ClaimDetails/MainOpsCode}"/>
 					<core:Title text=""/>
 					<Label text="Repair Date"/>
-					<Text text="{path:'LocalDataModel>/ClaimDetails/RepairDate', type: 'sap.ui.model.type.Date', constraints: {displayFormat: 'Date' }, formatOptions: { style: 'medium', strictParsing: true , UTC: true}}"/>
+					<Text
+						text="{path:'LocalDataModel>/ClaimDetails/RepairDate', type: 'sap.ui.model.type.Date', constraints: {displayFormat: 'Date' }, formatOptions: { style: 'medium', strictParsing: true , UTC: true}}"/>
 					<Label text="Reg. Date"/>
 					<Text text="{path:'LocalDataModel>/ClaimDetails/RegDate'}"/>
 					<core:Title text=""/>
@@ -86,10 +87,17 @@
 						<Text text=""/>
 						<core:Title text=""/>
 						<Label text="Position Code" textAlign="Left"/>
-						<ComboBox required="true" items="{path:'LocalDataModel>/paintSetData'}" change="onSelectPositionCode"
-							selectedKey="{PaintDataModel>/PaintPositionCode}" enabled="{DateModel>/paintLine}">
-							<core:Item text="{path:'LocalDataModel>PaintPositionCode', formatter: 'zclaimProcessing.utils.formatter.fnFormatPositionCode'} - {LocalDataModel>PaintPositionDescription}"
-								key="{LocalDataModel>PaintPositionCode}"/>
+						<!--<ComboBox required="true" items="{path:'LocalDataModel>/oPaintList'}" change="onSelectPositionCode"-->
+						<!--	selectedKey="{PaintDataModel>/PaintPositionCode}" enabled="{DateModel>/paintLine}">-->
+						<!--	<core:Item text="{path:'LocalDataModel>PaintPositionCode', formatter: 'zclaimProcessing.utils.formatter.fnFormatPositionCode'} - {LocalDataModel>PaintPositionDescription}"-->
+						<!--		key="{LocalDataModel>PaintPositionCode}"/>-->
+						<!--</ComboBox>-->
+						<ComboBox required="true" items="{path:'LocalDataModel>/oPaintList'}" change="onSelectPositionCode"
+							selectedKey="{PaintDataModel>/PaintPositionCode}"
+							value="{path:'PaintDataModel>/PaintPositionCode', formatter: 'zclaimProcessing.utils.formatter.fnFormatPositionCode'}"
+							enabled="{DateModel>/paintLine}" filterSecondaryValues="true" showSecondaryValues="true">
+							<core:ListItem text="{path:'LocalDataModel>J_3GKATNRC', formatter: 'zclaimProcessing.utils.formatter.fnFormatPositionCode'}"
+								key="{LocalDataModel>J_3GKATNRC}" additionalText="{LocalDataModel>LTEXT}"/>
 						</ComboBox>
 						<core:Title text=""/>
 						<Label text=" " class="clTextIndent"/>
@@ -100,7 +108,7 @@
 						</Button>
 						<core:Title text=""/>
 						<Label text=" " class="clTextIndent"/>
-						<Button text="Cancel" type="Transparent" press="onPressSavePaint" >
+						<Button text="Cancel" type="Transparent" press="onPressSavePaint">
 							<!--<layoutData>-->
 							<!--	<l:GridData span="XL9 L9 "/>-->
 							<!--</layoutData>-->
@@ -109,19 +117,18 @@
 				</f:SimpleForm>
 			</VBox>
 		</l:Grid>
-		
 		<Table id="idPaintTable" mode="SingleSelectLeft" items="{path: 'LocalDataModel>/PaintPricingDataModel'}" growing="true" growingThreshold="5"
 			noDataText="No Data" showNoData="true">
 			<columns>
 				<Column><Text text="Line #"/></Column>
 				<Column><Text text="Position Code"/></Column>
-				
 			</columns>
 			<items>
 				<ColumnListItem>
 					<cells>
 						<Text text="{LocalDataModel>posnr}" wrapping="false" textAlign="Center"/>
-						<Text text="{path:'LocalDataModel>ItemKey', formatter: 'zclaimProcessing.utils.formatter.fnFormatPositionCode'}" wrapping="false" textAlign="Center"/>
+						<Text text="{path:'LocalDataModel>ItemKey', formatter: 'zclaimProcessing.utils.formatter.fnFormatPositionCode'}" wrapping="false"
+							textAlign="Center"/>
 					</cells>
 				</ColumnListItem>
 			</items>

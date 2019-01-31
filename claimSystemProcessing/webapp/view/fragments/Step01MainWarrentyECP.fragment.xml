@@ -15,7 +15,7 @@
 					<core:Title text=""/>
 					<Label text="Claim Type"/>
 					<ComboBox required="true" items="{path:'LocalDataModel>/ClaimGroupSet'}" change="onSelectClaimTpe"
-						selectedKey="{HeadSetData>/ClaimType}" enabled="{DateModel>/claimTypeEn}">
+						selectedKey="{HeadSetData>/ClaimType}" enabled="{DateModel>/claimTypeEn}" value="{HeadSetData>/ClaimType}">
 						<core:Item text="{LocalDataModel>ALMClaimType} - {LocalDataModel>ALMClaimTypeDes}" key="{LocalDataModel>ALMClaimType}"/>
 					</ComboBox>
 					<core:Title text=""/>
@@ -137,7 +137,7 @@
 				<Label text="Main Op Description"/>
 				<Text text=" "/>
 				<Label text="Field Action Code"/>
-				<Input value="{HeadSetData>/FieldActionReference}" editable="{DateModel>/oFormEdit}"/>
+				<Input required="{path:'DateModel>/oFieldActionInput'}"  value="{path:'HeadSetData>/FieldActionReference'}" editable="{DateModel>/oFormEdit}" enabled="{DateModel>/oFieldActionInput}"/>
 				<Label text="Cause"/>
 				<TextArea required="true" editable="{DateModel>/oFormEdit}"
 					value="{path:'HeadSetData>/Cause',type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 100 }}"></TextArea>

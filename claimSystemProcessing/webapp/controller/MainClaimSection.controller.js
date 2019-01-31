@@ -38,7 +38,8 @@ sap.ui.define([
 				P1p2: false,
 				oFormEdit: true,
 				claimEditSt: false,
-				oztac: false
+				oztac: false,
+				oFieldActionInput: false
 			});
 			this.getView().setModel(oDateModel, "DateModel");
 			var oNodeModel = new sap.ui.model.json.JSONModel();
@@ -159,7 +160,7 @@ sap.ui.define([
 		_onRoutMatched: function (oEvent) {
 
 			var oProssingModel = this.getModel("ProssingModel");
-			oProssingModel.refresh();
+			//oProssingModel.refresh();
 			var oClaim = oEvent.getParameters().arguments.claimNum;
 			var oGroupDescription = oEvent.getParameters().arguments.oKey;
 			this.getModel("LocalDataModel").setProperty("/oFieldAction", oEvent.getParameters().arguments.oKey);
@@ -380,9 +381,14 @@ sap.ui.define([
 						}
 					});
 					this.getView().getModel("DateModel").setProperty("/Paint", false);
+					this.getView().getModel("DateModel").setProperty("/oFieldActionInput", true);
 					this.getView().getModel("DateModel").setProperty("/Authorization", false);
+				} else {
+					this.getView().getModel("DateModel").setProperty("/oFieldActionInput", false);
 				}
+
 				this.getDealer();
+
 			}
 		},
 
@@ -1019,7 +1025,8 @@ sap.ui.define([
 			// 	}, this)
 			// });
 
-			if (this.oKey != "A1" && this.oKey != "A2" && this.oKey != "AC" && this.oKey != "MS" && this.getModel("LocalDataModel").getProperty("/oFieldAction") != "FIELD ACTION") {
+			if (this.oKey != "A1" && this.oKey != "A2" && this.oKey != "AC" && this.oKey != "MS" && this.getModel("LocalDataModel").getProperty(
+					"/oFieldAction") != "FIELD ACTION") {
 				this.getView().byId("idFilter02").setProperty("enabled", true);
 				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab2");
 			} else if (this.oKey == "MS") {
@@ -1033,7 +1040,7 @@ sap.ui.define([
 		},
 
 		onStep02Next: function () {
-			if (this.oKey != "MS" && this.oKey != "A1" && this.oKey != "A2" && this.oKey != "AC" ) {
+			if (this.oKey != "MS" && this.oKey != "A1" && this.oKey != "A2" && this.oKey != "AC") {
 				this.getView().byId("idFilter03").setProperty("enabled", true);
 				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab3");
 			}
@@ -1061,12 +1068,37 @@ sap.ui.define([
 					"$filter": "CLMNO eq '" + oClaimNum + "' "
 				},
 				success: $.proxy(function (data) {
-					this.getModel("LocalDataModel").setProperty("/SuggetionOperationList", data.results);
+					var oLabourArray = data.results.filter(function (item) {
+
+						return item.J_3GKATNRC[14] != "P";
+						//return item.ItemKey[14] == "P";
+					});
+					this.getModel("LocalDataModel").setProperty("/SuggetionOperationList", oLabourArray);
+					var oPaintData = data.results.filter(function (item) {
+
+						return item.J_3GKATNRC[14] == "P";
+						//return item.ItemKey[14] == "P";
+					});
+					console.log(oPaintData);
+					this.getModel("LocalDataModel").setProperty("/oPaintList", oPaintData);
+
 				}, this),
 				error: function () {
 					console.log("Error");
 				}
 			});
+
+			// oProssingModel.read("/zc_get_operation_numberSet", {
+			// 	urlParameters: {
+			// 		"$filter": "CLMNO eq '" + oClaimNum + "' "
+			// 	},
+			// 	success: $.proxy(function (data) {
+			// 		this.getModel("LocalDataModel").setProperty("/SuggetionOperationList", data.results);
+			// 	}, this),
+			// 	error: function () {
+			// 		console.log("Error");
+			// 	}
+			// });
 
 			oProssingModel.read("/zc_get_suggested_operationsSet", {
 				urlParameters: {
@@ -1082,7 +1114,8 @@ sap.ui.define([
 
 		},
 		onStep03Back: function () {
-			if (this.oKey != "MS" && this.oKey != "A1" && this.oKey != "A2" && this.oKey != "AC" && this.getModel("LocalDataModel").getProperty("/oFieldAction") != "FIELD ACTION") {
+			if (this.oKey != "MS" && this.oKey != "A1" && this.oKey != "A2" && this.oKey != "AC" && this.getModel("LocalDataModel").getProperty(
+					"/oFieldAction") != "FIELD ACTION") {
 				this.getView().byId("idFilter02").setProperty("enabled", true);
 				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab2");
 			} else {
@@ -1092,7 +1125,8 @@ sap.ui.define([
 		},
 
 		onStep04Next: function () {
-			if (this.oKey != "MS" && this.oKey != "A1" && this.oKey != "A2" && this.oKey != "AC" && this.oKey != "P1" && this.getModel("LocalDataModel").getProperty("/oFieldAction") != "FIELD ACTION") {
+			if (this.oKey != "MS" && this.oKey != "A1" && this.oKey != "A2" && this.oKey != "AC" && this.oKey != "P1" && this.getModel(
+					"LocalDataModel").getProperty("/oFieldAction") != "FIELD ACTION") {
 				this.getView().byId("idFilter05").setProperty("enabled", true);
 				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab5");
 			} else {
@@ -1108,7 +1142,8 @@ sap.ui.define([
 		},
 
 		onStep05Next: function () {
-			if (this.oKey != "MS" && this.oKey != "A1" && this.oKey != "A2" && this.oKey != "AC" && this.getModel("LocalDataModel").getProperty("/oFieldAction") != "FIELD ACTION") {
+			if (this.oKey != "MS" && this.oKey != "A1" && this.oKey != "A2" && this.oKey != "AC" && this.getModel("LocalDataModel").getProperty(
+					"/oFieldAction") != "FIELD ACTION") {
 				this.getView().byId("idFilter06").setProperty("enabled", true);
 				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab6");
 			}
@@ -1137,7 +1172,7 @@ sap.ui.define([
 				this.getView().byId("idFilter05").setProperty("enabled", true);
 				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab5");
 			}
-			if(this.getModel("LocalDataModel").getProperty("/oFieldAction") == "FIELD ACTION"){
+			if (this.getModel("LocalDataModel").getProperty("/oFieldAction") == "FIELD ACTION") {
 				this.getView().byId("idFilter04").setProperty("enabled", true);
 				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab4");
 			}

@@ -365,6 +365,7 @@ sap.ui.define([
 					],
 					and: true
 				});
+				this.getView().getModel("RowCountModel").setProperty("/rowCount", 10);
 			} else if (sQueryDate != "" && sQueryDealer != "" && sQuerySearchText != "" && sQueryClaimType == "" && sQueryStat == "") {
 
 				andFilter = new sap.ui.model.Filter({
@@ -387,6 +388,7 @@ sap.ui.define([
 					],
 					and: true
 				});
+				this.getView().getModel("RowCountModel").setProperty("/rowCount", 10);
 			} else if (sQueryClaimType != "" && sQueryDate != "" && sQueryDealer != "" && sQueryStat == "" && sQuerySearchText == "") {
 				andFilter = new sap.ui.model.Filter({
 					filters: [

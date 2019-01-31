@@ -43,12 +43,14 @@ zclaimProcessing.utils.formatter = {
 				);
 
 			}
-			oNum = oArr.reduce(
-				function (a, b) {
-					return a + b;
+			if (oArr.length > 0) {
+				oNum = oArr.reduce(
+					function (a, b) {
+						return a + b;
 
-				}
-			).toFixed(2);
+					}
+				).toFixed(2);
+			}
 		}
 		return oNum;
 	},
@@ -62,12 +64,14 @@ zclaimProcessing.utils.formatter = {
 				);
 
 			}
-			oNum = oArr.reduce(
-				function (a, b) {
-					return a + b;
+			if (oArr.length > 0) {
+				oNum = oArr.reduce(
+					function (a, b) {
+						return a + b;
 
-				}
-			).toFixed(2);
+					}
+				).toFixed(2);
+			}
 		}
 		return oNum;
 	},
@@ -81,12 +85,14 @@ zclaimProcessing.utils.formatter = {
 				);
 
 			}
-			oNum = oArr.reduce(
-				function (a, b) {
-					return a + b;
+			if (oArr.length > 0) {
+				oNum = oArr.reduce(
+					function (a, b) {
+						return a + b;
 
-				}
-			).toFixed(2);
+					}
+				).toFixed(2);
+			}
 		}
 		return oNum;
 	},
@@ -100,12 +106,14 @@ zclaimProcessing.utils.formatter = {
 				);
 
 			}
-			oNum = oArr.reduce(
-				function (a, b) {
-					return a + b;
+			if (oArr.length > 0) {
+				oNum = oArr.reduce(
+					function (a, b) {
+						return a + b;
 
-				}
-			).toFixed(2);
+					}
+				).toFixed(2);
+			}
 		}
 		return oNum;
 	},
@@ -119,12 +127,14 @@ zclaimProcessing.utils.formatter = {
 				);
 
 			}
-			oNum = oArr.reduce(
-				function (a, b) {
-					return a + b;
+			if (oArr.length > 0) {
+				oNum = oArr.reduce(
+					function (a, b) {
+						return a + b;
 
-				}
-			).toFixed(2);
+					}
+				).toFixed(2);
+			}
 		}
 		return oNum;
 	},
@@ -138,12 +148,14 @@ zclaimProcessing.utils.formatter = {
 				);
 
 			}
+			if (oArr.length > 0) {
 			oNum = oArr.reduce(
 				function (a, b) {
 					return a + b;
 
 				}
 			).toFixed(2);
+			}
 		}
 		return oNum;
 	},
@@ -157,12 +169,14 @@ zclaimProcessing.utils.formatter = {
 				);
 
 			}
-			oNum = oArr.reduce(
-				function (a, b) {
-					return a + b;
+			if (oArr.length > 0) {
+				oNum = oArr.reduce(
+					function (a, b) {
+						return a + b;
 
-				}
-			).toFixed(2);
+					}
+				).toFixed(2);
+			}
 		}
 		return oNum;
 	},
@@ -176,12 +190,14 @@ zclaimProcessing.utils.formatter = {
 				);
 
 			}
-			oNum = oArr.reduce(
-				function (a, b) {
-					return a + b;
+			if (oArr.length > 0) {
+				oNum = oArr.reduce(
+					function (a, b) {
+						return a + b;
 
-				}
-			).toFixed(2);
+					}
+				).toFixed(2);
+			}
 		}
 		return oNum;
 	},
@@ -195,12 +211,14 @@ zclaimProcessing.utils.formatter = {
 				);
 
 			}
-			oNum = oArr.reduce(
-				function (a, b) {
-					return a + b;
+			if (oArr.length > 0) {
+				oNum = oArr.reduce(
+					function (a, b) {
+						return a + b;
 
-				}
-			).toFixed(2);
+					}
+				).toFixed(2);
+			}
 		}
 		return oNum;
 	},
@@ -214,12 +232,15 @@ zclaimProcessing.utils.formatter = {
 				);
 
 			}
-			oNum = oArr.reduce(
-				function (a, b) {
-					return a + b;
 
-				}
-			).toFixed(2);
+			if (oArr.length > 0) {
+				oNum = oArr.reduce(
+					function (a, b) {
+						return a + b;
+
+					}
+				).toFixed(2);
+			}
 		}
 		return oNum;
 	},
@@ -233,12 +254,14 @@ zclaimProcessing.utils.formatter = {
 				);
 
 			}
-			oNum = oArr.reduce(
-				function (a, b) {
-					return a + b;
+			if (oArr.length > 0) {
+				oNum = oArr.reduce(
+					function (a, b) {
+						return a + b;
 
-				}
-			).toFixed(2);
+					}
+				).toFixed(2);
+			}
 		}
 		return oNum;
 	},
@@ -252,12 +275,14 @@ zclaimProcessing.utils.formatter = {
 				);
 
 			}
-			oNum = oArr.reduce(
-				function (a, b) {
-					return a + b;
+			if (oArr.length > 0) {
+				oNum = oArr.reduce(
+					function (a, b) {
+						return a + b;
 
-				}
-			).toFixed(2);
+					}
+				).toFixed(2);
+			}
 		}
 		return oNum;
 	},
@@ -271,12 +296,14 @@ zclaimProcessing.utils.formatter = {
 				);
 
 			}
-			oNum = oArr.reduce(
-				function (a, b) {
-					return a + b;
+			if (oArr.length > 0) {
+				oNum = oArr.reduce(
+					function (a, b) {
+						return a + b;
 
-				}
-			).toFixed(2);
+					}
+				).toFixed(2);
+			}
 		}
 		return oNum;
 	},
@@ -290,12 +317,14 @@ zclaimProcessing.utils.formatter = {
 				);
 
 			}
-			oNum = oArr.reduce(
-				function (a, b) {
-					return a + b;
+			if (oArr.length > 0) {
+				oNum = oArr.reduce(
+					function (a, b) {
+						return a + b;
 
-				}
-			).toFixed(2);
+					}
+				).toFixed(2);
+			}
 		}
 		return oNum;
 	},
@@ -309,25 +338,27 @@ zclaimProcessing.utils.formatter = {
 				);
 
 			}
-			oNum = oArr.reduce(
-				function (a, b) {
-					return a + b;
+			if (oArr.length > 0) {
+				oNum = oArr.reduce(
+					function (a, b) {
+						return a + b;
 
-				}
-			).toFixed(2);
+					}
+				).toFixed(2);
+			}
 		}
 		return oNum;
 	},
-	fnFormatText : function(val){
+	fnFormatText: function (val) {
 		var oText = "";
-		if(val == "MAT"){
-			oText = "Parts:" ;
-		}else if(val == "FR"){
-			oText = "Labour:" ;
-		}else if(val == "SUBL"){
-			oText = "Sublet:" ;
-		}else if(val == "TOTL"){
-			oText = "Total:" ;
+		if (val == "MAT") {
+			oText = "Parts:";
+		} else if (val == "FR") {
+			oText = "Labour:";
+		} else if (val == "SUBL") {
+			oText = "Sublet:";
+		} else if (val == "TOTL") {
+			oText = "Total:";
 		}
 		return oText;
 	}
