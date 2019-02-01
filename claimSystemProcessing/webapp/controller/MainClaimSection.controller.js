@@ -163,6 +163,7 @@ sap.ui.define([
 			//oProssingModel.refresh();
 			var oClaim = oEvent.getParameters().arguments.claimNum;
 			var oGroupDescription = oEvent.getParameters().arguments.oKey;
+			this.getModel("LocalDataModel").setProperty("/GroupDescriptionName", oGroupDescription);
 			this.getModel("LocalDataModel").setProperty("/oFieldAction", oEvent.getParameters().arguments.oKey);
 			this.getModel("LocalDataModel").setProperty("/WarrantyClaimNum", oClaim);
 			var oClaimSelectedGroup = oEvent.getParameters().arguments.oClaimGroup;
@@ -213,18 +214,6 @@ sap.ui.define([
 					}, this)
 				});
 
-				// oProssingModel.read("/ZC_CLAIM_HEAD", {
-				// 	urlParameters: {
-				// 		"$filter": "NumberOfWarrantyClaim eq '" + oClaim + "' ",
-				// 		"$expand": "to_claimitem"
-				// 	},
-				// 	success: $.proxy(function (data) {
-				// 		this.getView().getModel("LocalDataModel").setProperty("/PartDetailList", data.results[0].to_claimitem.results);
-
-				// 	}, this),
-				// 	error: function () {}
-				// });
-
 				oProssingModel.read("/zc_claim_item_price_dataSet", {
 					urlParameters: {
 						"$filter": "NumberOfWarrantyClaim eq '" + oClaim + "' "
@@ -257,30 +246,57 @@ sap.ui.define([
 					}, this),
 					error: function () {}
 				});
-				//	var sCurrentPath = this.getCurrentFolderPath();
 
-				// oProssingModel.read("/zc_claim_attachmentsSet", {
-				// 	urlParameters: {
-				// 		"$filter": "NumberOfWarrantyClaim eq '" + oClaim + "'"
-				// 	},
-				// 	success: $.proxy(function (odata) {
-				// 		// this.getModel("LocalDataModel").setProperty("/oAttachmentSet", );
-				// 		this.getView().getModel("ClaimModel").setProperty("/" + "/items", odata.results);
-				// 	}, this)
-				// });
-
-				// var oArr = [];
-				// oProssingModel.read("/ZC_CLAIM_SUM(p_clmno='" + oClaim + "')/Set", {
-				// 	success: $.proxy(function (data) {
-				// 		oArr.push(data.results[0], data.results[3]);
-				// 		this.getModel("LocalDataModel").setProperty("/ClaimSum", oArr);
-				// 	}, this)
-				// });
+				oProssingModel.read("/zc_claim_attachmentsSet", {
+					urlParameters: {
+						"$filter": "NumberOfWarrantyClaim eq '" + oClaim + "'"
+					},
+					success: $.proxy(function (odata) {
+						// this.getModel("LocalDataModel").setProperty("/oAttachmentSet", );
+						this.getView().getModel("ClaimModel").setProperty("/" + "/items", odata.results);
+					}, this)
+				});
 
 				this._fnClaimSum();
 
 			} else {
 				oProssingModel.refresh();
+				this.getModel("LocalDataModel").setProperty("/PricingDataModel", "");
+				this.getModel("LocalDataModel").setProperty("/LabourPricingDataModel", "");
+				this.getModel("LocalDataModel").setProperty("/PaintPricingDataModel", "");
+				this.getModel("LocalDataModel").setProperty("/SubletPricingDataModel", "");
+				this.getView().getModel("HeadSetData").setData({
+					"WarrantyClaimType": "",
+					"Partner": "",
+					"PartnerRole": "",
+					"ReferenceDate": "",
+					"DateOfApplication": "",
+					"FinalProcdDate": "",
+					"Delivery": "",
+					"DeliveryDate": "",
+					"TCIWaybillNumber": "",
+					"ShipmentReceivedDate": "",
+					"DealerContact": "",
+					"DeliveringCarrier": "",
+					"HeadText": "",
+					"OFP": "",
+					"WTYClaimRecoverySource": "",
+					"MainOpsCode": "",
+					"T1WarrantyCodes": "",
+					"BatteryTestCode": "",
+					"T2WarrantyCodes": "",
+					"FieldActionReference": "",
+					"ZCondition": "",
+					"Cause": "",
+					"Remedy": "",
+					"PreviousROInvoiceDate": "",
+					"PreviousROOdometer": "",
+					"PreviousROInvoice": "",
+					"AccessoryInstallOdometer": "",
+					"AccessoryInstallDate": ""
+				});
+				this.getModel("LocalDataModel").setProperty("/ClaimDetails", "");
+				this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
 				this.obj = {};
 				this.obj.DBOperation = "SAVE";
 				this.obj.zc_itemSet = {};
@@ -383,8 +399,33 @@ sap.ui.define([
 					this.getView().getModel("DateModel").setProperty("/Paint", false);
 					this.getView().getModel("DateModel").setProperty("/oFieldActionInput", true);
 					this.getView().getModel("DateModel").setProperty("/Authorization", false);
+					this.getView().getModel("DateModel").setProperty("/oECPfields", true);
 				} else {
 					this.getView().getModel("DateModel").setProperty("/oFieldActionInput", false);
+					this.getView().getModel("DateModel").setProperty("/oECPfields", true);
+				}
+
+				if (oGroupDescription == "ECP") {
+					oProssingModel.read("/ZC_CLAIM_GROUP", {
+						urlParameters: {
+							"$filter": "ClaimGroupDes eq 'ECP'"
+						},
+						success: $.proxy(function (data) {
+
+							this.oFilteredData = data.results;
+							this.getModel("LocalDataModel").setProperty("/ClaimGroupSet", this.oFilteredData);
+						}, this),
+						error: function () {
+							console.log("Error");
+						}
+					});
+					this.getView().getModel("DateModel").setProperty("/Paint", false);
+					this.getView().getModel("DateModel").setProperty("/oFieldActionInput", true);
+					this.getView().getModel("DateModel").setProperty("/Authorization", false);
+					this.getView().getModel("DateModel").setProperty("/oECPfields", true);
+					
+				} else{
+					this.getView().getModel("DateModel").setProperty("/oECPfields", false);
 				}
 
 				this.getDealer();
@@ -490,6 +531,17 @@ sap.ui.define([
 			// 		console.log(data);
 			// 	}
 			// });
+
+			var oECPModel = this.getOwnerComponent().getModel("EcpSalesModel");
+			oECPModel.read("/zc_ecp_agreement", {
+				urlParameters: {
+					"$filter": "VIN eq '" + oVin + "'"
+				},
+				success: $.proxy(function (data) {
+					this.getModel("LocalDataModel").setProperty("/AgreementDataECP", data.results);
+				}, this),
+				error: function () {}
+			});
 
 			oProssingModel.read("/ZC_GET_FORE_VIN(p_vhvin='" + oVin + "')/Set", {
 				success: $.proxy(function (data) {

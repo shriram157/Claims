@@ -50,7 +50,6 @@ sap.ui.define([
 			if (sLocation_conf == 0) {
 				mConfig01.uri = "/Claim_Destination" + mConfig01.uri;
 			} else {
-		
 
 			} // facilitate local testing.
 
@@ -59,12 +58,11 @@ sap.ui.define([
 				json: true
 			});
 			this.setModel(oDataModel01, "ApiBusinessModel");
-			
+
 			var mConfig02 = this.getMetadata().getManifestEntry("/sap.app/dataSources/MD_PRODUCT_FS_SRV");
 			if (sLocation_conf == 0) {
 				mConfig02.uri = "/Claim_Destination" + mConfig02.uri;
 			} else {
-		
 
 			} // facilitate local testing.
 
@@ -73,7 +71,7 @@ sap.ui.define([
 				json: true
 			});
 			this.setModel(oDataModel02, "ProductMaster");
-			
+
 			var mConfig04 = this.getMetadata().getManifestEntry("/sap.app/dataSources/Z_VEHICLE_MASTER_SRV");
 			if (sLocation_conf == 0) {
 				mConfig04.uri = "/Claim_Destination" + mConfig04.uri;
@@ -84,7 +82,24 @@ sap.ui.define([
 			});
 
 			this.setModel(oDataModel04, "ZVehicleMasterModel");
-			
+
+			/// ecp model
+
+			var mConfig05 = this.getMetadata().getManifestEntry("/sap.app/dataSources/ZECP_SALES_ODATA_SERVICE_SRV");
+			if (sLocation_conf == 0) {
+				mConfig05.uri = "/ecpSales_node_secured" + mConfig05.uri; //ecpSales_node_secured
+			} else {
+				mConfig05.uri = mConfig05.uri;
+			}
+			var oDataModel05 = new ODataModel(mConfig05.uri, {
+				useBatch: false,
+				// disableHeadRequestForToken: false,
+				defaultUpdateMethod: 'PUT',
+				json: true
+			});
+
+			this.setModel(oDataModel05, "EcpSalesModel");
+
 		}
 	});
 });

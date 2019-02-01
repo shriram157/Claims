@@ -75,6 +75,13 @@ sap.ui.define([
 					oClaimGroup : this.oSelectedClaimGroup
 					
 				});
+			}else if (oSelectedKey === "ECP") {
+					this.getRouter().navTo("MainClaimSection", {
+					claimNum : oClaimNum,
+					oKey : "ECP",
+					oClaimGroup : this.oSelectedClaimGroup
+					
+				});
 			}
 		},
 		

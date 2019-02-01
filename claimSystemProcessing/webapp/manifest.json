@@ -45,6 +45,14 @@
 					"odataVersion": "2.0",
 					"localUri": "localService/Z_VEHICLE_MASTER_SRV/metadata.xml"
 				}
+			},
+			"ZECP_SALES_ODATA_SERVICE_SRV": {
+				"uri": "/node/ZECP_SALES_ODATA_SERVICE_SRV/",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "2.0",
+					"localUri": "localService/ZECP_SALES_ODATA_SERVICE_SRV/metadata.xml"
+				}
 			}
 		}
 	},
@@ -123,8 +131,18 @@
 					"defaultCountMode": "Request"
 				},
 				"dataSource": "Z_VEHICLE_MASTER_SRV",
-					"preload": false
-		
+				"preload": false
+			},
+			"ECPModel": {
+				"uri": "/node/ZECP_SALES_ODATA_SERVICE_SRV/",
+				"type": "sap.ui.model.odata.v2.ODataModel",
+				"settings": {
+					"defaultOperationMode": "Server",
+					"defaultBindingMode": "OneWay",
+					"defaultCountMode": "Request"
+				},
+				"dataSource": "ZECP_SALES_ODATA_SERVICE_SRV",
+				"preload": true
 			}
 		},
 		"resources": {

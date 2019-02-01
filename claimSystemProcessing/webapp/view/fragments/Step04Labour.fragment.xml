@@ -142,7 +142,7 @@
 						<Text text="{LocalDataModel>TotalAfterDisct}" wrapping="false" textAlign="Center"/>
 						<Text text="{LocalDataModel>HoursApprovedByTCI}" wrapping="false" textAlign="Center"/>
 						<Text text="{LocalDataModel>TCIApprAmt}" wrapping="false" textAlign="Center"/>
-						<Text text="{LocalDataModel>LabourDifference}" wrapping="false" textAlign="Center"/>
+						<Text text="{LocalDataModel>DiffAmt}" wrapping="false" textAlign="Center"/>
 					</cells>
 				</ColumnListItem>
 			</items>

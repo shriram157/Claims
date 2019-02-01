@@ -15,8 +15,12 @@ zclaimProcessing.utils.formatter = {
 	fnFormatPositionCode: function (val) {
 		var oVal = "";
 		if (val) {
-			val.toString();
-			oVal = val.split("-")[4];
+			if (val.search("-") != -1) {
+				val.toString();
+				oVal = val.split("-")[4];
+			} else {
+				oVal = val;
+			}
 		}
 		return oVal;
 	},
@@ -149,12 +153,12 @@ zclaimProcessing.utils.formatter = {
 
 			}
 			if (oArr.length > 0) {
-			oNum = oArr.reduce(
-				function (a, b) {
-					return a + b;
+				oNum = oArr.reduce(
+					function (a, b) {
+						return a + b;
 
-				}
-			).toFixed(2);
+					}
+				).toFixed(2);
 			}
 		}
 		return oNum;
@@ -250,7 +254,7 @@ zclaimProcessing.utils.formatter = {
 		if (sum) {
 			for (var i = 0; i < sum.length; i++) {
 				oArr.push(
-					parseFloat(sum[i].LabourDifference)
+					parseFloat(sum[i].DiffAmt)
 				);
 
 			}
