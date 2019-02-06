@@ -83,7 +83,7 @@
 						<Label text="Operation Number" textAlign="Left"/>
 						<!--<Input value="{LabourDataModel>/LabourOp}" required="true" id="idLabourNumber" showValueHelp="true" valueHelpOnly="true"-->
 						<!--	valueHelpRequest="handleValueHelpLabour" enabled="{DateModel>/labourLine}"/>-->
-						<ComboBox required="true" items="{path:'LocalDataModel>/SuggetionOperationList'}" change="onSelectPositionCode"
+						<ComboBox required="true" items="{path:'LocalDataModel>/SuggetionOperationList', length:300}" change="onSelectPositionCode"
 							selectedKey="{LabourDataModel>/LabourOp}"
 							value="{path:'LabourDataModel>/LabourOp', formatter: 'zclaimProcessing.utils.formatter.fnFormatPositionCode'}"
 							enabled="{DateModel>/labourLine}" filterSecondaryValues="true" showSecondaryValues="true">
@@ -92,7 +92,7 @@
 						</ComboBox>
 						<core:Title text=""/>
 						<Label text="Description" textAlign="Left"/>
-						<Input value="" id="idLabourDes" editable="false"/>
+						<Input value="{LabourDataModel>/LabourDescription}" id="idLabourDes" editable="false"/>
 						<core:Title text=""/>
 						<Label text="Claimed Hours" textAlign="Left"/>
 						<Input value="{LabourDataModel>/ClaimedHours}" enabled="{DateModel>/labourLine}"/>
@@ -135,7 +135,7 @@
 					<cells>
 						<Text text="{LocalDataModel>posnr}" wrapping="false"/>
 						<RadioButton groupName="GroupA" select="onSelectOFPLabour" textAlign="Center"/>
-						<Text text="{path:'LocalDataModel>ItemKey', formatter: 'zclaimProcessing.utils.formatter.fnFormatPositionCode'}" wrapping="false" textAlign="Center"/>
+						<Text text="{path:'LocalDataModel>LabourNumber', formatter: 'zclaimProcessing.utils.formatter.fnFormatPositionCode'}" wrapping="false" textAlign="Center"/>
 						<Text text="{LocalDataModel>LabourDescription}" wrapping="false" textAlign="Center"/>
 						<Text text="{LocalDataModel>QtyHrs}" wrapping="false" textAlign="Center"/>
 						<Text text="{LocalDataModel>AmtClaimed}" wrapping="false" textAlign="Center"/>
@@ -147,151 +147,7 @@
 				</ColumnListItem>
 			</items>
 		</Table>
-		<!--<table:Table id="idLabourTable" class="classRCPTable" selectionMode="MultiToggle" rows="{LocalDataModel>/LabourPricingDataModel}" visibleRowCount="5"-->
-		<!--	showNoData="true" threshold="5" enableBusyIndicator="true">-->
-		<!--	<table:columns autoResizable="true">-->
-		<!--		<table:Column width="7rem">-->
-		<!--			<table:multiLabels>-->
-		<!--				<Label text="Line #" textAlign="Center" width="100%"/>-->
-		<!--			</table:multiLabels>-->
-		<!--			<table:template>-->
-		<!--				<Text text="{LocalDataModel>posnr}" wrapping="false"/>-->
-		<!--			</table:template>-->
-		<!--		</table:Column>-->
-		<!--		<table:Column width="7rem">-->
-		<!--			<table:multiLabels>-->
-		<!--				<Label text="Main Op" textAlign="Center" width="100%"/>-->
-		<!--			</table:multiLabels>-->
-		<!--			<table:template>-->
-		<!--				<RadioButton groupName="GroupA" select="onSelectOFPLabour" textAlign="Center"/>-->
-		<!--			</table:template>-->
-		<!--		</table:Column>-->
-		<!--		<table:Column width="10rem">-->
-		<!--			<table:multiLabels>-->
-		<!--				<Label text="Operation Number" textAlign="Center" width="100%"/>-->
-		<!--			</table:multiLabels>-->
-		<!--			<table:template>-->
-		<!--				<Text text="{path:'LocalDataModel>ItemKey', formatter: 'zclaimProcessing.utils.formatter.fnFormatPositionCode'}" wrapping="false" textAlign="Center"/>-->
-		<!--			</table:template>-->
-		<!--		</table:Column>-->
-		<!--		<table:Column width="9rem">-->
-		<!--			<table:multiLabels>-->
-		<!--				<Label text="Description" textAlign="Center" width="100%"/>-->
-		<!--			</table:multiLabels>-->
-		<!--			<table:template>-->
-		<!--				<Text text="{LocalDataModel>LabourDescription}" wrapping="false" textAlign="Center"/>-->
-		<!--			</table:template>-->
-		<!--		</table:Column>-->
-		<!--		<table:Column width="10rem">-->
-		<!--			<table:multiLabels>-->
-		<!--				<Label text="Dealer Claimed Hours" textAlign="Center" width="100%"/>-->
-		<!--			</table:multiLabels>-->
-		<!--			<table:template>-->
-		<!--				<Text text="{LocalDataModel>QtyHrs}" wrapping="false" textAlign="Center"/>-->
-		<!--			</table:template>-->
-		<!--		</table:Column>-->
-		<!--		<table:Column width="9rem">-->
-		<!--			<table:multiLabels>-->
-		<!--				<Label text="Amount Claimed" textAlign="Center" width="100%"/>-->
-		<!--			</table:multiLabels>-->
-		<!--			<table:template>-->
-		<!--				<Text text="{LocalDataModel>AmtClaimed}" wrapping="false" textAlign="Center"/>-->
-		<!--			</table:template>-->
-		<!--		</table:Column>-->
-		<!--		<table:Column width="9rem">-->
-		<!--			<table:multiLabels>-->
-		<!--				<Label text="Total After Discount" textAlign="Center" width="100%"/>-->
-		<!--			</table:multiLabels>-->
-		<!--			<table:template>-->
-		<!--				<Text text="{LocalDataModel>TotalAfterDisct}" wrapping="false" textAlign="Center"/>-->
-		<!--			</table:template>-->
-		<!--		</table:Column>-->
-		<!--		<table:Column width="9rem">-->
-		<!--			<table:multiLabels>-->
-		<!--				<Label text="Hours Approved by TCI" textAlign="Center" width="100%"/>-->
-		<!--			</table:multiLabels>-->
-		<!--			<table:template>-->
-		<!--				<Text text="{LocalDataModel>HoursApprovedByTCI}" wrapping="false" textAlign="Center"/>-->
-		<!--			</table:template>-->
-		<!--		</table:Column>-->
-		<!--		<table:Column width="9rem">-->
-		<!--			<table:multiLabels>-->
-		<!--				<Label text="TCI Amount Approved" textAlign="Center" width="100%"/>-->
-		<!--			</table:multiLabels>-->
-		<!--			<table:template>-->
-		<!--				<Text text="{LocalDataModel>TCIApprAmt}" wrapping="false" textAlign="Center"/>-->
-		<!--			</table:template>-->
-		<!--		</table:Column>-->
-		<!--		<table:Column width="9rem">-->
-		<!--			<table:multiLabels>-->
-		<!--				<Label text="Labour Difference" textAlign="Center" width="100%"/>-->
-		<!--			</table:multiLabels>-->
-		<!--			<table:template>-->
-		<!--				<Text text="{LocalDataModel>LabourDifference}" wrapping="false" textAlign="Center"/>-->
-		<!--			</table:template>-->
-		<!--		</table:Column>-->
-		<!--	</table:columns>-->
-		<!--</table:Table>-->
-		<!--<table:Table class="classRCPTable sapUiSmallMarginTop" id="idTableLabourTotal" selectionMode="None" rows="{LocalDataModel>/LabourPricingDataModel}" showNoData="true"-->
-		<!--	threshold="1" enableBusyIndicator="true" visibleRowCount="1">-->
-		<!--	<table:columns autoResizable="true">-->
-		<!--		<table:Column width="9rem">-->
-		<!--			<table:multiLabels>-->
-		<!--			</table:multiLabels>-->
-		<!--			<table:template>-->
-		<!--				<Text text="Sub-total" wrapping="false"/>-->
-		<!--			</table:template>-->
-		<!--		</table:Column>-->
-		<!--		<table:Column width="9rem">-->
-		<!--			<table:multiLabels>-->
-		<!--				<Label text="Dealer Claimed Hours Total" textAlign="Center" width="100%"/>-->
-		<!--			</table:multiLabels>-->
-		<!--			<table:template>-->
-		<!--				<Text text="{LocalDataModel>ExtendedTotal}" wrapping="false"/>-->
-		<!--			</table:template>-->
-		<!--		</table:Column>-->
-		<!--		<table:Column width="9rem">-->
-		<!--			<table:multiLabels>-->
-		<!--				<Label text="Amount Claimed Total" textAlign="Center" width="100%"/>-->
-		<!--			</table:multiLabels>-->
-		<!--			<table:template>-->
-		<!--				<Text text="{LocalDataModel>MarkupTotal}" wrapping="false"/>-->
-		<!--			</table:template>-->
-		<!--		</table:Column>-->
-		<!--		<table:Column width="9rem">-->
-		<!--			<table:multiLabels>-->
-		<!--				<Label text="Grand Total After Discount" textAlign="Center" width="100%"/>-->
-		<!--			</table:multiLabels>-->
-		<!--			<table:template>-->
-		<!--				<Text text="{LocalDataModel>GrandTotalAfterDiscount}" wrapping="false"/>-->
-		<!--			</table:template>-->
-		<!--		</table:Column>-->
-		<!--		<table:Column width="9rem">-->
-		<!--			<table:multiLabels>-->
-		<!--				<Label text="Total Hours Approved by TCI" textAlign="Center" width="100%"/>-->
-		<!--			</table:multiLabels>-->
-		<!--			<table:template>-->
-		<!--				<Text text="{LocalDataModel>GrandTotalAfterDiscount}" wrapping="false"/>-->
-		<!--			</table:template>-->
-		<!--		</table:Column>-->
-		<!--		<table:Column width="9rem">-->
-		<!--			<table:multiLabels>-->
-		<!--				<Label text="TCI Approved Amount Total" textAlign="Center" width="100%"/>-->
-		<!--			</table:multiLabels>-->
-		<!--			<table:template>-->
-		<!--				<Text text="{LocalDataModel>TCIApprovedAmtTotal}" wrapping="false"/>-->
-		<!--			</table:template>-->
-		<!--		</table:Column>-->
-		<!--		<table:Column width="9rem">-->
-		<!--			<table:multiLabels>-->
-		<!--				<Label text="Labour Difference Total" textAlign="Center" width="100%"/>-->
-		<!--			</table:multiLabels>-->
-		<!--			<table:template>-->
-		<!--				<Text text="{LocalDataModel>DifferenceTotal}" wrapping="false"/>-->
-		<!--			</table:template>-->
-		<!--		</table:Column>-->
-		<!--	</table:columns>-->
-		<!--</table:Table>-->
+	
 		<HBox alignContent="Center" justifyContent="Center" class="sapUiTinyMarginTop">
 			<Button class="sapUiTinyMarginBeginEnd" type="Back" press="onStep04Back" text="{i18n>Back}"/>
 			<Button class="sapUiTinyMarginBeginEnd" press="onStep04Next" text="{i18n>Next}" type="Emphasized"/>

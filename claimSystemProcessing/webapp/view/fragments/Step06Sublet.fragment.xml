@@ -33,8 +33,7 @@
 					<Text
 						text="{path:'LocalDataModel>/ClaimDetails/RepairDate', type: 'sap.ui.model.type.Date', constraints: {displayFormat: 'Date' }, formatOptions: { style: 'medium', strictParsing: true , UTC: true}}"/>
 					<Label text="Reg. Date"/>
-					<Text
-						text="{path:'LocalDataModel>/ClaimDetails/RegDate'}"/>
+					<Text text="{path:'LocalDataModel>/ClaimDetails/RegDate'}"/>
 					<core:Title text=""/>
 					<Label text="Odometer"/>
 					<Text text="{LocalDataModel>/ClaimDetails/OdometerReading}"/>
@@ -49,7 +48,7 @@
 			</f:SimpleForm>
 		</Panel>
 		<!--<HBox justifyContent="End" width="100%">-->
-			<!--<Button text="Add Part Line" type="Emphasized" press="onPressAddLabour"/>-->
+		<!--<Button text="Add Part Line" type="Emphasized" press="onPressAddLabour"/>-->
 		<!--	<Button text="Save Claim" type="Emphasized" press="onPressSaveClaimItemSublet"/>-->
 		<!--</HBox>-->
 		<f:SimpleForm editable="true" class=" sapUiTinyMarginBottom" layout="ResponsiveGridLayout" title="" labelSpanXL="7" labelSpanL="7"
@@ -83,20 +82,18 @@
 		</f:SimpleForm>
 		<l:Grid containerQuery="true" defaultSpan="XL10 L10 M12 S12">
 			<VBox class="clBgColor" wrap="Wrap" displayInline="true" alignContent="Center">
-				<f:SimpleForm editable="true" width="90%" class="sapUiResponsiveMargin ClsubHeadingLineHeight" layout="ResponsiveGridLayout" title="" labelSpanXL="12" labelSpanL="12"
-					labelSpanM="12" labelSpanS="12" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="6" columnsL="6" columnsM="6">
+				<f:SimpleForm editable="true" width="90%" class="sapUiResponsiveMargin ClsubHeadingLineHeight" layout="ResponsiveGridLayout" title=""
+					labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="6"
+					columnsL="6" columnsM="6">
 					<f:content>
 						<core:Title text=""/>
 						<Label text="Line #*" textAlign="Left"/>
 						<Text text=""/>
 						<core:Title text=""/>
 						<Label text="Sublet Type" textAlign="Left"/>
-						
-						<ComboBox required="true" items="{path:'/ZC_CLAIM_SUBLET_CODE', type : 'sap.ui.model.type.String'}" 
-							selectedKey="{SubletDataModel>/SubletCode}" enabled="{DateModel>/subletLine}" 
-							filterSecondaryValues="true" showSecondaryValues= "true">
-							<core:ListItem text="{path:'SubletCode'} - {path:'MaterialDesc'}" 
-								key="{SubletCode}"  additionalText = "{UnitOfMeasure}"/>
+						<ComboBox required="true" items="{path:'LocalDataModel>/ClaimSubletCodeModel', type : 'sap.ui.model.type.String'}"
+							selectedKey="{SubletDataModel>/SubletCode}" enabled="{DateModel>/subletLine}" filterSecondaryValues="true" showSecondaryValues="true">
+							<core:ListItem text="{path:'LocalDataModel>Matnr'} - {path:'LocalDataModel>MaterialDesc'}" key="{LocalDataModel>SubletCode}" additionalText="{LocalDataModel>UnitOfMeasure}"/>
 						</ComboBox>
 						<core:Title text=""/>
 						<Label text="Invoice #" textAlign="Left"/>
@@ -122,25 +119,22 @@
 						<core:Title text=""/>
 						<Label text="Attachments" textAlign="Left"/>
 						<UploadCollection id="UploadSublet" change="onUplaodChange" uploadComplete="onSubletUploadComplete" fileDeleted="onFileDeleted02"
-							visible="{multiHeaderConfig>/uploader}" items="{ path: 'ClaimModel>/subletitemes', templateShareable: false }">
-							<toolbar>
-								<OverflowToolbar>
-									<Breadcrumbs id="breadcrumbsSupportingDoc02" currentLocationText="{ClaimModel>/currentLocationText}" links="{ClaimModel>/history}">
-										<Link press="onBreadcrumbPress" text="{ClaimModel>fileName}"/>
-									</Breadcrumbs>
-									<ToolbarSpacer/>
-									<UploadCollectionToolbarPlaceholder/>
-								</OverflowToolbar>
-							</toolbar>
+							visible="{multiHeaderConfig>/uploader}" items="{ path: 'LocalDataModel>/SubletAtchmentData', templateShareable: false }">
+							<!--<toolbar>-->
+							<!--	<OverflowToolbar>-->
+							<!--		<Breadcrumbs id="breadcrumbsSupportingDoc02" currentLocationText="" links="">-->
+							<!--			<Link press="onBreadcrumbPress" text="{LocalDataModel>FileName}"/>-->
+							<!--		</Breadcrumbs>-->
+							<!--		<ToolbarSpacer/>-->
+							<!--		<UploadCollectionToolbarPlaceholder/>-->
+							<!--	</OverflowToolbar>-->
+							<!--</toolbar>-->
 							<items>
-								<UploadCollectionItem documentId="{ClaimModel>DOC_ID}" fileName="{ClaimModel>FileName}" mimeType="{ClaimModel>MIMETYPE}"
-									thumbnailUrl="{ClaimModel>url}" url="{ClaimModel>URI}" enableEdit="{settings>/enableEdit}" enableDelete="{settings>/enableDelete}"
-									visibleDelete="{settings>/visibleDelete}" visibleEdit="{settings>/visibleEdit}">
-									
-								</UploadCollectionItem>
+								<UploadCollectionItem documentId="{LocalDataModel>DOC_ID}" fileName="{LocalDataModel>FileName}" mimeType="{LocalDataModel>MIMETYPE}"
+									thumbnailUrl="{LocalDataModel>URI}" url="{LocalDataModel>URI}" enableEdit="{settings>/enableEdit}" enableDelete="{settings>/enableDelete}"
+									visibleDelete="{settings>/visibleDelete}" visibleEdit="{settings>/visibleEdit}"></UploadCollectionItem>
 							</items>
 						</UploadCollection>
-						
 						<core:Title text=""/>
 						<Label text="# Days" textAlign="Left"/>
 						<Input value="{SubletDataModel>/days}" enabled="{DateModel>/subletLine}"/>
@@ -164,29 +158,28 @@
 				</f:SimpleForm>
 			</VBox>
 		</l:Grid>
-		
-		<Table id="idSubletTable" mode="SingleSelectLeft" items="{path: 'LocalDataModel>/SubletPricingDataModel'}" growing="true" growingThreshold="5"
-			noDataText="No Data" showNoData="true">
+		<Table id="idSubletTable" mode="SingleSelectLeft" items="{path: 'LocalDataModel>/SubletPricingDataModel'}" growing="true"
+			growingThreshold="5" noDataText="No Data" showNoData="true">
 			<columns>
 				<Column><Text text="Line #"/></Column>
 				<Column><Text text="Sublet Type*"/></Column>
 				<Column><Text text="Invoice #*"/></Column>
 				<Column><Text text="Attachment*"/></Column>
 				<Column><Text text="Description"/>
-				<footer><Text text="Sub-total : "/></footer>
+					<footer><Text text="Sub-total : "/></footer>
 				</Column>
 				<Column>
-				<Text text="Amount*"/>
-				<footer><Text text="{path: 'LocalDataModel>/SubletPricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnAmountSublet'}"/></footer>
+					<Text text="Amount*"/>
+					<footer><Text text="{path: 'LocalDataModel>/SubletPricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnAmountSublet'}"/></footer>
 				</Column>
 				<Column><Text text="Total After Discount"/>
-				<footer><Text text="{path: 'LocalDataModel>/SubletPricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnTotalSubletAfDisc'}"/></footer>
+					<footer><Text text="{path: 'LocalDataModel>/SubletPricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnTotalSubletAfDisc'}"/></footer>
 				</Column>
 				<Column><Text text="TCI Amount Approved"/>
-				<footer><Text text="{path: 'LocalDataModel>/SubletPricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnTCISubletApr'}"/></footer>
+					<footer><Text text="{path: 'LocalDataModel>/SubletPricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnTCISubletApr'}"/></footer>
 				</Column>
 				<Column><Text text="Difference"/>
-				<footer><Text text="{path: 'LocalDataModel>/SubletPricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnSubletDif'}"/></footer>
+					<footer><Text text="{path: 'LocalDataModel>/SubletPricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnSubletDif'}"/></footer>
 				</Column>
 			</columns>
 			<items>
@@ -205,132 +198,7 @@
 				</ColumnListItem>
 			</items>
 		</Table>
-		
-		<!--<table:Table id="idSubletTable" class="classRCPTable" selectionMode="MultiToggle" rows="{LocalDataModel>/SubletPricingDataModel}" -->
-		<!--	 showNoData="true" threshold="5" enableBusyIndicator="true" visibleRowCount="5">-->
-		<!--	<table:columns autoResizable="true">-->
-		<!--		<table:Column width="17rem">-->
-		<!--			<table:multiLabels>-->
-		<!--				<Label text="Line #" textAlign="Center" width="100%"/>-->
-		<!--			</table:multiLabels>-->
-		<!--			<table:template>-->
-		<!--				<Text text="{LocalDataModel>posnr}" wrapping="false"/>-->
-		<!--			</table:template>-->
-		<!--		</table:Column>-->
-		<!--		<table:Column width="17rem">-->
-		<!--			<table:multiLabels>-->
-		<!--				<Label text="Sublet Type" textAlign="Center" width="100%"/>-->
-		<!--			</table:multiLabels>-->
-		<!--			<table:template>-->
-		<!--				<Text text="{LocalDataModel>matnr}" wrapping="false"/>-->
-		<!--			</table:template>-->
-		<!--		</table:Column>-->
-		<!--		<table:Column width="17rem">-->
-		<!--			<table:multiLabels>-->
-		<!--				<Label text="Invoice #" textAlign="Center" width="100%"/>-->
-		<!--			</table:multiLabels>-->
-		<!--			<table:template>-->
-		<!--				<Text text="{LocalDataModel>InvoiceNo}" wrapping="false"/>-->
-		<!--			</table:template>-->
-		<!--		</table:Column>-->
-		<!--		<table:Column width="17rem">-->
-		<!--			<table:multiLabels>-->
-		<!--				<Label text="Attachment" textAlign="Center" width="100%"/>-->
-		<!--			</table:multiLabels>-->
-		<!--			<table:template>-->
-		<!--				<Text text="" wrapping="false"/>-->
-		<!--			</table:template>-->
-		<!--		</table:Column>-->
-		<!--		<table:Column width="17rem">-->
-		<!--			<table:multiLabels>-->
-		<!--				<Label text="Description" textAlign="Center" width="100%"/>-->
-		<!--			</table:multiLabels>-->
-		<!--			<table:template>-->
-		<!--				<Text text="{LocalDataModel>SubletDescription}" wrapping="false"/>-->
-		<!--			</table:template>-->
-		<!--		</table:Column>-->
-		<!--		<table:Column width="17rem">-->
-		<!--			<table:multiLabels>-->
-		<!--				<Label text="Amount" textAlign="Center" width="100%"/>-->
-		<!--			</table:multiLabels>-->
-		<!--			<table:template>-->
-		<!--				<Text text="{LocalDataModel>Amount}" wrapping="false"/>-->
-		<!--			</table:template>-->
-		<!--		</table:Column>-->
-		<!--		<table:Column width="17rem">-->
-		<!--			<table:multiLabels>-->
-		<!--				<Label text="Total After Discount" textAlign="Center" width="100%"/>-->
-		<!--			</table:multiLabels>-->
-		<!--			<table:template>-->
-		<!--				<Text text="{LocalDataModel>TotalAfterDisct}" wrapping="false"/>-->
-		<!--			</table:template>-->
-		<!--		</table:Column>-->
-		<!--		<table:Column width="17rem">-->
-		<!--			<table:multiLabels>-->
-		<!--				<Label text="TCI Amount Approved" textAlign="Center" width="100%"/>-->
-		<!--			</table:multiLabels>-->
-		<!--			<table:template>-->
-		<!--				<Text text="{LocalDataModel>TCIApprAmt}" wrapping="false"/>-->
-		<!--			</table:template>-->
-		<!--		</table:Column>-->
-		<!--		<table:Column width="17rem">-->
-		<!--			<table:multiLabels>-->
-		<!--				<Label text="Difference" textAlign="Center" width="100%"/>-->
-		<!--			</table:multiLabels>-->
-		<!--			<table:template>-->
-		<!--				<Text text="{LocalDataModel>DiffAmt}" wrapping="false"/>-->
-		<!--			</table:template>-->
-		<!--		</table:Column>-->
-				
-		<!--	</table:columns>-->
-		<!--</table:Table>-->
-		
-		<!--<table:Table class="classRCPTable sapUiSmallMarginTop" id="idTableSubletTotal" selectionMode="None" rows="{LocalDataModel>/SubletPricingDataModel}" showNoData="true"-->
-		<!--	threshold="1" enableBusyIndicator="true" visibleRowCount="1">-->
-		<!--	<table:columns autoResizable="true">-->
-		<!--		<table:Column width="9rem">-->
-		<!--			<table:multiLabels>-->
-		<!--			</table:multiLabels>-->
-		<!--			<table:template>-->
-		<!--				<Text text="Sub-total" wrapping="false"/>-->
-		<!--			</table:template>-->
-		<!--		</table:Column>-->
-		<!--		<table:Column width="9rem">-->
-		<!--			<table:multiLabels>-->
-		<!--				<Label text="Amount Total" textAlign="Center" width="100%"/>-->
-		<!--			</table:multiLabels>-->
-		<!--			<table:template>-->
-		<!--				<Text text="{LocalDataModel>ExtendedTotal}" wrapping="false"/>-->
-		<!--			</table:template>-->
-		<!--		</table:Column>-->
-			
-		<!--		<table:Column width="9rem">-->
-		<!--			<table:multiLabels>-->
-		<!--				<Label text="Grand Total After Discount" textAlign="Center" width="100%"/>-->
-		<!--			</table:multiLabels>-->
-		<!--			<table:template>-->
-		<!--				<Text text="{LocalDataModel>GrandTotalAfterDiscount}" wrapping="false"/>-->
-		<!--			</table:template>-->
-		<!--		</table:Column>-->
-				
-		<!--		<table:Column width="9rem">-->
-		<!--			<table:multiLabels>-->
-		<!--				<Label text="TCI Approved Amount Total" textAlign="Center" width="100%"/>-->
-		<!--			</table:multiLabels>-->
-		<!--			<table:template>-->
-		<!--				<Text text="{LocalDataModel>TCIApprovedAmtTotal}" wrapping="false"/>-->
-		<!--			</table:template>-->
-		<!--		</table:Column>-->
-		<!--		<table:Column width="9rem">-->
-		<!--			<table:multiLabels>-->
-		<!--				<Label text="Labour Difference Total" textAlign="Center" width="100%"/>-->
-		<!--			</table:multiLabels>-->
-		<!--			<table:template>-->
-		<!--				<Text text="{LocalDataModel>DifferenceTotal}" wrapping="false"/>-->
-		<!--			</table:template>-->
-		<!--		</table:Column>-->
-		<!--	</table:columns>-->
-		<!--</table:Table>-->
+	
 		<HBox alignContent="Center" justifyContent="Center" class="sapUiTinyMarginTop">
 			<Button class="sapUiTinyMarginBeginEnd" type="Back" press="onStep06Back" text="{i18n>Back}"/>
 			<Button class="sapUiTinyMarginBeginEnd" press="onStep06Next" text="{i18n>Next}" type="Emphasized"/>

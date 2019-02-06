@@ -483,6 +483,7 @@ sap.ui.define([
 					//console.log(sdata);
 					//this.getModel("LocalDataModel").setProperty("/ClaimDetails", sdata.results[0]);
 					var oClaimType = sdata.results[0].WarrantyClaimType;
+				
 
 					if (oClaimType == "ZACD" || oClaimType == "ZAUT") {
 						this.oSelectedClaimGroup = "Authorization";
@@ -492,7 +493,7 @@ sap.ui.define([
 
 					this.getOwnerComponent().getRouter().navTo("MainClaimSection", {
 						claimNum: oClaimNum,
-						oKey: "nun",
+						oKey: oClaimType,
 						oClaimGroup: this.oSelectedClaimGroup
 					
 					});
