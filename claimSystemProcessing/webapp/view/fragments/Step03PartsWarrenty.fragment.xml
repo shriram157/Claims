@@ -146,7 +146,7 @@
 						<Text text="{LocalDataModel>matnr}" wrapping="false"/>
 						<Text text="{LocalDataModel>PartDescription}" wrapping="false"/>
 						<Text text="{LocalDataModel>DealerNet}"/>
-						<Text text="{LocalDataModel>PartQty}" wrapping="false"/>
+						<Text text="{LocalDataModel>QtyHrs}" wrapping="false"/>
 						<Text text="{LocalDataModel>ExtendedValue}" wrapping="false"/>
 						<Text text="{LocalDataModel>MarkUp}" wrapping="false"/>
 						<Text text="{LocalDataModel>AmtClaimed}" wrapping="false"/>

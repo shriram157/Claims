@@ -119,7 +119,7 @@
 						<core:Title text=""/>
 						<Label text="Attachments" textAlign="Left"/>
 						<UploadCollection id="UploadSublet" change="onUplaodChange" uploadComplete="onSubletUploadComplete" fileDeleted="onFileDeleted02"
-							visible="{multiHeaderConfig>/uploader}" items="{ path: 'LocalDataModel>/SubletAtchmentData', templateShareable: false }">
+							 items="{ path: 'LocalDataModel>/SubletAtchmentData', templateShareable: false }">
 							<!--<toolbar>-->
 							<!--	<OverflowToolbar>-->
 							<!--		<Breadcrumbs id="breadcrumbsSupportingDoc02" currentLocationText="" links="">-->

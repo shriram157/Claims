@@ -103,7 +103,7 @@
 												<Text text="{WarrantyClaimType}"/>
 											</table:template>
 										</table:Column>
-										<table:Column width="8rem">
+										<table:Column width="10rem">
 											<Label text="{i18n>VIN}" textAlign="Center" width="100%"/>
 											<table:template>
 												<Text text="{ExternalObjectNumber}"/>

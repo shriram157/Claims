@@ -211,20 +211,20 @@ sap.ui.define([
 			}
 			var oArrClaimGroup = [];
 			var oClaimGroup = [];
-			oClaimModel.read("/ZC_CLAIM_HEAD?", {
+			oClaimModel.read("/ZC_CLAIM_GROUP", {
 				urlParameters: {
-					"$select": "WarrantyClaimGroup"
+					"$select": "ClaimGroupDes"
 
 				},
 				success: $.proxy(function (data) {
 					for (var i = 0; i < data.results.length; i++) {
-						if (data.results[i].WarrantyClaimGroup !== "" && oArrClaimGroup.indexOf(data.results[i].WarrantyClaimGroup) < 0) {
-							oArrClaimGroup.push(data.results[i].WarrantyClaimGroup);
+						if (data.results[i].ClaimGroupDes !== "" && oArrClaimGroup.indexOf(data.results[i].ClaimGroupDes) < 0) {
+							oArrClaimGroup.push(data.results[i].ClaimGroupDes);
 						}
 					}
 					for (var j = 0; j < oArrClaimGroup.length; j++) {
 						oClaimGroup.push({
-							"WarrantyClaimGroup": oArrClaimGroup[0]
+							"ClaimGroupDes": oArrClaimGroup[0]
 						});
 					}
 					console.log(oClaimGroup);
@@ -330,7 +330,7 @@ sap.ui.define([
 			var ToDate = this.getView().getModel("DateModel").getProperty("/secondDateValueDRS2");
 			var FromDateFormat = oDateFormat.format(FromDate);
 			var ToDateFormat = oDateFormat.format(ToDate);
-			console.log(FromDateFormat, ToDateFormat);
+			// console.log(FromDateFormat, ToDateFormat);
 			var sDate = "";
 			var oResult = [];
 			if (sQuerySearchBy === "RepairOrderNumberExternal") {
