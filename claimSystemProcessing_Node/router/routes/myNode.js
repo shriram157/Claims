@@ -38,8 +38,8 @@ module.exports = function () {
 	var reqHeader = {
 		"Authorization": auth64,
 		"Content-Type": "application/json",
-		"APIKey": APIKey,
-		"x-csrf-token": "Fetch"
+		"APIKey": APIKey/*,
+		"x-csrf-token": "Fetch"*/
 	};
 
 	app.use(function (req, res, next) {
@@ -62,7 +62,7 @@ module.exports = function () {
 		let xurl = url + req.url;
 		console.log('Method', method);
 		console.log('Incoming Url', xurl);
-		console.log('csrfToken before GET&POST', csrfToken);
+		//console.log('csrfToken before GET&POST', csrfToken);
 
 		// console.log(req.headers.cookie);
 		//  delete (req.headers.cookie);
@@ -73,8 +73,8 @@ module.exports = function () {
 			var reqHeader = {
 				"Authorization": auth64,
 				"Content-Type": "application/json",
-				"APIKey": APIKey,
-				"x-csrf-token": "Fetch"
+				"APIKey": APIKey/*,
+				"x-csrf-token": "Fetch"*/
 			};
 
 		}
@@ -88,12 +88,19 @@ module.exports = function () {
 			reqHeader = {
 				"Authorization": auth64,
 				"Content-Type": "application/json",
-				"APIKey": APIKey,
-				"x-csrf-token": csrfToken
+				"APIKey": APIKey/*,
+				"x-csrf-token": csrfToken*/
 			};
-			console.log('csrfToken for POST', csrfToken);
-			console.log('headerData', reqHeader);
+			//console.log('csrfToken for POST', csrfToken);
 		}
+
+		// Pass through x-csrf-token from request to proxied request to S4/HANA
+		// This requires manual handling of CSRF tokens from the front-end
+		// Note: req.get() will get header in a case-insensitive manner 
+		var csrfTokenHeaderValue = req.get("X-Csrf-Token");
+		reqHeader["X-Csrf-Token"] = csrfTokenHeaderValue;
+
+		console.log('headerData', reqHeader);
 
 		let xRequest =
 			request({
