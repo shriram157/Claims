@@ -10,7 +10,7 @@
 				</Toolbar>
 			</headerToolbar>
 			<f:SimpleForm editable="true" layout="ResponsiveGridLayout" title="" labelSpanXL="6" labelSpanL="6" labelSpanM="12" labelSpanS="12"
-				emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="3" columnsL="3" columnsM="3">
+				emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="4" columnsL="4" columnsM="6">
 				<f:content>
 					<core:Title text=""/>
 					<Label text="Claim Type"/>
@@ -33,30 +33,52 @@
 					<Label text="Final Processed Date"/>
 					<Text
 						text="{ path: 'HeadSetData>/FinalProcdDate', type: 'sap.ui.model.type.Date', constraints: {displayFormat: 'Date' }, formatOptions: { style: 'medium', strictParsing: true , UTC: true} }"/>
+					<core:Title text=""/>
+					<Button text="Save Claim" class="sapUiSmallMarginEnd" type="Emphasized" press="onSaveClaim" visible="{DateModel>/saveClaimSt}">
+						<layoutData>
+							<l:GridData span="XL8 L8 M12 S12"/>
+						</layoutData>
+					</Button>
+					<Button text="Edit" class="sapUiSmallMarginEnd" type="Emphasized" press="onEditClaim" visible="{DateModel>/claimEditSt}">
+						<layoutData>
+							<l:GridData span="XL8 L8 M12 S12"/>
+						</layoutData>
+					</Button>
+					<Button text="Save Claim" class="sapUiSmallMarginEnd" enabled="{DateModel>/updateEnable}" type="Emphasized" press="onUpdateClaim"
+						visible="{DateModel>/updateClaimSt}">
+						<layoutData>
+							<l:GridData span="XL8 L8 M12 S12"/>
+						</layoutData>
+					</Button>
+					<Button text="Copy to Claim" type="Default" press="onCopyClaim">
+						<layoutData>
+							<l:GridData span="XL8 L8 M12 S12"/>
+						</layoutData>
+					</Button>
 				</f:content>
 			</f:SimpleForm>
-			<HBox justifyContent="End">
-				<Button text="Save Claim" class="sapUiSmallMarginEnd" type="Emphasized" press="onSaveClaim" visible="{DateModel>/saveClaimSt}">
-					<layoutData>
-						<l:GridData span="XL3 L4 M6 S12"/>
-					</layoutData>
-				</Button>
-				<Button text="Edit" class="sapUiSmallMarginEnd" type="Emphasized" press="onEditClaim" visible="{DateModel>/claimEditSt}">
-					<layoutData>
-						<l:GridData span="XL3 L4 M6 S12"/>
-					</layoutData>
-				</Button>
-				<Button text="Save Claim" class="sapUiSmallMarginEnd" type="Emphasized" press="onUpdateClaim" visible="{DateModel>/updateClaimSt}">
-					<layoutData>
-						<l:GridData span="XL3 L4 M6 S12"/>
-					</layoutData>
-				</Button>
-				<Button text="Copy to Claim" type="Default" press="onCopyClaim">
-					<layoutData>
-						<l:GridData span="XL4 L4 M6 S12"/>
-					</layoutData>
-				</Button>
-			</HBox>
+			<!--<HBox justifyContent="End">-->
+			<!--	<Button text="Save Claim"  class="sapUiSmallMarginEnd" type="Emphasized" press="onSaveClaim" visible="{DateModel>/saveClaimSt}">-->
+			<!--		<layoutData>-->
+			<!--			<l:GridData span="XL3 L4 M6 S12"/>-->
+			<!--		</layoutData>-->
+			<!--	</Button>-->
+			<!--	<Button text="Edit" class="sapUiSmallMarginEnd" type="Emphasized" press="onEditClaim" visible="{DateModel>/claimEditSt}">-->
+			<!--		<layoutData>-->
+			<!--			<l:GridData span="XL3 L4 M6 S12"/>-->
+			<!--		</layoutData>-->
+			<!--	</Button>-->
+			<!--	<Button text="Save Claim" class="sapUiSmallMarginEnd" enabled="{DateModel>/updateEnable}" type="Emphasized" press="onUpdateClaim" visible="{DateModel>/updateClaimSt}">-->
+			<!--		<layoutData>-->
+			<!--			<l:GridData span="XL3 L4 M6 S12"/>-->
+			<!--		</layoutData>-->
+			<!--	</Button>-->
+			<!--	<Button text="Copy to Claim" type="Default" press="onCopyClaim">-->
+			<!--		<layoutData>-->
+			<!--			<l:GridData span="XL4 L4 M6 S12"/>-->
+			<!--		</layoutData>-->
+			<!--	</Button>-->
+			<!--</HBox>-->
 		</Panel>
 		<f:SimpleForm id="idClaimMainForm" editable="" title="Repair Order Information" layout="ResponsiveGridLayout" labelSpanXL="12"
 			labelSpanL="12" labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
@@ -82,8 +104,8 @@
 					value="{path:'HeadSetData>/RepairOrderNumberExternal', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 10 }}"
 					id="idRepairOrder" editable="{DateModel>/oFormEdit}"/>
 				<Label text="R.O. Odometer"/>
-				<Input value="{path:'HeadSetData>/Odometer', type : 'sap.ui.model.type.String', constraints : { minLength : 2, maxLength : 7 }}"
-					required="true" id="idOdometer" editable="{DateModel>/oFormEdit}"/>
+				<Input value="{path:'HeadSetData>/Odometer', type : 'sap.ui.model.type.Number', constraints : { minLength : 2, maxLength : 7 }}"
+					required="{DateModel>/OdometerReq}" visible="{DateModel>/OdometerReq}" id="idOdometer" editable="{DateModel>/OdometerReq}"/>
 			</f:content>
 		</f:SimpleForm>
 		<f:SimpleForm editable="" id="idVehicleInfo" title="Vehicle Information - Toyota Corola LE CVT 2018" layout="ResponsiveGridLayout"
@@ -93,13 +115,13 @@
 				<core:Title text=""/>
 				<RadioButtonGroup selectedIndex="0" columns="2" id="idRequestType" select="onSelectRequestType" editable="{DateModel>/oFormEdit}">
 					<buttons>
-						<RadioButton groupName="C" text="VIN"/>
-						<RadioButton groupName="C" text=" Non Vehicle"/>
+						<RadioButton groupName="E" text="VIN"/>
+						<RadioButton groupName="E" text=" Non Vehicle"/>
 					</buttons>
 				</RadioButtonGroup>
 				<Input
 					value="{path:'HeadSetData>/ExternalObjectNumber', type : 'sap.ui.model.type.String', constraints : { minLength : 16, maxLength : 17 }}"
-					required="true" id="idVinNum" change="onEnterVIN" editable="{DateModel>/oFormEdit}"/>
+					required="true" visible="{DateModel>/OdometerReq}" id="idVinNum" change="onEnterVIN" editable="{DateModel>/oFormEdit}"/>
 				<core:Title text=""/>
 				<Label text="Reg. Date"/>
 				<Text text="{HeadSetData>/RegDate}"/>
@@ -108,17 +130,17 @@
 				<core:Title text=""/>
 				<Label text="Foreign VIN"/>
 				<Text text="{HeadSetData>/ForeignVINIndicator}" id="idForeignVin"/>
-				<Button icon="sap-icon://message-warning" type="Transparent" press="onPressForeignVin"/>
+				<Button icon="sap-icon://message-warning" type="Transparent" press="onPressForeignVin" class="clWarning"/>
 				<Label text="Written-Off"/>
 				<Text text="{HeadSetData>/WrittenOffCode}" id="idWrittenoff"/>
-				<Button icon="sap-icon://message-warning" type="Transparent" press="onPressWrittenOff"/>
+				<Button icon="sap-icon://message-warning" type="Transparent" press="onPressWrittenOff" class="clWarning"/>
 				<Label text="Special VIN Review"/>
 				<Text text="{HeadSetData>/SpecialVINReview}" id="idSpecialVin"/>
-				<Button icon="sap-icon://message-warning" type="Transparent" press="onPressSpecialVin"/>
+				<Button icon="sap-icon://message-warning" type="Transparent" press="onPressSpecialVin" class="clWarning"/>
 			</f:content>
 		</f:SimpleForm>
-		<table:Table  id="idECPAGR" class="classRCPTable" selectionMode="Single" rows="{path:'LocalDataModel>/AgreementDataECP'}"
-			rowSelectionChange="onNavigate"  selectionBehavior="Row" showNoData="true" threshold="4" visibleRowCount="4" enableBusyIndicator="true"
+		<table:Table id="idECPAGR" class="classRCPTable" selectionMode="Single" rows="{path:'LocalDataModel>/AgreementDataECP'}"
+			rowSelectionChange="onNavigate" selectionBehavior="Row" showNoData="true" threshold="4" visibleRowCount="4" enableBusyIndicator="true"
 			visible="{DateModel>/oECPfields}">
 			<table:toolbar>
 				<Toolbar>
@@ -131,7 +153,7 @@
 						<Label text="ECP Agreement" textAlign="Center" width="100%"/>
 					</table:multiLabels>
 					<table:template>
-						<Text text="{LocalDataModel>AgreementNumber}" wrapping="false"/>
+						<Text text="{LocalDataModel>AgreementNumber}" wrapping="true"/>
 					</table:template>
 				</table:Column>
 				<table:Column width="9rem">
@@ -139,7 +161,7 @@
 						<Label text="Plan Code" textAlign="Center" width="100%"/>
 					</table:multiLabels>
 					<table:template>
-						<Text text="{LocalDataModel>PlanType}" wrapping="false"/>
+						<Text text="{LocalDataModel>PlanType}" wrapping="true"/>
 					</table:template>
 				</table:Column>
 				<table:Column width="9rem">
@@ -147,7 +169,7 @@
 						<Label text="Status" textAlign="Center" width="100%"/>
 					</table:multiLabels>
 					<table:template>
-						<Text text="{LocalDataModel>bcc_agr_st_cd}" wrapping="false"/>
+						<Text text="{LocalDataModel>bcc_agr_st_cd}" wrapping="true"/>
 					</table:template>
 				</table:Column>
 				<table:Column width="17rem">
@@ -157,7 +179,7 @@
 					<table:template>
 						<Text
 							text="{path:'LocalDataModel>StatusDate', type: 'sap.ui.model.type.Date', constraints: { displayFormat: 'Date' }, formatOptions: { style: 'medium', strictParsing: true , UTC: true}}"
-							wrapping="false"/>
+							wrapping="true"/>
 					</table:template>
 				</table:Column>
 				<table:Column width="17rem">
@@ -167,7 +189,7 @@
 					<table:template>
 						<Text
 							text="{path:'LocalDataModel>AgreementthruDate', type: 'sap.ui.model.type.Date', constraints: { displayFormat: 'Date' }, formatOptions: { style: 'medium', strictParsing: true , UTC: true}}"
-							wrapping="false"/>
+							wrapping="true"/>
 					</table:template>
 				</table:Column>
 				<table:Column width="17rem">
@@ -175,7 +197,7 @@
 						<Label text="Expiry KM" textAlign="Center" width="100%"/>
 					</table:multiLabels>
 					<table:template>
-						<Text text="{LocalDataModel>AgreementthruKMreading}" wrapping="false"/>
+						<Text text="{LocalDataModel>AgreementthruKMreading}" wrapping="true"/>
 					</table:template>
 				</table:Column>
 			</table:columns>
@@ -217,12 +239,12 @@
 					value="{path:'HeadSetData>/ZCondition', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 100 }}"></TextArea>
 				<core:Title text=""/>
 				<Label text="OFP Description"/>
-				<Text text=" "/>
+				<Text text="{path:'HeadSetData>/OFPDescription'}"/>
 				<Label text="Main Op Description"/>
-				<Text text=" "/>
+				<Text text="{path:'HeadSetData>/MainOpsCodeDescription'}"/>
 				<Label text="Field Action Code"/>
 				<Input required="{path:'DateModel>/oFieldActionInput'}" value="{path:'HeadSetData>/FieldActionReference'}" editable="{DateModel>/oFormEdit}"
-					enabled="{DateModel>/oFieldActionInput}"/>
+					enabled="{DateModel>/oFieldActionInput}" change="onFieldActionInput"/>
 				<Label text="Cause"/>
 				<TextArea required="true" editable="{DateModel>/oFormEdit}"
 					value="{path:'HeadSetData>/Cause',type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 100 }}"></TextArea>
@@ -230,13 +252,21 @@
 				<Label text="Applied Coverage"/>
 				<Text text="{HeadSetData>/AppliedWarrantyCoverage}"/>
 				<Label text="T1 Code"/>
-				<Select selectedKey="{HeadSetData>/T1WarrantyCodes}" items="{ path: '/Zt1DescSrchhelpSet' }" enabled="{DateModel>/oFormEdit}">
+				<ComboBox required="true" items="{ path: '/Zt1DescSrchhelpSet' }" selectedKey="{HeadSetData>/T1WarrantyCodes}"
+					enabled="{DateModel>/oFormEdit}" value="{HeadSetData>/T1WarrantyCodes}">
 					<core:Item key="{T1}" text="{T1} - {T1Text}"/>
-				</Select>
+				</ComboBox>
+				<!--<Select selectedKey="{HeadSetData>/T1WarrantyCodes}" items="{ path: '/Zt1DescSrchhelpSet' }" enabled="{DateModel>/oFormEdit}">-->
+				<!--	<core:Item key="{T1}" text="{T1} - {T1Text}"/>-->
+				<!--</Select>-->
 				<Label text="T2 Code"/>
-				<Select selectedKey="{HeadSetData>/T2WarrantyCodes}" items="{ path: '/Zt2DescSrchhelpSet' }" enabled="{DateModel>/oFormEdit}">
+				<ComboBox required="true" items="{ path: '/Zt2DescSrchhelpSet' }" selectedKey="{HeadSetData>/T2WarrantyCodes}"
+					enabled="{DateModel>/oFormEdit}" value="{HeadSetData>/T2WarrantyCodes}">
 					<core:Item key="{T2}" text="{T2} - {T2Text}"/>
-				</Select>
+				</ComboBox>
+				<!--<Select selectedKey="{HeadSetData>/T2WarrantyCodes}" items="{ path: '/Zt2DescSrchhelpSet' }" enabled="{DateModel>/oFormEdit}">-->
+				<!--	<core:Item key="{T2}" text="{T2} - {T2Text}"/>-->
+				<!--</Select>-->
 				<Label text="Remedy"/>
 				<TextArea required="true" editable="{DateModel>/oFormEdit}"
 					value="{path:'HeadSetData>/Remedy', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 100 }}"></TextArea>
@@ -341,7 +371,8 @@
 								<Label text="(Totals included mark-up and discounts)" textAlign="Center" width="100%"/>
 							</table:multiLabels>
 							<table:template>
-								<Text text="{path:'LocalDataModel>ItemType', formatter: 'zclaimProcessing.utils.formatter.fnFormatText'}" wrapping="false"/>
+								<Text text="{path:'LocalDataModel>ItemType', formatter: 'zclaimProcessing.utils.formatter.fnFormatText'}" wrapping="true" textAlign="Center"
+									width="100%"/>
 							</table:template>
 						</table:Column>
 						<table:Column width="11rem">
@@ -349,7 +380,7 @@
 								<Label text="Dealer Claimed Amount" textAlign="Center" width="100%"/>
 							</table:multiLabels>
 							<table:template>
-								<Text text="{LocalDataModel>DealerClaim}" wrapping="false"/>
+								<Text text="{LocalDataModel>DealerClaim}" wrapping="true" textAlign="Center" width="100%"/>
 							</table:template>
 						</table:Column>
 						<table:Column width="11rem">
@@ -357,7 +388,7 @@
 								<Label text="TCI Approved Amount" textAlign="Center" width="100%"/>
 							</table:multiLabels>
 							<table:template>
-								<Text text="{LocalDataModel>TCIAppr}" wrapping="false"/>
+								<Text text="{LocalDataModel>TCIAppr}" wrapping="true" textAlign="Center" width="100%"/>
 							</table:template>
 						</table:Column>
 						<table:Column width="11rem">
@@ -365,7 +396,7 @@
 								<Label text="Difference (CAD)" textAlign="Center" width="100%"/>
 							</table:multiLabels>
 							<table:template>
-								<Text text="{LocalDataModel>Diff}" wrapping="false"/>
+								<Text text="{LocalDataModel>Diff}" wrapping="true" textAlign="Center" width="100%"/>
 							</table:template>
 						</table:Column>
 						<table:Column width="8rem" headerSpan="{multiHeaderConfig>/multiheader2}">
@@ -374,16 +405,16 @@
 								<Label text="Amount" textAlign="Center" width="100%"/>
 							</table:multiLabels>
 							<table:template>
-								<Text text="{LocalDataModel>GSTHSTAmt}" wrapping="false"/>
+								<Text text="{LocalDataModel>GSTHSTAmt}" wrapping="true" textAlign="Center" width="100%"/>
 							</table:template>
 						</table:Column>
 						<table:Column width="8rem">
 							<table:multiLabels>
-								<Label text="GST/HST"/>
+								<Label text="GST/HST" textAlign="Center" width="100%"/>
 								<Label text="Tax %" textAlign="Center" width="100%"/>
 							</table:multiLabels>
 							<table:template>
-								<Text text="{LocalDataModel>GSTHSTRate}" wrapping="false"/>
+								<Text text="{LocalDataModel>GSTHSTRate}" wrapping="true" textAlign="Center" width="100%"/>
 							</table:template>
 						</table:Column>
 						<table:Column width="8rem" headerSpan="{multiHeaderConfig>/multiheader2}">
@@ -392,16 +423,16 @@
 								<Label text="Amount" textAlign="Center" width="100%"/>
 							</table:multiLabels>
 							<table:template>
-								<Text text="{LocalDataModel>PSTQSTAmt}" wrapping="false"/>
+								<Text text="{LocalDataModel>PSTQSTAmt}" wrapping="true" textAlign="Center" width="100%"/>
 							</table:template>
 						</table:Column>
 						<table:Column width="8rem">
 							<table:multiLabels>
-								<Label text="PST/QST"/>
+								<Label text="PST/QST" textAlign="Center" width="100%"/>
 								<Label text="Tax %" textAlign="Center" width="100%"/>
 							</table:multiLabels>
 							<table:template>
-								<Text text="{LocalDataModel>PSTQSTRate}" wrapping="false"/>
+								<Text text="{LocalDataModel>PSTQSTRate}" wrapping="true" textAlign="Center" width="100%"/>
 							</table:template>
 						</table:Column>
 						<table:Column width="17rem">
@@ -409,7 +440,7 @@
 								<Label text="TCI Approved Amount Including Tax" textAlign="Center" width="100%"/>
 							</table:multiLabels>
 							<table:template>
-								<Text text="{LocalDataModel>TCIApprInclTax}" wrapping="false"/>
+								<Text text="{LocalDataModel>TCIApprInclTax}" wrapping="true" textAlign="Center" width="100%"/>
 							</table:template>
 						</table:Column>
 					</table:columns>
@@ -417,7 +448,8 @@
 			</content>
 			<HBox alignContent="Center" justifyContent="Center" class="sapUiTinyMarginTop">
 				<Button class="sapUiTinyMarginBeginEnd" press="onPressBack" text="{i18n>BackList}" type="Back"/>
-				<Button class="sapUiTinyMarginBeginEnd" press="onCancelClaim" text="{i18n>CancelClaim}" type="Reject"/>
+				<Button class="sapUiTinyMarginBeginEnd" press="onCancelClaim" enabled="{LocalDataModel>/CancelEnable}" text="{i18n>CancelClaim}"
+					type="Reject"/>
 				<Button class="sapUiTinyMarginBeginEnd" text="{i18n>Print}"/>
 				<Button class="sapUiTinyMarginBeginEnd" press="onStep01Next" enabled="{LocalDataModel>/step01Next}" text="{i18n>Next}" type="Emphasized"/>
 			</HBox>

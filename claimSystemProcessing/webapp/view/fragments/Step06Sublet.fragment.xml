@@ -15,35 +15,43 @@
 				<f:content>
 					<core:Title text=""/>
 					<Label text="TCI Claim #"/>
-					<Text text="{LocalDataModel>/ClaimDetails/NumberOfWarrantyClaim}"/>
-					<Label text="VIN"/>
-					<Text text="{LocalDataModel>/ClaimDetails/ExternalObjectNumber}"/>
+					<Text text="{HeadSetData>/NumberOfWarrantyClaim}"/>
+					<Label text="VIN">
+					<layoutData>
+						<l:GridData span="XL3 L3"/>
+					</layoutData>
+					</Label>
+					<Text text="{HeadSetData>/ExternalObjectNumber}"/>
 					<core:Title text=""/>
 					<Label text="Dlr. Claim #"/>
-					<Text text="{LocalDataModel>/ClaimDetails/ExternalNumberOfClaim}"/>
-					<Label text="OFP"/>
-					<Text text="{LocalDataModel>/ClaimDetails/OFP}"/>
+					<Text text="{HeadSetData>/ExternalNumberOfClaim}"/>
+					<Label text="OFP">
+						<layoutData>
+							<l:GridData span="XL3 L3"/>
+						</layoutData>
+					</Label>
+					<Text text="{HeadSetData>/OFP}"/>
 					<core:Title text=""/>
 					<Label text="RO #."/>
-					<Text text="{LocalDataModel>/ClaimDetails/RepairOrderNumberExternal}"/>
+					<Text text="{HeadSetData>/RepairOrderNumberExternal}"/>
 					<Label text="Op #."/>
-					<Text text="{LocalDataModel>/ClaimDetails/MainOpsCode}"/>
+					<Text text="{HeadSetData>/MainOpsCode}"/>
 					<core:Title text=""/>
 					<Label text="Repair Date"/>
 					<Text
-						text="{path:'LocalDataModel>/ClaimDetails/RepairDate', type: 'sap.ui.model.type.Date', constraints: {displayFormat: 'Date' }, formatOptions: { style: 'medium', strictParsing: true , UTC: true}}"/>
+						text="{path:'HeadSetData>/RepairDate', type: 'sap.ui.model.type.Date', constraints: {displayFormat: 'Date' }, formatOptions: { style: 'medium', strictParsing: true , UTC: true}}"/>
 					<Label text="Reg. Date"/>
-					<Text text="{path:'LocalDataModel>/ClaimDetails/RegDate'}"/>
+					<Text text="{path:'HeadSetData>/RegDate'}"/>
 					<core:Title text=""/>
 					<Label text="Odometer"/>
-					<Text text="{LocalDataModel>/ClaimDetails/OdometerReading}"/>
+					<Text text="{HeadSetData>/Odometer}"/>
 					<Label text="Elapse"/>
-					<Text text="{LocalDataModel>/ClaimDetails/ElapsedMonths}"/>
+					<Text text="{HeadSetData>/ElapsedMonths}"/>
 					<core:Title text=""/>
 					<Label text="Type"/>
-					<Text text="{LocalDataModel>/ClaimDetails/WarrantyClaimType}"/>
+					<Text text="{HeadSetData>/WarrantyClaimType}"/>
 					<Label text="Status"/>
-					<Text text="{LocalDataModel>/ClaimDetails/ProcessingStatusOfWarrantyClm}"/>
+					<Text text="{HeadSetData>/ProcessingStatusOfWarrantyClm}"/>
 				</f:content>
 			</f:SimpleForm>
 		</Panel>
@@ -93,7 +101,7 @@
 						<Label text="Sublet Type" textAlign="Left"/>
 						<ComboBox required="true" items="{path:'LocalDataModel>/ClaimSubletCodeModel', type : 'sap.ui.model.type.String'}"
 							selectedKey="{SubletDataModel>/SubletCode}" enabled="{DateModel>/subletLine}" filterSecondaryValues="true" showSecondaryValues="true">
-							<core:ListItem text="{path:'LocalDataModel>Matnr'} - {path:'LocalDataModel>MaterialDesc'}" key="{LocalDataModel>SubletCode}" additionalText="{LocalDataModel>UnitOfMeasure}"/>
+							<core:ListItem text="{path:'LocalDataModel>Matnr'} - {path:'LocalDataModel>MaterialDesc'}" key="{LocalDataModel>Matnr}" additionalText="{LocalDataModel>UnitOfMeasure}"/>
 						</ComboBox>
 						<core:Title text=""/>
 						<Label text="Invoice #" textAlign="Left"/>
@@ -107,9 +115,9 @@
 						<core:Title text=""/>
 						<Label text=" " class="clTextIndent"/>
 						<Button text="Save Sublet" type="Emphasized" press="onPressSaveClaimItemSublet" enabled="{DateModel>/subletLine}">
-							<layoutData>
-								<l:GridData span="XL10 L10 "/>
-							</layoutData>
+							<!--<layoutData>-->
+							<!--	<l:GridData span="XL10 L10 "/>-->
+							<!--</layoutData>-->
 						</Button>
 					</f:content>
 				</f:SimpleForm>
@@ -120,19 +128,21 @@
 						<Label text="Attachments" textAlign="Left"/>
 						<UploadCollection id="UploadSublet" change="onUplaodChange" uploadComplete="onSubletUploadComplete" fileDeleted="onFileDeleted02"
 							 items="{ path: 'LocalDataModel>/SubletAtchmentData', templateShareable: false }">
-							<!--<toolbar>-->
-							<!--	<OverflowToolbar>-->
-							<!--		<Breadcrumbs id="breadcrumbsSupportingDoc02" currentLocationText="" links="">-->
-							<!--			<Link press="onBreadcrumbPress" text="{LocalDataModel>FileName}"/>-->
-							<!--		</Breadcrumbs>-->
-							<!--		<ToolbarSpacer/>-->
-							<!--		<UploadCollectionToolbarPlaceholder/>-->
-							<!--	</OverflowToolbar>-->
-							<!--</toolbar>-->
+							<toolbar>
+								<OverflowToolbar>
+									<Breadcrumbs id="breadcrumbsSupportingDoc02" currentLocationText="{LocalDataModel>/currentLocationText}" links="{LocalDataModel>/history}">
+										<Link press="onBreadcrumbPress" text="{LocalDataModel>fileName}"/>
+									</Breadcrumbs>
+									<ToolbarSpacer/>
+									<UploadCollectionToolbarPlaceholder/>
+								</OverflowToolbar>
+							</toolbar>
 							<items>
 								<UploadCollectionItem documentId="{LocalDataModel>DOC_ID}" fileName="{LocalDataModel>FileName}" mimeType="{LocalDataModel>MIMETYPE}"
-									thumbnailUrl="{LocalDataModel>URI}" url="{LocalDataModel>URI}" enableEdit="{settings>/enableEdit}" enableDelete="{settings>/enableDelete}"
-									visibleDelete="{settings>/visibleDelete}" visibleEdit="{settings>/visibleEdit}"></UploadCollectionItem>
+									thumbnailUrl="{LocalDataModel>url}" url="{LocalDataModel>URI}" enableEdit="{settings>/enableEdit}" enableDelete="{settings>/enableDelete}"
+									visibleDelete="{settings>/visibleDelete}" visibleEdit="{settings>/visibleEdit}">
+									
+								</UploadCollectionItem>
 							</items>
 						</UploadCollection>
 						<core:Title text=""/>
@@ -161,39 +171,39 @@
 		<Table id="idSubletTable" mode="SingleSelectLeft" items="{path: 'LocalDataModel>/SubletPricingDataModel'}" growing="true"
 			growingThreshold="5" noDataText="No Data" showNoData="true">
 			<columns>
-				<Column><Text text="Line #"/></Column>
-				<Column><Text text="Sublet Type*"/></Column>
-				<Column><Text text="Invoice #*"/></Column>
-				<Column><Text text="Attachment*"/></Column>
-				<Column><Text text="Description"/>
-					<footer><Text text="Sub-total : "/></footer>
+				<Column><Text text="Line #" textAlign="Center" width="100%"/></Column>
+				<Column><Text text="Sublet Type*" textAlign="Center" width="100%"/></Column>
+				<Column><Text text="Invoice #*" textAlign="Center" width="100%"/></Column>
+				<Column><Text text="Attachment*" textAlign="Center" width="100%"/></Column>
+				<Column><Text text="Description" textAlign="Center" width="100%"/>
+					<footer><Text text="Sub-total : " textAlign="Center" width="100%"/></footer>
 				</Column>
 				<Column>
-					<Text text="Amount*"/>
-					<footer><Text text="{path: 'LocalDataModel>/SubletPricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnAmountSublet'}"/></footer>
+					<Text text="Amount*" textAlign="Center" width="100%"/>
+					<footer><Text text="{path: 'LocalDataModel>/SubletPricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnAmountSublet'}" textAlign="Center" width="100%"/></footer>
 				</Column>
 				<Column><Text text="Total After Discount"/>
-					<footer><Text text="{path: 'LocalDataModel>/SubletPricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnTotalSubletAfDisc'}"/></footer>
+					<footer><Text text="{path: 'LocalDataModel>/SubletPricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnTotalSubletAfDisc'}" textAlign="Center" width="100%"/></footer>
 				</Column>
 				<Column><Text text="TCI Amount Approved"/>
-					<footer><Text text="{path: 'LocalDataModel>/SubletPricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnTCISubletApr'}"/></footer>
+					<footer><Text text="{path: 'LocalDataModel>/SubletPricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnTCISubletApr'}" textAlign="Center" width="100%"/></footer>
 				</Column>
 				<Column><Text text="Difference"/>
-					<footer><Text text="{path: 'LocalDataModel>/SubletPricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnSubletDif'}"/></footer>
+					<footer><Text text="{path: 'LocalDataModel>/SubletPricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnSubletDif'}" textAlign="Center" width="100%"/></footer>
 				</Column>
 			</columns>
 			<items>
-				<ColumnListItem>
+				<ColumnListItem vAlign="Middle">
 					<cells>
-						<Text text="{LocalDataModel>posnr}" wrapping="false"/>
-						<Text text="{LocalDataModel>matnr}" wrapping="false"/>
-						<Text text="{LocalDataModel>InvoiceNo}" wrapping="false"/>
-						<Text text="" wrapping="false"/>
-						<Text text="{LocalDataModel>SubletDescription}" wrapping="false"/>
-						<Text text="{LocalDataModel>Amount}" wrapping="false"/>
-						<Text text="{LocalDataModel>TotalAfterDisct}" wrapping="false"/>
-						<Text text="{LocalDataModel>TCIApprAmt}" wrapping="false"/>
-						<Text text="{LocalDataModel>DiffAmt}" wrapping="false"/>
+						<Text text="{LocalDataModel>posnr}" wrapping="true" textAlign="Center" width="100%"/>
+						<Text text="{LocalDataModel>ItemKey}" wrapping="true" textAlign="Center" width="100%"/>
+						<Text text="{LocalDataModel>InvoiceNo}" wrapping="true" textAlign="Center" width="100%"/>
+						<Link href="{LocalDataModel>URI}" text="View" target="_blank" textAlign="Center" width="100%"/>
+						<Text text="{LocalDataModel>SubletDescription}" wrapping="true" textAlign="Center" width="100%"/>
+						<Text text="{LocalDataModel>Amount}" wrapping="true" textAlign="Center" width="100%"/>
+						<Text text="{LocalDataModel>TotalAfterDisct}" wrapping="true" textAlign="Center" width="100%"/>
+						<Text text="{LocalDataModel>TCIApprAmt}" wrapping="true" textAlign="Center" width="100%"/>
+						<Text text="{LocalDataModel>DiffAmt}" wrapping="true" textAlign="Center" width="100%"/>
 					</cells>
 				</ColumnListItem>
 			</items>

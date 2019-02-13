@@ -9,7 +9,7 @@
 						<uxap:blocks >
 							<VBox>
 								<MessageStrip id="idMainClaimMessage" text="" showIcon="true" showCloseButton="false" class="sapUiMediumMarginBottom" visible="false"></MessageStrip>
-								<IconTabBar select="onSelectTab" id="idIconTabMainClaim" expanded="{device>/isNoPhone}"
+								<IconTabBar select="onSelectTab" expandable="false" id="idIconTabMainClaim" expanded="{device>/isNoPhone}"
 									class=" sapUiLargePaddingBottom sapUiLargeMarginBottom" selectedKey="Tab1" >
 									<items>
 										<IconTabFilter icon="sap-icon://home" text="{i18n>Main}" key="Tab1" id="idFilter01">

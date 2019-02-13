@@ -15,35 +15,43 @@
 				<f:content>
 					<core:Title text=""/>
 					<Label text="TCI Claim #"/>
-					<Text text="{LocalDataModel>/ClaimDetails/NumberOfWarrantyClaim}"/>
-					<Label text="VIN"/>
-					<Text text="{LocalDataModel>/ClaimDetails/ExternalObjectNumber}"/>
+					<Text text="{HeadSetData>/NumberOfWarrantyClaim}"/>
+					<Label text="VIN">
+					<layoutData>
+						<l:GridData span="XL3 L3"/>
+					</layoutData>
+					</Label>
+					<Text text="{HeadSetData>/ExternalObjectNumber}"/>
 					<core:Title text=""/>
 					<Label text="Dlr. Claim #"/>
-					<Text text="{LocalDataModel>/ClaimDetails/ExternalNumberOfClaim}"/>
-					<Label text="OFP"/>
-					<Text text="{LocalDataModel>/ClaimDetails/OFP}" />
+					<Text text="{HeadSetData>/ExternalNumberOfClaim}"/>
+					<Label text="OFP">
+						<layoutData>
+							<l:GridData span="XL3 L3"/>
+						</layoutData>
+					</Label>
+					<Text text="{HeadSetData>/OFP}"/>
 					<core:Title text=""/>
 					<Label text="RO #."/>
-					<Text text="{LocalDataModel>/ClaimDetails/RepairOrderNumberExternal}"/>
+					<Text text="{HeadSetData>/RepairOrderNumberExternal}"/>
 					<Label text="Op #."/>
-					<Text text="{LocalDataModel>/ClaimDetails/MainOpsCode}" id="idOFPLabour"/>
+					<Text text="{HeadSetData>/MainOpsCode}" id="idOFPLabour"/>
 					<core:Title text=""/>
 					<Label text="Repair Date"/>
 					<Text
-						text="{path:'LocalDataModel>/ClaimDetails/RepairDate', type: 'sap.ui.model.type.Date', constraints: {displayFormat: 'Date' }, formatOptions: { style: 'medium', strictParsing: true , UTC: true}}"/>
+						text="{path:'HeadSetData>/RepairDate', type: 'sap.ui.model.type.Date', constraints: {displayFormat: 'Date' }, formatOptions: { style: 'medium', strictParsing: true , UTC: true}}"/>
 					<Label text="Reg. Date"/>
-					<Text text="{path:'LocalDataModel>/ClaimDetails/RegDate'}"/>
+					<Text text="{path:'HeadSetData>/RegDate'}"/>
 					<core:Title text=""/>
 					<Label text="Odometer"/>
-					<Text text="{LocalDataModel>/ClaimDetails/OdometerReading}"/>
+					<Text text="{HeadSetData>/Odometer}"/>
 					<Label text="Elapse"/>
-					<Text text="{LocalDataModel>/ClaimDetails/ElapsedMonths}"/>
+					<Text text="{HeadSetData>/ElapsedMonths}"/>
 					<core:Title text=""/>
 					<Label text="Type"/>
-					<Text text="{LocalDataModel>/ClaimDetails/WarrantyClaimType}"/>
+					<Text text="{HeadSetData>/WarrantyClaimType}"/>
 					<Label text="Status"/>
-					<Text text="{LocalDataModel>/ClaimDetails/ProcessingStatusOfWarrantyClm}"/>
+					<Text text="{HeadSetData>/ProcessingStatusOfWarrantyClm}"/>
 				</f:content>
 			</f:SimpleForm>
 		</Panel>
@@ -83,13 +91,20 @@
 						<Label text="Operation Number" textAlign="Left"/>
 						<!--<Input value="{LabourDataModel>/LabourOp}" required="true" id="idLabourNumber" showValueHelp="true" valueHelpOnly="true"-->
 						<!--	valueHelpRequest="handleValueHelpLabour" enabled="{DateModel>/labourLine}"/>-->
-						<ComboBox required="true" items="{path:'LocalDataModel>/SuggetionOperationList', length:300}" change="onSelectPositionCode"
-							selectedKey="{LabourDataModel>/LabourOp}"
-							value="{path:'LabourDataModel>/LabourOp', formatter: 'zclaimProcessing.utils.formatter.fnFormatPositionCode'}"
-							enabled="{DateModel>/labourLine}" filterSecondaryValues="true" showSecondaryValues="true">
-							<core:ListItem text="{path:'LocalDataModel>J_3GKATNRC', formatter: 'zclaimProcessing.utils.formatter.fnFormatPositionCode'}"
-								key="{LocalDataModel>J_3GKATNRC}" additionalText="{LocalDataModel>LTEXT}"/>
-						</ComboBox>
+						<!--<ComboBox required="true" items="{path:'LocalDataModel>/SuggetionOperationList'}" change="onSelectPositionCode"-->
+						<!--	selectedKey="{LabourDataModel>/LabourOp}"-->
+						<!--	value="{path:'LabourDataModel>/LabourOp'}"-->
+						<!--	enabled="{DateModel>/labourLine}" filterSecondaryValues="true" showSecondaryValues="true">-->
+						<!--	<core:ListItem text="{path:'LocalDataModel>J_3GKATNRC'}"-->
+						<!--		key="{LocalDataModel>J_3GKATNRC}" additionalText="{LocalDataModel>LTEXT}"/>-->
+						<!--</ComboBox>-->
+						<Input type="Text" textFormatMode="Value" placeholder="Enter Operation Number" showSuggestion="true" showValueHelp="true"
+							 id="idOperationLabour" value="{LabourDataModel>/LabourOp}" valueHelpRequest="handleValueHelpLabour"
+							suggestionItems="{LocalDataModel>/SuggetionOperationList}" suggestionItemSelected="onSelectPositionCode" enabled="{DateModel>/labourLine}">
+							<suggestionItems>
+								<core:ListItem key="{LocalDataModel>J_3GKATNRC}" text="{LocalDataModel>J_3GKATNRC}" additionalText="{LocalDataModel>LTEXT}"/>
+							</suggestionItems>
+						</Input>
 						<core:Title text=""/>
 						<Label text="Description" textAlign="Left"/>
 						<Input value="{LabourDataModel>/LabourDescription}" id="idLabourDes" editable="false"/>
@@ -103,51 +118,56 @@
 				</f:SimpleForm>
 			</VBox>
 		</l:Grid>
-		<Table id="idLabourTable" mode="SingleSelectLeft" items="{path: 'LocalDataModel>/LabourPricingDataModel'}" growing="true" growingThreshold="5"
-			noDataText="No Data" showNoData="true">
+		<Table id="idLabourTable" mode="SingleSelectLeft" items="{path: 'LocalDataModel>/LabourPricingDataModel'}" growing="true"
+			growingThreshold="5" noDataText="No Data" showNoData="true">
 			<columns>
-				<Column><Text text="Line #"/></Column>
-				<Column><Text text="Main Op#"/></Column>
-				<Column><Text text="Operation Number*"/></Column>
-				<Column><Text text="Description"/>
-					<footer><Text text="Sub-total : "/></footer>
+				<Column><Text text="Line #" textAlign="Center" width="100%"/></Column>
+				<Column><Text text="Main Op#" textAlign="Center" width="100%"/></Column>
+				<Column><Text text="Operation Number*" textAlign="Center" width="100%"/></Column>
+				<Column><Text text="Description" textAlign="Center" width="100%"/>
+					<footer><Text text="Sub-total : " textAlign="Center" width="100%"/></footer>
 				</Column>
-				<Column><Text text="Dealer Claimed Hours*"/>
-					<footer><Text text="{path: 'LocalDataModel>/LabourPricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnClaimedHr'}"/></footer>
+				<Column><Text text="Dealer Claimed Hours*" textAlign="Center" width="100%"/>
+					<footer><Text textAlign="Center" width="100%"
+						text="{path: 'LocalDataModel>/LabourPricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnClaimedHr'}"/></footer>
 				</Column>
 				<Column>
-					<Text text="Amount Claimed"/>
-					<footer><Text text="{path: 'LocalDataModel>/LabourPricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnAmountLabCLaim'}"/></footer>
+					<Text text="Amount Claimed" textAlign="Center" width="100%"/>
+					<footer><Text textAlign="Center" width="100%"
+						text="{path: 'LocalDataModel>/LabourPricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnAmountLabCLaim'}"/></footer>
 				</Column>
-				<Column><Text text="Total After Discount"/>
-					<footer><Text text="{path: 'LocalDataModel>/LabourPricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnTotalAfDisLab'}"/></footer>
+				<Column><Text text="Total After Discount" textAlign="Center" width="100%"/>
+					<footer><Text textAlign="Center" width="100%"
+						text="{path: 'LocalDataModel>/LabourPricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnTotalAfDisLab'}"/></footer>
 				</Column>
-				<Column><Text text="Hours Approved by TCI"/></Column>
-				<Column><Text text="TCI Amount Approved"/>
-					<footer><Text text="{path: 'LocalDataModel>/LabourPricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnHrApTCI'}"/></footer>
+				<Column><Text text="Hours Approved by TCI" textAlign="Center" width="100%"/></Column>
+				<Column><Text text="TCI Amount Approved" textAlign="Center" width="100%"/>
+					<footer><Text textAlign="Center" width="100%"
+						text="{path: 'LocalDataModel>/LabourPricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnHrApTCI'}"/></footer>
 				</Column>
-				<Column><Text text="Labour Difference"/>
-					<footer><Text text="{path: 'LocalDataModel>/LabourPricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnLabDif'}"/></footer>
+				<Column><Text text="Labour Difference" textAlign="Center" width="100%"/>
+					<footer><Text textAlign="Center" width="100%"
+						text="{path: 'LocalDataModel>/LabourPricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnLabDif'}"/></footer>
 				</Column>
 			</columns>
 			<items>
-				<ColumnListItem>
+				<ColumnListItem vAlign="Middle">
 					<cells>
-						<Text text="{LocalDataModel>posnr}" wrapping="false"/>
-						<RadioButton groupName="GroupA" select="onSelectOFPLabour" textAlign="Center"/>
-						<Text text="{path:'LocalDataModel>LabourNumber', formatter: 'zclaimProcessing.utils.formatter.fnFormatPositionCode'}" wrapping="false" textAlign="Center"/>
-						<Text text="{LocalDataModel>LabourDescription}" wrapping="false" textAlign="Center"/>
-						<Text text="{LocalDataModel>QtyHrs}" wrapping="false" textAlign="Center"/>
-						<Text text="{LocalDataModel>AmtClaimed}" wrapping="false" textAlign="Center"/>
-						<Text text="{LocalDataModel>TotalAfterDisct}" wrapping="false" textAlign="Center"/>
-						<Text text="{LocalDataModel>HoursApprovedByTCI}" wrapping="false" textAlign="Center"/>
-						<Text text="{LocalDataModel>TCIApprAmt}" wrapping="false" textAlign="Center"/>
-						<Text text="{LocalDataModel>DiffAmt}" wrapping="false" textAlign="Center"/>
+						<Text text="{LocalDataModel>posnr}" wrapping="true" textAlign="Center" width="100%" />
+						<RadioButton groupName="GroupA" select="onSelectOFPLabour" textAlign="Center" width="100%" />
+						<Text text="{path:'LocalDataModel>LabourNumber', formatter: 'zclaimProcessing.utils.formatter.fnFormatPositionCode'}" wrapping="true"
+							textAlign="Center" width="100%"/>
+						<Text text="{LocalDataModel>LabourDescription}" wrapping="true" textAlign="Center" width="100%"/>
+						<Text text="{LocalDataModel>QtyHrs}" wrapping="true" textAlign="Center" width="100%"/>
+						<Text text="{LocalDataModel>AmtClaimed}" wrapping="true" textAlign="Center" width="100%"/>
+						<Text text="{LocalDataModel>TotalAfterDisct}" wrapping="true" textAlign="Center" width="100%"/>
+						<Text text="{LocalDataModel>HoursApprovedByTCI}" wrapping="true" textAlign="Center" width="100%"/>
+						<Text text="{LocalDataModel>TCIApprAmt}" wrapping="true" textAlign="Center" width="100%"/>
+						<Text text="{LocalDataModel>DiffAmt}" wrapping="true" textAlign="Center" width="100%"/>
 					</cells>
 				</ColumnListItem>
 			</items>
 		</Table>
-	
 		<HBox alignContent="Center" justifyContent="Center" class="sapUiTinyMarginTop">
 			<Button class="sapUiTinyMarginBeginEnd" type="Back" press="onStep04Back" text="{i18n>Back}"/>
 			<Button class="sapUiTinyMarginBeginEnd" press="onStep04Next" text="{i18n>Next}" type="Emphasized"/>

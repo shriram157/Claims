@@ -36,6 +36,9 @@
     background: #fdfdfd;
     border: 1px solid #cccccc;
 }
+.clWarning  :not(.sapMBtnDisabled) .sapMBtnTransparent>.sapMBtnIcon, .clWarning :not(.sapMBtnDisabled) .sapMBtnGhost>.sapMBtnIcon {
+	color:#f00;
+}
 
 .oVisible {
     display: none;

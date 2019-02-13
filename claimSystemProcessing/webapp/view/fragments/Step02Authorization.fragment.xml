@@ -14,36 +14,43 @@
 				<f:content>
 					<core:Title text=""/>
 					<Label text="TCI Claim #"/>
-					<Text text="{LocalDataModel>/ClaimDetails/NumberOfWarrantyClaim}"/>
-					<Label text="VIN"/>
-					<Text text="{LocalDataModel>/ClaimDetails/ExternalObjectNumber}"/>
+					<Text text="{HeadSetData>/NumberOfWarrantyClaim}"/>
+					<Label text="VIN">
+					<layoutData>
+						<l:GridData span="XL3 L3"/>
+					</layoutData>
+					</Label>
+					<Text text="{HeadSetData>/ExternalObjectNumber}"/>
 					<core:Title text=""/>
 					<Label text="Dlr. Claim #"/>
-					<Text text="{LocalDataModel>/ClaimDetails/ExternalNumberOfClaim}"/>
-					<Label text="OFP"/>
-					<Text text="{LocalDataModel>/ClaimDetails/OFP}"/>
+					<Text text="{HeadSetData>/ExternalNumberOfClaim}"/>
+					<Label text="OFP">
+						<layoutData>
+							<l:GridData span="XL3 L3"/>
+						</layoutData>
+					</Label>
+					<Text text="{HeadSetData>/OFP}"/>
 					<core:Title text=""/>
 					<Label text="RO #."/>
-					<Text text="{LocalDataModel>/ClaimDetails/RepairOrderNumberExternal}"/>
+					<Text text="{HeadSetData>/RepairOrderNumberExternal}"/>
 					<Label text="Op #."/>
-					<Text text="{LocalDataModel>/ClaimDetails/MainOpsCode}"/>
+					<Text text="{HeadSetData>/MainOpsCode}"/>
 					<core:Title text=""/>
 					<Label text="Repair Date"/>
 					<Text
-						text="{path:'LocalDataModel>/ClaimDetails/RepairDate', type: 'sap.ui.model.type.Date', constraints: {displayFormat: 'Date' }, formatOptions: { style: 'medium', strictParsing: true , UTC: true}}"/>
+						text="{path:'HeadSetData>/RepairDate', type: 'sap.ui.model.type.Date', constraints: {displayFormat: 'Date' }, formatOptions: { style: 'medium', strictParsing: true , UTC: true}}"/>
 					<Label text="Reg. Date"/>
-					<Text
-						text="{path:'LocalDataModel>/ClaimDetails/RegDate'}"/>
+					<Text text="{path:'HeadSetData>/RegDate'}"/>
 					<core:Title text=""/>
 					<Label text="Odometer"/>
-					<Text text="{LocalDataModel>/ClaimDetails/OdometerReading}"/>
+					<Text text="{HeadSetData>/Odometer}"/>
 					<Label text="Elapse"/>
-					<Text text="{LocalDataModel>/ClaimDetails/ElapsedMonths}"/>
+					<Text text="{HeadSetData>/ElapsedMonths}"/>
 					<core:Title text=""/>
 					<Label text="Type"/>
-					<Text text="{LocalDataModel>/ClaimDetails/WarrantyClaimType}"/>
+					<Text text="{HeadSetData>/WarrantyClaimType}"/>
 					<Label text="Status"/>
-					<Text text="{LocalDataModel>/ClaimDetails/ProcessingStatusOfWarrantyClm}"/>
+					<Text text="{HeadSetData>/ProcessingStatusOfWarrantyClm}"/>
 				</f:content>
 			</f:SimpleForm>
 		</Panel>
@@ -107,7 +114,7 @@
 							<Label text="" textAlign="Center" width="100%"/>
 						</table:multiLabels>
 						<table:template>
-							<Text text="{LocalDataModel>ItemType}" wrapping="false"/>
+							<Text text="{LocalDataModel>ItemType}" wrapping="true"/>
 						</table:template>
 					</table:Column>
 					<table:Column width="11rem">
@@ -115,7 +122,7 @@
 							<Label text="Repair Amount" textAlign="Center" width="100%"/>
 						</table:multiLabels>
 						<table:template>
-							<Text text="{LocalDataModel>DealerClaim}" wrapping="false"/>
+							<Text text="{LocalDataModel>DealerClaim}" wrapping="true"/>
 						</table:template>
 					</table:Column>
 					<table:Column width="11rem">
@@ -123,7 +130,7 @@
 							<Label text="Customer" textAlign="Center" width="100%"/>
 						</table:multiLabels>
 						<table:template>
-							<Text text="{LocalDataModel>TCIAppr}" wrapping="false"/>
+							<Text text="{LocalDataModel>TCIAppr}" wrapping="true"/>
 						</table:template>
 					</table:Column>
 					<table:Column width="11rem">
@@ -131,7 +138,7 @@
 							<Label text="Dealer" textAlign="Center" width="100%"/>
 						</table:multiLabels>
 						<table:template>
-							<Text text="{LocalDataModel>Diff}" wrapping="false"/>
+							<Text text="{LocalDataModel>Diff}" wrapping="true"/>
 						</table:template>
 					</table:Column>
 					
@@ -140,7 +147,7 @@
 							<Label text="TCI" textAlign="Center" width="100%"/>
 						</table:multiLabels>
 						<table:template>
-							<Text text="{LocalDataModel>Diff}" wrapping="false"/>
+							<Text text="{LocalDataModel>Diff}" wrapping="true"/>
 						</table:template>
 					</table:Column>
 					
@@ -157,7 +164,7 @@
 							<Label text="" textAlign="Center" width="100%"/>
 						</table:multiLabels>
 						<table:template>
-							<Text text="{LocalDataModel>ItemType}" wrapping="false"/>
+							<Text text="{LocalDataModel>ItemType}" wrapping="true"/>
 						</table:template>
 					</table:Column>
 					<table:Column width="11rem">
@@ -165,7 +172,7 @@
 							<Label text="Amount" textAlign="Center" width="100%"/>
 						</table:multiLabels>
 						<table:template>
-							<Text text="{LocalDataModel>DealerClaim}" wrapping="false"/>
+							<Text text="{LocalDataModel>DealerClaim}" wrapping="true"/>
 						</table:template>
 					</table:Column>
 					<table:Column width="11rem">
@@ -173,7 +180,7 @@
 							<Label text="Mark-up %" textAlign="Center" width="100%"/>
 						</table:multiLabels>
 						<table:template>
-							<Text text="{LocalDataModel>TCIAppr}" wrapping="false"/>
+							<Text text="{LocalDataModel>TCIAppr}" wrapping="true"/>
 						</table:template>
 					</table:Column>
 					<table:Column width="11rem">
@@ -181,7 +188,7 @@
 							<Label text="Sub-total" textAlign="Center" width="100%"/>
 						</table:multiLabels>
 						<table:template>
-							<Text text="{LocalDataModel>Diff}" wrapping="false"/>
+							<Text text="{LocalDataModel>Diff}" wrapping="true"/>
 						</table:template>
 					</table:Column>
 					
@@ -190,7 +197,7 @@
 							<Label text="Discount %" textAlign="Center" width="100%"/>
 						</table:multiLabels>
 						<table:template>
-							<Text text="{LocalDataModel>Diff}" wrapping="false"/>
+							<Text text="{LocalDataModel>Diff}" wrapping="true"/>
 						</table:template>
 					</table:Column>
 					
@@ -199,7 +206,7 @@
 							<Label text="Discount Amount" textAlign="Center" width="100%"/>
 						</table:multiLabels>
 						<table:template>
-							<Text text="{LocalDataModel>Diff}" wrapping="false"/>
+							<Text text="{LocalDataModel>Diff}" wrapping="true"/>
 						</table:template>
 					</table:Column>
 					
@@ -208,7 +215,7 @@
 							<Label text="Claim Amount" textAlign="Center" width="100%"/>
 						</table:multiLabels>
 						<table:template>
-							<Text text="{LocalDataModel>Diff}" wrapping="false"/>
+							<Text text="{LocalDataModel>Diff}" wrapping="true"/>
 						</table:template>
 					</table:Column>
 					
@@ -217,7 +224,7 @@
 							<Label text="Authorized Amount" textAlign="Center" width="100%"/>
 						</table:multiLabels>
 						<table:template>
-							<Text text="{LocalDataModel>Diff}" wrapping="false"/>
+							<Text text="{LocalDataModel>Diff}" wrapping="true"/>
 						</table:template>
 					</table:Column>
 					

@@ -15,35 +15,43 @@
 				<f:content>
 					<core:Title text=""/>
 					<Label text="TCI Claim #"/>
-					<Text text="{LocalDataModel>/ClaimDetails/NumberOfWarrantyClaim}"/>
-					<Label text="VIN"/>
-					<Text text="{LocalDataModel>/ClaimDetails/ExternalObjectNumber}"/>
+					<Text text="{HeadSetData>/NumberOfWarrantyClaim}"/>
+					<Label text="VIN">
+					<layoutData>
+						<l:GridData span="XL3 L3"/>
+					</layoutData>
+					</Label>
+					<Text text="{HeadSetData>/ExternalObjectNumber}"/>
 					<core:Title text=""/>
 					<Label text="Dlr. Claim #"/>
-					<Text text="{LocalDataModel>/ClaimDetails/ExternalNumberOfClaim}"/>
-					<Label text="OFP"/>
-					<Text text="{LocalDataModel>/ClaimDetails/OFP}" id="idOFPart"/>
+					<Text text="{HeadSetData>/ExternalNumberOfClaim}"/>
+					<Label text="OFP">
+						<layoutData>
+							<l:GridData span="XL3 L3"/>
+						</layoutData>
+					</Label>
+					<Text text="{HeadSetData>/OFP}" id="idOFPart"/>
 					<core:Title text=""/>
 					<Label text="RO #."/>
-					<Text text="{LocalDataModel>/ClaimDetails/RepairOrderNumberExternal}"/>
+					<Text text="{HeadSetData>/RepairOrderNumberExternal}"/>
 					<Label text="Op #."/>
-					<Text text="{LocalDataModel>/ClaimDetails/MainOpsCode}"/>
+					<Text text="{HeadSetData>/MainOpsCode}"/>
 					<core:Title text=""/>
 					<Label text="Repair Date"/>
 					<Text
-						text="{path:'LocalDataModel>/ClaimDetails/RepairDate', type: 'sap.ui.model.type.Date', constraints: {displayFormat: 'Date' }, formatOptions: { style: 'medium', strictParsing: true , UTC: true}}"/>
+						text="{path:'HeadSetData>/RepairDate', type: 'sap.ui.model.type.Date', constraints: {displayFormat: 'Date' }, formatOptions: { style: 'medium', strictParsing: true , UTC: true}}"/>
 					<Label text="Reg. Date"/>
-					<Text text="{path:'LocalDataModel>/ClaimDetails/RegDate'}"/>
+					<Text text="{path:'HeadSetData>/RegDate'}"/>
 					<core:Title text=""/>
 					<Label text="Odometer"/>
-					<Text text="{LocalDataModel>/ClaimDetails/OdometerReading}"/>
+					<Text text="{HeadSetData>/Odometer}"/>
 					<Label text="Elapse"/>
-					<Text text="{LocalDataModel>/ClaimDetails/ElapsedMonths}"/>
+					<Text text="{HeadSetData>/ElapsedMonths}"/>
 					<core:Title text=""/>
 					<Label text="Type"/>
-					<Text text="{LocalDataModel>/ClaimDetails/WarrantyClaimType}"/>
+					<Text text="{HeadSetData>/WarrantyClaimType}"/>
 					<Label text="Status"/>
-					<Text text="{LocalDataModel>/ClaimDetails/ProcessingStatusOfWarrantyClm}"/>
+					<Text text="{HeadSetData>/ProcessingStatusOfWarrantyClm}"/>
 				</f:content>
 			</f:SimpleForm>
 		</Panel>
@@ -95,9 +103,9 @@
 						<core:Title text=""/>
 						<Label text=" " class="clTextIndent"/>
 						<Button text="Save Part" type="Emphasized" press="onPressSavePart" enabled="{DateModel>/partLine}">
-							<layoutData>
-								<l:GridData span="XL10 L10 "/>
-							</layoutData>
+							<!--<layoutData>-->
+							<!--	<l:GridData span="XL10 L10 "/>-->
+							<!--</layoutData>-->
 						</Button>
 					</f:content>
 				</f:SimpleForm>
@@ -105,55 +113,55 @@
 		</l:Grid>
 		<Table id="idTableParts" mode="SingleSelectLeft" items="{path: 'LocalDataModel>/PricingDataModel'}" growing="true" growingThreshold="5" noDataText="No Data" showNoData="true">
 			<columns>
-				<Column><Text text="Line #"/></Column>
-				<Column><Text text="OFP"/></Column>
-				<Column><Text text="Part Number"/></Column>
-				<Column><Text text="Description"/></Column>
+				<Column><Text text="Line #" textAlign="Center" width="100%"/></Column>
+				<Column><Text text="OFP" textAlign="Center" width="100%"/></Column>
+				<Column><Text text="Part Number" textAlign="Center" width="100%"/></Column>
+				<Column><Text text="Description" textAlign="Center" width="100%"/></Column>
 				<Column>
-					<Text text="Dealer Net Price"/>
+					<Text text="Dealer Net Price" textAlign="Center" width="100%"/>
 				</Column>
-				<Column><Text text="Quantity"/>
-				<footer><Text text="Sub-total : "/></footer>
+				<Column><Text text="Quantity" textAlign="Center" width="100%"/>
+				<footer><Text text="Sub-total : " textAlign="Center" width="100%"/></footer>
 				</Column>
 				<Column>
-					<Text text="Extended Value"/>
-					<footer><Text text="{path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnSumExtendedVal'}"/></footer>
+					<Text text="Extended Value" textAlign="Center" width="100%"/>
+					<footer><Text text="{path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnSumExtendedVal'}" textAlign="Center" width="100%"/></footer>
 					</Column>
 				<Column>
-					<Text text="Mark-up Amount"/>
-					<footer><Text text="{path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnSumMarkUpVal'}"/></footer>
+					<Text text="Mark-up Amount" textAlign="Center" width="100%"/>
+					<footer><Text text="{path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnSumMarkUpVal'}" textAlign="Center" width="100%"/></footer>
 				</Column>
 				<Column>
-					<Text text="Amount Claimed"/>
-					<footer><Text text="{path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnAmountClaimVal'}"/></footer>
+					<Text text="Amount Claimed" textAlign="Center" width="100%"/>
+					<footer><Text text="{path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnAmountClaimVal'}" textAlign="Center" width="100%"/></footer>
 				</Column>
-				<Column><Text text="Total After Discount"/>
-				<footer><Text text="{path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnAfterDiscVal'}"/></footer>
+				<Column><Text text="Total After Discount" textAlign="Center" width="100%"/>
+				<footer><Text text="{path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnAfterDiscVal'}" textAlign="Center" width="100%"/></footer>
 				</Column>
-				<Column><Text text="TCI Quantity Approved"/></Column>
-				<Column><Text text="TCI Amount Approved"/>
-				<footer><Text text="{path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnTCIAmtVal'}"/></footer>
+				<Column><Text text="TCI Quantity Approved" textAlign="Center" width="100%"/></Column>
+				<Column><Text text="TCI Amount Approved" textAlign="Center" width="100%"/>
+				<footer><Text text="{path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnTCIAmtVal'}" textAlign="Center" width="100%"/></footer>
 				</Column>
 				<Column><Text text="Difference"/>
-				<footer><Text text="{path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnDiffVal'}"/></footer>
+				<footer><Text text="{path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnDiffVal'}" textAlign="Center" width="100%"/></footer>
 				</Column>
 			</columns>
 			<items>
-				<ColumnListItem>
+				<ColumnListItem vAlign="Middle">
 					<cells>
-						<Text text="{LocalDataModel>posnr}"/>
-						<RadioButton groupName="A" id="idPartRadio" select="onSelectOFP"/>
-						<Text text="{LocalDataModel>matnr}" wrapping="false"/>
-						<Text text="{LocalDataModel>PartDescription}" wrapping="false"/>
-						<Text text="{LocalDataModel>DealerNet}"/>
-						<Text text="{LocalDataModel>QtyHrs}" wrapping="false"/>
-						<Text text="{LocalDataModel>ExtendedValue}" wrapping="false"/>
-						<Text text="{LocalDataModel>MarkUp}" wrapping="false"/>
-						<Text text="{LocalDataModel>AmtClaimed}" wrapping="false"/>
-						<Text text="{LocalDataModel>TotalAfterDisct}" wrapping="false"/>
-						<Text text="{LocalDataModel>TCIApprQty}" wrapping="false"/>
-						<Text text="{LocalDataModel>TCIApprAmt}" wrapping="false"/>
-						<Text text="{LocalDataModel>DiffAmt}" wrapping="false"/>
+						<Text text="{LocalDataModel>posnr}" textAlign="Center" width="100%"/>
+						<RadioButton groupName="A" id="idPartRadio" select="onSelectOFP" textAlign="Center" width="100%"/>
+						<Text text="{LocalDataModel>matnr}" wrapping="true" textAlign="Center" width="100%"/>
+						<Text text="{LocalDataModel>PartDescription}" wrapping="true" textAlign="Center" width="100%"/>
+						<Text text="{LocalDataModel>DealerNet}" textAlign="Center" width="100%"/>
+						<Text text="{LocalDataModel>QtyHrs}" wrapping="true" textAlign="Center" width="100%"/>
+						<Text text="{LocalDataModel>ExtendedValue}" wrapping="true" textAlign="Center" width="100%"/>
+						<Text text="{LocalDataModel>MarkUp}" wrapping="true" textAlign="Center" width="100%"/>
+						<Text text="{LocalDataModel>AmtClaimed}" wrapping="true" textAlign="Center" width="100%"/>
+						<Text text="{LocalDataModel>TotalAfterDisct}" wrapping="true" textAlign="Center" width="100%"/>
+						<Text text="{LocalDataModel>TCIApprQty}" wrapping="true" textAlign="Center" width="100%"/>
+						<Text text="{LocalDataModel>TCIApprAmt}" wrapping="true" textAlign="Center" width="100%"/>
+						<Text text="{LocalDataModel>DiffAmt}" wrapping="true" textAlign="Center" width="100%"/>
 					</cells>
 				</ColumnListItem>
 			</items>
