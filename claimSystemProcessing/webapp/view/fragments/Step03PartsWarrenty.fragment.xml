@@ -27,7 +27,7 @@
 					<Text text="{HeadSetData>/ExternalNumberOfClaim}"/>
 					<Label text="OFP">
 						<layoutData>
-							<l:GridData span="XL3 L3"/>
+							<l:GridData span="XL3 L4"/>
 						</layoutData>
 					</Label>
 					<Text text="{HeadSetData>/OFP}" id="idOFPart"/>
@@ -98,7 +98,7 @@
 						<Input value="" editable="false"/>
 						<core:Title text=""/>
 						<Label text="Quantity" textAlign="Left"/>
-						<Input value="{PartDataModel>/quant}" enabled="{DateModel>/partLine}"/>
+						<Input type="Number" value="{PartDataModel>/quant}" enabled="{DateModel>/partLine}"/>
 						<Text text="{LocalDataModel>/BaseUnit}"/>
 						<core:Title text=""/>
 						<Label text=" " class="clTextIndent"/>

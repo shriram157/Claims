@@ -1,5 +1,5 @@
 <core:FragmentDefinition xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:u="sap.ui.unified" xmlns:l="sap.ui.layout"
-	xmlns="sap.m" xmlns:table="sap.ui.table">
+	xmlns="sap.m" xmlns:table="sap.ui.table" xmlns:custom="zclaimProcessing.control">
 	<VBox class="sapUiSmallMargin clFormTitleGap">
 		<Panel width="auto" class="sapUiSmallMarginBottom" accessibleRole="Region">
 			<headerToolbar>
@@ -104,7 +104,7 @@
 					value="{path:'HeadSetData>/RepairOrderNumberExternal', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 10 }}"
 					id="idRepairOrder" editable="{DateModel>/oFormEdit}"/>
 				<Label text="R.O. Odometer"/>
-				<Input value="{path:'HeadSetData>/Odometer', type : 'sap.ui.model.type.Number', constraints : { minLength : 2, maxLength : 7 }}"
+				<Input type="Number" value="{path:'HeadSetData>/Odometer', type : 'sap.ui.model.type.Number', constraints : { minLength : 2, maxLength : 7 }}"
 					required="{DateModel>/OdometerReq}" visible="{DateModel>/OdometerReq}" id="idOdometer" editable="{DateModel>/OdometerReq}"/>
 			</f:content>
 		</f:SimpleForm>
@@ -239,9 +239,9 @@
 					value="{path:'HeadSetData>/ZCondition', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 100 }}"></TextArea>
 				<core:Title text=""/>
 				<Label text="OFP Description"/>
-				<Text text="{path:'HeadSetData>/OFPDescription'}"/>
+				<Text text="{path:'LocalDataModel>/OFPDescription'}"/>
 				<Label text="Main Op Description"/>
-				<Text text="{path:'HeadSetData>/MainOpsCodeDescription'}"/>
+				<Text text="{path:'LocalDataModel>/MainOpsCodeDescription'}"/>
 				<Label text="Field Action Code"/>
 				<Input required="{path:'DateModel>/oFieldActionInput'}" value="{path:'HeadSetData>/FieldActionReference'}" editable="{DateModel>/oFormEdit}"
 					enabled="{DateModel>/oFieldActionInput}" change="onFieldActionInput"/>
@@ -252,17 +252,17 @@
 				<Label text="Applied Coverage"/>
 				<Text text="{HeadSetData>/AppliedWarrantyCoverage}"/>
 				<Label text="T1 Code"/>
-				<ComboBox required="true" items="{ path: '/Zt1DescSrchhelpSet' }" selectedKey="{HeadSetData>/T1WarrantyCodes}"
+				<ComboBox showSecondaryValues="true" required="true" items="{ path: '/Zt1DescSrchhelpSet' }" selectedKey="{HeadSetData>/T1WarrantyCodes}"
 					enabled="{DateModel>/oFormEdit}" value="{HeadSetData>/T1WarrantyCodes}">
-					<core:Item key="{T1}" text="{T1} - {T1Text}"/>
+					<core:ListItem key="{T1}" text="{path:'T1', constraints : { minLength : 2, maxLength : 100 }}" additionalText="{T1Text}"/>
 				</ComboBox>
 				<!--<Select selectedKey="{HeadSetData>/T1WarrantyCodes}" items="{ path: '/Zt1DescSrchhelpSet' }" enabled="{DateModel>/oFormEdit}">-->
 				<!--	<core:Item key="{T1}" text="{T1} - {T1Text}"/>-->
 				<!--</Select>-->
 				<Label text="T2 Code"/>
-				<ComboBox required="true" items="{ path: '/Zt2DescSrchhelpSet' }" selectedKey="{HeadSetData>/T2WarrantyCodes}"
+				<ComboBox required="true" showSecondaryValues="true" items="{ path: '/Zt2DescSrchhelpSet' }" selectedKey="{HeadSetData>/T2WarrantyCodes}"
 					enabled="{DateModel>/oFormEdit}" value="{HeadSetData>/T2WarrantyCodes}">
-					<core:Item key="{T2}" text="{T2} - {T2Text}"/>
+					<core:ListItem key="{path:'T2', constraints : { minLength : 2, maxLength : 100 }}" text="{T2}" additionalText="{T2Text}"/>
 				</ComboBox>
 				<!--<Select selectedKey="{HeadSetData>/T2WarrantyCodes}" items="{ path: '/Zt2DescSrchhelpSet' }" enabled="{DateModel>/oFormEdit}">-->
 				<!--	<core:Item key="{T2}" text="{T2} - {T2Text}"/>-->
@@ -300,7 +300,7 @@
 					editable="{DateModel>/oFormEdit}"/>
 				<core:Title text=""/>
 				<Label text="R.O. Odometer"/>
-				<Input value="{path:'HeadSetData>/PreviousROOdometer'}" editable="{DateModel>/oFormEdit}"/>
+				<custom:CustomInput  value="{path:'HeadSetData>/PreviousROOdometer'}" editable="{DateModel>/oFormEdit}"/>
 			</f:content>
 		</f:SimpleForm>
 		<f:SimpleForm editable="{DateModel>/oFormEdit}" title="Claim Comments" layout="ResponsiveGridLayout" labelSpanXL="3" labelSpanL="3"
@@ -345,7 +345,7 @@
 								</OverflowToolbar>
 							</toolbar>
 							<items>
-								<UploadCollectionItem documentId="{ClaimModel>DOC_ID}" fileName="{ClaimModel>FileName}" mimeType="{ClaimModel>MIMETYPE}"
+								<UploadCollectionItem selected="onSelectUpload"  documentId="{ClaimModel>DOC_ID}" fileName="{ClaimModel>FileName}" mimeType="{ClaimModel>MIMETYPE}"
 									thumbnailUrl="{ClaimModel>url}" url="{ClaimModel>URI}" enableEdit="{settings>/enableEdit}" enableDelete="{settings>/enableDelete}"
 									visibleDelete="{settings>/visibleDelete}" visibleEdit="{settings>/visibleEdit}"></UploadCollectionItem>
 							</items>

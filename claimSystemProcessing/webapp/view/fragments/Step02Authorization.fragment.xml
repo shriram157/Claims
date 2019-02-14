@@ -26,7 +26,7 @@
 					<Text text="{HeadSetData>/ExternalNumberOfClaim}"/>
 					<Label text="OFP">
 						<layoutData>
-							<l:GridData span="XL3 L3"/>
+							<l:GridData span="XL3 L4"/>
 						</layoutData>
 					</Label>
 					<Text text="{HeadSetData>/OFP}"/>

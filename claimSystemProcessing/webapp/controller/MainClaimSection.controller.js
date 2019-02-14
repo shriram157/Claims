@@ -293,15 +293,6 @@ sap.ui.define([
 					error: function () {}
 				});
 
-				// oProssingModel.read("/zc_claim_attachmentsSet", {
-				// 		urlParameters: {
-				// 			"$filter": "NumberOfWarrantyClaim eq '" + oClaimNum + "'and AttachLevel eq 'SUBL'and FileName eq '" + fileName + "'"
-				// 		},
-				// 		success: $.proxy(function (subletData) {
-				// 			this.getModel("LocalDataModel").setProperty("/SubletAtchmentData", subletData.results[0]);
-				// 		}, this)
-				// 	});
-
 				oProssingModel.read("/ZC_CLAIM_HEAD", {
 					urlParameters: {
 						"$filter": "NumberOfWarrantyClaim eq '" + oClaim + "'"
@@ -310,8 +301,8 @@ sap.ui.define([
 						//console.log(sdata);
 						this.getModel("LocalDataModel").setProperty("/ClaimDetails", sdata.results[0]);
 						this.getView().getModel("HeadSetData").setData(sdata.results[0]);
-						this.getView().getModel("HeadSetData").setProperty("/OFPDescription", sdata.results[0].OfpDescription);
-						this.getView().getModel("HeadSetData").setProperty("/MainOpsCodeDescription", sdata.results[0].Main_opsDescription);
+						this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", sdata.results[0].OfpDescription);
+						this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", sdata.results[0].Main_opsDescription);
 
 					}, this)
 				});
@@ -351,13 +342,13 @@ sap.ui.define([
 						// "UnitOfMeasure"
 
 						var oFilteredDataLabour = pricinghData.filter(function (val) {
-							return val.ItemType === "FR" && val.LabourNumber[0] != "P";
+							return val.ItemType === "FR" && val.LabourNumber[14] != "P";
 						});
 						var LabourItem = oFilteredDataLabour.map(function (item) {
 							return {
 								ItemType: "FR",
 								Type: "LABOUR",
-								LabourNumber: item.LabourNumber,
+								LabourNumber: item.LabourNumber.slice(14),
 								LabourDescription: item.LabourDescription,
 								ClaimedHours: item.QtyHrs
 							};
@@ -367,14 +358,14 @@ sap.ui.define([
 						this.getModel("LocalDataModel").setProperty("/LabourPricingDataModel", oFilteredDataLabour);
 
 						var oFilteredDataPaint = pricinghData.filter(function (val) {
-							return val.ItemType === "FR" && val.LabourNumber[0] == "P";
+							return val.ItemType === "FR" && val.LabourNumber[14] == "P";
 						});
 						this.getModel("LocalDataModel").setProperty("/PaintPricingDataModel", oFilteredDataPaint);
 
 						var PaintItem = oFilteredDataPaint.map(function (item) {
 							return {
 								ItemType: "FR",
-								PaintPositionCode: item.LabourNumber,
+								PaintPositionCode: item.LabourNumber.slice(14),
 								ClaimedHours: item.QtyHrs
 							};
 
@@ -920,7 +911,15 @@ sap.ui.define([
 				this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
 				this.getView().byId("idMainClaimMessage").setType("Error");
 				return false;
-			} else if (oValid && oValid01 && oValid02) {
+			} else if (this.getView().getModel("HeadSetData").getProperty("/T1WarrantyCodes") == "") {
+				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+				this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
+				this.getView().byId("idMainClaimMessage").setType("Error");
+			}else if (this.getView().getModel("HeadSetData").getProperty("/T2WarrantyCodes") == "") {
+				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+				this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
+				this.getView().byId("idMainClaimMessage").setType("Error");
+			}else if (oValid && oValid01 && oValid02) {
 				var oActionCode = "";
 				if (this.getView().getModel("DateModel").getProperty("/oztac") == true) {
 					oActionCode = "ZTEA";
@@ -1017,61 +1016,6 @@ sap.ui.define([
 					}
 				};
 
-				// this.obj.zc_itemSet = {};
-				// this.obj.zc_itemSet.results = [];
-				// this.obj.zc_item_subletSet = {
-				// 	"results": []
-				// };
-
-				// this.obj.zc_claim_item_labourSet = {
-				// 	"results": []
-				// };
-
-				// this.obj.zc_claim_item_paintSet = {
-				// 	"results": []
-				// };
-				// this.obj.zc_claim_attachmentsSet = {
-				// 	"results": []
-				// };
-
-				// this.obj.zc_claim_vsrSet = {
-				// 	"results": []
-				// };
-
-				// this.obj.zc_claim_item_price_dataSet = {
-				// 	"results": [{
-				// 		"PartQty": "0.000",
-				// 		"AmtClaimed": "0.000",
-				// 		"clmno": "",
-				// 		"DealerNet": "0.000",
-				// 		"DiffAmt": "0.000",
-				// 		"ExtendedValue": "0.000",
-				// 		"ItemType": "",
-				// 		"kappl": "",
-				// 		"kateg": "",
-				// 		"kawrt": "0.000",
-				// 		"kbetr": "0.000",
-				// 		"knumv": "",
-				// 		"kposn": "",
-				// 		"kschl": "",
-				// 		"kvsl1": "",
-				// 		"kwert": "0.000",
-				// 		"MarkUp": "0.000",
-				// 		"matnr": "",
-				// 		"posnr": "",
-				// 		"QtyHrs": "0.000",
-				// 		"quant": "0.000",
-				// 		"TCIApprAmt": "0.000",
-				// 		"TCIApprQty": "0.000",
-				// 		"TotalAfterDisct": "0.000",
-				// 		"v_rejcd": "",
-				// 		"valic": "0.000",
-				// 		"valoc": "0.000",
-				// 		"verknumv": "",
-				// 		"versn": ""
-				// 	}]
-				// };
-
 				var oClaimModel = this.getModel("ProssingModel");
 				// this._oToken = oClaimModel.getHeaders()['x-csrf-token'];
 				// $.ajaxSetup({
@@ -1082,19 +1026,11 @@ sap.ui.define([
 				oClaimModel.refreshSecurityToken();
 				oClaimModel.create("/zc_headSet", this.obj, {
 					success: $.proxy(function (data, response) {
-						this.getView().getModel("HeadSetData").setProperty("/OFPDescription", response.OFPDescription);
-							this.getView().getModel("HeadSetData").setProperty("/MainOpsCodeDescription", response.MainOpsCodeDescription);
+						this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", response.data.OFPDescription);
+						this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.data.MainOpsCodeDescription);
 						this.getModel("LocalDataModel").setProperty("/WarrantyClaimNum", response.data.NumberOfWarrantyClaim);
 						MessageToast.show("Claim has been saved successfully");
-						//var oArr = [];
-						// oClaimModel.read("/ZC_CLAIM_SUM(p_clmno='" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") + "')/Set", {
-						// 	success: $.proxy(function (odata) {
-						// 		oArr.push(odata.results[0], odata.results[3]);
-						// 		this.getModel("LocalDataModel").setProperty("/ClaimSum", oArr);
-						// 		this.getView().getModel("DateModel").setProperty("/saveClaimSt", false);
-						// 		this.getView().getModel("DateModel").setProperty("/updateClaimSt", true);
-						// 	}, this)
-						// });
+
 						this.getView().getModel("DateModel").setProperty("/saveClaimSt", false);
 						this.getView().getModel("DateModel").setProperty("/updateClaimSt", true);
 						this.getModel("LocalDataModel").setProperty("/CancelEnable", true);
@@ -1106,8 +1042,8 @@ sap.ui.define([
 							success: $.proxy(function (sdata) {
 								//console.log(sdata);
 								this.getModel("LocalDataModel").setProperty("/ClaimDetails", sdata.results[0]);
-								this.getView().getModel("HeadSetData").setProperty("/OFPDescription", sdata.results[0].OfpDescription);
-						this.getView().getModel("HeadSetData").setProperty("/MainOpsCodeDescription", sdata.results[0].Main_opsDescription);
+								this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", sdata.results[0].OfpDescription);
+								this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", sdata.results[0].Main_opsDescription);
 								this.getView().getModel("HeadSetData").setData(sdata.results[0]);
 								var oCLaim = this.getModel("LocalDataModel").getProperty("/ClaimDetails/NumberOfWarrantyClaim");
 								this.getView().getModel("HeadSetData").setProperty("/NumberOfWarrantyClaim", oCLaim);
@@ -1221,7 +1157,7 @@ sap.ui.define([
 					});
 
 					var oFilteredDataLabour = pricinghData.filter(function (val) {
-						return val.ItemType === "FR" && val.LabourNumber[0] != "P";
+						return val.ItemType === "FR" && val.LabourNumber[14] != "P";
 					});
 					var LabourItem = oFilteredDataLabour.map(function (item) {
 						return {
@@ -1237,7 +1173,7 @@ sap.ui.define([
 					this.getModel("LocalDataModel").setProperty("/LabourPricingDataModel", oFilteredDataLabour);
 
 					var oFilteredDataPaint = pricinghData.filter(function (val) {
-						return val.ItemType === "FR" && val.LabourNumber[0] == "P";
+						return val.ItemType === "FR" && val.LabourNumber[14] == "P";
 					});
 					this.getModel("LocalDataModel").setProperty("/PaintPricingDataModel", oFilteredDataPaint);
 
@@ -1334,8 +1270,8 @@ sap.ui.define([
 					oClaimModel.create("/zc_headSet", this.obj, {
 
 						success: $.proxy(function (response) {
-							this.getView().getModel("HeadSetData").setProperty("/OFPDescription", response.OFPDescription);
-							this.getView().getModel("HeadSetData").setProperty("/MainOpsCodeDescription", response.MainOpsCodeDescription);
+							this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", response.OFPDescription);
+							this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.MainOpsCodeDescription);
 							MessageToast.show("Claim has been Updated successfully");
 							this.getModel("LocalDataModel").setProperty("/CancelEnable", true);
 						}, this),
@@ -1494,8 +1430,8 @@ sap.ui.define([
 
 			oClaimModel.create("/zc_headSet", this.obj, {
 				success: $.proxy(function (data, response) {
-					this.getView().getModel("HeadSetData").setProperty("/OFPDescription", response.OFPDescription);
-							this.getView().getModel("HeadSetData").setProperty("/MainOpsCodeDescription", response.MainOpsCodeDescription);
+					this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", response.OFPDescription);
+					this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.MainOpsCodeDescription);
 					MessageToast.show("SuccesFully Uploaded");
 					this.obj.zc_claim_attachmentsSet.results.pop();
 					oClaimModel.read("/zc_claim_attachmentsSet", {
@@ -1537,11 +1473,36 @@ sap.ui.define([
 			// 	"AttchType": "SubDoc"
 			// };
 
+			// var isProxy = "";
+			// if (window.document.domain == "localhost") {
+			// 	isProxy = "proxy";
+			// }
+			// var w = window.open(isProxy +
+			// 	"/node/ZECP_SALES_ODATA_SERVICE_SRV/zc_ecp_agreement_printSet(AGRNUM='" + oAgr + "',LANG='E')/$value",
+			// 	'_blank');
+			// if (w == null) {
+			// 	console.log("Error");
+			// 	//MessageBox.warning(oBundle.getText("Error.PopUpBloqued"));
+			// }
+
+			var isProxy = "";
+			if (window.document.domain == "localhost") {
+				isProxy = "proxy";
+			}
+			var oURI = isProxy + "/node/ZDLR_CLAIM_SRV/zc_attachSet(NumberOfWarrantyClaim='" + oClaimNum + "', FileName='" + fileName +
+				"')/$value";
+			if (oURI == null) {
+				console.log("Error");
+				//MessageBox.warning(oBundle.getText("Error.PopUpBloqued"));
+			}
+			console.log(oURI);
+
 			var itemObj = {
 				"NumberOfWarrantyClaim": oClaimNum,
 				"ContentLine": this.oBase,
 				"COMP_ID": fileName,
-				"Mimetype": fileType
+				"Mimetype": fileType,
+				"URI": oURI
 			};
 
 			// this.obj.zc_claim_attachmentsSet.results.push(itemObj);
@@ -1577,7 +1538,9 @@ sap.ui.define([
 			});
 
 		},
-
+		onSelectUpload: function (oEvent) {
+			console.log(OEvent);
+		},
 		onFileDeleted: function (oEvent) {
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			this.deleteItemById(oEvent.getParameter("documentId"), "ClaimModel");
@@ -1598,7 +1561,7 @@ sap.ui.define([
 				method: "DELETE",
 				success: $.proxy(function () {
 					oClaimModel.refresh();
-					
+
 					oClaimModel.read("/zc_claim_attachmentsSet", {
 						urlParameters: {
 							"$filter": "NumberOfWarrantyClaim eq '" + oClaimNum + "'"
@@ -1722,9 +1685,14 @@ sap.ui.define([
 
 			if (this.getView().getModel("HeadSetData").getProperty("/ClaimType") != "A1" && this.getView().getModel("HeadSetData").getProperty(
 					"/ClaimType") != "A2" && this.getView().getModel("HeadSetData").getProperty("/ClaimType") != "AC" && this.getView().getModel(
-					"HeadSetData").getProperty("/ClaimType") != "MS" && this.getModel("LocalDataModel").getProperty(
-					"/oFieldAction") != "FIELD ACTION" && this.getView().getModel("HeadSetData").getProperty("/ClaimType") != "CP" && this.getView().getModel(
-					"HeadSetData").getProperty("/ClaimType") != "SR") {
+					"HeadSetData").getProperty("/ClaimType") != "MS" && 
+					this.getModel("LocalDataModel").getProperty("/oFieldAction") != "FIELD ACTION" && 
+					this.getView().getModel("HeadSetData").getProperty("/ClaimType") != "CP" && 
+					this.getView().getModel("HeadSetData").getProperty("/ClaimType") != "SR" && 
+					this.getView().getModel("HeadSetData").getProperty("/ClaimType") != "ER" &&
+					this.getView().getModel("HeadSetData").getProperty("/ClaimType") != "WE" &&
+					this.getView().getModel("HeadSetData").getProperty("/ClaimType") != "LS"
+					) {
 				this.getView().byId("idFilter02").setProperty("enabled", true);
 				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab2");
 			} else if (this.getView().getModel("HeadSetData").getProperty("/ClaimType") == "MS") {
@@ -1819,7 +1787,10 @@ sap.ui.define([
 					"/ClaimType") != "A1" && this.getView().getModel("HeadSetData").getProperty("/ClaimType") != "A2" && this.getView().getModel(
 					"HeadSetData").getProperty("/ClaimType") != "AC" && this.getModel("LocalDataModel").getProperty(
 					"/oFieldAction") != "FIELD ACTION" && this.getView().getModel("HeadSetData").getProperty("/ClaimType") != "CP" && this.getView().getModel(
-					"HeadSetData").getProperty("/ClaimType") != "SR") {
+					"HeadSetData").getProperty("/ClaimType") != "SR" &&
+					this.getView().getModel("HeadSetData").getProperty("/ClaimType") != "ER" &&
+					this.getView().getModel("HeadSetData").getProperty("/ClaimType") != "WE" &&
+					this.getView().getModel("HeadSetData").getProperty("/ClaimType") != "LS") {
 				this.getView().byId("idFilter02").setProperty("enabled", true);
 				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab2");
 			} else {
@@ -1834,7 +1805,12 @@ sap.ui.define([
 					"HeadSetData").getProperty("/ClaimType") != "AC" && this.getView().getModel("HeadSetData").getProperty("/ClaimType") != "P1" &&
 				this.getModel(
 					"LocalDataModel").getProperty("/oFieldAction") != "FIELD ACTION" && this.getView().getModel("HeadSetData").getProperty(
-					"/ClaimType") != "CP" && this.getView().getModel("HeadSetData").getProperty("/ClaimType") != "SR") {
+					"/ClaimType") != "CP" && 
+					this.getView().getModel("HeadSetData").getProperty("/ClaimType") != "SR" &&
+					this.getView().getModel("HeadSetData").getProperty("/ClaimType") != "ER" &&
+					this.getView().getModel("HeadSetData").getProperty("/ClaimType") != "WE" &&
+					this.getView().getModel("HeadSetData").getProperty("/ClaimType") != "LS"
+					) {
 				this.getView().byId("idFilter05").setProperty("enabled", true);
 				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab5");
 			} else {
@@ -1853,8 +1829,12 @@ sap.ui.define([
 			if (this.getView().getModel("HeadSetData").getProperty("/ClaimType") != "MS" && this.getView().getModel("HeadSetData").getProperty(
 					"/ClaimType") != "A1" && this.getView().getModel("HeadSetData").getProperty("/ClaimType") != "A2" && this.getView().getModel(
 					"HeadSetData").getProperty("/ClaimType") != "AC" && this.getModel("LocalDataModel").getProperty(
-					"/oFieldAction") != "FIELD ACTION" && this.getView().getModel("HeadSetData").getProperty("/ClaimType") != "CP" && this.getView().getModel(
-					"HeadSetData").getProperty("/ClaimType") != "SR") {
+					"/oFieldAction") != "FIELD ACTION" && this.getView().getModel("HeadSetData").getProperty("/ClaimType") != "CP" && 
+					this.getView().getModel("HeadSetData").getProperty("/ClaimType") != "SR" &&
+					this.getView().getModel("HeadSetData").getProperty("/ClaimType") != "ER" &&
+					this.getView().getModel("HeadSetData").getProperty("/ClaimType") != "WE" &&
+					this.getView().getModel("HeadSetData").getProperty("/ClaimType") != "LS"
+					) {
 				this.getView().byId("idFilter06").setProperty("enabled", true);
 				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab6");
 			}
@@ -2143,8 +2123,8 @@ sap.ui.define([
 			oClaimModel.create("/zc_headSet", this.obj, {
 				success: $.proxy(function (data, response) {
 					var pricinghData = response.data.zc_claim_item_price_dataSet.results;
-					this.getView().getModel("HeadSetData").setProperty("/OFPDescription", response.OFPDescription);
-					this.getView().getModel("HeadSetData").setProperty("/MainOpsCodeDescription", response.MainOpsCodeDescription);
+					this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", response.OFPDescription);
+					this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.MainOpsCodeDescription);
 					var oFilteredData = pricinghData.filter(function (val) {
 						return val.ItemType === "MAT";
 					});
@@ -2218,8 +2198,8 @@ sap.ui.define([
 						var oFilteredData = pricinghData.filter(function (val) {
 							return val.ItemType === "MAT";
 						});
-						this.getView().getModel("HeadSetData").setProperty("/OFPDescription", response.OFPDescription);
-						this.getView().getModel("HeadSetData").setProperty("/MainOpsCodeDescription", response.MainOpsCodeDescription);
+						this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", response.OFPDescription);
+						this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.MainOpsCodeDescription);
 						console.log(oFilteredData);
 						this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
 						this._fnClaimSum();
@@ -2261,8 +2241,8 @@ sap.ui.define([
 							return val.ItemType === "MAT";
 
 						});
-						this.getView().getModel("HeadSetData").setProperty("/OFPDescription", response.OFPDescription);
-						this.getView().getModel("HeadSetData").setProperty("/MainOpsCodeDescription", response.MainOpsCodeDescription);
+						this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", response.OFPDescription);
+						this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.MainOpsCodeDescription);
 						console.log(oFilteredData);
 						this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
 						oTable.removeSelections("true");
@@ -2369,8 +2349,8 @@ sap.ui.define([
 			}
 			evt.getSource().getBinding("items").filter([]);
 		},
-		
-			_handleValueHelpClosePaint: function (evt) {
+
+		_handleValueHelpClosePaint: function (evt) {
 			var oSelectedItem = evt.getParameter("selectedItem");
 			if (oSelectedItem) {
 				var oTitle = oSelectedItem.getTitle();
@@ -2387,51 +2367,51 @@ sap.ui.define([
 			}
 			evt.getSource().getBinding("items").filter([]);
 		},
-		
+
 		handleValueHelpLabour: function (oEvent) {
 			var sInputValue = oEvent.getSource().getValue();
 
 			this.inputId = oEvent.getSource().getId();
 			// create value help dialog
-			if (!this._valueHelpDialog) {
-				this._valueHelpDialog = sap.ui.xmlfragment(
+			if (!this._valueHelpDialog01) {
+				this._valueHelpDialog01 = sap.ui.xmlfragment(
 					"zclaimProcessing.view.fragments.LabourValueHelp",
 					this
 				);
-				this.getView().addDependent(this._valueHelpDialog);
+				this.getView().addDependent(this._valueHelpDialog01);
 			}
 
 			// create a filter for the binding
-			this._valueHelpDialog.getBinding("items").filter([new Filter(
+			this._valueHelpDialog01.getBinding("items").filter([new Filter(
 				"J_3GKATNRC",
 				sap.ui.model.FilterOperator.Contains, sInputValue
 			)]);
 
 			// open value help dialog filtered by the input value
-			this._valueHelpDialog.open(sInputValue);
+			this._valueHelpDialog01.open(sInputValue);
 		},
-		
+
 		handleValueHelpPaint: function (oEvent) {
 			var sInputValue = oEvent.getSource().getValue();
 
 			this.inputId = oEvent.getSource().getId();
 			// create value help dialog
-			if (!this._valueHelpDialog) {
-				this._valueHelpDialog = sap.ui.xmlfragment(
+			if (!this._valueHelpDialog02) {
+				this._valueHelpDialog02 = sap.ui.xmlfragment(
 					"zclaimProcessing.view.fragments.PaintValueHelp",
 					this
 				);
-				this.getView().addDependent(this._valueHelpDialog);
+				this.getView().addDependent(this._valueHelpDialog02);
 			}
 
 			// create a filter for the binding
-			this._valueHelpDialog.getBinding("items").filter([new Filter(
+			this._valueHelpDialog02.getBinding("items").filter([new Filter(
 				"J_3GKATNRC",
 				sap.ui.model.FilterOperator.Contains, sInputValue
 			)]);
 
 			// open value help dialog filtered by the input value
-			this._valueHelpDialog.open(sInputValue);
+			this._valueHelpDialog02.open(sInputValue);
 		},
 
 		// onSuggest : function(event){
@@ -2543,18 +2523,18 @@ sap.ui.define([
 					console.log(response);
 					var pricinghData = response.data.zc_claim_item_price_dataSet.results;
 					var oFilteredData = pricinghData.filter(function (val) {
-						return val.ItemType === "FR" && val.ItemKey[0] != "P";
+						return val.ItemType === "FR" && val.ItemKey[14] != "P";
 					});
-					this.getView().getModel("HeadSetData").setProperty("/OFPDescription", response.OFPDescription);
-					this.getView().getModel("HeadSetData").setProperty("/MainOpsCodeDescription", response.MainOpsCodeDescription);
+					this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", response.OFPDescription);
+					this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.MainOpsCodeDescription);
 					console.log(oFilteredData);
 					this.getModel("LocalDataModel").setProperty("/LabourPricingDataModel", oFilteredData);
 					//this.getModel("LocalDataModel").setProperty("/WarrantyClaimNum", response.data.NumberOfWarrantyClaim);
 					MessageToast.show("Claim Item has been saved successfully");
 					this.getView().getModel("DateModel").setProperty("/labourLine", false);
-					this.getView().getModel("LabourDataModel").setProperty("/LabourOp", " ");
-					this.getView().getModel("LabourDataModel").setProperty("/ClaimedHours", " ");
-					this.getView().getModel("LabourDataModel").setProperty("/LabourDescription", " ");
+					this.getView().getModel("LabourDataModel").setProperty("/LabourOp", "");
+					this.getView().getModel("LabourDataModel").setProperty("/ClaimedHours", "");
+					this.getView().getModel("LabourDataModel").setProperty("/LabourDescription", "");
 					this._fnClaimSum();
 					oTable.removeSelections("true");
 				}, this),
@@ -2595,10 +2575,10 @@ sap.ui.define([
 					success: $.proxy(function (data, response) {
 						var pricinghData = response.data.zc_claim_item_price_dataSet.results;
 						var oFilteredData = pricinghData.filter(function (val) {
-							return val.ItemType === "FR" && val.ItemKey[0] != "P";
+							return val.ItemType === "FR" && val.ItemKey[14] != "P";
 						});
-						this.getView().getModel("HeadSetData").setProperty("/OFPDescription", response.OFPDescription);
-						this.getView().getModel("HeadSetData").setProperty("/MainOpsCodeDescription", response.MainOpsCodeDescription);
+						this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", response.OFPDescription);
+						this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.MainOpsCodeDescription);
 						console.log(oFilteredData);
 						this.getModel("LocalDataModel").setProperty("/LabourPricingDataModel", oFilteredData);
 						MessageToast.show("Claim has been deleted successfully");
@@ -2656,10 +2636,10 @@ sap.ui.define([
 					success: $.proxy(function (data, response) {
 						var pricinghData = response.data.zc_claim_item_price_dataSet.results;
 						var oFilteredData = pricinghData.filter(function (val) {
-							return val.ItemType === "FR" && val.ItemKey[0] != "P";
+							return val.ItemType === "FR" && val.ItemKey[14] != "P";
 						});
-						this.getView().getModel("HeadSetData").setProperty("/OFPDescription", response.OFPDescription);
-						this.getView().getModel("HeadSetData").setProperty("/MainOpsCodeDescription", response.MainOpsCodeDescription);
+						this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", response.OFPDescription);
+						this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.MainOpsCodeDescription);
 						console.log(oFilteredData);
 						this.getModel("LocalDataModel").setProperty("/LabourPricingDataModel", oFilteredData);
 						oTable.removeSelections("true");
@@ -2706,10 +2686,10 @@ sap.ui.define([
 					console.log(response);
 					var pricinghData = response.data.zc_claim_item_price_dataSet.results;
 					var oFilteredData = pricinghData.filter(function (val) {
-						return val.ItemType === "FR" && val.ItemKey[0] == "P";
+						return val.ItemType === "FR" && val.ItemKey[14] == "P";
 					});
-					this.getView().getModel("HeadSetData").setProperty("/OFPDescription", response.OFPDescription);
-					this.getView().getModel("HeadSetData").setProperty("/MainOpsCodeDescription", response.MainOpsCodeDescription);
+					this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", response.OFPDescription);
+					this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.MainOpsCodeDescription);
 					console.log(oFilteredData);
 					this.getModel("LocalDataModel").setProperty("/PaintPricingDataModel", oFilteredData);
 					//this.getModel("LocalDataModel").setProperty("/WarrantyClaimNum", response.data.NumberOfWarrantyClaim);
@@ -2755,10 +2735,10 @@ sap.ui.define([
 					success: $.proxy(function (data, response) {
 						var pricinghData = response.data.zc_claim_item_price_dataSet.results;
 						var oFilteredData = pricinghData.filter(function (val) {
-							return val.ItemType === "FR" && val.ItemKey[0] == "P";
+							return val.ItemType === "FR" && val.ItemKey[14] == "P";
 						});
-						this.getView().getModel("HeadSetData").setProperty("/OFPDescription", response.OFPDescription);
-						this.getView().getModel("HeadSetData").setProperty("/MainOpsCodeDescription", response.MainOpsCodeDescription);
+						this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", response.OFPDescription);
+						this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.MainOpsCodeDescription);
 						console.log(oFilteredData);
 						this.getModel("LocalDataModel").setProperty("/PaintPricingDataModel", oFilteredData);
 						MessageToast.show("Claim has been deleted successfully");
@@ -2823,8 +2803,8 @@ sap.ui.define([
 						var oFilteredData = pricinghData.filter(function (val) {
 							return val.ItemType === "SUBL";
 						});
-						this.getView().getModel("HeadSetData").setProperty("/OFPDescription", response.OFPDescription);
-						this.getView().getModel("HeadSetData").setProperty("/MainOpsCodeDescription", response.MainOpsCodeDescription);
+						this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", response.OFPDescription);
+						this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.MainOpsCodeDescription);
 						console.log(oFilteredData);
 						this.getModel("LocalDataModel").setProperty("/SubletPricingDataModel", oFilteredData);
 						//this.getModel("LocalDataModel").setProperty("/WarrantyClaimNum", response.data.NumberOfWarrantyClaim);
@@ -2897,8 +2877,8 @@ sap.ui.define([
 						var oFilteredData = pricinghData.filter(function (val) {
 							return val.ItemType === "SUBL";
 						});
-						this.getView().getModel("HeadSetData").setProperty("/OFPDescription", response.OFPDescription);
-						this.getView().getModel("HeadSetData").setProperty("/MainOpsCodeDescription", response.MainOpsCodeDescription);
+						this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", response.OFPDescription);
+						this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.MainOpsCodeDescription);
 						console.log(oFilteredData);
 						this.getModel("LocalDataModel").setProperty("/SubletPricingDataModel", oFilteredData);
 						oTable.removeSelections("true");
@@ -2938,8 +2918,8 @@ sap.ui.define([
 						var oFilteredData = pricinghData.filter(function (val) {
 							return val.ItemType === "SUBL";
 						});
-						this.getView().getModel("HeadSetData").setProperty("/OFPDescription", response.OFPDescription);
-						this.getView().getModel("HeadSetData").setProperty("/MainOpsCodeDescription", response.MainOpsCodeDescription);
+						this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", response.OFPDescription);
+						this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.MainOpsCodeDescription);
 						console.log(oFilteredData);
 						this.getModel("LocalDataModel").setProperty("/SubletPricingDataModel", oFilteredData);
 						MessageToast.show("Claim has been deleted successfully");
@@ -2973,8 +2953,8 @@ sap.ui.define([
 
 			oClaimModel.create("/zc_headSet", this.obj, {
 				success: function (data, response) {
-					this.getView().getModel("HeadSetData").setProperty("/OFPDescription", response.OFPDescription);
-					this.getView().getModel("HeadSetData").setProperty("/MainOpsCodeDescription", response.MainOpsCodeDescription);
+					this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", response.OFPDescription);
+					this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.MainOpsCodeDescription);
 					MessageToast.show("Claim has been Saved successfully");
 				},
 				error: function () {
@@ -3066,8 +3046,8 @@ sap.ui.define([
 							oClaimModel.refreshSecurityToken();
 							oClaimModel.create("/zc_headSet", this.obj, {
 								success: $.proxy(function (data, response) {
-									this.getView().getModel("HeadSetData").setProperty("/OFPDescription", response.OFPDescription);
-							this.getView().getModel("HeadSetData").setProperty("/MainOpsCodeDescription", response.MainOpsCodeDescription);
+									this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", response.OFPDescription);
+									this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.MainOpsCodeDescription);
 									// var oErrorSet = response.data.zc_claim_vsrSet.results;
 									this.getModel("LocalDataModel").setProperty("/oErrorSet", response.data.zc_claim_vsrSet.results);
 									if (response.data.zc_claim_vsrSet.results.length <= 0) {

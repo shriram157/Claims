@@ -31,7 +31,7 @@ modules:
       register-service-url: true
       service-name: claimSystemProcessing
       service-url: '${default-url}'
-      disk-quota: 256M
+      disk-quota: 512M
       memory: 256M
    build-parameters:
       builder: grunt

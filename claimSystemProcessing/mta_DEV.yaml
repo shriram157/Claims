@@ -12,7 +12,7 @@ modules:
       register-service-url: true
       service-name: claimSystemProcessing_Node
       service-url: '${default-url}'
-      disk-quota: 256MB
+      disk-quota: 512MB
       memory: 256MB
    requires:
     - name: CLAIM_SYSTEM_PROCESSING_CUPS
