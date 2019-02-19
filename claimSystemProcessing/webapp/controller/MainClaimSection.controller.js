@@ -1962,12 +1962,6 @@ sap.ui.define([
 			var ogetKey = this.ogetSelectedKey.split("Tab")[1];
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 
-			// if (ogetKey > 1 && ogetKey <= 8) {
-			// 	var oSelectedNum = ogetKey - 1;
-			// 	this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab" + oSelectedNum + "");
-			// } else {
-			// 	this.getRouter().navTo("SearchClaim");
-			// }
 
 			var that = this;
 			var dialog = new Dialog({
