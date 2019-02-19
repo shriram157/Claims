@@ -14,10 +14,9 @@
 				<f:content>
 					<core:Title text=""/>
 					<Label text="Claim Type"/>
-					<ComboBox showSecondaryValues="true" required="true" items="{path:'LocalDataModel>/ClaimGroupSet'}"  selectionChange="onSelectClaimTpe" selectedKey="{HeadSetData>/ClaimType}"
-						enabled="{DateModel>/claimTypeEn}" value="{HeadSetData>/ClaimType}" >
-						<core:ListItem text="{LocalDataModel>ALMClaimType}" key="{LocalDataModel>ALMClaimType}"
-						additionalText="{LocalDataModel>ALMClaimTypeDes}"/>
+					<ComboBox showSecondaryValues="true" required="true" items="{path:'LocalDataModel>/ClaimGroupSet'}" selectionChange="onSelectClaimTpe"
+						selectedKey="{HeadSetData>/ClaimType}" enabled="{DateModel>/claimTypeEn}" value="{HeadSetData>/ClaimType}">
+						<core:ListItem text="{LocalDataModel>ALMClaimType}" key="{LocalDataModel>ALMClaimType}" additionalText="{LocalDataModel>ALMClaimTypeDes}"/>
 					</ComboBox>
 					<core:Title text=""/>
 					<Label text="First Submission Date"/>
@@ -58,28 +57,7 @@
 					</Button>
 				</f:content>
 			</f:SimpleForm>
-			<!--<HBox justifyContent="End">-->
-			<!--	<Button text="Save Claim"  class="sapUiSmallMarginEnd" type="Emphasized" press="onSaveClaim" visible="{DateModel>/saveClaimSt}">-->
-			<!--		<layoutData>-->
-			<!--			<l:GridData span="XL3 L4 M6 S12"/>-->
-			<!--		</layoutData>-->
-			<!--	</Button>-->
-			<!--	<Button text="Edit" class="sapUiSmallMarginEnd" type="Emphasized" press="onEditClaim" visible="{DateModel>/claimEditSt}">-->
-			<!--		<layoutData>-->
-			<!--			<l:GridData span="XL3 L4 M6 S12"/>-->
-			<!--		</layoutData>-->
-			<!--	</Button>-->
-			<!--	<Button text="Save Claim" class="sapUiSmallMarginEnd" enabled="{DateModel>/updateEnable}" type="Emphasized" press="onUpdateClaim" visible="{DateModel>/updateClaimSt}">-->
-			<!--		<layoutData>-->
-			<!--			<l:GridData span="XL3 L4 M6 S12"/>-->
-			<!--		</layoutData>-->
-			<!--	</Button>-->
-			<!--	<Button text="Copy to Claim" type="Default" press="onCopyClaim">-->
-			<!--		<layoutData>-->
-			<!--			<l:GridData span="XL4 L4 M6 S12"/>-->
-			<!--		</layoutData>-->
-			<!--	</Button>-->
-			<!--</HBox>-->
+		
 		</Panel>
 		<f:SimpleForm id="idClaimMainForm" editable="" title="Repair Order Information" layout="ResponsiveGridLayout" labelSpanXL="12"
 			labelSpanL="12" labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
@@ -105,7 +83,8 @@
 					value="{path:'HeadSetData>/RepairOrderNumberExternal', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 10 }}"
 					id="idRepairOrder" editable="{DateModel>/oFormEdit}"/>
 				<Label text="R.O. Odometer"/>
-				<custom:CustomInput  value="{path:'HeadSetData>/Odometer', type : 'sap.ui.model.type.Number', constraints : { minLength : 2, maxLength : 7 }}"
+				<custom:CustomInput
+					value="{path:'HeadSetData>/Odometer', type : 'sap.ui.model.type.Number', constraints : { minLength : 2, maxLength : 7 }}"
 					required="{DateModel>/OdometerReq}" visible="{DateModel>/OdometerReq}" id="idOdometer" editable="{DateModel>/OdometerReq}"/>
 			</f:content>
 		</f:SimpleForm>
@@ -301,7 +280,7 @@
 					editable="{DateModel>/oFormEdit}"/>
 				<core:Title text=""/>
 				<Label text="R.O. Odometer"/>
-				<custom:CustomInput  value="{path:'HeadSetData>/PreviousROOdometer'}" editable="{DateModel>/oFormEdit}"/>
+				<custom:CustomInput value="{path:'HeadSetData>/PreviousROOdometer'}" editable="{DateModel>/oFormEdit}"/>
 			</f:content>
 		</f:SimpleForm>
 		<f:SimpleForm editable="{DateModel>/oFormEdit}" title="Claim Comments" layout="ResponsiveGridLayout" labelSpanXL="3" labelSpanL="3"
@@ -346,9 +325,9 @@
 								</OverflowToolbar>
 							</toolbar>
 							<items>
-								<UploadCollectionItem selected="onSelectUpload"  documentId="{ClaimModel>DOC_ID}" fileName="{ClaimModel>FileName}" mimeType="{ClaimModel>MIMETYPE}"
-									thumbnailUrl="{ClaimModel>url}" url="{ClaimModel>URI}" enableEdit="{settings>/enableEdit}" enableDelete="{settings>/enableDelete}"
-									visibleDelete="{settings>/visibleDelete}" visibleEdit="{settings>/visibleEdit}"></UploadCollectionItem>
+								<UploadCollectionItem selected="onSelectUpload" documentId="{ClaimModel>DOC_ID}" fileName="{ClaimModel>FileName}"
+									mimeType="{ClaimModel>MIMETYPE}" thumbnailUrl="{ClaimModel>url}" url="{ClaimModel>URI}" enableEdit="{settings>/enableEdit}"
+									enableDelete="{settings>/enableDelete}" visibleDelete="{settings>/visibleDelete}" visibleEdit="{settings>/visibleEdit}"></UploadCollectionItem>
 							</items>
 						</UploadCollection>
 					</f:content>

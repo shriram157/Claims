@@ -1173,7 +1173,7 @@ sap.ui.define([
 			dialog.open();
 
 		},
-		_fnUpdateClaim : function(){
+		_fnUpdateClaim: function () {
 			var oClaimModel = this.getModel("ProssingModel");
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 
@@ -1184,37 +1184,37 @@ sap.ui.define([
 			} else {
 				oActionCode = "";
 			}
-			
-			oClaimModel.read("/ZC_GET_FORE_VIN(p_vhvin='" + this.getView().getModel("HeadSetData").getProperty("/ExternalObjectNumber") + "')/Set", {
-				success: $.proxy(function (data) {
-					if (data.results.length > 0) {
-						var oVinModel = data.results[0].Model;
-						if (oVinModel == "I_VEH_US") {
-							this.getView().getModel("HeadSetData").setProperty("/ForeignVINIndicator", "Yes");
-							this.oText = "true";
-							this.getView().byId("idMainClaimMessage").setProperty("visible", false);
-							this.getView().byId("idMainClaimMessage").setText("");
-							this.getView().byId("idMainClaimMessage").setType("None");
-						} else if (data.results[0].Message == "Invalid VIN Number") {
-							this.oText = "false";
-							this.getView().byId("idMainClaimMessage").setProperty("visible", true);
-							this.getView().byId("idMainClaimMessage").setText("Please Enter a Valid VIN.");
-							this.getView().byId("idMainClaimMessage").setType("Error");
-						} else {
-							this.getView().getModel("HeadSetData").setProperty("/ForeignVINIndicator", "No");
-							this.oText = "true";
-							this.getView().byId("idMainClaimMessage").setProperty("visible", false);
-							this.getView().byId("idMainClaimMessage").setText("");
-							this.getView().byId("idMainClaimMessage").setType("None");
+
+			oClaimModel.read("/ZC_GET_FORE_VIN(p_vhvin='" + this.getView().getModel("HeadSetData").getProperty("/ExternalObjectNumber") +
+				"')/Set", {
+					success: $.proxy(function (data) {
+						if (data.results.length > 0) {
+							var oVinModel = data.results[0].Model;
+							if (oVinModel == "I_VEH_US") {
+								this.getView().getModel("HeadSetData").setProperty("/ForeignVINIndicator", "Yes");
+								this.oText = "true";
+								this.getView().byId("idMainClaimMessage").setProperty("visible", false);
+								this.getView().byId("idMainClaimMessage").setText("");
+								this.getView().byId("idMainClaimMessage").setType("None");
+							} else if (data.results[0].Message == "Invalid VIN Number") {
+								this.oText = "false";
+								this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+								this.getView().byId("idMainClaimMessage").setText("Please Enter a Valid VIN.");
+								this.getView().byId("idMainClaimMessage").setType("Error");
+							} else {
+								this.getView().getModel("HeadSetData").setProperty("/ForeignVINIndicator", "No");
+								this.oText = "true";
+								this.getView().byId("idMainClaimMessage").setProperty("visible", false);
+								this.getView().byId("idMainClaimMessage").setText("");
+								this.getView().byId("idMainClaimMessage").setType("None");
+							}
+
 						}
+					}, this),
+					error: function () {
 
 					}
-				}, this),
-				error: function () {
-
-				}
-			});
-			
+				});
 
 			oClaimModel.read("/zc_claim_item_price_dataSet", {
 				urlParameters: {
@@ -1372,7 +1372,7 @@ sap.ui.define([
 						this.getView().byId("idMainClaimMessage").setText("Please Enter a Valid VIN.");
 						this.getView().byId("idMainClaimMessage").setType("Error");
 					}
-					
+
 				}, this),
 				error: function () {}
 			});
@@ -1981,26 +1981,21 @@ sap.ui.define([
 					new Button({
 						text: oBundle.getText("Yes"),
 						press: function () {
-							if(oClaimNum == "nun"){
-							that._fnSaveClaim();}
-							else {
+							if (oClaimNum == "nun") {
+								that._fnSaveClaim();
+							} else {
 								that._fnUpdateClaim();
 							}
+							that.getRouter().navTo("SearchClaim");
 							dialog.close();
+
 						}
 					}),
 
 					new Button({
 						text: oBundle.getText("No"),
 						press: function () {
-
 							that.getRouter().navTo("SearchClaim");
-							dialog.close();
-						}
-					}),
-					new Button({
-						text: oBundle.getText("Cancel"),
-						press: function () {
 							dialog.close();
 						}
 					})

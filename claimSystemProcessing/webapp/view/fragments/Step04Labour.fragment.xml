@@ -89,15 +89,6 @@
 						<Text text=""/>
 						<core:Title text=""/>
 						<Label text="Operation Number" textAlign="Left"/>
-						<!--<Input value="{LabourDataModel>/LabourOp}" required="true" id="idLabourNumber" showValueHelp="true" valueHelpOnly="true"-->
-						<!--	valueHelpRequest="handleValueHelpLabour" enabled="{DateModel>/labourLine}"/>-->
-						<!--<ComboBox required="true" items="{path:'LocalDataModel>/SuggetionOperationList'}" change="onSelectPositionCode"-->
-						<!--	selectedKey="{LabourDataModel>/LabourOp}"-->
-						<!--	value="{path:'LabourDataModel>/LabourOp'}"-->
-						<!--	enabled="{DateModel>/labourLine}" filterSecondaryValues="true" showSecondaryValues="true">-->
-						<!--	<core:ListItem text="{path:'LocalDataModel>J_3GKATNRC'}"-->
-						<!--		key="{LocalDataModel>J_3GKATNRC}" additionalText="{LocalDataModel>LTEXT}"/>-->
-						<!--</ComboBox>-->
 						<Input type="Text" textFormatMode="Value" placeholder="Enter Operation Number" showSuggestion="true" showValueHelp="true"
 							 id="idOperationLabour" value="{LabourDataModel>/LabourOp}" valueHelpRequest="handleValueHelpLabour"
 							suggestionItems="{LocalDataModel>/SuggetionOperationList}" suggestionItemSelected="onSelectPositionCode" enabled="{DateModel>/labourLine}">
@@ -155,7 +146,7 @@
 					<cells>
 						<Text text="{LocalDataModel>posnr}" wrapping="true" textAlign="Center" width="100%" />
 						<RadioButton groupName="GroupA" select="onSelectOFPLabour" textAlign="Center" width="100%" />
-						<Text text="{path:'LocalDataModel>LabourNumber', formatter: 'zclaimProcessing.utils.formatter.fnFormatPositionCode'}" wrapping="true"
+						<Text text="{path:'LocalDataModel>LabourNumber'" wrapping="true"
 							textAlign="Center" width="100%"/>
 						<Text text="{LocalDataModel>LabourDescription}" wrapping="true" textAlign="Center" width="100%"/>
 						<Text text="{LocalDataModel>QtyHrs}" wrapping="true" textAlign="Center" width="100%"/>

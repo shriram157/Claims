@@ -11,8 +11,7 @@ sap.ui.define([
 		 * @memberOf zclaimProcessing.view.SearchClaim
 		 */
 		onInit: function () {
-			
-			
+
 			var sLocation = window.location.host;
 			var sLocation_conf = sLocation.search("webide");
 			if (sLocation_conf == 0) {
@@ -126,8 +125,6 @@ sap.ui.define([
 				oRouter.attachRouteMatched(that._onObjectMatched, that);
 			});
 
-			
-
 			var oDateModel = new sap.ui.model.json.JSONModel();
 			var PriorDate = new Date();
 			oDateModel.setData({
@@ -219,12 +216,11 @@ sap.ui.define([
 
 			this.getView().setModel(new sap.ui.model.json.JSONModel(oRowCount), "RowCountModel");
 		},
-		
+
 		_onObjectMatched: function (oEvent) {
 			var oProssingModel = this.getModel("ProssingModel");
-			
-		},
 
+		},
 
 		onAfterRendering: function () {
 			// this.getView().byId("idDealerCode").setSelectedKey("2400042350");
@@ -303,11 +299,6 @@ sap.ui.define([
 
 			}
 
-			//var oFilterArr = [];
-			//var orFilter = [];
-			//var newFilter = [];
-			//	console.log(sQueryDealer, sQuerySearchBy, sQuerySearchText, sQueryClaimGroup, sQueryClaimType, this.oStatusKey);
-
 			if (!$.isEmptyObject(sQueryStat)) {
 
 				for (var j = 0; j < sQueryStat.length; j++) {
@@ -327,7 +318,7 @@ sap.ui.define([
 					],
 					and: true
 				});
-				this.getView().getModel("RowCountModel").setProperty("/rowCount", 10);
+				this.getView().getModel("RowCountModel").setProperty("/rowCount", 50);
 			} else if (sQueryDate != "" && sQueryDealer != "" && sQuerySearchText != "" && sQueryClaimType == "" && sQueryStat == "") {
 
 				andFilter = new sap.ui.model.Filter({
@@ -416,6 +407,21 @@ sap.ui.define([
 				});
 				this.getView().getModel("RowCountModel").setProperty("/rowCount", 10);
 			}
+			
+			if (sQueryDate != "" && sQueryDealer != "" && sQueryClaimGroup != "" && sQuerySearchText == "" && sQueryClaimType == "" &&
+				sQueryStat == "") {
+
+				andFilter = new sap.ui.model.Filter({
+					filters: [
+						new sap.ui.model.Filter(sDate, sap.ui.model.FilterOperator.BT, FromDateFormat, ToDateFormat),
+						new sap.ui.model.Filter("Partner", sap.ui.model.FilterOperator.EQ, sQueryDealer),
+						new sap.ui.model.Filter("WarrantyClaimGroupDes", sap.ui.model.FilterOperator.EQ, sQueryClaimGroup)
+					],
+					and: true
+				});
+				this.getView().getModel("RowCountModel").setProperty("/rowCount", 10);
+			}
+			
 			var oTable = this.getView().byId("idClaimTable");
 			var oBindItems = oTable.getBinding("rows");
 			oBindItems.filter(andFilter);
@@ -425,13 +431,13 @@ sap.ui.define([
 		onPressClear: function () {
 
 			var andFilter = [];
-			
+
 			var oTable = this.getView().byId("idClaimTable");
 			var oBindItems = oTable.getBinding("rows");
 			oBindItems.filter(andFilter);
-			
+
 			this.getView().getModel("RowCountModel").setProperty("/rowCount", 0);
-			
+
 			this.getView().byId("idSearchText").setValue("");
 			this.getView().byId("idClaimGroup").setSelectedKey("");
 			this.getView().byId("idClaimType").setSelectedKey("");
@@ -449,7 +455,6 @@ sap.ui.define([
 					//console.log(sdata);
 					//this.getModel("LocalDataModel").setProperty("/ClaimDetails", sdata.results[0]);
 					var oClaimType = sdata.results[0].WarrantyClaimType;
-				
 
 					if (oClaimType == "ZACD" || oClaimType == "ZAUT") {
 						this.oSelectedClaimGroup = "Authorization";
@@ -461,7 +466,7 @@ sap.ui.define([
 						claimNum: oClaimNum,
 						oKey: oClaimType,
 						oClaimGroup: this.oSelectedClaimGroup
-					
+
 					});
 
 				}, this)
