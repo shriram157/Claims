@@ -146,7 +146,7 @@
 					<cells>
 						<Text text="{LocalDataModel>posnr}" wrapping="true" textAlign="Center" width="100%" />
 						<RadioButton groupName="GroupA" select="onSelectOFPLabour" textAlign="Center" width="100%" />
-						<Text text="{path:'LocalDataModel>LabourNumber'" wrapping="true"
+						<Text text="{path:'LocalDataModel>LabourNumber'}" wrapping="true"
 							textAlign="Center" width="100%"/>
 						<Text text="{LocalDataModel>LabourDescription}" wrapping="true" textAlign="Center" width="100%"/>
 						<Text text="{LocalDataModel>QtyHrs}" wrapping="true" textAlign="Center" width="100%"/>
