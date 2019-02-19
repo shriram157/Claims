@@ -2,13 +2,15 @@
 	xmlns="sap.m"
 	xmlns:core="sap.ui.core">
 	<SelectDialog
-		title="Operation Code"
+		title="Operation Code" 
 		class="sapUiPopupWithPadding"
 		items="{LocalDataModel>/SuggetionOperationList}"
 		search="_handleValueHelpSearchLabour"
 		confirm="_handleValueHelpCloseLabour"
 		liveChange="_handleLiveChangeLabour"
-		cancel="_handleValueHelpCloseLabour">
+		cancel="_handleValueHelpCloseLabour"
+		growing="true"
+		growingThreshold="500">
 		<StandardListItem
 		
 			title="{LocalDataModel>J_3GKATNRC}"

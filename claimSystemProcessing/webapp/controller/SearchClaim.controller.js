@@ -126,27 +126,7 @@ sap.ui.define([
 				oRouter.attachRouteMatched(that._onObjectMatched, that);
 			});
 
-			// scopes to be used as below. // TODO: Minakshi to continue the below integration
-
-			//if you see scopes   Manage_ECP_Application,  then treat the user as Dealer Sales USer,  this is the only user with manage application
-			// TODO:  in the ui for this user,  everything is available and default landing page need to be set view/update application page
-
-			// if you see scopes view ECP Claim & view ECP Agreement & inquiry with  user attribute dealer code then this is a Dealer Service user. 
-			// TODO: Suppress the tabs new application and View/update application.  only enable Agreement inquiry and make this a landing page. 
-
-			//if you see scopes view ecp application, view ecp claim, view ecp agreement, view inquiry with no dealer code and no zone then this is a Internal TCIUser Admin[ECP Dept]
-			// TODO: Make view/update application as the landing page,  suppress new applicaiton creation button  ( Internal user cannot create an application but view/update is allowed)
-
-			//if you see scopes view ecp application, view ecp claim, view ecp agreement, view inquiry with no dealer code and  zone then this is a  ECP ZONE USER
-			// TODO: For ECP Zone user restrict the Drop down of dealers only from that zone you received from the attribute. 
-			//suppress new application creation button and make landing page as view/update application
-
-			// if you see scopes View ECP Claim, view ECP Agreement, Inqyiry with no delaer code no zone then this is a Internal TCI User
-			// TODO: Suppress the tabs new application and View/update application.  only enable Agreement inquiry and make this a landing page. 
-
-			//======================================================================================================================//			
-			//  on init method,  get the token attributes and authentication details to the UI from node layer.  - End
-			//======================================================================================================================//	
+			
 
 			var oDateModel = new sap.ui.model.json.JSONModel();
 			var PriorDate = new Date();
@@ -242,25 +222,7 @@ sap.ui.define([
 		
 		_onObjectMatched: function (oEvent) {
 			var oProssingModel = this.getModel("ProssingModel");
-			// var issueDealer = this.getModel("LocalDataModel").getProperty("/currentIssueDealer");
-			// var oDateFormat = sap.ui.core.format.DateFormat.getDateInstance({
-			// 	pattern: "yyyy-MM-ddTHH:mm:ss"
-			// });
-			// var oPriorDate = oDateFormat.format(this.priordate);
-			// var oCurrentDate = oDateFormat.format(this.beforedate);
-			// if (oEvent.getParameters().name === "ApplicationList") {
-			// 	this.getOwnerComponent().getModel("EcpSalesModel").refresh();
-			// 	oProssingModel.read("/ZC_CLAIM_HEAD", {
-			// 		urlParameters: {
-			// 			"$filter": "ReferenceDate ge datetime'" + oPriorDate + "'and ReferenceDate le datetime'" + oCurrentDate +
-			// 				"'and Partner eq '" + issueDealer + "'"
-			// 		},
-			// 		success: $.proxy(function (data) {
-			// 			this.getModel("LocalDataModel").setProperty("/EcpApplication", data.results);
-			// 		}, this)
-			// 	});
-
-			// }
+			
 		},
 
 
@@ -463,9 +425,13 @@ sap.ui.define([
 		onPressClear: function () {
 
 			var andFilter = [];
+			
 			var oTable = this.getView().byId("idClaimTable");
 			var oBindItems = oTable.getBinding("rows");
 			oBindItems.filter(andFilter);
+			
+			this.getView().getModel("RowCountModel").setProperty("/rowCount", 0);
+			
 			this.getView().byId("idSearchText").setValue("");
 			this.getView().byId("idClaimGroup").setSelectedKey("");
 			this.getView().byId("idClaimType").setSelectedKey("");

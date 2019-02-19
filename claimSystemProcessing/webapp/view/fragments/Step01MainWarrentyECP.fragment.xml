@@ -14,9 +14,10 @@
 				<f:content>
 					<core:Title text=""/>
 					<Label text="Claim Type"/>
-					<ComboBox required="true" items="{path:'LocalDataModel>/ClaimGroupSet'}" change="onSelectClaimTpe" selectedKey="{HeadSetData>/ClaimType}"
-						enabled="{DateModel>/claimTypeEn}" value="{HeadSetData>/ClaimType}">
-						<core:Item text="{LocalDataModel>ALMClaimType} - {LocalDataModel>ALMClaimTypeDes}" key="{LocalDataModel>ALMClaimType}"/>
+					<ComboBox showSecondaryValues="true" required="true" items="{path:'LocalDataModel>/ClaimGroupSet'}"  selectionChange="onSelectClaimTpe" selectedKey="{HeadSetData>/ClaimType}"
+						enabled="{DateModel>/claimTypeEn}" value="{HeadSetData>/ClaimType}" >
+						<core:ListItem text="{LocalDataModel>ALMClaimType}" key="{LocalDataModel>ALMClaimType}"
+						additionalText="{LocalDataModel>ALMClaimTypeDes}"/>
 					</ComboBox>
 					<core:Title text=""/>
 					<Label text="First Submission Date"/>
@@ -104,7 +105,7 @@
 					value="{path:'HeadSetData>/RepairOrderNumberExternal', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 10 }}"
 					id="idRepairOrder" editable="{DateModel>/oFormEdit}"/>
 				<Label text="R.O. Odometer"/>
-				<Input type="Number" value="{path:'HeadSetData>/Odometer', type : 'sap.ui.model.type.Number', constraints : { minLength : 2, maxLength : 7 }}"
+				<custom:CustomInput  value="{path:'HeadSetData>/Odometer', type : 'sap.ui.model.type.Number', constraints : { minLength : 2, maxLength : 7 }}"
 					required="{DateModel>/OdometerReq}" visible="{DateModel>/OdometerReq}" id="idOdometer" editable="{DateModel>/OdometerReq}"/>
 			</f:content>
 		</f:SimpleForm>

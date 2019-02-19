@@ -8,7 +8,9 @@
 		search="_handleValueHelpSearchLabour"
 		confirm="_handleValueHelpClosePaint"
 		liveChange="_handleLiveChangeLabour"
-		cancel="_handleValueHelpClosePaint">
+		cancel="_handleValueHelpClosePaint"
+		growing="true"
+		growingThreshold="500">
 		<StandardListItem
 		
 			title="{LocalDataModel>J_3GKATNRC}"
