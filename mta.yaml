@@ -8,11 +8,11 @@ modules:
    type: nodejs
    path: claimSystemProcessing_Node
    parameters:
-      host: QAS-claimSystemProcessing_Node
+      host: claimSystemProcessing_Node
       register-service-url: true
-      service-name: QAS-claimSystemProcessing_Node
+      service-name: claimSystemProcessing_Node
       service-url: '${default-url}'
-      disk-quota: 256MB
+      disk-quota: 512MB
       memory: 256MB
    requires:
     - name: CLAIM_SYSTEM_PROCESSING_CUPS
@@ -27,9 +27,9 @@ modules:
    type: html5
    path: claimSystemProcessing
    parameters:
-      host: QAS-claimSystemProcessing
+      host: claimSystemProcessing
       register-service-url: true
-      service-name: QAS-claimSystemProcessing
+      service-name: claimSystemProcessing
       service-url: '${default-url}'
       disk-quota: 512M
       memory: 256M
@@ -37,7 +37,7 @@ modules:
       builder: grunt
    requires:
     - name: uaa_claimsSystemProcessing
-    - name: dest_qas_claimsSystemProcessing
+    - name: dest_claimsSystemProcessing
     - name: claimSystemProcessing_Node_api
       group: destinations
       properties:
@@ -55,7 +55,7 @@ resources:
       service: xsuaa
    type: org.cloudfoundry.managed-service
 
- - name: dest_qas_claimsSystemProcessing
+ - name: dest_claimsSystemProcessing
    parameters:
       service-plan: lite
       service: destination

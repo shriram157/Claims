@@ -146,7 +146,7 @@
 											</table:template>
 										</table:Column>
 										<table:Column width="11rem">
-											<Label text="{i18n>AuthorizationNumber}" textAlign="Center" width="100%"/>
+											<Label text="{i18n>ClaimTypeGroup}" textAlign="Center" width="100%"/>
 											<table:template>
 												<Text text="{WarrantyClaimGroupDes}"/>
 											</table:template>
