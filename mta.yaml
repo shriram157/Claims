@@ -8,7 +8,7 @@ modules:
    type: nodejs
    path: claimSystemProcessing_Node
    parameters:
-      host: claimSystemProcessing_Node
+      host: tci-dev-claims-node
       register-service-url: true
       service-name: claimSystemProcessing_Node
       service-url: '${default-url}'
@@ -27,7 +27,7 @@ modules:
    type: html5
    path: claimSystemProcessing
    parameters:
-      host: claimSystemProcessing
+      host: tci-dev-claims
       register-service-url: true
       service-name: claimSystemProcessing
       service-url: '${default-url}'

@@ -1,11 +1,11 @@
 {
-	"welcomeFile": "/claimSystemProcessing/index.html",
+	"welcomeFile": "/claims/index.html",
 	"authenticationMethod": "route",
 	"logout": {
 		"logoutEndpoint": "/do/logout"
 	},
 	"routes": [{
-			"source": "^/claimSystemProcessing/(.*)$",
+			"source": "^/claims/(.*)$",
 			"target": "$1",
 			"localDir": "webapp",
 			"authenticationType": "xsuaa",
