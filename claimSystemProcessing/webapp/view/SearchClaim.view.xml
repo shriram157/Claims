@@ -25,12 +25,12 @@
 											</Select>
 										<Label text="{i18n>SearchBy}" textAlign="Begin"/>
 										<ComboBox id="idSearchBy" selectionChange="onSearchBy">
-											<core:Item key="RepairOrderNumberExternal" text="Repair Order Number"/>
-											<core:Item key="ExternalNumberOfClaim" text="Dealer Claim Number"/>
-											<core:Item key="NumberOfWarrantyClaim" text="TCI Claim Number"/>
-											<core:Item key="ExternalObjectNumber" text="VIN"/>
-											<core:Item key="AgreementNumber" text="ECP Agreement Number"/>
-											<core:Item key="MainOpsCode" text="Main Operation Code"/>
+											<core:Item key="RepairOrderNumberExternal" text="{i18n>RepairOrderNumber}"/>
+											<core:Item key="ExternalNumberOfClaim" text="{i18n>DealerClaimNumber}"/>
+											<core:Item key="NumberOfWarrantyClaim" text="{i18n>TCIClaimNumber}"/>
+											<core:Item key="ExternalObjectNumber" text="{i18n>VIN}"/>
+											<core:Item key="AgreementNumber" text="{i18n>ECPAgreementNumber}"/>
+											<core:Item key="MainOpsCode" text="{i18n>MainOperationCode}"/>
 										</ComboBox>
 										<Label text="{i18n>SearchText}" textAlign="Begin"/>
 										<Input value="" id="idSearchText"/>
@@ -47,9 +47,9 @@
 											<core:Item key="{LocalDataModel>WarrantyClaimType}" text="{LocalDataModel>WarrantyClaimType} - {LocalDataModel>ALMClaimTypeDes}"/>
 										</ComboBox>
 										<Label text="{i18n>ClaimStatus}" textAlign="Begin"/>
-										<MultiComboBox items="{ path: 'LocalDataModel>/ClaimStatus'}" selectionChange="handleSelectClaimGroup"
+										<MultiComboBox items="{ path: '/ZC_CLAIM_STATUS_DESC'}" selectionChange="handleSelectClaimGroup"
 											selectionFinish="handleSelectClaimGroupFinish" id="idClaimStatus">
-											<core:Item key="{LocalDataModel>Status}" text="{LocalDataModel>Description}"/>
+											<core:Item key="{Status}" text="{Description}"/>
 										</MultiComboBox>
 										<core:Title text=""/>
 										<Button text="{i18n>Search}" press="onPressSearch" type="Emphasized"/>
@@ -60,7 +60,7 @@
 							</VBox>
 						</uxap:blocks>
 					</uxap:ObjectPageSubSection>
-					<uxap:ObjectPageSubSection title="Claim List">
+					<uxap:ObjectPageSubSection title="{i18n>ClaimList}">
 						<uxap:blocks>
 							<VBox>
 								<table:Table id="idClaimTable" class="classRCPTable" selectionMode="Single" rows="{ path: '/ZC_CLAIM_HEAD'}" rowSelectionChange="onNavigate"

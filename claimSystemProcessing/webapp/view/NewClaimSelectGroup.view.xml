@@ -4,7 +4,7 @@
 	<core:Fragment fragmentName="zclaimProcessing.view.fragments.ToolHeader" type="XML"/>
 	<uxap:ObjectPageLayout id="ObjectPageLayout" enableLazyLoading="true">
 		<uxap:sections>
-			<uxap:ObjectPageSection title="New Claim">
+			<uxap:ObjectPageSection title="{i18n>NewClaim}">
 				<uxap:subSections>
 					<uxap:ObjectPageSubSection title=" ">
 						<uxap:blocks>
@@ -14,24 +14,24 @@
 									labelSpanS="12" adjustLabelSpan="false" emptySpanXL="2" emptySpanL="2" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="2"
 									singleContainerFullSize="false">
 									<f:content>
-										<core:Title text="Please Select a Claim Type Group and Request Type for your Claim"/>
-										<Label text="Claim Type Group" textAlign="Begin" textDirection="LTR"/>
+										<core:Title text="{i18n>SelectClaimGroupType}"/>
+										<Label text="{i18n>ClaimTypeGroup}" textAlign="Begin" textDirection="LTR"/>
 										<Select id="idClaimType"  items="{LocalDataModel>/ClaimGroupData}">
 											<items>
 												<core:Item text="{LocalDataModel>ClaimGroupDes}" key="{LocalDataModel>ClaimGroupDes}"/>
 											
 											</items>
 										</Select>
-										<Label text="Request Type" textAlign="Begin"/>
+										<Label text="{i18n>RequestType}" textAlign="Begin"/>
 										<RadioButtonGroup selectedIndex="0" columns="2" id="idRequestType" select="onSelectRequestType01">
 											<buttons>
-												<RadioButton text="Claim" groupName="A"/>
-												<RadioButton text=" Authorization" groupName="A"/>
+												<RadioButton text="{i18n>Claim}" groupName="A"/>
+												<RadioButton text="{i18n>Authorization}" groupName="A"/>
 											</buttons>
 										</RadioButtonGroup>
 										<core:Title text=""/>
-										<Button text="Next" type="Emphasized" press="onClaimAuthorization"/>
-										<Button text="Cancel" type="Reject" press="onPressCancel"/>
+										<Button text="{i18n>Next}" type="Emphasized" press="onClaimAuthorization"/>
+										<Button text="{i18n>Cancel}" type="Reject" press="onPressCancel"/>
 									</f:content>
 								</f:SimpleForm>
 							</VBox>

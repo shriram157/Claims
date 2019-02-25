@@ -6,51 +6,51 @@
 				<Toolbar height="3rem">
 					<Title text="{i18n>ClaimDetails}"/>
 					<ToolbarSpacer/>
-					<Title text="TCI Claim Number: {HeadSetData>/NumberOfWarrantyClaim}" textAlign="End"/>
+					<Title text="{i18n>TCIClaimNumber}: {HeadSetData>/NumberOfWarrantyClaim}" textAlign="End"/>
 				</Toolbar>
 			</headerToolbar>
 			<f:SimpleForm editable="true" layout="ResponsiveGridLayout" title="" labelSpanXL="6" labelSpanL="6" labelSpanM="12" labelSpanS="12"
 				emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="4" columnsL="4" columnsM="6">
 				<f:content>
 					<core:Title text=""/>
-					<Label text="Claim Type"/>
+					<Label text="{i18n>ClaimType}"/>
 					<ComboBox showSecondaryValues="true" required="true" items="{path:'LocalDataModel>/ClaimGroupSet'}" selectionChange="onSelectClaimTpe"
 						selectedKey="{HeadSetData>/ClaimType}" enabled="{DateModel>/claimTypeEn}" value="{HeadSetData>/ClaimType}">
 						<core:ListItem text="{LocalDataModel>ALMClaimType}" key="{LocalDataModel>ALMClaimType}" additionalText="{LocalDataModel>ALMClaimTypeDes}"/>
 					</ComboBox>
 					<core:Title text=""/>
-					<Label text="First Submission Date"/>
+					<Label text="{i18n>FirstSubmissionDate}"/>
 					<Text
 						text="{ path: 'HeadSetData>/ReferenceDate', type : 'sap.ui.model.type.Date', formatOptions : { source: { pattern: 'dd-MM-yyyy' }, pattern: 'dd-MM-yyyy' }, constraints : { minimum : '01-01-1990' } }"/>
-					<Label text="Claim Age"/>
+					<Label text="{i18n>ClaimAge}"/>
 					<Text text="{HeadSetData>/ClaimAge}"/>
-					<Label text="Last Modified by"/>
+					<Label text="{i18n>LastModifiedby}"/>
 					<Text text="{HeadSetData>/NameOfPersonRespWhoChangedObj}"/>
 					<core:Title text=""/>
-					<Label text="Last Submission Date"/>
+					<Label text="{i18n>LastSubmissionDate}"/>
 					<Text
 						text="{ path: 'HeadSetData>/DateOfApplication', type: 'sap.ui.model.type.Date', constraints: {displayFormat: 'Date' }, formatOptions: { style: 'medium', strictParsing: true , UTC: true}}"/>
 					<Label text="Final Processed Date"/>
 					<Text
 						text="{ path: 'HeadSetData>/FinalProcdDate', type: 'sap.ui.model.type.Date', constraints: {displayFormat: 'Date' }, formatOptions: { style: 'medium', strictParsing: true , UTC: true} }"/>
 					<core:Title text=""/>
-					<Button text="Save Claim" class="sapUiSmallMarginEnd" type="Emphasized" press="onSaveClaim" visible="{DateModel>/saveClaimSt}">
+					<Button text="{i18n>SaveClaim}" class="sapUiSmallMarginEnd" type="Emphasized" press="onSaveClaim" visible="{DateModel>/saveClaimSt}">
 						<layoutData>
 							<l:GridData span="XL8 L8 M12 S12"/>
 						</layoutData>
 					</Button>
-					<Button text="Edit" class="sapUiSmallMarginEnd" type="Emphasized" press="onEditClaim" visible="{DateModel>/claimEditSt}">
+					<Button text="{i18n>Edit}" class="sapUiSmallMarginEnd" type="Emphasized" press="onEditClaim" visible="{DateModel>/claimEditSt}">
 						<layoutData>
 							<l:GridData span="XL8 L8 M12 S12"/>
 						</layoutData>
 					</Button>
-					<Button text="Save Claim" class="sapUiSmallMarginEnd" enabled="{DateModel>/updateEnable}" type="Emphasized" press="onUpdateClaim"
+					<Button text="{i18n>SaveClaim}" class="sapUiSmallMarginEnd" enabled="{DateModel>/updateEnable}" type="Emphasized" press="onUpdateClaim"
 						visible="{DateModel>/updateClaimSt}">
 						<layoutData>
 							<l:GridData span="XL8 L8 M12 S12"/>
 						</layoutData>
 					</Button>
-					<Button text="Copy to Claim" type="Default" press="onCopyClaim">
+					<Button text="{i18n>CopytoClaim}" type="Default" press="onCopyClaim">
 						<layoutData>
 							<l:GridData span="XL8 L8 M12 S12"/>
 						</layoutData>
@@ -64,25 +64,25 @@
 			columnsXL="3" columnsL="3" columnsM="3" singleContainerFullSize="false">
 			<f:content>
 				<core:Title text=""/>
-				<Label text="Dealer Name"/>
+				<Label text="{i18n>DealerName}"/>
 				<Text text="{HeadSetData>/CustomerFullName}"/>
-				<Label text="Dealer Claim"/>
+				<Label text="{i18n>DealerClaim}"/>
 				<Input
 					value="{path:'HeadSetData>/ExternalNumberOfClaim', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 40 } }"
 					required="true" id="idDealerClaim" editable="{DateModel>/oFormEdit}"/>
 				<core:Title text=""/>
-				<Label text="Repair Date"/>
+				<Label text="{i18n>RepairDate}"/>
 				<DatePicker required="true" value="{path:'HeadSetData>/RepairDate',type : 'sap.ui.model.type.Date'}" editable="{DateModel>/oFormEdit}"/>
-				<Label text="Dealer Contact"/>
+				<Label text="{i18n>DealerContact}"/>
 				<Input required="true"
 					value="{path:'HeadSetData>/DealerContact', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 30 }}"
 					id="idDealerContact" editable="{DateModel>/oFormEdit}"/>
 				<core:Title text=""/>
-				<Label text="Repair Order"/>
+				<Label text="{i18n>RepairOrder}"/>
 				<Input required="true"
 					value="{path:'HeadSetData>/RepairOrderNumberExternal', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 10 }}"
 					id="idRepairOrder" editable="{DateModel>/oFormEdit}"/>
-				<Label text="R.O. Odometer"/>
+				<Label text="{i18n>ROOdometer}"/>
 				<custom:CustomInput
 					value="{path:'HeadSetData>/Odometer', type : 'sap.ui.model.type.Number', constraints : { minLength : 2, maxLength : 7 }}"
 					required="{DateModel>/OdometerReq}" visible="{DateModel>/OdometerReq}" id="idOdometer" editable="{DateModel>/OdometerReq}"/>
@@ -95,26 +95,26 @@
 				<core:Title text=""/>
 				<RadioButtonGroup selectedIndex="0" columns="2" id="idRequestType" select="onSelectRequestType" editable="{DateModel>/oFormEdit}">
 					<buttons>
-						<RadioButton groupName="E" text="VIN"/>
-						<RadioButton groupName="E" text=" Non Vehicle"/>
+						<RadioButton groupName="E" text="{i18n>VIN}"/>
+						<RadioButton groupName="E" text="{i18n>NonVehicle}"/>
 					</buttons>
 				</RadioButtonGroup>
 				<Input
 					value="{path:'HeadSetData>/ExternalObjectNumber', type : 'sap.ui.model.type.String', constraints : { minLength : 16, maxLength : 17 }}"
 					required="true" visible="{DateModel>/OdometerReq}" id="idVinNum" change="onEnterVIN" editable="{DateModel>/oFormEdit}"/>
 				<core:Title text=""/>
-				<Label text="Reg. Date"/>
+				<Label text="{i18n>RegDate}"/>
 				<Text text="{HeadSetData>/RegDate}"/>
-				<Label text="Vehicle Age"/>
+				<Label text="{i18n>VehicleAge}"/>
 				<Text text="" id="idVehicleAge"/>
 				<core:Title text=""/>
-				<Label text="Foreign VIN"/>
+				<Label text="{i18n>ForeignVIN}"/>
 				<Text text="{HeadSetData>/ForeignVINIndicator}" id="idForeignVin"/>
 				<Button icon="sap-icon://message-warning" type="Transparent" press="onPressForeignVin" class="clWarning"/>
-				<Label text="Written-Off"/>
+				<Label text="{i18n>WrittenOff}"/>
 				<Text text="{HeadSetData>/WrittenOffCode}" id="idWrittenoff"/>
 				<Button icon="sap-icon://message-warning" type="Transparent" press="onPressWrittenOff" class="clWarning"/>
-				<Label text="Special VIN Review"/>
+				<Label text="{i18n>SpecialVINReview}"/>
 				<Text text="{HeadSetData>/SpecialVINReview}" id="idSpecialVin"/>
 				<Button icon="sap-icon://message-warning" type="Transparent" press="onPressSpecialVin" class="clWarning"/>
 			</f:content>
@@ -124,13 +124,13 @@
 			visible="{DateModel>/oECPfields}">
 			<table:toolbar>
 				<Toolbar>
-					<Title text="Active Agreeement(s)" level="H2"/>
+					<Title text="{i18n>ActiveAgreeement}" level="H2"/>
 				</Toolbar>
 			</table:toolbar>
 			<table:columns autoResizable="true">
 				<table:Column width="9rem">
 					<table:multiLabels>
-						<Label text="ECP Agreement" textAlign="Center" width="100%"/>
+						<Label text="{i18n>ECPAgreement}" textAlign="Center" width="100%"/>
 					</table:multiLabels>
 					<table:template>
 						<Text text="{LocalDataModel>AgreementNumber}" wrapping="true"/>
@@ -138,7 +138,7 @@
 				</table:Column>
 				<table:Column width="9rem">
 					<table:multiLabels>
-						<Label text="Plan Code" textAlign="Center" width="100%"/>
+						<Label text="{i18n>PlanCode}" textAlign="Center" width="100%"/>
 					</table:multiLabels>
 					<table:template>
 						<Text text="{LocalDataModel>PlanType}" wrapping="true"/>
@@ -146,7 +146,7 @@
 				</table:Column>
 				<table:Column width="9rem">
 					<table:multiLabels>
-						<Label text="Status" textAlign="Center" width="100%"/>
+						<Label text="{i18n>Status}" textAlign="Center" width="100%"/>
 					</table:multiLabels>
 					<table:template>
 						<Text text="{LocalDataModel>bcc_agr_st_cd}" wrapping="true"/>
@@ -154,7 +154,7 @@
 				</table:Column>
 				<table:Column width="17rem">
 					<table:multiLabels>
-						<Label text="Status Date" textAlign="Center" width="100%"/>
+						<Label text="{i18n>StatusDate}" textAlign="Center" width="100%"/>
 					</table:multiLabels>
 					<table:template>
 						<Text
@@ -164,7 +164,7 @@
 				</table:Column>
 				<table:Column width="17rem">
 					<table:multiLabels>
-						<Label text="Expiry Date" textAlign="Center" width="100%"/>
+						<Label text="{i18n>ExpiryDate}" textAlign="Center" width="100%"/>
 					</table:multiLabels>
 					<table:template>
 						<Text
@@ -174,7 +174,7 @@
 				</table:Column>
 				<table:Column width="17rem">
 					<table:multiLabels>
-						<Label text="Expiry KM" textAlign="Center" width="100%"/>
+						<Label text="{i18n>ExpiryKM}" textAlign="Center" width="100%"/>
 					</table:multiLabels>
 					<table:template>
 						<Text text="{LocalDataModel>AgreementthruKMreading}" wrapping="true"/>
@@ -187,51 +187,51 @@
 			singleContainerFullSize="false" visible="{DateModel>/oECPfields}">
 			<f:content>
 				<core:Title text=""/>
-				<Label text="Client's Last Name"/>
+				<Label text="{i18n>ClientLastName}"/>
 				<Input value="" required="true"/>
 				<core:Title text=""/>
-				<Label text="Client's Last Name"/>
+				<Label text="{i18n>ClientLastName}"/>
 				<Input value="" required="true"/>
 				<core:Title text=""/>
 				<Label text=" "/>
-				<Button text="Lookup ECP Agreements"/>
+				<Button text="{i18n>LookupECPAgreements}"/>
 				<core:Title text=""/>
 				<Label text=" "/>
-				<Button text="Perform CIC"/>
+				<Button text="{i18n>PerformCIC}"/>
 				<core:Title text=""/>
-				<Label text="Agreement Number"/>
+				<Label text="{i18n>Agreement Number}"/>
 				<Text text=""/>
 			</f:content>
 		</f:SimpleForm>
-		<f:SimpleForm id="idpart01Form" editable="{DateModel>/oFormEdit}" title="Repair Details" layout="ResponsiveGridLayout" labelSpanXL="12"
+		<f:SimpleForm id="idpart01Form" editable="{DateModel>/oFormEdit}" title="{i18n>RepairDetails}" layout="ResponsiveGridLayout" labelSpanXL="12"
 			labelSpanL="12" labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
 			columnsXL="3" columnsL="3" columnsM="3" singleContainerFullSize="false">
 			<f:content>
 				<core:Title text=""/>
-				<Label text="OFP"/>
+				<Label text="{i18n>OFP}"/>
 				<Input value="{path:'HeadSetData>/OFP'}" editable="{DateModel>/oFormEdit}"/>
-				<Label text="Main Op"/>
+				<Label text="{i18n>MainOp}"/>
 				<Input value="{path:'HeadSetData>/MainOpsCode'}" editable="{DateModel>/oFormEdit}"/>
-				<Label text="Battery Test Code"/>
+				<Label text="{i18n>BatteryTestCode}"/>
 				<Input value="{HeadSetData>/BatteryTestCode}" editable="{DateModel>/oFormEdit}"/>
-				<Label text="Condition"/>
+				<Label text="{i18n>Condition}"/>
 				<TextArea required="true" editable="{DateModel>/oFormEdit}"
 					value="{path:'HeadSetData>/ZCondition', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 100 }}"></TextArea>
 				<core:Title text=""/>
-				<Label text="OFP Description"/>
+				<Label text="{i18n>OFPDescription}"/>
 				<Text text="{path:'LocalDataModel>/OFPDescription'}"/>
-				<Label text="Main Op Description"/>
+				<Label text="{i18n>MainOpDescription}"/>
 				<Text text="{path:'LocalDataModel>/MainOpsCodeDescription'}"/>
-				<Label text="Field Action Code"/>
+				<Label text="{i18n>FieldActionCode}"/>
 				<Input required="{path:'DateModel>/oFieldActionInput'}" value="{path:'HeadSetData>/FieldActionReference'}" editable="{DateModel>/oFormEdit}"
 					enabled="{DateModel>/oFieldActionInput}" change="onFieldActionInput"/>
-				<Label text="Cause"/>
+				<Label text="{i18n>Cause}"/>
 				<TextArea required="true" editable="{DateModel>/oFormEdit}"
 					value="{path:'HeadSetData>/Cause',type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 100 }}"></TextArea>
 				<core:Title text=""/>
-				<Label text="Applied Coverage"/>
+				<Label text="{i18n>AppliedCoverage}"/>
 				<Text text="{HeadSetData>/AppliedWarrantyCoverage}"/>
-				<Label text="T1 Code"/>
+				<Label text="{i18n>T1 Code}"/>
 				<ComboBox showSecondaryValues="true" required="true" items="{ path: '/Zt1DescSrchhelpSet' }" selectedKey="{HeadSetData>/T1WarrantyCodes}"
 					enabled="{DateModel>/oFormEdit}" value="{HeadSetData>/T1WarrantyCodes}">
 					<core:ListItem key="{T1}" text="{path:'T1', constraints : { minLength : 2, maxLength : 100 }}" additionalText="{T1Text}"/>
@@ -239,7 +239,7 @@
 				<!--<Select selectedKey="{HeadSetData>/T1WarrantyCodes}" items="{ path: '/Zt1DescSrchhelpSet' }" enabled="{DateModel>/oFormEdit}">-->
 				<!--	<core:Item key="{T1}" text="{T1} - {T1Text}"/>-->
 				<!--</Select>-->
-				<Label text="T2 Code"/>
+				<Label text="{i18n>T2Code}"/>
 				<ComboBox required="true" showSecondaryValues="true" items="{ path: '/Zt2DescSrchhelpSet' }" selectedKey="{HeadSetData>/T2WarrantyCodes}"
 					enabled="{DateModel>/oFormEdit}" value="{HeadSetData>/T2WarrantyCodes}">
 					<core:ListItem key="{path:'T2', constraints : { minLength : 2, maxLength : 100 }}" text="{T2}" additionalText="{T2Text}"/>
@@ -247,22 +247,22 @@
 				<!--<Select selectedKey="{HeadSetData>/T2WarrantyCodes}" items="{ path: '/Zt2DescSrchhelpSet' }" enabled="{DateModel>/oFormEdit}">-->
 				<!--	<core:Item key="{T2}" text="{T2} - {T2Text}"/>-->
 				<!--</Select>-->
-				<Label text="Remedy"/>
+				<Label text="{i18n>Remedy}"/>
 				<TextArea required="true" editable="{DateModel>/oFormEdit}"
 					value="{path:'HeadSetData>/Remedy', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 100 }}"></TextArea>
 			</f:content>
 		</f:SimpleForm>
-		<Button text="View CCR Abbreviations" press="onPressAbbr"/>
+		<Button text="{i18n>ViewCCRAbbreviations}" press="onPressAbbr"/>
 		<f:SimpleForm visible="{DateModel>/AcA1}" editable="{DateModel>/oFormEdit}" title="Accessory Installation/Purchase"
 			layout="ResponsiveGridLayout" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0"
 			emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="3" columnsL="3" columnsM="3" singleContainerFullSize="false">
 			<f:content>
 				<core:Title text=""/>
-				<Label text="Install Date"/>
+				<Label text="{i18n>InstallDate}"/>
 				<DatePicker required="true" value="{path:'HeadSetData>/AccessoryInstallDate',type : 'sap.ui.model.type.Date'}"
 					editable="{DateModel>/oFormEdit}"/>
 				<core:Title text=""/>
-				<Label text="Install Odometer"/>
+				<Label text="{i18n>InstallOdometer}"/>
 				<Input value="{path:'HeadSetData>/AccessoryInstallOdometer'}" editable="{DateModel>/oFormEdit}"/>
 				<core:Title text=""/>
 			</f:content>
@@ -272,18 +272,18 @@
 			emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="3" columnsL="3" columnsM="3" singleContainerFullSize="false">
 			<f:content>
 				<core:Title text=""/>
-				<Label text="Previous R.O./Invoice #"/>
+				<Label text="{i18n>PreviousROInvoice}"/>
 				<Input value="{path:'HeadSetData>/PreviousROInvoice'}" editable="{DateModel>/oFormEdit}"/>
 				<core:Title text=""/>
-				<Label text="R.O./Invoice Date"/>
+				<Label text="{i18n>ROInvoiceDate}"/>
 				<DatePicker required="true" value="{path:'HeadSetData>/PreviousROInvoiceDate',type : 'sap.ui.model.type.Date'}"
 					editable="{DateModel>/oFormEdit}"/>
 				<core:Title text=""/>
-				<Label text="R.O. Odometer"/>
+				<Label text="{i18n>ROOdometer}"/>
 				<custom:CustomInput value="{path:'HeadSetData>/PreviousROOdometer'}" editable="{DateModel>/oFormEdit}"/>
 			</f:content>
 		</f:SimpleForm>
-		<f:SimpleForm editable="{DateModel>/oFormEdit}" title="Claim Comments" layout="ResponsiveGridLayout" labelSpanXL="3" labelSpanL="3"
+		<f:SimpleForm editable="{DateModel>/oFormEdit}" title="{i18n>ClaimComments}" layout="ResponsiveGridLayout" labelSpanXL="3" labelSpanL="3"
 			labelSpanM="3" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="1" emptySpanL="1" emptySpanM="1" emptySpanS="0" columnsXL="1"
 			columnsL="1" columnsM="1" singleContainerFullSize="false">
 			<f:content>

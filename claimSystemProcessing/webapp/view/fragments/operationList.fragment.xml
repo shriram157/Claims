@@ -1,28 +1,28 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
-	<Dialog title="Suggested Operations for OFP : ">
+	<Dialog title="{i18n>SuggestedOperationsOFP}">
 		<content>
 			<Table mode="SingleSelectLeft" selectionChange="onSelectOperation" items="{ path : 'LocalDataModel>/SuggetionOperationListFiltered' }">
 				<headerToolbar >
 					<OverflowToolbar>
 						<ToolbarSpacer/>
-						<Button text="Add Selected Operation to Claim" enabled="{DateModel>/SuggestBtn}" type="Emphasized" press="handleConfirmLabour"/>
+						<Button text="{i18n>AddSelectedOperationClaim}" enabled="{DateModel>/SuggestBtn}" type="Emphasized" press="handleConfirmLabour"/>
 						<Button class="sapUiSmallMarginBeginEnd" type="Reject" text="Close" press="onCloseLabour"/>
 					</OverflowToolbar>
 				</headerToolbar>
 				<columns>
 					<Column width="12em">
 						<header>
-							<Text text="Operation Number"/>
+							<Text text="{i18n>OperationNumber}"/>
 						</header>
 					</Column>
 					<Column width="12em">
 						<header>
-							<Text text="Operation Description"/>
+							<Text text="{i18n>OperationDescription}"/>
 						</header>
 					</Column>
 					<Column width="12em">
 						<header>
-							<Text text="Labour Hours"/>
+							<Text text="{i18n>LabourHours}"/>
 						</header>
 					</Column>
 				</columns>

@@ -161,7 +161,14 @@ sap.ui.define([
 			if (oClaim != "nun" && oClaim != undefined) {
 				this.getModel("LocalDataModel").setProperty("/WarrantyClaimNum", oClaim);
 				this.getView().getModel("DateModel").setProperty("/claimTypeEn", false);
-				this.getView().getModel("DateModel").setProperty("/enableTab", true);
+				//this.getView().getModel("DateModel").setProperty("/enableTab", true);
+				this.getView().byId("idFilter02").setProperty("enabled", true);
+				this.getView().byId("idFilter03").setProperty("enabled", true);
+				this.getView().byId("idFilter04").setProperty("enabled", true);
+				this.getView().byId("idFilter05").setProperty("enabled", true);
+				this.getView().byId("idFilter06").setProperty("enabled", true);
+				this.getView().byId("idFilter07").setProperty("enabled", true);
+				
 				this.getView().getModel("DateModel").setProperty("/saveClaimSt", false);
 				this.getView().getModel("DateModel").setProperty("/updateClaimSt", true);
 				
@@ -547,6 +554,13 @@ sap.ui.define([
 				this._fnClaimSum();
 
 			} else {
+				//this.getView().getModel("DateModel").setProperty("/enableTab", false);
+				this.getView().byId("idFilter02").setProperty("enabled", false);
+				this.getView().byId("idFilter03").setProperty("enabled", false);
+				this.getView().byId("idFilter04").setProperty("enabled", false);
+				this.getView().byId("idFilter05").setProperty("enabled", false);
+				this.getView().byId("idFilter06").setProperty("enabled", false);
+				this.getView().byId("idFilter07").setProperty("enabled", false);
 				oProssingModel.refresh();
 				// this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
 				// this.getView().getModel("DateModel").setProperty("/claimEditSt", false);
@@ -1883,7 +1897,7 @@ sap.ui.define([
 					var oPaintData = data.results.filter(function (item) {
 
 						return item.J_3GKATNRC[0] == "P";
-						//return item.ItemKey[14] == "P";
+						
 					});
 					console.log(oPaintData);
 					this.getModel("LocalDataModel").setProperty("/oPaintList", oPaintData);
@@ -3108,7 +3122,6 @@ sap.ui.define([
 		onSubmitTci: function () {
 			var oClaimModel = this.getModel("ProssingModel");
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
-
 			this.obj.WarrantyClaimType = this.getView().getModel("HeadSetData").getProperty("/ClaimType");
 			this.obj.Partner = this.getModel("LocalDataModel").getProperty("/BPDealerDetails/BusinessPartnerKey");
 			this.obj.ActionCode = "";
