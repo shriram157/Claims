@@ -2563,7 +2563,7 @@ sap.ui.define([
 				"ClaimedHours": this.getView().getModel("LabourDataModel").getProperty("/ClaimedHours"),
 				"LabourDescription": this.getView().getModel("LabourDataModel").getProperty("/LabourDescription")
 			};
-
+			this.obj={""};
 			this.obj.zc_claim_item_labourSet.results.push(itemObj);
 
 			var oClaimModel = this.getModel("ProssingModel");
