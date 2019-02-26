@@ -57,7 +57,6 @@
 					</Button>
 				</f:content>
 			</f:SimpleForm>
-		
 		</Panel>
 		<f:SimpleForm id="idClaimMainForm" editable="" title="Repair Order Information" layout="ResponsiveGridLayout" labelSpanXL="12"
 			labelSpanL="12" labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
@@ -88,7 +87,7 @@
 					required="{DateModel>/OdometerReq}" visible="{DateModel>/OdometerReq}" id="idOdometer" editable="{DateModel>/OdometerReq}"/>
 			</f:content>
 		</f:SimpleForm>
-		<f:SimpleForm editable="" id="idVehicleInfo" title="Vehicle Information - Toyota Corola LE CVT 2018" layout="ResponsiveGridLayout"
+		<f:SimpleForm editable="" id="idVehicleInfo" title="{i18n>VehicleInformationToyotaCorolaLECVT}" layout="ResponsiveGridLayout"
 			labelSpanXL="6" labelSpanL="6" labelSpanM="6" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0"
 			emptySpanS="0" columnsXL="3" columnsL="3" columnsM="3" singleContainerFullSize="false">
 			<f:content>
@@ -119,69 +118,178 @@
 				<Button icon="sap-icon://message-warning" type="Transparent" press="onPressSpecialVin" class="clWarning"/>
 			</f:content>
 		</f:SimpleForm>
-		<table:Table id="idECPAGR" class="classRCPTable" selectionMode="Single" rows="{path:'LocalDataModel>/AgreementDataECP'}"
-			rowSelectionChange="onNavigate" selectionBehavior="Row" showNoData="true" threshold="4" visibleRowCount="4" enableBusyIndicator="true"
-			visible="{DateModel>/oECPfields}">
-			<table:toolbar>
-				<Toolbar>
-					<Title text="{i18n>ActiveAgreeement}" level="H2"/>
-				</Toolbar>
-			</table:toolbar>
-			<table:columns autoResizable="true">
-				<table:Column width="9rem">
-					<table:multiLabels>
-						<Label text="{i18n>ECPAgreement}" textAlign="Center" width="100%"/>
-					</table:multiLabels>
-					<table:template>
+		<VBox visible="false">
+		
+		<f:SimpleForm editable="true" id="idShipmentInfo" title="{i18n>ShipmentInformation}" layout="ResponsiveGridLayout" labelSpanXL="6"
+			labelSpanL="6" labelSpanM="6" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
+			columnsXL="3" columnsL="3" columnsM="3" singleContainerFullSize="false">
+			<f:content>
+				<Label text="{i18n>Delivering Carrier}"/>
+				<ComboBox required="true" items="" selectedKey="" value="">
+					<core:ListItem key="" text="United Road"/>
+					<core:ListItem key="" text="Mc Gill"/>
+				</ComboBox>
+				<Label text="{i18n>Probill #}"/>
+				<Input value="" required="true"/>
+				<Label text="{i18n>Delivery Date}"/>
+				<DatePicker required="true" value=""/>
+				<Label text="{i18n>Delivery}"/>
+				<ComboBox required="true" items="" selectedKey="" value="">
+					<core:ListItem key="" text="Attended"/>
+					<core:ListItem key="" text="Unattended"/>
+				</ComboBox>
+			</f:content>
+		</f:SimpleForm>
+		<HBox justifyContent="End">
+			<Button text="Add Damage Line" type="Emphasized" enabled=""/>
+			<Button text="Update Damage Line" class="sapUiTinyMarginBeginEnd" enabled=""/>
+			<Button text="Delete Damage Line" class="sapUiTinyMarginBeginEnd" type="Reject" enabled=""/>
+		</HBox>
+		<VBox id="idDamageArea" visible="" class="clBgColor sapUiSmallMarginTop" wrap="Wrap" width="100%">
+			<f:SimpleForm editable="true" labelSpanL="4" width="100%" title="" labelSpanXL="12" layout="ResponsiveGridLayout" emptySpanXL="1"
+				emptySpanL="1" columnsM="1" columnsL="1" columnsXL="1">
+				<f:content>
+					<Label text="{i18n>Area}"/>
+					<ComboBox showSecondaryValues="true" required="true" items="" selectedKey="" value="">
+						<core:ListItem key="" text="01" additionalText="Anttena"/>
+						<core:ListItem key="" text="02" additionalText="Battery"/>
+					</ComboBox>
+					<Label text="{i18n>Type}"/>
+					<ComboBox showSecondaryValues="true" required="true" items="" selectedKey="" value="">
+						<core:ListItem key="" text="01" additionalText="Bent"/>
+						<core:ListItem key="" text="02" additionalText="Broken"/>
+					</ComboBox>
+					<Label text="{i18n>Severity}"/>
+					<ComboBox showSecondaryValues="true" required="true" items="" selectedKey="" value="">
+						<core:ListItem key="" text="01" additionalText="Less than"/>
+						<core:ListItem key="" text="02" additionalText="Including"/>
+					</ComboBox>
+				</f:content>
+			</f:SimpleForm>
+		</VBox>
+		<Table id="idDamageDetailTable" mode="None" items="{LocalDataModel>/PartDetailList}" class="sapUiMediumMarginTop"
+			selectionChange="OnSelectionChange">
+			<columns>
+				<Column>
+					<Text text="{i18n>Line}"/>
+				</Column>
+				<Column>
+					<Text text="{i18n>AreaCode}"/>
+				</Column>
+				<Column>
+					<Text text="{i18n>AreaDescription}"/>
+				</Column>
+				<Column>
+					<Text text="{i18n>TypeCode}"/>
+				</Column>
+				<Column>
+					<Text text="{i18n>TypeDescription}"/>
+				</Column>
+				<Column>
+					<Text text="{i18n>SeverityCode}"/>
+				</Column>
+				<Column>
+					<Text text="{i18n>SeverityDescription}"/>
+				</Column>
+			</columns>
+			<items>
+				<ColumnListItem>
+					<cells>
+						<Text text=""/>
+					</cells>
+				</ColumnListItem>
+			</items>
+		</Table>
+		
+		</VBox>
+		
+		<Table id="idECPAGR" mode="SingleSelectLeft" items="{path:'LocalDataModel>/AgreementDataECP'}" class="sapUiMediumMarginTop"
+			selectionChange="onNavigate" visible="{DateModel>/oECPfields}">
+			<columns>
+				<Column>
+					<Label text="{i18n>ECPAgreement}" textAlign="Center" width="100%"/>
+				</Column>
+				<Column>
+					<Label text="{i18n>PlanCode}" textAlign="Center" width="100%"/>
+				</Column>
+				<Column>
+					<Label text="{i18n>Status}" textAlign="Center" width="100%"/>
+				</Column>
+				<Column>
+					<Label text="{i18n>StatusDate}" textAlign="Center" width="100%"/>
+				</Column>
+				<Column>
+					<Label text="{i18n>ExpiryDate}" textAlign="Center" width="100%"/>
+				</Column>
+				<Column>
+					<Label text="{i18n>ExpiryKM}" textAlign="Center" width="100%"/>
+				</Column>
+				<Column></Column>
+			</columns>
+			<items>
+				<ColumnListItem>
+					<cells>
 						<Text text="{LocalDataModel>AgreementNumber}" wrapping="true"/>
-					</table:template>
-				</table:Column>
-				<table:Column width="9rem">
-					<table:multiLabels>
-						<Label text="{i18n>PlanCode}" textAlign="Center" width="100%"/>
-					</table:multiLabels>
-					<table:template>
 						<Text text="{LocalDataModel>PlanType}" wrapping="true"/>
-					</table:template>
-				</table:Column>
-				<table:Column width="9rem">
-					<table:multiLabels>
-						<Label text="{i18n>Status}" textAlign="Center" width="100%"/>
-					</table:multiLabels>
-					<table:template>
 						<Text text="{LocalDataModel>bcc_agr_st_cd}" wrapping="true"/>
-					</table:template>
-				</table:Column>
-				<table:Column width="17rem">
-					<table:multiLabels>
-						<Label text="{i18n>StatusDate}" textAlign="Center" width="100%"/>
-					</table:multiLabels>
-					<table:template>
 						<Text
 							text="{path:'LocalDataModel>StatusDate', type: 'sap.ui.model.type.Date', constraints: { displayFormat: 'Date' }, formatOptions: { style: 'medium', strictParsing: true , UTC: true}}"
 							wrapping="true"/>
-					</table:template>
-				</table:Column>
-				<table:Column width="17rem">
-					<table:multiLabels>
-						<Label text="{i18n>ExpiryDate}" textAlign="Center" width="100%"/>
-					</table:multiLabels>
-					<table:template>
 						<Text
 							text="{path:'LocalDataModel>AgreementthruDate', type: 'sap.ui.model.type.Date', constraints: { displayFormat: 'Date' }, formatOptions: { style: 'medium', strictParsing: true , UTC: true}}"
 							wrapping="true"/>
-					</table:template>
-				</table:Column>
-				<table:Column width="17rem">
-					<table:multiLabels>
-						<Label text="{i18n>ExpiryKM}" textAlign="Center" width="100%"/>
-					</table:multiLabels>
-					<table:template>
 						<Text text="{LocalDataModel>AgreementthruKMreading}" wrapping="true"/>
-					</table:template>
-				</table:Column>
-			</table:columns>
-		</table:Table>
+					</cells>
+				</ColumnListItem>
+			</items>
+		</Table>
+		<!--<table:Table id="idECPAGR" class="classRCPTable" selectionMode="Single"  rows="{path:'LocalDataModel>/AgreementDataECP'}"-->
+		<!--	rowSelectionChange="onNavigate" selectionBehavior="Row" showNoData="true" threshold="4" visibleRowCount="4" enableBusyIndicator="true"-->
+		<!--	visible="{DateModel>/oECPfields}">-->
+		<!--	<table:toolbar>-->
+		<!--		<Toolbar>-->
+		<!--			<Title text="{i18n>ActiveAgreeement}" level="H2"/>-->
+		<!--		</Toolbar>-->
+		<!--	</table:toolbar>-->
+		<!--	<table:columns autoResizable="true">-->
+		<!--		<table:Column width="9rem">-->
+		<!--			<table:multiLabels>-->
+		<!--			</table:multiLabels>-->
+		<!--			<table:template>-->
+		<!--			</table:template>-->
+		<!--		</table:Column>-->
+		<!--		<table:Column width="9rem">-->
+		<!--			<table:multiLabels>-->
+		<!--			</table:multiLabels>-->
+		<!--			<table:template>-->
+		<!--			</table:template>-->
+		<!--		</table:Column>-->
+		<!--		<table:Column width="9rem">-->
+		<!--			<table:multiLabels>-->
+		<!--			</table:multiLabels>-->
+		<!--			<table:template>-->
+		<!--			</table:template>-->
+		<!--		</table:Column>-->
+		<!--		<table:Column width="17rem">-->
+		<!--			<table:multiLabels>-->
+		<!--			</table:multiLabels>-->
+		<!--			<table:template>-->
+		<!--			</table:template>-->
+		<!--		</table:Column>-->
+		<!--		<table:Column width="17rem">-->
+		<!--			<table:multiLabels>-->
+		<!--			</table:multiLabels>-->
+		<!--			<table:template>-->
+		<!--			</table:template>-->
+		<!--		</table:Column>-->
+		<!--		<table:Column width="17rem">-->
+		<!--			<table:multiLabels>-->
+		<!--			</table:multiLabels>-->
+		<!--			<table:template>-->
+		<!--			</table:template>-->
+		<!--		</table:Column>-->
+		<!--	</table:columns>-->
+		<!--</table:Table>-->
 		<f:SimpleForm editable="" title="" layout="ResponsiveGridLayout" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12"
 			adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="5" columnsL="5" columnsM="3"
 			singleContainerFullSize="false" visible="{DateModel>/oECPfields}">
@@ -190,7 +298,7 @@
 				<Label text="{i18n>ClientLastName}"/>
 				<Input value="" required="true"/>
 				<core:Title text=""/>
-				<Label text="{i18n>ClientLastName}"/>
+				<Label text="{i18n>PostalCode}"/>
 				<Input value="" required="true"/>
 				<core:Title text=""/>
 				<Label text=" "/>
@@ -203,9 +311,10 @@
 				<Text text=""/>
 			</f:content>
 		</f:SimpleForm>
-		<f:SimpleForm id="idpart01Form" editable="{DateModel>/oFormEdit}" title="{i18n>RepairDetails}" layout="ResponsiveGridLayout" labelSpanXL="12"
-			labelSpanL="12" labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
-			columnsXL="3" columnsL="3" columnsM="3" singleContainerFullSize="false">
+		<VBox visible="{DateModel>/RepairdDetailVisible}">
+		<f:SimpleForm visible="{DateModel>/RepairdDetailVisible}"  id="idpart01Form"  editable="{DateModel>/oFormEdit}" title="{i18n>RepairDetails}" layout="ResponsiveGridLayout"
+			labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0"
+			emptySpanS="0" columnsXL="3" columnsL="3" columnsM="3" singleContainerFullSize="false">
 			<f:content>
 				<core:Title text=""/>
 				<Label text="{i18n>OFP}"/>
@@ -253,6 +362,8 @@
 			</f:content>
 		</f:SimpleForm>
 		<Button text="{i18n>ViewCCRAbbreviations}" press="onPressAbbr"/>
+		</VBox>
+		
 		<f:SimpleForm visible="{DateModel>/AcA1}" editable="{DateModel>/oFormEdit}" title="Accessory Installation/Purchase"
 			layout="ResponsiveGridLayout" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0"
 			emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="3" columnsL="3" columnsM="3" singleContainerFullSize="false">

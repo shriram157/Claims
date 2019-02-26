@@ -90,6 +90,13 @@ sap.ui.define([
 					oClaimGroup : this.oSelectedClaimGroup
 					
 				});
+			}else if (oSelectedKey === "CORE RETURN") {
+					this.getRouter().navTo("MainClaimSection", {
+					claimNum : oClaimNum,
+					oKey : "CORE RETURN",
+					oClaimGroup : this.oSelectedClaimGroup
+					
+				});
 			}
 		},
 		
