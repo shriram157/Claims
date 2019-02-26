@@ -29,21 +29,21 @@
 									emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="3" columnsL="3" columnsM="3">
 									<f:content>
 										<core:Title text=""/>
-										<Label text="Model"/>
+										<Label text="{i18n>Model}"/>
 										<Text text=""/>
-										<Label text="In Service Date"/>
+										<Label text="{i18n>InServiceDate}"/>
 										<Text text=""/>
-										<Label text="Age"/>
-										<Text text=""/>
-										<core:Title text=""/>
-										<Label text="Model Year"/>
-										<Text text=""/>
-										<Label text="Written-Off"/>
+										<Label text="{i18n>Age}"/>
 										<Text text=""/>
 										<core:Title text=""/>
-										<Label text="Foreign VIN"/>
+										<Label text="{i18n>ModelYear}"/>
 										<Text text=""/>
-										<Label text="Special VIN Review"/>
+										<Label text="{i18n>WrittenOff}"/>
+										<Text text=""/>
+										<core:Title text=""/>
+										<Label text="{i18n>ForeignVIN}"/>
+										<Text text=""/>
+										<Label text="{i18n>SpecialVINReview}"/>
 										<Text text=""/>
 									</f:content>
 								</f:SimpleForm>
@@ -57,13 +57,13 @@
 									rowSelectionChange="onNavigate" selectionBehavior="Row" showNoData="true" threshold="20" enableBusyIndicator="true">
 									<table:toolbar>
 										<Toolbar>
-											<Title text="Active Agreeement(s)" level="H2"/>
+											<Title text="{i18n>ActiveAgreeement}" level="H2"/>
 										</Toolbar>
 									</table:toolbar>
 									<table:columns autoResizable="true">
 										<table:Column width="17rem">
 											<table:multiLabels>
-												<Label text="ECP Agreement" textAlign="Center" width="100%"/>
+												<Label text="{i18n>ECPAgreement}" textAlign="Center" width="100%"/>
 											</table:multiLabels>
 											<table:template>
 												<Text text="{LocalDataModel>ItemType}" wrapping="false"/>
@@ -71,7 +71,7 @@
 										</table:Column>
 										<table:Column width="17rem">
 											<table:multiLabels>
-												<Label text="Plan Code" textAlign="Center" width="100%"/>
+												<Label text="{i18n>PlanCode}" textAlign="Center" width="100%"/>
 											</table:multiLabels>
 											<table:template>
 												<Text text="{LocalDataModel>ItemType}" wrapping="false"/>
@@ -79,7 +79,7 @@
 										</table:Column>
 										<table:Column width="17rem">
 											<table:multiLabels>
-												<Label text="Status" textAlign="Center" width="100%"/>
+												<Label text="{i18n>Status}" textAlign="Center" width="100%"/>
 											</table:multiLabels>
 											<table:template>
 												<Text text="{LocalDataModel>ItemType}" wrapping="false"/>
@@ -87,7 +87,7 @@
 										</table:Column>
 										<table:Column width="17rem">
 											<table:multiLabels>
-												<Label text="Status Date" textAlign="Center" width="100%"/>
+												<Label text="{i18n>StatusDate}" textAlign="Center" width="100%"/>
 											</table:multiLabels>
 											<table:template>
 												<Text text="{LocalDataModel>ItemType}" wrapping="false"/>
@@ -95,7 +95,7 @@
 										</table:Column>
 										<table:Column width="17rem">
 											<table:multiLabels>
-												<Label text="Expiry Date" textAlign="Center" width="100%"/>
+												<Label text="{i18n>ExpiryDate}" textAlign="Center" width="100%"/>
 											</table:multiLabels>
 											<table:template>
 												<Text text="{LocalDataModel>ItemType}" wrapping="false"/>
@@ -103,7 +103,7 @@
 										</table:Column>
 										<table:Column width="17rem">
 											<table:multiLabels>
-												<Label text="Expiry KM" textAlign="Center" width="100%"/>
+												<Label text="{i18n>ExpiryKM}" textAlign="Center" width="100%"/>
 											</table:multiLabels>
 											<table:template>
 												<Text text="{LocalDataModel>ItemType}" wrapping="false"/>
@@ -118,13 +118,13 @@
 											emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="3" columnsL="3" columnsM="3">
 											<f:content>
 												<core:Title text=""/>
-												<Label text="Part# (OFP)" textAlign="Left" />
+												<Label text="{i18n>PartOFP}" textAlign="Left" />
 												<Input value=""/>
 												<core:Title text=""/>
-												<Label text="Main Op. #" textAlign="Left"/>
+												<Label text="{i18n>MainOp}" textAlign="Left"/>
 												<Input value=""/>
 												<core:Title text=""/>
-												<Button text="Look Up" type="Emphasized" press="onPressLookUp">
+												<Button text="{i18n>LookUp}" type="Emphasized" press="onPressLookUp">
 													<layoutData>
 														<l:GridData span="XL3 L3 "/>
 													</layoutData>
@@ -135,7 +135,7 @@
 									<table:columns autoResizable="true">
 										<table:Column width="17rem">
 											<table:multiLabels>
-												<Label text="Part # (OFP)" textAlign="Center" width="100%"/>
+												<Label text="{i18n>PartOFP}" textAlign="Center" width="100%"/>
 											</table:multiLabels>
 											<table:template>
 												<Text text="" wrapping="false"/>
@@ -143,7 +143,7 @@
 										</table:Column>
 										<table:Column width="17rem">
 											<table:multiLabels>
-												<Label text="Part Description" textAlign="Center" width="100%"/>
+												<Label text="{i18n>PartDescription}" textAlign="Center" width="100%"/>
 											</table:multiLabels>
 											<table:template>
 												<Text text="" wrapping="false"/>
@@ -151,7 +151,7 @@
 										</table:Column>
 										<table:Column width="17rem">
 											<table:multiLabels>
-												<Label text="Main Op. #" textAlign="Center" width="100%"/>
+												<Label text="{i18n>MainOp}" textAlign="Center" width="100%"/>
 											</table:multiLabels>
 											<table:template>
 												<Text text="" wrapping="false"/>
@@ -159,7 +159,7 @@
 										</table:Column>
 										<table:Column width="17rem">
 											<table:multiLabels>
-												<Label text="Operation Description" textAlign="Center" width="100%"/>
+												<Label text="{i18n>OperationDescription}" textAlign="Center" width="100%"/>
 											</table:multiLabels>
 											<table:template>
 												<Text text="" wrapping="false"/>
@@ -167,7 +167,7 @@
 										</table:Column>
 										<table:Column width="17rem">
 											<table:multiLabels>
-												<Label text="Coverage" textAlign="Center" width="100%"/>
+												<Label text="{i18n>Coverage}" textAlign="Center" width="100%"/>
 											</table:multiLabels>
 											<table:template>
 												<Text text="" wrapping="false"/>
@@ -175,7 +175,7 @@
 										</table:Column>
 									</table:columns>
 								</table:Table>
-								<List headerText="Important Notes:">
+								<List headerText="{i18n>ImportantNotes}">
 								
 										<DisplayListItem
 											value="This Coverage Inquiry is based on the date that the search is being performed and assumed to be the Repair Date on Repair Order. If the Repair Date on the Repair Order is different, the Coverage Inquiry results could differ especially if the vehicle is close to coverage expiry. Always perform the inquiry on the actual Repair Date to ensure accuracy."/>

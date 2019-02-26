@@ -1,5 +1,5 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
-	<SelectDialog title="Select Part Number" class="sapUiPopupWithPadding" items="{path:'LocalDataModel>/LabourSetData'}"
+	<SelectDialog title="{i18n>SelectPartNumber}" class="sapUiPopupWithPadding" items="{path:'LocalDataModel>/LabourSetData'}"
 		search="_handleValueHelpSearchLabour" confirm="_handleValueHelpCloseLabour" cancel="_handleValueHelpCloseLabour">
 		<StandardListItem  title="{path:'LocalDataModel>LabourNumber'}" info="{LocalDataModel>LabourNumber}"/>
 	</SelectDialog>

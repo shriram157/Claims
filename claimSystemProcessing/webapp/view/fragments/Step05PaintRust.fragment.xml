@@ -6,7 +6,7 @@
 				<Toolbar height="3rem">
 					<Title text="{i18n>ClaimDetails}"/>
 					<ToolbarSpacer/>
-					<Title text="TCI Claim Number: {LocalDataModel>/ClaimDetails/NumberOfWarrantyClaim}" textAlign="End"/>
+					<Title text="{i18n>TCIClaimNumber} : {LocalDataModel>/ClaimDetails/NumberOfWarrantyClaim}" textAlign="End"/>
 				</Toolbar>
 			</headerToolbar>
 			<f:SimpleForm editable="true" layout="ResponsiveGridLayout" title="" labelSpanXL="6" labelSpanL="6" labelSpanM="12" labelSpanS="12"
@@ -14,43 +14,43 @@
 				singleContainerFullSize="false">
 				<f:content>
 					<core:Title text=""/>
-					<Label text="TCI Claim #"/>
+					<Label text="{i18n>TCIClaim}"/>
 					<Text text="{HeadSetData>/NumberOfWarrantyClaim}"/>
-					<Label text="VIN">
+					<Label text="{i18n>VIN}">
 					<layoutData>
 						<l:GridData span="XL3 L3"/>
 					</layoutData>
 					</Label>
 					<Text text="{HeadSetData>/ExternalObjectNumber}"/>
 					<core:Title text=""/>
-					<Label text="Dlr. Claim #"/>
+					<Label text="{i18n>DlrClaim}"/>
 					<Text text="{HeadSetData>/ExternalNumberOfClaim}"/>
-					<Label text="OFP">
+					<Label text="{i18n>OFP}">
 						<layoutData>
 							<l:GridData span="XL3 L4"/>
 						</layoutData>
 					</Label>
-					<Text text="{HeadSetData>/OFP}" />
+					<Text text="{HeadSetData>/OFP}"/>
 					<core:Title text=""/>
-					<Label text="RO #."/>
+					<Label text="{i18n>RO}"/>
 					<Text text="{HeadSetData>/RepairOrderNumberExternal}"/>
-					<Label text="Op #."/>
+					<Label text="{i18n>Op}"/>
 					<Text text="{HeadSetData>/MainOpsCode}"/>
 					<core:Title text=""/>
-					<Label text="Repair Date"/>
+					<Label text="{i18n>RepairDate}"/>
 					<Text
 						text="{path:'HeadSetData>/RepairDate', type: 'sap.ui.model.type.Date', constraints: {displayFormat: 'Date' }, formatOptions: { style: 'medium', strictParsing: true , UTC: true}}"/>
-					<Label text="Reg. Date"/>
+					<Label text="{i18n>RegDate}"/>
 					<Text text="{path:'HeadSetData>/RegDate'}"/>
 					<core:Title text=""/>
-					<Label text="Odometer"/>
+					<Label text="{i18n>Odometer}"/>
 					<Text text="{HeadSetData>/Odometer}"/>
-					<Label text="Elapse"/>
+					<Label text="{i18n>Elapse}"/>
 					<Text text="{HeadSetData>/ElapsedMonths}"/>
 					<core:Title text=""/>
-					<Label text="Type"/>
+					<Label text="{i18n>Type}"/>
 					<Text text="{HeadSetData>/WarrantyClaimType}"/>
-					<Label text="Status"/>
+					<Label text="{i18n>Status}"/>
 					<Text text="{HeadSetData>/ProcessingStatusOfWarrantyClm}"/>
 				</f:content>
 			</f:SimpleForm>
@@ -59,7 +59,7 @@
 			labelSpanM="12" labelSpanS="12" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="4" columnsL="4" columnsM="4">
 			<f:content>
 				<core:Title text=""/>
-				<Button text="Add Paint LIne" type="Emphasized" press="onPressAddPaint" enabled="{DateModel>/oFormEdit}">
+				<Button text="{i18n>AddPaintLine}" type="Emphasized" press="onPressAddPaint" enabled="{DateModel>/oFormEdit}">
 					<layoutData>
 						<l:GridData span="XL8 L8 "/>
 					</layoutData>
@@ -71,13 +71,13 @@
 				<!--	</layoutData>-->
 				<!--</Button>-->
 				<core:Title text=""/>
-				<Button text="Delete Paint Line" type="Reject" press="onPressDeletePaint" enabled="{DateModel>/oFormEdit}">
+				<Button text="{i18n>DeletePaintLine}" type="Reject" press="onPressDeletePaint" enabled="{DateModel>/oFormEdit}">
 					<layoutData>
 						<l:GridData span="XL8 L8 "/>
 					</layoutData>
 				</Button>
 				<core:Title text=""/>
-				<Button text="Save Claim" type="Emphasized" press="onPressSavePaint" enabled="{DateModel>/paintLine}">
+				<Button text="{i18n>SaveClaim}" type="Emphasized" press="onPressSavePaint" enabled="{DateModel>/paintLine}">
 					<layoutData>
 						<l:GridData span="XL8 L8 "/>
 					</layoutData>
@@ -91,10 +91,10 @@
 					columnsL="4" columnsM="4">
 					<f:content>
 						<core:Title text=""/>
-						<Label text="Line #*" textAlign="Left"/>
+						<Label text="{i18n>Line}" textAlign="Left"/>
 						<Text text=""/>
 						<core:Title text=""/>
-						<Label text="Position Code" textAlign="Left"/>
+						<Label text="{i18n>PositionCode}" textAlign="Left"/>
 					
 						<!--<ComboBox required="true" items="{path:'LocalDataModel>/oPaintList'}" change="onSelectPositionCode"-->
 						<!--	selectedKey="{PaintDataModel>/PaintPositionCode}"-->
@@ -104,7 +104,7 @@
 						<!--		key="{LocalDataModel>J_3GKATNRC}" additionalText="{LocalDataModel>LTEXT}"/>-->
 						<!--</ComboBox>-->
 						
-						<Input type="Text" textFormatMode="Value" placeholder="Enter Position Code" showSuggestion="true" showValueHelp="true"
+						<Input type="Text" textFormatMode="Value" placeholder="{i18n>EnterPositionCode}" showSuggestion="true" showValueHelp="true"
 							value="{PaintDataModel>/PaintPositionCode}" valueHelpRequest="handleValueHelpPaint" suggestionItems="{LocalDataModel>/oPaintList}"
 							suggestionItemSelected="onSelectPositionPaintCode" enabled="{DateModel>/paintLine}" >
 							<suggestionItems>
@@ -113,14 +113,14 @@
 						</Input>
 						<core:Title text=""/>
 						<Label text=" " class="clTextIndent"/>
-						<Button text="Save Paint" type="Emphasized" press="onPressSavePaint" enabled="{DateModel>/paintLine}">
+						<Button text="{i18n>SavePaint}" type="Emphasized" press="onPressSavePaint" enabled="{DateModel>/paintLine}">
 							<!--<layoutData>-->
 							<!--	<l:GridData span="XL10 L10 "/>-->
 							<!--</layoutData>-->
 						</Button>
 						<core:Title text=""/>
 						<Label text=" " class="clTextIndent"/>
-						<Button text="Cancel" type="Transparent" press="onPressSavePaint">
+						<Button text="{i18n>Cancel}" type="Transparent" press="onPressSavePaint">
 							<!--<layoutData>-->
 							<!--	<l:GridData span="XL9 L9 "/>-->
 							<!--</layoutData>-->
@@ -132,8 +132,8 @@
 		<Table id="idPaintTable" mode="SingleSelectLeft" items="{path: 'LocalDataModel>/PaintPricingDataModel'}" growing="true" growingThreshold="5"
 			noDataText="No Data" showNoData="true">
 			<columns>
-				<Column><Text text="Line #"/></Column>
-				<Column><Text text="Position Code"/></Column>
+				<Column><Text text="{i18n>Line}"/></Column>
+				<Column><Text text="{i18n>PositionCode}"/></Column>
 			</columns>
 			<items>
 				<ColumnListItem vAlign="Middle">

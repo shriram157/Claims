@@ -6,7 +6,7 @@
 				<Toolbar height="3rem">
 					<Title text="{i18n>ClaimDetails}"/>
 					<ToolbarSpacer/>
-					<Title text="TCI Claim Number: {LocalDataModel>/ClaimDetails/NumberOfWarrantyClaim}" textAlign="End"/>
+					<Title text="{i18n>TCIClaimNumber} : {LocalDataModel>/ClaimDetails/NumberOfWarrantyClaim}" textAlign="End"/>
 				</Toolbar>
 			</headerToolbar>
 			<f:SimpleForm editable="true" layout="ResponsiveGridLayout" title="" labelSpanXL="6" labelSpanL="6" labelSpanM="12" labelSpanS="12"
@@ -14,43 +14,43 @@
 				singleContainerFullSize="false">
 				<f:content>
 					<core:Title text=""/>
-					<Label text="TCI Claim #"/>
+					<Label text="{i18n>TCIClaim}"/>
 					<Text text="{HeadSetData>/NumberOfWarrantyClaim}"/>
-					<Label text="VIN">
+					<Label text="{i18n>VIN}">
 					<layoutData>
 						<l:GridData span="XL3 L3"/>
 					</layoutData>
 					</Label>
 					<Text text="{HeadSetData>/ExternalObjectNumber}"/>
 					<core:Title text=""/>
-					<Label text="Dlr. Claim #"/>
+					<Label text="{i18n>DlrClaim}"/>
 					<Text text="{HeadSetData>/ExternalNumberOfClaim}"/>
-					<Label text="OFP">
+					<Label text="{i18n>OFP}">
 						<layoutData>
 							<l:GridData span="XL3 L4"/>
 						</layoutData>
 					</Label>
 					<Text text="{HeadSetData>/OFP}"/>
 					<core:Title text=""/>
-					<Label text="RO #."/>
+					<Label text="{i18n>RO}"/>
 					<Text text="{HeadSetData>/RepairOrderNumberExternal}"/>
-					<Label text="Op #."/>
+					<Label text="{i18n>Op}"/>
 					<Text text="{HeadSetData>/MainOpsCode}"/>
 					<core:Title text=""/>
-					<Label text="Repair Date"/>
+					<Label text="{i18n>RepairDate}"/>
 					<Text
 						text="{path:'HeadSetData>/RepairDate', type: 'sap.ui.model.type.Date', constraints: {displayFormat: 'Date' }, formatOptions: { style: 'medium', strictParsing: true , UTC: true}}"/>
-					<Label text="Reg. Date"/>
+					<Label text="{i18n>RegDate}"/>
 					<Text text="{path:'HeadSetData>/RegDate'}"/>
 					<core:Title text=""/>
-					<Label text="Odometer"/>
+					<Label text="{i18n>Odometer}"/>
 					<Text text="{HeadSetData>/Odometer}"/>
-					<Label text="Elapse"/>
+					<Label text="{i18n>Elapse}"/>
 					<Text text="{HeadSetData>/ElapsedMonths}"/>
 					<core:Title text=""/>
-					<Label text="Type"/>
+					<Label text="{i18n>Type}"/>
 					<Text text="{HeadSetData>/WarrantyClaimType}"/>
-					<Label text="Status"/>
+					<Label text="{i18n>Status}"/>
 					<Text text="{HeadSetData>/ProcessingStatusOfWarrantyClm}"/>
 				</f:content>
 			</f:SimpleForm>
@@ -63,25 +63,25 @@
 			labelSpanM="12" labelSpanS="12" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="4" columnsL="4" columnsM="4">
 			<f:content>
 				<core:Title text=""/>
-				<Button text="Add Sublet LIne" type="Emphasized" press="onPressAddSublet" enabled="{DateModel>/oFormEdit}">
+				<Button text="{i18n>AddSubletLine}" type="Emphasized" press="onPressAddSublet" enabled="{DateModel>/oFormEdit}">
 					<layoutData>
 						<l:GridData span="XL8 L8 "/>
 					</layoutData>
 				</Button>
 				<core:Title text=""/>
-				<Button text="Update Sublet Line" press="onPressUpdateSublet" enabled="{DateModel>/oFormEdit}">
+				<Button text="{i18n>UpdateSubletLine}" press="onPressUpdateSublet" enabled="{DateModel>/oFormEdit}">
 					<layoutData>
 						<l:GridData span="XL8 L8 "/>
 					</layoutData>
 				</Button>
 				<core:Title text=""/>
-				<Button text="Delete Sublet Line" type="Reject" press="onPressDeleteSublet" enabled="{DateModel>/oFormEdit}">
+				<Button text="{i18n>DeleteSubletLine}" type="Reject" press="onPressDeleteSublet" enabled="{DateModel>/oFormEdit}">
 					<layoutData>
 						<l:GridData span="XL8 L8 "/>
 					</layoutData>
 				</Button>
 				<core:Title text=""/>
-				<Button text="Save Claim" type="Emphasized" press="onPressSaveClaimItemSublet" enabled="{DateModel>/subletLine}">
+				<Button text="{i18n>SaveClaim}" type="Emphasized" press="onPressSaveClaimItemSublet" enabled="{DateModel>/subletLine}">
 					<layoutData>
 						<l:GridData span="XL8 L8 "/>
 					</layoutData>
@@ -95,26 +95,26 @@
 					columnsL="6" columnsM="6">
 					<f:content>
 						<core:Title text=""/>
-						<Label text="Line #*" textAlign="Left"/>
+						<Label text="{i18n>Line}" textAlign="Left"/>
 						<Text text=""/>
 						<core:Title text=""/>
-						<Label text="Sublet Type" textAlign="Left"/>
+						<Label text="{i18n>SubletType}" textAlign="Left"/>
 						<ComboBox required="true" items="{path:'LocalDataModel>/ClaimSubletCodeModel', type : 'sap.ui.model.type.String'}"
 							selectedKey="{SubletDataModel>/SubletCode}" enabled="{DateModel>/subletLine}" filterSecondaryValues="true" showSecondaryValues="true">
 							<core:ListItem text="{path:'LocalDataModel>Matnr'} - {path:'LocalDataModel>MaterialDesc'}" key="{LocalDataModel>Matnr}" additionalText="{LocalDataModel>UnitOfMeasure}"/>
 						</ComboBox>
 						<core:Title text=""/>
-						<Label text="Invoice #" textAlign="Left"/>
+						<Label text="{i18n>Invoice}" textAlign="Left"/>
 						<Input value="{SubletDataModel>/InvoiceNo}" enabled="{DateModel>/subletLine}"/>
 						<core:Title text=""/>
-						<Label text="Description" textAlign="Left"/>
+						<Label text="{i18n>Description}" textAlign="Left"/>
 						<Input value="{SubletDataModel>/description}" enabled="{DateModel>/subletLine}"/>
 						<core:Title text=""/>
-						<Label text="Amount" textAlign="Left"/>
+						<Label text="{i18n>Amount}" textAlign="Left"/>
 						<custom:CustomInputDecimal value="{SubletDataModel>/Amount}" enabled="{DateModel>/subletLine}"/>
 						<core:Title text=""/>
 						<Label text=" " class="clTextIndent"/>
-						<Button text="Save Sublet" type="Emphasized" press="onPressSaveClaimItemSublet" enabled="{DateModel>/subletLine}">
+						<Button text="{i18n>SaveSublet}" type="Emphasized" press="onPressSaveClaimItemSublet" enabled="{DateModel>/subletLine}">
 							<!--<layoutData>-->
 							<!--	<l:GridData span="XL10 L10 "/>-->
 							<!--</layoutData>-->
@@ -125,7 +125,7 @@
 					labelSpanM="12" labelSpanS="12" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="4" columnsL="4" columnsM="4">
 					<f:content>
 						<core:Title text=""/>
-						<Label text="Attachments" textAlign="Left"/>
+						<Label text="{i18n>Attachments}" textAlign="Left"/>
 						<UploadCollection id="UploadSublet" change="onUplaodChange" uploadComplete="onSubletUploadComplete" fileDeleted="onFileDeleted02"
 							 items="{ path: 'LocalDataModel>/SubletAtchmentData', templateShareable: false }">
 							<toolbar>
@@ -146,20 +146,20 @@
 							</items>
 						</UploadCollection>
 						<core:Title text=""/>
-						<Label text="# Days" textAlign="Left"/>
+						<Label text="{i18n>Days}" textAlign="Left"/>
 						<Input value="{SubletDataModel>/days}" enabled="{DateModel>/subletLine}"/>
 						<core:Title text=""/>
-						<Label text="Vehicle Brand" textAlign="Left"/>
+						<Label text="{i18n>VehicleBrand}" textAlign="Left"/>
 						<Select forceSelection="false" selectedKey="{SubletDataModel>/brand}" enabled="{DateModel>/subletLine}">
 							<items>
-								<core:Item key="Toyota" text="Toyota"/>
-								<core:Item key="Lexus" text="Lexus"/>
-								<core:Item key="Other" text="Other"/>
+								<core:Item key="{i18n>Toyota}" text="Toyota"/>
+								<core:Item key="{i18n>Lexus}" text="Lexus"/>
+								<core:Item key="{i18n>Other}" text="Other"/>
 							</items>
 						</Select>
 						<core:Title text=""/>
 						<Label text=" " class="clTextIndent"/>
-						<Button text="Cancel" type="Transparent" press="onPressSaveLabour" enabled="{DateModel>/subletLine}">
+						<Button text="{i18n>Cancel}" type="Transparent" press="onPressSaveLabour" enabled="{DateModel>/subletLine}">
 							<layoutData>
 								<l:GridData span="XL9 L9 "/>
 							</layoutData>
@@ -171,24 +171,24 @@
 		<Table id="idSubletTable" mode="SingleSelectLeft" items="{path: 'LocalDataModel>/SubletPricingDataModel'}" growing="true"
 			growingThreshold="5" noDataText="No Data" showNoData="true">
 			<columns>
-				<Column><Text text="Line #" textAlign="Center" width="100%"/></Column>
-				<Column><Text text="Sublet Type*" textAlign="Center" width="100%"/></Column>
-				<Column><Text text="Invoice #*" textAlign="Center" width="100%"/></Column>
-				<Column><Text text="Attachment*" textAlign="Center" width="100%"/></Column>
-				<Column><Text text="Description" textAlign="Center" width="100%"/>
-					<footer><Text text="Sub-total : " textAlign="Center" width="100%"/></footer>
+				<Column><Text text="{i18n>Line}" textAlign="Center" width="100%"/></Column>
+				<Column><Text text="{i18n>SubletType}" textAlign="Center" width="100%"/></Column>
+				<Column><Text text="{i18n>Invoice}" textAlign="Center" width="100%"/></Column>
+				<Column><Text text="{i18n>Attachment}" textAlign="Center" width="100%"/></Column>
+				<Column><Text text="{i18n>Description}" textAlign="Center" width="100%"/>
+					<footer><Text text="{i18n>Subtotal}" textAlign="Center" width="100%"/></footer>
 				</Column>
 				<Column>
-					<Text text="Amount*" textAlign="Center" width="100%"/>
+					<Text text="{i18n>Amount}" textAlign="Center" width="100%"/>
 					<footer><Text text="{path: 'LocalDataModel>/SubletPricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnAmountSublet'}" textAlign="Center" width="100%"/></footer>
 				</Column>
-				<Column><Text text="Total After Discount"/>
+				<Column><Text text="{i18n>TotalAfterDiscount}"/>
 					<footer><Text text="{path: 'LocalDataModel>/SubletPricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnTotalSubletAfDisc'}" textAlign="Center" width="100%"/></footer>
 				</Column>
-				<Column><Text text="TCI Amount Approved"/>
+				<Column><Text text="{i18n>TCIAmountApproved}"/>
 					<footer><Text text="{path: 'LocalDataModel>/SubletPricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnTCISubletApr'}" textAlign="Center" width="100%"/></footer>
 				</Column>
-				<Column><Text text="Difference"/>
+				<Column><Text text="{i18n>Difference}"/>
 					<footer><Text text="{path: 'LocalDataModel>/SubletPricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnSubletDif'}" textAlign="Center" width="100%"/></footer>
 				</Column>
 			</columns>

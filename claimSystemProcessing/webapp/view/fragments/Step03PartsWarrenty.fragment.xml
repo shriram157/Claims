@@ -6,7 +6,7 @@
 				<Toolbar height="3rem">
 					<Title text="{i18n>ClaimDetails}"/>
 					<ToolbarSpacer/>
-					<Title text="TCI Claim Number: {LocalDataModel>/ClaimDetails/NumberOfWarrantyClaim}" textAlign="End"/>
+					<Title text="{i18n>TCIClaimNumber}: {LocalDataModel>/ClaimDetails/NumberOfWarrantyClaim}" textAlign="End"/>
 				</Toolbar>
 			</headerToolbar>
 			<f:SimpleForm editable="true" layout="ResponsiveGridLayout" title="" labelSpanXL="6" labelSpanL="6" labelSpanM="12" labelSpanS="12"
@@ -14,43 +14,43 @@
 				singleContainerFullSize="false">
 				<f:content>
 					<core:Title text=""/>
-					<Label text="TCI Claim #"/>
+					<Label text="{i18n>TCIClaim}"/>
 					<Text text="{HeadSetData>/NumberOfWarrantyClaim}"/>
-					<Label text="VIN">
+					<Label text="{i18n>VIN}">
 					<layoutData>
 						<l:GridData span="XL3 L3"/>
 					</layoutData>
 					</Label>
 					<Text text="{HeadSetData>/ExternalObjectNumber}"/>
 					<core:Title text=""/>
-					<Label text="Dlr. Claim #"/>
+					<Label text="{i18n>DlrClaim}"/>
 					<Text text="{HeadSetData>/ExternalNumberOfClaim}"/>
-					<Label text="OFP">
+					<Label text="{i18n>OFP}">
 						<layoutData>
 							<l:GridData span="XL3 L4"/>
 						</layoutData>
 					</Label>
 					<Text text="{HeadSetData>/OFP}" id="idOFPart"/>
 					<core:Title text=""/>
-					<Label text="RO #."/>
+					<Label text="{i18n>RO}"/>
 					<Text text="{HeadSetData>/RepairOrderNumberExternal}"/>
-					<Label text="Op #."/>
+					<Label text="{i18n>Op}"/>
 					<Text text="{HeadSetData>/MainOpsCode}"/>
 					<core:Title text=""/>
-					<Label text="Repair Date"/>
+					<Label text="{i18n>RepairDate}"/>
 					<Text
 						text="{path:'HeadSetData>/RepairDate', type: 'sap.ui.model.type.Date', constraints: {displayFormat: 'Date' }, formatOptions: { style: 'medium', strictParsing: true , UTC: true}}"/>
-					<Label text="Reg. Date"/>
+					<Label text="{i18n>RegDate}"/>
 					<Text text="{path:'HeadSetData>/RegDate'}"/>
 					<core:Title text=""/>
-					<Label text="Odometer"/>
+					<Label text="{i18n>Odometer}"/>
 					<Text text="{HeadSetData>/Odometer}"/>
-					<Label text="Elapse"/>
+					<Label text="{i18n>Elapse}"/>
 					<Text text="{HeadSetData>/ElapsedMonths}"/>
 					<core:Title text=""/>
-					<Label text="Type"/>
+					<Label text="{i18n>Type}"/>
 					<Text text="{HeadSetData>/WarrantyClaimType}"/>
-					<Label text="Status"/>
+					<Label text="{i18n>Status}"/>
 					<Text text="{HeadSetData>/ProcessingStatusOfWarrantyClm}"/>
 				</f:content>
 			</f:SimpleForm>
@@ -59,18 +59,18 @@
 			labelSpanM="12" labelSpanS="12" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="6" columnsL="6" columnsM="6">
 			<f:content>
 				<core:Title text=""/>
-				<Button text="Add Part Line" press="onPressAddPart" enabled="{DateModel>/oFormEdit}"/>
+				<Button text="{i18n>AddPartLine}" press="onPressAddPart" enabled="{DateModel>/oFormEdit}"/>
 				<core:Title text=""/>
-				<Button text="Update Part Line" press="onPressUpdatePart" enabled="{DateModel>/oFormEdit}"/>
+				<Button text="{i18n>UpdatePartLine}" press="onPressUpdatePart" enabled="{DateModel>/oFormEdit}"/>
 				<core:Title text=""/>
-				<Button text="Delete Part Line" type="Reject" press="onPressDeletePart" enabled="{DateModel>/oFormEdit}"/>
+				<Button text="{i18n>DeletePartLine}" type="Reject" press="onPressDeletePart" enabled="{DateModel>/oFormEdit}"/>
 				<core:Title text=""/>
-				<Button text="Generate Packing Slip" press="onPressSuggestPart" enabled="{DateModel>/oFormEdit}"/>
+				<Button text="{i18n>GeneratePackingSlip}" press="onPressSuggestPart" enabled="{DateModel>/oFormEdit}"/>
 				<core:Title text=""/>
-				<Label text="Parts Mark-up"/>
+				<Label text="{i18n>PartsMarkup}"/>
 				<Text text="35%"/>
 				<core:Title text=""/>
-				<Button text="Save Claim" type="Emphasized" press="onPressSavePart" enabled="{DateModel>/partLine}" />
+				<Button text="{i18n>SaveClaim}" type="Emphasized" press="onPressSavePart" enabled="{DateModel>/partLine}" />
 			</f:content>
 		</f:SimpleForm>
 		<!--<HBox justifyContent="End" width="100%">-->
@@ -84,25 +84,25 @@
 					columnsL="6" columnsM="3">
 					<f:content>
 						<core:Title text=""/>
-						<Label text="Line #" textAlign="Left"/>
+						<Label text="Line" textAlign="Left"/>
 						<Text text=""/>
 						<core:Title text=""/>
-						<Label text="Part Number" textAlign="Left"/>
+						<Label text="{i18n>PartNumber}" textAlign="Left"/>
 						<Input value="{PartDataModel>/matnr}" required="true" id="idPartNumber" showValueHelp="true" valueHelpOnly="true"
 							valueHelpRequest="handleValueHelp" enabled="{DateModel>/partLine}"/>
 						<core:Title text=""/>
-						<Label text="Part Description" textAlign="Left"/>
+						<Label text="{i18n>PartDescription}" textAlign="Left"/>
 						<Input value="{PartDataModel>/PartDescription}" editable="false" id="idPartDes"/>
 						<core:Title text=""/>
-						<Label text="Dealer Net Price" textAlign="Left"/>
+						<Label text="{i18n>DealerNetPrice}" textAlign="Left"/>
 						<Input value="" editable="false"/>
 						<core:Title text=""/>
-						<Label text="Quantity" textAlign="Left"/>
+						<Label text="{i18n>Quantity}" textAlign="Left"/>
 						<customPart:CustomInput  value="{PartDataModel>/quant}" enabled="{DateModel>/partLine}"/>
 						<Text text="{LocalDataModel>/BaseUnit}"/>
 						<core:Title text=""/>
 						<Label text=" " class="clTextIndent"/>
-						<Button text="Save Part" type="Emphasized" press="onPressSavePart" enabled="{DateModel>/partLine}">
+						<Button text="{i18n>SavePart}" type="Emphasized" press="onPressSavePart" enabled="{DateModel>/partLine}">
 							<!--<layoutData>-->
 							<!--	<l:GridData span="XL10 L10 "/>-->
 							<!--</layoutData>-->
@@ -113,36 +113,36 @@
 		</l:Grid>
 		<Table id="idTableParts" mode="SingleSelectLeft" items="{path: 'LocalDataModel>/PricingDataModel'}" growing="true" growingThreshold="5" noDataText="No Data" showNoData="true">
 			<columns>
-				<Column><Text text="Line #" textAlign="Center" width="100%"/></Column>
-				<Column><Text text="OFP" textAlign="Center" width="100%"/></Column>
-				<Column><Text text="Part Number" textAlign="Center" width="100%"/></Column>
-				<Column><Text text="Description" textAlign="Center" width="100%"/></Column>
+				<Column><Text text="{i18n>Line}" textAlign="Center" width="100%"/></Column>
+				<Column><Text text="{i18n>OFP}" textAlign="Center" width="100%"/></Column>
+				<Column><Text text="{i18n>PartNumber}" textAlign="Center" width="100%"/></Column>
+				<Column><Text text="{i18n>Description}" textAlign="Center" width="100%"/></Column>
 				<Column>
-					<Text text="Dealer Net Price" textAlign="Center" width="100%"/>
+					<Text text="{i18n>DealerNetPrice}" textAlign="Center" width="100%"/>
 				</Column>
-				<Column><Text text="Quantity" textAlign="Center" width="100%"/>
-				<footer><Text text="Sub-total : " textAlign="Center" width="100%"/></footer>
+				<Column><Text text="{i18n>Quantity}" textAlign="Center" width="100%"/>
+				<footer><Text text="{i18n>Subtotal}" textAlign="Center" width="100%"/></footer>
 				</Column>
 				<Column>
-					<Text text="Extended Value" textAlign="Center" width="100%"/>
+					<Text text="{i18n>ExtendedValue}" textAlign="Center" width="100%"/>
 					<footer><Text text="{path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnSumExtendedVal'}" textAlign="Center" width="100%"/></footer>
 					</Column>
 				<Column>
-					<Text text="Mark-up Amount" textAlign="Center" width="100%"/>
+					<Text text="{i18n>MarkupAmount}" textAlign="Center" width="100%"/>
 					<footer><Text text="{path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnSumMarkUpVal'}" textAlign="Center" width="100%"/></footer>
 				</Column>
 				<Column>
-					<Text text="Amount Claimed" textAlign="Center" width="100%"/>
+					<Text text="{i18n>AmountClaimed}" textAlign="Center" width="100%"/>
 					<footer><Text text="{path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnAmountClaimVal'}" textAlign="Center" width="100%"/></footer>
 				</Column>
-				<Column><Text text="Total After Discount" textAlign="Center" width="100%"/>
+				<Column><Text text="{i18n>TotalAfterDiscount}" textAlign="Center" width="100%"/>
 				<footer><Text text="{path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnAfterDiscVal'}" textAlign="Center" width="100%"/></footer>
 				</Column>
-				<Column><Text text="TCI Quantity Approved" textAlign="Center" width="100%"/></Column>
-				<Column><Text text="TCI Amount Approved" textAlign="Center" width="100%"/>
+				<Column><Text text="{i18n>TCIQuantityApproved}" textAlign="Center" width="100%"/></Column>
+				<Column><Text text="{i18n>TCIAmountApproved}" textAlign="Center" width="100%"/>
 				<footer><Text text="{path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnTCIAmtVal'}" textAlign="Center" width="100%"/></footer>
 				</Column>
-				<Column><Text text="Difference"/>
+				<Column><Text text="{i18n>Difference}"/>
 				<footer><Text text="{path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnDiffVal'}" textAlign="Center" width="100%"/></footer>
 				</Column>
 			</columns>

@@ -2,7 +2,7 @@
 	xmlns="sap.m"
 	xmlns:core="sap.ui.core">
 	<SelectDialog
-		title="Operation Code"
+		title="{i18n>OperationCode}"
 		class="sapUiPopupWithPadding"
 		items="{LocalDataModel>/oPaintList}"
 		search="_handleValueHelpSearchLabour"
