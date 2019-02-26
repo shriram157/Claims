@@ -83,6 +83,14 @@ sap.ui.define([
 					
 				});
 			}
+			else if (oSelectedKey === "SETR") {
+					this.getRouter().navTo("MainClaimSection", {
+					claimNum : oClaimNum,
+					oKey : "SETR",
+					oClaimGroup : this.oSelectedClaimGroup
+					
+				});
+			}
 		},
 		
 		onSelectRequestType01 : function(oEvent){

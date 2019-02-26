@@ -16,27 +16,27 @@
 											<core:Fragment fragmentName="zclaimProcessing.view.fragments.Step01MainWarrentyECP" type="XML"/>
 										</IconTabFilter>
 										<IconTabSeparator icon="sap-icon://open-command-field" visible="{DateModel>/Authorization}"/>
-										<IconTabFilter icon="sap-icon://official-service" text="{i18n>Authorization}" enabled="false" visible="{DateModel>/Authorization}" id="idFilter02" key="Tab2">
+										<IconTabFilter icon="sap-icon://official-service" text="{i18n>Authorization}" enabled="{DateModel>/enableTab}" visible="{DateModel>/Authorization}" id="idFilter02" key="Tab2">
 											<core:Fragment fragmentName="zclaimProcessing.view.fragments.Step02Authorization" type="XML"/>
 										</IconTabFilter>
 										<IconTabSeparator icon="sap-icon://open-command-field" visible="{DateModel>/Parts}"/>
-										<IconTabFilter icon="sap-icon://shelf" text="{i18n>Parts}" enabled="false" visible="{DateModel>/Parts}" id="idFilter03" key="Tab3">
+										<IconTabFilter icon="sap-icon://shelf" text="{i18n>Parts}" enabled="{DateModel>/enableTab}" visible="{DateModel>/Parts}" id="idFilter03" key="Tab3">
 											<core:Fragment fragmentName="zclaimProcessing.view.fragments.Step03PartsWarrenty" type="XML"/>
 										</IconTabFilter>
 										<IconTabSeparator icon="sap-icon://open-command-field" visible="{DateModel>/Labour}"/>
-										<IconTabFilter icon="sap-icon://user-settings" text="{i18n>Labour}" enabled="false" visible="{DateModel>/Labour}" id="idFilter04" key="Tab4">
+										<IconTabFilter icon="sap-icon://user-settings" text="{i18n>Labour}" enabled="{DateModel>/enableTab}" visible="{DateModel>/Labour}" id="idFilter04" key="Tab4">
 											<core:Fragment fragmentName="zclaimProcessing.view.fragments.Step04Labour" type="XML"/>
 										</IconTabFilter>
 										<IconTabSeparator icon="sap-icon://open-command-field" visible="{DateModel>/Paint}"/>
-										<IconTabFilter icon="sap-icon://palette" text="{i18n>PaintRust}" enabled="false" visible="{DateModel>/Paint}" id="idFilter05" key="Tab5">
+										<IconTabFilter icon="sap-icon://palette" text="{i18n>PaintRust}" enabled="{DateModel>/enableTab}" visible="{DateModel>/Paint}" id="idFilter05" key="Tab5">
 											<core:Fragment fragmentName="zclaimProcessing.view.fragments.Step05PaintRust" type="XML"/>
 										</IconTabFilter>
 										<IconTabSeparator icon="sap-icon://open-command-field" visible="{DateModel>/Sublet}"/>
-										<IconTabFilter icon="sap-icon://activity-2" text="{i18n>Sublet}" enabled="false" visible="{DateModel>/Sublet}" id="idFilter06" key="Tab6">
+										<IconTabFilter icon="sap-icon://activity-2" text="{i18n>Sublet}" enabled="{DateModel>/enableTab}" visible="{DateModel>/Sublet}" id="idFilter06" key="Tab6">
 											<core:Fragment fragmentName="zclaimProcessing.view.fragments.Step06Sublet" type="XML"/>
 										</IconTabFilter>
 										<IconTabSeparator icon="sap-icon://open-command-field"/>
-										<IconTabFilter icon="sap-icon://validate" text="{i18n>Validate}" enabled="false" id="idFilter07" key="Tab7">
+										<IconTabFilter icon="sap-icon://validate" text="{i18n>Validate}" enabled="{DateModel>/enableTab}" id="idFilter07" key="Tab7">
 											<core:Fragment fragmentName="zclaimProcessing.view.fragments.Step07ValidateSubmit" type="XML"/>
 										</IconTabFilter>
 										<IconTabSeparator icon="sap-icon://open-command-field"/>
