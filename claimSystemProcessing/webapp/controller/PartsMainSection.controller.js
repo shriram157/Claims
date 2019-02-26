@@ -7,8 +7,9 @@ sap.ui.define([
 	"zclaimProcessing/controller/BaseController",
 	"zclaimProcessing/libs/jQuery.base64",
 	"sap/ui/core/ValueState",
-	"zclaimProcessing/utils/Validator"
-], function (Button, Dialog, Label, MessageToast, Text, BaseController, base64, ValueState, Validator) {
+	"zclaimProcessing/utils/Validator",
+	'sap/ui/model/Filter',
+], function (Button, Dialog, Label, MessageToast, Text, BaseController, base64, ValueState, Validator,Filter) {
 	"use strict";
 
 	return BaseController.extend("zclaimProcessing.controller.PartsMainSection", {
@@ -44,6 +45,7 @@ sap.ui.define([
 				"items": []
 			});
 			this.getView().setModel(oAttachments, "AttachmentModel");
+			
 			//oNodeModel.loadData(jQuery.sap.getModulePath("zclaimProcessing.utils", "/Nodes.json"));
 			var oMultiHeaderConfig = {
 				multiheader1: [3, 1],
@@ -96,6 +98,7 @@ sap.ui.define([
 
 			this.setModel(this.getModel("ProssingModel"));
 			var oProssingModel = this.getModel("ProssingModel");
+			this.setModel(this.getModel("ProductMaster"), "ProductMasterModel");
 			var oArr = [];
 			var warrantyClaimNumber = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			oProssingModel.read("/ZC_CLAIM_SUM(p_clmno='" + warrantyClaimNumber + "')/Set", {
@@ -336,6 +339,64 @@ sap.ui.define([
 				this.getDealer();
 			}
 			this.getView().setModel(HeadSetData, "HeadSetData");
+		},
+		
+		handlePNValueHelp: function (oController) {
+			//debugger;
+			this.inputId = oController.getParameters().id;
+			//console.log(this.inputId);
+			// create value help dialog
+			if (!this._valueHelpDialog) {
+				this._valueHelpDialog = sap.ui.xmlfragment(
+					"zclaimProcessing.view.fragments.partList",
+					this
+				);
+				this.getView().addDependent(this._valueHelpDialog);
+			}
+
+			// open value help dialog
+			this._valueHelpDialog.open();
+		},
+		_handleValueHelpClose: function (evt) {
+			this.oSelectedItem = evt.getParameter("selectedItem");
+			this.oSelectedTitle = this.oSelectedItem.getTitle();
+			//this.getView().getModel("PartDataModel").setProperty("/PartDescription", this.oSelectedItem.getDescription());
+			this.getView().getModel("LocalDataModel").setProperty("/BaseUnit", this.oSelectedItem.getInfo());
+			//this.getView().byId("idPartDes").setValue(this.oSelectedItem.getDescription());
+			this.getView().getModel("PartDataModel").setProperty("/PartDescription", this.oSelectedItem.getDescription());
+			if (this.oSelectedItem) {
+				var productInput = this.byId(this.inputId);
+				productInput.setValue(this.oSelectedItem.getTitle());
+			}
+			evt.getSource().getBinding("items").filter([]);
+		},
+		_handleLiveSearch: function (evt) {
+			var sValue = evt.getParameter("value");
+
+			if (sValue) {
+				var oFilter = new Filter(
+					"Material",
+					sap.ui.model.FilterOperator.Contains, sValue
+				);
+				//console.log(oFilter);
+				evt.getSource().getBinding("items").filter([oFilter]);
+			} else {
+				evt.getSource().getBinding("items").filter([]);
+			}
+		},
+		_handleValueHelpSearch: function (evt) {
+			var sValue = evt.getParameter("value");
+
+			if (sValue) {
+				var oFilter = new Filter(
+					"Material",
+					sap.ui.model.FilterOperator.Contains, sValue
+				);
+				//console.log(oFilter);
+				evt.getSource().getBinding("items").filter([oFilter]);
+			} else {
+				evt.getSource().getBinding("items").filter([]);
+			}
 		},
 
 		onPressSavePart: function () {

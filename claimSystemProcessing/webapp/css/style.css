@@ -58,7 +58,9 @@
 .borderStyle2 .sapUiFormResGridMain>div:nth-child(1){
     /*width: 6rem;*/
 }
-.borderStyle2 .sapUiFormResGridCont { padding-bottom: 0 important; }
+.borderStyle2 .sapUiFormResGridCont { 
+	padding-bottom: 0 !important; 
+}
 
 
 

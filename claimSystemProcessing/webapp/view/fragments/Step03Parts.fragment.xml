@@ -17,10 +17,11 @@
 				<ToolbarSpacer/>
 				<Button text="Save Claim" class="sapUiTinyMarginBeginEnd" type="Emphasized" enabled="{DateModel>/oFormEdit}"/>
 			</OverflowToolbar>
+			<VBox class="clBgColor">
 			<f:SimpleForm editable="true" labelSpanL="4" width="90%" title="" labelSpanXL="12" layout="ResponsiveGridLayout" emptySpanXL="1"
 				emptySpanL="1" columnsM="2" columnsL="1" columnsXL="1">
 				<f:content>
-					<VBox>
+					<!--<VBox>-->
 						<Label text="{i18n>DamageCondition}" textAlign="Begin"/>
 						<Select width="16rem">
 							<items>
@@ -32,7 +33,8 @@
 								<core:Item text="{i18n>Windshield}" key="WS"/>
 							</items>
 						</Select>
-					</VBox>
+					<!--</VBox>-->
+					<Label text=""/>
 					<Button text="{i18n>SavePart}" class="sapUiSmallMarginEnd">
 						<layoutData>
 							<l:GridData span="XL1 L1 M3 S4"/>
@@ -40,13 +42,12 @@
 					</Button>
 				</f:content>
 			</f:SimpleForm>
-			<!--<l:Grid containerQuery="true" defaultSpan="XL12 L12 M12 S12">-->
-			<!--<VBox class="clBgColor" wrap="Wrap" displayInline="true" alignContent="Center" visible="true" width="100%">-->
-			<!--<f:SimpleForm id="idRow01Form" class="sapUiSmallMarginBegin borderStyle" editable="true" labelSpanL="12" title="" labelSpanXL="12"-->
-			<!--	layout="ResponsiveGridLayout" columnsM="2" columnsL="5" columnsXL="5">-->
-			<f:SimpleForm id="idRow01Form" class="sapUiResponsiveMargin ClsubHeadingLineHeight borderStyle" width="90%" layout="ResponsiveGridLayout"
-				title="" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
-				columnsXL="6" columnsL="6" columnsM="3">
+			<!--<l:Grid containerQuery="true" defaultSpan="XL12 L12 M12 S12"> -->
+			<!--wrap="Wrap" displayInline="true" alignContent="Center" visible="true" width="100%"-->
+			<VBox class="clBgColor">
+			<f:SimpleForm id="idRow01Form" class="sapUiSmallMarginBegin borderStyle" width="92%" editable="true" labelSpanL="12" title="" labelSpanXL="12"
+				layout="ResponsiveGridLayout" columnsM="6" columnsL="6" columnsXL="6">
+			<!--<f:SimpleForm id="idRow01Form" class="sapUiResponsiveMargin ClsubHeadingLineHeight borderStyle" width="90%" layout="ResponsiveGridLayout">-->
 				<f:content>
 					<core:Title text=""/>
 					<Label text=""/>
@@ -59,7 +60,7 @@
 					<core:Title text=""/>
 					<Label text="Part Number Ordered" width="10rem"></Label>
 					<Input value="{PartDataModel>/matnr}" required="true" id="idPartNumber" showValueHelp="true" valueHelpOnly="true"
-						valueHelpRequest="handleValueHelp" enabled="{DateModel>/partLine}"/>
+						valueHelpRequest="handlePNValueHelp" enabled="{DateModel>/partLine}"/>
 					<core:Title text=""/>
 					<Label text="Part Description"></Label>
 					<Input id="idOrderedPartDesc" editable="{multiHeaderConfig>/OrderedPartDesc}"></Input>
@@ -76,18 +77,15 @@
 					</Input>
 				</f:content>
 			</f:SimpleForm>
-			<f:SimpleForm id="idRow02Form" class="sapUiResponsiveMargin ClsubHeadingLineHeight borderStyle2" width="90%" layout="ResponsiveGridLayout"
-				title="" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
-				columnsXL="6" columnsL="6" columnsM="3">
-				<!--editable="true" title=""-->
-				<!--	layout="ResponsiveGridLayout" labelSpanL="12" labelSpanXL="12" columnsM="2" columnsL="{multiHeaderConfig>/multiheader5}"-->
-				<!--	columnsXL="{multiHeaderConfig>/multiheader5}">-->
+			<f:SimpleForm id="idRow02Form" class="sapUiResponsiveMargin ClsubHeadingLineHeight borderStyle2" width="92%" layout="ResponsiveGridLayout"
+				editable="true" labelSpanL="12" labelSpanXL="12" columnsM="6" columnsL="{multiHeaderConfig>/multiheader5}" columnsXL="{multiHeaderConfig>/multiheader5}">
 				<f:content>
 					<core:Title text=""/>
 					<!--<core:Title text="Claimed"/>-->
 					<!--<Label text=""/>-->
 					<Text text="Claimed"/>
-					<!--<core:Title text=""/>-->
+					<!--<core:Title text="" />-->
+					<!--<Label text="" visible="{multiHeaderConfig>/uploader}"/>-->
 					<UploadCollection id="UploadCollection" change="onUplaodChange" uploadComplete="onUploadComplete02" fileDeleted="onFileDeleted02"
 						visible="{multiHeaderConfig>/uploader}">
 						<toolbar>
@@ -105,7 +103,7 @@
 					<Input value="{ path : 'HeadSetData>/text', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 10 } }"
 						required="true" visible="{multiHeaderConfig>/RetainPartV}"></Input>
 					<core:Title text=""/>
-					<Label text="Part Number Received"  width="10rem" visible="{multiHeaderConfig>/PartNumberRcV}"></Label>
+					<Label text="Part Number Received" width="10rem" visible="{multiHeaderConfig>/PartNumberRcV}"></Label>
 					<Input value="{ path : 'HeadSetData>/text', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 10 } }"
 						required="true" visible="{multiHeaderConfig>/PartNumberRcV}"></Input>
 					<core:Title text=""/>
@@ -121,9 +119,6 @@
 					<core:Title text=""/>
 					<Label text="Dealer Net Price" visible="{multiHeaderConfig>/DealerNetPrcV}"></Label>
 					<Input id="idDealerNetPrc" visible="{multiHeaderConfig>/DealerNetPrcV}" editable="{multiHeaderConfig>/DealerNetPrcEdt}" maxLength="3">
-						<layoutData>
-							<l:GridData span="XL8 L8"/>
-						</layoutData>
 					</Input>
 					<Label text="Repair Amount" visible="{multiHeaderConfig>/RepairAmtV}"></Label>
 					<Input id="idReceivedAmt" value="" type="Number" visible="{multiHeaderConfig>/RepairAmtV}"></Input>
@@ -138,7 +133,8 @@
 					</Input>
 				</f:content>
 			</f:SimpleForm>
-			<!--</VBox>-->
+			</VBox>
+			</VBox>
 			<!--</l:Grid>-->
 			<Table id="partTable" mode="MultiSelect" items="{LocalDataModel>/PartDetailList}" class="sapUiMediumMarginTop"
 				selectionChange="OnSelectionChange">
