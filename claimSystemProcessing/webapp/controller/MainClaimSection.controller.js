@@ -1769,6 +1769,48 @@ sap.ui.define([
 			});
 
 		},
+		onFileSubletDeleted : function(oEvent){
+			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
+			this.deleteItemById(oEvent.getParameter("documentId"), "ClaimModel");
+			MessageToast.show("FileDeleted event triggered.");
+			var oFileName = oEvent.getParameters().item.getFileName();
+			var oClaimModel = this.getModel("ProssingModel");
+
+			// this._oToken = oClaimModel.getHeaders()['x-csrf-token'];
+			// $.ajaxSetup({
+			// 	headers: {
+			// 		'X-CSRF-Token': this._oToken
+			// 	}
+			// });
+
+			oClaimModel.refreshSecurityToken();
+			
+			// oClaimModel.remove("/zc_claim_subletattachmentSet(NumberOfWarrantyClaim='" + oClaimNum + "',FileName='" + oFileReplaced + "')", {
+			// 	method: "DELETE",
+			// 	success: $.proxy(function () {
+			// 		oClaimModel.refresh();
+			// 		MessageToast.show("File has been deleted successfully");
+			// 	}, this)
+			// });
+
+			oClaimModel.remove("/zc_claim_subletattachmentSet(NumberOfWarrantyClaim='" + oClaimNum + "',FileName='" + oFileName + "')", {
+				method: "DELETE",
+				success: $.proxy(function () {
+					oClaimModel.refresh();
+
+					oClaimModel.read("/zc_claim_subletattachmentSet", {
+						urlParameters: {
+							"$filter": "NumberOfWarrantyClaim eq '" + oClaimNum + "'and AttachLevel eq 'SUBL' and FileName  eq ''"
+						},
+						//	startswith(CompanyName, 'Alfr') eq true
+						success: $.proxy(function (subletData) {
+							this.getModel("LocalDataModel").setProperty("/SubletAtchmentData", subletData.results);
+						}, this)
+					});
+					MessageToast.show("File has been deleted successfully");
+				}, this)
+			});
+		},
 		deleteItemById: function (sItemToDeleteId, mModel) {
 			var sCurrentPath = this.getCurrentFolderPath();
 			var oData = this.getView().getModel(mModel).getProperty(sCurrentPath);
@@ -3120,10 +3162,19 @@ sap.ui.define([
 				});
 				oClaimModel.refreshSecurityToken();
 
-			oClaimModel.remove("/zc_claim_attachmentsSet(NumberOfWarrantyClaim='" + oClaimNum + "',FileName='" + oFileReplaced + "')", {
+			oClaimModel.remove("/zc_claim_subletattachmentSet(NumberOfWarrantyClaim='" + oClaimNum + "',FileName='" + oFileReplaced + "')", {
 				method: "DELETE",
 				success: $.proxy(function () {
 					oClaimModel.refresh();
+					oClaimModel.read("/zc_claim_subletattachmentSet", {
+						urlParameters: {
+							"$filter": "NumberOfWarrantyClaim eq '" + oClaimNum + "'and AttachLevel eq 'SUBL' and FileName  eq ''"
+						},
+						//	startswith(CompanyName, 'Alfr') eq true
+						success: $.proxy(function (subletData) {
+							this.getModel("LocalDataModel").setProperty("/SubletAtchmentData", subletData.results);
+						}, this)
+					});
 					MessageToast.show("File has been deleted successfully");
 				}, this)
 			});
