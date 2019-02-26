@@ -27,6 +27,10 @@ sap.ui.define([
 				partLine: false,
 				oFormEdit: true,
 				claimTypeEn: true
+				// DamageCondition:false,
+				// MiscellaneousCode:false,
+				// TranportShortageType:false,
+				// DiscrepancyType:false
 					// dateCurrent: new Date()
 			});
 			this.getView().setModel(oDateModel, "DateModel");
@@ -339,6 +343,11 @@ sap.ui.define([
 				this.getDealer();
 			}
 			this.getView().setModel(HeadSetData, "HeadSetData");
+
+			this.getView().byId("idPartClaimIconBar").setSelectedKey("Tab1");
+			this.getView().byId("idFilter02").setProperty("enabled", false); //make it false before deploying/committing
+			this.getView().byId("idFilter03").setProperty("enabled", false);
+			this.getView().byId("idFilter04").setProperty("enabled", false);
 		},
 		
 		handlePNValueHelp: function (oController) {
@@ -401,9 +410,17 @@ sap.ui.define([
 
 		onPressSavePart: function () {
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
-			var oTable = this.getView().byId("idTableParts");
+			var oTable = this.getView().byId("partTable");
 			// this.obj.Message = "";
 			this.obj.NumberOfWarrantyClaim = oClaimNum;
+			var Qty;
+			if(this.getView().getModel("PartDataModel").getProperty("/quant")==""){
+				Qty="0.000";
+			}
+			else{
+				Qty = this.getView().getModel("PartDataModel").getProperty("/quant");
+			}
+		
 			// this.obj.OFP = this.getView().getModel("HeadSetData").getProperty("/OFP");
 			// this.obj.MainOpsCode = this.getView().getModel("HeadSetData").getProperty("/MainOpsCode");
 			var itemObj = {
@@ -429,8 +446,6 @@ sap.ui.define([
 			oClaimModel.create("/zc_headSet", this.obj, {
 				success: $.proxy(function (data, response) {
 					var pricinghData = response.data.zc_claim_item_price_dataSet.results;
-					this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", response.OFPDescription);
-					this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.MainOpsCodeDescription);
 					var oFilteredData = pricinghData.filter(function (val) {
 						return val.ItemType === "MAT";
 					});
@@ -491,8 +506,8 @@ sap.ui.define([
 						var oFilteredData = pricinghData.filter(function (val) {
 							return val.ItemType === "MAT";
 						});
-						this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", response.OFPDescription);
-						this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.MainOpsCodeDescription);
+						// this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", response.OFPDescription);
+						// this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.MainOpsCodeDescription);
 						console.log(oFilteredData);
 						this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
 						this._fnClaimSum();
@@ -531,8 +546,8 @@ sap.ui.define([
 							return val.ItemType === "MAT";
 
 						});
-						this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", response.OFPDescription);
-						this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.MainOpsCodeDescription);
+						// this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", response.OFPDescription);
+						// this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.MainOpsCodeDescription);
 						console.log(oFilteredData);
 						this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
 						oTable.removeSelections("true");
@@ -583,7 +598,13 @@ sap.ui.define([
 			if (oEvent.getSource().getProperty("selectedKey") === "PDC") {
 				this.getView().byId("idPdcCode").setProperty("editable", false);
 				this.getView().byId("idTCIWayBill").setProperty("editable", true);
+			
+				this.getView().getModel("multiHeaderConfig").setProperty("/partMiscellanious", false);
+				this.getView().getModel("multiHeaderConfig").setProperty("/partDiscrepancies", false);
+				this.getView().getModel("multiHeaderConfig").setProperty("/partTransportation", false);
+				
 				this.getView().getModel("multiHeaderConfig").setProperty("/partDamage", true);
+				
 				this.getView().getModel("multiHeaderConfig").setProperty("/RetainPartV", false);
 				this.getView().getModel("multiHeaderConfig").setProperty("/PartNumberRcV", false);
 				this.getView().getModel("multiHeaderConfig").setProperty("/PartDescriptionOrdRcv", false);
@@ -603,11 +624,12 @@ sap.ui.define([
 			} else if (oEvent.getSource().getProperty("selectedKey") === "PMS") {
 				this.getView().byId("idPdcCode").setProperty("editable", false);
 				this.getView().byId("idTCIWayBill").setProperty("editable", true);
-				// this.getView().getModel("multiHeaderConfig").setProperty("/partDamage", false);
-				// this.getView().getModel("multiHeaderConfig").setProperty("/partMiscellanious", true);
-				// this.getView().getModel("multiHeaderConfig").setProperty("/partDiscrepancies", false);
-				// this.getView().getModel("multiHeaderConfig").setProperty("/partTransportation", false);
-
+				
+				this.getView().getModel("multiHeaderConfig").setProperty("/partDamage", false);
+				this.getView().getModel("multiHeaderConfig").setProperty("/partMiscellanious", true);
+				this.getView().getModel("multiHeaderConfig").setProperty("/partDiscrepancies", false);
+				this.getView().getModel("multiHeaderConfig").setProperty("/partTransportation", false);
+				
 				this.getView().getModel("multiHeaderConfig").setProperty("/RetainPartV", false);
 				this.getView().getModel("multiHeaderConfig").setProperty("/PartNumberRcV", false);
 				this.getView().getModel("multiHeaderConfig").setProperty("/PartDescriptionOrdRcv", false);
@@ -626,10 +648,12 @@ sap.ui.define([
 			} else if (oEvent.getSource().getProperty("selectedKey") === "PTS") {
 				this.getView().byId("idPdcCode").setProperty("editable", false);
 				this.getView().byId("idTCIWayBill").setProperty("editable", true);
-				// this.getView().getModel("multiHeaderConfig").setProperty("/partDamage", false);
-				// this.getView().getModel("multiHeaderConfig").setProperty("/partMiscellanious", false);
-				// this.getView().getModel("multiHeaderConfig").setProperty("/partDiscrepancies", false);
-				// this.getView().getModel("multiHeaderConfig").setProperty("/partTransportation", true);
+				
+				this.getView().getModel("multiHeaderConfig").setProperty("/partDamage", false);
+				this.getView().getModel("multiHeaderConfig").setProperty("/partMiscellanious", false);
+				this.getView().getModel("multiHeaderConfig").setProperty("/partDiscrepancies", false);
+				this.getView().getModel("multiHeaderConfig").setProperty("/partTransportation", true);
+				
 				// console.log(oEvent.getParameters().selectedItem.getText() + "PTS");
 				this.getView().getModel("multiHeaderConfig").setProperty("/RetainPartV", false);
 				this.getView().getModel("multiHeaderConfig").setProperty("/PartNumberRcV", false);
@@ -645,14 +669,18 @@ sap.ui.define([
 				this.getView().getModel("multiHeaderConfig").setProperty("/DamageConditionCol", false);
 				this.getView().getModel("multiHeaderConfig").setProperty("/MiscellaneousCol", false);
 				this.getView().getModel("multiHeaderConfig").setProperty("/TransportCol", true);
+				
 			} else if (oEvent.getSource().getProperty("selectedKey") === "PPD") {
 				console.log(oEvent.getSource().getProperty("value") + "PPD");
 				this.getView().byId("idPdcCode").setProperty("editable", false);
 				this.getView().byId("idTCIWayBill").setProperty("editable", false);
 				this.getView().getModel("multiHeaderConfig").setProperty("/OrderedPartDesc", false);
+				
+				this.getView().getModel("multiHeaderConfig").setProperty("/partDamage", false);
 				this.getView().getModel("multiHeaderConfig").setProperty("/partMiscellanious", false);
 				this.getView().getModel("multiHeaderConfig").setProperty("/partDiscrepancies", true);
 				this.getView().getModel("multiHeaderConfig").setProperty("/partTransportation", false);
+				
 				this.getView().getModel("multiHeaderConfig").setProperty("/multiheader5", 5);
 				this.getView().getModel("multiHeaderConfig").setProperty("/uploader", false);
 				this.getView().getModel("multiHeaderConfig").setProperty("/RetainPartV", true);
@@ -1020,6 +1048,7 @@ sap.ui.define([
 				//do something additional to drawing red borders? message box?
 				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
 				this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
+				this.getView().byId("idFilter02").setProperty("enabled", false);
 				this.getView().byId("idMainClaimMessage").setType("Error");
 				return;
 			}
@@ -1040,11 +1069,12 @@ sap.ui.define([
 
 		onStep03Next: function () {
 			var validator = new Validator();
-			validator.validate(this.byId("idPartForm"));
+			validator.validate(this.byId("partTable"));
 
 			if (!validator.isValid()) {
 				//do something additional to drawing red borders? message box?
 				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+				this.getView().byId("idFilter03").setProperty("enabled", false);
 				this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
 				this.getView().byId("idMainClaimMessage").setType("Error");
 				return;
