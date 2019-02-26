@@ -48,3 +48,17 @@
 .sapMITBScrollContainer {text-align:center;}
 .clOpFooter {background : #2f3c47;}
 .headerButtonsToolBar{border:none;}
+.borderStyle{
+	padding: 1rem 0;
+    box-sizing: border-box;
+    border-bottom: 1px solid #cccccc;
+    /*width: 98%;*/
+}
+.borderStyle .sapUiFormResGridMain>div:nth-child(1),
+.borderStyle2 .sapUiFormResGridMain>div:nth-child(1){
+    /*width: 6rem;*/
+}
+.borderStyle2 .sapUiFormResGridCont { padding-bottom: 0 important; }
+
+
+
