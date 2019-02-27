@@ -202,7 +202,7 @@
 			</Table>
 		</VBox>
 		<Table id="idECPAGR" headerText="{i18n>ActiveAgreeement}" mode="SingleSelectLeft" items="{path:'LocalDataModel>/AgreementDataECP'}"
-			class="sapUiMediumMarginTop" selectionChange="onNavigate" visible="{DateModel>/oECPfields}">
+			class="sapUiMediumMarginTop" selectionChange="onSelectECP" visible="{DateModel>/oECPfields}">
 			<columns>
 				<Column>
 					<Label text="{i18n>ECPAgreement}" textAlign="Center" width="100%"/>
@@ -297,7 +297,7 @@
 				<Input value="" required="true"/>
 				<core:Title text=""/>
 				<Label text="{i18n>PostalCode}"/>
-				<Input value="" required="true"/>
+				<Input value="{HeadSetData>/CustomerPostalCode}" required="true"/>
 				<core:Title text=""/>
 				<Label text=" "/>
 				<Button text="{i18n>LookupECPAgreements}"/>
@@ -305,8 +305,8 @@
 				<Label text=" "/>
 				<Button text="{i18n>PerformCIC}"/>
 				<core:Title text=""/>
-				<Label text="{i18n>Agreement Number}"/>
-				<Text text=""/>
+				<Label text="{i18n>AgreementNumber}"/>
+				<Text text="{HeadSetData>/AgreementNumber}"/>
 			</f:content>
 		</f:SimpleForm>
 		<VBox visible="{DateModel>/RepairdDetailVisible}">

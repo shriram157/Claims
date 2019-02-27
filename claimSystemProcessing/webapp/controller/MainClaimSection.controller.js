@@ -619,7 +619,8 @@ sap.ui.define([
 					"PreviousROOdometer": "",
 					"PreviousROInvoice": "",
 					"AccessoryInstallOdometer": "",
-					"AccessoryInstallDate": ""
+					"AccessoryInstallDate": "",
+					"AgreementNumber": ""
 				});
 				this.HeadSetData.setDefaultBindingMode("TwoWay");
 
@@ -1101,6 +1102,8 @@ sap.ui.define([
 					"PreviousROInvoice": this.getView().getModel("HeadSetData").getProperty("/PreviousROInvoice"),
 					"AccessoryInstallOdometer": this.getView().getModel("HeadSetData").getProperty("/AccessoryInstallOdometer"),
 					"AccessoryInstallDate": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/AccessoryInstallDate")),
+					"AgreementNumber": this.getView().getModel("HeadSetData").getProperty("/AgreementNumber"),
+					"CustomerPostalCode": this.getView().getModel("HeadSetData").getProperty("/CustomerPostalCode"),
 					"zc_itemSet": {
 						"results": []
 					},
@@ -1441,6 +1444,8 @@ sap.ui.define([
 						"PreviousROInvoice": this.getView().getModel("HeadSetData").getProperty("/PreviousROInvoice"),
 						"AccessoryInstallOdometer": this.getView().getModel("HeadSetData").getProperty("/AccessoryInstallOdometer"),
 						"AccessoryInstallDate": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/AccessoryInstallDate")),
+						"AgreementNumber": this.getView().getModel("HeadSetData").getProperty("/AgreementNumber"),
+						"CustomerPostalCode": this.getView().getModel("HeadSetData").getProperty("/CustomerPostalCode"),
 						"zc_itemSet": {
 							"results": PartItem
 						},
@@ -2329,7 +2334,11 @@ sap.ui.define([
 		// 	}
 		// 	evt.getSource().getBinding("items").filter([]);
 		// },
-
+		onSelectECP: function (oEvent) {
+			var oPath = oEvent.getSource().getSelectedContextPaths()[0];
+			var oObj = this.getModel("LocalDataModel").getProperty(oPath);
+			this.getView().getModel("HeadSetData").setProperty("/AgreementNumber", oObj.AgreementNumber);
+		},
 		onPressSavePart: function () {
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			var oTable = this.getView().byId("idTableParts");
@@ -3263,6 +3272,9 @@ sap.ui.define([
 			this.obj.PreviousROOdometer = this.getView().getModel("HeadSetData").getProperty("/PreviousROOdometer");
 			this.obj.PreviousROInvoice = this.getView().getModel("HeadSetData").getProperty("/PreviousROInvoice");
 			this.obj.AccessoryInstallOdometer = this.getView().getModel("HeadSetData").getProperty("/AccessoryInstallOdometer");
+			this.obj.AgreementNumber = this.getView().getModel("HeadSetData").getProperty("/AgreementNumber");
+			this.obj.CustomerPostalCode = this.getView().getModel("HeadSetData").getProperty("/CustomerPostalCode");
+
 			this.obj.AccessoryInstallDate = this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/AccessoryInstallDate"));
 			this.obj.Message = "";
 			this.obj.DBOperation = "SUB";
