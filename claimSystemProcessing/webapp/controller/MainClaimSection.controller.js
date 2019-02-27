@@ -296,6 +296,15 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/Parts", true);
 							this.getView().getModel("DateModel").setProperty("/Labour", true);
 							this.getView().getModel("DateModel").setProperty("/oECPfields", false);
+						} else if (oClaimTypeDetail == "ZSSM" || oClaimTypeDetail == "ZSCR") {
+							this.getView().getModel("DateModel").setProperty("/Paint", false);
+							this.getView().getModel("DateModel").setProperty("/Parts", true);
+							this.getView().getModel("DateModel").setProperty("/Sublet", false);
+							this.getView().getModel("DateModel").setProperty("/Labour", false);
+							this.getView().getModel("DateModel").setProperty("/oFieldActionInput", false);
+							this.getView().getModel("DateModel").setProperty("/Authorization", false);
+							this.getView().getModel("DateModel").setProperty("/oECPfields", false);
+							this.getView().getModel("DateModel").setProperty("/RepairdDetailVisible", false);
 						}
 						var HeadSetData = new sap.ui.model.json.JSONModel(data.results[0]);
 						HeadSetData.setDefaultBindingMode("TwoWay");
@@ -2016,7 +2025,9 @@ sap.ui.define([
 					"HeadSetData").getProperty("/ClaimType") != "SR" &&
 				this.getView().getModel("HeadSetData").getProperty("/ClaimType") != "ER" &&
 				this.getView().getModel("HeadSetData").getProperty("/ClaimType") != "WE" &&
-				this.getView().getModel("HeadSetData").getProperty("/ClaimType") != "LS") {
+				this.getView().getModel("HeadSetData").getProperty("/ClaimType") != "LS" &&
+					this.getView().getModel("HeadSetData").getProperty("/ClaimType") != "CR" &&
+				this.getView().getModel("HeadSetData").getProperty("/ClaimType") != "SM") {
 				this.getView().byId("idFilter02").setProperty("enabled", true);
 				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab2");
 			} else {
@@ -2108,7 +2119,10 @@ sap.ui.define([
 		},
 
 		onStep07Back: function () {
-			if (this.getView().getModel("HeadSetData").getProperty("/ClaimType") == "P2") {
+			if (this.getView().getModel("HeadSetData").getProperty("/ClaimType") == "P2" ||
+				this.getView().getModel("HeadSetData").getProperty("/ClaimType") == "CR" ||
+				this.getView().getModel("HeadSetData").getProperty("/ClaimType") == "SM"
+			) {
 				this.getView().byId("idFilter03").setProperty("enabled", true);
 				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab3");
 			} else {

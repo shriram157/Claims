@@ -14,13 +14,6 @@ sap.ui.define([
 		getRouter: function () {
 			return this.getOwnerComponent().getRouter();
 		},
-
-		/**
-		 * Convenience method for getting the view model by name in every controller of the application.
-		 * @public
-		 * @param {string} sName the model name
-		 * @returns {sap.ui.model.Model} the model instance
-		 */
 		getModel: function (sName) {
 			return this.getOwnerComponent().getModel(sName);
 		},
