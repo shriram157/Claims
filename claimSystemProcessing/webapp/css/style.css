@@ -47,3 +47,12 @@
 .clTextIndent {text-indent:-9999999px;}
 .sapMITBScrollContainer {text-align:center;}
 .clOpFooter {background : #2f3c47;}
+
+
+.messagestrip{font-weight: bold !important;}
+.greenlable{
+	color: green !important;
+}
+.redlable{
+		color: red !important;
+}
