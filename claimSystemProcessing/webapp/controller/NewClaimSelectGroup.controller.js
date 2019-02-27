@@ -97,6 +97,13 @@ sap.ui.define([
 					oClaimGroup : this.oSelectedClaimGroup
 					
 				});
+			}else if (oSelectedKey === "VEHICLE LOGISTIC") {
+				this.getRouter().navTo("MainClaimSection", {
+					claimNum : oClaimNum,
+					oKey : "VEHICLE LOGISTIC",
+					oClaimGroup : this.oSelectedClaimGroup
+					
+				});
 			}
 		},
 		

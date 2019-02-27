@@ -43,7 +43,8 @@ sap.ui.define([
 				updateEnable: true,
 				OdometerReq: true,
 				enableTab: false,
-				RepairdDetailVisible: true
+				RepairdDetailVisible: true,
+				claimTypeState: "None"
 			});
 			this.getView().setModel(oDateModel, "DateModel");
 			var oNodeModel = new sap.ui.model.json.JSONModel();
@@ -111,13 +112,6 @@ sap.ui.define([
 			PaintData.setDefaultBindingMode("TwoWay");
 			this.getView().setModel(PaintData, "PaintDataModel");
 
-			sap.ui.getCore().attachValidationError(function (oEvent) {
-				oEvent.getParameter("element").setValueState(ValueState.Error);
-			});
-			sap.ui.getCore().attachValidationSuccess(function (oEvent) {
-				oEvent.getParameter("element").setValueState(ValueState.None);
-			});
-
 			this.getOwnerComponent().getRouter().attachRoutePatternMatched(this._onRoutMatched, this);
 			this.getModel("LocalDataModel").setProperty("/step01Next", false);
 
@@ -133,6 +127,13 @@ sap.ui.define([
 			var HeadSetData = new sap.ui.model.json.JSONModel();
 			HeadSetData.setDefaultBindingMode("TwoWay");
 			this.getView().setModel(HeadSetData, "HeadSetData");
+
+			sap.ui.getCore().attachValidationError(function (oEvent) {
+				oEvent.getParameter("element").setValueState(ValueState.Error);
+			});
+			sap.ui.getCore().attachValidationSuccess(function (oEvent) {
+				oEvent.getParameter("element").setValueState(ValueState.None);
+			});
 
 		},
 
@@ -305,6 +306,13 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/Authorization", false);
 							this.getView().getModel("DateModel").setProperty("/oECPfields", false);
 							this.getView().getModel("DateModel").setProperty("/RepairdDetailVisible", false);
+						} else if (oClaimTypeDetail == "ZSSE") {
+							this.getView().getModel("DateModel").setProperty("/Paint", true);
+							this.getView().getModel("DateModel").setProperty("/Sublet", true);
+							this.getView().getModel("DateModel").setProperty("/Labour", true);
+							this.getView().getModel("DateModel").setProperty("/oFieldActionInput", true);
+							this.getView().getModel("DateModel").setProperty("/Authorization", false);
+							this.getView().getModel("DateModel").setProperty("/oECPfields", false);
 						}
 						var HeadSetData = new sap.ui.model.json.JSONModel(data.results[0]);
 						HeadSetData.setDefaultBindingMode("TwoWay");
@@ -776,7 +784,7 @@ sap.ui.define([
 					this.getView().getModel("DateModel").setProperty("/Paint", true);
 					this.getView().getModel("DateModel").setProperty("/Sublet", true);
 					this.getView().getModel("DateModel").setProperty("/Labour", true);
-					this.getView().getModel("DateModel").setProperty("/oFieldActionInput", false);
+					this.getView().getModel("DateModel").setProperty("/oFieldActionInput", true);
 					this.getView().getModel("DateModel").setProperty("/Authorization", false);
 					this.getView().getModel("DateModel").setProperty("/oECPfields", false);
 				} else {
@@ -1019,32 +1027,31 @@ sap.ui.define([
 			var oClaimModel = this.getModel("ProssingModel");
 			var oCurrentDt = new Date();
 			var oValidator = new Validator();
-
 			var oValid = oValidator.validate(this.getView().byId("idClaimMainForm"));
 			var oValid01 = oValidator.validate(this.getView().byId("idVehicleInfo"));
 			var oValid02 = oValidator.validate(this.getView().byId("idpart01Form"));
 
-			if (!oValid || !oValid01 || !oValid02) {
+			if (this.getView().getModel("HeadSetData").getProperty("/ClaimType") == undefined) {
+				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+				this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
+				this.getView().byId("idMainClaimMessage").setType("Error");
+				this.getView().getModel("DateModel").setProperty("/claimTypeState", "Error");
+			} else if (!oValid01) {
 				this.getModel("LocalDataModel").setProperty("/step01Next", false);
 				//do something additional to drawing red borders? message box?
 				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
 				this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
 				this.getView().byId("idMainClaimMessage").setType("Error");
+				this.getView().getModel("DateModel").setProperty("/claimTypeState", "None");
 				return false;
-			} else if (this.getView().getModel("HeadSetData").getProperty("/T1WarrantyCodes") == "" && this.getView().getModel("DateModel").getProperty(
-					"/RepairdDetailVisible") == true) {
+			} else if (!oValid02 && !oValid) {
+				this.getModel("LocalDataModel").setProperty("/step01Next", false);
+				//do something additional to drawing red borders? message box?
 				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
 				this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
 				this.getView().byId("idMainClaimMessage").setType("Error");
-			} else if (this.getView().getModel("HeadSetData").getProperty("/T2WarrantyCodes") == "" && this.getView().getModel("DateModel").getProperty(
-					"/RepairdDetailVisible") == true) {
-				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
-				this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
-				this.getView().byId("idMainClaimMessage").setType("Error");
-			} else if (this.getView().getModel("HeadSetData").getProperty("/ClaimType") == undefined) {
-				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
-				this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
-				this.getView().byId("idMainClaimMessage").setType("Error");
+				this.getView().getModel("DateModel").setProperty("/claimTypeState", "None");
+				return false;
 			} else if (this.oText == "false") {
 				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
 				this.getView().byId("idMainClaimMessage").setText("Please Enter a Valid VIN.");
@@ -1056,6 +1063,7 @@ sap.ui.define([
 				} else {
 					oActionCode = "";
 				}
+				this.getView().getModel("DateModel").setProperty("/claimTypeState", "None");
 				this.obj = {
 					"DBOperation": "SAVE",
 					"Message": "",
@@ -2026,7 +2034,7 @@ sap.ui.define([
 				this.getView().getModel("HeadSetData").getProperty("/ClaimType") != "ER" &&
 				this.getView().getModel("HeadSetData").getProperty("/ClaimType") != "WE" &&
 				this.getView().getModel("HeadSetData").getProperty("/ClaimType") != "LS" &&
-					this.getView().getModel("HeadSetData").getProperty("/ClaimType") != "CR" &&
+				this.getView().getModel("HeadSetData").getProperty("/ClaimType") != "CR" &&
 				this.getView().getModel("HeadSetData").getProperty("/ClaimType") != "SM") {
 				this.getView().byId("idFilter02").setProperty("enabled", true);
 				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab2");
