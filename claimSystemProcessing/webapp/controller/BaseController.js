@@ -17,25 +17,29 @@ sap.ui.define([
 		getModel: function (sName) {
 			return this.getOwnerComponent().getModel(sName);
 		},
-		handleNavHeaderPress : function(oEvent){
+		handleNavHeaderPress: function (oEvent) {
+
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var oGetText = oEvent.getSource().getText();
-			if(oGetText === oBundle.getText("NewClaim")) {
+			if (oGetText === oBundle.getText("NewClaim")) {
 				this.getOwnerComponent().getRouter().navTo("NewClaimSelectGroup");
 				this.getModel("ProssingModel").refresh();
-			}else if(oGetText === oBundle.getText("ViewUpdateClaims")){
+			} else if (oGetText === oBundle.getText("ViewUpdateClaims")) {
 				this.getOwnerComponent().getRouter().navTo("SearchClaim");
 				this.getModel("ProssingModel").refresh();
-			}else if(oGetText === oBundle.getText("QuickCoverageTool")){
+			} else if (oGetText === oBundle.getText("QuickCoverageTool")) {
 				this.getOwnerComponent().getRouter().navTo("QueryCoverageTools");
 				this.getModel("ProssingModel").refresh();
-			}else if(oGetText === oBundle.getText("ClaimInquiry")){
+			} else if (oGetText === oBundle.getText("ClaimInquiry")) {
 				this.getOwnerComponent().getRouter().navTo("ClaimInquiry");
 				this.getModel("ProssingModel").refresh();
+			} else if (oGetText === oBundle.getText("DealerLabourRateInquiry")) {
+				var a_Dialog = sap.ui.xmlfragment("zclaimProcessing.view.fragments.DealerLabour",
+					this);
+				this.getDealer();
+				this.getView().addDependent(a_Dialog);
+				a_Dialog.open();
 			}
-			
-			
-			
 		},
 
 		setModel: function (oModel, sName) {
@@ -50,9 +54,9 @@ sap.ui.define([
 		getResourceBundle: function () {
 			return this.getOwnerComponent().getModel("i18n").getResourceBundle();
 		},
-		
-		getDealer : function(){
-				var sLocation = window.location.host;
+
+		getDealer: function () {
+			var sLocation = window.location.host;
 			var sLocation_conf = sLocation.search("webide");
 			if (sLocation_conf == 0) {
 				this.sPrefix = "/Claim_Destination"; //ecpSales_node_secured
@@ -141,19 +145,20 @@ sap.ui.define([
 					//that.getModel("LocalDataModel").setProperty("/BpDealerKey", BpDealer[0].BusinessPartnerKey);
 					//that.getView().setModel(new sap.ui.model.json.JSONModel(BpDealer), "BpDealerModel");
 					// read the saml attachments the same way 
-					
 
 				}.bind(this),
 				error: function (response) {
 					sap.ui.core.BusyIndicator.hide();
 				}
 			}).done(function (data, textStatus, jqXHR) {
-			
+
 				that.getModel("LocalDataModel").setProperty("/BPDealerDetails", data.attributes[0]);
-			
+				//----------------------------------
+				//Code of Dealer Labour--------------
+				//------------------------------------
+				that.getDealerlabour(data.attributes[0]);
 			});
 
-		
 		},
 
 		/**
@@ -173,10 +178,36 @@ sap.ui.define([
 			} else {
 				this.getRouter().navTo("SearchClaim", {}, true);
 			}
-		}
-
-		//     	getListRow: function(proId, control) {
-		// 	//var oStandardListItem =control.getParent();
+		},
+		onCloseDialogDealer: function (Oevent) {
+			Oevent.getSource().getParent().close();
+		},
+		getDealerlabour: function (data) {
+				var that = this;
+				var oUrl = this.sPrefix + "/node/ZDLR_CLAIM_SRV/zc_labour_rateSet(Partner='" + data.BusinessPartnerKey + "',Division='" + data.Division +
+					"')" ;
+				$.ajax({
+					url: oUrl,
+					method: 'GET',
+					async: false,
+					dataType: 'json',
+					success: function (zdata, textStatus, jqXHR) {
+						var oModel = new sap.ui.model.json.JSONModel();
+						zdata.d.Name = data.BusinessPartnerName;
+						var zd1 = parseInt(zdata.d.ECPEffectiveDate.replace(/[^0-9]+/g,''));
+						zdata.d.ECPEffectiveDate = new Date(zd1);
+							var zd2 = parseInt(zdata.d.WTYEffectiveDate.replace(/[^0-9]+/g,''));
+						zdata.d.WTYEffectiveDate = new Date(zd1);
+						
+						oModel.setData(zdata.d);
+						
+                        that.getView().setModel(oModel,'DealerLabour');
+					},
+					error: function (jqXHR, textStatus, errorThrown) {}
+				});
+			}
+			//     	getListRow: function(proId, control) {
+			// 	//var oStandardListItem =control.getParent();
 
 		// 	if (proId % 2 === 0) {
 
