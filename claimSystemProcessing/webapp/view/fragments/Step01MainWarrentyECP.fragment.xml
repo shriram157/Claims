@@ -88,10 +88,10 @@
 					required="{DateModel>/OdometerReq}" visible="{DateModel>/OdometerReq}" id="idOdometer" editable="{DateModel>/OdometerReq}"/>
 			</f:content>
 		</f:SimpleForm>
-		<f:SimpleForm editable="" id="idVehicleInfo" title="{i18n>VehicleInformationToyotaCorolaLECVT}" layout="ResponsiveGridLayout"
+		<f:SimpleForm editable="" id="idVehicleInfo" title="{i18n>VehicleInformation} - {path:'LocalDataModel>/DataVinDetails/VehicleDescription'}" layout="ResponsiveGridLayout"
 			labelSpanXL="6" labelSpanL="6" labelSpanM="6" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0"
-			emptySpanS="0" columnsXL="3" columnsL="3" columnsM="3" singleContainerFullSize="false">
-			<f:content>
+			emptySpanS="0" columnsXL="3" columnsL="3" columnsM="3" singleContainerFullSize="false" >
+			<f:content >
 				<core:Title text=""/>
 				<RadioButtonGroup selectedIndex="0" columns="2" id="idRequestType" select="onSelectRequestType" editable="{DateModel>/oFormEdit}">
 					<buttons>
@@ -108,13 +108,13 @@
 				<Label text="{i18n>VehicleAge}"/>
 				<Text text="{LocalDataModel>/DataVinDetails/VehicleDays}" id="idVehicleAge"/>
 				<core:Title text=""/>
-				<Label text="{i18n>ForeignVIN}"/>
-				<Text text="{LocalDataModel>/DataVinDetails/ForeignVIN}" id="idForeignVin"/>
+				<Label text="{i18n>ForeignVIN}" vAlign="Middle"/>
+				<Text text="{LocalDataModel>/DataVinDetails/ForeignVIN}" id="idForeignVin" />
 				<Button icon="sap-icon://message-warning" type="Transparent" press="onPressForeignVin" class="clWarning"/>
-				<Label text="{i18n>WrittenOff}"/>
+				<Label text="{i18n>WrittenOff}" vAlign="Middle"/>
 				<Text text="{LocalDataModel>/DataVinDetails/WrittenOff}" id="idWrittenoff"/>
 				<Button icon="sap-icon://message-warning" type="Transparent" press="onPressWrittenOff" class="clWarning"/>
-				<Label text="{i18n>SpecialVINReview}"/>
+				<Label text="{i18n>SpecialVINReview}" vAlign="Middle"/>
 				<Text text="{LocalDataModel>/DataVinDetails/SpecialVINReview}" id="idSpecialVin"/>
 				<Button icon="sap-icon://message-warning" type="Transparent" press="onPressSpecialVin" class="clWarning"/>
 			</f:content>

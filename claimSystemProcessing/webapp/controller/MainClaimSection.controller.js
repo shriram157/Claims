@@ -1915,7 +1915,9 @@ sap.ui.define([
 		// 	});
 		// },
 		onPressForeignVin: function () {
-
+			var oDialogBox = sap.ui.xmlfragment("zclaimProcessing.view.fragments.ForeignVinNotification", this);
+			this.getView().addDependent(oDialogBox);
+			oDialogBox.open();
 		},
 		onPressWrittenOff: function () {
 			var oDialogBox = sap.ui.xmlfragment("zclaimProcessing.view.fragments.WrittenOff", this);
@@ -1924,6 +1926,9 @@ sap.ui.define([
 		},
 		onCloseWrittenOf: function (oEvent) {
 			oEvent.getSource().getParent().getParent().close();
+		},
+		onCloseForeinNotification: function(oEvent){
+		oEvent.getSource().getParent().getParent().close();
 		},
 		onPressSpecialVin: function () {
 			var oDialogBox = sap.ui.xmlfragment("zclaimProcessing.view.fragments.SpecialHandling", this);
