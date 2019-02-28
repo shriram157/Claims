@@ -15,36 +15,36 @@
 									columnsXL="3" columnsL="3" columnsM="1" singleContainerFullSize="false">
 									<f:content>
 										<core:Title text=""/>
-										<Label text="{i18n>VIN}" textAlign="Begin"/>
-										<Input value=""/>
+										<Label text="{i18n>VIN}" textAlign="Begin" required="true"/>
+										<Input value="" id='vin'/>
 										<core:Title text=""/>
-										<Label text="{i18n>Odometer}" textAlign="Begin"/>
-										<Input value=""/>
+										<Label text="{i18n>Odometer}" textAlign="Begin" required="true"/>
+										<Input value="" id='Odometer'/>
 										<core:Title text=""/>
 										<Button text="{i18n>Search}" press="onPressSearch" type="Emphasized"/>
 										<Button text="{i18n>Reset}" press="onPressClear"/>
 									</f:content>
 								</f:SimpleForm>
-								<f:SimpleForm editable="true" layout="ResponsiveGridLayout" title="" labelSpanXL="6" labelSpanL="6" labelSpanM="12" labelSpanS="12"
+								<f:SimpleForm id="vin_details" editable="true" layout="ResponsiveGridLayout" title="" labelSpanXL="6" labelSpanL="6" labelSpanM="12" labelSpanS="12"
 									emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="3" columnsL="3" columnsM="3">
 									<f:content>
 										<core:Title text=""/>
 										<Label text="{i18n>Model}"/>
-										<Text text=""/>
+										<Text text="{Vehicleinfo>/VehicleDescription}"/>
 										<Label text="{i18n>InServiceDate}"/>
-										<Text text=""/>
+										<Text text="{path:'Vehicleinfo>/RegDate',type:'sap.ui.model.type.DateTime', formatOptions: { pattern: 'MMMM d, y', strictParsing: false, relative: false }}"/>
 										<Label text="{i18n>Age}"/>
-										<Text text=""/>
+										<Text text="{Vehicleinfo>/VehicleDays}"/>
 										<core:Title text=""/>
 										<Label text="{i18n>ModelYear}"/>
 										<Text text=""/>
 										<Label text="{i18n>WrittenOff}"/>
-										<Text text=""/>
+										<Text text="{Vehicleinfo>/WrittenOff}"/>
 										<core:Title text=""/>
 										<Label text="{i18n>ForeignVIN}"/>
-										<Text text=""/>
+										<Text text="{Vehicleinfo>/ForeignVIN}"/>
 										<Label text="{i18n>SpecialVINReview}"/>
-										<Text text=""/>
+										<Text text="{Vehicleinfo>/SpecialVINReview}"/>
 									</f:content>
 								</f:SimpleForm>
 							</VBox>
@@ -53,7 +53,7 @@
 					<uxap:ObjectPageSubSection >
 						<uxap:blocks>
 							<VBox>
-								<table:Table id="idActiveAgreement" class="classRCPTable" selectionMode="Single" rows="" visibleRowCountMode="Auto"
+								<table:Table id="idActiveAgreement" class="classRCPTable" selectionMode="Single" rows="{EcpSalesModel>/zc_ecp_agreement}" visibleRowCountMode="Auto"
 									rowSelectionChange="onNavigate" selectionBehavior="Row" showNoData="true" threshold="20" enableBusyIndicator="true">
 									<table:toolbar>
 										<Toolbar>
@@ -66,7 +66,7 @@
 												<Label text="{i18n>ECPAgreement}" textAlign="Center" width="100%"/>
 											</table:multiLabels>
 											<table:template>
-												<Text text="{LocalDataModel>ItemType}" wrapping="false"/>
+												<Text text="{EcpSalesModel>AgreementNumber}" wrapping="false"/>
 											</table:template>
 										</table:Column>
 										<table:Column width="17rem">
@@ -74,7 +74,7 @@
 												<Label text="{i18n>PlanCode}" textAlign="Center" width="100%"/>
 											</table:multiLabels>
 											<table:template>
-												<Text text="{LocalDataModel>ItemType}" wrapping="false"/>
+												<Text text="{EcpSalesModel>PlanType}" wrapping="false"/>
 											</table:template>
 										</table:Column>
 										<table:Column width="17rem">
@@ -82,7 +82,7 @@
 												<Label text="{i18n>Status}" textAlign="Center" width="100%"/>
 											</table:multiLabels>
 											<table:template>
-												<Text text="{LocalDataModel>ItemType}" wrapping="false"/>
+												<Text text="{EcpSalesModel>AgreementStatus}" wrapping="false"/>
 											</table:template>
 										</table:Column>
 										<table:Column width="17rem">
@@ -90,7 +90,7 @@
 												<Label text="{i18n>StatusDate}" textAlign="Center" width="100%"/>
 											</table:multiLabels>
 											<table:template>
-												<Text text="{LocalDataModel>ItemType}" wrapping="false"/>
+												<Text text="{path:'EcpSalesModel>StatusDate' ,type:'sap.ui.model.type.DateTime', formatOptions: { pattern: 'MMMM d, y', strictParsing: false, relative: false }}" wrapping="false"/>
 											</table:template>
 										</table:Column>
 										<table:Column width="17rem">
@@ -98,7 +98,7 @@
 												<Label text="{i18n>ExpiryDate}" textAlign="Center" width="100%"/>
 											</table:multiLabels>
 											<table:template>
-												<Text text="{LocalDataModel>ItemType}" wrapping="false"/>
+												<Text text="{path:'EcpSalesModel>AgreementthruDate' ,type:'sap.ui.model.type.DateTime', formatOptions: { pattern: 'MMMM d, y', strictParsing: false, relative: false }}" wrapping="false"/>
 											</table:template>
 										</table:Column>
 										<table:Column width="17rem">
@@ -106,23 +106,23 @@
 												<Label text="{i18n>ExpiryKM}" textAlign="Center" width="100%"/>
 											</table:multiLabels>
 											<table:template>
-												<Text text="{LocalDataModel>ItemType}" wrapping="false"/>
+												<Text text="{path:'EcpSalesModel>RoadHazardExpiryDate' ,type:'sap.ui.model.type.DateTime', formatOptions: { pattern: 'MMMM d, y', strictParsing: false, relative: false }}" wrapping="false"/>
 											</table:template>
 										</table:Column>
 									</table:columns>
 								</table:Table>
-								<table:Table class="classRCPTable" selectionMode="Single" rows="" visibleRowCountMode="Auto" rowSelectionChange="onNavigate"
+								<table:Table class="classRCPTable" selectionMode="Single" rows="{ProssingModel>/zc_coverageSet}" visibleRowCountMode="Auto" id='ofptable' 
 									selectionBehavior="Row" showNoData="true" threshold="20" enableBusyIndicator="true">
 									<table:toolbar>
 										<f:SimpleForm editable="true" layout="ResponsiveGridLayout" title="" labelSpanXL="6" labelSpanL="6" labelSpanM="12" labelSpanS="12"
 											emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="3" columnsL="3" columnsM="3">
 											<f:content>
 												<core:Title text=""/>
-												<Label text="{i18n>PartOFP}" textAlign="Left" />
-												<Input value=""/>
+												<Label text="{i18n>PartOFP}" textAlign="Left" required="true"/>
+												<Input value="" id='partofp' />
 												<core:Title text=""/>
-												<Label text="{i18n>MainOp}" textAlign="Left"/>
-												<Input value=""/>
+												<Label text="{i18n>MainOp}" textAlign="Left" required="true"/>
+												<Input value="" id='mainop' />
 												<core:Title text=""/>
 												<Button text="{i18n>LookUp}" type="Emphasized" press="onPressLookUp">
 													<layoutData>
@@ -138,7 +138,7 @@
 												<Label text="{i18n>PartOFP}" textAlign="Center" width="100%"/>
 											</table:multiLabels>
 											<table:template>
-												<Text text="" wrapping="false"/>
+												<Text text="{ProssingModel>Part}" wrapping="false"/>
 											</table:template>
 										</table:Column>
 										<table:Column width="17rem">
@@ -146,7 +146,7 @@
 												<Label text="{i18n>PartDescription}" textAlign="Center" width="100%"/>
 											</table:multiLabels>
 											<table:template>
-												<Text text="" wrapping="false"/>
+												<Text text="{ProssingModel>PartDes}" wrapping="false"/>
 											</table:template>
 										</table:Column>
 										<table:Column width="17rem">
@@ -154,7 +154,7 @@
 												<Label text="{i18n>MainOp}" textAlign="Center" width="100%"/>
 											</table:multiLabels>
 											<table:template>
-												<Text text="" wrapping="false"/>
+												<Text text="{ProssingModel>MainOp}" wrapping="false"/>
 											</table:template>
 										</table:Column>
 										<table:Column width="17rem">
@@ -162,7 +162,7 @@
 												<Label text="{i18n>OperationDescription}" textAlign="Center" width="100%"/>
 											</table:multiLabels>
 											<table:template>
-												<Text text="" wrapping="false"/>
+												<Text text="{ProssingModel>MainOpDes}" wrapping="false"/>
 											</table:template>
 										</table:Column>
 										<table:Column width="17rem">
@@ -170,19 +170,22 @@
 												<Label text="{i18n>Coverage}" textAlign="Center" width="100%"/>
 											</table:multiLabels>
 											<table:template>
-												<Text text="" wrapping="false"/>
+												<Text text="{ProssingModel>Coverage}" wrapping="false"/>
 											</table:template>
 										</table:Column>
 									</table:columns>
 								</table:Table>
-								<List headerText="{i18n>ImportantNotes}">
+								<!--<List headerText="{i18n>ImportantNotes}">-->
+								<!--<DisplayListItem>-->
+								<Title text="{i18n>ImportantNotes}" />
 								
-										<DisplayListItem
-											value="This Coverage Inquiry is based on the date that the search is being performed and assumed to be the Repair Date on Repair Order. If the Repair Date on the Repair Order is different, the Coverage Inquiry results could differ especially if the vehicle is close to coverage expiry. Always perform the inquiry on the actual Repair Date to ensure accuracy."/>
-										<DisplayListItem
-											value="This Coverage Inquiry is provided for the purpose of easily determining the claim coverage of a vehicle component/repair. Claim coverage is limited to an actual customer complaint as a result of a defect in material or workmanship. The inquiry and resultant coverage results does not constitute the approval or authorization of a claim. All policies and procedures as outlined in the Warranty and ECP Policies and Procedures Manual still apply. "/>
-								
-								</List>
+										<Text
+											text="This Coverage Inquiry is based on the date that the search is being performed and assumed to be the Repair Date on Repair Order. If the Repair Date on the Repair Order is different, the Coverage Inquiry results could differ especially if the vehicle is close to coverage expiry. Always perform the inquiry on the actual Repair Date to ensure accuracy."/>
+										<!--<DisplayListItem-->
+										<Text
+											text="This Coverage Inquiry is provided for the purpose of easily determining the claim coverage of a vehicle component/repair. Claim coverage is limited to an actual customer complaint as a result of a defect in material or workmanship. The inquiry and resultant coverage results does not constitute the approval or authorization of a claim. All policies and procedures as outlined in the Warranty and ECP Policies and Procedures Manual still apply. "/>
+								<!--</DisplayListItem>-->
+								<!--</List>-->
 							</VBox>
 						</uxap:blocks>
 					</uxap:ObjectPageSubSection>
