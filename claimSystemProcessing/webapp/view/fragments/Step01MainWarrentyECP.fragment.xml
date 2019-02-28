@@ -104,18 +104,18 @@
 					visible="{DateModel>/OdometerReq}" id="idVinNum" change="onEnterVIN" editable="{DateModel>/oFormEdit}" />
 				<core:Title text=""/>
 				<Label text="{i18n>RegDate}"/>
-				<Text text="{HeadSetData>/RegDate}"/>
+				<Text text="{path:'LocalDataModel>/DataVinDetails/RegDate',type: 'sap.ui.model.type.Date', constraints: { displayFormat: 'Date' }, formatOptions: { style: 'medium', strictParsing: true , UTC: true}}"/>
 				<Label text="{i18n>VehicleAge}"/>
-				<Text text="" id="idVehicleAge"/>
+				<Text text="{LocalDataModel>/DataVinDetails/VehicleDays}" id="idVehicleAge"/>
 				<core:Title text=""/>
 				<Label text="{i18n>ForeignVIN}"/>
-				<Text text="{HeadSetData>/ForeignVINIndicator}" id="idForeignVin"/>
+				<Text text="{LocalDataModel>/DataVinDetails/ForeignVIN}" id="idForeignVin"/>
 				<Button icon="sap-icon://message-warning" type="Transparent" press="onPressForeignVin" class="clWarning"/>
 				<Label text="{i18n>WrittenOff}"/>
-				<Text text="{HeadSetData>/WrittenOffCode}" id="idWrittenoff"/>
+				<Text text="{LocalDataModel>/DataVinDetails/WrittenOff}" id="idWrittenoff"/>
 				<Button icon="sap-icon://message-warning" type="Transparent" press="onPressWrittenOff" class="clWarning"/>
 				<Label text="{i18n>SpecialVINReview}"/>
-				<Text text="{HeadSetData>/SpecialVINReview}" id="idSpecialVin"/>
+				<Text text="{LocalDataModel>/DataVinDetails/SpecialVINReview}" id="idSpecialVin"/>
 				<Button icon="sap-icon://message-warning" type="Transparent" press="onPressSpecialVin" class="clWarning"/>
 			</f:content>
 		</f:SimpleForm>
@@ -294,7 +294,7 @@
 			<f:content>
 				<core:Title text=""/>
 				<Label text="{i18n>ClientLastName}"/>
-				<Input value="" required="true"/>
+				<Input value="{HeadSetData>/CustomerFullName}" required="true"/>
 				<core:Title text=""/>
 				<Label text="{i18n>PostalCode}"/>
 				<Input value="{HeadSetData>/CustomerPostalCode}" required="true"/>

@@ -10,7 +10,7 @@
 							<Label text="{i18n>Code}" textAlign="Center" width="100%"/>
 						</table:multiLabels>
 						<table:template>
-							<Text text="{LocalDataModel>WROFCode}" wrapping="false"/>
+							<Text text="{LocalDataModel>WrofWROFCode}" wrapping="false"/>
 						</table:template>
 					</table:Column>
 					<table:Column width="17rem">
@@ -18,7 +18,7 @@
 							<Label text="{i18n>Description}" textAlign="Center" width="100%"/>
 						</table:multiLabels>
 						<table:template>
-							<Text text="{LocalDataModel>CodeDesc}" wrapping="false"/>
+							<Text text="{LocalDataModel>WrofCodeDesc}" wrapping="false"/>
 						</table:template>
 					</table:Column>
 					<table:Column width="17rem">
@@ -26,7 +26,7 @@
 							<Label text="{i18n>DateIssued}" textAlign="Center" width="100%"/>
 						</table:multiLabels>
 						<table:template>
-							<Text text="{LocalDataModel>SWCreatedOn}" wrapping="false"/>
+							<Text text="{LocalDataModel>WrofIssuedDate}" wrapping="false"/>
 						</table:template>
 					</table:Column>
 				</table:columns>

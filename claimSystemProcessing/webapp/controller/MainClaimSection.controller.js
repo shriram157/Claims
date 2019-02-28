@@ -221,6 +221,8 @@ sap.ui.define([
 								console.log("Error");
 							}
 						});
+						
+						
 
 						if (oClaimTypeDetail == "ZECP") {
 							this.getView().getModel("DateModel").setProperty("/oECPfields", true);
@@ -240,7 +242,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/Sublet", true);
 							this.getView().getModel("DateModel").setProperty("/Labour", true);
 							this.getView().getModel("DateModel").setProperty("/Parts", true);
-
+							this.getView().getModel("DateModel").setProperty("/oECPfields", true);
 						} else if (oClaimTypeDetail == "ZWP2") {
 							this.getView().getModel("DateModel").setProperty("/Paint", false);
 							this.getView().getModel("DateModel").setProperty("/Sublet", false);
@@ -322,7 +324,7 @@ sap.ui.define([
 
 						if (data.results[0].DecisionCode == "ZTRC" || data.results[0].DecisionCode == "ZTIC") {
 							this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
-							this.getView().getModel("DateModel").setProperty("/OdometerReq", true);
+
 							this.getModel("LocalDataModel").setProperty("/CancelEnable", true);
 							this.getView().getModel("DateModel").setProperty("/claimEditSt", false);
 							this.getView().getModel("DateModel").setProperty("/updateEnable", true);
@@ -331,20 +333,20 @@ sap.ui.define([
 							this.getModel("LocalDataModel").setProperty("/CancelEnable", true);
 						} else if (data.results[0].DecisionCode == "") {
 							this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
-							this.getView().getModel("DateModel").setProperty("/OdometerReq", false);
+
 							this.getView().getModel("DateModel").setProperty("/claimEditSt", false);
 							this.getView().getModel("DateModel").setProperty("/updateEnable", false);
 							this.getModel("LocalDataModel").setProperty("/CancelEnable", false);
 						} else if (data.results[0].DecisionCode == "ZTAC") {
 							this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
-							this.getView().getModel("DateModel").setProperty("/OdometerReq", false);
+
 							this.getView().getModel("DateModel").setProperty("/claimEditSt", true);
 							this.getView().getModel("DateModel").setProperty("/updateEnable", false);
 							this.getModel("LocalDataModel").setProperty("/CancelEnable", false);
 
 						} else {
 							this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
-							this.getView().getModel("DateModel").setProperty("/OdometerReq", false);
+
 							this.getView().getModel("DateModel").setProperty("/claimEditSt", false);
 							this.getView().getModel("DateModel").setProperty("/updateEnable", false);
 							this.getModel("LocalDataModel").setProperty("/CancelEnable", false);
@@ -499,6 +501,9 @@ sap.ui.define([
 							"PreviousROInvoice": this.getView().getModel("HeadSetData").getProperty("/PreviousROInvoice"),
 							"AccessoryInstallOdometer": this.getView().getModel("HeadSetData").getProperty("/AccessoryInstallOdometer"),
 							"AccessoryInstallDate": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/AccessoryInstallDate")),
+							"AgreementNumber": this.getView().getModel("HeadSetData").getProperty("/AgreementNumber"),
+					"CustomerPostalCode": this.getView().getModel("HeadSetData").getProperty("/CustomerPostalCode"),
+					"CustomerFullName": this.getView().getModel("HeadSetData").getProperty("/CustomerFullName"),
 							"zc_itemSet": {
 								"results": PartItem
 							},
@@ -620,7 +625,9 @@ sap.ui.define([
 					"PreviousROInvoice": "",
 					"AccessoryInstallOdometer": "",
 					"AccessoryInstallDate": "",
-					"AgreementNumber": ""
+				"AgreementNumber": "",
+					"CustomerPostalCode": "",
+					"CustomerFullName": ""
 				});
 				this.HeadSetData.setDefaultBindingMode("TwoWay");
 
@@ -662,7 +669,10 @@ sap.ui.define([
 					"PreviousROOdometer": "",
 					"PreviousROInvoice": "",
 					"AccessoryInstallOdometer": "",
-					"AccessoryInstallDate": ""
+					"AccessoryInstallDate": "",
+					"AgreementNumber": "",
+					"CustomerPostalCode": "",
+					"CustomerFullName": ""
 				};
 				// this.obj.DBOperation = "SAVE";
 				this.obj.zc_itemSet = {};
@@ -947,16 +957,7 @@ sap.ui.define([
 
 			var oVin = oEvent.getParameters().value;
 			var oProssingModel = this.getModel("ProssingModel");
-			// var oVehicleModel = this.getModel("ZVehicleMasterModel");
-
-			// oVehicleModel.read("/zc_c_vehicle", {
-			// 	success: function (data) {
-			// 		console.log(data);
-			// 	},
-			// 	error: function (data) {
-			// 		console.log(data);
-			// 	}
-			// });
+			
 
 			var oECPModel = this.getOwnerComponent().getModel("EcpSalesModel");
 			oECPModel.read("/zc_ecp_agreement", {
@@ -965,6 +966,18 @@ sap.ui.define([
 				},
 				success: $.proxy(function (data) {
 					this.getModel("LocalDataModel").setProperty("/AgreementDataECP", data.results);
+				}, this),
+				error: function () {}
+			});
+			
+			
+			
+			oProssingModel.read("/zc_vehicle_informationSet", {
+				urlParameters: {
+					"$filter": "Vin eq '" + oVin + "'"
+				},
+				success: $.proxy(function (data) {
+					this.getModel("LocalDataModel").setProperty("/DataVinDetails", data.results[0]);
 				}, this),
 				error: function () {}
 			});
@@ -1001,8 +1014,9 @@ sap.ui.define([
 
 			oProssingModel.read("/ZC_CLAIM_SPHL_WROF(p_vhvin='" + oVin + "',p_langu='E')/Set", {
 				success: $.proxy(function (data) {
-
+					this.getView().getModel("LocalDataModel").setProperty("/SPWROF", data.results);
 					if (data.results.length < 1) {
+
 						this.getView().getModel("HeadSetData").setProperty("/WrittenOffCode", "No");
 						this.getView().getModel("HeadSetData").setProperty("/SpecialVINReview", "No");
 					} else {
@@ -1029,7 +1043,7 @@ sap.ui.define([
 			var oCurrentDt = new Date();
 			var oValidator = new Validator();
 			var oValid = oValidator.validate(this.getView().byId("idClaimMainForm"));
-			var oValid01 = oValidator.validate(this.getView().byId("idVehicleInfo"));
+			// var oValid01 = oValidator.validate(this.getView().byId("idVehicleInfo"));
 			var oValid02 = oValidator.validate(this.getView().byId("idpart01Form"));
 
 			if (this.getView().getModel("HeadSetData").getProperty("/ClaimType") == undefined) {
@@ -1037,14 +1051,6 @@ sap.ui.define([
 				this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
 				this.getView().byId("idMainClaimMessage").setType("Error");
 				this.getView().getModel("DateModel").setProperty("/claimTypeState", "Error");
-			} else if (!oValid01) {
-				this.getModel("LocalDataModel").setProperty("/step01Next", false);
-				//do something additional to drawing red borders? message box?
-				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
-				this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
-				this.getView().byId("idMainClaimMessage").setType("Error");
-				this.getView().getModel("DateModel").setProperty("/claimTypeState", "None");
-				return false;
 			} else if (!oValid02 && !oValid) {
 				this.getModel("LocalDataModel").setProperty("/step01Next", false);
 				//do something additional to drawing red borders? message box?
@@ -1104,6 +1110,7 @@ sap.ui.define([
 					"AccessoryInstallDate": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/AccessoryInstallDate")),
 					"AgreementNumber": this.getView().getModel("HeadSetData").getProperty("/AgreementNumber"),
 					"CustomerPostalCode": this.getView().getModel("HeadSetData").getProperty("/CustomerPostalCode"),
+					"CustomerFullName": this.getView().getModel("HeadSetData").getProperty("/CustomerFullName"),
 					"zc_itemSet": {
 						"results": []
 					},
@@ -1446,6 +1453,7 @@ sap.ui.define([
 						"AccessoryInstallDate": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/AccessoryInstallDate")),
 						"AgreementNumber": this.getView().getModel("HeadSetData").getProperty("/AgreementNumber"),
 						"CustomerPostalCode": this.getView().getModel("HeadSetData").getProperty("/CustomerPostalCode"),
+						"CustomerFullName": this.getView().getModel("HeadSetData").getProperty("/CustomerFullName"),
 						"zc_itemSet": {
 							"results": PartItem
 						},
@@ -1514,7 +1522,7 @@ sap.ui.define([
 						text: "Yes",
 						press: $.proxy(function () {
 							this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
-							this.getView().getModel("DateModel").setProperty("/OdometerReq", true);
+
 							this.getView().getModel("DateModel").setProperty("/oztac", true);
 							dialog.close();
 						}, this)
@@ -3274,7 +3282,7 @@ sap.ui.define([
 			this.obj.AccessoryInstallOdometer = this.getView().getModel("HeadSetData").getProperty("/AccessoryInstallOdometer");
 			this.obj.AgreementNumber = this.getView().getModel("HeadSetData").getProperty("/AgreementNumber");
 			this.obj.CustomerPostalCode = this.getView().getModel("HeadSetData").getProperty("/CustomerPostalCode");
-
+			this.obj.CustomerFullName = this.getView().getModel("HeadSetData").getProperty("/CustomerFullName");
 			this.obj.AccessoryInstallDate = this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/AccessoryInstallDate"));
 			this.obj.Message = "";
 			this.obj.DBOperation = "SUB";

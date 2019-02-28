@@ -18,7 +18,7 @@
 							<Label text="{i18n>Description}" textAlign="Center" width="100%"/>
 						</table:multiLabels>
 						<table:template>
-							<Text text="{LocalDataModel>CodeDesc}" wrapping="false"/>
+							<Text text="{LocalDataModel>SphlCodeDesc}" wrapping="false"/>
 						</table:template>
 					</table:Column>
 					<table:Column width="17rem">
@@ -26,7 +26,7 @@
 							<Label text="{i18n>DateIssued}" textAlign="Center" width="100%"/>
 						</table:multiLabels>
 						<table:template>
-							<Text text="{LocalDataModel>RegistrationDate}" wrapping="false"/>
+							<Text text="{LocalDataModel>SphlIssuedDate}" wrapping="false"/>
 						</table:template>
 					</table:Column>
 				</table:columns>

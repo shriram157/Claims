@@ -104,6 +104,13 @@ sap.ui.define([
 					oClaimGroup : this.oSelectedClaimGroup
 					
 				});
+			}else if (oSelectedKey === "CUSTOMER RELATIONS") {
+				this.getRouter().navTo("MainClaimSection", {
+					claimNum : oClaimNum,
+					oKey : "CUSTOMER RELATIONS",
+					oClaimGroup : this.oSelectedClaimGroup
+					
+				});
 			}
 		},
 		
