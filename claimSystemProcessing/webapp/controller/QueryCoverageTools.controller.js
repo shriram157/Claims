@@ -4,7 +4,7 @@ sap.ui.define([
 	'sap/m/MessageBox'
 ], function (BaseController, formatter, MessageBox) {
 	"use strict";
-	var agreementno;
+	var agreementno,dometerunit;
 	return BaseController.extend("zclaimProcessing.controller.QueryCoverageTools", {
 		formatter: formatter,
 		/**
@@ -78,6 +78,11 @@ sap.ui.define([
 							that.getView().byId('partofp').setEditable(true);
 							that.getView().byId('mainop').setEditable(true);
 						}
+							if (zdata.d.results[0].ForeignVIN == 'YES') {
+						dometerunit= 'MI';
+						} else if (zdata.d.results[0].ForeignVIN == 'NO') {
+						dometerunit= 'KM';
+						}
 						oModel.setData(zdata.d.results[0]);
 						that.getView().setModel(oModel, 'Vehicleinfo');
 					} else {
@@ -111,7 +116,7 @@ sap.ui.define([
 					new sap.ui.model.Filter("LanguageKey", sap.ui.model.FilterOperator.EQ, 'EN'),
 					new sap.ui.model.Filter("MainOpsCode", sap.ui.model.FilterOperator.EQ, mainop),
 					new sap.ui.model.Filter("AgreementNumber", sap.ui.model.FilterOperator.EQ, agreementselected),
-					new sap.ui.model.Filter("OdometerUOM", sap.ui.model.FilterOperator.EQ, 'KM') //till iget the odmeter km
+					new sap.ui.model.Filter("OdometerUOM", sap.ui.model.FilterOperator.EQ, dometerunit) //till iget the odmeter km
 				];
 				this.getView().byId('ofptable').getBinding('rows').filter(new sap.ui.model.Filter(filters, true));
 
@@ -128,6 +133,7 @@ sap.ui.define([
 			this.getView().byId('Odometer').setValue('');
 			this.getView().byId('partofp').setValue('');
 			this.getView().byId('mainop').setValue('');
+			this.getView().getModel('Vehicleinfo').setData();
 			this.byId('idActiveAgreement').getBinding('rows').filter([new sap.ui.model.Filter("VIN", sap.ui.model.FilterOperator.EQ, '0')]);
 			this.getView().byId('ofptable').getBinding('rows').filter();
 		}

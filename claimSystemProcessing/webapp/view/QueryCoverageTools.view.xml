@@ -37,7 +37,7 @@
 										<Text text="{Vehicleinfo>/VehicleDays}"/>
 										<core:Title text=""/>
 										<Label text="{i18n>ModelYear}"/>
-										<Text text=""/>
+										<Text text="{Vehicleinfo>/ModelYear}"/>
 										<Label text="{i18n>WrittenOff}"/>
 										<Text text="{Vehicleinfo>/WrittenOff}"/>
 										<core:Title text=""/>
