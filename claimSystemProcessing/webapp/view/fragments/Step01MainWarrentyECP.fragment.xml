@@ -22,7 +22,7 @@
 					<core:Title text=""/>
 					<Label text="{i18n>FirstSubmissionDate}"/>
 					<Text
-						text="{ path: 'HeadSetData>/ReferenceDate', type : 'sap.ui.model.type.Date', formatOptions : { source: { pattern: 'dd-MM-yyyy' }, pattern: 'dd-MM-yyyy' }, constraints : { minimum : '01-01-1990' } }"/>
+						text="{ path: 'HeadSetData>/ReferenceDate', type : 'sap.ui.model.type.Date', formatOptions: { style: 'medium', strictParsing: true , UTC: true}, constraints : { minimum : '01-01-1990' } }"/>
 					<Label text="{i18n>ClaimAge}"/>
 					<Text text="{HeadSetData>/ClaimAge}"/>
 					<Label text="{i18n>LastModifiedby}"/>

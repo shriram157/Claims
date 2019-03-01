@@ -5,9 +5,9 @@
 			<VBox justifyContent="Center" class="sapUiSmallMargin">
 					<Text text="{i18n>ForeignVINOdometerReadingenteredMilesKMs}" width="100%"/>
 					
-					<Text text="{i18n>EnsurecheckedTISoutstandingFieldActionsSalvageStatus}" width="100%"/>
+					<Text text="{i18n>EnsurecheckedTISoutstandingFieldActionsSalvageStatus}" width="100%" class="sapUiSmallMarginBottom"/>
 				
-					<Button text="{i18n>Ok}" press="onCloseForeinNotification"/>
+					<Button text="{i18n>Ok}" type="Emphasized" press="onCloseForeinNotification"/>
 			</VBox>
 		</content>
 	</Dialog>
