@@ -647,6 +647,7 @@ sap.ui.define([
 				this.getView().byId("idFilter05").setProperty("enabled", false);
 				this.getView().byId("idFilter06").setProperty("enabled", false);
 				this.getView().byId("idFilter07").setProperty("enabled", false);
+				this.getView().getModel("DateModel").setProperty("/claimEditSt", false);
 				oProssingModel.refresh();
 				// this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
 				// this.getView().getModel("DateModel").setProperty("/claimEditSt", false);
