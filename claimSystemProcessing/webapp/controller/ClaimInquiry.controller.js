@@ -17,11 +17,13 @@ sap.ui.define([
 			oDateModel.setData({
 				dateValueDRS2: new Date(new Date().setDate(PriorDate.getDate() - 30)),
 				secondDateValueDRS2: PriorDate,
-				dateCurrent: new Date()
+				dateCurrent: new Date(),
+				vinState: "None"
 			});
 			this.getView().setModel(oDateModel, "DateModel");
 		},
 		onPressSearch: function () {
+			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var oDateFormat = sap.ui.core.format.DateFormat.getDateInstance({
 				pattern: "yyyy-MM-ddTHH:mm:ss"
 			});
@@ -32,6 +34,10 @@ sap.ui.define([
 			var FromDateFormat = oDateFormat.format(FromDate);
 			var ToDateFormat = oDateFormat.format(ToDate);
 			if (sQuery != "") {
+				this.getView().getModel("DateModel").setProperty("/vinState", "None");
+				this.getView().byId("idNewClaimMsgStrp").setProperty("visible", false);
+				this.getView().byId("idNewClaimMsgStrp").setType("None");
+
 				andFilter = new sap.ui.model.Filter({
 					filters: [
 						new sap.ui.model.Filter("ExternalObjectNumber", sap.ui.model.FilterOperator.EQ, sQuery),
@@ -40,12 +46,10 @@ sap.ui.define([
 					and: true
 				});
 			} else {
-				andFilter = new sap.ui.model.Filter({
-					filters: [
-						new sap.ui.model.Filter("ReferenceDate", sap.ui.model.FilterOperator.BT, FromDateFormat, ToDateFormat)
-					],
-					and: true
-				});
+				this.getView().getModel("DateModel").setProperty("/vinState", "Error");
+				this.getView().byId("idNewClaimMsgStrp").setProperty("visible", true);
+				this.getView().byId("idNewClaimMsgStrp").setText(oBundle.getText("PleaseEnterVINNumber"));
+				this.getView().byId("idNewClaimMsgStrp").setType("Error");
 			}
 			var oTable = this.getView().byId("idClaimInquiryTable");
 			var oBindItems = oTable.getBinding("rows");

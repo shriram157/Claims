@@ -19,6 +19,14 @@
 						value="{path:'HeadSetData>/ClaimType', type : 'sap.ui.model.type.String', constraints : { minLength : 2, maxLength : 50 } }">
 						<core:ListItem text="{LocalDataModel>ALMClaimType}" key="{LocalDataModel>ALMClaimType}" additionalText="{LocalDataModel>ALMClaimTypeDes}"/>
 					</ComboBox>
+					<Label text="{i18n>SubmissionClaimType}" visible="{DateModel>/warrantySubmissionClaim}"/>
+					<ComboBox showSecondaryValues="true" required="true" visible="{DateModel>/warrantySubmissionClaim}"
+						items="{path:'/ZC_CLAIM_GROUP', filters: [ { path: 'ClaimGroupDes', operator: 'EQ', value1: 'WARRANTY' } ]}"
+						selectionChange="onSelectClaimTpe" selectedKey="{HeadSetData>/WarrantyClaimSubType}" enabled="{DateModel>/claimTypeEn}"
+						valueState="{DateModel>/claimTypeState}"
+						value="{path:'HeadSetData>/WarrantyClaimSubType', type : 'sap.ui.model.type.String', constraints : { minLength : 2, maxLength : 50 } }">
+						<core:ListItem text="{ALMClaimType}" key="{ALMClaimType}" additionalText="{ALMClaimTypeDes}"/>
+					</ComboBox>
 					<core:Title text=""/>
 					<Label text="{i18n>FirstSubmissionDate}"/>
 					<Text
@@ -88,9 +96,9 @@
 					required="{DateModel>/OdometerReq}" visible="{DateModel>/OdometerReq}" id="idOdometer" editable="{DateModel>/OdometerReq}"/>
 			</f:content>
 		</f:SimpleForm>
-		<f:SimpleForm editable="" id="idVehicleInfo" title="{i18n>VehicleInformation} - {path:'LocalDataModel>/DataVinDetails/VehicleDescription'}" layout="ResponsiveGridLayout"
-			labelSpanXL="6" labelSpanL="6" labelSpanM="6" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0"
-			emptySpanS="0" columnsXL="3" columnsL="3" columnsM="3" singleContainerFullSize="false" >
+		<f:SimpleForm editable="" id="idVehicleInfo" title="{i18n>VehicleInformation} - {path:'LocalDataModel>/DataVinDetails/VehicleDescription'}"
+			layout="ResponsiveGridLayout" labelSpanXL="6" labelSpanL="6" labelSpanM="6" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0"
+			emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="3" columnsL="3" columnsM="3" singleContainerFullSize="false">
 			<f:content >
 				<core:Title text=""/>
 				<RadioButtonGroup selectedIndex="0" columns="2" id="idRequestType" select="onSelectRequestType" editable="{DateModel>/oFormEdit}">
@@ -101,15 +109,16 @@
 				</RadioButtonGroup>
 				<Input required="{DateModel>/OdometerReq}"
 					value="{path:'HeadSetData>/ExternalObjectNumber', type : 'sap.ui.model.type.String', constraints : { minLength : 16, maxLength : 17 }}"
-					visible="{DateModel>/OdometerReq}" id="idVinNum" change="onEnterVIN" editable="{DateModel>/oFormEdit}" />
+					visible="{DateModel>/OdometerReq}" id="idVinNum" change="onEnterVIN" editable="{DateModel>/oFormEdit}"/>
 				<core:Title text=""/>
 				<Label text="{i18n>RegDate}"/>
-				<Text text="{path:'LocalDataModel>/DataVinDetails/RegDate',type: 'sap.ui.model.type.Date', constraints: { displayFormat: 'Date' }, formatOptions: { style: 'medium', strictParsing: true , UTC: true}}"/>
+				<Text
+					text="{path:'LocalDataModel>/DataVinDetails/RegDate',type: 'sap.ui.model.type.Date', constraints: { displayFormat: 'Date' }, formatOptions: { style: 'medium', strictParsing: true , UTC: true}}"/>
 				<Label text="{i18n>VehicleAge}"/>
 				<Text text="{LocalDataModel>/DataVinDetails/VehicleDays}" id="idVehicleAge"/>
 				<core:Title text=""/>
 				<Label text="{i18n>ForeignVIN}" vAlign="Middle"/>
-				<Text text="{LocalDataModel>/DataVinDetails/ForeignVIN}" id="idForeignVin" />
+				<Text text="{LocalDataModel>/DataVinDetails/ForeignVIN}" id="idForeignVin"/>
 				<Button icon="sap-icon://message-warning" type="Transparent" press="onPressForeignVin" class="clWarning"/>
 				<Label text="{i18n>WrittenOff}" vAlign="Middle"/>
 				<Text text="{LocalDataModel>/DataVinDetails/WrittenOff}" id="idWrittenoff"/>
@@ -119,51 +128,62 @@
 				<Button icon="sap-icon://message-warning" type="Transparent" press="onPressSpecialVin" class="clWarning"/>
 			</f:content>
 		</f:SimpleForm>
-		<VBox visible="false">
-			<f:SimpleForm editable="true" id="idShipmentInfo" title="{i18n>ShipmentInformation}" layout="ResponsiveGridLayout" labelSpanXL="6"
-				labelSpanL="6" labelSpanM="6" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
-				columnsXL="3" columnsL="3" columnsM="3" singleContainerFullSize="false">
+		<VBox visible="{DateModel>/ShipmentVisible}">
+			<f:SimpleForm editable="true" id="idShipmentInfo" title="{i18n>ShipmentInformation}" layout="ResponsiveGridLayout" labelSpanXL="12"
+				labelSpanL="12" labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
+				columnsXL="4" columnsL="4" columnsM="3" singleContainerFullSize="false">
 				<f:content>
-					<Label text="{i18n>Delivering Carrier}"/>
-					<ComboBox required="true" items="" selectedKey="" value="">
-						<core:ListItem key="" text="United Road"/>
-						<core:ListItem key="" text="Mc Gill"/>
+					<core:Title text=""/>
+					<Label text="{i18n>DeliveringCarrier}"/>
+					<ComboBox required="true" items="" selectedKey="" value="{HeadSetData>/DeliveringCarrier}">
+						<core:ListItem key="" text="United"/>
+						<core:ListItem key="" text="Gill"/>
 					</ComboBox>
-					<Label text="{i18n>Probill #}"/>
-					<Input value="" required="true"/>
-					<Label text="{i18n>Delivery Date}"/>
-					<DatePicker required="true" value=""/>
+					<core:Title text=""/>
+					<Label text="{i18n>Probill}"/>
+					<Input value="{HeadSetData>/ProbillNum}" required="true"/>
+					<core:Title text=""/>
+					<Label text="{i18n>DeliveryDate}"/>
+					<DatePicker required="true" value="{path:'HeadSetData>/DeliveryDate',type : 'sap.ui.model.type.Date'}" editable="{DateModel>/oFormEdit}"/>
+					<core:Title text=""/>
 					<Label text="{i18n>Delivery}"/>
-					<ComboBox required="true" items="" selectedKey="" value="">
+					<ComboBox required="true" items="" selectedKey="" value="{HeadSetData>/Delivery}">
 						<core:ListItem key="" text="Attended"/>
 						<core:ListItem key="" text="Unattended"/>
 					</ComboBox>
 				</f:content>
 			</f:SimpleForm>
 			<HBox justifyContent="End">
-				<Button text="Add Damage Line" type="Emphasized" enabled=""/>
-				<Button text="Update Damage Line" class="sapUiTinyMarginBeginEnd" enabled=""/>
-				<Button text="Delete Damage Line" class="sapUiTinyMarginBeginEnd" type="Reject" enabled=""/>
+				<Button text="{i18n>AddDamageLine}" type="Emphasized"/>
+				<Button text="{i18n>UpdateDamageLine}" class="sapUiTinyMarginBeginEnd"/>
+				<Button text="{i18n>DeleteDamageLine}" class="sapUiTinyMarginBeginEnd" type="Reject"/>
 			</HBox>
-			<VBox id="idDamageArea" visible="" class="clBgColor sapUiSmallMarginTop" wrap="Wrap" width="100%">
-				<f:SimpleForm editable="true" labelSpanL="4" width="100%" title="" labelSpanXL="12" layout="ResponsiveGridLayout" emptySpanXL="1"
-					emptySpanL="1" columnsM="1" columnsL="1" columnsXL="1">
+			<VBox id="idDamageArea" class="clBgColor sapUiSmallMarginTop" wrap="Wrap" width="100%">
+				<f:SimpleForm editable="true" labelSpanL="4" width="100%" title="" labelSpanXL="12" layout="ResponsiveGridLayout" emptySpanXL="0"
+					emptySpanL="0" columnsM="3" columnsL="4" columnsXL="4">
 					<f:content>
+						<core:Title text=""/>
 						<Label text="{i18n>Area}"/>
-						<ComboBox showSecondaryValues="true" required="true" items="" selectedKey="" value="">
-							<core:ListItem key="" text="01" additionalText="Anttena"/>
-							<core:ListItem key="" text="02" additionalText="Battery"/>
+						<ComboBox showSecondaryValues="true" required="true" filterSecondaryValues="true" items="{LocalDataModel>/DataTypeCode}" selectedKey=""
+							value="{HeadSetData>/DmgTypeCode}">
+							<core:ListItem key="{LocalDataModel>DmgTypeCode}" text="{LocalDataModel>DmgTypeCode}" additionalText="{LocalDataModel>DmgTypeCodeDesc}"/>
 						</ComboBox>
+						<core:Title text=""/>
 						<Label text="{i18n>Type}"/>
-						<ComboBox showSecondaryValues="true" required="true" items="" selectedKey="" value="">
-							<core:ListItem key="" text="01" additionalText="Bent"/>
-							<core:ListItem key="" text="02" additionalText="Broken"/>
+						<ComboBox showSecondaryValues="true" required="true" selectedKey="" value="{HeadSetData>/DmgAreaCode}" filterSecondaryValues="true"
+							items="{LocalDataModel>/DataAreaCode}">
+							<core:ListItem key="{LocalDataModel>DmgAreaCode}" text="{LocalDataModel>DmgAreaCode}" additionalText="{LocalDataModel>DmgAreaCodeDesc}"/>
 						</ComboBox>
+						<core:Title text=""/>
 						<Label text="{i18n>Severity}"/>
-						<ComboBox showSecondaryValues="true" required="true" items="" selectedKey="" value="">
-							<core:ListItem key="" text="01" additionalText="Less than"/>
-							<core:ListItem key="" text="02" additionalText="Including"/>
+						<ComboBox showSecondaryValues="true" required="true" selectedKey="" value="{HeadSetData>/DmgSevrCode}" filterSecondaryValues="true"
+							items="{LocalDataModel>/DataSeverety}">
+							<core:ListItem key="{LocalDataModel>DmgSevrCode}" text="{LocalDataModel>DmgSevrCode}" additionalText="{LocalDataModel>DmgSevrCodeDesc}"/>
 						</ComboBox>
+						<core:Title text=""/>
+						<Label text=" "/>
+						<Button text="{i18n>SaveDamage}" press="onSaveDamage" type="Emphasized"/>
+						<Link text="{i18n>CancelClaim}"/>
 					</f:content>
 				</f:SimpleForm>
 			</VBox>

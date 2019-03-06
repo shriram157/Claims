@@ -16,7 +16,7 @@
 									<f:content>
 										<core:Title text=""/>
 										<Label text="{i18n>VIN}" textAlign="Begin"/>
-										<Input value="" id="idVin"/>
+										<Input value="" id="idVin" required="true" valueState="{DateModel>/vinState}"/>
 										<core:Title text=""/>
 										<Label text="{i18n>ClaimSubDate}" textAlign="Begin"/>
 										<DateRangeSelection id="DRS2" dateValue="{path:'DateModel>/dateValueDRS2'}" secondDateValue="{path:'DateModel>/secondDateValueDRS2'}"
@@ -35,13 +35,9 @@
 					<uxap:ObjectPageSubSection title="">
 						<uxap:blocks>
 							<VBox>
-								<table:Table id="idClaimInquiryTable" class="classRCPTable" selectionMode="Single" rows="{ path: '/ZC_CLAIM_HEAD'}" visibleRowCountMode="Auto"
+								<table:Table id="idClaimInquiryTable" class="classRCPTable" selectionMode="Single" rows="{ path: '/ZC_CLAIM_HEAD'}"
 									rowSelectionChange="onNavigate" selectionBehavior="Row" showNoData="true" threshold="50" enableBusyIndicator="true">
-									<!--<table:toolbar>-->
-									<!--	<Toolbar>-->
-									<!--		<Title text="" level="H2"/>-->
-									<!--	</Toolbar>-->
-									<!--</table:toolbar>-->
+								
 									<table:columns autoResizable="true">
 										<table:Column width="11rem">
 											<table:multiLabels>
@@ -56,7 +52,7 @@
 												<Label text="{i18n>DealerCode}" textAlign="Center" width="100%"/>
 											</table:multiLabels>
 											<table:template>
-												<Text text="{ExternalNumberOfClaim}" wrapping="false"/>
+												<Text text="{Partner}" wrapping="false"/>
 											</table:template>
 										</table:Column>
 										<table:Column width="11rem">
