@@ -145,7 +145,7 @@
 				<ColumnListItem vAlign="Middle">
 					<cells>
 						<Text text="{LocalDataModel>posnr}" wrapping="true" textAlign="Center" width="100%" />
-						<RadioButton groupName="GroupA" select="onSelectOFPLabour" textAlign="Center" width="100%" />
+						<RadioButton groupName="GroupA" enabled="{DateModel>/oFormEdit}" select="onSelectOFPLabour" textAlign="Center" width="100%" />
 						<Text text="{path:'LocalDataModel>LabourNumber'}" wrapping="true"
 							textAlign="Center" width="100%"/>
 						<Text text="{LocalDataModel>LabourDescription}" wrapping="true" textAlign="Center" width="100%"/>

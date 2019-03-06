@@ -384,7 +384,7 @@ sap.ui.define([
 
 						if (data.results[0].DecisionCode == "ZTRC" || data.results[0].DecisionCode == "ZTIC") {
 							this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
-
+							this.getView().getModel("DateModel").setProperty("/SaveClaim07", true);
 							this.getModel("LocalDataModel").setProperty("/CancelEnable", true);
 							this.getView().getModel("DateModel").setProperty("/claimEditSt", false);
 							this.getView().getModel("DateModel").setProperty("/updateEnable", true);
@@ -393,12 +393,13 @@ sap.ui.define([
 							this.getModel("LocalDataModel").setProperty("/CancelEnable", true);
 						} else if (data.results[0].DecisionCode == "") {
 							this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
-
+							this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
 							this.getView().getModel("DateModel").setProperty("/claimEditSt", false);
 							this.getView().getModel("DateModel").setProperty("/updateEnable", false);
 							this.getModel("LocalDataModel").setProperty("/CancelEnable", false);
 						} else if (data.results[0].DecisionCode == "ZTAC") {
 							this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
+							this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
 
 							this.getView().getModel("DateModel").setProperty("/claimEditSt", true);
 							this.getView().getModel("DateModel").setProperty("/updateEnable", false);
@@ -406,6 +407,7 @@ sap.ui.define([
 
 						} else {
 							this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
+							this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
 
 							this.getView().getModel("DateModel").setProperty("/claimEditSt", false);
 							this.getView().getModel("DateModel").setProperty("/updateEnable", false);
@@ -697,6 +699,7 @@ sap.ui.define([
 
 				this.getModel("LocalDataModel").setProperty("/ClaimDetails", "");
 				this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
+				this.getView().getModel("DateModel").setProperty("/SaveClaim07", true);
 				this.getView().getModel("DateModel").setProperty("/OdometerReq", true);
 				this.obj = {
 					"DBOperation": "SAVE",
@@ -1650,7 +1653,8 @@ sap.ui.define([
 						text: "Yes",
 						press: $.proxy(function () {
 							this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
-
+							this.getView().getModel("DateModel").setProperty("/SaveClaim07", true);
+							this.getView().getModel("DateModel").setProperty("/updateEnable", true);
 							this.getView().getModel("DateModel").setProperty("/oztac", true);
 							dialog.close();
 						}, this)
@@ -1815,26 +1819,6 @@ sap.ui.define([
 			var fileType = this.oUploadedFile.type;
 			var fileName = this.oUploadedFile.name;
 
-			// var itemObj = {
-			// 	"NumberOfWarrantyClaim": oClaimNum,
-			// 	"COMP_ID": fileName,
-			// 	"ContentLine": this.oBase,
-			// 	"Mimetype": fileType,
-			// 	"AttchType": "SubDoc"
-			// };
-
-			// var isProxy = "";
-			// if (window.document.domain == "localhost") {
-			// 	isProxy = "proxy";
-			// }
-			// var w = window.open(isProxy +
-			// 	"/node/ZECP_SALES_ODATA_SERVICE_SRV/zc_ecp_agreement_printSet(AGRNUM='" + oAgr + "',LANG='E')/$value",
-			// 	'_blank');
-			// if (w == null) {
-			// 	console.log("Error");
-			// 	//MessageBox.warning(oBundle.getText("Error.PopUpBloqued"));
-			// }
-
 			var isProxy = "";
 			if (window.document.domain == "localhost") {
 				isProxy = "proxy";
@@ -1857,16 +1841,8 @@ sap.ui.define([
 				"AttachLevel": "SUBL"
 			};
 
-			// this.obj.zc_claim_attachmentsSet.results.push(itemObj);
 
 			var oClaimModel = this.getModel("ProssingModel");
-
-			// this._oToken = oClaimModel.getHeaders()['x-csrf-token'];
-			// $.ajaxSetup({
-			// 	headers: {
-			// 		'X-CSRF-Token': this._oToken
-			// 	}
-			// });
 
 			oClaimModel.refreshSecurityToken();
 
@@ -1902,16 +1878,8 @@ sap.ui.define([
 			MessageToast.show("FileDeleted event triggered.");
 			var oFileName = oEvent.getParameters().item.getFileName();
 			var oClaimModel = this.getModel("ProssingModel");
-
-			// this._oToken = oClaimModel.getHeaders()['x-csrf-token'];
-			// $.ajaxSetup({
-			// 	headers: {
-			// 		'X-CSRF-Token': this._oToken
-			// 	}
-			// });
-
+			
 			oClaimModel.refreshSecurityToken();
-
 			oClaimModel.remove("/zc_claim_attachmentsSet(NumberOfWarrantyClaim='" + oClaimNum + "',FileName='" + oFileName + "')", {
 				method: "DELETE",
 				success: $.proxy(function () {
@@ -1945,22 +1913,7 @@ sap.ui.define([
 			var oFileName = oEvent.getParameters().item.getFileName();
 			var oClaimModel = this.getModel("ProssingModel");
 
-			// this._oToken = oClaimModel.getHeaders()['x-csrf-token'];
-			// $.ajaxSetup({
-			// 	headers: {
-			// 		'X-CSRF-Token': this._oToken
-			// 	}
-			// });
-
 			oClaimModel.refreshSecurityToken();
-
-			// oClaimModel.remove("/zc_claim_subletattachmentSet(NumberOfWarrantyClaim='" + oClaimNum + "',FileName='" + oFileReplaced + "')", {
-			// 	method: "DELETE",
-			// 	success: $.proxy(function () {
-			// 		oClaimModel.refresh();
-			// 		MessageToast.show("File has been deleted successfully");
-			// 	}, this)
-			// });
 
 			oClaimModel.remove("/zc_claim_subletattachmentSet(NumberOfWarrantyClaim='" + oClaimNum + "',FileName='" + oFileName + "')", {
 				method: "DELETE",
@@ -3437,9 +3390,9 @@ sap.ui.define([
 			var oClaimModel = this.getModel("ProssingModel");
 			
 			var itemObj = {
-			  "DamageAreaCode": this.getView().getModel("HeadSetData").getProperty("/DmgAreaCode"),
-              "DamageTypeCode": this.getView().getModel("HeadSetData").getProperty("/DmgTypeCode"),
-              "DamageSeverityCodes": this.getView().getModel("HeadSetData").getProperty("/DmgSevrCode")
+			  "DmgAreaCode": this.getView().getModel("HeadSetData").getProperty("/DmgAreaCode"),
+              "DmgTypeCode": this.getView().getModel("HeadSetData").getProperty("/DmgTypeCode"),
+              "DmgSevrCode": this.getView().getModel("HeadSetData").getProperty("/DmgSevrCode")
 			};
 			this.obj.zc_claim_item_damageSet.results.push(itemObj);
 			
@@ -3448,7 +3401,14 @@ sap.ui.define([
 			oClaimModel.create("/zc_headSet", this.obj, {
 				success: $.proxy(function (data, response) {
 					// console.log(response);
-					
+				oClaimModel.read("/zc_claim_item_damageSet", {
+					urlParameters: {
+					"$filter": "NumberOfWarrantyClaim eq '"+oClaimNum+"'and LanguageKey eq 'E' "
+				},
+					success : $.proxy(function(sdata){
+						console.log(sdata);
+					},this)
+				});	
 				}, this),
 				error: function (err) {
 					console.log(err);

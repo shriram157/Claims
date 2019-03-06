@@ -136,8 +136,12 @@
 					<core:Title text=""/>
 					<Label text="{i18n>DeliveringCarrier}"/>
 					<ComboBox required="true" items="" selectedKey="" value="{HeadSetData>/DeliveringCarrier}">
-						<core:ListItem key="" text="United"/>
-						<core:ListItem key="" text="Gill"/>
+						<core:ListItem key="" text="Hansen's"/>
+						<core:ListItem key="" text="United Road"/>
+						<core:ListItem key="" text="MCGill"/>
+						<core:ListItem key="" text="Harvey"/>
+						<core:ListItem key="" text="Laberge"/>
+						<core:ListItem key="" text="Others"/>
 					</ComboBox>
 					<core:Title text=""/>
 					<Label text="{i18n>Probill}"/>
