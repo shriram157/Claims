@@ -106,8 +106,8 @@ sap.ui.define([
 			var odmeter = this.getView().byId('Odometer').getValue();
 			var partofp = this.getView().byId('partofp').getValue();
 			var mainop = this.getView().byId('mainop').getValue();
-			var agreementselected = agreementno;
-			if (oVin != '' && odmeter != '' && partofp != '' && mainop != '' && agreementselected != '' && agreementselected) {
+			var agreementselected = agreementno || '';
+			if (oVin != '' && odmeter != '' && partofp != '' && mainop != '') {
 				var filters = [];
 				filters = [
 					new sap.ui.model.Filter("VIN", sap.ui.model.FilterOperator.EQ, oVin),
