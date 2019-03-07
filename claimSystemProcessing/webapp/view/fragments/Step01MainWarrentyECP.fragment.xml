@@ -6,7 +6,7 @@
 				<Toolbar height="3rem">
 					<Title text="{i18n>ClaimDetails}"/>
 					<ToolbarSpacer/>
-					<Title text="{i18n>TCIClaimNumber}: {HeadSetData>/NumberOfWarrantyClaim}" textAlign="End"/>
+					<Title text="{LocalDataModel>/WarrantyClaimNumber}" textAlign="End"/>
 				</Toolbar>
 			</headerToolbar>
 			<f:SimpleForm editable="true" layout="ResponsiveGridLayout" title="" labelSpanXL="6" labelSpanL="6" labelSpanM="12" labelSpanS="12"
@@ -158,41 +158,41 @@
 				</f:content>
 			</f:SimpleForm>
 			<HBox justifyContent="End">
-				<Button text="{i18n>AddDamageLine}" type="Emphasized"/>
-				<Button text="{i18n>UpdateDamageLine}" class="sapUiTinyMarginBeginEnd"/>
-				<Button text="{i18n>DeleteDamageLine}" class="sapUiTinyMarginBeginEnd" type="Reject"/>
+				<Button text="{i18n>AddDamageLine}" press="onAddDamageLine" type="Emphasized" enabled="{DateModel>/oDamageLineBtn}"/>
+				<Button text="{i18n>UpdateDamageLine}" press="onUpdateDamageLine" class="sapUiTinyMarginBeginEnd" enabled="{DateModel>/oDamageLineBtn}"/>
+				<Button text="{i18n>DeleteDamageLine}" press="onDeleteDamageLine" class="sapUiTinyMarginBeginEnd" type="Reject" enabled="{DateModel>/oDamageLineBtn}"/>
 			</HBox>
-			<VBox id="idDamageArea" class="clBgColor sapUiSmallMarginTop" wrap="Wrap" width="100%">
+			<VBox id="idDamageArea" class="clBgColor sapUiSmallMarginTop" wrap="Wrap" width="100%" >
 				<f:SimpleForm editable="true" labelSpanL="4" width="100%" title="" labelSpanXL="12" layout="ResponsiveGridLayout" emptySpanXL="0"
 					emptySpanL="0" columnsM="3" columnsL="4" columnsXL="4">
 					<f:content>
 						<core:Title text=""/>
 						<Label text="{i18n>Area}"/>
 						<ComboBox showSecondaryValues="true" required="true" filterSecondaryValues="true" items="{LocalDataModel>/DataTypeCode}" selectedKey=""
-							value="{HeadSetData>/DmgTypeCode}">
+							value="{HeadSetData>/DmgTypeCode}" enabled="{DateModel>/damageLine}">
 							<core:ListItem key="{LocalDataModel>DmgTypeCode}" text="{LocalDataModel>DmgTypeCode}" additionalText="{LocalDataModel>DmgTypeCodeDesc}"/>
 						</ComboBox>
 						<core:Title text=""/>
 						<Label text="{i18n>Type}"/>
 						<ComboBox showSecondaryValues="true" required="true" selectedKey="" value="{HeadSetData>/DmgAreaCode}" filterSecondaryValues="true"
-							items="{LocalDataModel>/DataAreaCode}">
+							items="{LocalDataModel>/DataAreaCode}" enabled="{DateModel>/damageLine}">
 							<core:ListItem key="{LocalDataModel>DmgAreaCode}" text="{LocalDataModel>DmgAreaCode}" additionalText="{LocalDataModel>DmgAreaCodeDesc}"/>
 						</ComboBox>
 						<core:Title text=""/>
 						<Label text="{i18n>Severity}"/>
 						<ComboBox showSecondaryValues="true" required="true" selectedKey="" value="{HeadSetData>/DmgSevrCode}" filterSecondaryValues="true"
-							items="{LocalDataModel>/DataSeverety}">
+							items="{LocalDataModel>/DataSeverety}" enabled="{DateModel>/damageLine}">
 							<core:ListItem key="{LocalDataModel>DmgSevrCode}" text="{LocalDataModel>DmgSevrCode}" additionalText="{LocalDataModel>DmgSevrCodeDesc}"/>
 						</ComboBox>
 						<core:Title text=""/>
 						<Label text=" "/>
-						<Button text="{i18n>SaveDamage}" press="onSaveDamage" type="Emphasized"/>
-						<Link text="{i18n>CancelClaim}"/>
+						<Button text="{i18n>SaveDamage}" press="onSaveDamage" type="Emphasized" enabled="{DateModel>/damageLine}"/>
+						<Link text="{i18n>CancelClaim}" enabled="{DateModel>/damageLine}"/>
 					</f:content>
 				</f:SimpleForm>
 			</VBox>
-			<Table id="idDamageDetailTable" mode="None" items="{LocalDataModel>/PartDetailList}" class="sapUiMediumMarginTop"
-				selectionChange="OnSelectionChange">
+			<Table id="idDamageDetailTable" mode="SingleSelectLeft" items="{LocalDataModel>/DataItemDamageSet}" class="sapUiMediumMarginTop"
+				selectionChange="onSelectDamageItem">
 				<columns>
 					<Column>
 						<Text text="{i18n>Line}"/>
@@ -219,7 +219,13 @@
 				<items>
 					<ColumnListItem>
 						<cells>
-							<Text text=""/>
+							<Text text="{LocalDataModel>LineNum}"/>
+							<Text text="{LocalDataModel>DmgAreaCode}"/>
+							<Text text="{LocalDataModel>DmgAreaCodeDesc}"/>
+							<Text text="{LocalDataModel>DmgTypeCode}"/>
+							<Text text="{LocalDataModel>DmgTypeCodeDesc}"/>
+							<Text text="{LocalDataModel>DmgSevrCode}"/>
+							<Text text="{LocalDataModel>DmgSevrCodeDesc}"/>
 						</cells>
 					</ColumnListItem>
 				</items>
