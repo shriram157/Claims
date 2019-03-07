@@ -46,7 +46,8 @@ sap.ui.define([
 				enableTab: false,
 				RepairdDetailVisible: true,
 				claimTypeState: "None",
-				warrantySubmissionClaim: false
+				warrantySubmissionClaim: false,
+				LabourBtnVsbl : true
 			});
 			this.getView().setModel(oDateModel, "DateModel");
 			var oNodeModel = new sap.ui.model.json.JSONModel();
@@ -394,6 +395,9 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/oECPfields", false);
 							this.getView().getModel("DateModel").setProperty("/RepairdDetailVisible", false);
 							this.getView().getModel("DateModel").setProperty("/ShipmentVisible", true);
+							this.getView().getModel("DateModel").setProperty("/LabourBtnVsbl", false);
+						}else {
+							this.getView().getModel("DateModel").setProperty("/LabourBtnVsbl", true);
 						}
 						var HeadSetData = new sap.ui.model.json.JSONModel(data.results[0]);
 						HeadSetData.setDefaultBindingMode("TwoWay");
@@ -940,6 +944,7 @@ sap.ui.define([
 						}
 					});
 					this.getView().getModel("DateModel").setProperty("/Paint", false);
+					this.getView().getModel("DateModel").setProperty("/LabourBtnVsbl", false);
 					this.getView().getModel("DateModel").setProperty("/Sublet", true);
 					this.getView().getModel("DateModel").setProperty("/Labour", true);
 					this.getView().getModel("DateModel").setProperty("/Parts", true);
@@ -951,6 +956,7 @@ sap.ui.define([
 					this.getModel("LocalDataModel").setProperty("/step01Next", false);
 				} else {
 					this.getView().getModel("DateModel").setProperty("/ShipmentVisible", false);
+					this.getView().getModel("DateModel").setProperty("/LabourBtnVsbl", true);
 				}
 				if (oGroupDescription == "CUSTOMER RELATIONS") {
 					oProssingModel.read("/ZC_CLAIM_GROUP", {
@@ -2063,7 +2069,8 @@ sap.ui.define([
 				this.getView().getModel("HeadSetData").getProperty("/ClaimType") != "WE" &&
 				this.getView().getModel("HeadSetData").getProperty("/ClaimType") != "LS" &&
 				this.getView().getModel("HeadSetData").getProperty("/ClaimType") != "CR" &&
-				this.getView().getModel("HeadSetData").getProperty("/ClaimType") != "SM"
+				this.getView().getModel("HeadSetData").getProperty("/ClaimType") != "SM" &&
+				this.getView().getModel("HeadSetData").getProperty("/ClaimType") != "DC"
 			) {
 				this.getView().byId("idFilter02").setProperty("enabled", true);
 				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab2");
@@ -2181,6 +2188,7 @@ sap.ui.define([
 				this.getView().getModel("HeadSetData").getProperty("/ClaimType") != "WE" &&
 				this.getView().getModel("HeadSetData").getProperty("/ClaimType") != "LS" &&
 				this.getView().getModel("HeadSetData").getProperty("/ClaimType") != "CR" &&
+				this.getView().getModel("HeadSetData").getProperty("/ClaimType") != "DC" &&
 				this.getView().getModel("HeadSetData").getProperty("/ClaimType") != "SM") {
 				this.getView().byId("idFilter02").setProperty("enabled", true);
 				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab2");
@@ -2205,7 +2213,8 @@ sap.ui.define([
 				this.getView().getModel("HeadSetData").getProperty("/ClaimType") != "SR" &&
 				this.getView().getModel("HeadSetData").getProperty("/ClaimType") != "ER" &&
 				this.getView().getModel("HeadSetData").getProperty("/ClaimType") != "WE" &&
-				this.getView().getModel("HeadSetData").getProperty("/ClaimType") != "LS"
+				this.getView().getModel("HeadSetData").getProperty("/ClaimType") != "LS" &&
+				this.getView().getModel("HeadSetData").getProperty("/ClaimType") != "DC"
 			) {
 				this.getView().byId("idFilter05").setProperty("enabled", true);
 				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab5");
