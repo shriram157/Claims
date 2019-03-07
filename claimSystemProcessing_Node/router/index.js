@@ -1,7 +1,12 @@
-/*eslint-env node, es6 */
-'use strict';
-module.exports = (app, server) => {
-	app.use('/node', require('./routes/myNode')());
-	app.use("/userDetails", require("./routes/userDetails")());
-//    app.use('/xsodata'), require('./xsodata')());
+/*eslint new-cap: 0, no-console: 0, no-shadow: 0, no-unused-vars: 0*/
+/*eslint-env es6, node*/
+
+"use strict";
+
+var apiProxy = require("./routes/api-proxy");
+var userDetails = require("./routes/user-details");
+
+module.exports = (app, appContext) => {
+	app.use("/node", apiProxy(appContext));
+	app.use("/userDetails", userDetails(appContext));
 };

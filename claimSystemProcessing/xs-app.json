@@ -16,7 +16,6 @@
 					"$XSAPPNAME.View_Claim_Inquiry",
 					"$XSAPPNAME.View_Quick_Coverage_Tool",
 					"$XSAPPNAME.View_Dealer_Labor_Rate"
-					
 				],
 				"POST": [
 					"$XSAPPNAME.Manage_Sevice_Claims",
@@ -26,7 +25,6 @@
 					"$XSAPPNAME.View_Claim_Inquiry",
 					"$XSAPPNAME.View_Quick_Coverage_Tool",
 					"$XSAPPNAME.View_Dealer_Labor_Rate"
-					
 				],
 				"PUT": [
 					"$XSAPPNAME.Manage_Sevice_Claims",
@@ -55,9 +53,7 @@
 					"$XSAPPNAME.View_Quick_Coverage_Tool",
 					"$XSAPPNAME.View_Dealer_Labor_Rate"
 				]
-
 			}
-
 		}, {
 			"source": "/node(.*)",
 			"destination": "claimSystemProcessing-node-backend",
@@ -107,16 +103,12 @@
 					"$XSAPPNAME.View_Quick_Coverage_Tool",
 					"$XSAPPNAME.View_Dealer_Labor_Rate"
 				]
-
 			}
 		}, {
 			"source": "/userDetails(.*)",
 			"destination": "claimSystemProcessing-node-backend",
 			"csrfProtection": false,
 			"authenticationType": "xsuaa"
-
-			}
-		
-
+		}
 	]
 }
