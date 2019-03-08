@@ -14,6 +14,7 @@ sap.ui.define([
 			var oProssingModel = this.getModel("ProssingModel");
 			var oClaimGroup = [];
 			var oClaimGroupJson = [];
+			this.getOwnerComponent().getModel("LocalDataModel").setProperty("/RadioEdit", true);
 			oProssingModel.read("/ZC_CLAIM_GROUP", {
 				success: $.proxy(function (data) {
 					var odata = data.results;
@@ -40,6 +41,15 @@ sap.ui.define([
 			
 			//sap.ui.getCore().getEventBus().subscribe("App", "oType", this.onSelectRequestType01, this);
 
+		},
+		
+		onSelectClaimType : function(oEvent){
+			var oSelectedKey = this.getView().byId("idClaimType").getSelectedKey();
+			if (oSelectedKey === "WARRANTY") {
+				this.getOwnerComponent().getModel("LocalDataModel").setProperty("/RadioEdit", true);
+			}else {
+				this.getOwnerComponent().getModel("LocalDataModel").setProperty("/RadioEdit", false);
+			}
 		},
 
 		onClaimAuthorization: function (oEvent) {
@@ -94,6 +104,20 @@ sap.ui.define([
 					this.getRouter().navTo("MainClaimSection", {
 					claimNum : oClaimNum,
 					oKey : "CORE RETURN",
+					oClaimGroup : this.oSelectedClaimGroup
+					
+				});
+			}else if (oSelectedKey === "VEHICLE LOGISTICS") {
+				this.getRouter().navTo("MainClaimSection", {
+					claimNum : oClaimNum,
+					oKey : "VEHICLE LOGISTICS",
+					oClaimGroup : this.oSelectedClaimGroup
+					
+				});
+			}else if (oSelectedKey === "CUSTOMER RELATIONS") {
+				this.getRouter().navTo("MainClaimSection", {
+					claimNum : oClaimNum,
+					oKey : "CUSTOMER RELATIONS",
 					oClaimGroup : this.oSelectedClaimGroup
 					
 				});

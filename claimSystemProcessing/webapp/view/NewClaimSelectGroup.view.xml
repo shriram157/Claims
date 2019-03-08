@@ -16,14 +16,14 @@
 									<f:content>
 										<core:Title text="{i18n>SelectClaimGroupType}"/>
 										<Label text="{i18n>ClaimTypeGroup}" textAlign="Begin" textDirection="LTR"/>
-										<Select id="idClaimType"  items="{LocalDataModel>/ClaimGroupData}">
+										<Select id="idClaimType"  items="{LocalDataModel>/ClaimGroupData}" change="onSelectClaimType">
 											<items>
 												<core:Item text="{LocalDataModel>ClaimGroupDes}" key="{LocalDataModel>ClaimGroupDes}"/>
 											
 											</items>
 										</Select>
 										<Label text="{i18n>RequestType}" textAlign="Begin"/>
-										<RadioButtonGroup selectedIndex="0" columns="2" id="idRequestType" select="onSelectRequestType01">
+										<RadioButtonGroup selectedIndex="0" columns="2" id="idRequestType" select="onSelectRequestType01" enabled="{LocalDataModel>/RadioEdit}">
 											<buttons>
 												<RadioButton text="{i18n>Claim}" groupName="A"/>
 												<RadioButton text="{i18n>Authorization}" groupName="A"/>

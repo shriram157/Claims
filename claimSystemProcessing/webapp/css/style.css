@@ -47,6 +47,16 @@
 .clTextIndent {text-indent:-9999999px;}
 .sapMITBScrollContainer {text-align:center;}
 .clOpFooter {background : #2f3c47;}
+
+
+.messagestrip{font-weight: bold !important;}
+.greenlable{
+	color: green !important;
+}
+.redlable{
+		color: red !important;
+}
+
 .headerButtonsToolBar{border:none;}
 .borderStyle{
 	padding: 1rem 0;
@@ -69,5 +79,3 @@
 h6#__title38, h6#__title40 {
     display: none;
 }
-
-

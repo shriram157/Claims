@@ -1,8 +1,8 @@
 <core:FragmentDefinition xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:u="sap.ui.unified" xmlns:l="sap.ui.layout"
 	xmlns="sap.m" xmlns:table="sap.ui.table">
-	<Dialog class="sapUiSizeCompact" title="{i18n>SpecialHandlingDetailsVIN}" stretch="true">
+	<Dialog class="sapUiSizeCompact" title="{i18n>SpecialHandlingDetailsVIN}">
 		<content>
-			<table:Table class="classRCPTable" selectionMode="MultiToggle" rows="{LocalDataModel>/SPWROF}" visibleRowCountMode="Auto"
+			<table:Table class="classRCPTable" selectionMode="MultiToggle" rows="{LocalDataModel>/DataSpecialHandlingSet}" visibleRowCountMode="Auto"
 				rowSelectionChange="onNavigatePaint" selectionBehavior="Row" showNoData="true" threshold="20" enableBusyIndicator="true">
 				<table:columns autoResizable="true">
 					<table:Column width="17rem">
@@ -10,7 +10,7 @@
 							<Label text="{i18n>Code}" textAlign="Center" width="100%"/>
 						</table:multiLabels>
 						<table:template>
-							<Text text="{LocalDataModel>SPHLCode}" wrapping="false"/>
+							<Text text="{LocalDataModel>SPHL}" wrapping="false"/>
 						</table:template>
 					</table:Column>
 					<table:Column width="17rem">
@@ -18,7 +18,7 @@
 							<Label text="{i18n>Description}" textAlign="Center" width="100%"/>
 						</table:multiLabels>
 						<table:template>
-							<Text text="{LocalDataModel>CodeDesc}" wrapping="false"/>
+							<Text text="{LocalDataModel>DescriptionEN}" wrapping="false"/>
 						</table:template>
 					</table:Column>
 					<table:Column width="17rem">
@@ -26,7 +26,7 @@
 							<Label text="{i18n>DateIssued}" textAlign="Center" width="100%"/>
 						</table:multiLabels>
 						<table:template>
-							<Text text="{LocalDataModel>RegistrationDate}" wrapping="false"/>
+							<Text text="{path:'LocalDataModel>IssueDate',type: 'sap.ui.model.type.Date', constraints: {displayFormat: 'Date' }, formatOptions: { style: 'medium', strictParsing: true , UTC: true}}" wrapping="false"/>
 						</table:template>
 					</table:Column>
 				</table:columns>
