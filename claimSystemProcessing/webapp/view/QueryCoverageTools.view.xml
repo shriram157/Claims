@@ -165,7 +165,7 @@
 												<Text text="{ProssingModel>MainOpDes}" wrapping="false"/>
 											</table:template>
 										</table:Column>
-										<table:Column width="17rem">
+										<table:Column width="19rem">
 											<table:multiLabels>
 												<Label text="{i18n>Coverage}" textAlign="Center" width="100%"/>
 											</table:multiLabels>
