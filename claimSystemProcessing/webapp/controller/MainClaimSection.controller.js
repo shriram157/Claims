@@ -820,12 +820,12 @@ sap.ui.define([
 
 							if (oClaimSelectedGroup == "Authorization") {
 								this.oFilteredData = oResult.filter(function (v, t) {
-									return v.ALMClaimType == "CD" || v.ALMClaimType == "WO";
+									return v.ALMClaimType == "ZACD" || v.ALMClaimType == "ZAUT";
 								});
 								this.getView().getModel("DateModel").setProperty("/warrantySubmissionClaim", true);
 							} else if (oClaimSelectedGroup == "Claim") {
 								this.oFilteredData = oResult.filter(function (v, t) {
-									return v.ALMClaimType != "CD" && v.ALMClaimType != "WO";
+									return v.ALMClaimType != "ZACD" && v.ALMClaimType != "ZAUT";
 								});
 								this.getView().getModel("DateModel").setProperty("/warrantySubmissionClaim", false);
 							} else {
@@ -998,9 +998,9 @@ sap.ui.define([
 			// this.getView().getModel("HeadSetData").getProperty("/ClaimType") = oEvent.getSource().getSelectedKey();
 			// this.getView().getModel("HeadSetData").getProperty("/ClaimType");
 			var oKey = oEvent.getSource().getSelectedKey();
-			if (oKey == "CD") {
+			if (oKey == "ZACD") {
 
-			} else if (oKey == "WO") {
+			} else if (oKey == "ZAUT") {
 
 			} else if (oKey == "GW") {
 				this.getView().getModel("DateModel").setProperty("/Paint", true);
