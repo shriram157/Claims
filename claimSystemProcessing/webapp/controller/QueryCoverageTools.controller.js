@@ -4,7 +4,8 @@ sap.ui.define([
 	'sap/m/MessageBox'
 ], function (BaseController, formatter, MessageBox) {
 	"use strict";
-	var agreementno,dometerunit;
+	var agreementno = '',
+		dometerunit;
 	return BaseController.extend("zclaimProcessing.controller.QueryCoverageTools", {
 		formatter: formatter,
 		/**
@@ -78,10 +79,10 @@ sap.ui.define([
 							that.getView().byId('partofp').setEditable(true);
 							that.getView().byId('mainop').setEditable(true);
 						}
-							if (zdata.d.results[0].ForeignVIN == 'YES') {
-						dometerunit= 'MI';
+						if (zdata.d.results[0].ForeignVIN == 'YES') {
+							dometerunit = 'MI';
 						} else if (zdata.d.results[0].ForeignVIN == 'NO') {
-						dometerunit= 'KM';
+							dometerunit = 'KM';
 						}
 						oModel.setData(zdata.d.results[0]);
 						that.getView().setModel(oModel, 'Vehicleinfo');
@@ -107,6 +108,7 @@ sap.ui.define([
 			var partofp = this.getView().byId('partofp').getValue();
 			var mainop = this.getView().byId('mainop').getValue();
 			var agreementselected = agreementno || '';
+
 			if (oVin != '' && odmeter != '' && partofp != '' && mainop != '') {
 				var filters = [];
 				filters = [
@@ -126,7 +128,13 @@ sap.ui.define([
 
 		},
 		onNavigate: function (oEvent) {
-			agreementno = oEvent.getParameter("rowContext").getObject().AgreementNumber;
+			var newvalue = oEvent.getParameter("rowContext").getObject().AgreementNumber;
+			if (agreementno !== '' && agreementno == newvalue) {
+				agreementno = '';
+			} else {
+				agreementno = newvalue;
+			}
+
 		},
 		onPressClear: function (oEvent) {
 			this.getView().byId('vin').setValue('');
