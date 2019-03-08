@@ -1899,9 +1899,16 @@ sap.ui.define([
 			var oFileName = oEvent.getParameters().item.getFileName();
 			var oClaimModel = this.getModel("ProssingModel");
 
+			var itemObj = {
+				"NumberOfWarrantyClaim": oClaimNum,
+				"COMP_ID": oFileName,
+				"DBOperation": "DELT"
+			};
+
 			oClaimModel.refreshSecurityToken();
-			oClaimModel.remove("/zc_claim_attachmentsSet(NumberOfWarrantyClaim='" + oClaimNum + "',FileName='" + oFileName + "')", {
-				method: "DELETE",
+
+			oClaimModel.create("/zc_claim_attachmentsSet", itemObj, {
+
 				success: $.proxy(function () {
 					oClaimModel.refresh();
 
@@ -1909,21 +1916,34 @@ sap.ui.define([
 						urlParameters: {
 							"$filter": "NumberOfWarrantyClaim eq '" + oClaimNum + "'and AttachLevel eq 'HEAD' and FileName  eq ''"
 						},
-						//	startswith(CompanyName, 'Alfr') eq true
-						success: $.proxy(function (odata) {
-							// var oFilteredItem = odata.results.filter(function (item) {
-							// 	return !item.FileName.startsWith("sub");
 
-							// });
-							// this.getModel("LocalDataModel").setProperty("/oAttachmentSet", );
+						success: $.proxy(function (odata) {
 							this.getView().getModel("ClaimModel").setProperty("/" + "/items", odata.results);
-							// // this.getModel("LocalDataModel").setProperty("/oAttachmentSet", );
-							// this.getView().getModel("ClaimModel").setProperty(sCurrentPath + "/items", odata.results);
+
 						}, this)
 					});
 					MessageToast.show("File has been deleted successfully");
 				}, this)
 			});
+
+			// oClaimModel.remove("/zc_claim_attachmentsSet(NumberOfWarrantyClaim='" + oClaimNum + "',FileName='" + oFileName + "')", {
+			// 	method: "DELETE",
+			// 	success: $.proxy(function () {
+			// 		oClaimModel.refresh();
+
+			// 		oClaimModel.read("/zc_claim_attachmentsSet", {
+			// 			urlParameters: {
+			// 				"$filter": "NumberOfWarrantyClaim eq '" + oClaimNum + "'and AttachLevel eq 'HEAD' and FileName  eq ''"
+			// 			},
+
+			// 			success: $.proxy(function (odata) {
+			// 				this.getView().getModel("ClaimModel").setProperty("/" + "/items", odata.results);
+
+			// 			}, this)
+			// 		});
+			// 		MessageToast.show("File has been deleted successfully");
+			// 	}, this)
+			// });
 
 		},
 		onFileSubletDeleted: function (oEvent) {
@@ -3383,35 +3403,35 @@ sap.ui.define([
 				// 		MessageToast.show("File has been deleted successfully");
 				// 	}, this)
 				// });
-				
+
 				var itemObj = {
-				"NumberOfWarrantyClaim": oClaimNum,
-				"COMP_ID": oFileReplaced,
-				"DBOperation": "DELT"
-			};
-			oClaimModel.refreshSecurityToken();
+					"NumberOfWarrantyClaim": oClaimNum,
+					"COMP_ID": oFileReplaced,
+					"DBOperation": "DELT"
+				};
+				oClaimModel.refreshSecurityToken();
 
-			// oClaimModel.create("/zc_claim_subletattachmentSet(NumberOfWarrantyClaim='" + oClaimNum + "',FileName='" + oFileName + "')", {
-			// 	method: "DELETE",
+				// oClaimModel.create("/zc_claim_subletattachmentSet(NumberOfWarrantyClaim='" + oClaimNum + "',FileName='" + oFileName + "')", {
+				// 	method: "DELETE",
 
-			oClaimModel.create("/zc_claim_subletattachmentSet", itemObj, {
+				oClaimModel.create("/zc_claim_subletattachmentSet", itemObj, {
 
-				success: $.proxy(function () {
-					oClaimModel.refresh();
+					success: $.proxy(function () {
+						oClaimModel.refresh();
 
-					oClaimModel.read("/zc_claim_subletattachmentSet", {
-						urlParameters: {
-							"$filter": "NumberOfWarrantyClaim eq '" + oClaimNum + "'and AttachLevel eq 'SUBL' and FileName  eq ''"
-						},
-						//	startswith(CompanyName, 'Alfr') eq true
-						success: $.proxy(function (subletData) {
-							this.getModel("LocalDataModel").setProperty("/SubletAtchmentData", subletData.results);
-						}, this)
-					});
-					MessageToast.show("File has been deleted successfully");
-				}, this)
-			});
-			
+						oClaimModel.read("/zc_claim_subletattachmentSet", {
+							urlParameters: {
+								"$filter": "NumberOfWarrantyClaim eq '" + oClaimNum + "'and AttachLevel eq 'SUBL' and FileName  eq ''"
+							},
+							//	startswith(CompanyName, 'Alfr') eq true
+							success: $.proxy(function (subletData) {
+								this.getModel("LocalDataModel").setProperty("/SubletAtchmentData", subletData.results);
+							}, this)
+						});
+						MessageToast.show("File has been deleted successfully");
+					}, this)
+				});
+
 			} else {
 				MessageToast.show("Please select 1 row.");
 				oTable.removeSelections("true");
