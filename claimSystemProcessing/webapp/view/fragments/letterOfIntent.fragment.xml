@@ -1,0 +1,143 @@
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:u="sap.ui.unified" xmlns:l="sap.ui.layout"
+	xmlns="sap.m" xmlns:t="sap.ui.table">
+	<Dialog>
+		<content>
+			<VBox width="1024px">
+				<f:SimpleForm minWidth="1024" id="id_LOIForm01" editable="true" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="4" labelSpanM="4"
+					adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" columnsXL="2" columnsL="2" columnsM="2"
+					singleContainerFullSize="false">
+					<f:content>
+						<!--<HBox>-->
+						<core:Title text=""/>
+						<Label text="Carrier Name" class="sapUiTinyMarginBeginEnd"/>
+						<Input value="{LOIDataModel>/CarrierName}" editable="false"/>
+						<Label text="Carrier Address" class="sapUiTinyMarginBeginEnd" required="true"/>
+						<TextArea growing="false" value="{LOIDataModel>/CarrierAddress}" maxLength="10" required="true"/>
+						<core:Title text=""/>
+						<Label text=""/>
+						<Text text="{LOIDataModel>/TopTextLOI}"/>
+						<Label text="Date"/>
+						<Text text="{path:'LOIDataModel>LOIDate', formatter: 'zclaimProcessing.utils.formatter.fnFormatDisplayDate'}"/>
+						<!--</HBox>-->
+						<core:Title text="" level="H6"/>
+						<HBox width="100%">
+							<Label text="Attention" class="sapUiSmallMarginTop"/>
+							<Text width="100%" text="{LOIDataModel>/TextAttentionLOI}"/>
+						</HBox><core:Title text="" level="H6"/>
+						<core:Title text="" level="H6"/>
+						<HBox width="100%">
+							<!--<Text text="{LOIDataModel>/TextStripLOI}"/>-->
+							<Text width="100%" text="It is our intent to file a Transportation Claim through Toyota Canada Inc. for the following shipment:"/>
+						</HBox>
+					</f:content>
+				</f:SimpleForm>
+			</VBox>
+			<VBox>
+				<f:SimpleForm minWidth="1024" id="id_LOIForm02" editable="true" layout="ResponsiveGridLayout" title="SHIPMENT DETAILS" labelSpanXL="2"
+					labelSpanL="2" labelSpanM="2" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" columnsXL="1" columnsL="1" columnsM="1"
+					singleContainerFullSize="false">
+					<f:content>
+						<HBox>
+							<Label text="Delivery Received Date" class="sapUiTinyMarginBeginEnd sapUiSmallMarginTop"/>
+							<DatePicker value="{path:'LOIDataModel>/DeliveryDateLOI', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium' } }"
+								required="true" id="idDDLOI"/>
+							<Label text="At" class="sapUiTinyMarginBeginEnd sapUiSmallMarginTop"/>
+							<!--<DateTimeInput type="Time" class="sapUiSmallMarginBottom" value="{path:'LOIDataModel>/AtLOI', type: 'sap.ui.model.type.Time'}"/>-->
+							<TimePicker value="{path:'LOIDataModel>/AtLOI', type: 'sap.ui.model.type.Time'}"/>
+							<!--<Input value="{path:'LOIDataModel>/AtLOI'}"/>-->
+							<Label text="Waybill No" class="sapUiTinyMarginBeginEnd sapUiSmallMarginTop"/>
+							<Text text="{path:'LOIDataModel>/WaybillNoLOI'}"/>
+						</HBox>
+						<!--<HBox>-->
+						<Label text="Exception(s) Noted" required="true" class="sapUiTinyMarginBeginEnd"/>
+						<RadioButtonGroup select="onRadioChangeEN" columns="3" class="sapUiMediumMarginBottom" selectedIndex="0">
+							<buttons>
+								<RadioButton id="LOI1-1" text="Damage"/>
+								<RadioButton id="LOI2-2" text="Missing Pieces(s)"/>
+								<RadioButton id="LOI3-3" text="Both"/>
+							</buttons>
+						</RadioButtonGroup>
+						<!--</HBox>-->
+						<!--<HBox>-->
+						<Label text="Estimated Value of Claim" required="true" class="sapUiTinyMarginBeginEnd"/>
+						<Input value="{path:'LOIDataModel>/estClaimValueLOI'}" required="true"/>
+						<Text text="(Actual value to be declared on Claim to TCI)" class="sapUiTinyMarginBeginEnd"/>
+						<!--</HBox>-->
+						<Label text="Description (Including Part Numbers)" class="sapUiTinyMarginBeginEnd"/>
+						<TextArea growing="true" growingMaxLines="3" value="{LOIDataModel>/LOIDescp}" editable="false" width="100%"/>
+					</f:content>
+				</f:SimpleForm>
+			</VBox>
+			<VBox>
+				<f:SimpleForm minWidth="1024" id="id_LOIForm03" editable="true" layout="ResponsiveGridLayout" title="ACTION TAKEN TO RESOLVE CLAIM"
+					labelSpanXL="2" labelSpanL="2" labelSpanM="2" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" columnsXL="1"
+					columnsL="1" columnsM="1" singleContainerFullSize="false">
+					<f:content>
+						<HBox>
+							<Label text="Carrier Contacted by Phone/Email" required="true" class="sapUiTinyMarginBeginEnd sapUiSmallMarginTop"/>
+							<RadioButtonGroup select="onRadioChangeCPhone" columns="2" class="sapUiMediumMarginBottom" selectedIndex="0">
+								<buttons>
+									<RadioButton id="LOI01-1" text="Yes"/>
+									<RadioButton id="LOI02-2" text="No"/>
+								</buttons>
+							</RadioButtonGroup>
+							<Label text="Date" class="sapUiTinyMarginBeginEnd sapUiSmallMarginTop"/>
+							<DatePicker value="{path:'LOIDataModel>/DateLOI', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium' } }" required="true"
+								id="idDateLOI02"/>
+							<Label text="At" class="sapUiTinyMarginBeginEnd sapUiSmallMarginTop"/>
+							<!--<Input value="{path:'LOIDataModel>/AtLOI02'}"/>-->
+							<TimePicker value="{path:'LOIDataModel>/AtLOI02', type: 'sap.ui.model.type.Time'}"/>
+						</HBox>
+						<Label text="Representative's Name" class="sapUiTinyMarginBeginEnd"/>
+						<Input value="{path:'LOIDataModel>/RepresntativeName'}" width="100%"/>
+						<!--</HBox>-->
+						<Label text="Trace request for missing Piece(s)" required="true" class="sapUiTinyMarginBeginEnd"/>
+						<RadioButtonGroup select="onRadioChangeTR" columns="4" class="sapUiMediumMarginBottom" selectedIndex="0">
+							<buttons>
+								<RadioButton id="LOITR-1" text="Yes"/>
+								<RadioButton id="LOITR-2" text="No"/>
+								<RadioButton id="LOITR-3" text="Not Applicable"/>
+							</buttons>
+						</RadioButtonGroup>
+						<Label text="Carrier Right to Inspection Waived" required="true" class="sapUiTinyMarginBeginEnd"/>
+						<RadioButtonGroup select="onRadioChangeCR" columns="4" class="sapUiMediumMarginBottom" selectedIndex="0">
+							<buttons>
+								<RadioButton id="LOICR-1" text="Yes"/>
+								<RadioButton id="LOICR-2" text="No"/>
+								<RadioButton id="LOICR-3" text="Not Applicable"/>
+							</buttons>
+						</RadioButtonGroup>
+						<Label text="Part(s) will be" required="true" class="sapUiTinyMarginBeginEnd"/>
+						<RadioButtonGroup select="onRadioChangeParts" columns="1" width="100%" class="sapUiMediumMarginBottom" selectedIndex="0">
+							<buttons>
+								<RadioButton width="100%" id="LOIPR-1" text="Held for 30 Days for Carrier Inspection - then will be scrapped"/>
+								<RadioButton width="100%" id="LOIPR-2" text="Repaired - as per TCI policy and mutual agreement"/>
+								<RadioButton width="100%" id="LOIPR-3" text="Scrapped Immediately - as per carrier Representative instruction"/>
+							</buttons>
+						</RadioButtonGroup>
+						<Label text=""/>
+						<HBox>
+							<Text width="100%"
+								text="If after receipt of this letter there is no further communication made on the part of the carrier as to the disposition of this claim and/or parts, it shall be assumed that carrier accepts full liability of this claim, and our claim will proceed accordingly."/>
+						</HBox>
+						<!--<HBox>-->
+						<Label text="Yours Truly" required="true" class="sapUiTinyMarginBeginEnd"/>
+						<Input value="{path:'LOIDataModel>/ursTrulyText'}" required="true" width="25%"/>
+						<Label text="Phone" class="sapUiTinyMarginBeginEnd"/>
+						<Input value="{path:'LOIDataModel>/PhoneLOI'}" width="25%"/>
+						<Label text="Ext" class="sapUiTinyMarginBeginEnd"/>
+						<Input value="{path:'LOIDataModel>/LOIExt'}" width="25%"/>
+						<Label text="Email" required="true" class="sapUiTinyMarginBeginEnd"/>
+						<Input value="{path:'LOIDataModel>/LOIEmail'}" required="true" width="25%"/>
+						<Text text="{path:'LOIDataModel>/ReAddress'}"/>
+						<!--</HBox>-->
+					</f:content>
+				</f:SimpleForm>
+			</VBox>
+			<HBox class="sapUiSmallMarginTop" width="50%" alignContent="Center">
+				<Button class="sapUiSmallMarginBeginEnd" type="Emphasized" text="{i18n>Close}" press="onCloseLetterOfIntent"/>
+				<Button class="sapUiSmallMarginBeginEnd" type="Emphasized" text="{i18n>SendToCarrier}" press="onSendLetterOfIntent"/>
+			</HBox>
+		</content>
+	</Dialog>
+</core:FragmentDefinition>

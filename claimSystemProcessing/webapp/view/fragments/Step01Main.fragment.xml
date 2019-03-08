@@ -16,7 +16,7 @@
 					<Label text="Claim Type"/>
 					<ComboBox id="ID_claimGroupsforParts" required="true"
 						items="{path:'/ZC_CLAIM_GROUP', filters : [{path:'ClaimGroupDes', operator:'EQ', value1 : 'PART WAREHOUSE' }]}" change="onSelectClaim"
-						selectedKey="{HeadSetData>/WarrantyClaimType}" enabled="{DateModel>/claimTypeEn}" >
+						selectedKey="{HeadSetData>/WarrantyClaimType}" enabled="{DateModel>/claimTypeEn}">
 						<core:Item text="{ALMClaimTypeDes}" key="{ALMClaimType}"/>
 					</ComboBox>
 					<core:Title text=""/>
@@ -71,9 +71,11 @@
 				<Label text="TCI Waybill No"/>
 				<Input value="{HeadSetData>/TCIWaybillNumber}" id="idTCIWayBill" required="true"/>
 				<Label text="Carrier Name"/>
-				<Input
-					value="{ path : 'HeadSetData>/DeliveringCarrier', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 10 } }"
-					required="true" id="idCarrierName"/>
+				<ComboBox id="idCarrierName" required="true" items="{BpDealerModel>/BpDealerList}" change="onSelectPartsDealer"
+					selectedKey="{HeadSetData>/DeliveringCarrier}" showSecondaryValues="true">
+					<core:ListItem text="{BpDealerModel>BusinessPartner}" key="{BpDealerModel>BusinessPartnerKey}"
+						additionalText="{BpDealerModel>BusinessPartnerName}"/>
+				</ComboBox>
 			</f:content>
 		</f:SimpleForm>
 		<f:SimpleForm id="idConditionForm" editable="true" title="" layout="ResponsiveGridLayout" labelSpanXL="3" labelSpanL="3" labelSpanM="3"
@@ -105,22 +107,22 @@
 				adjustLabelSpan="false" emptySpanXL="4" emptySpanL="4" emptySpanM="0" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1"
 				singleContainerFullSize="false">
 				<f:content>
-					<UploadCollection change="onUplaodChange" id="UploadSupportingDoc" uploadComplete="onUploadComplete" fileDeleted="onFileDeleted"
-							beforeUploadStarts="onBeforeUpload" items="{ path: 'ClaimModel>/items', templateShareable: false }">
-							<toolbar>
-								<OverflowToolbar>
-									<Breadcrumbs id="breadcrumbsSupportingDoc" currentLocationText="{ClaimModel>/currentLocationText}" links="{ClaimModel>/history}">
-										<Link press="onBreadcrumbPress" text="{ClaimModel>fileName}"/>
-									</Breadcrumbs>
-									<ToolbarSpacer/>
-									<UploadCollectionToolbarPlaceholder/>
-								</OverflowToolbar>
-							</toolbar>
-							<items>
-								<UploadCollectionItem selected="onSelectUpload" documentId="{ClaimModel>DOC_ID}" fileName="{ClaimModel>FileName}"
-									mimeType="{ClaimModel>MIMETYPE}" thumbnailUrl="{ClaimModel>url}" url="{ClaimModel>URI}" enableEdit="{settings>/enableEdit}"
-									enableDelete="{settings>/enableDelete}" visibleDelete="{settings>/visibleDelete}" visibleEdit="{settings>/visibleEdit}"></UploadCollectionItem>
-							</items>
+					<UploadCollection change="onUploadChangeParts" id="UploadSupportingDoc" uploadComplete="onUploadCompleteParts" fileDeleted="onFileDeleted"
+						beforeUploadStarts="onBeforeUpload" items="{ path: 'ClaimModel>/items', templateShareable: false }">
+						<toolbar>
+							<OverflowToolbar>
+								<Breadcrumbs id="breadcrumbsSupportingDoc" currentLocationText="{ClaimModel>/currentLocationText}" links="{ClaimModel>/partsHistory}">
+									<Link press="onBreadcrumbPress" text="{ClaimModel>fileName}"/>
+								</Breadcrumbs>
+								<ToolbarSpacer/>
+								<UploadCollectionToolbarPlaceholder/>
+							</OverflowToolbar>
+						</toolbar>
+						<items>
+							<UploadCollectionItem selected="onSelectUpload" documentId="{ClaimModel>DOC_ID}" fileName="{ClaimModel>FileName}"
+								mimeType="{ClaimModel>MIMETYPE}" thumbnailUrl="{ClaimModel>url}" url="{ClaimModel>URI}" enableEdit="{settings>/enableEdit}"
+								enableDelete="{settings>/enableDelete}" visibleDelete="{settings>/visibleDelete}" visibleEdit="{settings>/visibleEdit}"></UploadCollectionItem>
+						</items>
 					</UploadCollection>
 				</f:content>
 			</f:SimpleForm>
@@ -222,7 +224,7 @@
 			<Button class="sapUiTinyMarginBeginEnd" press="onPressBack" text="{i18n>BackList}" type="Back"/>
 			<Button class="sapUiTinyMarginBeginEnd" press="onCancelClaim" text="{i18n>CancelClaim}" type="Reject"/>
 			<Button class="sapUiTinyMarginBeginEnd" text="{i18n>Print}"/>
-			<Button class="sapUiTinyMarginBeginEnd" press="onStep01Next" text="{i18n>Next}" type="Emphasized" enabled="{LocalDataModel>/step01Next}" />
+			<Button class="sapUiTinyMarginBeginEnd" press="onStep01Next" text="{i18n>Next}" type="Emphasized" enabled="{LocalDataModel>/step01Next}"/>
 		</HBox>
 	</Panel>
 </core:FragmentDefinition>

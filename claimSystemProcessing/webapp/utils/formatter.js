@@ -365,6 +365,98 @@ zclaimProcessing.utils.formatter = {
 			oText = "Total:";
 		}
 		return oText;
+	},
+
+	fnAmountRepairPW: function (sum) {
+		var oNum;
+		var oArr = [];
+		if (sum) {
+			for (var i = 0; i < sum.length; i++) {
+				oArr.push(
+					parseFloat(sum[i].RepairAmount)
+				);
+
+			}
+			if (oArr.length > 0) {
+				oNum = oArr.reduce(
+					function (a, b) {
+						return a + b;
+
+					}
+				).toFixed(2);
+			}
+		}
+		return oNum;
+	},
+	fnAmountClaimedPW: function (sum) {
+		var oNum;
+		var oArr = [];
+		if (sum) {
+			for (var i = 0; i < sum.length; i++) {
+				oArr.push(
+					parseFloat(sum[i].AmtClaimed)
+				);
+
+			}
+			if (oArr.length > 0) {
+				oNum = oArr.reduce(
+					function (a, b) {
+						return a + b;
+
+					}
+				).toFixed(2);
+			}
+		}
+		return oNum;
+	},
+	fnDifPW: function (sum) {
+		var oNum;
+		var oArr = [];
+		if (sum) {
+			for (var i = 0; i < sum.length; i++) {
+				oArr.push(
+					parseFloat(sum[i].DiffAmt)
+				);
+
+			}
+			if (oArr.length > 0) {
+				oNum = oArr.reduce(
+					function (a, b) {
+						return a + b;
+
+					}
+				).toFixed(2);
+			}
+		}
+		return oNum;
+	},
+	fnTCIAprrovedPW: function (sum) {
+		var oNum;
+		var oArr = [];
+		if (sum) {
+			for (var i = 0; i < sum.length; i++) {
+				oArr.push(
+					parseFloat(sum[i].TCIApprovedAmount)
+				);
+
+			}
+			if (oArr.length > 0) {
+				oNum = oArr.reduce(
+					function (a, b) {
+						return a + b;
+
+					}
+				).toFixed(2);
+			}
+		}
+		return oNum;
+	},
+	fnFormatDisplayDate: function (oDate) {
+		jQuery.sap.require("sap.ui.core.format.DateFormat");
+		var oDateFormatShort = sap.ui.core.format.DateFormat.getInstance({
+			pattern: "YYYY-dd-MM"
+		});
+		return oDateFormatShort.format(new Date());
 	}
 
 };
