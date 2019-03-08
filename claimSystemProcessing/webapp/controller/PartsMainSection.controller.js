@@ -12,7 +12,8 @@ sap.ui.define([
 ], function (Button, Dialog, Label, MessageToast, Text, BaseController, base64, ValueState, Validator, Filter) {
 	"use strict";
 	var callData, arrPartLOI = [],
-		BpDealerModel, BpDealerList = [];
+		BpDealerModel, BpDealerList = [],
+		oFilteredDealerData;
 	return BaseController.extend("zclaimProcessing.controller.PartsMainSection", {
 
 		onInit: function () {
@@ -48,7 +49,7 @@ sap.ui.define([
 				multiheader1: [3, 1],
 				multiheader2: [2, 1],
 				multiheader3: [6, 1],
-				multiheader5: 7,
+				multiheader5: 6,
 				partDamage: true,
 				partMiscellanious: false,
 				partDiscrepancies: false,
@@ -410,9 +411,10 @@ sap.ui.define([
 				this.getView().getModel("DateModel").setProperty("/claimTypeEn", true);
 				this.getModel("LocalDataModel").setProperty("/ClaimSum", "");
 				this.getDealer();
+
 				var LOIData = new sap.ui.model.json.JSONModel({
 					"claimNumber": "",
-					"CarrierName": this.getView().getModel("HeadSetData").getProperty("/DeliveringCarrier"),
+					"CarrierName": "",
 					"CarrierAddress": "",
 					"TextAttentionLOI": "Claims Department",
 					"TextStripLOI": "",
@@ -421,16 +423,16 @@ sap.ui.define([
 					"DeliveryDateLOI": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/ShipmentReceivedDate")),
 					"AtLOI": "",
 					"WaybillNoLOI": this.getView().getModel("HeadSetData").getProperty("/TCIWaybillNumber"),
-					"RadioException": "YES",
+					"RadioException": "Damage",
 					"estClaimValueLOI": "",
 					"LOIDescp": "",
-					"RadioCCPhoneEmail": "YES",
+					"RadioCCPhoneEmail": "Y",
 					"DateLOI": "",
 					"AtLOI02": "",
 					"RepresntativeName": "",
-					"RadioTR": "YES",
-					"RadioCR": "YES",
-					"RadioParts": "YES",
+					"RadioTR": "Y",
+					"RadioCR": "Y",
+					"RadioParts": "H",
 					"ursTrulyText": "",
 					"PhoneLOI": "",
 					"LOIExt": "",
@@ -622,16 +624,16 @@ sap.ui.define([
 				"DeliveryDateLOI": "",
 				"AtLOI": "",
 				"WaybillNoLOI": "",
-				"RadioException": "YES",
+				"RadioException": "Damage",
 				"estClaimValueLOI": "",
 				"LOIDescp": "",
-				"RadioCCPhoneEmail": "YES",
+				"RadioCCPhoneEmail": "Y",
 				"DateLOI": "",
 				"AtLOI02": "",
 				"RepresntativeName": "",
-				"RadioTR": "YES",
-				"RadioCR": "YES",
-				"RadioParts": "YES",
+				"RadioTR": "Y",
+				"RadioCR": "Y",
+				"RadioParts": "H",
 				"ursTrulyText": "",
 				"PhoneLOI": "",
 				"LOIExt": "",
@@ -697,16 +699,16 @@ sap.ui.define([
 				"DeliveryDateLOI": "",
 				"AtLOI": "",
 				"WaybillNoLOI": "",
-				"RadioException": "YES",
+				"RadioException": "Damage",
 				"estClaimValueLOI": "",
 				"LOIDescp": "",
-				"RadioCCPhoneEmail": "YES",
+				"RadioCCPhoneEmail": "Y",
 				"DateLOI": "",
 				"AtLOI02": "",
 				"RepresntativeName": "",
-				"RadioTR": "YES",
-				"RadioCR": "YES",
-				"RadioParts": "YES",
+				"RadioTR": "Y",
+				"RadioCR": "Y",
+				"RadioParts": "H",
 				"ursTrulyText": "",
 				"PhoneLOI": "",
 				"LOIExt": "",
@@ -721,28 +723,65 @@ sap.ui.define([
 
 		onRadioChangeEN: function (oEN) {
 			console.log("oEN", oEN);
-			oEN.getSource().getSelectedButton().getText();
-			this.getView().getModel("LOIDataModel").setProperty("/RadioException", "YES");
+			var oVal;
+			// var oVal = oEN.getSource().getSelectedButton().getText();
+			if (oEN.getSource().getSelectedButton().getText() == "Damage") {
+				oVal = "Damage";
+			} else if (oEN.getSource().getSelectedButton().getText() == "Missing Pieces(s)") {
+				oVal = "Missing";
+			} else {
+				oVal = "Both";
+			}
+			this.getView().getModel("LOIDataModel").setProperty("/RadioException", oVal);
 		},
 		onRadioChangeCPhone: function (oCPhone) {
+			var oVal2;
 			console.log("oCPhone", oCPhone);
-			oCPhone.getSource().getSelectedButton().getText();
-			this.getView().getModel("LOIDataModel").setProperty("/RadioCCPhoneEmail", "YES");
+			if (oCPhone.getSource().getSelectedButton().getText() == "YES") {
+				oVal2 = "Y";
+			} else if (oCPhone.getSource().getSelectedButton().getText() == "YES") {
+				oVal2 = "N";
+			}
+			this.getView().getModel("LOIDataModel").setProperty("/RadioCCPhoneEmail", oVal2);
 		},
 		onRadioChangeTR: function (oTR) {
 			console.log("oTR", oTR);
 			oTR.getSource().getSelectedButton().getText();
-			this.getView().getModel("LOIDataModel").setProperty("/RadioTR", "YES");
+			var oVal3;
+			console.log("oTR", oTR);
+			if (oTR.getSource().getSelectedButton().getText() == "YES") {
+				oVal3 = "Y";
+			} else if (oTR.getSource().getSelectedButton().getText() == "YES") {
+				oVal3 = "N";
+			} else {
+				oVal3 = "";
+			}
+			this.getView().getModel("LOIDataModel").setProperty("/RadioTR", oVal3);
 		},
 		onRadioChangeCR: function (oCR) {
 			console.log("oCR", oCR);
 			oCR.getSource().getSelectedButton().getText();
-			this.getView().getModel("LOIDataModel").setProperty("/RadioCR", "YES");
+			var oVal4;
+			console.log("oCR", oCR);
+			if (oCR.getSource().getSelectedButton().getText() == "YES") {
+				oVal4 = "Y";
+			} else if (oCR.getSource().getSelectedButton().getText() == "YES") {
+				oVal4 = "N";
+			} 
+			this.getView().getModel("LOIDataModel").setProperty("/RadioCR", oVal4);
 		},
 		onRadioChangeParts: function (oRadioParts) {
 			console.log("oRadioParts", oRadioParts);
+			var oVal5;
 			oRadioParts.getSource().getSelectedButton().getText();
-			this.getView().getModel("LOIDataModel").setProperty("/RadioParts", "YES");
+			if (oRadioParts.getSource().getSelectedButton().getText() == "Held for 30 Days for Carrier Inspection - then will be scrapped") {
+				oVal5 = "H";
+			} else if (oRadioParts.getSource().getSelectedButton().getText() == "Repaired - as per TCI policy and mutual agreement") {
+				oVal5 = "R";
+			} else {
+				oVal5 = "S";
+			}
+			this.getView().getModel("LOIDataModel").setProperty("/RadioParts", oVal5);
 		},
 
 		_getLOIData: function (obj, model) {
@@ -755,13 +794,8 @@ sap.ui.define([
 				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
 				this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
 				this.getView().byId("idMainClaimMessage").setType("Error");
-			}
-			// else if (this._fnDateFormat(this.getView().getModel("LOIDataModel").getProperty("/DeliveryDateLOI")) != null) {
-			// 	var ShipmentRCDate = this._fnDateFormat(this.getView().getModel("LOIDataModel").getProperty("/DeliveryDateLOI"));
-
-			// } 
+			} 
 			else {
-
 				jQuery.sap.require("sap.ui.core.format.DateFormat");
 				this.timeFormatter = sap.ui.core.format.DateFormat.getDateInstance({
 					pattern: "PThh'H'mm'M'ss'S'"
@@ -783,7 +817,7 @@ sap.ui.define([
 					"DealershipName": "",
 					"DeliveringCarrier": this.getView().getModel("HeadSetData").getProperty("/DeliveringCarrier"),
 					"CarrierName": this.getView().getModel("LOIDataModel").getProperty("/CarrierName"),
-					"CarrierAddrnumber": this.getView().getModel("LOIDataModel").getProperty("/CarrierAddress"),
+					"CarrierAddrnumber": "",
 					"ReferenceDate": this._fnDateFormat(this.getView().getModel("LOIDataModel").getProperty("/LOIDate")),
 					"ShipmentRecDate": this._fnDateFormat(this.getView().getModel("LOIDataModel").getProperty("/DeliveryDateLOI")),
 					"WaybillNumber": this.getView().getModel("LOIDataModel").getProperty("/WaybillNoLOI"),
@@ -801,13 +835,18 @@ sap.ui.define([
 					"DealerRepresentativePhone": this.getView().getModel("LOIDataModel").getProperty("/PhoneLOI"),
 					"DealerRepresentativePhoneEx": this.getView().getModel("LOIDataModel").getProperty("/LOIExt"),
 					"DealerRepresentativeEmail": this.getView().getModel("LOIDataModel").getProperty("/LOIEmail"),
-					"Address": this.getView().getModel("LOIDataModel").getProperty("/ReAddress")
+					// "Address": this.getView().getModel("LOIDataModel").getProperty("/ReAddress"),
+					"Address1": this.getView().getModel("LOIDataModel").getProperty("/Address1"),
+					"Address2": this.getView().getModel("LOIDataModel").getProperty("/Address2"),
+					"Address3": this.getView().getModel("LOIDataModel").getProperty("/Address3"),
+					"Address4": this.getView().getModel("LOIDataModel").getProperty("/Address4")
 				};
 				// this._getLOIData(obj, oClaimModel);
 				oClaimModel.create("/zc_LOISet", this.obj, {
 					success: $.proxy(function (data, response) {
 						console.log("data", data);
 						console.log("response", response);
+						MessageToast.show("Letter of Intent sent successfully");
 						// this.getModel("LOIDataModel").setData(response.data);
 						// console.log(this.getModel("LOIDataModel").getData());
 					}, this),
@@ -818,10 +857,13 @@ sap.ui.define([
 			}
 		},
 		onPressLetterOfIntent: function () {
-			//this.getView().getModel("PartDataModel").getProperty("/arrPartLOI")
 			var LOIData = new sap.ui.model.json.JSONModel({
 				"claimNumber": "",
-				"CarrierName": this.getView().getModel("HeadSetData").getProperty("/DeliveringCarrier"),
+				"CarrierName": oFilteredDealerData[0].BusinessPartnerName,
+				"Address1": oFilteredDealerData[0].HouseNumber + " " + oFilteredDealerData[0].StreetName,
+				"Address2": oFilteredDealerData[0].CityName,
+				"Address3": oFilteredDealerData[0].PostalCode,
+				"Address4": oFilteredDealerData[0].Country + " " + oFilteredDealerData[0].Region,
 				"CarrierAddress": "",
 				"TextAttentionLOI": "Claims Department",
 				"TextStripLOI": "",
@@ -830,16 +872,16 @@ sap.ui.define([
 				"DeliveryDateLOI": this.getView().getModel("HeadSetData").getProperty("/ShipmentReceivedDate"),
 				"AtLOI": "",
 				"WaybillNoLOI": this.getView().getModel("HeadSetData").getProperty("/TCIWaybillNumber"),
-				"RadioException": "YES",
+				"RadioException": "Damage",
 				"estClaimValueLOI": "",
 				"LOIDescp": this.getView().getModel("PartDataModel").getProperty("/arrPartLOI"),
-				"RadioCCPhoneEmail": "YES",
+				"RadioCCPhoneEmail": "Y",
 				"DateLOI": "",
 				"AtLOI02": "",
 				"RepresntativeName": "",
-				"RadioTR": "YES",
-				"RadioCR": "YES",
-				"RadioParts": "YES",
+				"RadioTR": "Y",
+				"RadioCR": "Y",
+				"RadioParts": "H",
 				"ursTrulyText": "",
 				"PhoneLOI": "",
 				"LOIExt": "",
@@ -848,6 +890,10 @@ sap.ui.define([
 			});
 			LOIData.setDefaultBindingMode("TwoWay");
 			this.getView().setModel(LOIData, "LOIDataModel");
+
+			this.getView().getModel("LOIDataModel").updateBindings(true);
+			console.log("LOIdata", this.getView().getModel("LOIDataModel").getData());
+
 			// this.getView().setModel(this.getView().getModel("HeadSetData"), "HeadSetData");
 			var oDialogBox = sap.ui.xmlfragment("zclaimProcessing.view.fragments.letterOfIntent", this);
 			this.getView().addDependent(oDialogBox);
@@ -1197,7 +1243,7 @@ sap.ui.define([
 				MessageToast.show("Please Save Claim then try Attachments");
 			}
 		},
-		
+
 		onSelectUpload: function (oEvent) {
 			console.log(OEvent);
 		},
@@ -1427,7 +1473,7 @@ sap.ui.define([
 				}, this)
 			});
 		},
-		
+
 		uploadCollectionItemFactory: function (id, context) {
 			var oItem = new sap.m.UploadCollectionItem(id, {
 				documentId: "{ClaimModel>DOC_ID}",
@@ -1444,7 +1490,7 @@ sap.ui.define([
 			}
 			return oItem;
 		},
-		
+
 		bindUploadCollectionItems: function (path) {
 			this.oUploadCollection.bindItems({
 				path: path,
@@ -2012,61 +2058,44 @@ sap.ui.define([
 
 		},
 		onCancelClaim: function (oEvent) {
-				var oBundle = this.getView().getModel("i18n").getResourceBundle();
-				var dialog = new Dialog({
-					title: oBundle.getText("CancelClaim"),
-					type: "Message",
-					content: new Text({
-						text: oBundle.getText("AreYouSureYouLikeToCancel")
+			var oBundle = this.getView().getModel("i18n").getResourceBundle();
+			var dialog = new Dialog({
+				title: oBundle.getText("CancelClaim"),
+				type: "Message",
+				content: new Text({
+					text: oBundle.getText("AreYouSureYouLikeToCancel")
+				}),
+
+				buttons: [
+					new Button({
+						text: oBundle.getText("Yes"),
+						press: $.proxy(function () {
+							this.getRouter().navTo("SearchClaim");
+
+							dialog.close();
+						}, this)
 					}),
+					new Button({
+						text: oBundle.getText("Cancel"),
+						press: function () {
+							dialog.close();
+						}
+					})
+				],
+				afterClose: function () {
+					dialog.destroy();
+				}
+			});
+			dialog.open();
+		},
 
-					buttons: [
-						new Button({
-							text: oBundle.getText("Yes"),
-							press: $.proxy(function () {
-								this.getRouter().navTo("SearchClaim");
+		onSelectPartsDealer: function (oDealerEvt) {
+			// debugger;
+			oFilteredDealerData = oDealerEvt.getSource().getModel("BpDealerModel").getData().BpDealerList.filter(function (val) {
+				return val.BusinessPartner === oDealerEvt.getParameter("newValue");
+			});
+		}
 
-								dialog.close();
-							}, this)
-						}),
-						new Button({
-							text: oBundle.getText("Cancel"),
-							press: function () {
-								dialog.close();
-							}
-						})
-
-					],
-
-					afterClose: function () {
-						dialog.destroy();
-					}
-				});
-
-				dialog.open();
-			}
-			/**
-			 * Similar to onAfterRendering, but this hook is invoked before the controller's View is re-rendered
-			 * (NOT before the first rendering! onInit() is used for that one!).
-			 * @memberOf zclaimProcessing.view.PartsMainSection
-			 */
-			//	onBeforeRendering: function() {
-			//
-			//	},
-
-		/**
-		 * Called when the View has been rendered (so its HTML is part of the document). Post-rendering manipulations of the HTML could be done here.
-		 * This hook is the same one that SAPUI5 controls get after being rendered.
-		 * @memberOf zclaimProcessing.view.PartsMainSection
-		 */
-		//	onAfterRendering: function() {
-		//
-		//	},
-
-		/**
-		 * Called when the Controller is destroyed. Use this one to free resources and finalize activities.
-		 * @memberOf zclaimProcessing.view.PartsMainSection
-		 */
 		//	onExit: function() {
 		//
 		//	}

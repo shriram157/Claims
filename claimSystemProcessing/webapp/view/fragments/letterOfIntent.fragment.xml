@@ -10,21 +10,21 @@
 						<!--<HBox>-->
 						<core:Title text=""/>
 						<Label text="Carrier Name" class="sapUiTinyMarginBeginEnd"/>
-						<Input value="{LOIDataModel>/CarrierName}" editable="false"/>
+						<Text text="{LOIDataModel>/CarrierName}"/>
 						<Label text="Carrier Address" class="sapUiTinyMarginBeginEnd" required="true"/>
-						<TextArea growing="false" value="{LOIDataModel>/CarrierAddress}" maxLength="10" required="true"/>
+						<TextArea growing="false" value="{LOIDataModel>/Address1} {LOIDataModel>/Address2} {LOIDataModel>/Address3} {LOIDataModel>/Address4}" maxLength="250" required="true"/>
 						<core:Title text=""/>
 						<Label text=""/>
 						<Text text="{LOIDataModel>/TopTextLOI}"/>
 						<Label text="Date"/>
 						<Text text="{path:'LOIDataModel>LOIDate', formatter: 'zclaimProcessing.utils.formatter.fnFormatDisplayDate'}"/>
 						<!--</HBox>-->
-						<core:Title text="" level="H6"/>
+						<core:Title text="" level="H6" class="H6ID"/>
 						<HBox width="100%">
-							<Label text="Attention" class="sapUiSmallMarginTop"/>
-							<Text width="100%" text="{LOIDataModel>/TextAttentionLOI}"/>
-						</HBox><core:Title text="" level="H6"/>
-						<core:Title text="" level="H6"/>
+							<Label text="Attention: " class="sapUiSmallMarginTop"/>
+							<Text width="100%" text="{LOIDataModel>/TextAttentionLOI}" class="boldText"/>
+						</HBox><core:Title text="" level="H6" class="H6ID"/>
+						<core:Title text="" level="H6" class="H6ID"/>
 						<HBox width="100%">
 							<!--<Text text="{LOIDataModel>/TextStripLOI}"/>-->
 							<Text width="100%" text="It is our intent to file a Transportation Claim through Toyota Canada Inc. for the following shipment:"/>

@@ -76,6 +76,10 @@
     width: 20% !important;
 }
 
-h6#__title38, h6#__title40 {
+#id_LOIForm01 .sapUiFormTitle.sapUiFormTitleH6 {
     display: none;
+}
+
+.boldText {
+	font-weight: 600;
 }
