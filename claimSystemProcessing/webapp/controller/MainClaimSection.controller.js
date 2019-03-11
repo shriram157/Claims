@@ -3566,7 +3566,10 @@ sap.ui.define([
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			if (oTableIndex.length == 1) {
 
-				var oIndex = oTable._aSelectedPaths.toString().split("/")[2];
+
+
+
+				var oIndex = parseInt(oTableIndex.toString().split("/")[2]);
 				this.obj.zc_claim_item_damageSet.results.splice(oIndex, 1);
 
 				var oClaimModel = this.getModel("ProssingModel");
