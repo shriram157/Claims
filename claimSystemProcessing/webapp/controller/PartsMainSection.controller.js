@@ -13,7 +13,7 @@ sap.ui.define([
 	"use strict";
 	var callData, arrPartLOI = [],
 		BpDealerModel, BpDealerList = [],
-		oFilteredDealerData;
+		oFilteredDealerData, dialogValidator, this.partsObj;
 	return BaseController.extend("zclaimProcessing.controller.PartsMainSection", {
 
 		onInit: function () {
@@ -25,7 +25,8 @@ sap.ui.define([
 				oFormEdit: true,
 				claimTypeEn: true,
 				SaveClaim07: true,
-				oLetterOfIntent: false
+				oLetterOfIntent: false,
+				saveParts: false
 			});
 			this.getView().setModel(oDateModel, "DateModel");
 			var oNodeModel = new sap.ui.model.json.JSONModel();
@@ -660,8 +661,65 @@ sap.ui.define([
 					new Button({
 						text: "Yes",
 						press: $.proxy(function () {
-								callData = true;
+								console.log("Validations Completed");
+								jQuery.sap.require("sap.ui.core.format.DateFormat");
+								this.timeFormatter = sap.ui.core.format.DateFormat.getDateInstance({
+									pattern: "PThh'H'mm'M'ss'S'"
+								});
+
+								this.getView().byId("idMainClaimMessage").setProperty("visible", false);
+
+								var oClaimModel = this.getModel("ProssingModel");
+
+								this._oToken = oClaimModel.getHeaders()['x-csrf-token'];
+								$.ajaxSetup({
+									headers: {
+										'X-CSRF-Token': this._oToken
+									}
+								});
+								this.obj = {
+									"Claim": this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum"),
+									"Partner": this.getView().getModel("PartDataModel").getProperty("/matnr"),
+									"DealershipName": "",
+									"DeliveringCarrier": this.getView().getModel("HeadSetData").getProperty("/DeliveringCarrier"),
+									"CarrierName": this.getView().getModel("LOIDataModel").getProperty("/CarrierName"),
+									"CarrierAddrnumber": "",
+									"ReferenceDate": this._fnDateFormat(this.getView().getModel("LOIDataModel").getProperty("/LOIDate")),
+									"ShipmentRecDate": this._fnDateFormat(this.getView().getModel("LOIDataModel").getProperty("/DeliveryDateLOI")),
+									"WaybillNumber": this.getView().getModel("LOIDataModel").getProperty("/WaybillNoLOI"),
+									"ExceptionNoted": this.getView().getModel("LOIDataModel").getProperty("/RadioException"),
+									"AmountClaim": this.getView().getModel("LOIDataModel").getProperty("/estClaimValueLOI"),
+									"Contactbyphone": this.getView().getModel("LOIDataModel").getProperty("/RadioCCPhoneEmail"),
+									"ContactbyphoneDate": this._fnDateFormat(this.getView().getModel("LOIDataModel").getProperty("/DateLOI")),
+									"ContactbyphoneTime": this.timeFormatter.format(new Date(Number(this.getView().getModel("LOIDataModel").getProperty(
+										"/AtLOI02")))),
+									"ContactbyphoneRepName": this.getView().getModel("LOIDataModel").getProperty("/RepresntativeName"),
+									"Tracerequest": this.getView().getModel("LOIDataModel").getProperty("/RadioTR"),
+									"InspectionWaived": this.getView().getModel("LOIDataModel").getProperty("/RadioCR"),
+									"PartwillbeHeld": this.getView().getModel("LOIDataModel").getProperty("/RadioParts"),
+									"DealerRepresentativeName": this.getView().getModel("LOIDataModel").getProperty("/ursTrulyText"),
+									"DealerRepresentativePhone": this.getView().getModel("LOIDataModel").getProperty("/PhoneLOI"),
+									"DealerRepresentativePhoneEx": this.getView().getModel("LOIDataModel").getProperty("/LOIExt"),
+									"DealerRepresentativeEmail": this.getView().getModel("LOIDataModel").getProperty("/LOIEmail"),
+									// "Address": this.getView().getModel("LOIDataModel").getProperty("/ReAddress"),
+									"Address1": this.getView().getModel("LOIDataModel").getProperty("/Address1"),
+									"Address2": this.getView().getModel("LOIDataModel").getProperty("/Address2"),
+									"Address3": this.getView().getModel("LOIDataModel").getProperty("/Address3"),
+									"Address4": this.getView().getModel("LOIDataModel").getProperty("/Address4")
+								};
+								oClaimModel.create("/zc_LOISet", this.obj, {
+									success: $.proxy(function (data, response) {
+										console.log("data", data);
+										console.log("response", response);
+										MessageToast.show("Letter of Intent sent successfully");
+									}, this),
+									error: function (err) {
+										console.log(err);
+										// dialog.close();
+									}
+								});
 								dialog.close();
+								// }
 							},
 							this)
 					}),
@@ -681,12 +739,32 @@ sap.ui.define([
 			dialog.open();
 		},
 		onSendLetterOfIntent: function (oEvent) {
-			callData = false;
-			// this._openDialog02(callData);
-			// if (callData == true) {
-			this._getLOIData();
-			// this._openDialog02(callData);
-			// }
+			dialogValidator = new Validator();
+
+			var AddressLOI = this.getView().byId("AddressLOI").getValue();
+			var idDDLOI = this.getView().byId("idDDLOI").getValue();
+			var RadioException = this.getView().byId("IDRadioException").getSelectedIndex();
+			var estClaimValueLOI = this.getView().byId("estClaimValueLOI").getValue();
+			var RadioCCPhoneEmail = this.getView().byId("RadioCCPhoneEmail").getSelectedIndex();
+
+			var idDateLOI02 = this.getView().byId("idDateLOI02").getValue();
+			var RadioTR = this.getView().byId("RadioTR").getSelectedIndex();
+			var RadioCR = this.getView().byId("RadioCR").getSelectedIndex();
+			var RadioParts = this.getView().byId("RadioParts").getSelectedIndex();
+			// var RadioCCPhoneEmail = this.getView().byId("RadioCCPhoneEmail").getValue();
+
+			// var oValid01 = dialogValidator.validate(this.getView().byId("id_LOIForm02"));
+			// var oValid02 = dialogValidator.validate(this.getView().byId("id_LOIForm03"));
+			console.log("Start Validations");
+			// if (!oValid && !oValid01 && !oValid02) {
+			if (AddressLOI == "") {
+				console.log("Validations Failed");
+				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+				this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
+				this.getView().byId("idMainClaimMessage").setType("Error");
+			} else {
+				this._openDialog02();
+			}
 
 			var LOIData = new sap.ui.model.json.JSONModel({
 				"claimNumber": "",
@@ -767,7 +845,7 @@ sap.ui.define([
 				oVal4 = "Y";
 			} else if (oCR.getSource().getSelectedButton().getText() == "YES") {
 				oVal4 = "N";
-			} 
+			}
 			this.getView().getModel("LOIDataModel").setProperty("/RadioCR", oVal4);
 		},
 		onRadioChangeParts: function (oRadioParts) {
@@ -790,12 +868,14 @@ sap.ui.define([
 			var oValid = oValidator.validate(this.getView().byId("id_LOIForm01"));
 			var oValid01 = oValidator.validate(this.getView().byId("id_LOIForm02"));
 			var oValid02 = oValidator.validate(this.getView().byId("id_LOIForm03"));
-			if (!oValid || !oValid01 || !oValid02) {
+			console.log("Start Validations");
+			if (!oValid && !oValid01 && !oValid02) {
+				console.log("Validations Failed");
 				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
 				this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
 				this.getView().byId("idMainClaimMessage").setType("Error");
-			} 
-			else {
+			} else {
+				console.log("Validations Completed");
 				jQuery.sap.require("sap.ui.core.format.DateFormat");
 				this.timeFormatter = sap.ui.core.format.DateFormat.getDateInstance({
 					pattern: "PThh'H'mm'M'ss'S'"
@@ -849,6 +929,7 @@ sap.ui.define([
 						MessageToast.show("Letter of Intent sent successfully");
 						// this.getModel("LOIDataModel").setData(response.data);
 						// console.log(this.getModel("LOIDataModel").getData());
+						dialog.close();
 					}, this),
 					error: function (err) {
 						console.log(err);
@@ -922,6 +1003,7 @@ sap.ui.define([
 		},
 
 		onPressUpdatePart: function (oEvent) {
+			// this.getView().getModel("DateModel").setProperty("/saveParts", true);
 			var oTable = this.getView().byId("partTable");
 			var oTableIndex = oTable._aSelectedPaths;
 
@@ -958,6 +1040,7 @@ sap.ui.define([
 						// this.getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.MainOpsCodeDescription);
 						console.log(oFilteredData);
 						this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
+						this.getView().getModel("DateModel").setProperty("/saveParts", true);
 						this._fnClaimSum();
 					}, this),
 					error: function (err) {
@@ -1274,10 +1357,11 @@ sap.ui.define([
 				"URI": oURI,
 				"AttachLevel": "HEAD"
 			};
-
+			this.partsObj.zc_claim_attachmentsSet.results.push(itemObj);
+			
 			var oClaimModel = this.getModel("ProssingModel");
 			oClaimModel.refreshSecurityToken();
-			oClaimModel.create("/zc_claim_attachmentsSet", itemObj, {
+			oClaimModel.create("/zc_claim_attachmentsSet", this.partsObj, {
 				success: $.proxy(function (data, response) {
 					MessageToast.show("SuccesFully Uploaded");
 					oClaimModel.read("/zc_claim_attachmentsSet", {
@@ -1393,10 +1477,11 @@ sap.ui.define([
 				"URI": oURI,
 				"AttachLevel": "HEAD"
 			};
+			this.partsObj.zc_claim_attachmentsSet.results.push(itemObj);
 
 			var oClaimModel = this.getModel("ProssingModel");
 			oClaimModel.refreshSecurityToken();
-			oClaimModel.create("/zc_claim_attachmentsSet", itemObj, {
+			oClaimModel.create("/zc_claim_attachmentsSet", this.partsObj, {
 				success: $.proxy(function (data, response) {
 					MessageToast.show("SuccesFully Uploaded");
 					oClaimModel.read("/zc_claim_attachmentsSet", {
@@ -1602,7 +1687,7 @@ sap.ui.define([
 				if (this.getView().getModel("HeadSetData").getProperty("/NumberOfWarrantyClaim") == undefined) {
 					this.getView().getModel("HeadSetData").setProperty("/NumberOfWarrantyClaim", "");
 				}
-				var obj = {
+				this.partsObj = {
 					"DBOperation": "SAVE",
 					"Message": "",
 					"NumberOfWarrantyClaim": this.getView().getModel("HeadSetData").getProperty("/NumberOfWarrantyClaim"),
@@ -1629,7 +1714,7 @@ sap.ui.define([
 
 				console.log(obj);
 				oClaimModel.refreshSecurityToken();
-				oClaimModel.create("/zc_headSet", obj, {
+				oClaimModel.create("/zc_headSet", this.partsObj, {
 					success: $.proxy(function (data, response) {
 						MessageToast.show("Claim has been saved successfully");
 						this.getModel("LocalDataModel").setProperty("/WarrantyClaimNum", response.data.NumberOfWarrantyClaim);
@@ -1645,6 +1730,7 @@ sap.ui.define([
 								this.getView().getModel("HeadSetData").setData(sdata.results[0]);
 								var oCLaim = this.getModel("LocalDataModel").getProperty("/ClaimDetails/NumberOfWarrantyClaim");
 								this.getView().getModel("HeadSetData").setProperty("/NumberOfWarrantyClaim", oCLaim);
+								this.getView().getModel("DateModel").setProperty("/saveParts", true);
 							}, this),
 							error: function (err) {
 								console.log(err);

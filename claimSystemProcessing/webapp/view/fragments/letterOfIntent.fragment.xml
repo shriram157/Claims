@@ -1,5 +1,6 @@
 <core:FragmentDefinition xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:u="sap.ui.unified" xmlns:l="sap.ui.layout"
-	xmlns="sap.m" xmlns:t="sap.ui.table">
+	xmlns="sap.m">
+						
 	<Dialog>
 		<content>
 			<VBox width="1024px">
@@ -11,8 +12,8 @@
 						<core:Title text=""/>
 						<Label text="Carrier Name" class="sapUiTinyMarginBeginEnd"/>
 						<Text text="{LOIDataModel>/CarrierName}"/>
-						<Label text="Carrier Address" class="sapUiTinyMarginBeginEnd" required="true"/>
-						<TextArea growing="false" value="{LOIDataModel>/Address1} {LOIDataModel>/Address2} {LOIDataModel>/Address3} {LOIDataModel>/Address4}" maxLength="250" required="true"/>
+						<Label text="Carrier Address" class="sapUiTinyMarginBeginEnd"/>
+						<TextArea id="AddressLOI" growing="false" value="{LOIDataModel>/Address1} {LOIDataModel>/Address2} {LOIDataModel>/Address3} {LOIDataModel>/Address4}" maxLength="250" required="true"/>
 						<core:Title text=""/>
 						<Label text=""/>
 						<Text text="{LOIDataModel>/TopTextLOI}"/>
@@ -49,8 +50,8 @@
 							<Text text="{path:'LOIDataModel>/WaybillNoLOI'}"/>
 						</HBox>
 						<!--<HBox>-->
-						<Label text="Exception(s) Noted" required="true" class="sapUiTinyMarginBeginEnd"/>
-						<RadioButtonGroup select="onRadioChangeEN" columns="3" class="sapUiMediumMarginBottom" selectedIndex="0">
+						<Label text="Exception(s) Noted" class="sapUiTinyMarginBeginEnd" required="true"/>
+						<RadioButtonGroup id="IDRadioException" select="onRadioChangeEN" columns="3" class="sapUiMediumMarginBottom" selectedIndex="0">
 							<buttons>
 								<RadioButton id="LOI1-1" text="Damage"/>
 								<RadioButton id="LOI2-2" text="Missing Pieces(s)"/>
@@ -59,8 +60,8 @@
 						</RadioButtonGroup>
 						<!--</HBox>-->
 						<!--<HBox>-->
-						<Label text="Estimated Value of Claim" required="true" class="sapUiTinyMarginBeginEnd"/>
-						<Input value="{path:'LOIDataModel>/estClaimValueLOI'}" required="true"/>
+						<Label text="Estimated Value of Claim" class="sapUiTinyMarginBeginEnd"/>
+						<Input value="{path:'LOIDataModel>/estClaimValueLOI'}" required="true" id="estClaimValueLOI"/>
 						<Text text="(Actual value to be declared on Claim to TCI)" class="sapUiTinyMarginBeginEnd"/>
 						<!--</HBox>-->
 						<Label text="Description (Including Part Numbers)" class="sapUiTinyMarginBeginEnd"/>
@@ -74,8 +75,8 @@
 					columnsL="1" columnsM="1" singleContainerFullSize="false">
 					<f:content>
 						<HBox>
-							<Label text="Carrier Contacted by Phone/Email" required="true" class="sapUiTinyMarginBeginEnd sapUiSmallMarginTop"/>
-							<RadioButtonGroup select="onRadioChangeCPhone" columns="2" class="sapUiMediumMarginBottom" selectedIndex="0">
+							<Label text="Carrier Contacted by Phone/Email" class="sapUiTinyMarginBeginEnd sapUiSmallMarginTop" required="true"/>
+							<RadioButtonGroup  id="RadioCCPhoneEmail" select="onRadioChangeCPhone" columns="2" class="sapUiMediumMarginBottom" selectedIndex="0">
 								<buttons>
 									<RadioButton id="LOI01-1" text="Yes"/>
 									<RadioButton id="LOI02-2" text="No"/>
@@ -91,24 +92,24 @@
 						<Label text="Representative's Name" class="sapUiTinyMarginBeginEnd"/>
 						<Input value="{path:'LOIDataModel>/RepresntativeName'}" width="100%"/>
 						<!--</HBox>-->
-						<Label text="Trace request for missing Piece(s)" required="true" class="sapUiTinyMarginBeginEnd"/>
-						<RadioButtonGroup select="onRadioChangeTR" columns="4" class="sapUiMediumMarginBottom" selectedIndex="0">
+						<Label text="Trace request for missing Piece(s)" class="sapUiTinyMarginBeginEnd" required="true"/>
+						<RadioButtonGroup id="RadioTR" select="onRadioChangeTR" columns="4" class="sapUiMediumMarginBottom" selectedIndex="0">
 							<buttons>
 								<RadioButton id="LOITR-1" text="Yes"/>
 								<RadioButton id="LOITR-2" text="No"/>
 								<RadioButton id="LOITR-3" text="Not Applicable"/>
 							</buttons>
 						</RadioButtonGroup>
-						<Label text="Carrier Right to Inspection Waived" required="true" class="sapUiTinyMarginBeginEnd"/>
-						<RadioButtonGroup select="onRadioChangeCR" columns="4" class="sapUiMediumMarginBottom" selectedIndex="0">
+						<Label text="Carrier Right to Inspection Waived" class="sapUiTinyMarginBeginEnd" required="true"/>
+						<RadioButtonGroup id="RadioCR" select="onRadioChangeCR" columns="4" class="sapUiMediumMarginBottom" selectedIndex="0">
 							<buttons>
 								<RadioButton id="LOICR-1" text="Yes"/>
 								<RadioButton id="LOICR-2" text="No"/>
 								<RadioButton id="LOICR-3" text="Not Applicable"/>
 							</buttons>
 						</RadioButtonGroup>
-						<Label text="Part(s) will be" required="true" class="sapUiTinyMarginBeginEnd"/>
-						<RadioButtonGroup select="onRadioChangeParts" columns="1" width="100%" class="sapUiMediumMarginBottom" selectedIndex="0">
+						<Label text="Part(s) will be" class="sapUiTinyMarginBeginEnd" required="true"/>
+						<RadioButtonGroup id="RadioParts" select="onRadioChangeParts" columns="1" width="100%" class="sapUiMediumMarginBottom" selectedIndex="0">
 							<buttons>
 								<RadioButton width="100%" id="LOIPR-1" text="Held for 30 Days for Carrier Inspection - then will be scrapped"/>
 								<RadioButton width="100%" id="LOIPR-2" text="Repaired - as per TCI policy and mutual agreement"/>
@@ -121,13 +122,13 @@
 								text="If after receipt of this letter there is no further communication made on the part of the carrier as to the disposition of this claim and/or parts, it shall be assumed that carrier accepts full liability of this claim, and our claim will proceed accordingly."/>
 						</HBox>
 						<!--<HBox>-->
-						<Label text="Yours Truly" required="true" class="sapUiTinyMarginBeginEnd"/>
+						<Label text="Yours Truly" class="sapUiTinyMarginBeginEnd"/>
 						<Input value="{path:'LOIDataModel>/ursTrulyText'}" required="true" width="25%"/>
 						<Label text="Phone" class="sapUiTinyMarginBeginEnd"/>
 						<Input value="{path:'LOIDataModel>/PhoneLOI'}" width="25%"/>
 						<Label text="Ext" class="sapUiTinyMarginBeginEnd"/>
 						<Input value="{path:'LOIDataModel>/LOIExt'}" width="25%"/>
-						<Label text="Email" required="true" class="sapUiTinyMarginBeginEnd"/>
+						<Label text="Email" class="sapUiTinyMarginBeginEnd"/>
 						<Input value="{path:'LOIDataModel>/LOIEmail'}" required="true" width="25%"/>
 						<Text text="{path:'LOIDataModel>/ReAddress'}"/>
 						<!--</HBox>-->

@@ -67,7 +67,7 @@
 						</HBox>
 						<HBox>
 							<Label text=""/>
-							<Button text="{i18n>SavePart}" type="Emphasized" class="sapUiSmallMarginEnd" press="onPressSavePart">
+							<Button text="{i18n>SavePart}" type="Emphasized" class="sapUiSmallMarginEnd" press="onPressSavePart"  enabled="{DateModel>/saveParts}" >
 								<layoutData>
 									<l:GridData span="XL1 L1 M3 S4"/>
 								</layoutData>
