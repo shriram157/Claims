@@ -405,14 +405,14 @@ sap.ui.define([
 
 						this.getView().getModel("LocalDataModel").setProperty("/step01Next", true);
 
-						if (data.results[0].DecisionCode == "ZTRC" || data.results[0].DecisionCode == "ZTIC") {
+						if (data.results[0].ProcessingStatusOfWarrantyClm == "ZTRC" || data.results[0].ProcessingStatusOfWarrantyClm == "ZTIC") {
 							this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
 							this.getView().getModel("DateModel").setProperty("/SaveClaim07", true);
 							this.getModel("LocalDataModel").setProperty("/CancelEnable", true);
 							this.getView().getModel("DateModel").setProperty("/claimEditSt", false);
 							this.getView().getModel("DateModel").setProperty("/updateEnable", true);
 
-						} else if (data.results[0].DecisionCode == "ZTRC") {
+						} else if (data.results[0].ProcessingStatusOfWarrantyClm == "ZTRC") {
 							this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
 							this.getView().getModel("DateModel").setProperty("/SaveClaim07", true);
 							this.getModel("LocalDataModel").setProperty("/CancelEnable", true);
@@ -424,10 +424,9 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/claimEditSt", false);
 							this.getView().getModel("DateModel").setProperty("/updateEnable", false);
 							this.getModel("LocalDataModel").setProperty("/CancelEnable", false);
-						} else if (data.results[0].DecisionCode == "ZTAC") {
+						} else if (data.results[0].ProcessingStatusOfWarrantyClm == "ZTAC") {
 							this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
 							this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
-
 							this.getView().getModel("DateModel").setProperty("/claimEditSt", true);
 							this.getView().getModel("DateModel").setProperty("/updateEnable", false);
 							this.getModel("LocalDataModel").setProperty("/CancelEnable", false);
@@ -2956,7 +2955,7 @@ sap.ui.define([
 				"ClaimedHours": oClaimHr,
 				"LabourDescription": this.getView().getModel("LabourDataModel").getProperty("/LabourDescription")
 			};
-			this.obj={""};
+
 			this.obj.zc_claim_item_labourSet.results.push(itemObj);
 
 			var oClaimModel = this.getModel("ProssingModel");
@@ -3249,16 +3248,22 @@ sap.ui.define([
 				oClaimModel.refreshSecurityToken();
 				oClaimModel.create("/zc_headSet", this.obj, {
 					success: $.proxy(function (data, response) {
-						console.log(response);
+
 						var pricinghData = response.data.zc_claim_item_price_dataSet.results;
 						var oFilteredData = pricinghData.filter(function (val) {
 							return val.ItemType === "SUBL";
 						});
 						this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", response.OFPDescription);
 						this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.MainOpsCodeDescription);
-						console.log(oFilteredData);
+
 						this.getModel("LocalDataModel").setProperty("/SubletPricingDataModel", oFilteredData);
-						//this.getModel("LocalDataModel").setProperty("/WarrantyClaimNum", response.data.NumberOfWarrantyClaim);
+
+						var oFilteredDataLabour = pricinghData.filter(function (val) {
+							return val.ItemType === "FR" && val.ItemKey[0] != "P";
+						});
+
+						this.getModel("LocalDataModel").setProperty("/LabourPricingDataModel", oFilteredDataLabour);
+
 						MessageToast.show("Claim Item has been saved successfully");
 						this.getView().getModel("DateModel").setProperty("/subletLine", false);
 						this.getView().getModel("SubletDataModel").setProperty("/SubletCode", "");
@@ -3515,12 +3520,12 @@ sap.ui.define([
 				//var oString = oTableIndex.toString();
 				var oSelectedRow = oTableIndex.toString();
 				var obj = this.getView().getModel("LocalDataModel").getProperty(oSelectedRow);
-				var DmgAreaCode = obj.DmgAreaCode;
-				var DmgTypeCode = obj.DmgTypeCode;
-				var DmgSevrCode = obj.DmgSevrCode;
-				this.getView().getModel("HeadSetData").setProperty("/DmgAreaCode", DmgAreaCode);
-				this.getView().getModel("HeadSetData").setProperty("/DmgTypeCode", DmgTypeCode);
-				this.getView().getModel("HeadSetData").setProperty("/DmgSevrCode", DmgSevrCode);
+				var oDmgAreaCode = obj.DmgAreaCode;
+				var oDmgTypeCode = obj.DmgTypeCode;
+				var oDmgSevrCode = obj.DmgSevrCode;
+				this.getView().getModel("HeadSetData").setProperty("/DmgAreaCode", oDmgAreaCode);
+				this.getView().getModel("HeadSetData").setProperty("/DmgTypeCode", oDmgTypeCode);
+				this.getView().getModel("HeadSetData").setProperty("/DmgSevrCode", oDmgSevrCode);
 
 				this.getView().getModel("DateModel").setProperty("/subletLine", true);
 
