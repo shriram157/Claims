@@ -56,3 +56,30 @@
 .redlable{
 		color: red !important;
 }
+
+.headerButtonsToolBar{border:none;}
+.borderStyle{
+	padding: 1rem 0;
+    box-sizing: border-box;
+    border-bottom: 1px solid #cccccc;
+    /*width: 98%;*/
+}
+.borderStyle .sapUiFormResGridMain>div:nth-child(1),
+.borderStyle2 .sapUiFormResGridMain>div:nth-child(1){
+    width: 6rem;
+}
+.borderStyle2 .sapUiFormResGridCont { 
+	padding-bottom: 0 !important; 
+}
+
+.borderStyle2 .sapUiFormResGrid>.sapUiFormResGridMain>div:nth-child(2) {
+    width: 20% !important;
+}
+
+#id_LOIForm01 .sapUiFormTitle.sapUiFormTitleH6 {
+    display: none;
+}
+
+.boldText {
+	font-weight: 600;
+}

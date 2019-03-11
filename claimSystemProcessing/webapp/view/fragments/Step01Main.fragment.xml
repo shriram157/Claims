@@ -14,16 +14,11 @@
 				<f:content>
 					<core:Title text=""/>
 					<Label text="Claim Type"/>
-					<!--<Select items="{path:'/ZC_CLAIM_GROUP', filters : [{path:'ClaimGroupDes', operator:'EQ', value1 : 'PART WAREHOUSE' }]}"-->
-					<!--	change="onSelectClaim" selectedKey="{HeadSetData>/WarrantyClaimType}">-->
-					<!--	<items>-->
-					<!--		<core:Item text="{ALMClaimTypeDes}" key="{ALMClaimType}"/>-->
-					<!--	</items>-->
-					<!--</Select>-->
-					<ComboBox
-			 items="{path:'/ZC_CLAIM_GROUP', filters : [{path:'ClaimGroupDes', operator:'EQ', value1 : 'PART WAREHOUSE' }]}" change="onSelectClaim" selectedKey="{HeadSetData>/WarrantyClaimType}">
-				<core:Item text="{ALMClaimTypeDes}" key="{ALMClaimType}"/>
-			</ComboBox>
+					<ComboBox id="ID_claimGroupsforParts" required="true"
+						items="{path:'/ZC_CLAIM_GROUP', filters : [{path:'ClaimGroupDes', operator:'EQ', value1 : 'PART WAREHOUSE' }]}" change="onSelectClaim"
+						selectedKey="{HeadSetData>/WarrantyClaimType}" enabled="{DateModel>/claimTypeEn}">
+						<core:Item text="{ALMClaimTypeDes}" key="{ALMClaimType}"/>
+					</ComboBox>
 					<core:Title text=""/>
 					<Label text="First Submission Date"/>
 					<Text text="{ path: 'HeadSetData>/ReferenceDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium' } }"/>
@@ -37,7 +32,7 @@
 					<Label text="Final Processed Date"/>
 					<Text text="{ path: 'HeadSetData>/FinalProcdDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium' } }"/>
 					<Label text=""></Label>
-					<Button text="Save Claim" type="Emphasized" press="onSaveClaim">
+					<Button text="{i18n>SaveClaim}" type="Emphasized" press="onSaveClaim">
 						<layoutData>
 							<l:GridData span="XL3 L3 "/>
 						</layoutData>
@@ -45,53 +40,42 @@
 				</f:content>
 			</f:SimpleForm>
 		</Panel>
-		<f:SimpleForm editable="true" id="idClaimForm" layout="ResponsiveGridLayout" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12"
-			adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="3" columnsL="3" columnsM="3"
+		<f:SimpleForm editable="true" id="idClaimForm" layout="ResponsiveGridLayout" labelSpanXL="12" labelSpanL="12" labelSpanM="12"
+			labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="3" columnsL="3" columnsM="3"
 			singleContainerFullSize="false">
 			<f:content>
 				<core:Title text=""/>
 				<Label text="Outbound Delivery Number"/>
-				<Input value="{path:'HeadSetData>/Delivery', type : 'sap.ui.model.type.String', 
-                                  constraints : { 
-                                      minLength : 3, 
-                                      maxLength : 10 
-                                  }
-                              }" required="true" id="idOutboundDNum"/>
+				<Input value="{path:'HeadSetData>/Delivery', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 10 } }"
+					required="true" id="idOutboundDNum"/>
 				<Label text="Received Date"/>
-				<DatePicker value="{path:'HeadSetData>/ShipmentReceivedDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium' }
-                              }" required="true" id="idShipmentRDate"/>
+				<DatePicker value="{path:'HeadSetData>/ShipmentReceivedDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium' } }"
+					required="true" id="idShipmentRDate"/>
 				<Label text="Shipping Parts to PDC"/>
-				<Select id="idPartsShipping" >
+				<Select id="idPartsShipping">
 					<items>
 						<core:Item text="Yes" key="Yes"/>
 						<core:Item text="No" key="No"/>
 					</items>
 				</Select>
-			
 				<core:Title text=""/>
 				<Label text="Outbound Delivery Date"/>
-				<DatePicker value="{path:'HeadSetData>/DeliveryDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium' }}"/>
+				<DatePicker required="true" id="idOutBoundDD"
+					value="{path:'HeadSetData>/DeliveryDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium' }}"/>
 				<Label text="PDC Code"/>
 				<Input value="" id="idPdcCode" editable="false"/>
 				<Label text="Dealer Contact"/>
-				<Input value="{path:'HeadSetData>/DealerContact',  type : 'sap.ui.model.type.String', 
-                                  constraints : { 
-                                      minLength : 3, 
-                                      maxLength : 10 
-                                  }
-                              }" required="true" id="idDealerContact"/>
+				<Input value="{path:'HeadSetData>/DealerContact', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 10 } }"
+					required="true" id="idDealerContact"/>
 				<core:Title text=""/>
 				<Label text="TCI Waybill No"/>
-				<Input value="{HeadSetData>/TCIWaybillNumber}" id="idTCIWayBill"/>
+				<Input value="{HeadSetData>/TCIWaybillNumber}" id="idTCIWayBill" required="true"/>
 				<Label text="Carrier Name"/>
-				<Input value="{ 
-                                 path : 'HeadSetData>/DeliveringCarrier', 
-                                  type : 'sap.ui.model.type.String', 
-                                  constraints : { 
-                                      minLength : 3, 
-                                      maxLength : 10 
-                                  }
-                              }" required="true" id="idCarrierName"/>
+				<ComboBox id="idCarrierName" required="true" items="{BpDealerModel>/BpDealerList}" change="onSelectPartsDealer"
+					selectedKey="{HeadSetData>/DeliveringCarrier}" showSecondaryValues="true">
+					<core:ListItem text="{BpDealerModel>BusinessPartner}" key="{BpDealerModel>BusinessPartnerKey}"
+						additionalText="{BpDealerModel>BusinessPartnerName}"/>
+				</ComboBox>
 			</f:content>
 		</f:SimpleForm>
 		<f:SimpleForm id="idConditionForm" editable="true" title="" layout="ResponsiveGridLayout" labelSpanXL="3" labelSpanL="3" labelSpanM="3"
@@ -123,16 +107,22 @@
 				adjustLabelSpan="false" emptySpanXL="4" emptySpanL="4" emptySpanM="0" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1"
 				singleContainerFullSize="false">
 				<f:content>
-					<UploadCollection change="onUplaodChange" id="UploadSupportingDoc" uploadComplete="onUploadComplete" fileDeleted="onFileDeleted">
+					<UploadCollection change="onUploadChangeParts" id="UploadSupportingDoc" uploadComplete="onUploadCompleteParts" fileDeleted="onFileDeleted"
+						beforeUploadStarts="onBeforeUpload" items="{ path: 'ClaimModel>/items', templateShareable: false }">
 						<toolbar>
 							<OverflowToolbar>
-								<Breadcrumbs id="breadcrumbsSupportingDoc" currentLocationText="{ClaimModel>/currentLocationText}" links="{ClaimModel>/history}">
-									<Link press="onBreadcrumbPress" text="{ClaimModel>name}"/>
+								<Breadcrumbs id="breadcrumbsSupportingDoc" currentLocationText="{ClaimModel>/currentLocationText}" links="{ClaimModel>/partsHistory}">
+									<Link press="onBreadcrumbPress" text="{ClaimModel>fileName}"/>
 								</Breadcrumbs>
 								<ToolbarSpacer/>
 								<UploadCollectionToolbarPlaceholder/>
 							</OverflowToolbar>
 						</toolbar>
+						<items>
+							<UploadCollectionItem selected="onSelectUpload" documentId="{ClaimModel>DOC_ID}" fileName="{ClaimModel>FileName}"
+								mimeType="{ClaimModel>MIMETYPE}" thumbnailUrl="{ClaimModel>url}" url="{ClaimModel>URI}" enableEdit="{settings>/enableEdit}"
+								enableDelete="{settings>/enableDelete}" visibleDelete="{settings>/visibleDelete}" visibleEdit="{settings>/visibleEdit}"></UploadCollectionItem>
+						</items>
 					</UploadCollection>
 				</f:content>
 			</f:SimpleForm>
@@ -234,7 +224,7 @@
 			<Button class="sapUiTinyMarginBeginEnd" press="onPressBack" text="{i18n>BackList}" type="Back"/>
 			<Button class="sapUiTinyMarginBeginEnd" press="onCancelClaim" text="{i18n>CancelClaim}" type="Reject"/>
 			<Button class="sapUiTinyMarginBeginEnd" text="{i18n>Print}"/>
-			<Button class="sapUiTinyMarginBeginEnd" press="onStep01Next" text="{i18n>Next}" type="Emphasized"/>
+			<Button class="sapUiTinyMarginBeginEnd" press="onStep01Next" text="{i18n>Next}" type="Emphasized" enabled="{LocalDataModel>/step01Next}"/>
 		</HBox>
 	</Panel>
 </core:FragmentDefinition>

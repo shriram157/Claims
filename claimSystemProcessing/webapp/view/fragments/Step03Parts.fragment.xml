@@ -9,354 +9,190 @@
 					<Title text="TCI Claim Number: {HeadSetData>/NumberOfWarrantyClaim}" textAlign="End"/>
 				</Toolbar>
 			</headerToolbar>
-			<HBox justifyContent="End">
-				<Button text="Add Part LIne" type="Emphasized" enabled="{DateModel>/oFormEdit}"/>
-				<Button text="Update Part Line" class="sapUiTinyMarginBeginEnd" enabled="{DateModel>/oFormEdit}"/>
-				<Button text="Delete Part Line" class="sapUiTinyMarginBeginEnd" type="Reject" enabled="{DateModel>/oFormEdit}"/>
-				<Button text="Letter Of Intent" class="sapUiTinyMarginBeginEnd" enabled="{DateModel>/oFormEdit}"/>
-				<Button text="Save Claim" class="sapUiTinyMarginBeginEnd" type="Emphasized" enabled="{DateModel>/oFormEdit}"/>
-			</HBox>
-			<!--<f:SimpleForm editable="true" labelSpanL="12" title="" labelSpanXL="12" layout="ResponsiveGridLayout" columnsM="2" columnsL="5"-->
-			<!--	columnsXL="5">-->
-			<!--	<f:content></f:content>-->
-			<!--</f:SimpleForm>-->
-			<!--<VBox id="idPartDiscrepancies" visible="{multiHeaderConfig>/partDiscrepancies}" class="clBgColor sapUiSmallMarginTop">-->
-			<!--	<f:SimpleForm editable="true" labelSpanL="4" title="" labelSpanXL="12" layout="ResponsiveGridLayout" emptySpanXL="1" emptySpanL="1"-->
-			<!--		columnsM="2" columnsL="1" columnsXL="1">-->
-			<!--		<f:content>-->
-			<!--			<Label text="Discrepancy Type" textAlign="Begin"/>-->
-			<!--			<Select width="16rem">-->
-			<!--				<items>-->
-			<!--					<core:Item text="Incorrect Part Number" key=""/>-->
-			<!--					<core:Item text="Overage" key=""/>-->
-			<!--					<core:Item text="Shortage" key=""/>-->
-			<!--				</items>-->
-			<!--			</Select>-->
-			<!--			<Button text="Save Part" class="sapUiSmallMarginEnd">-->
-			<!--				<layoutData>-->
-			<!--					<l:GridData span="XL1 L1 M3 S4"/>-->
-			<!--				</layoutData>-->
-			<!--			</Button>-->
-			<!--		</f:content>-->
-			<!--	</f:SimpleForm>-->
-			<!--	<f:SimpleForm class="sapUiSmallMarginBegin" editable="true" labelSpanL="12" title="" labelSpanXL="12" layout="ResponsiveGridLayout"-->
-			<!--		columnsM="2" columnsL="5" columnsXL="5">-->
-			<!--		<f:content>-->
-			<!--			<core:Title text="Ordered"/>-->
-			<!--			<Label text="Line #:"></Label>-->
-			<!--			<Input required="true"></Input>-->
-			<!--			<core:Title text=""/>-->
-			<!--			<Label text="Part Number Ordered"></Label>-->
-			<!--			<Input required="true"></Input>-->
-			<!--			<core:Title text=""/>-->
-			<!--			<Label text="Part Description"></Label>-->
-			<!--			<Input></Input>-->
-			<!--			<core:Title text=""/>-->
-			<!--			<Label text="Dealer Net Price"></Label>-->
-			<!--			<Input ></Input>-->
-			<!--			<core:Title text=""/>-->
-			<!--			<Label text="Quantity"></Label>-->
-			<!--			<Input required="true"></Input>-->
-			<!--		</f:content>-->
-			<!--	</f:SimpleForm>-->
-			<!--	<f:SimpleForm class="sapUiSmallMarginBegin sapUiSmallMarginBottom" editable="true" title="" layout="ResponsiveGridLayout" labelSpanL="12"-->
-			<!--		labelSpanXL="12" columnsM="2" columnsL="5" columnsXL="5">-->
-			<!--		<f:content>-->
-			<!--			<core:Title text="Received"/>-->
-			<!--			<Label text="Retain Part:"></Label>-->
-			<!--			<Input required="true"></Input>-->
-			<!--			<core:Title text=""/>-->
-			<!--			<Label text="Part Number Received"></Label>-->
-			<!--			<Input required="true"></Input>-->
-			<!--			<core:Title text=""/>-->
-			<!--			<Label text="Part Description"></Label>-->
-			<!--			<Input ></Input>-->
-			<!--			<core:Title text=""/>-->
-			<!--			<Label text="Dealer Net Price"></Label>-->
-			<!--			<Input ></Input>-->
-			<!--			<core:Title text=""/>-->
-			<!--			<Label text="Quantity"></Label>-->
-			<!--			<Input required="true"></Input>-->
-			<!--		</f:content>-->
-			<!--	</f:SimpleForm>-->
-			<!--</VBox>-->
-			<VBox id="idPartArea" visible="{multiHeaderConfig>/partDamage}" class="clBgColor sapUiSmallMarginTop" wrap="Wrap" width="100%">
-				<f:SimpleForm editable="true" labelSpanL="4" width="100%" title="" labelSpanXL="12" layout="ResponsiveGridLayout" emptySpanXL="1" emptySpanL="1"
-					columnsM="1" columnsL="1" columnsXL="1">
+			<OverflowToolbar class="headerButtonsToolBar">
+				<Button text="Add Part Line" type="Emphasized" enabled="{DateModel>/oFormEdit}" press="onPressAddPart"/>
+				<Button text="Update Part Line" press="onPressUpdatePart" class="sapUiTinyMarginBeginEnd" enabled="{DateModel>/oFormEdit}"/>
+				<Button text="Delete Part Line" press="onPressDeletePart" class="sapUiTinyMarginBeginEnd" type="Reject" enabled="{DateModel>/oFormEdit}"/>
+				<Button text="Letter Of Intent" class="sapUiTinyMarginBeginEnd" enabled="{DateModel>/oLetterOfIntent}" press="onPressLetterOfIntent"/>
+				<ToolbarSpacer/>
+				<Button text="Save Claim" class="sapUiTinyMarginBeginEnd" type="Emphasized" enabled="{DateModel>/oFormEdit}" press="onPressSavePart"/>
+			</OverflowToolbar>
+			<VBox class="clBgColor">
+				<f:SimpleForm editable="true" labelSpanL="12" width="90%" title="" labelSpanXL="12" layout="ResponsiveGridLayout" emptySpanXL="0"
+					emptySpanL="0" columnsM="3" columnsL="3" columnsXL="3">
 					<f:content>
-						<Label text="Discrepancy Type" textAlign="Begin"/>
-						<Select width="16rem">
-							<items>
-								<core:Item text="Part shipped in cage" key=""/>
-								<core:Item text="Packaging damage" key=""/>
-								<core:Item text="No outside packaging" key=""/>
-								<core:Item text="" key="No damage to outside packaging"/>
-								<core:Item text="" key="Windshield"/>
-							</items>
-						</Select>
-						<Button text="Save Part" class="sapUiSmallMarginEnd">
-							<layoutData>
-								<l:GridData span="XL1 L1 M3 S4"/>
-							</layoutData>
-						</Button>
+						<HBox>
+							<Label text="{i18n>DamageCondition } " class="sapUiSmallMargin" textAlign="Begin" visible="{multiHeaderConfig>/partDamage}"/>
+							<Select width="16rem" visible="{multiHeaderConfig>/partDamage}" selectedKey="{HeadSetData>/DamageCondition}">
+								<items>
+									<core:Item text="" key=""/>
+									<core:Item text="{i18n>PartShippedInCage}" key="PSIC"/>
+									<core:Item text="{i18n>PackagingDamage}" key="PD"/>
+									<core:Item text="{i18n>NoOutsidePackaging}" key="NOP"/>
+									<core:Item text="{i18n>NoDamageToOutsidePackaging}" key="NDTOP"/>
+									<core:Item text="{i18n>Windshield}" key="WS"/>
+								</items>
+							</Select>
+							<Label text="{i18n>DiscrepancyType}" class="sapUiSmallMargin" textAlign="Begin" visible="{multiHeaderConfig>/partDiscrepancies}"/>
+							<Select change="onDescripancyChange" visible="{multiHeaderConfig>/partDiscrepancies}" selectedKey="{HeadSetData>/DiscrepancyCodes}"
+								width="16rem">
+								<items>
+									<core:Item text="" key=""/>
+									<core:Item text="{i18n>Overage}" key="OV"/>
+									<core:Item text="{i18n>Shortage}" key="ST"/>
+									<core:Item text="{i18n>IncorrectPartNumber}" key="IPN"/>
+								</items>
+							</Select>
+							<Label text="{i18n>MiscellaneousCode } " class="sapUiSmallMargin" textAlign="Begin" visible="{multiHeaderConfig>/partMiscellanious}"/>
+							<Select width="16rem" visible="{multiHeaderConfig>/partMiscellanious}" selectedKey="{HeadSetData>/MiscellaneousCode}">
+								<items>
+									<core:Item text="" key=""/>
+									<core:Item text="Part Labelled Incorrectly" key="PLI"/>
+									<core:Item text="Missing Components" key="MC"/>
+									<core:Item text="Paint/Part Finish Issue" key="PFI"/>
+									<core:Item text="Defective Part" key="DP"/>
+									<core:Item text="Listing Error" key="LE"/>
+									<core:Item text="Miscellaneous" key="MSN"/>
+								</items>
+							</Select>
+							<Label text="{i18n>TranportShortageType } " class="sapUiSmallMargin" textAlign="Begin" visible="{multiHeaderConfig>/partTransportation}"/>
+							<Select width="16rem" visible="{multiHeaderConfig>/partTransportation}" selectedKey="{HeadSetData>/TranportShortageType}">
+								<items>
+									<core:Item text="" key=""/>
+									<core:Item text="{i18n>Overage}" key="TOV"/>
+									<core:Item text="{i18n>Shortage}" key="TST"/>
+									<core:Item text="{i18n>IncorrectAddress}" key="TIAD"/>
+								</items>
+							</Select>
+						</HBox>
+						<HBox>
+							<Label text=""/>
+							<Button text="{i18n>SavePart}" type="Emphasized" class="sapUiSmallMarginEnd" press="onPressSavePart">
+								<layoutData>
+									<l:GridData span="XL1 L1 M3 S4"/>
+								</layoutData>
+							</Button>
+						</HBox>
 					</f:content>
 				</f:SimpleForm>
-				<f:SimpleForm id="idRow01Form" class="sapUiSmallMarginBegin" editable="true" labelSpanL="12" title="" labelSpanXL="12" layout="ResponsiveGridLayout"
-					columnsM="2" columnsL="5" columnsXL="5">
-					<f:content>
-						<core:Title text="Ordered"/>
-						<Label text="Line #:"></Label>
-						<Input value="{ 
-                                 path : 'HeadSetData>/text', 
-                                  type : 'sap.ui.model.type.String', 
-                                  constraints : { 
-                                      minLength : 3, 
-                                      maxLength : 10 
-                                  }
-                              }" required="true"></Input>
-						<core:Title text=""/>
-						<Label text="Part Description"></Label>
-						<Input id="idOrderedPartDesc" editable="{multiHeaderConfig>/OrderedPartDesc}"></Input>
-						<core:Title text=""/>
-						<Label text="Dealer Net Price"></Label>
-						<Input editable="{multiHeaderConfig>/DealerNetPrcEdt}"></Input>
-						<core:Title text=""/>
-						<Label text="Quantity"></Label>
-						<Input value="{ 
-                                 path : 'HeadSetData>/text', 
-                                  type : 'sap.ui.model.type.String', 
-                                  constraints : { 
-                                      minLength : 3, 
-                                      maxLength : 10 
-                                  }
-                              }" required="true">
-							<layoutData>
-								<l:GridData span="XL8 L8"/>
-							</layoutData>
-						</Input>
-						<core:Title text=""/>
-						<Label text="Part Number Ordered"></Label>
-						<Input value="{ 
-                                 path : 'HeadSetData>/text', 
-                                  type : 'sap.ui.model.type.String', 
-                                  constraints : { 
-                                      minLength : 3, 
-                                      maxLength : 10 
-                                  }
-                              }" required="true"></Input>
-					</f:content>
-				</f:SimpleForm>
-				<f:SimpleForm id="idRow02Form" class="sapUiSmallMarginBegin sapUiSmallMarginBottom" editable="true" title="" layout="ResponsiveGridLayout" labelSpanL="12"
-					labelSpanXL="12" columnsM="2" columnsL="{multiHeaderConfig>/multiheader5}" columnsXL="{multiHeaderConfig>/multiheader5}">
-					<f:content>
-						<core:Title text="Claimed"/>
-						<UploadCollection id="UploadCollection" change="onUplaodChange" uploadComplete="onUploadComplete02" fileDeleted="onFileDeleted02"
-							visible="{multiHeaderConfig>/uploader}">
-							<toolbar>
-								<OverflowToolbar>
-									<Breadcrumbs id="breadcrumbs" currentLocationText="{AttachmentModel>/currentLocationText}" links="{AttachmentModel>/history}">
-										<Link press="onBreadcrumbPress" text="{AttachmentModel>name}"/>
-									</Breadcrumbs>
-									<ToolbarSpacer/>
-									<UploadCollectionToolbarPlaceholder/>
-								</OverflowToolbar>
-							</toolbar>
-						</UploadCollection>
-						<Label text="Retain Part" visible="{multiHeaderConfig>/RetainPartV}"></Label>
-						<Input value="{ 
-                                 path : 'HeadSetData>/text', 
-                                  type : 'sap.ui.model.type.String', 
-                                  constraints : { 
-                                      minLength : 3, 
-                                      maxLength : 10 
-                                  }
-                              }" required="true" visible="{multiHeaderConfig>/RetainPartV}"></Input>
-						<core:Title text=""/>
-						<Label text="Part Description" visible="{multiHeaderConfig>/PartDescriptionOrdRcv}"></Label>
-						<Input id="idOrderedReceivedPartDesc" editable="{multiHeaderConfig>/OrderedPartDesc}" visible="{multiHeaderConfig>/PartDescriptionOrdRcv}"></Input>
-						<Label text="Part Repaired?" visible="{multiHeaderConfig>/PartRepaired}"></Label>
-						<Select visible="{multiHeaderConfig>/PartRepaired}">
-							<items>
-								<core:Item text="Yes"/>
-								<core:Item text="No"/>
-							</items>
-						</Select>
-						<core:Title text=""/>
-						<Label text="Dealer Net Price" visible="{multiHeaderConfig>/DealerNetPrcV}"></Label>
-						<Input id="idDealerNetPrc" visible="{multiHeaderConfig>/DealerNetPrcV}" editable="{multiHeaderConfig>/DealerNetPrcEdt}"></Input>
-						<Label text="Repair Amount" visible="{multiHeaderConfig>/RepairAmtV}"></Label>
-						<Input id="idReceivedAmt" value="" type="Number" visible="{multiHeaderConfig>/RepairAmtV}"></Input>
-						<core:Title text=""/>
-						<Label text="Quantity"></Label>
-						<Input value="{ 
-                                  path : 'HeadSetData>/number', 
-                                  type : 'sap.ui.model.type.Integer', 
-                                  formatOptions : {
-                                      groupingEnabled : true
-                                  },
-                                  constraints : { 
-                                      minimum : 50, 
-                                      maximum : 10000000 
-                                  }
-                              }" required="true" id="idReceivedQnt">
-							<layoutData>
-								<l:GridData span="XL8 L8"/>
-							</layoutData>
-						</Input>
-						<core:Title text=""/>
-						<Label text="Part Number Received" visible="{multiHeaderConfig>/PartNumberRcV}"></Label>
-						<Input value="{ 
-                                 path : 'HeadSetData>/text', 
-                                  type : 'sap.ui.model.type.String', 
-                                  constraints : { 
-                                      minLength : 3, 
-                                      maxLength : 10 
-                                  }
-                              }" required="true" visible="{multiHeaderConfig>/PartNumberRcV}"></Input>
-					</f:content>
-				</f:SimpleForm>
+				<!--<l:Grid containerQuery="true" defaultSpan="XL12 L12 M12 S12"> -->
+				<!--wrap="Wrap" displayInline="true" alignContent="Center" visible="true" width="100%"-->
+				<VBox class="clBgColor">
+					<f:SimpleForm id="idRow01Form" class="sapUiSmallMarginBegin borderStyle" width="100%" editable="true" labelSpanL="12" title=""
+						labelSpanXL="12" layout="ResponsiveGridLayout" columnsM="6" columnsL="6" columnsXL="6">
+						<!--<f:SimpleForm id="idRow01Form" class="sapUiResponsiveMargin ClsubHeadingLineHeight borderStyle" width="90%" layout="ResponsiveGridLayout">-->
+						<f:content>
+							<core:Title text=""/>
+							<Label text=""/>
+							<!--<core:Title text="Ordered"/>-->
+							<Text text="Ordered"/>
+							<core:Title text=""/>
+							<Label text="Line #:"></Label>
+							<Input value="{ path : 'PartDataModel>/LineNo', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 10 } }"
+								required="false" enabled="{DateModel>/partLine}"></Input>
+							<core:Title text=""/>
+							<Label text="Part Number Ordered" width="10rem"></Label>
+							<Input value="{PartDataModel>/matnr}" required="true" id="idPartNumber" showValueHelp="true" valueHelpOnly="true"
+								valueHelpRequest="handlePNValueHelp" enabled="{DateModel>/partLine}"></Input>
+							<core:Title text=""/>
+							<Label text="Part Description"></Label>
+							<Input id="idOrderedPartDesc" value="{PartDataModel>/PartDescription}" editable="{multiHeaderConfig>/OrderedPartDesc}"></Input>
+							<core:Title text=""/>
+							<Label text="Dealer Net Price"></Label>
+							<Input editable="{multiHeaderConfig>/DealerNetPrcEdt}"></Input>
+							<core:Title text=""/>
+							<!--value="{PartDataModel>/quant}"-->
+							<Label text="Quantity"></Label>
+							<!--{ path : 'PartDataModel>/quant', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 10 } }-->
+							<!--type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 10 }-->
+							<Input value="{path : 'PartDataModel>/quant', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 10 }}"
+								required="true" enabled="{DateModel>/partLine}">
+								<layoutData>
+									<l:GridData span="XL8 L8"/>
+								</layoutData>
+							</Input>
+						</f:content>
+					</f:SimpleForm>
+					<f:SimpleForm id="idRow02Form" class="sapUiResponsiveMargin ClsubHeadingLineHeight borderStyle2" width="100%" layout="ResponsiveGridLayout"
+						editable="true" labelSpanL="12" labelSpanXL="12" columnsM="7" columnsL="{multiHeaderConfig>/multiheader5}"
+						columnsXL="{multiHeaderConfig>/multiheader5}">
+						<f:content>
+							<core:Title text=""/>
+							<!--<core:Title text="Claimed"/>-->
+							<!--<Label text=""/>-->
+							<Text text="Claimed"/>
+							<core:Title text=""/>
+							<UploadCollection id="UploadCollection" class="uploadContainer" change="onUploadChange02" uploadComplete="onUploadComplete02"
+								fileDeleted="onFileDeleted02" visible="{multiHeaderConfig>/uploader}" items="{ path: 'AttachmentModel>/items', templateShareable: false }">
+								<toolbar>
+									<OverflowToolbar>
+										<Breadcrumbs id="breadcrumbs" currentLocationText="{AttachmentModel>/currentLocationText}" links="{AttachmentModel>/partsHistory}">
+											<Link press="onBreadcrumbPress" text="{AttachmentModel>name}"/>
+										</Breadcrumbs>
+										<ToolbarSpacer/>
+										<UploadCollectionToolbarPlaceholder/>
+									</OverflowToolbar>
+								</toolbar>
+								<items>
+									<UploadCollectionItem selected="onSelectUpload" documentId="{AttachmentModel>DOC_ID}" fileName="{AttachmentModel>FileName}"
+										mimeType="{AttachmentModel>MIMETYPE}" thumbnailUrl="{AttachmentModel>url}" url="{AttachmentModel>URI}" enableEdit="{settings>/enableEdit}"
+										enableDelete="{settings>/enableDelete}" visibleDelete="{settings>/visibleDelete}" visibleEdit="{settings>/visibleEdit}">
+										<layoutData>
+											<l:GridData span="XL8 L8"/>
+										</layoutData>
+									</UploadCollectionItem>
+								</items>
+							</UploadCollection>
+							<!--<core:Title text=""/>-->
+							<Label text="Retain Part" visible="{multiHeaderConfig>/RetainPartV}"/>
+							<Select selectedKey="{HeadSetData>/RetainPart}" visible="{multiHeaderConfig>/RetainPartV}">
+								<items>
+									<core:Item text="" key=""/>
+									<core:Item text="Yes" key="Yes"/>
+									<core:Item text="No" key="No"/>
+								</items>
+								<layoutData>
+									<l:GridData span="XL8 L8"/>
+								</layoutData>
+							</Select>
+							<core:Title text=""/>
+							<Label text="Part Number Received" width="10rem" visible="{multiHeaderConfig>/PartNumberRcV}"/>
+							<Input value="{ path : 'HeadSetData>/PartNumberRc'}" editable="{multiHeaderConfig>/PartNumberEdit}" required="true"
+								visible="{multiHeaderConfig>/PartNumberRcV}">
+							</Input>
+							<core:Title text=""/>
+							<Label text="Part Description" visible="{multiHeaderConfig>/PartDescriptionOrdRcv}"/>
+							<Input value="{ path : 'HeadSetData>/PartNumberRcDesc'}" id="idOrderedReceivedPartDesc" editable="{multiHeaderConfig>/OrderedPartDesc}" visible="{multiHeaderConfig>/PartDescriptionOrdRcv}">
+							</Input>
+							<Label text="Part Repaired?" visible="{multiHeaderConfig>/PartRepaired}"/>
+							<Select visible="{multiHeaderConfig>/PartRepaired}" selectedKey="{HeadSetData>/PartRepaired}">
+								<items>
+									<core:Item text="" key=""/>
+									<core:Item text="Yes" key="Yes"/>
+									<core:Item text="No" key="No"/>
+								</items>
+							</Select>
+							<core:Title text=""/>
+							<Label text="Dealer Net Price" visible="{multiHeaderConfig>/DealerNetPrcV}"></Label>
+							<Input id="idDealerNetPrc" visible="{multiHeaderConfig>/DealerNetPrcV}" editable="{multiHeaderConfig>/DealerNetPrcEdt}" maxLength="3"></Input>
+							<Label text="Repair Amount" visible="{multiHeaderConfig>/RepairAmtV}"></Label>
+							<Input id="idReceivedAmt" value="{HeadSetData>/RepairAmount}" type="Number" visible="{multiHeaderConfig>/RepairAmtV}"></Input>
+							<core:Title text=""/>
+							<Label text="Quantity"></Label>
+							<Input
+								value="{ path : 'HeadSetData>/RepairQty', type : 'sap.ui.model.type.Integer', formatOptions : { groupingEnabled : true }, constraints : { minimum : 50, maximum : 10000000 } }"
+								required="true" id="idReceivedQnt">
+								<layoutData>
+									<l:GridData span="XL8 L8"/>
+								</layoutData>
+							</Input>
+						</f:content>
+					</f:SimpleForm>
+				</VBox>
 			</VBox>
-			<!--<VBox id="idPartMiscellanious" visible="{multiHeaderConfig>/partMiscellanious}" class="clBgColor sapUiSmallMarginTop">-->
-			<!--	<f:SimpleForm editable="true" labelSpanL="4" title="" labelSpanXL="12" layout="ResponsiveGridLayout" emptySpanXL="1" emptySpanL="1"-->
-			<!--		columnsM="2" columnsL="1" columnsXL="1">-->
-			<!--		<f:content>-->
-			<!--			<Label text="Discrepancy Type" textAlign="Begin"/>-->
-			<!--			<Select width="16rem">-->
-			<!--				<items>-->
-			<!--					<core:Item text="Part shipped in cage" key=""/>-->
-			<!--					<core:Item text="Packaging damage" key=""/>-->
-			<!--					<core:Item text="No outside packaging" key=""/>-->
-			<!--					<core:Item text="" key="No damage to outside packaging"/>-->
-			<!--					<core:Item text="" key="Windshield"/>-->
-			<!--				</items>-->
-			<!--			</Select>-->
-			<!--			<Button text="Save Part" class="sapUiSmallMarginEnd">-->
-			<!--				<layoutData>-->
-			<!--					<l:GridData span="XL1 L1 M3 S4"/>-->
-			<!--				</layoutData>-->
-			<!--			</Button>-->
-			<!--		</f:content>-->
-			<!--	</f:SimpleForm>-->
-			<!--	<f:SimpleForm class="sapUiSmallMarginBegin" editable="true" labelSpanL="12" title="" labelSpanXL="12" layout="ResponsiveGridLayout"-->
-			<!--		columnsM="2" columnsL="5" columnsXL="5">-->
-			<!--		<f:content>-->
-			<!--			<core:Title text="Ordered"/>-->
-			<!--			<Label text="Line #:"></Label>-->
-			<!--			<Input required="true"></Input>-->
-			<!--			<core:Title text=""/>-->
-			<!--			<Label text="Part Number Ordered"></Label>-->
-			<!--			<Input required="true"></Input>-->
-			<!--			<core:Title text=""/>-->
-			<!--			<Label text="Part Description"></Label>-->
-			<!--			<Input editable="false"></Input>-->
-			<!--			<core:Title text=""/>-->
-			<!--			<Label text="Dealer Net Price"></Label>-->
-			<!--			<Input editable="false"></Input>-->
-			<!--			<core:Title text=""/>-->
-			<!--			<Label text="Quantity"></Label>-->
-			<!--			<Input editable="false"></Input>-->
-			<!--		</f:content>-->
-			<!--	</f:SimpleForm>-->
-			<!--	<f:SimpleForm class="sapUiSmallMarginBegin sapUiSmallMarginBottom" editable="true" title="" layout="ResponsiveGridLayout" labelSpanL="12"-->
-			<!--		labelSpanXL="12" columnsM="2" columnsL="4" columnsXL="4">-->
-			<!--		<f:content>-->
-			<!--			<core:Title text="Claimed"/>-->
-			<!--			<Label text="Attachments"></Label>-->
-			<!--			<UploadCollection id="UploadCollectionPartMisc" uploadComplete="onUploadComplete" fileDeleted="onFileDeleted">-->
-			<!--				<toolbar>-->
-			<!--					<OverflowToolbar>-->
-			<!--						<Breadcrumbs id="breadcrumbsPartMisc" currentLocationText="{ClaimModel>/currentLocationText}" links="{ClaimModel>/history}">-->
-			<!--							<Link press="onBreadcrumbPress" text="{ClaimModel>name}"/>-->
-			<!--						</Breadcrumbs>-->
-			<!--						<ToolbarSpacer/>-->
-			<!--						<UploadCollectionToolbarPlaceholder/>-->
-			<!--					</OverflowToolbar>-->
-			<!--				</toolbar>-->
-			<!--			</UploadCollection>-->
-			<!--<core:Title text=""/>-->
-			<!--<Button text="Upload File" press="handleUploadPress"/>-->
-			<!--			<core:Title text=""/>-->
-			<!--			<Label text="Part Repaired?"></Label>-->
-			<!--			<Select>-->
-			<!--				<items>-->
-			<!--					<core:Item text="Yes"/>-->
-			<!--					<core:Item text="No"/>-->
-			<!--				</items>-->
-			<!--			</Select>-->
-			<!--			<core:Title text=""/>-->
-			<!--			<Label text="Repair Amount"></Label>-->
-			<!--			<Input ></Input>-->
-			<!--			<core:Title text=""/>-->
-			<!--			<Label text="Quantity"></Label>-->
-			<!--			<Input required="true">-->
-			<!--				<layoutData>-->
-			<!--					<l:GridData span="XL6 L6"/>-->
-			<!--				</layoutData>-->
-			<!--			</Input>-->
-			<!--		</f:content>-->
-			<!--	</f:SimpleForm>-->
-			<!--</VBox>-->
-			<!--<VBox id="idPartTransportation" visible="{multiHeaderConfig>/partTransportation}" class="clBgColor sapUiSmallMarginTop">-->
-			<!--	<f:SimpleForm editable="true" labelSpanL="4" title="" labelSpanXL="12" layout="ResponsiveGridLayout" emptySpanXL="1" emptySpanL="1"-->
-			<!--		columnsM="2" columnsL="1" columnsXL="1">-->
-			<!--		<f:content>-->
-			<!--			<Label text="Discrepancy Type" textAlign="Begin"/>-->
-			<!--			<Select width="16rem">-->
-			<!--				<items>-->
-			<!--					<core:Item text="Incorrect Part Number" key=""/>-->
-			<!--					<core:Item text="Overage" key=""/>-->
-			<!--					<core:Item text="Shortage" key=""/>-->
-			<!--				</items>-->
-			<!--			</Select>-->
-			<!--			<Button text="Save Part" class="sapUiSmallMarginEnd">-->
-			<!--				<layoutData>-->
-			<!--					<l:GridData span="XL1 L1 M3 S4"/>-->
-			<!--				</layoutData>-->
-			<!--			</Button>-->
-			<!--		</f:content>-->
-			<!--	</f:SimpleForm>-->
-			<!--	<f:SimpleForm class="sapUiSmallMarginBegin" editable="true" labelSpanL="12" title="" labelSpanXL="12" layout="ResponsiveGridLayout"-->
-			<!--		columnsM="2" columnsL="5" columnsXL="5">-->
-			<!--		<f:content>-->
-			<!--			<core:Title text="Ordered"/>-->
-			<!--			<Label text="Line #:"></Label>-->
-			<!--			<Input required="true"></Input>-->
-			<!--			<core:Title text=""/>-->
-			<!--			<Label text="Part Number Ordered"></Label>-->
-			<!--			<Input required="true"></Input>-->
-			<!--			<core:Title text=""/>-->
-			<!--			<Label text="Part Description"></Label>-->
-			<!--			<Input></Input>-->
-			<!--			<core:Title text=""/>-->
-			<!--			<Label text="Dealer Net Price"></Label>-->
-			<!--			<Input ></Input>-->
-			<!--			<core:Title text=""/>-->
-			<!--			<Label text="Quantity"></Label>-->
-			<!--			<Input required="true"></Input>-->
-			<!--		</f:content>-->
-			<!--	</f:SimpleForm>-->
-			<!--	<f:SimpleForm class="sapUiSmallMarginBegin sapUiSmallMarginBottom" editable="true" title="" layout="ResponsiveGridLayout" labelSpanL="12"-->
-			<!--		labelSpanXL="12" columnsM="2" columnsL="5" columnsXL="5">-->
-			<!--		<f:content>-->
-			<!--			<core:Title text="Received"/>-->
-			<!--			<Label text="Retain Part:"></Label>-->
-			<!--			<Input required="true"></Input>-->
-			<!--			<core:Title text=""/>-->
-			<!--			<Label text="Part Number Received"></Label>-->
-			<!--			<Input required="true"></Input>-->
-			<!--			<core:Title text=""/>-->
-			<!--			<Label text="Part Description"></Label>-->
-			<!--			<Input ></Input>-->
-			<!--			<core:Title text=""/>-->
-			<!--			<Label text="Dealer Net Price"></Label>-->
-			<!--			<Input ></Input>-->
-			<!--			<core:Title text=""/>-->
-			<!--			<Label text="Quantity"></Label>-->
-			<!--			<Input required="true"></Input>-->
-			<!--		</f:content>-->
-			<!--	</f:SimpleForm>-->
-			<!--</VBox>-->
-			<Table id="partTable" mode="MultiSelect" items="{LocalDataModel>/PartDetailList}" class="sapUiMediumMarginTop"  selectionChange="OnSelectionChange">
+			<!--</l:Grid>-->
+			<Table id="partTable" mode="MultiSelect" items="{LocalDataModel>/PricingDataModel}" class="sapUiMediumMarginTop"
+				selectionChange="OnSelectionChange">
 				<columns>
 					<Column>
 						<Text text="Line #"/>
@@ -383,49 +219,58 @@
 						<Text text="Dealer Net Price"/>
 					</Column>
 					<Column>
-						<Text text="Part Repaired" visible="{multiHeaderConfig>/PartRepCol}"/>
-					</Column>
-					<Column>
-						<Text text="Repair Amount" visible="{multiHeaderConfig>/RepAmountCol}"/>
-					</Column>
-					<Column>
 						<Text text="Quantity"/>
 					</Column>
 					<Column>
 						<Text text="Retain Part" visible="{multiHeaderConfig>/RetainPartCol}"/>
 					</Column>
 					<Column>
+						<Text text="Part Repaired" visible="{multiHeaderConfig>/PartRepCol}"/>
+						<footer><Text text="{i18n>Subtotal}" textAlign="Center" width="100%"/></footer>
+					</Column>
+					<Column>
+						<Text text="Repair Amount" visible="{multiHeaderConfig>/RepAmountCol}"/>
+						<footer><Text text="{path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnAmountRepairPW'}" textAlign="Center"
+							width="100%"/></footer>
+					</Column>
+					<Column>
 						<Text text="Amount Claimed"/>
+						<footer><Text text="{path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnAmountClaimedPW'}" textAlign="Center"
+							width="100%"/></footer>
 					</Column>
 					<Column>
 						<Text text="Attachment" visible="{multiHeaderConfig>/AttachmentCol}"/>
 					</Column>
 					<Column>
 						<Text text="TCI Amount Approved"/>
+						<footer><Text text="{path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnTCIAprrovedPW'}" textAlign="Center"
+							width="100%"/></footer>
 					</Column>
 					<Column>
 						<Text text="Difference"/>
+						<footer><Text text="{path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnDifPW'}" textAlign="Center"
+							width="100%"/></footer>
 					</Column>
 				</columns>
 				<items>
 					<ColumnListItem>
 						<cells>
-							<Text text=""/>
+							<Text text="{LocalDataModel>posnr}"/>
 							<Text text="{LocalDataModel>DiscrepancyCodes}"/>
 							<Text text="{LocalDataModel>DamageSeverityCodes}"/>
 							<Text text="{LocalDataModel>DamageAreaCode}"/>
-							<Text text="{LocalDataModelDamageTypeCode>}"/>
-							<Text text="{LocalDataModel>MaterialNumber}"/>
-							<Text text=""/>
-							<Text text=""/>
-							<Text text=""/>
-							<Text text="{LocalDataModel>RepairAmount}"/>
-							<Text text="{LocalDataModel>QuantityClaimed}"/>
+							<Text text="{LocalDataModel>DamageTypeCode>}"/>
+							<Text text="{LocalDataModel>matnr}"/>
+							<Text text="{LocalDataModel>PartDescription}"/>
+							<Text text="{LocalDataModel>DealerNet}"/>
+							<Text text="{LocalDataModel>quant}"/>
 							<Text text="{LocalDataModel>RetainPart}"/>
-							<Text text="{LocalDataModel>AmountClaimedByClaimant}"/>
-							<Text text=""/>
-							<Text text="{LocalDataModel>AmountApprovedToClaimant}"/>
-							<Text text=""/>
+							<Text text="{LocalDataModel>PartDescription}"/>
+							<Text text="{LocalDataModel>RepairAmount}"/>
+							<Text text="{LocalDataModel>AmtClaimed}"/>
+							<Text text="{LocalDataModel>Attachments}"/>
+							<Text text="{LocalDataModel>TCIApprovedAmount}"/>
+							<Text text="{LocalDataModel>DiffAmt}"/>
 						</cells>
 					</ColumnListItem>
 				</items>

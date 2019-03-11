@@ -19,7 +19,7 @@
 									</IconTabFilter>
 									<IconTabSeparator icon="sap-icon://open-command-field"/>
 									<IconTabFilter icon="sap-icon://validate" text="{i18n>Validate}" enabled="false" id="idFilter03" key="Tab3">
-										<core:Fragment fragmentName="zclaimProcessing.view.fragments.Step07ValidateSubmit" type="XML"/>
+										<core:Fragment fragmentName="zclaimProcessing.view.fragments.Step07ValidatePartsSubmit" type="XML"/>
 									</IconTabFilter>
 									<IconTabSeparator icon="sap-icon://open-command-field"/>
 									<IconTabFilter icon="sap-icon://complete" text="{i18n>Submit}" enabled="false" id="idFilter04" key="Tab4">
