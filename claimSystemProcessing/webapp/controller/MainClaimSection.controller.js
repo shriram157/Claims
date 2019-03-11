@@ -2955,7 +2955,7 @@ sap.ui.define([
 				"ClaimedHours": oClaimHr,
 				"LabourDescription": this.getView().getModel("LabourDataModel").getProperty("/LabourDescription")
 			};
-		
+
 			this.obj.zc_claim_item_labourSet.results.push(itemObj);
 
 			var oClaimModel = this.getModel("ProssingModel");
@@ -3248,16 +3248,22 @@ sap.ui.define([
 				oClaimModel.refreshSecurityToken();
 				oClaimModel.create("/zc_headSet", this.obj, {
 					success: $.proxy(function (data, response) {
-						console.log(response);
+
 						var pricinghData = response.data.zc_claim_item_price_dataSet.results;
 						var oFilteredData = pricinghData.filter(function (val) {
 							return val.ItemType === "SUBL";
 						});
 						this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", response.OFPDescription);
 						this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.MainOpsCodeDescription);
-						console.log(oFilteredData);
+
 						this.getModel("LocalDataModel").setProperty("/SubletPricingDataModel", oFilteredData);
-						//this.getModel("LocalDataModel").setProperty("/WarrantyClaimNum", response.data.NumberOfWarrantyClaim);
+
+						var oFilteredDataLabour = pricinghData.filter(function (val) {
+							return val.ItemType === "FR" && val.ItemKey[0] != "P";
+						});
+
+						this.getModel("LocalDataModel").setProperty("/LabourPricingDataModel", oFilteredDataLabour);
+
 						MessageToast.show("Claim Item has been saved successfully");
 						this.getView().getModel("DateModel").setProperty("/subletLine", false);
 						this.getView().getModel("SubletDataModel").setProperty("/SubletCode", "");
