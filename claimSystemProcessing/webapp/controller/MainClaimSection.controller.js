@@ -2955,7 +2955,7 @@ sap.ui.define([
 				"ClaimedHours": oClaimHr,
 				"LabourDescription": this.getView().getModel("LabourDataModel").getProperty("/LabourDescription")
 			};
-			this.obj={""};
+		
 			this.obj.zc_claim_item_labourSet.results.push(itemObj);
 
 			var oClaimModel = this.getModel("ProssingModel");
@@ -3514,12 +3514,12 @@ sap.ui.define([
 				//var oString = oTableIndex.toString();
 				var oSelectedRow = oTableIndex.toString();
 				var obj = this.getView().getModel("LocalDataModel").getProperty(oSelectedRow);
-				var DmgAreaCode = obj.DmgAreaCode;
-				var DmgTypeCode = obj.DmgTypeCode;
-				var DmgSevrCode = obj.DmgSevrCode;
-				this.getView().getModel("HeadSetData").setProperty("/DmgAreaCode", DmgAreaCode);
-				this.getView().getModel("HeadSetData").setProperty("/DmgTypeCode", DmgTypeCode);
-				this.getView().getModel("HeadSetData").setProperty("/DmgSevrCode", DmgSevrCode);
+				var oDmgAreaCode = obj.DmgAreaCode;
+				var oDmgTypeCode = obj.DmgTypeCode;
+				var oDmgSevrCode = obj.DmgSevrCode;
+				this.getView().getModel("HeadSetData").setProperty("/DmgAreaCode", oDmgAreaCode);
+				this.getView().getModel("HeadSetData").setProperty("/DmgTypeCode", oDmgTypeCode);
+				this.getView().getModel("HeadSetData").setProperty("/DmgSevrCode", oDmgSevrCode);
 
 				this.getView().getModel("DateModel").setProperty("/subletLine", true);
 
