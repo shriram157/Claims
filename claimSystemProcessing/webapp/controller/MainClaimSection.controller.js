@@ -645,6 +645,7 @@ sap.ui.define([
 				this._fnClaimSum();
 
 			} else {
+				this.getModel("LocalDataModel").setProperty("/DataItemDamageSet", "");
 				if (oClaimAuthType == "Authorization") {
 					this.getModel("LocalDataModel").setProperty("/WarrantyClaimNumber", oBundle.getText("TCIAuthNumber"));
 				} else {
@@ -957,6 +958,8 @@ sap.ui.define([
 					this.getView().getModel("DateModel").setProperty("/RepairdDetailVisible", false);
 					this.getView().getModel("DateModel").setProperty("/ShipmentVisible", true);
 					this.getModel("LocalDataModel").setProperty("/step01Next", false);
+					this.getView().getModel("DateModel").setProperty("/damageLine", false);
+					this.getView().getModel("DateModel").setProperty("/oDamageLineBtn", false);
 				} else {
 					this.getView().getModel("DateModel").setProperty("/ShipmentVisible", false);
 					this.getView().getModel("DateModel").setProperty("/LabourBtnVsbl", true);

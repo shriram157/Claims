@@ -168,15 +168,15 @@
 					<f:content>
 						<core:Title text=""/>
 						<Label text="{i18n>Area}"/>
-						<ComboBox showSecondaryValues="true" required="true" filterSecondaryValues="true" items="{LocalDataModel>/DataTypeCode}" selectedKey=""
-							value="{HeadSetData>/DmgTypeCode}" enabled="{DateModel>/damageLine}">
-							<core:ListItem key="{LocalDataModel>DmgTypeCode}" text="{LocalDataModel>DmgTypeCode}" additionalText="{LocalDataModel>DmgTypeCodeDesc}"/>
+						<ComboBox showSecondaryValues="true" required="true" filterSecondaryValues="true" items="{LocalDataModel>/DataAreaCode}" selectedKey=""
+							value="{HeadSetData>/DmgAreaCode}" enabled="{DateModel>/damageLine}">
+							<core:ListItem key="{LocalDataModel>DmgAreaCode}" text="{LocalDataModel>DmgAreaCode}" additionalText="{LocalDataModel>DmgAreaCodeDesc}"/>
 						</ComboBox>
 						<core:Title text=""/>
 						<Label text="{i18n>Type}"/>
-						<ComboBox showSecondaryValues="true" required="true" selectedKey="" value="{HeadSetData>/DmgAreaCode}" filterSecondaryValues="true"
-							items="{LocalDataModel>/DataAreaCode}" enabled="{DateModel>/damageLine}">
-							<core:ListItem key="{LocalDataModel>DmgAreaCode}" text="{LocalDataModel>DmgAreaCode}" additionalText="{LocalDataModel>DmgAreaCodeDesc}"/>
+						<ComboBox showSecondaryValues="true" required="true" selectedKey="" value="{HeadSetData>/DmgTypeCode}" filterSecondaryValues="true"
+							items="{LocalDataModel>/DataTypeCode}" enabled="{DateModel>/damageLine}">
+							<core:ListItem key="{LocalDataModel>DmgTypeCode}" text="{LocalDataModel>DmgTypeCode}" additionalText="{LocalDataModel>DmgTypeCodeDesc}"/>
 						</ComboBox>
 						<core:Title text=""/>
 						<Label text="{i18n>Severity}"/>
