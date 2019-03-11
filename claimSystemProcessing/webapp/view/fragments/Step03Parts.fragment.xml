@@ -23,51 +23,29 @@
 					<f:content>
 						<HBox>
 							<Label text="{i18n>DamageCondition } " class="sapUiSmallMargin" textAlign="Begin" visible="{multiHeaderConfig>/partDamage}"/>
-							<Select width="16rem" visible="{multiHeaderConfig>/partDamage}" selectedKey="{HeadSetData>/DamageCondition}">
-								<items>
-									<core:Item text="" key=""/>
-									<core:Item text="{i18n>PartShippedInCage}" key="PSIC"/>
-									<core:Item text="{i18n>PackagingDamage}" key="PD"/>
-									<core:Item text="{i18n>NoOutsidePackaging}" key="NOP"/>
-									<core:Item text="{i18n>NoDamageToOutsidePackaging}" key="NDTOP"/>
-									<core:Item text="{i18n>Windshield}" key="WS"/>
-								</items>
+							<Select change="onDDChange" showSecondaryValues="false" items="{DropDownModel>/items}" visible="{multiHeaderConfig>/partDamage}"
+								selectedKey="{HeadSetData>/DamageCondition}">
+								<core:ListItem key="{DropDownModel>DiscreCode}" text="{path:'DropDownModel>ALMDiscreDesc'}" additionalText="{DropDownModel>ALMDiscreCode}"/>
 							</Select>
 							<Label text="{i18n>DiscrepancyType}" class="sapUiSmallMargin" textAlign="Begin" visible="{multiHeaderConfig>/partDiscrepancies}"/>
-							<Select change="onDescripancyChange" visible="{multiHeaderConfig>/partDiscrepancies}" selectedKey="{HeadSetData>/DiscrepancyCodes}"
-								width="16rem">
-								<items>
-									<core:Item text="" key=""/>
-									<core:Item text="{i18n>Overage}" key="OV"/>
-									<core:Item text="{i18n>Shortage}" key="ST"/>
-									<core:Item text="{i18n>IncorrectPartNumber}" key="IPN"/>
-								</items>
+							<Select change="onDDChange" showSecondaryValues="false" items="{DropDownModel>/items}" visible="{multiHeaderConfig>/partDiscrepancies}"
+								selectedKey="{HeadSetData>/DiscrepancyCodes}">
+								<core:ListItem key="{DropDownModel>DiscreCode}" text="{path:'DropDownModel>ALMDiscreDesc'}" additionalText="{DropDownModel>ALMDiscreCode}"/>
 							</Select>
 							<Label text="{i18n>MiscellaneousCode } " class="sapUiSmallMargin" textAlign="Begin" visible="{multiHeaderConfig>/partMiscellanious}"/>
-							<Select width="16rem" visible="{multiHeaderConfig>/partMiscellanious}" selectedKey="{HeadSetData>/MiscellaneousCode}">
-								<items>
-									<core:Item text="" key=""/>
-									<core:Item text="Part Labelled Incorrectly" key="PLI"/>
-									<core:Item text="Missing Components" key="MC"/>
-									<core:Item text="Paint/Part Finish Issue" key="PFI"/>
-									<core:Item text="Defective Part" key="DP"/>
-									<core:Item text="Listing Error" key="LE"/>
-									<core:Item text="Miscellaneous" key="MSN"/>
-								</items>
+							<Select change="onDDChange" showSecondaryValues="false" items="{DropDownModel>/items}" visible="{multiHeaderConfig>/partMiscellanious}"
+								selectedKey="{HeadSetData>/MiscellaneousCode}">
+								<core:ListItem key="{DropDownModel>DiscreCode}" text="{path:'DropDownModel>ALMDiscreDesc'}" additionalText="{DropDownModel>ALMDiscreCode}"/>
 							</Select>
 							<Label text="{i18n>TranportShortageType } " class="sapUiSmallMargin" textAlign="Begin" visible="{multiHeaderConfig>/partTransportation}"/>
-							<Select width="16rem" visible="{multiHeaderConfig>/partTransportation}" selectedKey="{HeadSetData>/TranportShortageType}">
-								<items>
-									<core:Item text="" key=""/>
-									<core:Item text="{i18n>Overage}" key="TOV"/>
-									<core:Item text="{i18n>Shortage}" key="TST"/>
-									<core:Item text="{i18n>IncorrectAddress}" key="TIAD"/>
-								</items>
+							<Select change="onDDChange" showSecondaryValues="false" items="{DropDownModel>/items}" visible="{multiHeaderConfig>/partTransportation}"
+								selectedKey="{HeadSetData>/TranportShortageType}">
+								<core:ListItem key="{DropDownModel>DiscreCode}" text="{path:'DropDownModel>ALMDiscreDesc'}" additionalText="{DropDownModel>ALMDiscreCode}"/>
 							</Select>
 						</HBox>
 						<HBox>
 							<Label text=""/>
-							<Button text="{i18n>SavePart}" type="Emphasized" class="sapUiSmallMarginEnd" press="onPressSavePart"  enabled="{DateModel>/saveParts}" >
+							<Button text="{i18n>SavePart}" type="Emphasized" class="sapUiSmallMarginEnd" press="onPressSavePart" enabled="{DateModel>/saveParts}">
 								<layoutData>
 									<l:GridData span="XL1 L1 M3 S4"/>
 								</layoutData>
@@ -122,7 +100,7 @@
 							<!--<Label text=""/>-->
 							<Text text="Claimed"/>
 							<core:Title text=""/>
-							<UploadCollection id="UploadCollection" class="uploadContainer" change="onUploadChange02" uploadComplete="onUploadComplete02"
+							<UploadCollection id="UploadCollection" class="uploadContainer" change="onUploadChange02Parts" uploadComplete="onUploadComplete02Parts"
 								fileDeleted="onFileDeleted02" visible="{multiHeaderConfig>/uploader}" items="{ path: 'AttachmentModel>/items', templateShareable: false }">
 								<toolbar>
 									<OverflowToolbar>
@@ -145,7 +123,7 @@
 							</UploadCollection>
 							<!--<core:Title text=""/>-->
 							<Label text="Retain Part" visible="{multiHeaderConfig>/RetainPartV}"/>
-							<Select selectedKey="{HeadSetData>/RetainPart}" visible="{multiHeaderConfig>/RetainPartV}">
+							<Select selectedKey="{PartDataModel>/RetainPart}" visible="{multiHeaderConfig>/RetainPartV}">
 								<items>
 									<core:Item text="" key=""/>
 									<core:Item text="Yes" key="Yes"/>
@@ -158,12 +136,11 @@
 							<core:Title text=""/>
 							<Label text="Part Number Received" width="10rem" visible="{multiHeaderConfig>/PartNumberRcV}"/>
 							<Input value="{ path : 'HeadSetData>/PartNumberRc'}" editable="{multiHeaderConfig>/PartNumberEdit}" required="true"
-								visible="{multiHeaderConfig>/PartNumberRcV}">
-							</Input>
+								visible="{multiHeaderConfig>/PartNumberRcV}"></Input>
 							<core:Title text=""/>
 							<Label text="Part Description" visible="{multiHeaderConfig>/PartDescriptionOrdRcv}"/>
-							<Input value="{ path : 'HeadSetData>/PartNumberRcDesc'}" id="idOrderedReceivedPartDesc" editable="{multiHeaderConfig>/OrderedPartDesc}" visible="{multiHeaderConfig>/PartDescriptionOrdRcv}">
-							</Input>
+							<Input value="{ path : 'HeadSetData>/PartNumberRcDesc'}" id="idOrderedReceivedPartDesc" editable="{multiHeaderConfig>/OrderedPartDesc}"
+								visible="{multiHeaderConfig>/PartDescriptionOrdRcv}"></Input>
 							<Label text="Part Repaired?" visible="{multiHeaderConfig>/PartRepaired}"/>
 							<Select visible="{multiHeaderConfig>/PartRepaired}" selectedKey="{HeadSetData>/PartRepaired}">
 								<items>
@@ -180,7 +157,7 @@
 							<core:Title text=""/>
 							<Label text="Quantity"></Label>
 							<Input
-								value="{ path : 'HeadSetData>/RepairQty', type : 'sap.ui.model.type.Integer', formatOptions : { groupingEnabled : true }, constraints : { minimum : 50, maximum : 10000000 } }"
+								value="{ path : 'PartDataModel>/QuantityReceived', type : 'sap.ui.model.type.Integer', formatOptions : { groupingEnabled : true }, constraints : { minimum : 50, maximum : 10000000 } }"
 								required="true" id="idReceivedQnt">
 								<layoutData>
 									<l:GridData span="XL8 L8"/>
