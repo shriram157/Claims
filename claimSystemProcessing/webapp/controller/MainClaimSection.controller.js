@@ -1226,7 +1226,6 @@ sap.ui.define([
 					"TCIWaybillNumber": "",
 					"ShipmentReceivedDate": null,
 					"DealerContact": this.getView().getModel("HeadSetData").getProperty("/DealerContact"),
-
 					"HeadText": this.getView().getModel("HeadSetData").getProperty("/HeadText"),
 					"OFP": this.getView().getModel("HeadSetData").getProperty("/OFP"),
 					"WTYClaimRecoverySource": "",
