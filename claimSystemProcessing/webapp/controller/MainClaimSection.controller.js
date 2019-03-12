@@ -2630,7 +2630,7 @@ sap.ui.define([
 				// }
 
 				//	Array.prototype.splice.apply(this.obj.zc_itemSet.results, oTableStringSplit);
-				var oIndex = oTableIndex.toString().split("/")[2];
+				var oIndex = parseInt(oTableIndex.toString().split("/")[2]);
 				this.obj.zc_itemSet.results.splice(oIndex, 1);
 				var oClaimModel = this.getModel("ProssingModel");
 				// this._oToken = oClaimModel.getHeaders()['x-csrf-token'];
@@ -2672,7 +2672,7 @@ sap.ui.define([
 				// var oTableStringSplit = oTableIndex.toString().split(",");
 				// Array.prototype.splice.apply(this.obj.zc_itemSet.results, oTableStringSplit);
 
-				var oIndex = oTable._aSelectedPaths.toString().split("/")[2];
+				var oIndex = parseInt(oTable._aSelectedPaths.toString().split("/")[2]);
 				this.obj.zc_itemSet.results.splice(oIndex, 1);
 
 				var oClaimModel = this.getModel("ProssingModel");
@@ -3012,7 +3012,7 @@ sap.ui.define([
 				// var oTableStringSplit = oTableIndex.toString().split(",");
 				// Array.prototype.splice.apply(this.obj.zc_itemSet.results, oTableStringSplit);
 
-				var oIndex = oTable._aSelectedPaths.toString().split("/")[2];
+				var oIndex = parseInt(oTable._aSelectedPaths.toString().split("/")[2]);
 				this.obj.zc_claim_item_labourSet.results.splice(oIndex, 1);
 				var oClaimModel = this.getModel("ProssingModel");
 				// this._oToken = oClaimModel.getHeaders()['x-csrf-token'];
@@ -3073,7 +3073,7 @@ sap.ui.define([
 				// 		this.obj.zc_claim_item_labourSet.results.splice(j);
 				// 	}
 				// }
-				var oIndex = oTable._aSelectedPaths.toString().split("/")[2];
+				var oIndex = parseInt(oTable._aSelectedPaths.toString().split("/")[2]);
 				this.obj.zc_claim_item_labourSet.results.splice(oIndex, 1);
 				var oClaimModel = this.getModel("ProssingModel");
 				// this._oToken = oClaimModel.getHeaders()['x-csrf-token'];
@@ -3174,7 +3174,7 @@ sap.ui.define([
 				// var oTableStringSplit = oTableIndex.toString().split(",");
 				// Array.prototype.splice.apply(this.obj.zc_itemSet.results, oTableStringSplit);
 
-				var oIndex = oTable._aSelectedPaths.toString().split("/")[2];
+				var oIndex = parseInt(oTable._aSelectedPaths.toString().split("/")[2]);
 				this.obj.zc_claim_item_paintSet.results.splice(oIndex, 1);
 				var oClaimModel = this.getModel("ProssingModel");
 				// this._oToken = oClaimModel.getHeaders()['x-csrf-token'];
@@ -3318,7 +3318,7 @@ sap.ui.define([
 				// 	}
 				// }
 
-				var oIndex = oTable._aSelectedPaths.toString().split("/")[2];
+				var oIndex = parseInt(oTable._aSelectedPaths.toString().split("/")[2]);
 				this.obj.zc_item_subletSet.results.splice(oIndex, 1);
 
 				var oClaimModel = this.getModel("ProssingModel");
@@ -3364,7 +3364,7 @@ sap.ui.define([
 				// var oTableStringSplit = oTableIndex.toString().split(",");
 				// Array.prototype.splice.apply(this.obj.zc_itemSet.results, oTableStringSplit);
 
-				var oIndex = oTable._aSelectedPaths.toString().split("/")[2];
+				var oIndex = parseInt(oTable._aSelectedPaths.toString().split("/")[2]);
 				this.obj.zc_item_subletSet.results.splice(oIndex, 1);
 				var oClaimModel = this.getModel("ProssingModel");
 				// this._oToken = oClaimModel.getHeaders()['x-csrf-token'];
@@ -3532,7 +3532,7 @@ sap.ui.define([
 
 				this.getView().getModel("DateModel").setProperty("/subletLine", true);
 
-				var oIndex = oTable._aSelectedPaths.toString().split("/")[2];
+				var oIndex = parseInt(oTable._aSelectedPaths.toString().split("/")[2]);
 				this.obj.zc_claim_item_damageSet.results.splice(oIndex, 1);
 
 				var oClaimModel = this.getModel("ProssingModel");
@@ -3546,9 +3546,7 @@ sap.ui.define([
 							},
 							success: $.proxy(function (sdata) {
 								this.getModel("LocalDataModel").setProperty("/DataItemDamageSet", sdata.results);
-								this.getView().getModel("HeadSetData").setProperty("/DmgAreaCode", "");
-								this.getView().getModel("HeadSetData").setProperty("/DmgTypeCode", "");
-								this.getView().getModel("HeadSetData").setProperty("/DmgSevrCode", "");
+								
 								//MessageToast.show("Damage Line Updated successfully");
 							}, this)
 						});
@@ -3583,9 +3581,7 @@ sap.ui.define([
 							},
 							success: $.proxy(function (sdata) {
 								this.getModel("LocalDataModel").setProperty("/DataItemDamageSet", sdata.results);
-								this.getView().getModel("HeadSetData").setProperty("/DmgAreaCode", "");
-								this.getView().getModel("HeadSetData").setProperty("/DmgTypeCode", "");
-								this.getView().getModel("HeadSetData").setProperty("/DmgSevrCode", "");
+								
 								MessageToast.show("Damage Line Deleted successfully");
 							}, this)
 						});
