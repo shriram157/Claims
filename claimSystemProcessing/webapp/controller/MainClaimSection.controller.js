@@ -407,7 +407,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/Labour", true);
 							this.getView().getModel("DateModel").setProperty("/oECPfields", false);
 							this.getView().getModel("DateModel").setProperty("/ShipmentVisible", false);
-						} else if (oClaimTypeDetail == "ZWVE" || submissionType == "VE") {
+						} else if (oClaimTypeDetail == "ZWVE" || submissionType == "ZWVE") {
 							this.getView().getModel("DateModel").setProperty("/Paint", true);
 							this.getView().getModel("DateModel").setProperty("/Authorization", true);
 							this.getView().getModel("DateModel").setProperty("/Sublet", true);
@@ -714,6 +714,23 @@ sap.ui.define([
 				this._fnClaimSum();
 
 			} else {
+				
+				oProssingModel.read("/ZC_CLAIM_GROUP", {
+					urlParameters: {
+						// "$filter": "NumberOfWarrantyClaim eq '" + oClaim + "'"
+						"$filter": "ClaimGroupDes eq 'WARRANTY'"
+					},
+					success: $.proxy(function (data) {
+					var oResult = data.results;
+					var oSubmissionData = oResult.filter(function (v, t) {
+						return v.ALMClaimType != "ZACD" && v.ALMClaimType != "ZAUT";
+					});
+					this.getModel("LocalDataModel").setProperty("/DataSubmissionClaim", oSubmissionData);
+					}, this)
+				});
+				
+					
+								
 				this.getModel("LocalDataModel").setProperty("/DataItemDamageSet", "");
 				if (oClaimAuthType == "Authorization") {
 					this.getModel("LocalDataModel").setProperty("/WarrantyClaimNumber", oBundle.getText("TCIAuthNumber"));
@@ -883,9 +900,7 @@ sap.ui.define([
 						success: $.proxy(function (data) {
 
 							var oResult = data.results;
-							// var oFilteredData = oResult.filter(function (v, t) {
-							// 	return v.ALMClaimType != "CD" && v.ALMClaimType != "WO";
-							// });
+						
 
 							if (oClaimSelectedGroup == "Authorization") {
 								this.oFilteredData = oResult.filter(function (v, t) {
@@ -2151,6 +2166,28 @@ sap.ui.define([
 			this.getView().addDependent(oDialogBox);
 			oDialogBox.open();
 			this.getView().getModel("HeadSetData").setProperty("/SpecialVINReview", "Yes");
+		},
+		onCopyClaim : function(){
+			var oAuthNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
+			var oClaimModel = this.getModel("ProssingModel");
+			var oBundle = this.getView().getModel("i18n").getResourceBundle();
+			this.getView().getModel("DateModel").setProperty("/warrantySubmissionClaim", false);
+			oClaimModel.read("/zc_auth_copy_to_claimSet(NumberOfAuth='"+oAuthNum+"')", {
+				
+				success : $.proxy(function(data){
+					var oClaimNum = data.NumberOfWarrantyClaim;
+					oClaimModel.read("/ZC_CLAIM_HEAD", {
+						urlParameters : {
+							"$filter" : "NumberOfWarrantyClaim eq '"+oClaimNum+"'"
+						},
+						success : $.proxy(function(cdata){
+							this.getView().getModel("HeadSetData").setData(cdata.results[0]);
+							this.getModel("LocalDataModel").setProperty("/WarrantyClaimNum", oClaimNum);
+							this.getModel("LocalDataModel").setProperty("/WarrantyClaimNumber", oBundle.getText("TCIClaimNumber") + " : " + oClaimNum);
+						},this)
+					});
+				},this)
+			});
 		},
 		onStep01Next: function (oEvent) {
 
