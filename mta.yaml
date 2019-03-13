@@ -44,25 +44,25 @@ modules:
       group: destinations
       properties:
          name: claimSystemProcessing-node-backend
+         url: ~{url}
          forwardAuthToken: true
          timeout: 60000
-         url: '~{url}'
 
 resources:
  - name: application-logs_claimsSystemProcessing
+   type: org.cloudfoundry.managed-service
    parameters:
       service: application-logs
       service-plan: lite
-   type: org.cloudfoundry.managed-service
 
  - name: uaa_claimsSystemProcessing
+   type: org.cloudfoundry.managed-service
    parameters:
-      path: ./xs-security.json
       service: xsuaa
       service-plan: application
-   type: org.cloudfoundry.managed-service
+      path: ./xs-security.json
 
  - name: CLAIM_SYSTEM_PROCESSING_CUPS
+   type: org.cloudfoundry.existing-service
    parameters:
       service-name: CLAIM_SYSTEM_PROCESSING_CUPS     
-   type: org.cloudfoundry.existing-service
