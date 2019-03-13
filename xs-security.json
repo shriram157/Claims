@@ -41,7 +41,6 @@
 		"description": "restrict based on Zone",
 		"valueType": "s"
 	}],
-
 	"role-templates": [{
 		"name": "Dealer_Services_Admin",
 		"description": "Dealer Services Admin",
@@ -50,7 +49,6 @@
 			"$XSAPPNAME.View_Quick_Coverage_Tool",
 			"$XSAPPNAME.View_Dealer_Labor_Rate",
 			"$XSAPPNAME.View_Claim_Inquiry"
-
 		],
 		"attribute-references": [
 			"DealerCode",
@@ -78,14 +76,12 @@
 			"$XSAPPNAME.View_Quick_Coverage_Tool",
 			"$XSAPPNAME.View_Dealer_Labor_Rate",
 			"$XSAPPNAME.View_Claim_Inquiry"
-
 		],
 		"attribute-references": [
 			"DealerCode",
 			"Language",
 			"UserType"
 		]
-
 	}, {
 		"name": "TCI_Admin",
 		"description": "This is a TCI Admin",
@@ -97,7 +93,6 @@
 			"$XSAPPNAME.View_Claim_Inquiry"
 		],
 		"attribute-references": [
-
 			"Language",
 			"UserType"
 		]
@@ -126,8 +121,6 @@
 		"attribute-references": [
 			"Language",
 			"UserType"
-
 		]
-
 	}]
 }

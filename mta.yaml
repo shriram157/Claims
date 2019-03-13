@@ -1,6 +1,6 @@
 ID: claimsSystemProcessing
 _schema-version: '2.1'
-description: Application MTA Project for Claims System Processing
+description: Claims consolidated app
 version: 0.0.1
 
 modules:
@@ -9,62 +9,60 @@ modules:
    path: claimSystemProcessing_Node
    parameters:
       host: tci-dev-claims-node
-      register-service-url: true
-      service-name: claimSystemProcessing_Node
-      service-url: '${default-url}'
-      disk-quota: 512MB
-      memory: 256MB
-   requires:
-    - name: CLAIM_SYSTEM_PROCESSING_CUPS
-    - name: uaa_claimsSystemProcessing
+      disk-quota: 512M
+      memory: 256M
+   properties:
+      XS_APP_LOG_LEVEL: info
+      XS_LOG_USER: true
+      XS_LOG_REFERER: true
+      XS_LOG_CONNECTION_DATA: true
+      NODE_TLS_REJECT_UNAUTHORIZED: 0
    provides:
-    - name: claimSystemProcessing_Node_api
+    - name: claimSystemProcessing_node_api
       properties:
-         url: ${default-url} 
+         url: ${default-url}
+   requires:
+    - name: application-logs_claimsSystemProcessing
+    - name: uaa_claimsSystemProcessing
+    - name: CLAIM_SYSTEM_PROCESSING_CUPS
 
-    
  - name: claimSystemProcessing
    type: html5
    path: claimSystemProcessing
    parameters:
       host: tci-dev-claims
-      register-service-url: true
-      service-name: claimSystemProcessing
-      service-url: '${default-url}'
       disk-quota: 512M
       memory: 256M
+   properties:
+      XS_APP_LOG_LEVEL: info
    build-parameters:
       builder: grunt
    requires:
+    - name: application-logs_claimsSystemProcessing
     - name: uaa_claimsSystemProcessing
-    - name: dest_claimsSystemProcessing
-    - name: claimSystemProcessing_Node_api
+    - name: claimSystemProcessing_node_api
       group: destinations
       properties:
-          name: claimSystemProcessing-node-backend
-          url: '~{url}'
-          forwardAuthToken: true 
-   provides:
-    - name: claimSystemProcessing
-   
+         name: claimSystemProcessing-node-backend
+         forwardAuthToken: true
+         timeout: 60000
+         url: '~{url}'
+
 resources:
+ - name: application-logs_claimsSystemProcessing
+   parameters:
+      service: application-logs
+      service-plan: lite
+   type: org.cloudfoundry.managed-service
+
  - name: uaa_claimsSystemProcessing
    parameters:
       path: ./xs-security.json
-      service-plan: application
       service: xsuaa
-   type: org.cloudfoundry.managed-service
-
- - name: dest_claimsSystemProcessing
-   parameters:
-      service-plan: lite
-      service: destination
+      service-plan: application
    type: org.cloudfoundry.managed-service
 
  - name: CLAIM_SYSTEM_PROCESSING_CUPS
-   type: org.cloudfoundry.existing-service
    parameters:
-     service-name: CLAIM_SYSTEM_PROCESSING_CUPS
-   properties:
-     odata-call-service-name: '${service-name}'
-     
+      service-name: CLAIM_SYSTEM_PROCESSING_CUPS     
+   type: org.cloudfoundry.existing-service
