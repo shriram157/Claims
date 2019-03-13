@@ -158,7 +158,7 @@
 		<HBox alignContent="Center" justifyContent="Center" class="sapUiTinyMarginTop">
 			<Button class="sapUiTinyMarginBeginEnd" type="Back" press="onStep07Back" text="{i18n>Back}"/>
 			<Button class="sapUiTinyMarginBeginEnd" press="onRevalidate" text="{i18n>SaveClaim}" enabled="{DateModel>SaveClaim07}"/>
-			<Button class="sapUiTinyMarginBeginEnd" press="onSubmitTci" text="{i18n>SubmitToTCI}" enabled="false" type="Emphasized"/>
+			<Button class="sapUiTinyMarginBeginEnd" press="onSubmitTci" text="{i18n>SubmitToTCI}" type="Emphasized"/>
 		</HBox>
 	</VBox>
 </core:FragmentDefinition>

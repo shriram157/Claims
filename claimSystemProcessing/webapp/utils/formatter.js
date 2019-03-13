@@ -373,7 +373,7 @@ zclaimProcessing.utils.formatter = {
 		if (sum) {
 			for (var i = 0; i < sum.length; i++) {
 				oArr.push(
-					parseFloat(sum[i].RepairAmount)
+					parseFloat(sum[i].RepairAmt)
 				);
 
 			}
