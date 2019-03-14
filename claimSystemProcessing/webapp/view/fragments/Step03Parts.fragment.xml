@@ -32,12 +32,12 @@
 								selectedKey="{HeadSetData>/DiscrepancyCodes}">
 								<core:ListItem key="{DropDownModel>DiscreCode}" text="{path:'DropDownModel>ALMDiscreDesc'}" additionalText="{DropDownModel>ALMDiscreCode}"/>
 							</Select>
-							<Label text="{i18n>MiscellaneousCode } " class="sapUiSmallMargin" textAlign="Begin" visible="{multiHeaderConfig>/partMiscellanious}"/>
+							<Label text="{i18n>MiscellaneousCode} " class="sapUiSmallMargin" textAlign="Begin" visible="{multiHeaderConfig>/partMiscellanious}"/>
 							<Select change="onDDChange" showSecondaryValues="false" items="{DropDownModel>/items}" visible="{multiHeaderConfig>/partMiscellanious}"
 								selectedKey="{HeadSetData>/MiscellaneousCode}">
 								<core:ListItem key="{DropDownModel>DiscreCode}" text="{path:'DropDownModel>ALMDiscreDesc'}" additionalText="{DropDownModel>ALMDiscreCode}"/>
 							</Select>
-							<Label text="{i18n>TranportShortageType } " class="sapUiSmallMargin" textAlign="Begin" visible="{multiHeaderConfig>/partTransportation}"/>
+							<Label text="{i18n>TranportShortageType} " class="sapUiSmallMargin" textAlign="Begin" visible="{multiHeaderConfig>/partTransportation}"/>
 							<Select change="onDDChange" showSecondaryValues="false" items="{DropDownModel>/items}" visible="{multiHeaderConfig>/partTransportation}"
 								selectedKey="{HeadSetData>/TranportShortageType}">
 								<core:ListItem key="{DropDownModel>DiscreCode}" text="{path:'DropDownModel>ALMDiscreDesc'}" additionalText="{DropDownModel>ALMDiscreCode}"/>
@@ -135,8 +135,10 @@
 							</Select>
 							<core:Title text=""/>
 							<Label text="Part Number Received" width="10rem" visible="{multiHeaderConfig>/PartNumberRcV}"/>
-							<Input value="{ path : 'HeadSetData>/PartNumberRc'}" editable="{multiHeaderConfig>/PartNumberEdit}" required="true"
-								visible="{multiHeaderConfig>/PartNumberRcV}"></Input>
+							<!--<Input value="{ path : 'HeadSetData>/PartNumberRc'}" editable="{multiHeaderConfig>/PartNumberEdit}" required="true"-->
+							<!--	visible="{multiHeaderConfig>/PartNumberRcV}"></Input>-->
+							<Input value="{HeadSetData>/PartNumberRc}" id="idPartNumber2" required="true" showValueHelp="true" valueHelpOnly="true" editable="{multiHeaderConfig>/PartNumberEdit}" 
+								valueHelpRequest="handlePNValueHelp" enabled="{DateModel>/partLine}"></Input>
 							<core:Title text=""/>
 							<Label text="Part Description" visible="{multiHeaderConfig>/PartDescriptionOrdRcv}"/>
 							<Input value="{ path : 'HeadSetData>/PartNumberRcDesc'}" id="idOrderedReceivedPartDesc" editable="{multiHeaderConfig>/OrderedPartDesc}"
@@ -157,8 +159,11 @@
 							<core:Title text=""/>
 							<Label text="Quantity"></Label>
 							<Input
-								value="{ path : 'PartDataModel>/QuantityReceived', type : 'sap.ui.model.type.Integer', formatOptions : { groupingEnabled : true }, constraints : { minimum : 50, maximum : 10000000 } }"
+								value="{path : 'PartDataModel>/QuantityReceived', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 100 }}"
 								required="true" id="idReceivedQnt">
+								<!--<Input-->
+								<!--	value="{ path : 'PartDataModel>/QuantityReceived', type : 'sap.ui.model.type.Integer', formatOptions : { groupingEnabled : true }, constraints : { minimum : 50, maximum : 10000000 } }"-->
+								<!--	required="true" id="idReceivedQnt">-->
 								<layoutData>
 									<l:GridData span="XL8 L8"/>
 								</layoutData>
@@ -190,7 +195,7 @@
 						<Text text="Part Number*"/>
 					</Column>
 					<Column>
-						<Text text="Description"/>
+						<Text text="Description" width="15rem"/>
 					</Column>
 					<Column>
 						<Text text="Dealer Net Price"/>
@@ -198,6 +203,10 @@
 					<Column>
 						<Text text="Quantity"/>
 					</Column>
+					<Column visible="{multiHeaderConfig>/DiscrepancyCol}">
+						<Text text="Claim Quantity"/>
+					</Column>
+					<!--SAPQuant-->
 					<Column>
 						<Text text="Retain Part" visible="{multiHeaderConfig>/RetainPartCol}"/>
 					</Column>
@@ -207,11 +216,15 @@
 					</Column>
 					<Column>
 						<Text text="Repair Amount" visible="{multiHeaderConfig>/RepAmountCol}"/>
+						<!--<footer><Text text="{path: 'LocalDataModel>DifferenceTotal'}" textAlign="Center"-->
+						<!--	width="100%"/></footer>-->
 						<footer><Text text="{path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnAmountRepairPW'}" textAlign="Center"
 							width="100%"/></footer>
 					</Column>
 					<Column>
 						<Text text="Amount Claimed"/>
+						<!--<footer><Text text="{path: 'LocalDataModel>AmountClaimedTotal'}" textAlign="Center"-->
+						<!--	width="100%"/></footer>-->
 						<footer><Text text="{path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnAmountClaimedPW'}" textAlign="Center"
 							width="100%"/></footer>
 					</Column>
@@ -220,6 +233,8 @@
 					</Column>
 					<Column>
 						<Text text="TCI Amount Approved"/>
+						<!--<footer><Text text="{path: 'LocalDataModel>TCIApprovedAmtTotal'}" textAlign="Center"-->
+						<!--	width="100%"/></footer>-->
 						<footer><Text text="{path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnTCIAprrovedPW'}" textAlign="Center"
 							width="100%"/></footer>
 					</Column>
@@ -227,25 +242,32 @@
 						<Text text="Difference"/>
 						<footer><Text text="{path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnDifPW'}" textAlign="Center"
 							width="100%"/></footer>
+						<!--<footer><Text text="{path: 'LocalDataModel>DifferenceTotal'}" textAlign="Center"-->
+						<!--	width="100%"/></footer>-->
+						<!--DifferenceTotal-->
 					</Column>
 				</columns>
 				<items>
 					<ColumnListItem>
 						<cells>
 							<Text text="{LocalDataModel>posnr}"/>
-							<Text text="{LocalDataModel>DiscrepancyCodes}"/>
-							<Text text="{LocalDataModel>DamageSeverityCodes}"/>
-							<Text text="{LocalDataModel>DamageAreaCode}"/>
-							<Text text="{LocalDataModel>DamageTypeCode>}"/>
+							<Text text="{LocalDataModel>ALMDiscreDesc}"/>
+							<Text text="{LocalDataModel>ALMDiscreDesc}"/>
+							<Text text="{LocalDataModel>ALMDiscreDesc}"/>
+							<Text text="{LocalDataModel>ALMDiscreDesc}"/>
+							<!--<Text text="{LocalDataModel>DamageTypeCode>}"/>-->
 							<Text text="{LocalDataModel>matnr}"/>
 							<Text text="{LocalDataModel>PartDescription}"/>
 							<Text text="{LocalDataModel>DealerNet}"/>
+							<Text text="{LocalDataModel>quant2}"/>
 							<Text text="{LocalDataModel>quant}"/>
 							<Text text="{LocalDataModel>RetainPart}"/>
-							<Text text="{LocalDataModel>PartDescription}"/>
-							<Text text="{LocalDataModel>RepairAmount}"/>
+							<Text text="{LocalDataModel>PartRepaired}"/>
+							<Text text="{LocalDataModel>RepairAmt}"/>
 							<Text text="{LocalDataModel>AmtClaimed}"/>
-							<Text text="{LocalDataModel>Attachments}"/>
+							<Link visible="{multiHeaderConfig>/AttachmentCol}" press="onClickURIParts" href="{LocalDataModel>URI}" text="View Attachment"
+								target="_blank" textAlign="Center" width="100%"/>
+							<!--<Text text="{LocalDataModel>Attachments}"/>-->
 							<Text text="{LocalDataModel>TCIApprovedAmount}"/>
 							<Text text="{LocalDataModel>DiffAmt}"/>
 						</cells>

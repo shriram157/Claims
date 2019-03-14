@@ -60,7 +60,7 @@
 						<!--</HBox>-->
 						<!--<HBox>-->
 						<Label text="Estimated Value of Claim" class="sapUiTinyMarginBeginEnd"/>
-						<Input  valueState="{DateModel>/partTypeState}" value="{path:'LOIDataModel>/estClaimValueLOI'}" required="true" id="estClaimValueLOI"/>
+						<Input valueState="{DateModel>/partTypeState}" value="{path:'LOIDataModel>/estClaimValueLOI'}" required="true" id="estClaimValueLOI"/>
 						<Text text="(Actual value to be declared on Claim to TCI)" class="sapUiTinyMarginBeginEnd"/>
 						<!--</HBox>-->
 						<Label text="Description (Including Part Numbers)" class="sapUiTinyMarginBeginEnd"/>
