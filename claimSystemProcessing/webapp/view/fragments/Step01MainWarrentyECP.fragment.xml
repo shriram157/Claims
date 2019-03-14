@@ -58,7 +58,7 @@
 							<l:GridData span="XL8 L8 M12 S12"/>
 						</layoutData>
 					</Button>
-					<Button text="{i18n>CopytoClaim}" type="Default" press="onCopyClaim">
+					<Button text="{LocalDataModel>/copyClaimAuthText}" type="Default" press="onCopyClaim">
 						<layoutData>
 							<l:GridData span="XL8 L8 M12 S12"/>
 						</layoutData>

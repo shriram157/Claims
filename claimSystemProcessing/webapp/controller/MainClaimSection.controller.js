@@ -128,9 +128,9 @@ sap.ui.define([
 			this.getView().setModel(this.LabourData, "LabourDataModel");
 
 			this.PercentData = new sap.ui.model.json.JSONModel({
-				"customerPer": "",
-				"dealerPer": "",
-				"TciPer": ""
+				"CustomerPer": "",
+				"DealerPer": "",
+				"TCIPer": ""
 			});
 			this.PercentData.setDefaultBindingMode("TwoWay");
 			this.getView().setModel(this.PercentData, "DataPercetCalculate");
@@ -155,11 +155,8 @@ sap.ui.define([
 			this.getOwnerComponent().getRouter().attachRoutePatternMatched(this._onRoutMatched, this);
 			this.getModel("LocalDataModel").setProperty("/step01Next", false);
 
-			// :::::::::::::::::: Claim Items post object start ::::::::::::::::::::
 			this.ArrIndex = [];
 			this.ArrIndexLabour = [];
-
-			// :::::::::::::::::: Claim Items post object end ::::::::::::::::::::
 
 			this.getModel("LocalDataModel").setProperty("/CancelEnable", false);
 			this.getView().getModel("DateModel").setProperty("/OdometerReq", true);
@@ -258,7 +255,10 @@ sap.ui.define([
 			if (oClaim != "nun" && oClaim != undefined) {
 				if (oClaimSelectedGroup == "Authorization") {
 					this.getView().getModel("DateModel").setProperty("/warrantySubmissionClaim", true);
+					this.getModel("LocalDataModel").setProperty("/copyClaimAuthText", oBundle.getText("CopytoClaim"));
+					
 					this.getModel("LocalDataModel").setProperty("/WarrantyClaimNumber", oBundle.getText("TCIAuthNumber") + " : " + oClaim);
+					
 					oProssingModel.read("/zc_authorization_detailsSet", {
 						urlParameters: {
 							"$filter": "AuthorizationNumber eq '" + oClaim + "'"
@@ -269,6 +269,7 @@ sap.ui.define([
 					});
 				} else {
 					this.getView().getModel("DateModel").setProperty("/warrantySubmissionClaim", false);
+					this.getModel("LocalDataModel").setProperty("/copyClaimAuthText", oBundle.getText("CopytoAuthorization"));
 					this.getModel("LocalDataModel").setProperty("/WarrantyClaimNumber", oBundle.getText("TCIClaimNumber") + " : " + oClaim);
 				}
 
@@ -712,30 +713,30 @@ sap.ui.define([
 					this.getView().getModel("DateModel").setProperty("/oECPfields", false);
 				}
 				this._fnClaimSum();
-
+				this._fnClaimSumPercent();
 			} else {
-				
+
 				oProssingModel.read("/ZC_CLAIM_GROUP", {
 					urlParameters: {
 						// "$filter": "NumberOfWarrantyClaim eq '" + oClaim + "'"
 						"$filter": "ClaimGroupDes eq 'WARRANTY'"
 					},
 					success: $.proxy(function (data) {
-					var oResult = data.results;
-					var oSubmissionData = oResult.filter(function (v, t) {
-						return v.ALMClaimType != "ZACD" && v.ALMClaimType != "ZAUT";
-					});
-					this.getModel("LocalDataModel").setProperty("/DataSubmissionClaim", oSubmissionData);
+						var oResult = data.results;
+						var oSubmissionData = oResult.filter(function (v, t) {
+							return v.ALMClaimType != "ZACD" && v.ALMClaimType != "ZAUT";
+						});
+						this.getModel("LocalDataModel").setProperty("/DataSubmissionClaim", oSubmissionData);
 					}, this)
 				});
-				
-					
-								
+
 				this.getModel("LocalDataModel").setProperty("/DataItemDamageSet", "");
 				if (oClaimAuthType == "Authorization") {
 					this.getModel("LocalDataModel").setProperty("/WarrantyClaimNumber", oBundle.getText("TCIAuthNumber"));
+					this.getModel("LocalDataModel").setProperty("/copyClaimAuthText", oBundle.getText("CopytoAuthorization"));
 				} else {
 					this.getModel("LocalDataModel").setProperty("/WarrantyClaimNumber", oBundle.getText("TCIClaimNumber"));
+					this.getModel("LocalDataModel").setProperty("/copyClaimAuthText", oBundle.getText("CopytoClaim"));
 				}
 				//this.getView().getModel("DateModel").setProperty("/enableTab", false);
 				this.getView().byId("idFilter02").setProperty("enabled", false);
@@ -900,7 +901,6 @@ sap.ui.define([
 						success: $.proxy(function (data) {
 
 							var oResult = data.results;
-						
 
 							if (oClaimSelectedGroup == "Authorization") {
 								this.oFilteredData = oResult.filter(function (v, t) {
@@ -1409,6 +1409,7 @@ sap.ui.define([
 						this.getModel("LocalDataModel").setProperty("/CancelEnable", true);
 						this.getView().getModel("DateModel").setProperty("/oDamageLineBtn", true);
 						this._fnClaimSum();
+						this._fnClaimSumPercent();
 						oClaimModel.read("/ZC_CLAIM_HEAD", {
 							urlParameters: {
 								"$filter": "NumberOfWarrantyClaim eq '" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") + "'"
@@ -1802,6 +1803,15 @@ sap.ui.define([
 				}, this)
 			});
 		},
+		
+		_fnClaimSumPercent : function (e) {
+			var oClaimModel = this.getModel("ProssingModel");
+			oClaimModel.read("/ZC_CLAIM_AUTH_SUM(p_clmno='" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") + "')/Set", {
+				success: $.proxy(function (data) {
+					this.getModel("LocalDataModel").setProperty("/ClaimSumAuth", data.results);
+				}, this)
+			});
+		},
 
 		onBeforeUpload: function () {
 
@@ -2136,12 +2146,29 @@ sap.ui.define([
 			this.getView().getModel("DateModel").setProperty("/subletLine", true);
 		},
 		onPressRecalculate: function () {
-			var oCustomerPer = parseInt(this.getView().getModel("DataPercetCalculate").getProperty("/customerPer"));
-			var oDealerPer = parseInt(this.getView().getModel("DataPercetCalculate").getProperty("/dealerPer"));
-			var oTciPer = parseInt(this.getView().getModel("DataPercetCalculate").getProperty("/TciPer"));
-
+			var oCustomerPer = parseInt(this.getView().getModel("DataPercetCalculate").getProperty("/CustomerPer"));
+			var oDealerPer = parseInt(this.getView().getModel("DataPercetCalculate").getProperty("/DealerPer"));
+			var oTciPer = parseInt(this.getView().getModel("DataPercetCalculate").getProperty("/TCIPer"));
+			var oAuthNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
+			
 			if ((oCustomerPer + oDealerPer + oTciPer) > 100) {
 				console.log("The Sum of percent should be within 100%");
+			}else {
+				var oClaimModel = this.getModel("ProssingModel");
+				oClaimModel.read("/zc_authorizationSet", {
+					urlParameters : {
+						"$filter" : "AuthorizationNumber eq '"+oAuthNum+"'and DealerPer eq '"+oDealerPer+"'and CustomerPer eq '"+oCustomerPer+"'and TCIPer eq '"+oTciPer+"'"
+					},
+					success : $.proxy(function(data){
+						this.getView().getModel("DataPercetCalculate").setData(data.results[0]);
+						var ocust = parseInt(data.results[0].CustomerPer).toString();
+						var odeal = parseInt(data.results[0].DealerPer).toString();
+						var otci = parseInt(data.results[0].TCIPer).toString();
+						this.getView().getModel("DataPercetCalculate").setProperty("/CustomerPer", ocust);
+						this.getView().getModel("DataPercetCalculate").setProperty("/DealerPer", odeal);
+						this.getView().getModel("DataPercetCalculate").setProperty("/TCIPer", otci);
+					},this)
+				});
 			}
 
 		},
@@ -2167,27 +2194,52 @@ sap.ui.define([
 			oDialogBox.open();
 			this.getView().getModel("HeadSetData").setProperty("/SpecialVINReview", "Yes");
 		},
-		onCopyClaim : function(){
-			var oAuthNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
+		onCopyClaim: function () {
 			var oClaimModel = this.getModel("ProssingModel");
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
-			this.getView().getModel("DateModel").setProperty("/warrantySubmissionClaim", false);
-			oClaimModel.read("/zc_auth_copy_to_claimSet(NumberOfAuth='"+oAuthNum+"')", {
-				
-				success : $.proxy(function(data){
-					var oClaimNum = data.NumberOfWarrantyClaim;
-					oClaimModel.read("/ZC_CLAIM_HEAD", {
-						urlParameters : {
-							"$filter" : "NumberOfWarrantyClaim eq '"+oClaimNum+"'"
-						},
-						success : $.proxy(function(cdata){
-							this.getView().getModel("HeadSetData").setData(cdata.results[0]);
-							this.getModel("LocalDataModel").setProperty("/WarrantyClaimNum", oClaimNum);
-							this.getModel("LocalDataModel").setProperty("/WarrantyClaimNumber", oBundle.getText("TCIClaimNumber") + " : " + oClaimNum);
-						},this)
-					});
-				},this)
-			});
+			var oClaimGroup = this.getModel("LocalDataModel").getProperty("/WarrantyClaimTypeGroup");
+			var oAuthNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
+			if (oClaimGroup == "Authorization") {
+				this.getView().getModel("DateModel").setProperty("/warrantySubmissionClaim", false);
+				oClaimModel.read("/zc_auth_copy_to_claimSet(NumberOfAuth='" + oAuthNum + "')", {
+
+					success: $.proxy(function (data) {
+						var oClaimNum = data.NumberOfWarrantyClaim;
+						oClaimModel.read("/ZC_CLAIM_HEAD", {
+							urlParameters: {
+								"$filter": "NumberOfWarrantyClaim eq '" + oClaimNum + "'"
+							},
+							success: $.proxy(function (cdata) {
+								this.getView().getModel("HeadSetData").setData(cdata.results[0]);
+								this.getModel("LocalDataModel").setProperty("/WarrantyClaimNum", oClaimNum);
+								this.getModel("LocalDataModel").setProperty("/WarrantyClaimNumber", oBundle.getText("TCIClaimNumber") + " : " +
+									oClaimNum);
+							}, this)
+						});
+					}, this)
+				});
+
+			} else if (oClaimGroup == "Claim") {
+				this.getView().getModel("DateModel").setProperty("/warrantySubmissionClaim", true);
+				oClaimModel.read("/zc_claim_copy_to_authSet(NumberOfWarrantyClaim='" + oAuthNum + "')", {
+
+					success: $.proxy(function (data) {
+						var oClaimNum = data.NumberOfWarrantyClaim;
+						oClaimModel.read("/ZC_CLAIM_HEAD", {
+							urlParameters: {
+								"$filter": "NumberOfWarrantyClaim eq '" + oClaimNum + "'"
+							},
+							success: $.proxy(function (cdata) {
+								this.getView().getModel("HeadSetData").setData(cdata.results[0]);
+								this.getModel("LocalDataModel").setProperty("/WarrantyClaimNum", oClaimNum);
+								this.getModel("LocalDataModel").setProperty("/WarrantyClaimNumber", oBundle.getText("TCIAuthNumber") + " : " +
+									oClaimNum);
+							}, this)
+						});
+					}, this)
+				});
+			}
+
 		},
 		onStep01Next: function (oEvent) {
 
@@ -2694,6 +2746,7 @@ sap.ui.define([
 					oTable.removeSelections("true");
 
 					this._fnClaimSum();
+					this._fnClaimSumPercent();
 
 				}, this),
 				error: function (err) {
@@ -2757,6 +2810,7 @@ sap.ui.define([
 						console.log(oFilteredData);
 						this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
 						this._fnClaimSum();
+						this._fnClaimSumPercent();
 						//MessageToast.show("Claim has been deleted successfully");
 					}, this),
 					error: function (err) {
@@ -2802,6 +2856,7 @@ sap.ui.define([
 						oTable.removeSelections("true");
 						MessageToast.show("Claim has been deleted successfully");
 						this._fnClaimSum();
+						this._fnClaimSumPercent();
 					}, this),
 					error: function (err) {
 						console.log(err);
@@ -3093,6 +3148,7 @@ sap.ui.define([
 					this.getView().getModel("LabourDataModel").setProperty("/ClaimedHours", "");
 					this.getView().getModel("LabourDataModel").setProperty("/LabourDescription", "");
 					this._fnClaimSum();
+					this._fnClaimSumPercent();
 					oTable.removeSelections("true");
 				}, this),
 				error: function (err) {
@@ -3141,6 +3197,7 @@ sap.ui.define([
 						MessageToast.show("Claim has been deleted successfully");
 						oTable.removeSelections("true");
 						this._fnClaimSum();
+						this._fnClaimSumPercent();
 						// this.getView().getModel("DateModel").setProperty("/partLine", false);
 						// this.getView().getModel("PartDataModel").setProperty("/matnr", "");
 						// this.getView().getModel("PartDataModel").setProperty("/quant", "");
@@ -3201,6 +3258,7 @@ sap.ui.define([
 						this.getModel("LocalDataModel").setProperty("/LabourPricingDataModel", oFilteredData);
 						oTable.removeSelections("true");
 						this._fnClaimSum();
+						this._fnClaimSumPercent();
 						//MessageToast.show("Claim has been deleted successfully");
 					}, this),
 					error: function (err) {
@@ -3317,7 +3375,7 @@ sap.ui.define([
 			this.obj.OFP = this.getView().getModel("HeadSetData").getProperty("/OFP");
 			this.obj.MainOpsCode = this.getView().getModel("HeadSetData").getProperty("/MainOpsCode");
 			this.obj.NumberOfWarrantyClaim = oClaimNum;
-			
+
 			if (this.getModel("LocalDataModel").getProperty("/SubletAtchmentData") != undefined && this.getModel("LocalDataModel").getProperty(
 					"/SubletAtchmentData") != "") {
 				var itemObj = {
@@ -3333,7 +3391,6 @@ sap.ui.define([
 				this.obj.zc_item_subletSet.results.push(itemObj);
 
 				var oClaimModel = this.getModel("ProssingModel");
-			
 
 				oClaimModel.refreshSecurityToken();
 				oClaimModel.create("/zc_headSet", this.obj, {
@@ -3362,6 +3419,7 @@ sap.ui.define([
 						this.getView().getModel("SubletDataModel").setProperty("/description", "");
 						oTable.removeSelections("true");
 						this._fnClaimSum();
+						this._fnClaimSumPercent();
 						this.getModel("LocalDataModel").setProperty("/SubletAtchmentData", "");
 
 					}, this),
@@ -3373,7 +3431,6 @@ sap.ui.define([
 				MessageToast.show("Attachment is required.");
 			}
 		},
-		
 
 		onPressUpdateSublet: function (oEvent) {
 			var oTable = this.getView().byId("idSubletTable");
@@ -3394,21 +3451,18 @@ sap.ui.define([
 				this.getView().getModel("DateModel").setProperty("/subletLine", true);
 				var oFile = obj.URI.split(",")[1].split("=")[1].split(")")[0];
 				var oFileReplaced = oFile.replace(/'/g, "");
-				
+
 				oClaimModel.read("/zc_claim_subletattachmentSet", {
-						urlParameters: {
-							"$filter": "NumberOfWarrantyClaim eq'" + oClaimNum + "'and AttachLevel eq 'SUBL' and FileName eq'" + oFileReplaced + "'"
-						},
-						success: $.proxy(function (subletData) {
-							this.getModel("LocalDataModel").setProperty("/SubletAtchmentData", subletData.results);
-						}, this)
+					urlParameters: {
+						"$filter": "NumberOfWarrantyClaim eq'" + oClaimNum + "'and AttachLevel eq 'SUBL' and FileName eq'" + oFileReplaced + "'"
+					},
+					success: $.proxy(function (subletData) {
+						this.getModel("LocalDataModel").setProperty("/SubletAtchmentData", subletData.results);
+					}, this)
 				});
 
 				var oIndex = parseInt(oTable._aSelectedPaths.toString().split("/")[2]);
 				this.obj.zc_item_subletSet.results.splice(oIndex, 1);
-
-				
-				
 
 				oClaimModel.refreshSecurityToken();
 				oClaimModel.create("/zc_headSet", this.obj, {
@@ -3423,6 +3477,7 @@ sap.ui.define([
 						this.getModel("LocalDataModel").setProperty("/SubletPricingDataModel", oFilteredData);
 						oTable.removeSelections("true");
 						this._fnClaimSum();
+						this._fnClaimSumPercent();
 						//MessageToast.show("Claim has been deleted successfully");
 					}, this),
 					error: function (err) {
@@ -3468,7 +3523,7 @@ sap.ui.define([
 						MessageToast.show("Claim has been deleted successfully");
 						oTable.removeSelections("true");
 						this._fnClaimSum();
-
+						this._fnClaimSumPercent();
 					}, this),
 					error: function (err) {
 						console.log(err);

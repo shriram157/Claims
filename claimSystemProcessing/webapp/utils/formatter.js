@@ -458,5 +458,16 @@ zclaimProcessing.utils.formatter = {
 		});
 		return oDateFormatShort.format(new Date());
 	}
+	// fnFormatPercent: function (val) {
+	// 	var oVal = "";
+	// 	if (val) {
+	// 		if (val.search("%") == -1) {
+	// 			oVal = val + "%";
+	// 		} else {
+	// 			oVal = val;
+	// 		}
+	// 	}
+	// 	return oVal;
+	// }
 
 };
