@@ -21,11 +21,10 @@
 					</ComboBox>
 					<Label text="{i18n>SubmissionClaimType}" visible="{DateModel>/warrantySubmissionClaim}"/>
 					<ComboBox showSecondaryValues="true" required="true" visible="{DateModel>/warrantySubmissionClaim}"
-						items="{path:'/ZC_CLAIM_GROUP', filters: [ { path: 'ClaimGroupDes', operator: 'EQ', value1: 'WARRANTY' } ]}"
-						selectionChange="onSelectClaimTpe" selectedKey="{HeadSetData>/WarrantyClaimSubType}" enabled="{DateModel>/claimTypeEn}"
-						valueState="{DateModel>/claimTypeState}"
+						items="{path:'LocalDataModel>/DataSubmissionClaim'}" selectionChange="onSelectClaimTpe" selectedKey="{HeadSetData>/WarrantyClaimSubType}"
+						enabled="{DateModel>/claimTypeEn}" valueState="{DateModel>/claimTypeState}"
 						value="{path:'HeadSetData>/WarrantyClaimSubType', type : 'sap.ui.model.type.String', constraints : { minLength : 2, maxLength : 50 } }">
-						<core:ListItem text="{ALMClaimType}" key="{ALMClaimType}" additionalText="{ALMClaimTypeDes}"/>
+						<core:ListItem text="{LocalDataModel>ALMClaimType}" key="{LocalDataModel>ALMClaimType}" additionalText="{LocalDataModel>ALMClaimTypeDes}"/>
 					</ComboBox>
 					<core:Title text=""/>
 					<Label text="{i18n>FirstSubmissionDate}"/>
@@ -160,9 +159,10 @@
 			<HBox justifyContent="End">
 				<Button text="{i18n>AddDamageLine}" press="onAddDamageLine" type="Emphasized" enabled="{DateModel>/oDamageLineBtn}"/>
 				<Button text="{i18n>UpdateDamageLine}" press="onUpdateDamageLine" class="sapUiTinyMarginBeginEnd" enabled="{DateModel>/oDamageLineBtn}"/>
-				<Button text="{i18n>DeleteDamageLine}" press="onDeleteDamageLine" class="sapUiTinyMarginBeginEnd" type="Reject" enabled="{DateModel>/oDamageLineBtn}"/>
+				<Button text="{i18n>DeleteDamageLine}" press="onDeleteDamageLine" class="sapUiTinyMarginBeginEnd" type="Reject"
+					enabled="{DateModel>/oDamageLineBtn}"/>
 			</HBox>
-			<VBox id="idDamageArea" class="clBgColor sapUiSmallMarginTop" wrap="Wrap" width="100%" >
+			<VBox id="idDamageArea" class="clBgColor sapUiSmallMarginTop" wrap="Wrap" width="100%">
 				<f:SimpleForm editable="true" labelSpanL="4" width="100%" title="" labelSpanXL="12" layout="ResponsiveGridLayout" emptySpanXL="0"
 					emptySpanL="0" columnsM="3" columnsL="4" columnsXL="4">
 					<f:content>
