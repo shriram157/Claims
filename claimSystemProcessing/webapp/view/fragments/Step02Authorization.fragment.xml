@@ -55,16 +55,16 @@
 				</f:content>
 			</f:SimpleForm>
 		</Panel>
-		<!--<f:SimpleForm  editable="true" layout="ResponsiveGridLayout" title="Authorization Details" labelSpanXL="3"-->
-		<!--	labelSpanL="3" labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"-->
-		<!--	columnsXL="2" columnsL="1" columnsM="1" singleContainerFullSize="false">-->
-		<!--	<f:content>-->
-		<!--		<core:Title text=""/>-->
-		<!--		<Label text="Authorization No."/>-->
-		<!--		<Input value=""/>-->
-		<!--		<Button text="Link to Authorization" press="onPressLinkAuthorization"/>-->
-		<!--	</f:content>-->
-		<!--</f:SimpleForm>-->
+		<f:SimpleForm  editable="true" layout="ResponsiveGridLayout" title="Authorization Details" labelSpanXL="3"
+			labelSpanL="3" labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
+			columnsXL="2" columnsL="1" columnsM="1" singleContainerFullSize="false">
+			<f:content>
+				<core:Title text=""/>
+				<Label text="Authorization No." visible="true"/>
+				<Input value="" visible="true"/>
+				<Button text="Link to Authorization" press="onPressLinkAuthorization" visible="true"/>
+			</f:content>
+		</f:SimpleForm>
 		<f:SimpleForm id="idAuthorizationForm" editable="true" layout="ResponsiveGridLayout" title="" labelSpanXL="6"
 			labelSpanL="6" labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
 			columnsXL="3" columnsL="3" columnsM="2" singleContainerFullSize="false">
@@ -166,7 +166,7 @@
 						<Label text="Mark-up %" textAlign="Center" width="100%"/>
 					</table:multiLabels>
 					<table:template>
-						<Text text="{LocalDataModel>MarkupAmt}" wrapping="true"/>
+						<Text text="{path:'LocalDataModel>MarkupRate', formatter:'zclaimProcessing.utils.formatter.fnFormatPercent'}" wrapping="true"/>
 					</table:template>
 				</table:Column>
 				<table:Column width="11rem">
@@ -182,7 +182,7 @@
 						<Label text="Discount %" textAlign="Center" width="100%"/>
 					</table:multiLabels>
 					<table:template>
-						<Text text="{LocalDataModel>DiscountRate}" wrapping="true"/>
+						<Text text="{path:'LocalDataModel>DiscountRate', formatter:'zclaimProcessing.utils.formatter.fnFormatPercent'}" wrapping="true"/>
 					</table:template>
 				</table:Column>
 				<table:Column width="11rem">
