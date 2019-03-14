@@ -135,8 +135,10 @@
 							</Select>
 							<core:Title text=""/>
 							<Label text="Part Number Received" width="10rem" visible="{multiHeaderConfig>/PartNumberRcV}"/>
-							<Input value="{ path : 'HeadSetData>/PartNumberRc'}" editable="{multiHeaderConfig>/PartNumberEdit}" required="true"
-								visible="{multiHeaderConfig>/PartNumberRcV}"></Input>
+							<!--<Input value="{ path : 'HeadSetData>/PartNumberRc'}" editable="{multiHeaderConfig>/PartNumberEdit}" required="true"-->
+							<!--	visible="{multiHeaderConfig>/PartNumberRcV}"></Input>-->
+							<Input value="{HeadSetData>/PartNumberRc}" id="idPartNumber2" required="true" showValueHelp="true" valueHelpOnly="true" editable="{multiHeaderConfig>/PartNumberEdit}" 
+								valueHelpRequest="handlePNValueHelp" enabled="{DateModel>/partLine}"></Input>
 							<core:Title text=""/>
 							<Label text="Part Description" visible="{multiHeaderConfig>/PartDescriptionOrdRcv}"/>
 							<Input value="{ path : 'HeadSetData>/PartNumberRcDesc'}" id="idOrderedReceivedPartDesc" editable="{multiHeaderConfig>/OrderedPartDesc}"
@@ -156,11 +158,12 @@
 							<Input id="idReceivedAmt" value="{HeadSetData>/RepairAmount}" type="Number" visible="{multiHeaderConfig>/RepairAmtV}"></Input>
 							<core:Title text=""/>
 							<Label text="Quantity"></Label>
-							<Input value="{path : 'PartDataModel>/QuantityReceived', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 100 }}"
+							<Input
+								value="{path : 'PartDataModel>/QuantityReceived', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 100 }}"
 								required="true" id="idReceivedQnt">
-							<!--<Input-->
-							<!--	value="{ path : 'PartDataModel>/QuantityReceived', type : 'sap.ui.model.type.Integer', formatOptions : { groupingEnabled : true }, constraints : { minimum : 50, maximum : 10000000 } }"-->
-							<!--	required="true" id="idReceivedQnt">-->
+								<!--<Input-->
+								<!--	value="{ path : 'PartDataModel>/QuantityReceived', type : 'sap.ui.model.type.Integer', formatOptions : { groupingEnabled : true }, constraints : { minimum : 50, maximum : 10000000 } }"-->
+								<!--	required="true" id="idReceivedQnt">-->
 								<layoutData>
 									<l:GridData span="XL8 L8"/>
 								</layoutData>
@@ -200,6 +203,10 @@
 					<Column>
 						<Text text="Quantity"/>
 					</Column>
+					<Column visible="{multiHeaderConfig>/DiscrepancyCol}">
+						<Text text="Claim Quantity"/>
+					</Column>
+					<!--SAPQuant-->
 					<Column>
 						<Text text="Retain Part" visible="{multiHeaderConfig>/RetainPartCol}"/>
 					</Column>
@@ -244,20 +251,22 @@
 					<ColumnListItem>
 						<cells>
 							<Text text="{LocalDataModel>posnr}"/>
-							<Text text="{LocalDataModel>DiscreDesc}"/>
-							<Text text="{LocalDataModel>DiscreDesc}"/>
-							<Text text="{LocalDataModel>DiscreDesc}"/>
-							<Text text="{LocalDataModel>DiscreDesc}"/>
+							<Text text="{LocalDataModel>ALMDiscreDesc}"/>
+							<Text text="{LocalDataModel>ALMDiscreDesc}"/>
+							<Text text="{LocalDataModel>ALMDiscreDesc}"/>
+							<Text text="{LocalDataModel>ALMDiscreDesc}"/>
 							<!--<Text text="{LocalDataModel>DamageTypeCode>}"/>-->
 							<Text text="{LocalDataModel>matnr}"/>
 							<Text text="{LocalDataModel>PartDescription}"/>
 							<Text text="{LocalDataModel>DealerNet}"/>
+							<Text text="{LocalDataModel>quant2}"/>
 							<Text text="{LocalDataModel>quant}"/>
 							<Text text="{LocalDataModel>RetainPart}"/>
 							<Text text="{LocalDataModel>PartRepaired}"/>
 							<Text text="{LocalDataModel>RepairAmt}"/>
 							<Text text="{LocalDataModel>AmtClaimed}"/>
-							<Link visible="{multiHeaderConfig>/AttachmentCol}" press="onClickURIParts" href="{LocalDataModel>URI}" text="View Attachment" target="_blank" textAlign="Center" width="100%"/>
+							<Link visible="{multiHeaderConfig>/AttachmentCol}" press="onClickURIParts" href="{LocalDataModel>URI}" text="View Attachment"
+								target="_blank" textAlign="Center" width="100%"/>
 							<!--<Text text="{LocalDataModel>Attachments}"/>-->
 							<Text text="{LocalDataModel>TCIApprovedAmount}"/>
 							<Text text="{LocalDataModel>DiffAmt}"/>
