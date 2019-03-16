@@ -55,9 +55,20 @@
 				</f:content>
 			</f:SimpleForm>
 		</Panel>
-		<f:SimpleForm id="idAuthorizationForm" editable="true" layout="ResponsiveGridLayout" title="Authorization Details" labelSpanXL="6"
+		<f:SimpleForm  editable="true" layout="ResponsiveGridLayout" title="Authorization Details" labelSpanXL="3"
+			labelSpanL="3" labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
+			columnsXL="2" columnsL="1" columnsM="1" singleContainerFullSize="false">
+			<f:content>
+				<core:Title text=""/>
+				<Label text="Authorization No." visible="true"/>
+				<Input value="" visible="true"/>
+				<Button text="Link to Authorization" press="onPressLinkAuthorization" visible="true"/>
+			</f:content>
+		</f:SimpleForm>
+		<f:SimpleForm id="idAuthorizationForm" editable="true" layout="ResponsiveGridLayout" title="" labelSpanXL="6"
 			labelSpanL="6" labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
 			columnsXL="3" columnsL="3" columnsM="2" singleContainerFullSize="false">
+			
 			<f:content>
 				<core:Title text=""/>
 				<Label text="TCI Claim #"/>
@@ -89,13 +100,13 @@
 							<Label text="Repair Amount"/>
 						</Column>
 						<Column hAlign="Center">
-							<Label text="Repair Amount"/>
+							<Label text="Customer"/>
 						</Column>
 						<Column  hAlign="Center">
-							<Label text="Repair Amount"/>
+							<Label text="Dealer"/>
 						</Column>
 						<Column  hAlign="Center">
-							<Label text="Repair Amount"/>
+							<Label text="TCI"/>
 						</Column>
 					</columns>
 					<items>
@@ -103,13 +114,13 @@
 							<cells>
 								<Text text="Participation % :"/>
 								<Text text=""/>
-								<Select items="{LocalDataModel>/DataPercent}" selectedKey="{DataPercetCalculate>/customerPer}">
+								<Select items="{LocalDataModel>/DataPercent}" selectedKey="{path:'DataPercetCalculate>/CustomerPer'}" >
 									<core:Item key="{LocalDataModel>okey}" text="{LocalDataModel>num}"/>
 								</Select>
-								<Select items="{LocalDataModel>/DataPercent}" selectedKey="{DataPercetCalculate>/dealerPer}">
+								<Select items="{LocalDataModel>/DataPercent}" selectedKey="{DataPercetCalculate>/DealerPer}">
 									<core:Item key="{LocalDataModel>okey}" text="{LocalDataModel>num}"/>
 								</Select>
-								<Select items="{LocalDataModel>/DataPercent}" selectedKey="{DataPercetCalculate>/TciPer}">
+								<Select items="{LocalDataModel>/DataPercent}" selectedKey="{DataPercetCalculate>/TCIPer}">
 									<core:Item key="{LocalDataModel>okey}" text="{LocalDataModel>num}"/>
 								</Select>
 							</cells>
@@ -117,10 +128,10 @@
 						<ColumnListItem>
 							<cells>
 								<Text text="Participation $:"/>
-								<Text text="$1,840.79"/>
-								<Text text="$0.00"/>
-								<Text text="$368.16"/>
-								<Text text="$1,472.63"/>
+								<Text text="{DataPercetCalculate>/RepairAmt}"/>
+								<Text text="{DataPercetCalculate>/CustomerAmt}"/>
+								<Text text="{DataPercetCalculate>/DealerAmt}"/>
+								<Text text="{DataPercetCalculate>/TCIAmt}"/>
 							</cells>
 						</ColumnListItem>
 					</items>
@@ -130,92 +141,8 @@
 			<html:div ><Button text="Re-calculate Claim Amount" press="onPressRecalculate" type="Emphasized"/></html:div>
 		</l:Grid>
 		</l:VerticalLayout>
-		<!--<table:Table rows="{LocalDataModel>/DataPercent}" class="classRCPTable sapUiMediumMarginBottom" -->
-		<!--		visibleRowCount="1" visibleRowCountMode="Fixed" >-->
-		<!--		<table:toolbar>-->
-		<!--			<Toolbar>-->
-		<!--				<ToolbarSpacer/>-->
-		<!--				<Button text="Re-calculate Claim Amount" press="onPressRecalculate"/>-->
-		<!--			</Toolbar>-->
-		<!--		</table:toolbar>-->
-		<!--			<table:columns>-->
-		<!--			<table:Column width="17rem">-->
-		<!--				<table:multiLabels>-->
-		<!--					<Label text="" textAlign="Center" width="100%"/>-->
-		<!--				</table:multiLabels>-->
-		<!--				<table:template>-->
-		<!--					<Text text="" wrapping="true"/>-->
-		<!--				</table:template>-->
-		<!--			</table:Column>-->
-		<!--			<table:Column width="11rem">-->
-		<!--				<table:multiLabels>-->
-		<!--					<Label text="Repair Amount" textAlign="Center" width="100%"/>-->
-		<!--				</table:multiLabels>-->
-		<!--				<table:template>-->
-		<!--					<Text text="" wrapping="true"/>-->
-		<!--				</table:template>-->
-		<!--			</table:Column>-->
-		<!--			<table:Column width="11rem">-->
-		<!--				<table:multiLabels>-->
-		<!--					<Label text="Customer" textAlign="Center" width="100%"/>-->
-		<!--				</table:multiLabels>-->
-		<!--				<table:template>-->
-		<!--					<Select items="{LocalDataModel>/DataPercent}">-->
-		<!--						<core:Item key="{LocalDataModel>num}" text="{LocalDataModel>num}" />-->
-		<!--					</Select>-->
-		<!--				</table:template>-->
-		<!--			</table:Column>-->
-		<!--			<table:Column width="11rem">-->
-		<!--				<table:multiLabels>-->
-		<!--					<Label text="Dealer" textAlign="Center" width="100%"/>-->
-		<!--				</table:multiLabels>-->
-		<!--				<table:template>-->
-		<!--					<Text text="kjlkjlk" wrapping="true"/>-->
-		<!--				</table:template>-->
-		<!--			</table:Column>-->
-		<!--				<table:Column width="11rem">-->
-		<!--				<table:multiLabels>-->
-		<!--					<Label text="TCI" textAlign="Center" width="100%"/>-->
-		<!--				</table:multiLabels>-->
-		<!--				<table:template>-->
-		<!--					<Text text="kjlkjlkjlk" wrapping="true"/>-->
-		<!--				</table:template>-->
-		<!--			</table:Column>-->
-		<!--		</table:columns>-->
-		<!--	</table:Table>-->
-		<!--	<table:Table rows="{LocalDataModel>/DataPercent}" class="classRCPTable sapUiMediumMarginBottom" -->
-		<!--		visibleRowCount="1" columnHeaderHeight="0">-->
-		<!--			<table:columns>-->
-		<!--			<table:Column width="17rem">-->
-		<!--				<table:template>-->
-		<!--					<Text text="" wrapping="true"/>-->
-		<!--				</table:template>-->
-		<!--			</table:Column>-->
-		<!--			<table:Column width="11rem">-->
-		<!--				<table:template>-->
-		<!--					<Text text="" wrapping="true"/>-->
-		<!--				</table:template>-->
-		<!--			</table:Column>-->
-		<!--			<table:Column width="11rem">-->
-		<!--				<table:template>-->
-		<!--					<Select items="{LocalDataModel>/DataPercent}">-->
-		<!--						<core:Item key="{LocalDataModel>num}" text="{LocalDataModel>num}" />-->
-		<!--					</Select>-->
-		<!--				</table:template>-->
-		<!--			</table:Column>-->
-		<!--			<table:Column width="11rem">-->
-		<!--				<table:template>-->
-		<!--					<Text text="kjlkjlk" wrapping="true"/>-->
-		<!--				</table:template>-->
-		<!--			</table:Column>-->
-		<!--				<table:Column width="11rem">-->
-		<!--				<table:template>-->
-		<!--					<Text text="kjlkjlkjlk" wrapping="true"/>-->
-		<!--				</table:template>-->
-		<!--			</table:Column>-->
-		<!--		</table:columns>-->
-		<!--	</table:Table>-->
-		<table:Table class="classRCPTable" selectionMode="Single" rows="{path:'LocalDataModel>/ClaimSum'}" visibleRowCountMode="Auto"
+		
+		<table:Table class="classRCPTable" selectionMode="Single" rows="{path:'LocalDataModel>/ClaimSumAuth'}" visibleRowCountMode="Auto"
 			rowSelectionChange="onNavigate" selectionBehavior="Row" showNoData="true" threshold="20" enableBusyIndicator="true">
 			<table:columns autoResizable="true">
 				<table:Column width="17rem">
@@ -231,7 +158,7 @@
 						<Label text="Amount" textAlign="Center" width="100%"/>
 					</table:multiLabels>
 					<table:template>
-						<Text text="{LocalDataModel>DealerClaim}" wrapping="true"/>
+						<Text text="{LocalDataModel>Amount}" wrapping="true"/>
 					</table:template>
 				</table:Column>
 				<table:Column width="11rem">
@@ -239,7 +166,7 @@
 						<Label text="Mark-up %" textAlign="Center" width="100%"/>
 					</table:multiLabels>
 					<table:template>
-						<Text text="{LocalDataModel>TCIAppr}" wrapping="true"/>
+						<Text text="{path:'LocalDataModel>MarkupRate', formatter:'zclaimProcessing.utils.formatter.fnFormatPercent'}" wrapping="true"/>
 					</table:template>
 				</table:Column>
 				<table:Column width="11rem">
@@ -247,7 +174,7 @@
 						<Label text="Sub-total" textAlign="Center" width="100%"/>
 					</table:multiLabels>
 					<table:template>
-						<Text text="{LocalDataModel>Diff}" wrapping="true"/>
+						<Text text="{LocalDataModel>SubtotalAmt}" wrapping="true"/>
 					</table:template>
 				</table:Column>
 				<table:Column width="11rem">
@@ -255,7 +182,7 @@
 						<Label text="Discount %" textAlign="Center" width="100%"/>
 					</table:multiLabels>
 					<table:template>
-						<Text text="{LocalDataModel>Diff}" wrapping="true"/>
+						<Text text="{path:'LocalDataModel>DiscountRate', formatter:'zclaimProcessing.utils.formatter.fnFormatPercent'}" wrapping="true"/>
 					</table:template>
 				</table:Column>
 				<table:Column width="11rem">
@@ -263,7 +190,7 @@
 						<Label text="Discount Amount" textAlign="Center" width="100%"/>
 					</table:multiLabels>
 					<table:template>
-						<Text text="{LocalDataModel>Diff}" wrapping="true"/>
+						<Text text="{LocalDataModel>DiscountAmt}" wrapping="true"/>
 					</table:template>
 				</table:Column>
 				<table:Column width="11rem">
@@ -271,7 +198,7 @@
 						<Label text="Claim Amount" textAlign="Center" width="100%"/>
 					</table:multiLabels>
 					<table:template>
-						<Text text="{LocalDataModel>Diff}" wrapping="true"/>
+						<Text text="{LocalDataModel>ClaimAmt}" wrapping="true"/>
 					</table:template>
 				</table:Column>
 				<table:Column width="11rem">
@@ -279,7 +206,7 @@
 						<Label text="Authorized Amount" textAlign="Center" width="100%"/>
 					</table:multiLabels>
 					<table:template>
-						<Text text="{LocalDataModel>Diff}" wrapping="true"/>
+						<Text text="{LocalDataModel>AuthAmt}" wrapping="true"/>
 					</table:template>
 				</table:Column>
 			</table:columns>

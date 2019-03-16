@@ -457,6 +457,19 @@ zclaimProcessing.utils.formatter = {
 			pattern: "YYYY-dd-MM"
 		});
 		return oDateFormatShort.format(new Date());
+	},
+	
+	fnFormatPercent : function (val) {
+		var oVal = "";
+		if (val) {
+			var oValNum = parseInt(val);
+			
+				oVal = oValNum + "%";
+			} else {
+				oVal = val;
+			}
+	
+		return oVal;
 	}
 
 };

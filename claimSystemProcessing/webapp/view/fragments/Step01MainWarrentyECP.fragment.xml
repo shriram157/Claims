@@ -58,7 +58,7 @@
 							<l:GridData span="XL8 L8 M12 S12"/>
 						</layoutData>
 					</Button>
-					<Button text="{i18n>CopytoClaim}" type="Default" press="onCopyClaim">
+					<Button text="{LocalDataModel>/copyClaimAuthText}" type="Default" press="onCopyClaim">
 						<layoutData>
 							<l:GridData span="XL8 L8 M12 S12"/>
 						</layoutData>
@@ -271,53 +271,7 @@
 				</ColumnListItem>
 			</items>
 		</Table>
-		<!--<table:Table id="idECPAGR" class="classRCPTable" selectionMode="Single"  rows="{path:'LocalDataModel>/AgreementDataECP'}"-->
-		<!--	rowSelectionChange="onNavigate" selectionBehavior="Row" showNoData="true" threshold="4" visibleRowCount="4" enableBusyIndicator="true"-->
-		<!--	visible="{DateModel>/oECPfields}">-->
-		<!--	<table:toolbar>-->
-		<!--		<Toolbar>-->
-		<!--			<Title text="{i18n>ActiveAgreeement}" level="H2"/>-->
-		<!--		</Toolbar>-->
-		<!--	</table:toolbar>-->
-		<!--	<table:columns autoResizable="true">-->
-		<!--		<table:Column width="9rem">-->
-		<!--			<table:multiLabels>-->
-		<!--			</table:multiLabels>-->
-		<!--			<table:template>-->
-		<!--			</table:template>-->
-		<!--		</table:Column>-->
-		<!--		<table:Column width="9rem">-->
-		<!--			<table:multiLabels>-->
-		<!--			</table:multiLabels>-->
-		<!--			<table:template>-->
-		<!--			</table:template>-->
-		<!--		</table:Column>-->
-		<!--		<table:Column width="9rem">-->
-		<!--			<table:multiLabels>-->
-		<!--			</table:multiLabels>-->
-		<!--			<table:template>-->
-		<!--			</table:template>-->
-		<!--		</table:Column>-->
-		<!--		<table:Column width="17rem">-->
-		<!--			<table:multiLabels>-->
-		<!--			</table:multiLabels>-->
-		<!--			<table:template>-->
-		<!--			</table:template>-->
-		<!--		</table:Column>-->
-		<!--		<table:Column width="17rem">-->
-		<!--			<table:multiLabels>-->
-		<!--			</table:multiLabels>-->
-		<!--			<table:template>-->
-		<!--			</table:template>-->
-		<!--		</table:Column>-->
-		<!--		<table:Column width="17rem">-->
-		<!--			<table:multiLabels>-->
-		<!--			</table:multiLabels>-->
-		<!--			<table:template>-->
-		<!--			</table:template>-->
-		<!--		</table:Column>-->
-		<!--	</table:columns>-->
-		<!--</table:Table>-->
+		
 		<f:SimpleForm editable="" title="" layout="ResponsiveGridLayout" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12"
 			adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="5" columnsL="5" columnsM="3"
 			singleContainerFullSize="false" visible="{DateModel>/oECPfields}">
