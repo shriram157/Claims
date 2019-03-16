@@ -1,6 +1,7 @@
 sap.ui.define([
-	"zclaimProcessing/controller/BaseController"
-], function (BaseController) {
+	"zclaimProcessing/controller/BaseController",
+	'sap/m/MessageToast'
+], function (BaseController, MessageToast) {
 	"use strict";
 
 	return BaseController.extend("zclaimProcessing.controller.ClaimInquiry", {
@@ -11,6 +12,7 @@ sap.ui.define([
 		 * @memberOf zclaimProcessing.view.ClaimInquiry
 		 */
 		onInit: function () {
+			this.getDealer();
 			this.getView().setModel(this.getModel("ProssingModel"));
 			var PriorDate = new Date();
 			var oDateModel = new sap.ui.model.json.JSONModel();
@@ -21,8 +23,12 @@ sap.ui.define([
 				vinState: "None"
 			});
 			this.getView().setModel(oDateModel, "DateModel");
+			this.getModel("LocalDataModel").setProperty("/LinkEnable", true);
 		},
+		
 		onPressSearch: function () {
+			var oClaimModel = this.getModel("ProssingModel");
+			var oDealer = this.getModel("LocalDataModel").getProperty("/BpDealerModel/0/BusinessPartnerKey");
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var oDateFormat = sap.ui.core.format.DateFormat.getDateInstance({
 				pattern: "yyyy-MM-ddTHH:mm:ss"
@@ -34,59 +40,73 @@ sap.ui.define([
 			var FromDateFormat = oDateFormat.format(FromDate);
 			var ToDateFormat = oDateFormat.format(ToDate);
 			if (sQuery != "") {
-				this.getView().getModel("DateModel").setProperty("/vinState", "None");
-				this.getView().byId("idNewClaimMsgStrp").setProperty("visible", false);
-				this.getView().byId("idNewClaimMsgStrp").setType("None");
+				oClaimModel.read("/ZC_CLAIM_HEAD", {
+						urlParameters: {
+							"$filter": "ReferenceDate ge datetime'" + FromDateFormat +
+								"'and ReferenceDate le datetime'" + ToDateFormat +
+								"'and ExternalObjectNumber eq '" + sQuery + "'"
 
-				andFilter = new sap.ui.model.Filter({
-					filters: [
-						new sap.ui.model.Filter("ExternalObjectNumber", sap.ui.model.FilterOperator.EQ, sQuery),
-						new sap.ui.model.Filter("ReferenceDate", sap.ui.model.FilterOperator.BT, FromDateFormat, ToDateFormat)
-					],
-					and: true
+						},
+						success : $.proxy(function(data){
+							//var oArr = data.results;
+							this.getModel("LocalDataModel").setProperty("/DataResultEnquiry", data.results);
+							// var oArr = this.getModel("LocalDataModel").getProperty("/DataResultEnquiry");
+							// oArr.forEach($.proxy(function(item){
+							// 	if(item.Partner == oDealer){
+							// 		this.getModel("LocalDataModel").setProperty("/LinkEnable", true);	
+							// 	}else {
+							// 		this.getModel("LocalDataModel").setProperty("/LinkEnable", false);
+							// 	}
+							// }),this);
+							
+						}, this)
 				});
+				
+				this.getView().getModel("DateModel").setProperty("/vinState", "None");
+				
 			} else {
 				this.getView().getModel("DateModel").setProperty("/vinState", "Error");
 				this.getView().byId("idNewClaimMsgStrp").setProperty("visible", true);
-				this.getView().byId("idNewClaimMsgStrp").setText(oBundle.getText("PleaseEnterVINNumber"));
-				this.getView().byId("idNewClaimMsgStrp").setType("Error");
 			}
-			var oTable = this.getView().byId("idClaimInquiryTable");
-			var oBindItems = oTable.getBinding("rows");
-			oBindItems.filter(andFilter);
 
 		},
-		onPressClaimInquiryDetails: function () {
-			var oDialogBox = sap.ui.xmlfragment("zclaimProcessing.view.fragments.ClaimInquiryDetails", this);
-			this.getView().addDependent(oDialogBox);
-			oDialogBox.open();
+		onPressClaimInquiryDetails: function (oEvent) {
+			var oCustomer = oEvent.getSource().getParent().getCells()[0].getText();
+			var oClaimNum = oEvent.getSource().getParent().getCells()[2].getText();
+			var oClaimType = oEvent.getSource().getParent().getCells()[6].getText();
+			if (oClaimType == "ZACD" || oClaimType == "ZAUT") {
+						this.oSelectedClaimGroup = "Authorization";
+					} else {
+						this.oSelectedClaimGroup = "Claim";
+					}
+			// var oSelectedClaimGroup = oEvent.getSource().getParent().getCells()[15].getText();
+			var oDealer = this.getModel("LocalDataModel").getProperty("/BpDealerModel/0/BusinessPartnerKey");
+			if(oCustomer === oDealer){
+				this.getOwnerComponent().getRouter().navTo("MainClaimSection", {
+						claimNum: oClaimNum,
+						oKey: oClaimType,
+						oClaimGroup: this.oSelectedClaimGroup,
+						oClaimNav : "Inq"
+
+					});
+			}else{
+				MessageToast.show("You are not Authorized Dealer.");
+			}
+		},
+		fnFormatDealer : function(val){
+			var oDealer = this.getModel("LocalDataModel").getProperty("/BpDealerModel/0/BusinessPartnerKey");
+			var oAccessedDealer ;
+			if(val === oDealer){
+				this.getModel("LocalDataModel").setProperty("/LinkEnable", true);
+				oAccessedDealer = val;
+			}else{
+				this.getModel("LocalDataModel").setProperty("/LinkEnable", false);
+				oAccessedDealer = val;
+			}
+			return val;
 		}
 
-		/**
-		 * Similar to onAfterRendering, but this hook is invoked before the controller's View is re-rendered
-		 * (NOT before the first rendering! onInit() is used for that one!).
-		 * @memberOf zclaimProcessing.view.ClaimInquiry
-		 */
-		//	onBeforeRendering: function() {
-		//
-		//	},
-
-		/**
-		 * Called when the View has been rendered (so its HTML is part of the document). Post-rendering manipulations of the HTML could be done here.
-		 * This hook is the same one that SAPUI5 controls get after being rendered.
-		 * @memberOf zclaimProcessing.view.ClaimInquiry
-		 */
-		//	onAfterRendering: function() {
-		//
-		//	},
-
-		/**
-		 * Called when the Controller is destroyed. Use this one to free resources and finalize activities.
-		 * @memberOf zclaimProcessing.view.ClaimInquiry
-		 */
-		//	onExit: function() {
-		//
-		//	}
+		
 
 	});
 

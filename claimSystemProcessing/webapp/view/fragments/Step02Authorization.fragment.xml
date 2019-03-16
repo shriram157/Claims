@@ -171,6 +171,14 @@
 				</table:Column>
 				<table:Column width="11rem">
 					<table:multiLabels>
+						<Label text="Mark-up Amount" textAlign="Center" width="100%"/>
+					</table:multiLabels>
+					<table:template>
+						<Text text="{path:'LocalDataModel>MarkupAmt'}" wrapping="true"/>
+					</table:template>
+				</table:Column>
+				<table:Column width="11rem">
+					<table:multiLabels>
 						<Label text="Sub-total" textAlign="Center" width="100%"/>
 					</table:multiLabels>
 					<table:template>

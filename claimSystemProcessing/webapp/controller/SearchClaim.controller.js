@@ -465,7 +465,8 @@ sap.ui.define([
 					this.getOwnerComponent().getRouter().navTo("MainClaimSection", {
 						claimNum: oClaimNum,
 						oKey: oClaimType,
-						oClaimGroup: this.oSelectedClaimGroup
+						oClaimGroup: this.oSelectedClaimGroup,
+						oClaimNav : "Details"
 
 					});
 

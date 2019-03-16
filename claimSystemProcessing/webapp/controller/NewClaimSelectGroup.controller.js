@@ -69,27 +69,31 @@ sap.ui.define([
 				this.getRouter().navTo("MainClaimSection", {
 					claimNum : oClaimNum,
 					oKey : "WARRANTY",
-					oClaimGroup : this.oSelectedClaimGroup
+					oClaimGroup : this.oSelectedClaimGroup,
+						oClaimNav : "New"
 					
 				});
 			} else if (oSelectedKey === "PART WAREHOUSE") {
 				this.getRouter().navTo("PartsMainSection", {
 					claimNum : oClaimNum,
 					oKey : "PART WAREHOUSE",
-					oClaimGroup : this.oSelectedClaimGroup
+					oClaimGroup : this.oSelectedClaimGroup,
+					oClaimNav : "New"
 				});
 			}else if (oSelectedKey === "FIELD ACTION") {
 					this.getRouter().navTo("MainClaimSection", {
 					claimNum : oClaimNum,
 					oKey : "FIELD ACTION",
-					oClaimGroup : this.oSelectedClaimGroup
+					oClaimGroup : this.oSelectedClaimGroup,
+					oClaimNav : "New"
 					
 				});
 			}else if (oSelectedKey === "ECP") {
 					this.getRouter().navTo("MainClaimSection", {
 					claimNum : oClaimNum,
 					oKey : "ECP",
-					oClaimGroup : this.oSelectedClaimGroup
+					oClaimGroup : this.oSelectedClaimGroup,
+					oClaimNav : "New"
 					
 				});
 			}
@@ -97,28 +101,31 @@ sap.ui.define([
 					this.getRouter().navTo("MainClaimSection", {
 					claimNum : oClaimNum,
 					oKey : "SETR",
-					oClaimGroup : this.oSelectedClaimGroup
+					oClaimGroup : this.oSelectedClaimGroup,
+					oClaimNav : "New"
 					
 				});
 			}else if (oSelectedKey === "CORE RETURN") {
 					this.getRouter().navTo("MainClaimSection", {
 					claimNum : oClaimNum,
 					oKey : "CORE RETURN",
-					oClaimGroup : this.oSelectedClaimGroup
-					
+					oClaimGroup : this.oSelectedClaimGroup,
+					oClaimNav : "New"
 				});
 			}else if (oSelectedKey === "VEHICLE LOGISTICS") {
 				this.getRouter().navTo("MainClaimSection", {
 					claimNum : oClaimNum,
 					oKey : "VEHICLE LOGISTICS",
-					oClaimGroup : this.oSelectedClaimGroup
+					oClaimGroup : this.oSelectedClaimGroup,
+					oClaimNav : "New"
 					
 				});
 			}else if (oSelectedKey === "CUSTOMER RELATIONS") {
 				this.getRouter().navTo("MainClaimSection", {
 					claimNum : oClaimNum,
 					oKey : "CUSTOMER RELATIONS",
-					oClaimGroup : this.oSelectedClaimGroup
+					oClaimGroup : this.oSelectedClaimGroup,
+					oClaimNav : "New"
 					
 				});
 			}
