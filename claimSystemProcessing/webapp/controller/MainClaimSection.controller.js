@@ -2224,7 +2224,7 @@ sap.ui.define([
 				oClaimModel.read("/zc_claim_copy_to_authSet(NumberOfWarrantyClaim='" + oAuthNum + "')", {
 
 					success: $.proxy(function (data) {
-						var oClaimNum = data.NumberOfWarrantyClaim;
+						var oClaimNum = data.NumberOfAuth;
 						oClaimModel.read("/ZC_CLAIM_HEAD", {
 							urlParameters: {
 								"$filter": "NumberOfWarrantyClaim eq '" + oClaimNum + "'"
