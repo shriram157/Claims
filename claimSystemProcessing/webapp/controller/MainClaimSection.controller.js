@@ -2248,6 +2248,7 @@ sap.ui.define([
 			var oAuthNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			if (oClaimGroup == "Authorization") {
 				this.getView().getModel("DateModel").setProperty("/warrantySubmissionClaim", false);
+				
 				oClaimModel.read("/zc_auth_copy_to_claimSet(NumberOfAuth='" + oAuthNum + "')", {
 
 					success: $.proxy(function (data) {
@@ -2261,6 +2262,10 @@ sap.ui.define([
 								this.getModel("LocalDataModel").setProperty("/WarrantyClaimNum", oClaimNum);
 								this.getModel("LocalDataModel").setProperty("/WarrantyClaimNumber", oBundle.getText("TCIClaimNumber") + " : " +
 									oClaimNum);
+									
+								this.getModel("LocalDataModel").setProperty("/linkToAuth", true);
+								this.getModel("LocalDataModel").setProperty("/reCalculate", false);
+								this.getModel("LocalDataModel").setProperty("/PercentState", false);
 							}, this)
 						});
 					}, this)
@@ -2281,6 +2286,9 @@ sap.ui.define([
 								this.getModel("LocalDataModel").setProperty("/WarrantyClaimNum", oClaimNum);
 								this.getModel("LocalDataModel").setProperty("/WarrantyClaimNumber", oBundle.getText("TCIAuthNumber") + " : " +
 									oClaimNum);
+								this.getModel("LocalDataModel").setProperty("/linkToAuth", false);
+								this.getModel("LocalDataModel").setProperty("/reCalculate", true);
+								this.getModel("LocalDataModel").setProperty("/PercentState", true);
 							}, this)
 						});
 					}, this)
@@ -2293,7 +2301,7 @@ sap.ui.define([
 			var oClaim = this.getView().getModel("DataPercetCalculate").getProperty("/AuthorizationNumber");
 			oProssingModel.read("/zc_authorizationSet", {
 				urlParameters: {
-					"$filter": "DBOperation eq 'READ'and AuthorizationNumber eq '" + oClaim +
+					"$filter": "DBOperation eq 'LINK'and AuthorizationNumber eq '" + oClaim +
 						"'and DealerPer eq '00'and CustomerPer eq '00'and TCIPer eq '00'"
 				},
 				success: $.proxy(function (data) {
