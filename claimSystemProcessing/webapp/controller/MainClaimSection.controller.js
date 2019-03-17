@@ -767,14 +767,15 @@ sap.ui.define([
 
 				this.getModel("LocalDataModel").setProperty("/DataItemDamageSet", "");
 				if (oClaimAuthType == "Authorization") {
+					this.getModel("LocalDataModel").setProperty("/copyClaimAuthText", oBundle.getText("CopytoClaim"));
 					this.getModel("LocalDataModel").setProperty("/WarrantyClaimNumber", oBundle.getText("TCIAuthNumber"));
-					this.getModel("LocalDataModel").setProperty("/copyClaimAuthText", oBundle.getText("CopytoAuthorization"));
+
 					this.getModel("LocalDataModel").setProperty("/linkToAuth", false);
 					this.getModel("LocalDataModel").setProperty("/reCalculate", true);
 					this.getModel("LocalDataModel").setProperty("/PercentState", true);
 				} else {
 					this.getModel("LocalDataModel").setProperty("/WarrantyClaimNumber", oBundle.getText("TCIClaimNumber"));
-					this.getModel("LocalDataModel").setProperty("/copyClaimAuthText", oBundle.getText("CopytoClaim"));
+					this.getModel("LocalDataModel").setProperty("/copyClaimAuthText", oBundle.getText("CopytoAuthorization"));
 					this.getModel("LocalDataModel").setProperty("/linkToAuth", true);
 					this.getModel("LocalDataModel").setProperty("/reCalculate", false);
 					this.getModel("LocalDataModel").setProperty("/PercentState", false);
@@ -1465,6 +1466,14 @@ sap.ui.define([
 									this.getModel("LocalDataModel").setProperty("/linkToAuth", false);
 									this.getModel("LocalDataModel").setProperty("/reCalculate", true);
 									this.getModel("LocalDataModel").setProperty("/PercentState", true);
+									oClaimModel.read("/zc_authorization_detailsSet", {
+										urlParameters: {
+											"$filter": "AuthorizationNumber eq '" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") + "'"
+										},
+										success: $.proxy(function (oAuthData) {
+											this.getModel("LocalDataModel").setProperty("/DataAuthDetails", oAuthData.results[0]);
+										}, this)
+									});
 								} else {
 									this.getModel("LocalDataModel").setProperty("/WarrantyClaimNumber", oBundle.getText("TCIClaimNumber") + " : " +
 										oCLaim);
@@ -2248,7 +2257,7 @@ sap.ui.define([
 			var oAuthNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			if (oClaimGroup == "Authorization") {
 				this.getView().getModel("DateModel").setProperty("/warrantySubmissionClaim", false);
-				
+
 				oClaimModel.read("/zc_auth_copy_to_claimSet(NumberOfAuth='" + oAuthNum + "')", {
 
 					success: $.proxy(function (data) {
@@ -2262,7 +2271,7 @@ sap.ui.define([
 								this.getModel("LocalDataModel").setProperty("/WarrantyClaimNum", oClaimNum);
 								this.getModel("LocalDataModel").setProperty("/WarrantyClaimNumber", oBundle.getText("TCIClaimNumber") + " : " +
 									oClaimNum);
-									
+
 								this.getModel("LocalDataModel").setProperty("/linkToAuth", true);
 								this.getModel("LocalDataModel").setProperty("/reCalculate", false);
 								this.getModel("LocalDataModel").setProperty("/PercentState", false);
@@ -2277,6 +2286,15 @@ sap.ui.define([
 
 					success: $.proxy(function (data) {
 						var oClaimNum = data.NumberOfAuth;
+
+						oClaimModel.read("/zc_authorization_detailsSet", {
+							urlParameters: {
+								"$filter": "AuthorizationNumber eq '" + oClaimNum + "'"
+							},
+							success: $.proxy(function (oAuthData) {
+								this.getModel("LocalDataModel").setProperty("/DataAuthDetails", oAuthData.results[0]);
+							}, this)
+						});
 						oClaimModel.read("/ZC_CLAIM_HEAD", {
 							urlParameters: {
 								"$filter": "NumberOfWarrantyClaim eq '" + oClaimNum + "'"
@@ -2305,7 +2323,7 @@ sap.ui.define([
 						"'and DealerPer eq '00'and CustomerPer eq '00'and TCIPer eq '00'"
 				},
 				success: $.proxy(function (data) {
-					
+
 					this.getView().getModel("DataPercetCalculate").setData(data.results[0]);
 					var ocust = parseInt(data.results[0].CustomerPer).toString();
 					var odeal = parseInt(data.results[0].DealerPer).toString();
@@ -2313,8 +2331,8 @@ sap.ui.define([
 					this.getView().getModel("DataPercetCalculate").setProperty("/CustomerPer", ocust);
 					this.getView().getModel("DataPercetCalculate").setProperty("/DealerPer", odeal);
 					this.getView().getModel("DataPercetCalculate").setProperty("/TCIPer", otci);
-					
-					if(data.results[0].Message != ""){
+
+					if (data.results[0].Message != "") {
 						MessageToast.show(data.results[0].Message);
 					}
 				}, this)
