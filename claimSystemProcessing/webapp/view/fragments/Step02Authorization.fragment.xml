@@ -60,9 +60,9 @@
 			columnsXL="2" columnsL="1" columnsM="1" singleContainerFullSize="false">
 			<f:content>
 				<core:Title text=""/>
-				<Label text="Authorization No." visible="true"/>
-				<Input value="" visible="true"/>
-				<Button text="Link to Authorization" press="onPressLinkAuthorization" visible="true"/>
+				<Label text="Authorization No." visible="{LocalDataModel>/linkToAuth}"/>
+				<Input value="{DataPercetCalculate>/AuthorizationNumber}" visible="{LocalDataModel>/linkToAuth}"/>
+				<Button text="Link to Authorization" press="onPressLinkAuthorization" visible="{LocalDataModel>/linkToAuth}"/>
 			</f:content>
 		</f:SimpleForm>
 		<f:SimpleForm id="idAuthorizationForm" editable="true" layout="ResponsiveGridLayout" title="" labelSpanXL="6"
@@ -114,13 +114,13 @@
 							<cells>
 								<Text text="Participation % :"/>
 								<Text text=""/>
-								<Select items="{LocalDataModel>/DataPercent}" selectedKey="{path:'DataPercetCalculate>/CustomerPer'}" >
+								<Select items="{LocalDataModel>/DataPercent}" enabled="{LocalDataModel>/PercentState}" selectedKey="{path:'DataPercetCalculate>/CustomerPer'}" >
 									<core:Item key="{LocalDataModel>okey}" text="{LocalDataModel>num}"/>
 								</Select>
-								<Select items="{LocalDataModel>/DataPercent}" selectedKey="{DataPercetCalculate>/DealerPer}">
+								<Select items="{LocalDataModel>/DataPercent}" enabled="{LocalDataModel>/PercentState}" selectedKey="{DataPercetCalculate>/DealerPer}">
 									<core:Item key="{LocalDataModel>okey}" text="{LocalDataModel>num}"/>
 								</Select>
-								<Select items="{LocalDataModel>/DataPercent}" selectedKey="{DataPercetCalculate>/TCIPer}">
+								<Select items="{LocalDataModel>/DataPercent}" enabled="{LocalDataModel>/PercentState}" selectedKey="{DataPercetCalculate>/TCIPer}">
 									<core:Item key="{LocalDataModel>okey}" text="{LocalDataModel>num}"/>
 								</Select>
 							</cells>
@@ -138,7 +138,7 @@
 				</Table>
 			</html:div>
 			
-			<html:div ><Button text="Re-calculate Claim Amount" press="onPressRecalculate" type="Emphasized"/></html:div>
+			<html:div ><Button text="Re-calculate Claim Amount" visible="{LocalDataModel>/reCalculate}" press="onPressRecalculate" type="Emphasized"/></html:div>
 		</l:Grid>
 		</l:VerticalLayout>
 		
