@@ -832,12 +832,12 @@ sap.ui.define([
 											return val.ItemType === "MAT";
 										});
 
-										if (this.getView().getModel("multiHeaderConfig").getProperty("/flagIncorrectPart") == true) {
+										// if (this.getView().getModel("multiHeaderConfig").getProperty("/flagIncorrectPart") == true) {
 
-											var IncorrectPartData = pricingData.filter(function (val) {
-												return val.DiscreCode === "4A";
-											});
-										}
+										var IncorrectPartData = pricingData.filter(function (val) {
+											return val.DiscreCode === "4A";
+										});
+										// }
 
 										if (IncorrectPartData != undefined && IncorrectPartData.length > 1) {
 											// var IncorrectLineRef = IncorrectPartData.reduce(function (obj, hash) {
@@ -848,16 +848,24 @@ sap.ui.define([
 												return item.LineRefnr;
 											});
 
-											for (var i = 0; i < filteredPriceData.length - 1; i--) {
-												if (filteredPriceData[i] != undefined) {
-													if (filteredPriceData[i].LineRefnr === IncorrectLineRef[0]) {
-														console.log(filteredPriceData[i].LineRefnr);
-														console.log(IncorrectLineRef[0]);
-														console.log("index", i);
-														filteredPriceData.splice(i, 1);
-													}
+											for (var i = 0; i < filteredPriceData.length; i++) {
+												if (filteredPriceData[i].LineRefnr == IncorrectLineRef[0]) {
+													filteredPriceData.splice(i, 1);
+													i--;
 												}
 											}
+
+											// for (var i = 0; i < filteredPriceData.length - 1; i--) {
+											// for(var i = filteredPriceData.length-1; i--;){
+											// 	if (filteredPriceData[i] != undefined) {
+											// 		if (filteredPriceData[i].LineRefnr === IncorrectLineRef[0]) {
+											// 			// console.log(filteredPriceData[i].LineRefnr);
+											// 			// console.log(IncorrectLineRef[0]);
+											// 			// console.log("index", i);
+											// 			filteredPriceData.splice(i, 1);
+											// 		}
+											// 	}
+											// }
 
 											/*$.each(oData.d.results, function (i, item) {
 											});*/
@@ -876,7 +884,7 @@ sap.ui.define([
 												if (IncorrectPartData[m].LineRefnr == IncorrectPartData[m + 1].LineRefnr) {
 													IncorrectPartData[m].matnr = [
 														"Ordered: " + IncorrectPartData[m].matnr,
-														"Received: " + IncorrectPartData[m + 1].WrongPart
+														"Received: " + IncorrectPartData[m + 1].matnr
 													].join("\n");
 													IncorrectPartData[m].PartDescription = [
 														"Ordered: " + IncorrectPartData[m].PartDescription,
