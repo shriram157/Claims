@@ -83,3 +83,8 @@
 .boldText {
 	font-weight: 600;
 }
+
+.partsOnly .classRCPTable .sapUiTableTr>td,
+.classRCPTable .sapUiTableTr>td{
+	text-align: center !important;
+}

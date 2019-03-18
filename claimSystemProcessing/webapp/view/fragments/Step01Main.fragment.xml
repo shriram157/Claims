@@ -21,16 +21,16 @@
 					</ComboBox>
 					<core:Title text=""/>
 					<Label text="First Submission Date"/>
-					<Text text="{ path: 'HeadSetData>/ReferenceDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium' } }"/>
+					<Text text="{ path: 'HeadSetData>/ReferenceDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium' , pattern: 'YYYY-MM-dd'} }"/>
 					<Label text="Claim Age"/>
 					<Text text="{HeadSetData>/ClaimAge}"/>
 					<Label text="Last Modified by"/>
 					<Text text="{HeadSetData>/NameOfPersonRespWhoChangedObj}"/>
 					<core:Title text=""/>
 					<Label text="Last Submission Date"/>
-					<Text text="{ path: 'HeadSetData>/DateOfApplication', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium' } }"/>
+					<Text text="{ path: 'HeadSetData>/DateOfApplication', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium' , pattern: 'YYYY-MM-dd'} }"/>
 					<Label text="Final Processed Date"/>
-					<Text text="{ path: 'HeadSetData>/FinalProcdDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium' } }"/>
+					<Text text="{ path: 'HeadSetData>/FinalProcdDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium' , pattern: 'YYYY-MM-dd'} }"/>
 					<Label text=""></Label>
 					<Button text="{i18n>SaveClaim}" type="Emphasized" press="onSaveClaim">
 						<layoutData>
@@ -49,7 +49,7 @@
 				<Input value="{path:'HeadSetData>/Delivery', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 10 } }"
 					required="true" id="idOutboundDNum"/>
 				<Label text="Received Date"/>
-				<DatePicker value="{path:'HeadSetData>/ShipmentReceivedDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium' } }"
+				<DatePicker value="{path:'HeadSetData>/ShipmentReceivedDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd' } }"
 					required="true" id="idShipmentRDate"/>
 				<Label text="Shipping Parts to PDC"/>
 				<Select id="idPartsShipping">
@@ -61,7 +61,7 @@
 				<core:Title text=""/>
 				<Label text="Outbound Delivery Date"/>
 				<DatePicker required="true" id="idOutBoundDD"
-					value="{path:'HeadSetData>/DeliveryDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium' }}"/>
+					value="{path:'HeadSetData>/DeliveryDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium' , pattern: 'YYYY-MM-dd'}}"/>
 				<Label text="PDC Code"/>
 				<Input value="" id="idPdcCode" editable="false"/>
 				<Label text="Dealer Contact"/>
@@ -145,7 +145,7 @@
 						<table:multiLabels>
 							<Label text="(Totals included mark-up and discounts)" textAlign="Center" width="100%"/>
 						</table:multiLabels>
-						<table:template>
+						<table:template hAlign = "Center">
 							<Text text="{LocalDataModel>ItemType}" wrapping="false"/>
 						</table:template>
 					</table:Column>
@@ -153,7 +153,7 @@
 						<table:multiLabels>
 							<Label text="Dealer Claimed Amount" textAlign="Center" width="100%"/>
 						</table:multiLabels>
-						<table:template>
+						<table:template hAlign = "Center">
 							<Text text="{LocalDataModel>DealerClaim}" wrapping="false"/>
 						</table:template>
 					</table:Column>
@@ -161,7 +161,7 @@
 						<table:multiLabels>
 							<Label text="TCI Approved Amount" textAlign="Center" width="100%"/>
 						</table:multiLabels>
-						<table:template>
+						<table:template hAlign = "Center">
 							<Text text="{LocalDataModel>TCIAppr}" wrapping="false"/>
 						</table:template>
 					</table:Column>
@@ -169,7 +169,7 @@
 						<table:multiLabels>
 							<Label text="Difference (CAD)" textAlign="Center" width="100%"/>
 						</table:multiLabels>
-						<table:template>
+						<table:template hAlign = "Center">
 							<Text text="{LocalDataModel>Diff}" wrapping="false"/>
 						</table:template>
 					</table:Column>
@@ -178,7 +178,7 @@
 							<Label text="GST/HST" textAlign="Center" width="100%"/>
 							<Label text="Amount" textAlign="Center" width="100%"/>
 						</table:multiLabels>
-						<table:template>
+						<table:template hAlign = "Center">
 							<Text text="{LocalDataModel>GSTHSTAmt}" wrapping="false"/>
 						</table:template>
 					</table:Column>
@@ -187,7 +187,7 @@
 							<Label text="GST/HST"/>
 							<Label text="Tax %" textAlign="Center" width="100%"/>
 						</table:multiLabels>
-						<table:template>
+						<table:template hAlign = "Center">
 							<Text text="{LocalDataModel>GSTHSTRate}" wrapping="false"/>
 						</table:template>
 					</table:Column>
@@ -196,7 +196,7 @@
 							<Label text="PST/QST" textAlign="Center" width="100%"/>
 							<Label text="Amount" textAlign="Center" width="100%"/>
 						</table:multiLabels>
-						<table:template>
+						<table:template hAlign = "Center">
 							<Text text="{LocalDataModel>PSTQSTAmt}" wrapping="false"/>
 						</table:template>
 					</table:Column>
@@ -205,7 +205,7 @@
 							<Label text="PST/QST"/>
 							<Label text="Tax %" textAlign="Center" width="100%"/>
 						</table:multiLabels>
-						<table:template>
+						<table:template hAlign = "Center">
 							<Text text="{LocalDataModel>PSTQSTRate}" wrapping="false"/>
 						</table:template>
 					</table:Column>
@@ -213,7 +213,7 @@
 						<table:multiLabels>
 							<Label text="TCI Approved Amount Including Tax" textAlign="Center" width="100%"/>
 						</table:multiLabels>
-						<table:template>
+						<table:template hAlign = "Center">
 							<Text text="{LocalDataModel>TCIApprInclTax}" wrapping="false"/>
 						</table:template>
 					</table:Column>
