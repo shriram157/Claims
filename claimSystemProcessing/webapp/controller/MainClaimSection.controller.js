@@ -650,7 +650,7 @@ sap.ui.define([
 									"DBOperation": "SAVE",
 									"Message": "",
 									"WarrantyClaimType": this.getView().getModel("HeadSetData").getProperty("/ClaimType"),
-									"Partner": this.getModel("LocalDataModel").getProperty("/BPDealerDetails/BusinessPartnerKey"),
+									"Partner": this.getModel("LocalDataModel").getProperty("/BpDealerModel/0/BusinessPartnerKey"),
 									"ActionCode": "",
 									"NumberOfWarrantyClaim": this.getView().getModel("HeadSetData").getProperty("/NumberOfWarrantyClaim"),
 									"PartnerRole": "AS",
@@ -1343,7 +1343,7 @@ sap.ui.define([
 					"Message": "",
 					"ActionCode": oActionCode,
 					"WarrantyClaimType": this.getView().getModel("HeadSetData").getProperty("/ClaimType"),
-					"Partner": this.getModel("LocalDataModel").getProperty("/BPDealerDetails/BusinessPartnerKey"),
+					"Partner": this.getModel("LocalDataModel").getProperty("/BpDealerModel/0/BusinessPartnerKey"),
 					"PartnerRole": "AS",
 					"ReferenceDate": this._fnDateFormat(oCurrentDt),
 					"DateOfApplication": this._fnDateFormat(oCurrentDt),
@@ -1716,7 +1716,7 @@ sap.ui.define([
 						"DBOperation": "SAVE",
 						"Message": "",
 						"WarrantyClaimType": this.getView().getModel("HeadSetData").getProperty("/ClaimType"),
-						"Partner": this.getModel("LocalDataModel").getProperty("/BPDealerDetails/BusinessPartnerKey"),
+						"Partner": this.getModel("LocalDataModel").getProperty("/BpDealerModel/0/BusinessPartnerKey"),
 						"ActionCode": oActionCode,
 						"NumberOfWarrantyClaim": this.getView().getModel("HeadSetData").getProperty("/NumberOfWarrantyClaim"),
 						"PartnerRole": "AS",
@@ -3835,7 +3835,7 @@ sap.ui.define([
 			var oClaimModel = this.getModel("ProssingModel");
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			this.obj.WarrantyClaimType = this.getView().getModel("HeadSetData").getProperty("/ClaimType");
-			this.obj.Partner = this.getModel("LocalDataModel").getProperty("/BPDealerDetails/BusinessPartnerKey");
+			this.obj.Partner = this.getModel("LocalDataModel").getProperty("/BpDealerModel/0/BusinessPartnerKey");
 			this.obj.ActionCode = "";
 			this.obj.NumberOfWarrantyClaim = this.getView().getModel("HeadSetData").getProperty("/NumberOfWarrantyClaim");
 			this.obj.PartnerRole = "AS";
