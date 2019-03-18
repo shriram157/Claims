@@ -1,6 +1,7 @@
 sap.ui.define([
-	"zclaimProcessing/controller/BaseController"
-], function (BaseController) {
+	"zclaimProcessing/controller/BaseController",
+	"sap/ui/core/ValueState"
+], function (BaseController, ValueState) {
 	"use strict";
 
 	return BaseController.extend("zclaimProcessing.controller.SearchClaim", {
@@ -262,11 +263,51 @@ sap.ui.define([
 		},
 		onSearchBy: function (oEvent) {
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
+
 			var oKey = oEvent.getParameters().selectedItem.getKey();
 			if (oKey === "RepairOrderNumberExternal") {
 				this.getView().byId("idCLREDate").setText(this.oBundle.getText("RepairOrderDate"));
 			} else {
 				this.getView().byId("idCLREDate").setText(this.oBundle.getText("ClaimSubmissionDate"));
+			}
+
+		},
+
+		onEnterSearchText: function () {
+			var oKey = this.getView().byId("idSearchBy").getSelectedKey();
+
+			var oProssingModel = this.getModel("ProssingModel");
+			if (oKey == "ExternalObjectNumber") {
+				var oVin = this.getView().byId("idSearchText").getValue();
+				oProssingModel.read("/ZC_GET_FORE_VIN(p_vhvin='" + oVin + "')/Set", {
+					success: $.proxy(function (data) {
+						if (data.results.length > 0) {
+							//var oVinModel = data.results[0].Model;
+							if (data.results[0].Message == "Invalid VIN Number") {
+
+								this.getView().byId("idNewClaimMsgStrp").setProperty("visible", true);
+								this.getView().byId("idNewClaimMsgStrp").setText("Please Enter a Valid VIN.");
+								this.getView().byId("idNewClaimMsgStrp").setType("Error");
+								this.getView().byId("idSearchText").setValueState(ValueState.Error);
+							} else {
+
+								this.getView().byId("idNewClaimMsgStrp").setProperty("visible", false);
+								this.getView().byId("idNewClaimMsgStrp").setText("");
+								this.getView().byId("idNewClaimMsgStrp").setType("None");
+								this.getView().byId("idSearchText").setValueState(ValueState.None);
+							}
+
+						}
+					}, this),
+					error: function () {
+
+					}
+				});
+			}else {
+				this.getView().byId("idNewClaimMsgStrp").setProperty("visible", false);
+				this.getView().byId("idNewClaimMsgStrp").setText("");
+				this.getView().byId("idNewClaimMsgStrp").setType("None");
+				this.getView().byId("idSearchText").setValueState(ValueState.None);
 			}
 		},
 		onPressSearch: function (oEvent) {
@@ -291,6 +332,47 @@ sap.ui.define([
 			// console.log(FromDateFormat, ToDateFormat);
 			var sDate = "";
 			var oResult = [];
+			
+			
+			var oProssingModel = this.getModel("ProssingModel");
+			if (sQuerySearchBy == "ExternalObjectNumber") {
+				var oVin = this.getView().byId("idSearchText").getValue();
+				oProssingModel.read("/ZC_GET_FORE_VIN(p_vhvin='" + oVin + "')/Set", {
+					success: $.proxy(function (data) {
+						if (data.results.length > 0) {
+							//var oVinModel = data.results[0].Model;
+							if (data.results[0].Message == "Invalid VIN Number") {
+
+								this.getView().byId("idNewClaimMsgStrp").setProperty("visible", true);
+								this.getView().byId("idNewClaimMsgStrp").setText("Please Enter a Valid VIN.");
+								this.getView().byId("idNewClaimMsgStrp").setType("Error");
+								this.getView().byId("idSearchText").setValueState(ValueState.Error);
+							} else {
+
+								this.getView().byId("idNewClaimMsgStrp").setProperty("visible", false);
+								this.getView().byId("idNewClaimMsgStrp").setText("");
+								this.getView().byId("idNewClaimMsgStrp").setType("None");
+								this.getView().byId("idSearchText").setValueState(ValueState.None);
+							}
+
+						}
+					}, this),
+					error: function () {
+
+					}
+				});
+			}else {
+				this.getView().byId("idNewClaimMsgStrp").setProperty("visible", false);
+				this.getView().byId("idNewClaimMsgStrp").setText("");
+				this.getView().byId("idNewClaimMsgStrp").setType("None");
+				this.getView().byId("idSearchText").setValueState(ValueState.None);
+			}
+			
+			
+			
+			
+			
+			
 			if (sQuerySearchBy === "RepairOrderNumberExternal") {
 				sDate = "RepairDate";
 
@@ -407,7 +489,7 @@ sap.ui.define([
 				});
 				this.getView().getModel("RowCountModel").setProperty("/rowCount", 10);
 			}
-			
+
 			if (sQueryDate != "" && sQueryDealer != "" && sQueryClaimGroup != "" && sQuerySearchText == "" && sQueryClaimType == "" &&
 				sQueryStat == "") {
 
@@ -421,7 +503,7 @@ sap.ui.define([
 				});
 				this.getView().getModel("RowCountModel").setProperty("/rowCount", 10);
 			}
-			
+
 			var oTable = this.getView().byId("idClaimTable");
 			var oBindItems = oTable.getBinding("rows");
 			oBindItems.filter(andFilter);
@@ -466,7 +548,7 @@ sap.ui.define([
 						claimNum: oClaimNum,
 						oKey: oClaimType,
 						oClaimGroup: this.oSelectedClaimGroup,
-						oClaimNav : "Details"
+						oClaimNav: "Details"
 
 					});
 

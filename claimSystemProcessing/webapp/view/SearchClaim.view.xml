@@ -33,7 +33,7 @@
 											<core:Item key="MainOpsCode" text="{i18n>MainOperationCode}"/>
 										</ComboBox>
 										<Label text="{i18n>SearchText}" textAlign="Begin"/>
-										<Input value="" id="idSearchText"/>
+										<Input value="" id="idSearchText" change="onEnterSearchText"/>
 										<Label text="{i18n>ClaimSubDate}" textAlign="Begin" id="idCLREDate"/>
 										<DateRangeSelection id="DRS2" dateValue="{path:'DateModel>/dateValueDRS2'}" secondDateValue="{path:'DateModel>/secondDateValueDRS2'}"
 											minDate="" maxDate="" change="handleChange"/>

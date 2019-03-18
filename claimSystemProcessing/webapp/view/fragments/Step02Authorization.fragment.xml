@@ -57,7 +57,7 @@
 		</Panel>
 		<f:SimpleForm  editable="true" layout="ResponsiveGridLayout" title="Authorization Details" labelSpanXL="3"
 			labelSpanL="3" labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
-			columnsXL="2" columnsL="1" columnsM="1" singleContainerFullSize="false">
+			columnsXL="2" columnsL="2" columnsM="1" singleContainerFullSize="false">
 			<f:content>
 				<core:Title text=""/>
 				<Label text="Authorization No." visible="{LocalDataModel>/linkToAuth}"/>
@@ -74,7 +74,7 @@
 				<Label text="TCI Claim #"/>
 				<Text text="{LocalDataModel>/DataAuthDetails/TCIClaimNo}"/>
 				<Label text="Authorization Type"/>
-				<Text text="{LocalDataModel>/DataAuthDetails/Type}"/>
+				<Text text="{LocalDataModel>/DataAuthDetails/AuthorizationType}"/>
 				<Label text="Total Claim Amount (CAD)"/>
 				<Text text="{LocalDataModel>/DataAuthDetails/TotalClaimAmountCAD}"/>
 				<core:Title text=""/>

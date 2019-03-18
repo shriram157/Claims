@@ -227,7 +227,10 @@ sap.ui.define([
 			this.getModel("LocalDataModel").setProperty("/linkToAuth", true);
 			this.getModel("LocalDataModel").setProperty("/reCalculate", false);
 			this.getModel("LocalDataModel").setProperty("/PercentState", false);
+			
+			//this.getView().byId("__picker0-inner").setEnabled(false);
 		},
+		
 
 		_onRoutMatched: function (oEvent) {
 
