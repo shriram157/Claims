@@ -21,16 +21,16 @@
 					</ComboBox>
 					<core:Title text=""/>
 					<Label text="First Submission Date"/>
-					<Text text="{ path: 'HeadSetData>/ReferenceDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium' } }"/>
+					<Text text="{ path: 'HeadSetData>/ReferenceDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium' , pattern: 'YYYY-MM-dd'} }"/>
 					<Label text="Claim Age"/>
 					<Text text="{HeadSetData>/ClaimAge}"/>
 					<Label text="Last Modified by"/>
 					<Text text="{HeadSetData>/NameOfPersonRespWhoChangedObj}"/>
 					<core:Title text=""/>
 					<Label text="Last Submission Date"/>
-					<Text text="{ path: 'HeadSetData>/DateOfApplication', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium' } }"/>
+					<Text text="{ path: 'HeadSetData>/DateOfApplication', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium' , pattern: 'YYYY-MM-dd'} }"/>
 					<Label text="Final Processed Date"/>
-					<Text text="{ path: 'HeadSetData>/FinalProcdDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium' } }"/>
+					<Text text="{ path: 'HeadSetData>/FinalProcdDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium' , pattern: 'YYYY-MM-dd'} }"/>
 					<Label text=""></Label>
 					<Button text="{i18n>SaveClaim}" type="Emphasized" press="onSaveClaim">
 						<layoutData>
@@ -49,7 +49,7 @@
 				<Input value="{path:'HeadSetData>/Delivery', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 10 } }"
 					required="true" id="idOutboundDNum"/>
 				<Label text="Received Date"/>
-				<DatePicker value="{path:'HeadSetData>/ShipmentReceivedDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium' } }"
+				<DatePicker value="{path:'HeadSetData>/ShipmentReceivedDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd' } }"
 					required="true" id="idShipmentRDate"/>
 				<Label text="Shipping Parts to PDC"/>
 				<Select id="idPartsShipping">
@@ -61,7 +61,7 @@
 				<core:Title text=""/>
 				<Label text="Outbound Delivery Date"/>
 				<DatePicker required="true" id="idOutBoundDD"
-					value="{path:'HeadSetData>/DeliveryDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium' }}"/>
+					value="{path:'HeadSetData>/DeliveryDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium' , pattern: 'YYYY-MM-dd'}}"/>
 				<Label text="PDC Code"/>
 				<Input value="" id="idPdcCode" editable="false"/>
 				<Label text="Dealer Contact"/>
