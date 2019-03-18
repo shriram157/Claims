@@ -47,7 +47,8 @@ sap.ui.define([
 				RepairdDetailVisible: true,
 				claimTypeState: "None",
 				warrantySubmissionClaim: false,
-				LabourBtnVsbl: true
+				LabourBtnVsbl: true,
+				copyClaimEnable : true
 			});
 			this.getView().setModel(oDateModel, "DateModel");
 			var oNodeModel = new sap.ui.model.json.JSONModel();
@@ -512,6 +513,7 @@ sap.ui.define([
 							this.getModel("LocalDataModel").setProperty("/CancelEnable", true);
 							this.getView().getModel("DateModel").setProperty("/claimEditSt", false);
 							this.getView().getModel("DateModel").setProperty("/updateEnable", true);
+							this.getView().getModel("DateModel").setProperty("/copyClaimEnable", true);
 
 						} else if (data.results[0].ProcessingStatusOfWarrantyClm == "ZTRC" && oClaimNav != "Inq") {
 							this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
@@ -519,23 +521,28 @@ sap.ui.define([
 							this.getModel("LocalDataModel").setProperty("/CancelEnable", true);
 							this.getView().getModel("DateModel").setProperty("/claimEditSt", false);
 							this.getView().getModel("DateModel").setProperty("/updateEnable", true);
+							this.getView().getModel("DateModel").setProperty("/copyClaimEnable", true);
 						} else if (data.results[0].DecisionCode == "") {
 							this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
 							this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
 							this.getView().getModel("DateModel").setProperty("/claimEditSt", false);
 							this.getView().getModel("DateModel").setProperty("/updateEnable", false);
+							this.getView().getModel("DateModel").setProperty("/copyClaimEnable", false);
 							this.getModel("LocalDataModel").setProperty("/CancelEnable", false);
 						} else if (data.results[0].ProcessingStatusOfWarrantyClm == "ZTAC") {
 							this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
 							this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
 							this.getView().getModel("DateModel").setProperty("/claimEditSt", true);
 							this.getView().getModel("DateModel").setProperty("/updateEnable", false);
+							this.getView().getModel("DateModel").setProperty("/copyClaimEnable", false);
 							this.getModel("LocalDataModel").setProperty("/CancelEnable", false);
 
-						} else {
+						}else if (data.results[0].ProcessingStatusOfWarrantyClm == "ZTAA") {
+							this.getView().getModel("DateModel").setProperty("/copyClaimEnable", true);
+						}else {
 							this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
 							this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
-
+							this.getView().getModel("DateModel").setProperty("/copyClaimEnable", false);
 							this.getView().getModel("DateModel").setProperty("/claimEditSt", false);
 							this.getView().getModel("DateModel").setProperty("/updateEnable", false);
 							this.getModel("LocalDataModel").setProperty("/CancelEnable", false);
@@ -748,6 +755,7 @@ sap.ui.define([
 					this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
 					this.getView().getModel("DateModel").setProperty("/claimEditSt", false);
 					this.getView().getModel("DateModel").setProperty("/updateEnable", false);
+					this.getView().getModel("DateModel").setProperty("/copyClaimEnable", false);
 					this.getModel("LocalDataModel").setProperty("/CancelEnable", false);
 				}
 				this._fnClaimSum();
@@ -1828,6 +1836,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
 							this.getView().getModel("DateModel").setProperty("/SaveClaim07", true);
 							this.getView().getModel("DateModel").setProperty("/updateEnable", true);
+							this.getView().getModel("DateModel").setProperty("/copyClaimEnable", true);
 							this.getView().getModel("DateModel").setProperty("/oztac", true);
 							dialog.close();
 						}, this)
