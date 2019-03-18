@@ -849,14 +849,15 @@ sap.ui.define([
 											});
 
 											// $.each(filteredPriceData, function (i, item) {
-											for (var i = 0; i < filteredPriceData.length; i++) {
+											for (var i = 0; i < filteredPriceData.length - 1; i--) {
 												// if (item != undefined) {
-													console.log(filteredPriceData[i].LineRefnr);
-													console.log(IncorrectLineRef[0]);
+												console.log(filteredPriceData[i].LineRefnr);
+												console.log(IncorrectLineRef[0]);
+
+												if (filteredPriceData[i].LineRefnr === IncorrectLineRef[0]) {
 													console.log("index", i);
-													if (filteredPriceData[i].LineRefnr === IncorrectLineRef[0]) {
-														filteredPriceData.splice(i, 1);
-													}
+													filteredPriceData.splice(i, 1);
+												}
 												// }
 											}
 											// });
