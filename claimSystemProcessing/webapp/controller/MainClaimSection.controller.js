@@ -2317,6 +2317,15 @@ sap.ui.define([
 		onPressLinkAuthorization: function () {
 			var oProssingModel = this.getModel("ProssingModel");
 			var oClaim = this.getView().getModel("DataPercetCalculate").getProperty("/AuthorizationNumber");
+			oProssingModel.read("/zc_authorization_detailsSet", {
+						urlParameters: {
+							"$filter": "AuthorizationNumber eq '" + oClaim + "'"
+						},
+						success: $.proxy(function (oAuthData) {
+							this.getModel("LocalDataModel").setProperty("/DataAuthDetails", oAuthData.results[0]);
+						}, this)
+			});
+					
 			oProssingModel.read("/zc_authorizationSet", {
 				urlParameters: {
 					"$filter": "DBOperation eq 'LINK'and AuthorizationNumber eq '" + oClaim +
