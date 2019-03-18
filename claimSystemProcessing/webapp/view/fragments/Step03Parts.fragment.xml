@@ -138,7 +138,7 @@
 							<!--<Input value="{ path : 'HeadSetData>/PartNumberRc'}" editable="{multiHeaderConfig>/PartNumberEdit}" required="true"-->
 							<!--	visible="{multiHeaderConfig>/PartNumberRcV}"></Input>-->
 							<Input value="{HeadSetData>/PartNumberRc}" id="idPartNumber2" required="true" showValueHelp="true" valueHelpOnly="true" editable="{multiHeaderConfig>/PartNumberEdit}" 
-								valueHelpRequest="handlePNValueHelp" enabled="{DateModel>/partLine}"></Input>
+								valueHelpRequest="handlePNValueHelp02" enabled="{DateModel>/partLine}"></Input>
 							<core:Title text=""/>
 							<Label text="Part Description" visible="{multiHeaderConfig>/PartDescriptionOrdRcv}"/>
 							<Input value="{ path : 'HeadSetData>/PartNumberRcDesc'}" id="idOrderedReceivedPartDesc" editable="{multiHeaderConfig>/OrderedPartDesc}"
