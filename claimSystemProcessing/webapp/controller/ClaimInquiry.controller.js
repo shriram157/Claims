@@ -90,7 +90,7 @@ sap.ui.define([
 
 					});
 			}else{
-				MessageToast.show("You are not Authorized Dealer.");
+				MessageToast.show("No Authorization to View this claim.");
 			}
 		},
 		fnFormatDealer : function(val){

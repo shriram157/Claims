@@ -87,11 +87,11 @@
 				<Text text="{LocalDataModel>/DataAuthDetails/DealerAuthorizationLevel}"/>
 				<Label text="Claim Submission Type"/>
 				<Text text="{LocalDataModel>/DataAuthDetails/ClaimSubmissionType}"/>
-				<Button text="Save Claim" press="onPressSave" type="Emphasized"/>
+				<!--<Button text="Save Claim" press="onPressSave" type="Emphasized"/>-->
 			</f:content>
 		</f:SimpleForm>
 		<l:VerticalLayout width="100%" class="gridWrapper">
-		<l:Grid containerQuery="true" defaultSpan="XL6 L6 M12 S12">
+		<l:Grid containerQuery="true" defaultSpan="XL6 L12 M12 S12">
 			<html:div class="exampleDiv">
 				<Table showSeparators="All">
 					<columns>
