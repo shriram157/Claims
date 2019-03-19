@@ -29,7 +29,7 @@
 					<core:Title text=""/>
 					<Label text="{i18n>FirstSubmissionDate}"/>
 					<Text
-						text="{ path: 'HeadSetData>/ReferenceDate', type : 'sap.ui.model.type.Date', formatOptions: { style: 'medium', strictParsing: true , UTC: true}, constraints : { minimum : '01-01-1990' } }"/>
+						text="{ path: 'HeadSetData>/ReferenceDate', type: 'sap.ui.model.type.Date',  formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd'}}"/>
 					<Label text="{i18n>ClaimAge}"/>
 					<Text text="{HeadSetData>/ClaimAge}"/>
 					<Label text="{i18n>LastModifiedby}"/>
@@ -37,10 +37,10 @@
 					<core:Title text=""/>
 					<Label text="{i18n>LastSubmissionDate}"/>
 					<Text
-						text="{ path: 'HeadSetData>/DateOfApplication', type: 'sap.ui.model.type.Date', constraints: {displayFormat: 'Date' }, formatOptions: { style: 'medium', strictParsing: true , UTC: true}}"/>
+						text="{ path: 'HeadSetData>/DateOfApplication', type: 'sap.ui.model.type.Date',  formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd'}}"/>
 					<Label text="Final Processed Date"/>
 					<Text
-						text="{ path: 'HeadSetData>/FinalProcdDate', type: 'sap.ui.model.type.Date', constraints: {displayFormat: 'Date' }, formatOptions: { style: 'medium', strictParsing: true , UTC: true} }"/>
+						text="{ path: 'HeadSetData>/FinalProcdDate', type: 'sap.ui.model.type.Date',  formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd'} }"/>
 					<core:Title text=""/>
 					<Button text="{i18n>SaveClaim}" class="sapUiSmallMarginEnd" type="Emphasized" press="onSaveClaim" visible="{DateModel>/saveClaimSt}">
 						<layoutData>
@@ -79,7 +79,8 @@
 					required="true" id="idDealerClaim" editable="{DateModel>/oFormEdit}"/>
 				<core:Title text=""/>
 				<Label text="{i18n>RepairDate}"/>
-				<DatePicker required="true" value="{path:'HeadSetData>/RepairDate',type : 'sap.ui.model.type.Date'}" editable="{DateModel>/oFormEdit}"/>
+				<!--<DatePicker required="true" value="{path:'HeadSetData>/RepairDate',type : 'sap.ui.model.type.Date'}" editable="{DateModel>/oFormEdit}"/>-->
+				<DatePicker required="true" change="onChangeDate" value="{path:'HeadSetData>/RepairDate', type: 'sap.ui.model.type.Date',  formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd'}}" editable="{DateModel>/oFormEdit}"/>
 				<Label text="{i18n>DealerContact}"/>
 				<Input required="true"
 					value="{path:'HeadSetData>/DealerContact', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 30 }}"
@@ -112,7 +113,7 @@
 				<core:Title text=""/>
 				<Label text="{i18n>RegDate}"/>
 				<Text
-					text="{path:'LocalDataModel>/DataVinDetails/RegDate',type: 'sap.ui.model.type.Date', constraints: { displayFormat: 'Date' }, formatOptions: { style: 'medium', strictParsing: true , UTC: true}}"/>
+					text="{path:'LocalDataModel>/DataVinDetails/RegDate', type: 'sap.ui.model.type.Date',  formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd'}}"/>
 				<Label text="{i18n>VehicleAge}"/>
 				<Text text="{LocalDataModel>/DataVinDetails/VehicleDays}" id="idVehicleAge"/>
 				<core:Title text=""/>
@@ -147,7 +148,7 @@
 					<Input value="{HeadSetData>/ProbillNum}" required="true"/>
 					<core:Title text=""/>
 					<Label text="{i18n>DeliveryDate}"/>
-					<DatePicker required="true" value="{path:'HeadSetData>/DeliveryDate',type : 'sap.ui.model.type.Date'}" editable="{DateModel>/oFormEdit}"/>
+					<DatePicker required="true" value="{path:'HeadSetData>/DeliveryDate', type: 'sap.ui.model.type.Date',  formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd'}}" editable="{DateModel>/oFormEdit}"/>
 					<core:Title text=""/>
 					<Label text="{i18n>Delivery}"/>
 					<ComboBox required="true" items="" selectedKey="" value="{HeadSetData>/Delivery}">
@@ -264,7 +265,7 @@
 							text="{path:'LocalDataModel>StatusDate', type: 'sap.ui.model.type.Date', constraints: { displayFormat: 'Date' }, formatOptions: { style: 'medium', strictParsing: true , UTC: true}}"
 							wrapping="true"/>
 						<Text
-							text="{path:'LocalDataModel>AgreementthruDate', type: 'sap.ui.model.type.Date', constraints: { displayFormat: 'Date' }, formatOptions: { style: 'medium', strictParsing: true , UTC: true}}"
+							text="{path:'LocalDataModel>AgreementthruDate', type: 'sap.ui.model.type.Date',  formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd'}}"
 							wrapping="true"/>
 						<Text text="{LocalDataModel>AgreementthruKMreading}" wrapping="true"/>
 					</cells>
@@ -353,7 +354,7 @@
 			<f:content>
 				<core:Title text=""/>
 				<Label text="{i18n>InstallDate}"/>
-				<DatePicker required="true" value="{path:'HeadSetData>/AccessoryInstallDate',type : 'sap.ui.model.type.Date'}"
+				<DatePicker required="true" value="{path:'HeadSetData>/AccessoryInstallDate', type: 'sap.ui.model.type.Date',  formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd'}}"
 					editable="{DateModel>/oFormEdit}"/>
 				<core:Title text=""/>
 				<Label text="{i18n>InstallOdometer}"/>
@@ -370,7 +371,7 @@
 				<Input value="{path:'HeadSetData>/PreviousROInvoice'}" editable="{DateModel>/oFormEdit}"/>
 				<core:Title text=""/>
 				<Label text="{i18n>ROInvoiceDate}"/>
-				<DatePicker required="true" value="{path:'HeadSetData>/PreviousROInvoiceDate',type : 'sap.ui.model.type.Date'}"
+				<DatePicker required="true" value="{path:'HeadSetData>/PreviousROInvoiceDate', type: 'sap.ui.model.type.Date',  formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd'}}"
 					editable="{DateModel>/oFormEdit}"/>
 				<core:Title text=""/>
 				<Label text="{i18n>ROOdometer}"/>

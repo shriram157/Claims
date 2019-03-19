@@ -1135,7 +1135,9 @@ sap.ui.define([
 			}
 			this.getView().setModel(this.HeadSetData, "HeadSetData");
 		},
-
+		onChangeDate : function(oEvent){
+			console.log(oEvent);
+		},
 		onSelectClaimTpe: function (oEvent) {
 			// this.getView().getModel("HeadSetData").getProperty("/ClaimType") = oEvent.getSource().getSelectedKey();
 			// this.getView().getModel("HeadSetData").getProperty("/ClaimType");
@@ -1200,7 +1202,7 @@ sap.ui.define([
 				this.getView().getModel("DateModel").setProperty("/Authorization", true);
 				this.getView().getModel("DateModel").setProperty("/P1p2", true);
 				this.getView().getModel("DateModel").setProperty("/AcA1", false);
-			} else if (oKey == "VE") {
+			} else if (oKey == "ZWVE") {
 				this.getView().getModel("DateModel").setProperty("/Paint", true);
 				this.getView().getModel("DateModel").setProperty("/Sublet", true);
 				this.getView().getModel("DateModel").setProperty("/Parts", true);
