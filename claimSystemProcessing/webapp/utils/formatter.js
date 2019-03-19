@@ -461,9 +461,10 @@ zclaimProcessing.utils.formatter = {
 	
 	fnFormatPercent : function (val) {
 		var oVal = "";
+		//var ostring = "";
 		if (val) {
-			var oValNum = parseInt(val);
-			
+			var orepMin = val.replace("-", "");
+			var oValNum = parseInt(orepMin);
 				oVal = oValNum + "%";
 			} else {
 				oVal = val;

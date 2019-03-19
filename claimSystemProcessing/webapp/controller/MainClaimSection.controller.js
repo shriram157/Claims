@@ -1876,8 +1876,10 @@ sap.ui.define([
 					this.getModel("LocalDataModel").setProperty("/ClaimSumAuth", data.results);
 					var oRepAmt  = data.results[data.results.length - 1].SubtotalAmt;
 					var oClaimAmt = data.results[data.results.length - 1].ClaimAmt;
-					this.getView().getModel("DataPercetCalculate").setProperty("/RepairAmt", oRepAmt);
+					this.getView().getModel("LocalDataModel").setProperty("/oRepairAmt", oRepAmt);
 					this.getView().getModel("LocalDataModel").setProperty("/DataAuthDetails/TotalClaimAmountCAD", oClaimAmt);
+					this.getModel("LocalDataModel").setProperty("/ClaimSumAuth/3/DiscountRate", "");
+					this.getModel("LocalDataModel").setProperty("/ClaimSumAuth/3/MarkupRate", "");
 				}, this)
 			});
 		},
@@ -2267,12 +2269,14 @@ sap.ui.define([
 			this.getView().getModel("HeadSetData").setProperty("/SpecialVINReview", "Yes");
 		},
 		onCopyClaim: function () {
+			
 			//HeadSetData>/NumberOfWarrantyClaim
 			var oClaimType = this.getView().getModel("HeadSetData").getProperty("/ClaimType");
 			var oClaimModel = this.getModel("ProssingModel");
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var oClaimGroup = this.getModel("LocalDataModel").getProperty("/WarrantyClaimTypeGroup");
 			var oAuthNum = this.getView().getModel("HeadSetData").getProperty("/NumberOfWarrantyClaim");
+			if(oAuthNum != "" && oAuthNum !=undefined){
 			if (oClaimType == "UT" || oClaimType == "CD") {
 				this.getView().getModel("DateModel").setProperty("/warrantySubmissionClaim", false);
 
@@ -2331,6 +2335,9 @@ sap.ui.define([
 						});
 					}, this)
 				});
+			}
+			} else {
+				MessageToast.show("Please create a claim Number.");
 			}
 
 		},

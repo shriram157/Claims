@@ -128,7 +128,7 @@
 						<ColumnListItem>
 							<cells>
 								<Text text="Participation $:"/>
-								<Text text="{DataPercetCalculate>/RepairAmt}"/>
+								<Text text="{LocalDataModel>/oRepairAmt}"/>
 								<Text text="{DataPercetCalculate>/CustomerAmt}"/>
 								<Text text="{DataPercetCalculate>/DealerAmt}"/>
 								<Text text="{DataPercetCalculate>/TCIAmt}"/>
@@ -142,7 +142,7 @@
 		</l:Grid>
 		</l:VerticalLayout>
 		
-		<table:Table class="classRCPTable" selectionMode="Single" rows="{path:'LocalDataModel>/ClaimSumAuth'}" visibleRowCountMode="Auto"
+		<table:Table id="idPercentTable" class="classRCPTable" selectionMode="Single" rows="{path:'LocalDataModel>/ClaimSumAuth'}" visibleRowCountMode="Auto"
 			rowSelectionChange="onNavigate" selectionBehavior="Row" showNoData="true" threshold="20" enableBusyIndicator="true">
 			<table:columns autoResizable="true">
 				<table:Column width="17rem">
