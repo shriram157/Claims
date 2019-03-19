@@ -1874,6 +1874,10 @@ sap.ui.define([
 			oClaimModel.read("/ZC_CLAIM_AUTH_SUM(p_clmno='" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") + "')/Set", {
 				success: $.proxy(function (data) {
 					this.getModel("LocalDataModel").setProperty("/ClaimSumAuth", data.results);
+					var oRepAmt  = data.results[data.results.length - 1].SubtotalAmt;
+					var oClaimAmt = data.results[data.results.length - 1].ClaimAmt;
+					this.getView().getModel("DataPercetCalculate").setProperty("/RepairAmt", oRepAmt);
+					this.getView().getModel("LocalDataModel").setProperty("/DataAuthDetails/TotalClaimAmountCAD", oClaimAmt);
 				}, this)
 			});
 		},
@@ -2263,11 +2267,13 @@ sap.ui.define([
 			this.getView().getModel("HeadSetData").setProperty("/SpecialVINReview", "Yes");
 		},
 		onCopyClaim: function () {
+			//HeadSetData>/NumberOfWarrantyClaim
+			var oClaimType = this.getView().getModel("HeadSetData").getProperty("/ClaimType");
 			var oClaimModel = this.getModel("ProssingModel");
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var oClaimGroup = this.getModel("LocalDataModel").getProperty("/WarrantyClaimTypeGroup");
-			var oAuthNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
-			if (oClaimGroup == "Authorization") {
+			var oAuthNum = this.getView().getModel("HeadSetData").getProperty("/NumberOfWarrantyClaim");
+			if (oClaimType == "UT" || oClaimType == "CD") {
 				this.getView().getModel("DateModel").setProperty("/warrantySubmissionClaim", false);
 
 				oClaimModel.read("/zc_auth_copy_to_claimSet(NumberOfAuth='" + oAuthNum + "')", {
@@ -2287,12 +2293,13 @@ sap.ui.define([
 								this.getModel("LocalDataModel").setProperty("/linkToAuth", true);
 								this.getModel("LocalDataModel").setProperty("/reCalculate", false);
 								this.getModel("LocalDataModel").setProperty("/PercentState", false);
+								this.getModel("LocalDataModel").setProperty("/copyClaimAuthText", oBundle.getText("CopytoAuthorization"));
 							}, this)
 						});
 					}, this)
 				});
 
-			} else if (oClaimGroup == "Claim") {
+			} else if (oClaimType != "UT" || oClaimType != "CD") {
 				this.getView().getModel("DateModel").setProperty("/warrantySubmissionClaim", true);
 				oClaimModel.read("/zc_claim_copy_to_authSet(NumberOfWarrantyClaim='" + oAuthNum + "')", {
 
@@ -2319,6 +2326,7 @@ sap.ui.define([
 								this.getModel("LocalDataModel").setProperty("/linkToAuth", false);
 								this.getModel("LocalDataModel").setProperty("/reCalculate", true);
 								this.getModel("LocalDataModel").setProperty("/PercentState", true);
+								this.getModel("LocalDataModel").setProperty("/copyClaimAuthText", oBundle.getText("CopytoClaim"));
 							}, this)
 						});
 					}, this)
