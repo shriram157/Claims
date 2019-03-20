@@ -15,8 +15,8 @@
 					<core:Title text=""/>
 					<Label text="{i18n>ClaimType}"/>
 					<ComboBox showSecondaryValues="true" required="true" items="{path:'LocalDataModel>/ClaimGroupSet'}" selectionChange="onSelectClaimTpe"
-						selectedKey="{HeadSetData>/ClaimType}" enabled="{DateModel>/claimTypeEn}" valueState="{DateModel>/claimTypeState}"
-						value="{path:'HeadSetData>/ClaimType', type : 'sap.ui.model.type.String', constraints : { minLength : 2, maxLength : 50 } }">
+						selectedKey="{HeadSetData>/WarrantyClaimType}" enabled="{DateModel>/claimTypeEn}" valueState="{DateModel>/claimTypeState}"
+						value="{path:'HeadSetData>/WarrantyClaimType', type : 'sap.ui.model.type.String', constraints : { minLength : 2, maxLength : 50 } }">
 						<core:ListItem text="{LocalDataModel>ALMClaimType}" key="{LocalDataModel>ALMClaimType}" additionalText="{LocalDataModel>ALMClaimTypeDes}"/>
 					</ComboBox>
 					<Label text="{i18n>SubmissionClaimType}" visible="{DateModel>/warrantySubmissionClaim}"/>
@@ -408,21 +408,21 @@
 					labelSpanS="12" adjustLabelSpan="false" emptySpanXL="4" emptySpanL="4" emptySpanM="0" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1"
 					singleContainerFullSize="false">
 					<f:content>
-						<UploadCollection change="onUplaodChange" id="UploadSupportingDoc" uploadComplete="onUploadComplete" fileDeleted="onFileDeleted"
+						<UploadCollection uploadEnabled="{LocalDataModel>/UploadEnable}"  change="onUplaodChange" id="UploadSupportingDoc" uploadComplete="onUploadComplete" fileDeleted="onFileDeleted"
 							beforeUploadStarts="onBeforeUpload" items="{ path: 'ClaimModel>/items', templateShareable: false }">
-							<toolbar>
-								<OverflowToolbar>
-									<Breadcrumbs id="breadcrumbsSupportingDoc" currentLocationText="{ClaimModel>/currentLocationText}" links="{ClaimModel>/history}">
-										<Link press="onBreadcrumbPress" text="{ClaimModel>fileName}"/>
-									</Breadcrumbs>
-									<ToolbarSpacer/>
-									<UploadCollectionToolbarPlaceholder/>
-								</OverflowToolbar>
-							</toolbar>
+							<!--<toolbar>-->
+							<!--	<OverflowToolbar>-->
+							<!--		<Breadcrumbs id="breadcrumbsSupportingDoc" currentLocationText="{ClaimModel>/currentLocationText}" links="{ClaimModel>/history}">-->
+							<!--			<Link press="onBreadcrumbPress" text="{ClaimModel>fileName}"/>-->
+							<!--		</Breadcrumbs>-->
+							<!--		<ToolbarSpacer/>-->
+							<!--		<UploadCollectionToolbarPlaceholder/>-->
+							<!--	</OverflowToolbar>-->
+							<!--</toolbar>-->
 							<items>
-								<UploadCollectionItem selected="onSelectUpload" documentId="{ClaimModel>DOC_ID}" fileName="{ClaimModel>FileName}"
-									mimeType="{ClaimModel>MIMETYPE}" thumbnailUrl="{ClaimModel>url}" url="{ClaimModel>URI}" enableEdit="{settings>/enableEdit}"
-									enableDelete="{settings>/enableDelete}" visibleDelete="{settings>/visibleDelete}" visibleEdit="{settings>/visibleEdit}"></UploadCollectionItem>
+								<UploadCollectionItem  selected="onSelectUpload" documentId="{ClaimModel>DOC_ID}" fileName="{ClaimModel>FileName}"
+									mimeType="{ClaimModel>MIMETYPE}" thumbnailUrl="{ClaimModel>url}" url="{ClaimModel>URI}" enableEdit="false"
+									enableDelete="false" visibleDelete="{settings>/visibleDelete}" visibleEdit="false"></UploadCollectionItem>
 							</items>
 						</UploadCollection>
 					</f:content>

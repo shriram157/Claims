@@ -14,7 +14,7 @@ sap.ui.define([
 			var oProssingModel = this.getModel("ProssingModel");
 			var oClaimGroup = [];
 			var oClaimGroupJson = [];
-			this.getOwnerComponent().getModel("LocalDataModel").setProperty("/RadioEdit", true);
+			this.getOwnerComponent().getModel("LocalDataModel").setProperty("/RadioEdit", false);
 			oProssingModel.read("/ZC_CLAIM_GROUP", {
 				success: $.proxy(function (data) {
 					var odata = data.results;
