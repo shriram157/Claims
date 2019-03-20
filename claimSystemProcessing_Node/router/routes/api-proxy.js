@@ -3,146 +3,70 @@
 
 "use strict";
 
-var express = require('express');
-var request = require('request');
-var xsenv = require("@sap/xsenv");
-
-var app = express();
-
-// Use the session middleware
-
-// vehicle Locator Node Module. 
 module.exports = function (appContext) {
-	var app = express.Router();
+	var express = require("express");
+	var request = require("request");
+	var xsenv = require("@sap/xsenv");
 
-	// SAP Calls Start from here
+	var router = express.Router();
+	var routerTracer = appContext.createLogContext().getTracer(__filename);
+
+	// TODO: provide service name via environment variable instead
+	var apimServiceName = "CLAIM_SYSTEM_PROCESSING_CUPS";
 	var options = {};
 	options = Object.assign(options, xsenv.getServices({
-		api: {
-			name: "CLAIM_SYSTEM_PROCESSING_CUPS"
+		apim: {
+			name: apimServiceName
 		}
 	}));
+	routerTracer.debug("Properties of APIM user-provided service '%s' : %s", apimServiceName, JSON.stringify(options));
 
-	var uname = options.api.user,
-		pwd = options.api.password,
-		url = options.api.host,
-		APIKey = options.api.APIKey,
-		client = options.api.client;
+	var url = options.apim.host;
+	if (url.endsWith("/")) {
+		url = url.slice(0, -1);
+	}
+	var APIKey = options.apim.APIKey;
+	var s4Client = options.apim.client;
+	var s4User = options.apim.user;
+	var s4Password = options.apim.password;
 
-	console.log('The API Management URL', url);
-
-	var auth64 = 'Basic ' + new Buffer(uname + ':' + pwd).toString('base64');
-
-	var reqHeader = {
-		"Authorization": auth64,
-		"Content-Type": "application/json",
-		"APIKey": APIKey
-			/*,
-					"x-csrf-token": "Fetch"*/
-	};
-
-	app.use(function (req, res, next) {
-		res.header("Access-Control-Allow-Origin", "*");
-		res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-		res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
-
-		next();
-	});
-
-	var csrfToken;
-
-	app.all('/*', function (req, res, next) {
-
-		let headOptions = {};
-
-		headOptions.Authorization = auth64;
-
-		let method = req.method;
-		let xurl = url + req.url;
-		console.log('Method', method);
-		console.log('Incoming Url', xurl);
-		//console.log('csrfToken before GET&POST', csrfToken);
-
-		// console.log(req.headers.cookie);
-		//  delete (req.headers.cookie);
-		//   console.log(req.headers.cookie);
-
-		if (method == 'GET') {
-
-			var reqHeader = {
-				"Authorization": auth64,
-				"Content-Type": "application/json",
-				"APIKey": APIKey
-					/*,
-									"x-csrf-token": "Fetch"*/
-			};
-
-		}
-
-		//  the backeend request is only taking PUT, not post
-		//if (method == 'POST') {
-		//	method = 'PUT';
-		//}
-
-		if (method == 'POST' || method == 'DELETE' || method == 'PUT' || method == 'HEAD') {
-			reqHeader = {
-				"Authorization": auth64,
-				"Content-Type": "application/json",
-				"APIKey": APIKey
-					/*,
-									"x-csrf-token": csrfToken*/
-			};
-			//console.log('csrfToken for POST', csrfToken);
-		}
+	router.all("/*", function (req, res, next) {
+		var logger = req.loggingContext.getLogger("/Application/Route/APIProxy");
+		var tracer = req.loggingContext.getTracer(__filename);
+		var proxiedMethod = req.method;
+		var proxiedReqHeaders = {
+			"APIKey": APIKey,
+			"Content-Type": req.get("Content-Type")
+		};
+		var proxiedUrl = url + req.url;
+		proxiedReqHeaders.Authorization = "Basic " + new Buffer(s4User + ":" + s4Password).toString("base64");
 
 		// Pass through x-csrf-token from request to proxied request to S4/HANA
 		// This requires manual handling of CSRF tokens from the front-end
 		// Note: req.get() will get header in a case-insensitive manner 
 		var csrfTokenHeaderValue = req.get("X-Csrf-Token");
-		reqHeader["X-Csrf-Token"] = csrfTokenHeaderValue;
+		proxiedReqHeaders["X-Csrf-Token"] = csrfTokenHeaderValue;
 
-		console.log('headerData', reqHeader);
+		tracer.debug("Proxied Method: %s", proxiedMethod);
+		tracer.debug("Proxied request headers: %s", JSON.stringify(proxiedReqHeaders));
+		tracer.debug("Proxied URL: %s", proxiedUrl);
 
-		let xRequest =
-			request({
-				method: method,
-				url: xurl,
-				headers: reqHeader
-			});
-
-		req.pipe(xRequest);
-
-		xRequest.on('response', (response) => {
-
-			delete(response.headers.cookie);
-
-			if (response.headers['x-csrf-token']) {
-				if (response.headers['x-csrf-token'] !== 'Required') {
-					csrfToken = response.headers['x-csrf-token'];
-					console.log("csrfToken received from SAP");
-				} else {
-					console.log("Csrf is received as Required.");
-				}
-
-			}
-			console.log("csrfToken NOT received for", method);
-
-			if (method == 'GET' && !(response.headers['x-csrf-token'])) {
-				csrfToken = csrfToken; //self assign this to retain the value. 
-				console.log("The earlier call returned blank CSRF and so we are reusing this one", csrfToken);
-			}
-
-			console.log('Response from sap Received Success and if csrf available it will be here & Csrf Token', method, csrfToken);
-
-			xRequest.pipe(res);
-
-		}).on('error', (error) => {
-			next(error);
-
-			console.log("This is inside error");
+		let proxiedReq = request({
+			headers: proxiedReqHeaders,
+			method: proxiedMethod,
+			url: proxiedUrl
 		});
+		req.pipe(proxiedReq);
+		proxiedReq.on("response", proxiedRes => {
+			tracer.info("Proxied call %s %s successful.", proxiedMethod, proxiedUrl);
+			delete proxiedRes.headers.cookie;
 
+			proxiedReq.pipe(res);
+		}).on("error", error => {
+			logger.error("Proxied call %s %s FAILED: %s", proxiedMethod, proxiedUrl, error);
+			next(error);
+		});
 	});
 
-	return app;
+	return router;
 };
