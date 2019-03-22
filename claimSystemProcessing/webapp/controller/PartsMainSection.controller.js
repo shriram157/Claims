@@ -265,7 +265,11 @@ sap.ui.define([
 						HeadSetData.setDefaultBindingMode("TwoWay");
 						this.getView().setModel(HeadSetData, "HeadSetData");
 					}, this),
-					error: function () {}
+					error: function (err) {
+						var err = JSON.parse(err.responseText);
+						var msg = err.error.message.value;
+						MessageBox.show(msg, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
+					}
 				});
 
 				oProssingModel.read("/zc_claim_item_price_dataSet", {
@@ -334,7 +338,11 @@ sap.ui.define([
 							}
 						};
 					}, this),
-					error: function () {}
+					error: function (err) {
+						var err = JSON.parse(err.responseText);
+						var msg = err.error.message.value;
+						MessageBox.show(msg, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
+					}
 				});
 				oProssingModel.read("/zc_claim_attachmentsSet", {
 					urlParameters: {
@@ -650,35 +658,37 @@ sap.ui.define([
 			}
 		},
 
-		onPressSavePart: function () {
+		ValidQty: function (liveQty) {
 			if (this.getView().getModel("PartDataModel").getProperty("/DiscreCode") == "2A") {
-				if (this.getView().getModel("PartDataModel").getProperty("/quant") < this.getView().getModel("PartDataModel").getProperty(
-						"/QuantityReceived")) {
+				if (this.getView().getModel("PartDataModel").getProperty("/quant") < liveQty.getParameters().newValue) {
 					this.youCanAddPartItem = false;
 					MessageBox.show("Ordered Quantity is more than Received, Not a Shortage.", MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK,
 						null, null);
-				} else {
-					this.youCanAddPartItem = true;
 				}
-			}
-			else{
-				this.youCanAddPartItem2=true;
 			}
 
 			if (this.getView().getModel("PartDataModel").getProperty("/DiscreCode") == "3A") {
-				if (this.getView().getModel("PartDataModel").getProperty("/quant") > this.getView().getModel("PartDataModel").getProperty("/QuantityReceived")) {
+				if (this.getView().getModel("PartDataModel").getProperty("/quant") > liveQty.getParameters().newValue) {
 					this.youCanAddPartItem = false;
 					MessageBox.show("Ordered Quantity is less than Received, Not a Overage.", MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK,
 						null, null);
-				} else {
-					this.youCanAddPartItem = true;
 				}
 			}
-			else{
-				this.youCanAddPartItem2=true;
-			}
 
-			if (this.youCanAddPartItem == true || this.youCanAddPartItem2 == true) {
+		},
+
+		onPressSavePart: function () {
+			var oValidator = new Validator();
+			var oValid01 = oValidator.validate(this.getView().byId("idRow01Form"));
+			var oValid02 = oValidator.validate(this.getView().byId("idRow02Form"));
+			if (!oValid01 && !oValid02) {
+				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+				this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
+				this.getView().byId("idMainClaimMessage").setType("Error");
+				return false;
+			} else {
+				this.getView().byId("idMainClaimMessage").setProperty("visible", false);
+				// if (this.youCanAddPartItem == true || this.youCanAddPartItem2 == true) {
 				this.getView().getModel("DateModel").setProperty("/oLetterOfIntent", true);
 				var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 				var oTable = this.getView().byId("partTable");
@@ -727,7 +737,7 @@ sap.ui.define([
 								"QuantityOrdered": this.getView().getModel("PartDataModel").getProperty("/quant").toString(),
 								"QuantityReceived": this.getView().getModel("PartDataModel").getProperty("/QuantityReceived").toString(),
 								"DiscreCode": this.getView().getModel("PartDataModel").getProperty("/DiscreCode"),
-								"WrongPart": this.getView().getModel("HeadSetData").getProperty("/PartNumberRc"),
+								"WrongPart": "",
 								"ALMDiscreDesc": this.getView().getModel("PartDataModel").getProperty("/ALMDiscreDesc"),
 								"RepairOrRetrunPart": RepairOrRetrunPart,
 								"RepairAmount": this.getView().getModel("HeadSetData").getProperty("/RepairAmount")
@@ -771,6 +781,7 @@ sap.ui.define([
 										console.log("DiscreCode", DiscreCode);
 										for (var m = 0; m < oFilteredData.length; m++) {
 											oFilteredData[m].ALMDiscreDesc = oFilteredData[m].ALMDiscreDesc.split("-")[1];
+											oFilteredData[m].quant2 = oFilteredData[m].quant;
 										}
 										this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
 										MessageToast.show("Claim has been saved successfully");
@@ -800,12 +811,19 @@ sap.ui.define([
 									}, this),
 									error: function (err) {
 										console.log(err);
+
+										var err = JSON.parse(err.responseText);
+										var msg = err.error.message.value;
+										MessageBox.show(msg, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
 									}
 								});
 
 							}, this),
 							error: function (err) {
 								console.log(err);
+								var err = JSON.parse(err.responseText);
+								var msg = err.error.message.value;
+								MessageBox.show(msg, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
 							}
 						});
 					} else {
@@ -1047,12 +1065,18 @@ sap.ui.define([
 										this),
 									error: function (err) {
 										console.log(err);
+										var err = JSON.parse(err.responseText);
+										var msg = err.error.message.value;
+										MessageBox.show(msg, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
 									}
 								});
 							},
 							this),
 						error: function (err) {
 							console.log(err);
+							var err = JSON.parse(err.responseText);
+							var msg = err.error.message.value;
+							MessageBox.show(msg, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
 						}
 					});
 				}
@@ -1503,6 +1527,9 @@ sap.ui.define([
 				}, this),
 				error: function (err) {
 					console.log(err);
+					var err = JSON.parse(err.responseText);
+					var msg = err.error.message.value;
+					MessageBox.show(msg, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
 				}
 			});
 			// }
@@ -1661,6 +1688,9 @@ sap.ui.define([
 					}, this),
 					error: function (err) {
 						console.log(err);
+						var err = JSON.parse(err.responseText);
+						var msg = err.error.message.value;
+						MessageBox.show(msg, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
 					}
 				});
 			} else {
@@ -1705,11 +1735,17 @@ sap.ui.define([
 							}, this),
 							error: function (err) {
 								console.log(err);
+								var err = JSON.parse(err.responseText);
+								var msg = err.error.message.value;
+								MessageBox.show(msg, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
 							}
 						});
 					}, this),
 					error: function (err) {
 						console.log(err);
+						var err = JSON.parse(err.responseText);
+						var msg = err.error.message.value;
+						MessageBox.show(msg, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
 					}
 				});
 			} else {
@@ -2061,6 +2097,9 @@ sap.ui.define([
 				}, this),
 				error: function (err) {
 					console.log(err);
+					var err = JSON.parse(err.responseText);
+					var msg = err.error.message.value;
+					MessageBox.show(msg, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
 				}
 			});
 			// var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
@@ -2212,6 +2251,9 @@ sap.ui.define([
 				}, this),
 				error: function (err) {
 					console.log(err);
+					var err = JSON.parse(err.responseText);
+					var msg = err.error.message.value;
+					MessageBox.show(msg, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
 				}
 			});
 		},
@@ -2494,12 +2536,18 @@ sap.ui.define([
 							}, this),
 							error: function (err) {
 								console.log(err);
+								var err = JSON.parse(err.responseText);
+								var msg = err.error.message.value;
+								MessageBox.show(msg, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
 							}
 						});
 
 					}, this),
 					error: function (err) {
 						console.log(err);
+						var err = JSON.parse(err.responseText);
+						var msg = err.error.message.value;
+						MessageBox.show(msg, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
 					}
 				});
 
@@ -2722,6 +2770,10 @@ sap.ui.define([
 									dialog.close();
 									console.log("Error in submitting claim to TCI", err);
 									this.getView().byId("idFilter04").setProperty("enabled", false);
+
+									var err = JSON.parse(err.responseText);
+									var msg = err.error.message.value;
+									MessageBox.show(msg, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
 								}
 							});
 
