@@ -130,7 +130,7 @@
 	</Panel>
 	<Panel width="auto" class="sapUiSmallMarginBottom" accessibleRole="Region">
 		<content>
-			<table:Table id="idRCPTable" class="classRCPTable" selectionMode="Single" rows="{path:'LocalDataModel>/ClaimSum'}"
+			<table:Table id="idPartsTable" class="classRCPTable" selectionMode="Single" rows="{path:'LocalDataModel>/ClaimSum'}"
 				visibleRowCountMode="Auto" rowSelectionChange="onNavigate" selectionBehavior="Row" showNoData="true" threshold="20"
 				enableBusyIndicator="true">
 				<table:toolbar>

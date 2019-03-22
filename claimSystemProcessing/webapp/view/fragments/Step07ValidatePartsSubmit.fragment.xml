@@ -55,7 +55,7 @@
 			<!--	</f:content>-->
 			<!--</f:SimpleForm>-->
 		<!--</Panel>-->
-		<table:Table class="classRCPTable" selectionMode="Single" rows="{path:'LocalDataModel>/ClaimSum'}" visibleRowCount="5"
+		<table:Table class="classRCPTable" selectionMode="Single" rows="{path:'LocalDataModel>/ClaimSum'}" id= "idPartsTable2" visibleRowCount="5"
 			rowSelectionChange="onNavigate" selectionBehavior="Row" showNoData="true" threshold="5" enableBusyIndicator="true">
 			<table:toolbar>
 				<Toolbar>

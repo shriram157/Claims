@@ -419,6 +419,7 @@ sap.ui.define([
 				this.optionChanged = false;
 				this.partsInput02 = false;
 				this.youCanAddPartItem = false;
+				this.youCanAddPartItem2 = false;
 
 				// this.obj.DBOperation = "SAVE";
 				this.obj.zc_itemSet = {};
@@ -660,6 +661,9 @@ sap.ui.define([
 					this.youCanAddPartItem = true;
 				}
 			}
+			else{
+				this.youCanAddPartItem2=true;
+			}
 
 			if (this.getView().getModel("PartDataModel").getProperty("/DiscreCode") == "3A") {
 				if (this.getView().getModel("PartDataModel").getProperty("/quant") > this.getView().getModel("PartDataModel").getProperty("/QuantityReceived")) {
@@ -670,8 +674,11 @@ sap.ui.define([
 					this.youCanAddPartItem = true;
 				}
 			}
+			else{
+				this.youCanAddPartItem2=true;
+			}
 
-			if (this.youCanAddPartItem == true) {
+			if (this.youCanAddPartItem == true || this.youCanAddPartItem2 == true) {
 				this.getView().getModel("DateModel").setProperty("/oLetterOfIntent", true);
 				var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 				var oTable = this.getView().byId("partTable");
