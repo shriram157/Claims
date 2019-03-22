@@ -27,7 +27,10 @@
     background-color: transparent;
     color: #346187;
 }
-.clFormTitleGap .sapUiFormM .sapUiFormContainerTitle>.sapUiFormTitle {height:0;}
+
+.clFormTitleGap .sapUiFormM .sapUiFormContainerTitle>.sapUiFormTitle {
+    height: 0;
+}
 
 
 /*======================= End custom fonts and custom color on header style ==========================*/
@@ -36,40 +39,61 @@
     background: #fdfdfd;
     border: 1px solid #cccccc;
 }
-.clWarning  :not(.sapMBtnDisabled) .sapMBtnTransparent>.sapMBtnIcon, .clWarning :not(.sapMBtnDisabled) .sapMBtnGhost>.sapMBtnIcon {
-	color:#f00;
+
+.clWarning:not(.sapMBtnDisabled) .sapMBtnTransparent>.sapMBtnIcon,
+.clWarning:not(.sapMBtnDisabled) .sapMBtnGhost>.sapMBtnIcon {
+    color: #f00;
 }
 
 .oVisible {
     display: none;
 }
+
+
 /*.ClsubHeadingLineHeight .sapUiFormTitleH5 {height:1rem!important; line-height:1rem!important;}*/
-.clTextIndent {text-indent:-9999999px;}
-.sapMITBScrollContainer {text-align:center;}
-.clOpFooter {background : #2f3c47;}
 
-
-.messagestrip{font-weight: bold !important;}
-.greenlable{
-	color: green !important;
-}
-.redlable{
-		color: red !important;
+.clTextIndent {
+    text-indent: -9999999px;
 }
 
-.headerButtonsToolBar{border:none;}
-.borderStyle{
-	padding: 1rem 0;
+.sapMITBScrollContainer {
+    text-align: center;
+}
+
+.clOpFooter {
+    background: #2f3c47;
+}
+
+.messagestrip {
+    font-weight: bold !important;
+}
+
+.greenlable {
+    color: green !important;
+}
+
+.redlable {
+    color: red !important;
+}
+
+.headerButtonsToolBar {
+    border: none;
+}
+
+.borderStyle {
+    padding: 1rem 0;
     box-sizing: border-box;
     border-bottom: 1px solid #cccccc;
     /*width: 98%;*/
 }
+
 .borderStyle .sapUiFormResGridMain>div:nth-child(1),
-.borderStyle2 .sapUiFormResGridMain>div:nth-child(1){
+.borderStyle2 .sapUiFormResGridMain>div:nth-child(1) {
     width: 6rem;
 }
-.borderStyle2 .sapUiFormResGridCont { 
-	padding-bottom: 0 !important; 
+
+.borderStyle2 .sapUiFormResGridCont {
+    padding-bottom: 0 !important;
 }
 
 .borderStyle2 .sapUiFormResGrid>.sapUiFormResGridMain>div:nth-child(2) {
@@ -81,10 +105,19 @@
 }
 
 .boldText {
-	font-weight: 600;
+    font-weight: 600;
 }
 
 .partsOnly .classRCPTable .sapUiTableTr>td,
-.classRCPTable .sapUiTableTr>td{
-	text-align: center !important;
+.classRCPTable .sapUiTableTr>td {
+    text-align: center !important;
 }
+
+.sapMUCEditBtn {
+    display: none;
+}
+
+
+/*.hideDltBtn .sapMUCDeleteBtn {
+    display: none;
+}*/

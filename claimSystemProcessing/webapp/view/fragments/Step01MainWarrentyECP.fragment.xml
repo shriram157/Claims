@@ -63,6 +63,18 @@
 							<l:GridData span="XL8 L8 M12 S12"/>
 						</layoutData>
 					</Button>
+					
+					<Button text="Approve" visible="{DateModel>/authAcClm}" type="Accept" press="onApproveClaim">
+						<layoutData>
+							<l:GridData span="XL8 L8 M12 S12"/>
+						</layoutData>
+					</Button>
+					
+					<Button text="Reject" visible="{DateModel>/authRejClm}" type="Reject" press="onRejectClaim">
+						<layoutData>
+							<l:GridData span="XL8 L8 M12 S12"/>
+						</layoutData>
+					</Button>
 				</f:content>
 			</f:SimpleForm>
 		</Panel>
