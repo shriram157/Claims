@@ -6,7 +6,7 @@
 				<Toolbar height="3rem">
 					<Title text="{i18n>ClaimDetails}"/>
 					<ToolbarSpacer/>
-					<Title text="TCI Claim or Authorization Number: {HeadSetData>/NumberOfWarrantyClaim}" textAlign="End"/>
+					<Title text="TCI Claim Number: {HeadSetData>/NumberOfWarrantyClaim}" textAlign="End"/>
 				</Toolbar>
 			</headerToolbar>
 			<f:SimpleForm editable="true" layout="ResponsiveGridLayout" title="" labelSpanXL="6" labelSpanL="6" labelSpanM="12" labelSpanS="12"
@@ -130,7 +130,7 @@
 	</Panel>
 	<Panel width="auto" class="sapUiSmallMarginBottom" accessibleRole="Region">
 		<content>
-			<table:Table id="idRCPTable" class="classRCPTable" selectionMode="Single" rows="{path:'LocalDataModel>/ClaimSum'}"
+			<table:Table id="idPartsTable" class="classRCPTable" selectionMode="Single" rows="{path:'LocalDataModel>/ClaimSum'}"
 				visibleRowCountMode="Auto" rowSelectionChange="onNavigate" selectionBehavior="Row" showNoData="true" threshold="20"
 				enableBusyIndicator="true">
 				<table:toolbar>

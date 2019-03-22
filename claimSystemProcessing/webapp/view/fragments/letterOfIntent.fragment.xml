@@ -129,7 +129,7 @@
 						<Label text="Ext" class="sapUiTinyMarginBeginEnd"/>
 						<Input value="{path:'LOIDataModel>/LOIExt'}" width="25%"/>
 						<Label text="Email" class="sapUiTinyMarginBeginEnd"/>
-						<Input value="{path:'LOIDataModel>/LOIEmail'}" required="true" width="25%" valueState="{DateModel>/partTypeState}"/>
+						<Input value="{path:'LOIDataModel>/LOIEmail'}" required="true" width="75%" valueState="{DateModel>/partTypeState}"/>
 						<Text text="{path:'LOIDataModel>/ReAddress'}"/>
 						<!--</HBox>-->
 					</f:content>

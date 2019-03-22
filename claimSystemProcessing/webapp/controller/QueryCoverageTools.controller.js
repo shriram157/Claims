@@ -101,6 +101,11 @@ sap.ui.define([
 
 		},
 		onPressLookUp: function (oEvent) {
+			var zdateFormat = sap.ui.core.format.DateFormat.getDateInstance({
+				pattern: "yyyy-MM-ddTHH:mm:ss"
+			});
+			var zddate = new Date();
+			var currentdate = zdateFormat.format(zddate);
 			var Bundle = this.getView().getModel("i18n").getResourceBundle();
 			var Messagevalidf = Bundle.getText('Requf');
 			var oVin = this.getView().byId('vin').getValue();
@@ -117,6 +122,7 @@ sap.ui.define([
 					new sap.ui.model.Filter("OFP", sap.ui.model.FilterOperator.EQ, partofp),
 					new sap.ui.model.Filter("LanguageKey", sap.ui.model.FilterOperator.EQ, 'EN'),
 					new sap.ui.model.Filter("MainOpsCode", sap.ui.model.FilterOperator.EQ, mainop),
+					new sap.ui.model.Filter("RepairDate", sap.ui.model.FilterOperator.EQ, currentdate),
 					new sap.ui.model.Filter("AgreementNumber", sap.ui.model.FilterOperator.EQ, agreementselected),
 					new sap.ui.model.Filter("OdometerUOM", sap.ui.model.FilterOperator.EQ, dometerunit) //till iget the odmeter km
 				];
