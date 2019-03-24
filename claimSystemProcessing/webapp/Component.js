@@ -42,7 +42,8 @@ sap.ui.define([
 
 			var oDataModel = new ODataModel(mConfig.uri, {
 				useBatch: false,
-				json: true
+				json: true,
+				defaultUpdateMethod: 'PUT',
 			});
 			this.setModel(oDataModel, "ProssingModel");
 			var mConfig01 = this.getMetadata().getManifestEntry("/sap.app/dataSources/API_BUSINESS_PARTNER");
@@ -94,7 +95,7 @@ sap.ui.define([
 			var oDataModel05 = new ODataModel(mConfig05.uri, {
 				useBatch: false,
 				// disableHeadRequestForToken: false,
-				defaultUpdateMethod: 'PUT',
+				defaultUpdateMethod: 'PATCH',
 				json: true
 			});
 
