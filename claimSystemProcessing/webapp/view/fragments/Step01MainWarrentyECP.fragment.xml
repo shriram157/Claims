@@ -1,6 +1,6 @@
 <core:FragmentDefinition xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:u="sap.ui.unified" xmlns:l="sap.ui.layout"
 	xmlns="sap.m" xmlns:table="sap.ui.table" xmlns:custom="zclaimProcessing.control">
-	<VBox class="sapUiSmallMargin clFormTitleGap">
+	<VBox class="sapUiSmallMargin clFormTitleGap"  id="idpart01Form" >
 		<Panel width="auto" class="sapUiSmallMarginBottom" accessibleRole="Region">
 			<headerToolbar>
 				<Toolbar height="3rem">
@@ -92,7 +92,8 @@
 				<core:Title text=""/>
 				<Label text="{i18n>RepairDate}"/>
 				<!--<DatePicker class="clDatePicker" required="true" value="{path:'HeadSetData>/RepairDate',type : 'sap.ui.model.type.Date'}" editable="{DateModel>/oFormEdit}"/>-->
-				<DatePicker class="clDatePicker"  required="true" change="onChangeDate" value="{path:'HeadSetData>/RepairDate', type: 'sap.ui.model.type.Date',  formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd'}}" editable="{DateModel>/oFormEdit}"/>
+				<DatePicker class="clDatePicker"  id="id_Date" required="true" change="onChangeDate" value="{path:'HeadSetData>/RepairDate', type: 'sap.ui.model.type.Date',  
+				formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd'}}" editable="{DateModel>/oFormEdit}"/>
 				<Label text="{i18n>DealerContact}"/>
 				<Input required="true"
 					value="{path:'HeadSetData>/DealerContact', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 30 }}"
@@ -104,7 +105,7 @@
 					id="idRepairOrder" editable="{DateModel>/oFormEdit}"/>
 				<Label text="{i18n>ROOdometer}"/>
 				<custom:CustomInput
-					value="{path:'HeadSetData>/Odometer', type : 'sap.ui.model.type.Number', constraints : { minLength : 2, maxLength : 7 }}"
+					value="{path:'HeadSetData>/Odometer', type : 'sap.ui.model.type.String', constraints : { minLength : 2, maxLength : 7 }}"
 					required="{DateModel>/OdometerReq}" visible="{DateModel>/OdometerReq}" id="idOdometer" editable="{DateModel>/oFormEdit}"/>
 			</f:content>
 		</f:SimpleForm>
@@ -307,13 +308,13 @@
 			</f:content>
 		</f:SimpleForm>
 		<VBox visible="{DateModel>/RepairdDetailVisible}">
-			<f:SimpleForm visible="{DateModel>/RepairdDetailVisible}" id="idpart01Form" editable="{DateModel>/oFormEdit}" title="{i18n>RepairDetails}"
+			<f:SimpleForm visible="{DateModel>/RepairdDetailVisible}" editable="{DateModel>/oFormEdit}" title="{i18n>RepairDetails}"
 				layout="ResponsiveGridLayout" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0"
 				emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="3" columnsL="3" columnsM="3" singleContainerFullSize="false">
 				<f:content>
 					<core:Title text=""/>
 					<Label text="{i18n>OFP}"/>
-					<Input value="{path:'HeadSetData>/OFP'}" editable="{DateModel>/oFormEdit}"/>
+					<Input value="{path:'HeadSetData>/OFP'}" editable="{DateModel>/oFormEdit}" visible="{DateModel>/ofpEnabled}"/>
 					<Label text="{i18n>MainOp}"/>
 					<Input value="{path:'HeadSetData>/MainOpsCode'}" editable="{DateModel>/oFormEdit}"/>
 					<Label text="{i18n>BatteryTestCode}"/>
@@ -322,8 +323,8 @@
 					<TextArea required="true" editable="{DateModel>/oFormEdit}"
 						value="{path:'HeadSetData>/ZCondition', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 100 }}"></TextArea>
 					<core:Title text=""/>
-					<Label text="{i18n>OFPDescription}"/>
-					<Text text="{path:'LocalDataModel>/OFPDescription'}"/>
+					<Label text="{i18n>OFPDescription}" visible="{DateModel>/ofpEnabled}"/>
+					<Text text="{path:'LocalDataModel>/OFPDescription'}" visible="{DateModel>/ofpEnabled}"/>
 					<Label text="{i18n>MainOpDescription}"/>
 					<Text text="{path:'LocalDataModel>/MainOpsCodeDescription'}"/>
 					<Label text="{i18n>FieldActionCode}"/>
@@ -336,19 +337,19 @@
 					<Label text="{i18n>AppliedCoverage}"/>
 					<Text text="{HeadSetData>/AppliedWarrantyCoverage}"/>
 					<Label text="{i18n>T1 Code}"/>
-					<ComboBox showSecondaryValues="true" required="true" items="{ path: '/Zt1DescSrchhelpSet' }" selectedKey="{HeadSetData>/T1WarrantyCodes}"
-						enabled="{DateModel>/oFormEdit}"
-						value="{path:'HeadSetData>/T1WarrantyCodes', type : 'sap.ui.model.type.String', constraints : { minLength : 2, maxLength : 100 }}">
-						<core:ListItem key="{T1}" text="{path:'T1', constraints : { minLength : 2, maxLength : 100 }}" additionalText="{T1Text}"/>
+					<ComboBox showSecondaryValues="true" required="{DateModel>/enabledT1}" items="{ path: '/Zt1DescSrchhelpSet' }" selectedKey="{HeadSetData>/T1WarrantyCodes}"
+						visible="{DateModel>/enabledT1}" editable="{DateModel>/oFormEdit}"
+						value="{path:'HeadSetData>/T1WarrantyCodes', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 100 }}">
+						<core:ListItem key="{T1}" text="{path:'T1'}" additionalText="{T1Text}"/>
 					</ComboBox>
 					<!--<Select selectedKey="{HeadSetData>/T1WarrantyCodes}" items="{ path: '/Zt1DescSrchhelpSet' }" enabled="{DateModel>/oFormEdit}">-->
 					<!--	<core:Item key="{T1}" text="{T1} - {T1Text}"/>-->
 					<!--</Select>-->
 					<Label text="{i18n>T2Code}"/>
-					<ComboBox required="true" showSecondaryValues="true" items="{ path: '/Zt2DescSrchhelpSet' }" selectedKey="{HeadSetData>/T2WarrantyCodes}"
-						enabled="{DateModel>/oFormEdit}"
-						value="{path:'HeadSetData>/T2WarrantyCodes', type : 'sap.ui.model.type.String', constraints : { minLength : 2, maxLength : 100 }}">
-						<core:ListItem key="{path:'T2', constraints : { minLength : 2, maxLength : 100 }}" text="{T2}" additionalText="{T2Text}"/>
+					<ComboBox required="{DateModel>/enabledT2}" showSecondaryValues="true" items="{ path: '/Zt2DescSrchhelpSet' }" selectedKey="{HeadSetData>/T2WarrantyCodes}"
+						visible="{DateModel>/enabledT2}" editable="{DateModel>/oFormEdit}"
+						value="{path:'HeadSetData>/T2WarrantyCodes', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 100 }}">
+						<core:ListItem key="{path:'T2'}" text="{T2}" additionalText="{T2Text}"/>
 					</ComboBox>
 					<!--<Select selectedKey="{HeadSetData>/T2WarrantyCodes}" items="{ path: '/Zt2DescSrchhelpSet' }" enabled="{DateModel>/oFormEdit}">-->
 					<!--	<core:Item key="{T2}" text="{T2} - {T2Text}"/>-->
@@ -432,9 +433,12 @@
 							<!--	</OverflowToolbar>-->
 							<!--</toolbar>-->
 							<items>
-								<UploadCollectionItem  selected="onSelectUpload" documentId="{ClaimModel>DOC_ID}" fileName="{ClaimModel>FileName}"
+								<UploadCollectionItem  selected="onSelectUpload" documentId="{ClaimModel>DOC_ID}" fileName="{path:'ClaimModel>FileName', formatter:'zclaimProcessing.utils.formatter.fnFileName'}"
 									mimeType="{ClaimModel>MIMETYPE}" thumbnailUrl="{ClaimModel>url}" url="{ClaimModel>URI}" enableEdit="false"
 									enableDelete="false" visibleDelete="{settings>/visibleDelete}" visibleEdit="false"></UploadCollectionItem>
+								<!--<UploadCollectionItem documentId="{LocalDataModel>DOC_ID}" fileName="{LocalDataModel>FileName}" mimeType="{LocalDataModel>MIMETYPE}"-->
+								<!--	thumbnailUrl="{LocalDataModel>url}" url="{LocalDataModel>URI}" enableEdit="{settings>/enableEdit}" enableDelete="{settings>/enableDelete}"-->
+								<!--	visibleDelete="{settings>/visibleDelete}" visibleEdit="{settings>/visibleEdit}">-->
 							</items>
 						</UploadCollection>
 					</f:content>

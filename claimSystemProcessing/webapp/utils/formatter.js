@@ -471,6 +471,17 @@ zclaimProcessing.utils.formatter = {
 			}
 	
 		return oVal;
+	},
+	
+	fnFileName : function(val){
+		var oVal = "";
+		if(val){
+			oVal = val.replace("HEAD+++", "");
+		}else {
+			oVal = val;
+		}
+		return oVal;
 	}
+	
 
 };
