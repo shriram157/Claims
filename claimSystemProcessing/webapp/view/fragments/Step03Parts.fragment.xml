@@ -15,7 +15,7 @@
 				<Button text="Delete Part Line" press="onPressDeletePart" class="sapUiTinyMarginBeginEnd" type="Reject" enabled="{DateModel>/oFormEdit}"/>
 				<Button text="Letter Of Intent" class="sapUiTinyMarginBeginEnd" enabled="{DateModel>/oLetterOfIntent}" press="onPressLetterOfIntent"/>
 				<ToolbarSpacer/>
-				<Button text="Save Claim" class="sapUiTinyMarginBeginEnd" type="Emphasized" enabled="{DateModel>/oFormEdit}" press="onPressSavePart"/>
+				<Button text="Save Claim" class="sapUiTinyMarginBeginEnd" type="Emphasized" enabled="{DateModel>/oFormEdit}" press="onPressSavePartClaim"/>
 			</OverflowToolbar>
 			<VBox class="clBgColor">
 				<f:SimpleForm editable="true" labelSpanL="12" width="90%" title="" labelSpanXL="12" layout="ResponsiveGridLayout" emptySpanXL="0"
@@ -23,22 +23,22 @@
 					<f:content>
 						<HBox>
 							<Label text="{i18n>DamageCondition } " class="sapUiSmallMargin" textAlign="Begin" visible="{multiHeaderConfig>/partDamage}"/>
-							<Select enabled="{DateModel>/partLine}" change="onDDChange" showSecondaryValues="false" items="{DropDownModel>/items}" visible="{multiHeaderConfig>/partDamage}"
+							<Select id="DmgCodes" enabled="{DateModel>/partLine}" change="onDDChange" showSecondaryValues="false" items="{DropDownModel>/items}" visible="{multiHeaderConfig>/partDamage}"
 								selectedKey="{HeadSetData>/DamageCondition}">
 								<core:ListItem key="{DropDownModel>DiscreCode}" text="{path:'DropDownModel>ALMDiscreDesc'}" additionalText="{DropDownModel>ALMDiscreCode}"/>
 							</Select>
 							<Label text="{i18n>DiscrepancyType}" class="sapUiSmallMargin" textAlign="Begin" visible="{multiHeaderConfig>/partDiscrepancies}"/>
-							<Select enabled="{DateModel>/partLine}" change="onDDChange" showSecondaryValues="false" items="{DropDownModel>/items}" visible="{multiHeaderConfig>/partDiscrepancies}"
+							<Select id="DscpCodes" enabled="{DateModel>/partLine}" change="onDDChange" showSecondaryValues="false" items="{DropDownModel>/items}" visible="{multiHeaderConfig>/partDiscrepancies}"
 								selectedKey="{HeadSetData>/DiscrepancyCodes}">
 								<core:ListItem key="{DropDownModel>DiscreCode}" text="{path:'DropDownModel>ALMDiscreDesc'}" additionalText="{DropDownModel>ALMDiscreCode}"/>
 							</Select>
 							<Label text="{i18n>MiscellaneousCode} " class="sapUiSmallMargin" textAlign="Begin" visible="{multiHeaderConfig>/partMiscellanious}"/>
-							<Select enabled="{DateModel>/partLine}" change="onDDChange" showSecondaryValues="false" items="{DropDownModel>/items}" visible="{multiHeaderConfig>/partMiscellanious}"
+							<Select id="MscCodes" enabled="{DateModel>/partLine}" change="onDDChange" showSecondaryValues="false" items="{DropDownModel>/items}" visible="{multiHeaderConfig>/partMiscellanious}"
 								selectedKey="{HeadSetData>/MiscellaneousCode}">
 								<core:ListItem key="{DropDownModel>DiscreCode}" text="{path:'DropDownModel>ALMDiscreDesc'}" additionalText="{DropDownModel>ALMDiscreCode}"/>
 							</Select>
 							<Label text="{i18n>TranportShortageType} " class="sapUiSmallMargin" textAlign="Begin" visible="{multiHeaderConfig>/partTransportation}"/>
-							<Select enabled="{DateModel>/partLine}" change="onDDChange" showSecondaryValues="false" items="{DropDownModel>/items}" visible="{multiHeaderConfig>/partTransportation}"
+							<Select id="TransportCodes" enabled="{DateModel>/partLine}" change="onDDChange" showSecondaryValues="false" items="{DropDownModel>/items}" visible="{multiHeaderConfig>/partTransportation}"
 								selectedKey="{HeadSetData>/TranportShortageType}">
 								<core:ListItem key="{DropDownModel>DiscreCode}" text="{path:'DropDownModel>ALMDiscreDesc'}" additionalText="{DropDownModel>ALMDiscreCode}"/>
 							</Select>
@@ -84,7 +84,7 @@
 							<!--{ path : 'PartDataModel>/quant', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 10 } }-->
 							<!--type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 10 }-->
 							<Input value="{path : 'PartDataModel>/quant', type : 'sap.ui.model.type.Integer', constraints : { minLength : 1, maxLength : 10 }}"
-								required="true" enabled="{DateModel>/partLine}">
+								required="true" enabled="{DateModel>/partLine}" valueState="{DateModel>/partTypeState}" >
 								<layoutData>
 									<l:GridData span="XL8 L8"/>
 								</layoutData>
@@ -160,7 +160,7 @@
 							<Label text="Quantity"></Label>
 							<Input
 								value="{path : 'PartDataModel>/QuantityReceived', type : 'sap.ui.model.type.Integer', formatOptions : { groupingEnabled : true }, constraints : { minimum : 1, maximum : 100 } }"
-								required="true" id="idReceivedQnt" enabled="{DateModel>/partLine}" change="ValidQty">
+								required="true" id="idReceivedQnt" enabled="{DateModel>/partLine}" change="ValidQty" valueState="{DateModel>/partTypeState}" >
 								<!--<Input-->
 								<!--	value="{ path : 'PartDataModel>/QuantityReceived', type : 'sap.ui.model.type.Integer', formatOptions : { groupingEnabled : true }, constraints : { minimum : 50, maximum : 10000000 } }"-->
 								<!--	required="true" id="idReceivedQnt">-->
