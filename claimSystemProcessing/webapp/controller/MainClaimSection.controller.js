@@ -537,6 +537,7 @@ sap.ui.define([
 						} else {
 							this.getView().getModel("DateModel").setProperty("/LabourBtnVsbl", true);
 						}
+						
 						var HeadSetData = new sap.ui.model.json.JSONModel(data.results[0]);
 						HeadSetData.setDefaultBindingMode("TwoWay");
 						this.getView().setModel(HeadSetData, "HeadSetData");
@@ -630,6 +631,7 @@ sap.ui.define([
 						this.getView().getModel("HeadSetData").setData(sdata.results[0]);
 						this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", sdata.results[0].OfpDescription);
 						this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", sdata.results[0].Main_opsDescription);
+						
 
 					}, this)
 				});
@@ -826,7 +828,7 @@ sap.ui.define([
 					this.getView().getModel("DateModel").setProperty("/copyClaimEnable", false);
 					this.getModel("LocalDataModel").setProperty("/CancelEnable", false);
 				}
-				this._fnOFPenabled();
+				//this._fnOFPenabled();
 				this._fnClaimSum();
 				this._fnClaimSumPercent();
 				this._fnEnableEdit();
