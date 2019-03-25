@@ -616,6 +616,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/copyClaimEnable", true);
 							this.getModel("LocalDataModel").setProperty("/UploadEnable", true);
 						}
+						this._fnOFPenabled();
 
 					}, this),
 					error: function () {}
