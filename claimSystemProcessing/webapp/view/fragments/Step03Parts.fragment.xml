@@ -19,26 +19,26 @@
 			</OverflowToolbar>
 			<VBox class="clBgColor">
 				<f:SimpleForm editable="true" labelSpanL="12" width="90%" title="" labelSpanXL="12" layout="ResponsiveGridLayout" emptySpanXL="0"
-					emptySpanL="0" columnsM="3" columnsL="3" columnsXL="3">
+					emptySpanL="0" columnsM="4" columnsL="4" columnsXL="4">
 					<f:content>
 						<HBox>
 							<Label text="{i18n>DamageCondition } " class="sapUiSmallMargin" textAlign="Begin" visible="{multiHeaderConfig>/partDamage}"/>
-							<Select id="DmgCodes" enabled="{DateModel>/partLine}" change="onDDChange" showSecondaryValues="false" items="{DropDownModel>/items}" visible="{multiHeaderConfig>/partDamage}"
+							<Select width="15rem" id="DmgCodes" enabled="{DateModel>/partLine}" change="onDDChange" showSecondaryValues="false" items="{DropDownModel>/items}" visible="{multiHeaderConfig>/partDamage}"
 								selectedKey="{HeadSetData>/DamageCondition}">
 								<core:ListItem key="{DropDownModel>DiscreCode}" text="{path:'DropDownModel>ALMDiscreDesc'}" additionalText="{DropDownModel>ALMDiscreCode}"/>
 							</Select>
 							<Label text="{i18n>DiscrepancyType}" class="sapUiSmallMargin" textAlign="Begin" visible="{multiHeaderConfig>/partDiscrepancies}"/>
-							<Select id="DscpCodes" enabled="{DateModel>/partLine}" change="onDDChange" showSecondaryValues="false" items="{DropDownModel>/items}" visible="{multiHeaderConfig>/partDiscrepancies}"
+							<Select width="15rem" id="DscpCodes" enabled="{DateModel>/partLine}" change="onDDChange" showSecondaryValues="false" items="{DropDownModel>/items}" visible="{multiHeaderConfig>/partDiscrepancies}"
 								selectedKey="{HeadSetData>/DiscrepancyCodes}">
 								<core:ListItem key="{DropDownModel>DiscreCode}" text="{path:'DropDownModel>ALMDiscreDesc'}" additionalText="{DropDownModel>ALMDiscreCode}"/>
 							</Select>
 							<Label text="{i18n>MiscellaneousCode} " class="sapUiSmallMargin" textAlign="Begin" visible="{multiHeaderConfig>/partMiscellanious}"/>
-							<Select id="MscCodes" enabled="{DateModel>/partLine}" change="onDDChange" showSecondaryValues="false" items="{DropDownModel>/items}" visible="{multiHeaderConfig>/partMiscellanious}"
+							<Select width="15rem" id="MscCodes" enabled="{DateModel>/partLine}" change="onDDChange" showSecondaryValues="false" items="{DropDownModel>/items}" visible="{multiHeaderConfig>/partMiscellanious}"
 								selectedKey="{HeadSetData>/MiscellaneousCode}">
 								<core:ListItem key="{DropDownModel>DiscreCode}" text="{path:'DropDownModel>ALMDiscreDesc'}" additionalText="{DropDownModel>ALMDiscreCode}"/>
 							</Select>
 							<Label text="{i18n>TranportShortageType} " class="sapUiSmallMargin" textAlign="Begin" visible="{multiHeaderConfig>/partTransportation}"/>
-							<Select id="TransportCodes" enabled="{DateModel>/partLine}" change="onDDChange" showSecondaryValues="false" items="{DropDownModel>/items}" visible="{multiHeaderConfig>/partTransportation}"
+							<Select width="15rem" id="TransportCodes" enabled="{DateModel>/partLine}" change="onDDChange" showSecondaryValues="false" items="{DropDownModel>/items}" visible="{multiHeaderConfig>/partTransportation}"
 								selectedKey="{HeadSetData>/TranportShortageType}">
 								<core:ListItem key="{DropDownModel>DiscreCode}" text="{path:'DropDownModel>ALMDiscreDesc'}" additionalText="{DropDownModel>ALMDiscreCode}"/>
 							</Select>
@@ -62,7 +62,6 @@
 						<f:content>
 							<core:Title text=""/>
 							<Label text=""/>
-							<!--<core:Title text="Ordered"/>-->
 							<Text text="Ordered"/>
 							<core:Title text=""/>
 							<Label text="Line #:"></Label>
@@ -75,14 +74,8 @@
 							<core:Title text=""/>
 							<Label text="Part Description"></Label>
 							<Input id="idOrderedPartDesc" value="{PartDataModel>/PartDescription}" editable="{multiHeaderConfig>/OrderedPartDesc}"></Input>
-							<!--<core:Title text=""/>-->
-							<!--<Label text="Dealer Net Price"></Label>-->
-							<!--<Input editable="{multiHeaderConfig>/DealerNetPrcEdt}"></Input>-->
 							<core:Title text=""/>
-							<!--value="{PartDataModel>/quant}"-->
 							<Label text="Quantity"></Label>
-							<!--{ path : 'PartDataModel>/quant', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 10 } }-->
-							<!--type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 10 }-->
 							<Input value="{path : 'PartDataModel>/quant', type : 'sap.ui.model.type.Integer', constraints : { minLength : 1, maxLength : 10 }}"
 								required="true" enabled="{DateModel>/partLine}" valueState="{DateModel>/partTypeState}" >
 								<layoutData>
@@ -96,8 +89,6 @@
 						columnsXL="{multiHeaderConfig>/multiheader5}">
 						<f:content>
 							<core:Title text=""/>
-							<!--<core:Title text="Claimed"/>-->
-							<!--<Label text=""/>-->
 							<Text text="Claimed"/>
 							<core:Title text=""/>
 							<UploadCollection id="UploadCollection" class="uploadContainer" change="onUploadChange02Parts" uploadComplete="onUploadComplete02Parts"
