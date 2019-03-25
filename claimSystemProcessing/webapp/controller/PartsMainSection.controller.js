@@ -802,124 +802,124 @@ sap.ui.define([
 				// }
 				console.log("item level claimType", this.claimType);
 				if (this.claimType != "ZPPD") {
-					if (this.getModel("LocalDataModel").getProperty("/oAttachmentSet") != undefined && this.getModel("LocalDataModel").getProperty(
-							"/oAttachmentSet") != "") {
-						this.URI = this.getModel("LocalDataModel").getProperty("/oAttachmentSet")[0].URI;
-						if (this.addPartFlag == true || this.updatePartFlag == true) {
-							if (this.getView().getModel("HeadSetData").getProperty("/RepairAmount") == "" || this.getView().getModel("HeadSetData").getProperty(
-									"/RepairAmount") == undefined) {
-								var RepairAmt = "0.000";
-							} else {
-								RepairAmt = this.getView().getModel("HeadSetData").getProperty("/RepairAmount");
-							}
-							var itemObj = {
-								"Type": "PART",
-								"ItemType": "MAT",
-								"ControllingItemType": "MAT",
-								"MaterialNumber": this.getView().getModel("PartDataModel").getProperty("/matnr"),
-								"PartQty": Qty.toString(),
-								"PartDescription": this.getView().getModel("PartDataModel").getProperty("/PartDescription"),
-								"UnitOfMeasure": this.getModel("LocalDataModel").getProperty("/BaseUnit"),
-								"LineRefnr": this.getView().getModel("PartDataModel").getProperty("/LineNo").toString(),
-								"ItemKey": this.getView().getModel("PartDataModel").getProperty("/matnr"),
-								"RetainPart": retainval,
-								"QuantityOrdered": this.getView().getModel("PartDataModel").getProperty("/quant").toString(),
-								"QuantityReceived": this.getView().getModel("PartDataModel").getProperty("/QuantityReceived").toString(),
-								"DiscreCode": this.getView().getModel("PartDataModel").getProperty("/DiscreCode"),
-								"WrongPart": "",
-								"ALMDiscreDesc": this.getView().getModel("PartDataModel").getProperty("/ALMDiscreDesc"),
-								"RepairOrRetrunPart": RepairOrRetrunPart,
-								"RepairAmount": RepairAmt
-									// ,
-									// "URI": this.getModel("LocalDataModel").getProperty("/oAttachmentSet")[0].URI
-							};
-							console.log("Newly added part obj", itemObj);
-							this.getView().getModel("PartDataModel").setProperty("/arrPartLOI", arrPartLOI);
-							arrPartLOI.push(itemObj.MaterialNumber, " ", itemObj.PartDescription);
-
-							this.obj.zc_itemSet.results.push(itemObj);
+					// if (this.getModel("LocalDataModel").getProperty("/oAttachmentSet") != undefined && this.getModel("LocalDataModel").getProperty(
+					// 		"/oAttachmentSet") != "") {
+					// this.URI = this.getModel("LocalDataModel").getProperty("/oAttachmentSet")[0].URI;
+					if (this.addPartFlag == true || this.updatePartFlag == true) {
+						if (this.getView().getModel("HeadSetData").getProperty("/RepairAmount") == "" || this.getView().getModel("HeadSetData").getProperty(
+								"/RepairAmount") == undefined) {
+							var RepairAmt = "0.000";
+						} else {
+							RepairAmt = this.getView().getModel("HeadSetData").getProperty("/RepairAmount");
 						}
-						// this.obj.zc_itemSet.results[0].ItemKey;
-						var oClaimModel = this.getModel("ProssingModel");
+						var itemObj = {
+							"Type": "PART",
+							"ItemType": "MAT",
+							"ControllingItemType": "MAT",
+							"MaterialNumber": this.getView().getModel("PartDataModel").getProperty("/matnr"),
+							"PartQty": Qty.toString(),
+							"PartDescription": this.getView().getModel("PartDataModel").getProperty("/PartDescription"),
+							"UnitOfMeasure": this.getModel("LocalDataModel").getProperty("/BaseUnit"),
+							"LineRefnr": this.getView().getModel("PartDataModel").getProperty("/LineNo").toString(),
+							"ItemKey": this.getView().getModel("PartDataModel").getProperty("/matnr"),
+							"RetainPart": retainval,
+							"QuantityOrdered": this.getView().getModel("PartDataModel").getProperty("/quant").toString(),
+							"QuantityReceived": this.getView().getModel("PartDataModel").getProperty("/QuantityReceived").toString(),
+							"DiscreCode": this.getView().getModel("PartDataModel").getProperty("/DiscreCode"),
+							"WrongPart": "",
+							"ALMDiscreDesc": this.getView().getModel("PartDataModel").getProperty("/ALMDiscreDesc"),
+							"RepairOrRetrunPart": RepairOrRetrunPart,
+							"RepairAmount": RepairAmt
+								// ,
+								// "URI": this.getModel("LocalDataModel").getProperty("/oAttachmentSet")[0].URI
+						};
+						console.log("Newly added part obj", itemObj);
+						this.getView().getModel("PartDataModel").setProperty("/arrPartLOI", arrPartLOI);
+						arrPartLOI.push(itemObj.MaterialNumber, " ", itemObj.PartDescription);
 
-						this._oToken = oClaimModel.getHeaders()['x-csrf-token'];
-						$.ajaxSetup({
-							headers: {
-								'X-CSRF-Token': this._oToken
-							}
-						});
-
-						var that = this;
-						oClaimModel.create("/zc_headSet", this.obj, {
-							success: $.proxy(function (data, response) {
-								oClaimModel.read("/zc_claim_item_price_dataSet", {
-									urlParameters: {
-										"$filter": "NumberOfWarrantyClaim eq '" + this.getView().getModel("HeadSetData").getProperty(
-												"/NumberOfWarrantyClaim") +
-											"'and LanguageKey eq 'E'"
-									},
-									success: $.proxy(function (pricedata) {
-										MessageToast.show("Claim has been saved successfully");
-										console.log("pricedata", pricedata);
-										var pricingData = pricedata.results;
-										var oFilteredData = pricingData.filter(function (val) {
-											return val.ItemType === "MAT"
-										});
-
-										var DiscreCode = oFilteredData[0].DiscreCode;
-										console.log("claim type", that.claimType);
-										console.log("DiscreCode", DiscreCode);
-										for (var m = 0; m < oFilteredData.length; m++) {
-											oFilteredData[m].ALMDiscreDesc = oFilteredData[m].ALMDiscreDesc.split("-")[1];
-											oFilteredData[m].quant2 = oFilteredData[m].quant;
-										}
-										this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
-
-										this.getView().getModel("DateModel").setProperty("/partLine", false);
-										this.addPartFlag = false;
-										this.updatePartFlag = false;
-										this.getView().getModel("PartDataModel").setProperty("/LineNo", "");
-										this.getView().getModel("PartDataModel").setProperty("/matnr", "");
-										this.getView().getModel("PartDataModel").setProperty("/quant", "");
-										this.getView().getModel("PartDataModel").setProperty("/quant2", "");
-										this.getView().getModel("PartDataModel").setProperty("/PartDescription", "");
-										this.getView().getModel("PartDataModel").setProperty("/DiscreCode", "");
-										this.getView().getModel("PartDataModel").setProperty("/RetainPart", "");
-										this.getView().getModel("HeadSetData").setProperty("/PartRepaired", "");
-										this.getView().getModel("HeadSetData").setProperty("/RepairOrRetrunPart", "");
-										this.getView().getModel("HeadSetData").setProperty("/RepairAmount", "");
-										this.getView().getModel("PartDataModel").setProperty("/QuantityReceived", "");
-										this.getModel("LocalDataModel").setProperty("/oAttachmentSet", "");
-										this.getView().getModel("AttachmentModel").setProperty("/" + "/items", "");
-										this.getView().getModel("HeadSetData").setProperty("/PartNumberRc", "");
-										this.getView().getModel("PartDataModel").setProperty("/PartNumberRcDesc", "");
-										this.getView().getModel("HeadSetData").setProperty("/DamageCondition", "");
-										this.getView().getModel("HeadSetData").setProperty("/MiscellaneousCode", "");
-										this.getView().getModel("HeadSetData").setProperty("/TranportShortageType", "");
-										// this.getView().getModel("AttachmentModel").setProperty("/" + "/items", "");
-										oTable.removeSelections("true");
-										this._fnClaimSum();
-									}, this),
-									error: function (err) {
-										console.log(err);
-										var err = JSON.parse(err.responseText);
-										var msg = err.error.message.value;
-										MessageBox.show(msg, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
-									}
-								});
-
-							}, this),
-							error: function (err) {
-								that.obj.zc_itemSet.results.pop();
-								console.log(err);
-								var err = JSON.parse(err.responseText);
-								var msg = err.error.message.value;
-								MessageBox.show(msg, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
-							}
-						});
-					} else {
-						MessageToast.show("Attachment is required.");
+						this.obj.zc_itemSet.results.push(itemObj);
 					}
+					// this.obj.zc_itemSet.results[0].ItemKey;
+					var oClaimModel = this.getModel("ProssingModel");
+
+					this._oToken = oClaimModel.getHeaders()['x-csrf-token'];
+					$.ajaxSetup({
+						headers: {
+							'X-CSRF-Token': this._oToken
+						}
+					});
+
+					var that = this;
+					oClaimModel.create("/zc_headSet", this.obj, {
+						success: $.proxy(function (data, response) {
+							oClaimModel.read("/zc_claim_item_price_dataSet", {
+								urlParameters: {
+									"$filter": "NumberOfWarrantyClaim eq '" + this.getView().getModel("HeadSetData").getProperty(
+											"/NumberOfWarrantyClaim") +
+										"'and LanguageKey eq 'E'"
+								},
+								success: $.proxy(function (pricedata) {
+									MessageToast.show("Claim has been saved successfully");
+									console.log("pricedata", pricedata);
+									var pricingData = pricedata.results;
+									var oFilteredData = pricingData.filter(function (val) {
+										return val.ItemType === "MAT"
+									});
+
+									var DiscreCode = oFilteredData[0].DiscreCode;
+									console.log("claim type", that.claimType);
+									console.log("DiscreCode", DiscreCode);
+									for (var m = 0; m < oFilteredData.length; m++) {
+										oFilteredData[m].ALMDiscreDesc = oFilteredData[m].ALMDiscreDesc.split("-")[1];
+										oFilteredData[m].quant2 = oFilteredData[m].quant;
+									}
+									this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
+
+									this.getView().getModel("DateModel").setProperty("/partLine", false);
+									this.addPartFlag = false;
+									this.updatePartFlag = false;
+									this.getView().getModel("PartDataModel").setProperty("/LineNo", "");
+									this.getView().getModel("PartDataModel").setProperty("/matnr", "");
+									this.getView().getModel("PartDataModel").setProperty("/quant", "");
+									this.getView().getModel("PartDataModel").setProperty("/quant2", "");
+									this.getView().getModel("PartDataModel").setProperty("/PartDescription", "");
+									this.getView().getModel("PartDataModel").setProperty("/DiscreCode", "");
+									this.getView().getModel("PartDataModel").setProperty("/RetainPart", "");
+									this.getView().getModel("HeadSetData").setProperty("/PartRepaired", "");
+									this.getView().getModel("HeadSetData").setProperty("/RepairOrRetrunPart", "");
+									this.getView().getModel("HeadSetData").setProperty("/RepairAmount", "");
+									this.getView().getModel("PartDataModel").setProperty("/QuantityReceived", "");
+									this.getModel("LocalDataModel").setProperty("/oAttachmentSet", "");
+									this.getView().getModel("AttachmentModel").setProperty("/" + "/items", "");
+									this.getView().getModel("HeadSetData").setProperty("/PartNumberRc", "");
+									this.getView().getModel("PartDataModel").setProperty("/PartNumberRcDesc", "");
+									this.getView().getModel("HeadSetData").setProperty("/DamageCondition", "");
+									this.getView().getModel("HeadSetData").setProperty("/MiscellaneousCode", "");
+									this.getView().getModel("HeadSetData").setProperty("/TranportShortageType", "");
+									// this.getView().getModel("AttachmentModel").setProperty("/" + "/items", "");
+									oTable.removeSelections("true");
+									this._fnClaimSum();
+								}, this),
+								error: function (err) {
+									console.log(err);
+									var err = JSON.parse(err.responseText);
+									var msg = err.error.message.value;
+									MessageBox.show(msg, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
+								}
+							});
+
+						}, this),
+						error: function (err) {
+							that.obj.zc_itemSet.results.pop();
+							console.log(err);
+							var err = JSON.parse(err.responseText);
+							var msg = err.error.message.value;
+							MessageBox.show(msg, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
+						}
+					});
+					// } else {
+					// 	MessageToast.show("Attachment is required.");
+					// }
 				} else {
 					if (this.addPartFlag == true || this.updatePartFlag == true) {
 						console.log("descrecode for part item", this.getView().getModel("PartDataModel").getProperty("/DiscreCode"));
@@ -1736,18 +1736,20 @@ sap.ui.define([
 					this.getView().getModel("HeadSetData").setProperty("/DamageCondition", obj.DiscreCode);
 					this.getView().getModel("HeadSetData").setProperty("/MiscellaneousCode", obj.DiscreCode);
 					this.getView().getModel("HeadSetData").setProperty("/TranportShortageType", obj.DiscreCode);
-					var oFile = this.URI.split(",")[1].split("='HEAD+++")[1].split(")")[0]; //obj.URI.split(",")[1].split("=")[1].split(")")[0];
-					var oFileReplaced = oFile.replace(/'/g, "");
+					if (this.URI != undefined) {
+						var oFile = this.URI.split(",")[1].split("='HEAD+++")[1].split(")")[0]; //obj.URI.split(",")[1].split("=")[1].split(")")[0];
+						var oFileReplaced = oFile.replace(/'/g, "");
 
-					oClaimModel.read("/zc_claim_attachmentsSet", { //and AttachLevel eq 'HEAD'
-						urlParameters: {
-							"$filter": "NumberOfWarrantyClaim eq'" + oClaimNum + "'and AttachLevel eq 'HEAD' and FileName eq'" + oFileReplaced + "'"
-						},
-						success: $.proxy(function (odata) {
-							this.getModel("LocalDataModel").setProperty("/oAttachmentSet", odata.results);
-							this.getView().getModel("AttachmentModel").setProperty("/" + "/items", odata.results);
-						}, this)
-					});
+						oClaimModel.read("/zc_claim_attachmentsSet", { //and AttachLevel eq 'HEAD'
+							urlParameters: {
+								"$filter": "NumberOfWarrantyClaim eq'" + oClaimNum + "'and AttachLevel eq 'HEAD' and FileName eq'" + oFileReplaced + "'"
+							},
+							success: $.proxy(function (odata) {
+								this.getModel("LocalDataModel").setProperty("/oAttachmentSet", odata.results);
+								this.getView().getModel("AttachmentModel").setProperty("/" + "/items", odata.results);
+							}, this)
+						});
+					}
 				}
 
 				var oIndex = oTableIndex.toString().split("/")[2];
@@ -1796,9 +1798,11 @@ sap.ui.define([
 			var oTable = this.getView().byId("partTable");
 			var oTableIndex = oTable._aSelectedPaths;
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
-			if (this.claimType != "ZPPD") { //this.getModel("LocalDataModel").getProperty(oPath)
-				var oFile = this.URI.split(",")[1].split("=")[1].split(")")[0];
-				var oFileReplaced = oFile.replace(/'/g, "");
+			if (this.URI != undefined) {
+				if (this.claimType != "ZPPD") { //this.getModel("LocalDataModel").getProperty(oPath)
+					var oFile = this.URI.split(",")[1].split("=")[1].split(")")[0];
+					var oFileReplaced = oFile.replace(/'/g, "");
+				}
 			}
 
 			if (oTableIndex.length == 1) {
@@ -2148,7 +2152,7 @@ sap.ui.define([
 			// var oClaimModel = this.getModel("ProssingModel");
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			var fileType = this.oUploadedFile.type;
-			var fileName = "HEAD+++"+this.oUploadedFile.name;
+			var fileName = "HEAD+++" + this.oUploadedFile.name;
 
 			var isProxy = "";
 			if (window.document.domain == "localhost") {
@@ -2185,7 +2189,7 @@ sap.ui.define([
 								"'"
 						},
 						success: $.proxy(function (odata) {
-							for(var n=0; n<odata.results.length;n++){
+							for (var n = 0; n < odata.results.length; n++) {
 								odata.results[n].FileName = odata.results[n].FileName.split("HEAD+++")[1];
 							}
 							//odata.results[1].FileName.split("HEAD+++")[1]
@@ -2214,7 +2218,7 @@ sap.ui.define([
 			// var oClaimModel = this.getModel("ProssingModel");
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			var fileType = this.oUploadedFile.type;
-			var fileName = "HEAD+++"+this.oUploadedFile.name;
+			var fileName = "HEAD+++" + this.oUploadedFile.name;
 
 			var isProxy = "";
 			if (window.document.domain == "localhost") {
@@ -2251,7 +2255,7 @@ sap.ui.define([
 								"'"
 						},
 						success: $.proxy(function (odata) {
-							for(var n=0; n<odata.results.length;n++){
+							for (var n = 0; n < odata.results.length; n++) {
 								odata.results[n].FileName = odata.results[n].FileName.split("HEAD+++")[1];
 							}
 							this.getView().getModel("AttachmentModel").setProperty("/" + "/items", odata.results);
@@ -2272,7 +2276,7 @@ sap.ui.define([
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			this.deleteItemById(oEvent.getParameter("documentId"), "ClaimModel");
 			MessageToast.show("FileDeleted event triggered.");
-			var oFileName = "HEAD+++"+oEvent.getParameters().item.getFileName();
+			var oFileName = "HEAD+++" + oEvent.getParameters().item.getFileName();
 			var oClaimModel = this.getModel("ProssingModel");
 
 			var itemObj = {
@@ -2294,7 +2298,7 @@ sap.ui.define([
 						},
 
 						success: $.proxy(function (odata) {
-							for(var n=0; n<odata.results.length;n++){
+							for (var n = 0; n < odata.results.length; n++) {
 								odata.results[n].FileName = odata.results[n].FileName.split("HEAD+++")[1];
 							}
 							this.getView().getModel("ClaimModel").setProperty("/" + "/items", odata.results);
@@ -2309,7 +2313,7 @@ sap.ui.define([
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			this.deleteItemById(oEvent.getParameter("documentId"), "ClaimModel");
 			MessageToast.show("FileDeleted event triggered.");
-			var oFileName = "HEAD+++"+oEvent.getParameters().item.getFileName();
+			var oFileName = "HEAD+++" + oEvent.getParameters().item.getFileName();
 			var oClaimModel = this.getModel("ProssingModel");
 
 			var itemObj = {
@@ -2330,7 +2334,7 @@ sap.ui.define([
 						},
 
 						success: $.proxy(function (odata) {
-							for(var n=0; n<odata.results.length;n++){
+							for (var n = 0; n < odata.results.length; n++) {
 								odata.results[n].FileName = odata.results[n].FileName.split("HEAD+++")[1];
 							}
 							this.getView().getModel("ClaimModel").setProperty("/" + "/items", odata.results);
