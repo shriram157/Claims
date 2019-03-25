@@ -303,7 +303,7 @@ sap.ui.define([
 
 					}
 				});
-			}else {
+			} else {
 				this.getView().byId("idNewClaimMsgStrp").setProperty("visible", false);
 				this.getView().byId("idNewClaimMsgStrp").setText("");
 				this.getView().byId("idNewClaimMsgStrp").setType("None");
@@ -332,8 +332,7 @@ sap.ui.define([
 			// console.log(FromDateFormat, ToDateFormat);
 			var sDate = "";
 			var oResult = [];
-			
-			
+
 			var oProssingModel = this.getModel("ProssingModel");
 			if (sQuerySearchBy == "ExternalObjectNumber") {
 				var oVin = this.getView().byId("idSearchText").getValue();
@@ -361,18 +360,13 @@ sap.ui.define([
 
 					}
 				});
-			}else {
+			} else {
 				this.getView().byId("idNewClaimMsgStrp").setProperty("visible", false);
 				this.getView().byId("idNewClaimMsgStrp").setText("");
 				this.getView().byId("idNewClaimMsgStrp").setType("None");
 				this.getView().byId("idSearchText").setValueState(ValueState.None);
 			}
-			
-			
-			
-			
-			
-			
+
 			if (sQuerySearchBy === "RepairOrderNumberExternal") {
 				sDate = "RepairDate";
 
@@ -537,21 +531,30 @@ sap.ui.define([
 					//console.log(sdata);
 					//this.getModel("LocalDataModel").setProperty("/ClaimDetails", sdata.results[0]);
 					var oClaimType = sdata.results[0].WarrantyClaimType;
+					var oClaimGroup = sdata.results[0].WarrantyClaimGroupDes;
 
 					if (oClaimType == "ZACD" || oClaimType == "ZAUT") {
 						this.oSelectedClaimGroup = "Authorization";
 					} else {
 						this.oSelectedClaimGroup = "Claim";
 					}
+					if (oClaimGroup == "PART WAREHOUSE") {
+						this.getOwnerComponent().getRouter().navTo("PartsMainSection", {
+							claimNum: oClaimNum,
+							oKey: oClaimType,
+							oClaimGroup: this.oSelectedClaimGroup,
+							oClaimNav: "Details"
 
-					this.getOwnerComponent().getRouter().navTo("MainClaimSection", {
-						claimNum: oClaimNum,
-						oKey: oClaimType,
-						oClaimGroup: this.oSelectedClaimGroup,
-						oClaimNav: "Details"
+						});
+					} else {
+						this.getOwnerComponent().getRouter().navTo("MainClaimSection", {
+							claimNum: oClaimNum,
+							oKey: oClaimType,
+							oClaimGroup: this.oSelectedClaimGroup,
+							oClaimNav: "Details"
 
-					});
-
+						});
+					}
 				}, this)
 			});
 

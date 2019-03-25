@@ -116,6 +116,9 @@
 .sapMUCEditBtn {
     display: none;
 }
+.clDatePicker .sapMInputBaseInner {
+	pointer-events: none;
+}
 
 
 /*.hideDltBtn .sapMUCDeleteBtn {

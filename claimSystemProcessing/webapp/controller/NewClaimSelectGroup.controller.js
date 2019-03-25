@@ -73,6 +73,7 @@ sap.ui.define([
 						oClaimNav : "New"
 					
 				});
+				this.getView().byId("idRequestType").setSelectedIndex(0);
 			} else if (oSelectedKey === "PART WAREHOUSE") {
 				this.getRouter().navTo("PartsMainSection", {
 					claimNum : oClaimNum,

@@ -1224,7 +1224,15 @@ sap.ui.define([
 			}
 		},
 		onChangeDate: function (oEvent) {
-			console.log(oEvent);
+			// var oDate = oEvent.getParameters().value.split("-");
+			// var oMonth = parseInt(oDate[1]);
+			// var oDay = parseInt(oDate[2]);
+			// if(oMonth > 12 && oMonth < 1){
+				
+			// }
+			// if(oDay > 31 && oDay < 1){
+				
+			// }
 		},
 		onSelectClaimTpe: function (oEvent) {
 			// this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") = oEvent.getSource().getSelectedKey();
@@ -1306,7 +1314,7 @@ sap.ui.define([
 				this.getView().getModel("DateModel").setProperty("/P1p2", false);
 				this.getView().getModel("DateModel").setProperty("/AcA1", false);
 				this.getView().getModel("DateModel").setProperty("/oFieldActionInput", false);
-			} else if (oKey == "ZCER" || oKey == "ZCLS" || oKey == "ZCSR") {
+			} else if (oKey == "ZCER" || oKey == "ZCLS" || oKey == "ZCSR" || oKey == "ZCWE") {
 				this.getView().getModel("DateModel").setProperty("/Paint", false);
 				this.getView().getModel("DateModel").setProperty("/Sublet", true);
 				this.getView().getModel("DateModel").setProperty("/Parts", true);
@@ -2095,7 +2103,7 @@ sap.ui.define([
 			// var oClaimModel = this.getModel("ProssingModel");
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			var fileType = this.oUploadedFile.type;
-			var fileName = this.oUploadedFile.name;
+			var fileName = "HEAD###"+this.oUploadedFile.name;
 
 			var isProxy = "";
 			if (window.document.domain == "localhost") {
@@ -2560,7 +2568,8 @@ sap.ui.define([
 				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZRCR" &&
 				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") != "ZCER" &&
 				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") != "ZCLS" &&
-				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") != "ZCSR"
+				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") != "ZCSR" &&
+				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") != "ZCWE"
 			) {
 				this.getView().byId("idFilter02").setProperty("enabled", true);
 				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab2");
@@ -2666,23 +2675,26 @@ sap.ui.define([
 
 		},
 		onStep03Back: function () {
-			if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZWMS" && this.getView().getModel("HeadSetData").getProperty(
-					"/WarrantyClaimType") != "ZWA1" && this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZWA2" && this.getView()
-				.getModel(
-					"HeadSetData").getProperty("/WarrantyClaimType") != "ZWAC" &&
-				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") != "ZWMS" && this.getView().getModel("HeadSetData").getProperty(
-					"/WarrantyClaimSubType") != "ZWA1" && this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") != "ZWA2" &&
-				this.getView()
-				.getModel(
-					"HeadSetData").getProperty("/WarrantyClaimSubType") != "ZWAC"
-
-				&& this.getModel("LocalDataModel").getProperty(
-					"/oFieldAction") != "FIELD ACTION" && this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZECP" && this.getView()
-				.getModel(
-					"HeadSetData").getProperty("/WarrantyClaimType") != "SR" &&
+			if (
+				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZWMS" && 
+				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZWA1" && 
+				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZWA2" && 
+				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZWAC" &&
+				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") != "ZWMS" && 
+				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") != "ZWA1" && 
+				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") != "ZWA2" &&
+				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") != "ZWAC" &&
+				this.getModel("LocalDataModel").getProperty("/oFieldAction") != "FIELD ACTION" && 
+				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZECP" && 
+				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZCSR" &&
 				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZCER" &&
 				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZCWE" &&
 				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZCLS" &&
+				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") != "ZCSR" &&
+				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") != "ZCER" &&
+				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") != "ZCWE" &&
+				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") != "ZCLS" &&
+				
 				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZSCR" &&
 				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZLDC" &&
 				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZSSM") {
@@ -2715,7 +2727,8 @@ sap.ui.define([
 				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZLDC" &&
 				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") != "ZCER" &&
 				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") != "ZCLS" &&
-				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") != "ZCSR"
+				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") != "ZCSR" &&
+				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") != "ZCWE"
 			) {
 				this.getView().byId("idFilter05").setProperty("enabled", true);
 				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab5");
@@ -2749,7 +2762,8 @@ sap.ui.define([
 				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZCLS" &&
 				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") != "ZCER" &&
 				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") != "ZCLS" &&
-				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") != "ZCSR"
+				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") != "ZCSR" &&
+				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") != "ZCWE"
 			) {
 				this.getView().byId("idFilter06").setProperty("enabled", true);
 				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab6");
@@ -2794,7 +2808,17 @@ sap.ui.define([
 				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab4");
 			}
 
-			if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZCSR") {
+			if (
+			this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZCSR" || 
+			this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZCLS" ||
+			this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZCWE" ||
+			this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZCER" ||
+			this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") == "ZCSR" || 
+			this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") == "ZCLS" ||
+			this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") == "ZCWE" ||
+			this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") == "ZCER"
+			
+			) {
 				this.getView().byId("idFilter04").setProperty("enabled", true);
 				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab4");
 			}
