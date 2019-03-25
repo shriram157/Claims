@@ -1741,7 +1741,7 @@ sap.ui.define([
 
 					oClaimModel.read("/zc_claim_attachmentsSet", { //and AttachLevel eq 'HEAD'
 						urlParameters: {
-							"$filter": "NumberOfWarrantyClaim eq'" + oClaimNum + "' and FileName eq'" + oFileReplaced + "'"
+							"$filter": "NumberOfWarrantyClaim eq'" + oClaimNum + "'and AttachLevel eq 'HEAD' and FileName eq'" + oFileReplaced + "'"
 						},
 						success: $.proxy(function (odata) {
 							this.getModel("LocalDataModel").setProperty("/oAttachmentSet", odata.results);
@@ -1858,7 +1858,7 @@ sap.ui.define([
 						oClaimModel.refresh();
 						oClaimModel.read("/zc_claim_attachmentsSet", { //and AttachLevel eq 'HEAD'
 							urlParameters: {
-								"$filter": "NumberOfWarrantyClaim eq '" + oClaimNum + "' and FileName  eq ''"
+								"$filter": "NumberOfWarrantyClaim eq '" + oClaimNum + "'and AttachLevel eq 'HEAD' and FileName  eq ''"
 							},
 							success: $.proxy(function (odata) {
 								this.getModel("LocalDataModel").setProperty("/oAttachmentSet", odata.results);
@@ -2148,13 +2148,13 @@ sap.ui.define([
 			// var oClaimModel = this.getModel("ProssingModel");
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			var fileType = this.oUploadedFile.type;
-			var fileName = this.oUploadedFile.name;
+			var fileName = "HEAD+++"+this.oUploadedFile.name;
 
 			var isProxy = "";
 			if (window.document.domain == "localhost") {
 				isProxy = "proxy";
 			}
-			var oURI = isProxy + "/node/ZDLR_CLAIM_SRV/zc_attachSet(NumberOfWarrantyClaim='" + oClaimNum + "',FileName='HEAD+++" + fileName +
+			var oURI = isProxy + "/node/ZDLR_CLAIM_SRV/zc_attachSet(NumberOfWarrantyClaim='" + oClaimNum + "',FileName='" + fileName +
 				"')/$value";
 
 			if (oURI == null) {
@@ -2181,12 +2181,16 @@ sap.ui.define([
 					this.obj.zc_claim_attachmentsSet.results.pop();
 					oClaimModel.read("/zc_claim_attachmentsSet", { //and AttachLevel eq 'HEAD'
 						urlParameters: {
-							"$filter": "NumberOfWarrantyClaim eq'" + oClaimNum + "' and FileName eq'HEAD+++" + fileName +
+							"$filter": "NumberOfWarrantyClaim eq'" + oClaimNum + "'and AttachLevel eq 'HEAD' and FileName eq'" + fileName +
 								"'"
 						},
 						success: $.proxy(function (odata) {
+							for(var n=0; n<odata.results.length;n++){
+								odata.results[n].FileName = odata.results[n].FileName.split("HEAD+++")[1];
+							}
+							//odata.results[1].FileName.split("HEAD+++")[1]
 							this.getView().getModel("ClaimModel").setProperty("/" + "/items", odata.results);
-							this.getModel("LocalDataModel").setProperty("/oAttachmentSet", odata.results);
+							// this.getModel("LocalDataModel").setProperty("/oAttachmentSet", odata.results);
 						}, this)
 					});
 				}, this),
@@ -2210,13 +2214,13 @@ sap.ui.define([
 			// var oClaimModel = this.getModel("ProssingModel");
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			var fileType = this.oUploadedFile.type;
-			var fileName = this.oUploadedFile.name;
+			var fileName = "HEAD+++"+this.oUploadedFile.name;
 
 			var isProxy = "";
 			if (window.document.domain == "localhost") {
 				isProxy = "proxy";
 			}
-			var oURI = isProxy + "/node/ZDLR_CLAIM_SRV/zc_attachSet(NumberOfWarrantyClaim='" + oClaimNum + "',FileName='HEAD+++" + fileName +
+			var oURI = isProxy + "/node/ZDLR_CLAIM_SRV/zc_attachSet(NumberOfWarrantyClaim='" + oClaimNum + "',FileName='" + fileName +
 				"')/$value";
 
 			if (oURI == null) {
@@ -2243,12 +2247,15 @@ sap.ui.define([
 					this.obj.zc_claim_attachmentsSet.results.pop();
 					oClaimModel.read("/zc_claim_attachmentsSet", { //and AttachLevel eq 'HEAD' 
 						urlParameters: {
-							"$filter": "NumberOfWarrantyClaim eq'" + oClaimNum + "'and FileName eq'HEAD+++" + fileName +
+							"$filter": "NumberOfWarrantyClaim eq'" + oClaimNum + "'and AttachLevel eq 'HEAD' and FileName eq'" + fileName +
 								"'"
 						},
 						success: $.proxy(function (odata) {
+							for(var n=0; n<odata.results.length;n++){
+								odata.results[n].FileName = odata.results[n].FileName.split("HEAD+++")[1];
+							}
 							this.getView().getModel("AttachmentModel").setProperty("/" + "/items", odata.results);
-							this.getModel("LocalDataModel").setProperty("/oAttachmentSet", odata.results);
+							// this.getModel("LocalDataModel").setProperty("/oAttachmentSet", odata.results);
 						}, this)
 					});
 				}, this),
@@ -2265,7 +2272,7 @@ sap.ui.define([
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			this.deleteItemById(oEvent.getParameter("documentId"), "ClaimModel");
 			MessageToast.show("FileDeleted event triggered.");
-			var oFileName = oEvent.getParameters().item.getFileName();
+			var oFileName = "HEAD+++"+oEvent.getParameters().item.getFileName();
 			var oClaimModel = this.getModel("ProssingModel");
 
 			var itemObj = {
@@ -2283,12 +2290,15 @@ sap.ui.define([
 
 					oClaimModel.read("/zc_claim_attachmentsSet", { //and AttachLevel eq 'HEAD' 
 						urlParameters: {
-							"$filter": "NumberOfWarrantyClaim eq '" + oClaimNum + "'and FileName  eq ''"
+							"$filter": "NumberOfWarrantyClaim eq '" + oClaimNum + "'and AttachLevel eq 'HEAD' and FileName  eq ''"
 						},
 
 						success: $.proxy(function (odata) {
+							for(var n=0; n<odata.results.length;n++){
+								odata.results[n].FileName = odata.results[n].FileName.split("HEAD+++")[1];
+							}
 							this.getView().getModel("ClaimModel").setProperty("/" + "/items", odata.results);
-							this.getModel("LocalDataModel").setProperty("/oAttachmentSet", odata.results);
+							// this.getModel("LocalDataModel").setProperty("/oAttachmentSet", odata.results);
 						}, this)
 					});
 					MessageToast.show("File has been deleted successfully");
@@ -2299,7 +2309,7 @@ sap.ui.define([
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			this.deleteItemById(oEvent.getParameter("documentId"), "ClaimModel");
 			MessageToast.show("FileDeleted event triggered.");
-			var oFileName = oEvent.getParameters().item.getFileName();
+			var oFileName = "HEAD+++"+oEvent.getParameters().item.getFileName();
 			var oClaimModel = this.getModel("ProssingModel");
 
 			var itemObj = {
@@ -2316,12 +2326,15 @@ sap.ui.define([
 
 					oClaimModel.read("/zc_claim_attachmentsSet", { //and AttachLevel eq 'HEAD'
 						urlParameters: {
-							"$filter": "NumberOfWarrantyClaim eq '" + oClaimNum + "' and FileName  eq ''"
+							"$filter": "NumberOfWarrantyClaim eq '" + oClaimNum + "'and AttachLevel eq 'HEAD' and FileName  eq ''"
 						},
 
 						success: $.proxy(function (odata) {
+							for(var n=0; n<odata.results.length;n++){
+								odata.results[n].FileName = odata.results[n].FileName.split("HEAD+++")[1];
+							}
 							this.getView().getModel("ClaimModel").setProperty("/" + "/items", odata.results);
-							this.getModel("LocalDataModel").setProperty("/oAttachmentSet", odata.results);
+							// this.getModel("LocalDataModel").setProperty("/oAttachmentSet", odata.results);
 						}, this)
 					});
 					MessageToast.show("File has been deleted successfully");
@@ -2461,11 +2474,11 @@ sap.ui.define([
 
 					this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
 					var PartItem = oFilteredData.map(function (item) {
-						if (item.RepairOrRetrunPart == "Yes") {
-							var RepairPart = "Y";
-						} else {
-							RepairPart = "N";
-						}
+						// if (item.RepairOrRetrunPart == "Yes") {
+						// 	var RepairPart = "Y";
+						// } else {
+						// 	RepairPart = "N";
+						// }
 						if (item.RetainPart == "Yes") {
 							var RetainPart = "Y";
 						} else {
@@ -2487,7 +2500,6 @@ sap.ui.define([
 							DiscreCode: item.DiscreCode,
 							ALMDiscreDesc: item.ALMDiscreDesc,
 							WrongPart: item.WrongPart,
-							RepairOrRetrunPart: RepairPart,
 							RepairAmount: item.RepairAmt
 						};
 					});
