@@ -1849,7 +1849,6 @@ sap.ui.define([
 									this.getModel("LocalDataModel").setProperty("/CancelEnable", false);
 									this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
 									this.getModel("LocalDataModel").setProperty("/copyClaimEnable", false);
-									
 
 									oClaimModel.read("/ZC_CLAIM_HEAD", {
 										urlParameters: {
@@ -1900,12 +1899,12 @@ sap.ui.define([
 				method: "PUT",
 				success: $.proxy(function (response) {
 					this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
-									this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
-									this.getView().getModel("DateModel").setProperty("/claimEditSt", false);
-									this.getView().getModel("DateModel").setProperty("/updateEnable", false);
-									this.getModel("LocalDataModel").setProperty("/CancelEnable", false);
-									this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
-									this.getModel("LocalDataModel").setProperty("/copyClaimEnable", true);
+					this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
+					this.getView().getModel("DateModel").setProperty("/claimEditSt", false);
+					this.getView().getModel("DateModel").setProperty("/updateEnable", false);
+					this.getModel("LocalDataModel").setProperty("/CancelEnable", false);
+					this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
+					this.getModel("LocalDataModel").setProperty("/copyClaimEnable", true);
 					oClaimModel.read("/ZC_CLAIM_HEAD", {
 						urlParameters: {
 							"$filter": "NumberOfWarrantyClaim eq '" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") +
@@ -1931,12 +1930,12 @@ sap.ui.define([
 				method: "PUT",
 				success: $.proxy(function (response) {
 					this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
-									this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
-									this.getView().getModel("DateModel").setProperty("/claimEditSt", false);
-									this.getView().getModel("DateModel").setProperty("/updateEnable", false);
-									this.getModel("LocalDataModel").setProperty("/CancelEnable", false);
-									this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
-									this.getModel("LocalDataModel").setProperty("/copyClaimEnable", false);
+					this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
+					this.getView().getModel("DateModel").setProperty("/claimEditSt", false);
+					this.getView().getModel("DateModel").setProperty("/updateEnable", false);
+					this.getModel("LocalDataModel").setProperty("/CancelEnable", false);
+					this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
+					this.getModel("LocalDataModel").setProperty("/copyClaimEnable", false);
 					oClaimModel.read("/ZC_CLAIM_HEAD", {
 						urlParameters: {
 							"$filter": "NumberOfWarrantyClaim eq '" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") +
