@@ -337,8 +337,8 @@
 					<Label text="{i18n>AppliedCoverage}"/>
 					<Text text="{HeadSetData>/AppliedWarrantyCoverage}"/>
 					<Label text="{i18n>T1 Code}"/>
-					<ComboBox showSecondaryValues="true" required="{DateModel>/enabledT1}" items="{ path: '/Zt1DescSrchhelpSet' }" selectedKey="{HeadSetData>/T1WarrantyCodes}"
-						visible="{DateModel>/enabledT1}" editable="{DateModel>/oFormEdit}"
+					<ComboBox showSecondaryValues="true" filterSecondaryValues="true" required="{DateModel>/enabledT1}" items="{ path: '/Zt1DescSrchhelpSet' }" selectedKey="{HeadSetData>/T1WarrantyCodes}"
+						enabled="{DateModel>/enabledT1}" editable="{DateModel>/oFormEdit}"
 						value="{path:'HeadSetData>/T1WarrantyCodes', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 100 }}">
 						<core:ListItem key="{T1}" text="{path:'T1'}" additionalText="{T1Text}"/>
 					</ComboBox>
@@ -346,8 +346,8 @@
 					<!--	<core:Item key="{T1}" text="{T1} - {T1Text}"/>-->
 					<!--</Select>-->
 					<Label text="{i18n>T2Code}"/>
-					<ComboBox required="{DateModel>/enabledT2}" showSecondaryValues="true" items="{ path: '/Zt2DescSrchhelpSet' }" selectedKey="{HeadSetData>/T2WarrantyCodes}"
-						visible="{DateModel>/enabledT2}" editable="{DateModel>/oFormEdit}"
+					<ComboBox required="{DateModel>/enabledT2}" showSecondaryValues="true" filterSecondaryValues="true" items="{ path: '/Zt2DescSrchhelpSet' }" selectedKey="{HeadSetData>/T2WarrantyCodes}"
+						enabled="{DateModel>/enabledT2}" editable="{DateModel>/oFormEdit}"
 						value="{path:'HeadSetData>/T2WarrantyCodes', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 100 }}">
 						<core:ListItem key="{path:'T2'}" text="{T2}" additionalText="{T2Text}"/>
 					</ComboBox>
@@ -385,7 +385,8 @@
 				
 				<core:Title text=""/>
 				<Label text="{i18n>ROInvoiceDate}"/>
-				<DatePicker class="clDatePicker" required="true" value="{path:'HeadSetData>/PreviousROInvoiceDate', type: 'sap.ui.model.type.Date',  formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd', strictParsing: true , UTC: true}}"
+				<DatePicker class="clDatePicker" id="idPrInvDate"  required="true" value="{path:'HeadSetData>/PreviousROInvoiceDate', type: 'sap.ui.model.type.Date',  
+				formatOptions: { pattern: 'YYYY-MM-dd', strictParsing: true , UTC: true}}"
 					editable="{DateModel>/oFormEdit}"/>
 					
 				<core:Title text=""/>
@@ -423,7 +424,7 @@
 					labelSpanS="12" adjustLabelSpan="false" emptySpanXL="4" emptySpanL="4" emptySpanM="0" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1"
 					singleContainerFullSize="false">
 					<f:content>
-						<UploadCollection uploadEnabled="{LocalDataModel>/UploadEnable}"  change="onUplaodChange" id="UploadSupportingDoc" uploadComplete="onUploadComplete" fileDeleted="onFileDeleted"
+						<UploadCollection  uploadEnabled="{LocalDataModel>/UploadEnable}"  change="onUplaodChange" id="UploadSupportingDoc" uploadComplete="onUploadComplete" fileDeleted="onFileDeleted"
 							beforeUploadStarts="onBeforeUpload" items="{ path: 'ClaimModel>/items', templateShareable: false }">
 							<!--<toolbar>-->
 							<!--	<OverflowToolbar>-->
@@ -435,9 +436,9 @@
 							<!--	</OverflowToolbar>-->
 							<!--</toolbar>-->
 							<items>
-								<UploadCollectionItem  selected="onSelectUpload" documentId="{ClaimModel>DOC_ID}" fileName="{path:'ClaimModel>FileName', formatter:'zclaimProcessing.utils.formatter.fnFileName'}"
-									mimeType="{ClaimModel>MIMETYPE}" thumbnailUrl="{ClaimModel>url}" url="{ClaimModel>URI}" enableEdit="false"
-									enableDelete="false" visibleDelete="{settings>/visibleDelete}" visibleEdit="false"></UploadCollectionItem>
+								<UploadCollectionItem   documentId="{ClaimModel>DOC_ID}" fileName="{ClaimModel>FileName}"
+									mimeType="{ClaimModel>MIMETYPE}" thumbnailUrl="{ClaimModel>url}" url="{ClaimModel>URI}" enableEdit="{settings>/enableEdit}"
+									enableDelete="{settings>/enableDelete}" visibleDelete="{settings>/visibleDelete}" visibleEdit="{settings>/visibleEdit}"></UploadCollectionItem>
 								<!--<UploadCollectionItem documentId="{LocalDataModel>DOC_ID}" fileName="{LocalDataModel>FileName}" mimeType="{LocalDataModel>MIMETYPE}"-->
 								<!--	thumbnailUrl="{LocalDataModel>url}" url="{LocalDataModel>URI}" enableEdit="{settings>/enableEdit}" enableDelete="{settings>/enableDelete}"-->
 								<!--	visibleDelete="{settings>/visibleDelete}" visibleEdit="{settings>/visibleEdit}">-->
