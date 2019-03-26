@@ -379,17 +379,17 @@
 			<f:content>
 				<core:Title text=""/>
 				<Label text="{i18n>PreviousROInvoice}"/>
-				<Input id="idPreInvNum" value="{path:'HeadSetData>/PreviousROInvoice'}" editable="{DateModel>/oFormEdit}"/>
+				<Input required="{DateModel>/oPrevInvNumReq}" id="idPreInvNum" value="{path:'HeadSetData>/PreviousROInvoice'}" editable="{DateModel>/oFormEdit}"/>
 				
 				<core:Title text=""/>
 				<Label text="{i18n>ROInvoiceDate}"/>
-				<DatePicker class="clDatePicker" id="idPrInvDate"  required="true" value="{path:'HeadSetData>/PreviousROInvoiceDate', type: 'sap.ui.model.type.Date',  
+				<DatePicker class="clDatePicker" id="idPrInvDate"  required="{DateModel>/oPrevInvDateReq}" value="{path:'HeadSetData>/PreviousROInvoiceDate', type: 'sap.ui.model.type.Date',  
 				formatOptions: { pattern: 'YYYY-MM-dd', strictParsing: true , UTC: true}}"
 					editable="{DateModel>/oFormEdit}"/>
 					
 				<core:Title text=""/>
 				<Label text="{i18n>ROOdometer}"/>
-				<custom:CustomInput value="{path:'HeadSetData>/PreviousROOdometer'}" editable="{DateModel>/oFormEdit}"/>
+				<custom:CustomInput visible="{DateModel>/PreroOdometerVisible}" value="{path:'HeadSetData>/PreviousROOdometer'}" editable="{DateModel>/oFormEdit}"/>
 			</f:content>
 		</f:SimpleForm>
 		<f:SimpleForm editable="{DateModel>/oFormEdit}" title="{i18n>ClaimComments}" layout="ResponsiveGridLayout" labelSpanXL="3" labelSpanL="3"
