@@ -148,7 +148,7 @@
 				<f:content>
 					<core:Title text=""/>
 					<Label text="{i18n>DeliveringCarrier}"/>
-					<ComboBox required="true" items="" selectedKey="" value="{HeadSetData>/DeliveringCarrier}">
+					<ComboBox required="true" editable="{DateModel>/oFormEdit}" items="" selectedKey="" value="{HeadSetData>/DeliveringCarrier}">
 						<core:ListItem key="" text="Hansen's"/>
 						<core:ListItem key="" text="United Road"/>
 						<core:ListItem key="" text="MCGill"/>
@@ -164,14 +164,14 @@
 					<DatePicker class="clDatePicker" required="true" value="{path:'HeadSetData>/DeliveryDate', type: 'sap.ui.model.type.Date',  formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd', strictParsing: true , UTC: true}}" editable="{DateModel>/oFormEdit}"/>
 					<core:Title text=""/>
 					<Label text="{i18n>Delivery}"/>
-					<ComboBox required="true" items="" selectedKey="" value="{HeadSetData>/Delivery}">
+					<ComboBox required="true" editable="{DateModel>/oFormEdit}" items="" selectedKey="" value="{HeadSetData>/Delivery}">
 						<core:ListItem key="" text="Attended"/>
 						<core:ListItem key="" text="Unattended"/>
 					</ComboBox>
 				</f:content>
 			</f:SimpleForm>
 			<HBox justifyContent="End">
-				<Button text="{i18n>AddDamageLine}" press="onAddDamageLine" type="Emphasized" enabled="{DateModel>/oDamageLineBtn}"/>
+				<Button text="{i18n>AddDamageLine}" press="onAddDamageLine" type="Emphasized"  enabled="{DateModel>/oDamageLineBtn}"/>
 				<Button text="{i18n>UpdateDamageLine}" press="onUpdateDamageLine" class="sapUiTinyMarginBeginEnd" enabled="{DateModel>/oDamageLineBtn}"/>
 				<Button text="{i18n>DeleteDamageLine}" press="onDeleteDamageLine" class="sapUiTinyMarginBeginEnd" type="Reject"
 					enabled="{DateModel>/oDamageLineBtn}"/>
@@ -182,25 +182,25 @@
 					<f:content>
 						<core:Title text=""/>
 						<Label text="{i18n>Area}"/>
-						<ComboBox showSecondaryValues="true" required="true" filterSecondaryValues="true" items="{LocalDataModel>/DataAreaCode}" selectedKey=""
+						<ComboBox showSecondaryValues="true" editable="{DateModel>/oFormEdit}" required="true" filterSecondaryValues="true" items="{LocalDataModel>/DataAreaCode}" selectedKey=""
 							value="{HeadSetData>/DmgAreaCode}" enabled="{DateModel>/damageLine}">
 							<core:ListItem key="{LocalDataModel>DmgAreaCode}" text="{LocalDataModel>DmgAreaCode}" additionalText="{LocalDataModel>DmgAreaCodeDesc}"/>
 						</ComboBox>
 						<core:Title text=""/>
 						<Label text="{i18n>Type}"/>
-						<ComboBox showSecondaryValues="true" required="true" selectedKey="" value="{HeadSetData>/DmgTypeCode}" filterSecondaryValues="true"
+						<ComboBox showSecondaryValues="true" editable="{DateModel>/oFormEdit}" required="true" selectedKey="" value="{HeadSetData>/DmgTypeCode}" filterSecondaryValues="true"
 							items="{LocalDataModel>/DataTypeCode}" enabled="{DateModel>/damageLine}">
 							<core:ListItem key="{LocalDataModel>DmgTypeCode}" text="{LocalDataModel>DmgTypeCode}" additionalText="{LocalDataModel>DmgTypeCodeDesc}"/>
 						</ComboBox>
 						<core:Title text=""/>
 						<Label text="{i18n>Severity}"/>
-						<ComboBox showSecondaryValues="true" required="true" selectedKey="" value="{HeadSetData>/DmgSevrCode}" filterSecondaryValues="true"
+						<ComboBox showSecondaryValues="true" editable="{DateModel>/oFormEdit}" required="true" selectedKey="" value="{HeadSetData>/DmgSevrCode}" filterSecondaryValues="true"
 							items="{LocalDataModel>/DataSeverety}" enabled="{DateModel>/damageLine}">
 							<core:ListItem key="{LocalDataModel>DmgSevrCode}" text="{LocalDataModel>DmgSevrCode}" additionalText="{LocalDataModel>DmgSevrCodeDesc}"/>
 						</ComboBox>
 						<core:Title text=""/>
 						<Label text=" "/>
-						<Button text="{i18n>SaveDamage}" press="onSaveDamage" type="Emphasized" enabled="{DateModel>/damageLine}"/>
+						<Button text="{i18n>SaveDamage}" press="onSaveDamage"  type="Emphasized" enabled="{DateModel>/damageLine}"/>
 						<Link text="{i18n>CancelClaim}" enabled="{DateModel>/damageLine}"/>
 					</f:content>
 				</f:SimpleForm>

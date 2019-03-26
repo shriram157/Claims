@@ -61,8 +61,8 @@
 			<f:content>
 				<core:Title text=""/>
 				<Label text="Authorization No." visible="{LocalDataModel>/linkToAuth}"/>
-				<Input value="{DataPercetCalculate>/AuthorizationNumber}" visible="{LocalDataModel>/linkToAuth}"/>
-				<Button text="Link to Authorization" press="onPressLinkAuthorization" visible="{LocalDataModel>/linkToAuth}"/>
+				<Input value="{DataPercetCalculate>/AuthorizationNumber}" enabled="{DateModel>/oFormEdit}" visible="{LocalDataModel>/linkToAuth}"/>
+				<Button text="Link to Authorization" press="onPressLinkAuthorization" enabled="{DateModel>/oFormEdit}" visible="{LocalDataModel>/linkToAuth}"/>
 			</f:content>
 		</f:SimpleForm>
 		<f:SimpleForm id="idAuthorizationForm" editable="true" layout="ResponsiveGridLayout" title="" labelSpanXL="6"
