@@ -243,6 +243,7 @@ sap.ui.define([
 			oValidator.validate("");
 			this.getView().byId("id_Date").setValueState("None");
 			this.getView().byId("idPrInvDate").setValueState("None");
+			this.getView().byId("idPreInvNum").setValueState("None");
 			var oProssingModel = this.getModel("ProssingModel");
 			//oProssingModel.refresh();
 			var oClaim = oEvent.getParameters().arguments.claimNum;
@@ -1508,12 +1509,12 @@ sap.ui.define([
 			} else if (this.getView().getModel("HeadSetData").getProperty("/RepairDate") == undefined || this.getView().getModel("HeadSetData")
 				.getProperty("/RepairDate") == "") {
 				this.getView().byId("id_Date").setValueState("Error");
-			} else if (this.getView().getModel("HeadSetData").getProperty("/PreviousROInvoiceDate") == undefined && this.getView().getModel(
-					"HeadSetData").getProperty("/WarrantyClaimType") == "ZWP1" ||
-				this.getView().getModel("HeadSetData").getProperty("/PreviousROInvoiceDate") == "" && this.getView().getModel("HeadSetData").getProperty(
-					"/WarrantyClaimType") == "ZWP1") {
+			} else if (this.getView().getModel("HeadSetData").getProperty("/PreviousROInvoice") == undefined && this.getView().getModel(
+					"HeadSetData").getProperty("/WarrantyClaimType") == "ZWP2" ||
+				this.getView().getModel("HeadSetData").getProperty("/PreviousROInvoice") == "" && this.getView().getModel("HeadSetData").getProperty(
+					"/WarrantyClaimType") == "ZWP2") {
 
-				this.getView().byId("idPrInvDate").setValueState("Error");
+				this.getView().byId("idPreInvNum").setValueState("Error");
 			} else if (this.getView().getModel("HeadSetData").getProperty("/PreviousROInvoiceDate") == undefined && this.getView().getModel(
 					"HeadSetData").getProperty("/WarrantyClaimType") == "ZWP2" ||
 				this.getView().getModel("HeadSetData").getProperty("/PreviousROInvoiceDate") == "" && this.getView().getModel("HeadSetData").getProperty(
@@ -1535,6 +1536,7 @@ sap.ui.define([
 			} else {
 				this.getView().byId("id_Date").setValueState("None");
 				this.getView().byId("idPrInvDate").setValueState("None");
+				this.getView().byId("idPreInvNum").setValueState("None");
 				var oActionCode = "";
 				if (this.getView().getModel("DateModel").getProperty("/oztac") == true) {
 					oActionCode = "ZTEA";

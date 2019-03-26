@@ -314,7 +314,7 @@
 				<f:content>
 					<core:Title text=""/>
 					<Label text="{i18n>OFP}"/>
-					<Input value="{path:'HeadSetData>/OFP'}" editable="{DateModel>/oFormEdit}" visible="{DateModel>/ofpEnabled}"/>
+					<Input value="{path:'HeadSetData>/OFP'}" editable="{DateModel>/oFormEdit}" enabled="{DateModel>/ofpEnabled}"/>
 					<Label text="{i18n>MainOp}"/>
 					<Input value="{path:'HeadSetData>/MainOpsCode'}" editable="{DateModel>/oFormEdit}"/>
 					<Label text="{i18n>BatteryTestCode}"/>
@@ -323,8 +323,8 @@
 					<TextArea required="true" editable="{DateModel>/oFormEdit}"
 						value="{path:'HeadSetData>/ZCondition', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 100 }}"></TextArea>
 					<core:Title text=""/>
-					<Label text="{i18n>OFPDescription}" visible="{DateModel>/ofpEnabled}"/>
-					<Text text="{path:'LocalDataModel>/OFPDescription'}" visible="{DateModel>/ofpEnabled}"/>
+					<Label text="{i18n>OFPDescription}" />
+					<Text text="{path:'LocalDataModel>/OFPDescription'}" />
 					<Label text="{i18n>MainOpDescription}"/>
 					<Text text="{path:'LocalDataModel>/MainOpsCodeDescription'}"/>
 					<Label text="{i18n>FieldActionCode}"/>
@@ -337,19 +337,17 @@
 					<Label text="{i18n>AppliedCoverage}"/>
 					<Text text="{HeadSetData>/AppliedWarrantyCoverage}"/>
 					<Label text="{i18n>T1 Code}"/>
-					<ComboBox showSecondaryValues="true" filterSecondaryValues="true" required="{DateModel>/enabledT1}" items="{ path: '/Zt1DescSrchhelpSet' }" selectedKey="{HeadSetData>/T1WarrantyCodes}"
-						enabled="{DateModel>/enabledT1}" editable="{DateModel>/oFormEdit}"
-						value="{path:'HeadSetData>/T1WarrantyCodes', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 100 }}">
-						<core:ListItem key="{T1}" text="{path:'T1'}" additionalText="{T1Text}"/>
+					<ComboBox  required="{DateModel>/enabledT1}" items="{ path: '/Zt1DescSrchhelpSet' }" selectedKey="{path:'HeadSetData>/T1WarrantyCodes', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 100 }}"
+						enabled="{DateModel>/enabledT1}" editable="{DateModel>/oFormEdit}">
+						<core:ListItem key="{T1}" text="{path:'T1'} - {T1Text}" />
 					</ComboBox>
 					<!--<Select selectedKey="{HeadSetData>/T1WarrantyCodes}" items="{ path: '/Zt1DescSrchhelpSet' }" enabled="{DateModel>/oFormEdit}">-->
 					<!--	<core:Item key="{T1}" text="{T1} - {T1Text}"/>-->
 					<!--</Select>-->
 					<Label text="{i18n>T2Code}"/>
-					<ComboBox required="{DateModel>/enabledT2}" showSecondaryValues="true" filterSecondaryValues="true" items="{ path: '/Zt2DescSrchhelpSet' }" selectedKey="{HeadSetData>/T2WarrantyCodes}"
-						enabled="{DateModel>/enabledT2}" editable="{DateModel>/oFormEdit}"
-						value="{path:'HeadSetData>/T2WarrantyCodes', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 100 }}">
-						<core:ListItem key="{path:'T2'}" text="{T2}" additionalText="{T2Text}"/>
+					<ComboBox required="{DateModel>/enabledT2}"  items="{ path: '/Zt2DescSrchhelpSet' }" selectedKey="{path:'HeadSetData>/T2WarrantyCodes', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 100 }}"
+						enabled="{DateModel>/enabledT2}" editable="{DateModel>/oFormEdit}">
+						<core:ListItem key="{path:'T2'}" text="{T2} - {T2Text}"/>
 					</ComboBox>
 					<!--<Select selectedKey="{HeadSetData>/T2WarrantyCodes}" items="{ path: '/Zt2DescSrchhelpSet' }" enabled="{DateModel>/oFormEdit}">-->
 					<!--	<core:Item key="{T2}" text="{T2} - {T2Text}"/>-->
@@ -381,7 +379,7 @@
 			<f:content>
 				<core:Title text=""/>
 				<Label text="{i18n>PreviousROInvoice}"/>
-				<Input value="{path:'HeadSetData>/PreviousROInvoice'}" editable="{DateModel>/oFormEdit}"/>
+				<Input id="idPreInvNum" value="{path:'HeadSetData>/PreviousROInvoice'}" editable="{DateModel>/oFormEdit}"/>
 				
 				<core:Title text=""/>
 				<Label text="{i18n>ROInvoiceDate}"/>
