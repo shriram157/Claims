@@ -1784,9 +1784,8 @@ sap.ui.define([
 											this.getModel("LocalDataModel").setProperty("/DataAuthDetails", oAuthData.results[0]);
 										}, this)
 									});
-								} else {
-									this.getModel("LocalDataModel").setProperty("/WarrantyClaimNumber", oBundle.getText("TCIClaimNumber") + " : " +
-										oCLaim);
+								} else if(oGroupType == "Claim") {
+									this.getModel("LocalDataModel").setProperty("/WarrantyClaimNumber", oBundle.getText("TCIClaimNumber") + " : " + oCLaim);
 									this.getModel("LocalDataModel").setProperty("/linkToAuth", true);
 									this.getModel("LocalDataModel").setProperty("/reCalculate", false);
 									this.getModel("LocalDataModel").setProperty("/PercentState", false);
@@ -2424,8 +2423,9 @@ sap.ui.define([
 		onSubletUploadComplete: function (oEvent) {
 			// var oClaimModel = this.getModel("ProssingModel");
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
+			var oSubletType = this.getView().getModel("SubletDataModel").getProperty("/SubletCode");
 			var fileType = this.oUploadedFile.type;
-			var fileName = this.oUploadedFile.name;
+			var fileName = oSubletType+"+++"+this.oUploadedFile.name;
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var isProxy = "";
 			if (window.document.domain == "localhost") {
