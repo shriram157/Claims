@@ -781,8 +781,10 @@ sap.ui.define([
 				var oTable = this.getView().byId("partTable");
 				var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 				oClaimNum = this.getView().getModel("HeadSetData").getProperty("/NumberOfWarrantyClaim");
-				// this.obj.NumberOfWarrantyClaim = oClaimNum;
-				// this.claimType = this.obj.WarrantyClaimType;
+				if (this.obj != undefined) {
+					this.obj.NumberOfWarrantyClaim = oClaimNum;
+					this.claimType = this.obj.WarrantyClaimType;
+				}
 
 				if (this.claimType == "ZPDC" && this.getView().getModel("PartDataModel").getProperty("/DiscreCode") == "8A") {
 					this.getView().getModel("DateModel").setProperty("/oLetterOfIntent", true);
@@ -2223,15 +2225,16 @@ sap.ui.define([
 					this.obj.zc_claim_attachmentsSet.results.pop();
 					oClaimModel.read("/zc_claim_attachmentsSet", { //and AttachLevel eq 'HEAD'
 						urlParameters: {
-							"$filter": "NumberOfWarrantyClaim eq'" + oClaimNum + "'and AttachLevel eq 'HEAD' and FileName eq'" + fileName +
-								"'"
+							"$filter": "NumberOfWarrantyClaim eq'" + oClaimNum + "'and AttachLevel eq 'HEAD' and FileName eq''"
 						},
 						success: $.proxy(function (odata) {
-							for (var n = 0; n < odata.results.length; n++) {
-								odata.results[n].FileName = odata.results[n].FileName.split("HEAD+++")[1];
-							}
+							var DataSet = odata.results.map(function (item) {
+								item.FileName = item.FileName.replace("HEAD+++", "");
+								return item;
+
+							});
 							//odata.results[1].FileName.split("HEAD+++")[1]
-							this.getView().getModel("ClaimModel").setProperty("/" + "/items", odata.results);
+							this.getView().getModel("ClaimModel").setProperty("/" + "/items", DataSet);
 							// this.getModel("LocalDataModel").setProperty("/oAttachmentSet", odata.results);
 						}, this)
 					});
@@ -2291,14 +2294,15 @@ sap.ui.define([
 					this.obj.zc_claim_attachmentsSet.results.pop();
 					oClaimModel.read("/zc_claim_attachmentsSet", { //and AttachLevel eq 'HEAD' 
 						urlParameters: {
-							"$filter": "NumberOfWarrantyClaim eq'" + oClaimNum + "'and AttachLevel eq 'HEAD' and FileName eq'" + fileName +
-								"'"
+							"$filter": "NumberOfWarrantyClaim eq'" + oClaimNum + "'and AttachLevel eq 'HEAD' and FileName eq''"
 						},
 						success: $.proxy(function (odata) {
-							for (var n = 0; n < odata.results.length; n++) {
-								odata.results[n].FileName = odata.results[n].FileName.split("HEAD+++")[1];
-							}
-							this.getView().getModel("AttachmentModel").setProperty("/" + "/items", odata.results);
+							var DataSet = odata.results.map(function (item) {
+								item.FileName = item.FileName.replace("HEAD+++", "");
+								return item;
+
+							});
+							this.getView().getModel("AttachmentModel").setProperty("/" + "/items", DataSet);
 							// this.getModel("LocalDataModel").setProperty("/oAttachmentSet", odata.results);
 						}, this)
 					});
@@ -2340,10 +2344,12 @@ sap.ui.define([
 						},
 
 						success: $.proxy(function (odata) {
-							for (var n = 0; n < odata.results.length; n++) {
-								odata.results[n].FileName = odata.results[n].FileName.split("HEAD+++")[1];
-							}
-							this.getView().getModel("ClaimModel").setProperty("/" + "/items", odata.results);
+							var DataSet = odata.results.map(function (item) {
+								item.FileName = item.FileName.replace("HEAD+++", "");
+								return item;
+
+							});
+							this.getView().getModel("ClaimModel").setProperty("/" + "/items", DataSet);
 							// this.getModel("LocalDataModel").setProperty("/oAttachmentSet", odata.results);
 						}, this)
 					});
@@ -2379,10 +2385,12 @@ sap.ui.define([
 						},
 
 						success: $.proxy(function (odata) {
-							for (var n = 0; n < odata.results.length; n++) {
-								odata.results[n].FileName = odata.results[n].FileName.split("HEAD+++")[1];
-							}
-							this.getView().getModel("ClaimModel").setProperty("/" + "/items", odata.results);
+							var DataSet = odata.results.map(function (item) {
+								item.FileName = item.FileName.replace("HEAD+++", "");
+								return item;
+
+							});
+							this.getView().getModel("ClaimModel").setProperty("/" + "/items", DataSet);
 							// this.getModel("LocalDataModel").setProperty("/oAttachmentSet", odata.results);
 						}, this)
 					});
