@@ -14,55 +14,54 @@
 				singleContainerFullSize="false">
 				<f:content>
 					<core:Title text=""/>
-					<Label text="TCI Claim #"/>
+					<Label text="{i18n>TCIClaim}"/>
 					<Text text="{HeadSetData>/NumberOfWarrantyClaim}"/>
-					<Label text="VIN">
-						<layoutData>
-							<l:GridData span="XL3 L3"/>
-						</layoutData>
+					<Label text="{i18n>VIN}">
+					<layoutData>
+						<l:GridData span="XL3 L3"/>
+					</layoutData>
 					</Label>
 					<Text text="{HeadSetData>/ExternalObjectNumber}"/>
 					<core:Title text=""/>
-					<Label text="Dlr. Claim #"/>
+					<Label text="{i18n>DlrClaim}"/>
 					<Text text="{HeadSetData>/ExternalNumberOfClaim}"/>
-					<Label text="OFP">
+					<Label text="{i18n>OFP}">
 						<layoutData>
 							<l:GridData span="XL3 L4"/>
 						</layoutData>
 					</Label>
 					<Text text="{HeadSetData>/OFP}"/>
 					<core:Title text=""/>
-					<Label text="RO #."/>
+					<Label text="{i18n>RO}"/>
 					<Text text="{HeadSetData>/RepairOrderNumberExternal}"/>
-					<Label text="Op #."/>
+					<Label text="{i18n>Op}"/>
 					<Text text="{HeadSetData>/MainOpsCode}"/>
 					<core:Title text=""/>
-					<Label text="Repair Date"/>
-					<Text
-						text="{path:'HeadSetData>/RepairDate', type: 'sap.ui.model.type.Date', constraints: {displayFormat: 'Date' }, formatOptions: { style: 'medium', strictParsing: true , UTC: true}}"/>
-					<Label text="Reg. Date"/>
-					<Text text="{path:'HeadSetData>/RegDate'}"/>
+					<Label text="{i18n>RepairDate}"/>
+					<Text text="{path:'HeadSetData>/RepairDate', type: 'sap.ui.model.type.Date',  formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd', strictParsing: true , UTC: true}}"/>
+					<Label text="{i18n>RegDate}"/>
+					<Text text="{path:'HeadSetData>/RegDate', type: 'sap.ui.model.type.Date',  formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd', strictParsing: true , UTC: true}}"/>
 					<core:Title text=""/>
-					<Label text="Odometer"/>
+					<Label text="{i18n>Odometer}"/>
 					<Text text="{HeadSetData>/Odometer}"/>
-					<Label text="Elapse"/>
+					<Label text="{i18n>Elapse}"/>
 					<Text text="{HeadSetData>/ElapsedMonths}"/>
 					<core:Title text=""/>
-					<Label text="Type"/>
+					<Label text="{i18n>Type}"/>
 					<Text text="{HeadSetData>/WarrantyClaimType}"/>
-					<Label text="Status"/>
+					<Label text="{i18n>Status}"/>
 					<Text text="{HeadSetData>/ProcessingStatusOfWarrantyClm}"/>
 				</f:content>
 			</f:SimpleForm>
 		</Panel>
-		<f:SimpleForm  editable="true" layout="ResponsiveGridLayout" title="Authorization Details" labelSpanXL="3"
+		<f:SimpleForm  editable="true" layout="ResponsiveGridLayout" title="{i18n>AuthorizationDetails}" labelSpanXL="3"
 			labelSpanL="3" labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
 			columnsXL="2" columnsL="2" columnsM="1" singleContainerFullSize="false">
 			<f:content>
 				<core:Title text=""/>
-				<Label text="Authorization No." visible="{LocalDataModel>/linkToAuth}"/>
+				<Label text="{i18n>AuthorizationNo}" visible="{LocalDataModel>/linkToAuth}"/>
 				<Input value="{DataPercetCalculate>/AuthorizationNumber}" enabled="{DateModel>/oFormEdit}" visible="{LocalDataModel>/linkToAuth}"/>
-				<Button text="Link to Authorization" press="onPressLinkAuthorization" enabled="{DateModel>/oFormEdit}" visible="{LocalDataModel>/linkToAuth}"/>
+				<Button text="{i18n>LinktoAuthorization}" press="onPressLinkAuthorization" enabled="{DateModel>/oFormEdit}" visible="{LocalDataModel>/linkToAuth}"/>
 			</f:content>
 		</f:SimpleForm>
 		<f:SimpleForm id="idAuthorizationForm" editable="true" layout="ResponsiveGridLayout" title="" labelSpanXL="6"
@@ -71,21 +70,21 @@
 			
 			<f:content>
 				<core:Title text=""/>
-				<Label text="TCI Claim #"/>
+				<Label text="{i18n>TCIClaim}"/>
 				<Text text="{LocalDataModel>/DataAuthDetails/TCIClaimNo}"/>
-				<Label text="Authorization Type"/>
+				<Label text="{i18n>AuthorizationType}"/>
 				<Text text="{LocalDataModel>/DataAuthDetails/AuthorizationType}"/>
-				<Label text="Total Claim Amount (CAD)"/>
+				<Label text="{i18n>TotalClaimAmountCAD}"/>
 				<Text text="{LocalDataModel>/DataAuthDetails/TotalClaimAmountCAD}"/>
 				<core:Title text=""/>
-				<Label text="Territory Code"/>
+				<Label text="{i18n>TerritoryCode}"/>
 				<Text text="{LocalDataModel>/DataAuthDetails/TerritoryCode}"/>
-				<Label text="Authorization Date"/>
+				<Label text="{i18n>AuthorizationDate}"/>
 				<Text text="{ path: 'LocalDataModel>/DataAuthDetails/AuthorizationDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium' } }"/>
 				<core:Title text=""/>
-				<Label text="Dealer Authorization Level"/>
+				<Label text="{i18n>DealerAuthorizationLevel}"/>
 				<Text text="{LocalDataModel>/DataAuthDetails/DealerAuthorizationLevel}"/>
-				<Label text="Claim Submission Type"/>
+				<Label text="{i18n>ClaimSubmissionType}"/>
 				<Text text="{LocalDataModel>/DataAuthDetails/ClaimSubmissionType}"/>
 				<!--<Button text="Save Claim" press="onPressSave" type="Emphasized"/>-->
 			</f:content>
@@ -97,22 +96,22 @@
 					<columns>
 						<Column  hAlign="Center"></Column>
 						<Column  hAlign="Center">
-							<Label text="Repair Amount"/>
+							<Label text="{i18n>RepairAmount}"/>
 						</Column>
 						<Column hAlign="Center">
-							<Label text="Customer"/>
+							<Label text="{i18n>Customer}"/>
 						</Column>
 						<Column  hAlign="Center">
-							<Label text="Dealer"/>
+							<Label text="{i18n>Dealer}"/>
 						</Column>
 						<Column  hAlign="Center">
-							<Label text="TCI"/>
+							<Label text="{i18n>TCI}"/>
 						</Column>
 					</columns>
 					<items>
 						<ColumnListItem>
 							<cells>
-								<Text text="Participation % :"/>
+								<Text text="{i18n>Participation%}"/>
 								<Text text=""/>
 								<Select items="{LocalDataModel>/DataPercent}" enabled="{LocalDataModel>/PercentState}" selectedKey="{path:'DataPercetCalculate>/CustomerPer'}" >
 									<core:Item key="{LocalDataModel>okey}" text="{LocalDataModel>num}"/>
@@ -127,7 +126,7 @@
 						</ColumnListItem>
 						<ColumnListItem>
 							<cells>
-								<Text text="Participation $:"/>
+								<Text text="{i18n>Participation$}"/>
 								<Text text="{LocalDataModel>/oRepairAmt}"/>
 								<Text text="{DataPercetCalculate>/CustomerAmt}"/>
 								<Text text="{DataPercetCalculate>/DealerAmt}"/>
@@ -145,7 +144,7 @@
 		<table:Table id="idPercentTable" class="classRCPTable" selectionMode="Single" rows="{path:'LocalDataModel>/ClaimSumAuth'}" visibleRowCountMode="Auto"
 			rowSelectionChange="onNavigate" selectionBehavior="Row" showNoData="true" threshold="20" enableBusyIndicator="true">
 			<table:columns autoResizable="true">
-				<table:Column width="17rem">
+				<table:Column width="9rem">
 					<table:multiLabels>
 						<Label text="" textAlign="Center" width="100%"/>
 					</table:multiLabels>
@@ -153,9 +152,9 @@
 						<Text text="{LocalDataModel>ItemType}" wrapping="true"/>
 					</table:template>
 				</table:Column>
-				<table:Column width="11rem">
+				<table:Column width="10rem">
 					<table:multiLabels>
-						<Label text="Amount" textAlign="Center" width="100%"/>
+						<Label text="{i18n>Amount}" textAlign="Center" width="100%"/>
 					</table:multiLabels>
 					<table:template>
 						<Text text="{LocalDataModel>Amount}" wrapping="true"/>
@@ -163,7 +162,7 @@
 				</table:Column>
 				<table:Column width="11rem">
 					<table:multiLabels>
-						<Label text="Mark-up %" textAlign="Center" width="100%"/>
+						<Label text="{i18n>Markup%}" textAlign="Center" width="100%"/>
 					</table:multiLabels>
 					<table:template>
 						<Text text="{path:'LocalDataModel>MarkupRate', formatter:'zclaimProcessing.utils.formatter.fnFormatPercent'}" wrapping="true"/>
@@ -171,7 +170,7 @@
 				</table:Column>
 				<table:Column width="11rem">
 					<table:multiLabels>
-						<Label text="Mark-up Amount" textAlign="Center" width="100%"/>
+						<Label text="{i18n>MarkupAmount}" textAlign="Center" width="100%"/>
 					</table:multiLabels>
 					<table:template>
 						<Text text="{path:'LocalDataModel>MarkupAmt'}" wrapping="true"/>
@@ -179,15 +178,15 @@
 				</table:Column>
 				<table:Column width="11rem">
 					<table:multiLabels>
-						<Label text="Sub-total" textAlign="Center" width="100%"/>
+						<Label text="{i18n>subtotal}" textAlign="Center" width="100%"/>
 					</table:multiLabels>
 					<table:template>
 						<Text text="{LocalDataModel>SubtotalAmt}" wrapping="true"/>
 					</table:template>
 				</table:Column>
-				<table:Column width="11rem">
+				<table:Column width="10rem">
 					<table:multiLabels>
-						<Label text="Discount %" textAlign="Center" width="100%"/>
+						<Label text="{i18n>Discount%}" textAlign="Center" width="100%"/>
 					</table:multiLabels>
 					<table:template>
 						<Text text="{path:'LocalDataModel>DiscountRate', formatter:'zclaimProcessing.utils.formatter.fnFormatPercent'}" wrapping="true"/>
@@ -195,7 +194,7 @@
 				</table:Column>
 				<table:Column width="11rem">
 					<table:multiLabels>
-						<Label text="Discount Amount" textAlign="Center" width="100%"/>
+						<Label text="{i18n>DiscountAmount}" textAlign="Center" width="100%"/>
 					</table:multiLabels>
 					<table:template>
 						<Text text="{LocalDataModel>DiscountAmt}" wrapping="true"/>
@@ -203,7 +202,7 @@
 				</table:Column>
 				<table:Column width="11rem">
 					<table:multiLabels>
-						<Label text="Claim Amount" textAlign="Center" width="100%"/>
+						<Label text="{i18n>ClaimAmount}" textAlign="Center" width="100%"/>
 					</table:multiLabels>
 					<table:template>
 						<Text text="{LocalDataModel>ClaimAmt}" wrapping="true"/>
@@ -211,7 +210,7 @@
 				</table:Column>
 				<table:Column width="11rem">
 					<table:multiLabels>
-						<Label text="Authorized Amount" textAlign="Center" width="100%"/>
+						<Label text="{i18n>AuthorizedAmount}" textAlign="Center" width="100%"/>
 					</table:multiLabels>
 					<table:template>
 						<Text text="{LocalDataModel>AuthAmt}" wrapping="true"/>
@@ -223,8 +222,8 @@
 	<VBox justifyContent="Center" alignContent="Center" alignItems="Center" class="sapUiLargeMarginBottom">
 		<Text class="sapUiSmallMarginBottom" text="What is the source of this info. Authorization that was converted to Calim?"/>
 		<HBox>
-			<Button text="Back" class="sapUiTinyMarginEnd" type="Back" press="onStep02Back"/>
-			<Button text="Next" type="Emphasized" press="onStep02Next"/>
+			<Button text="{i18n>Back}" class="sapUiTinyMarginEnd" type="Back" press="onStep02Back"/>
+			<Button text="{i18n>Next}" type="Emphasized" press="onStep02Next"/>
 		</HBox>
 	</VBox>
 </core:FragmentDefinition>
