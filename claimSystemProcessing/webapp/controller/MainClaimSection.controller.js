@@ -238,6 +238,7 @@ sap.ui.define([
 			this.getModel("LocalDataModel").setProperty("/PercentState", false);
 			this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
 			//this.getView().byId("__picker0-inner").setEnabled(false);
+
 		},
 
 		_onRoutMatched: function (oEvent) {
@@ -253,6 +254,7 @@ sap.ui.define([
 			var oClaimAuthType = oEvent.getParameters().arguments.oClaimGroup;
 			var oClaimTypeDetail = oEvent.getParameters().arguments.oKey;
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
+			this.getModel("LocalDataModel").setProperty("/MsrUnit", oBundle.getText("distancekm"));
 			var oClaimNav = oEvent.getParameters().arguments.oClaimNav;
 			this.getModel("LocalDataModel").setProperty("/GroupDescriptionName", oGroupDescription);
 			this.getModel("LocalDataModel").setProperty("/oFieldAction", oEvent.getParameters().arguments.oKey);
@@ -383,6 +385,11 @@ sap.ui.define([
 							},
 							success: $.proxy(function (vehData) {
 								this.getModel("LocalDataModel").setProperty("/DataVinDetails", vehData.results[0]);
+								if (data.results[0].ForeignVIN == "YES") {
+									this.getModel("LocalDataModel").setProperty("/MsrUnit", oBundle.getText("distancemiles"));
+								} else {
+									this.getModel("LocalDataModel").setProperty("/MsrUnit", oBundle.getText("distancekm"));
+								}
 								this.getModel("LocalDataModel").setProperty("/DataSpecialHandlingSet", vehData.results[0].ZC_SPECIAL_HANDLINGVEHICLESET
 									.results);
 								this.getModel("LocalDataModel").setProperty("/DataWrittenOffSet", vehData.results[0].ZC_WRITTENOFFVEHICLESET.results);
@@ -1500,6 +1507,7 @@ sap.ui.define([
 
 			var oVin = oEvent.getParameters().value;
 			var oProssingModel = this.getModel("ProssingModel");
+			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 
 			var oECPModel = this.getOwnerComponent().getModel("EcpSalesModel");
 			oECPModel.read("/zc_ecp_agreement", {
@@ -1519,6 +1527,11 @@ sap.ui.define([
 				},
 				success: $.proxy(function (data) {
 					this.getModel("LocalDataModel").setProperty("/DataVinDetails", data.results[0]);
+					if (data.results[0].ForeignVIN == "YES") {
+						this.getModel("LocalDataModel").setProperty("/MsrUnit", oBundle.getText("distancemiles"));
+					} else {
+						this.getModel("LocalDataModel").setProperty("/MsrUnit", oBundle.getText("distancekm"));
+					}
 					this.getModel("LocalDataModel").setProperty("/DataSpecialHandlingSet", data.results[0].ZC_SPECIAL_HANDLINGVEHICLESET.results);
 					this.getModel("LocalDataModel").setProperty("/DataWrittenOffSet", data.results[0].ZC_WRITTENOFFVEHICLESET.results);
 				}, this),
