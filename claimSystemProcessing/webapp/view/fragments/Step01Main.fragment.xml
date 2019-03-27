@@ -6,7 +6,7 @@
 				<Toolbar height="3rem">
 					<Title text="{i18n>ClaimDetails}"/>
 					<ToolbarSpacer/>
-					<Title text="TCI Claim Number: {HeadSetData>/NumberOfWarrantyClaim}" textAlign="End"/>
+					<Title text="{i18n>TCIClaimNumber}: {HeadSetData>/NumberOfWarrantyClaim}" textAlign="End"/>
 				</Toolbar>
 			</headerToolbar>
 			<f:SimpleForm editable="true" layout="ResponsiveGridLayout" title="" labelSpanXL="6" labelSpanL="6" labelSpanM="12" labelSpanS="12"
@@ -20,16 +20,16 @@
 						<core:Item text="{ALMClaimTypeDes}" key="{ALMClaimType}"/>
 					</ComboBox>
 					<core:Title text=""/>
-					<Label text="First Submission Date"/>
+					<Label text="{i18n>FirstSubmissionDate}"/>
 					<Text text="{ path: 'HeadSetData>/ReferenceDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium' , pattern: 'YYYY-MM-dd'} }"/>
-					<Label text="Claim Age"/>
+					<Label text="{i18n>ClaimAge}"/>
 					<Text text="{HeadSetData>/ClaimAge}"/>
-					<Label text="Last Modified by"/>
+					<Label text="{i18n>LastModifiedby}"/>
 					<Text text="{HeadSetData>/NameOfPersonRespWhoChangedObj}"/>
 					<core:Title text=""/>
-					<Label text="Last Submission Date"/>
+					<Label text="{i18n>LastSubmissionDate}"/>
 					<Text text="{ path: 'HeadSetData>/DateOfApplication', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium' , pattern: 'YYYY-MM-dd'} }"/>
-					<Label text="Final Processed Date"/>
+					<Label text="{i18n>FinalProcessedDate}"/>
 					<Text text="{ path: 'HeadSetData>/FinalProcdDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium' , pattern: 'YYYY-MM-dd'} }"/>
 					<Label text=""></Label>
 					<Button text="{i18n>SaveClaim}" type="Emphasized" press="onSaveClaim">
@@ -45,32 +45,32 @@
 			singleContainerFullSize="false">
 			<f:content>
 				<core:Title text=""/>
-				<Label text="Outbound Delivery Number"/>
+				<Label text="{i18n>OutboundDeliveryNumber}"/>
 				<Input value="{path:'HeadSetData>/Delivery', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 10 } }"
 					required="true" id="idOutboundDNum"/>
-				<Label text="Received Date"/>
+				<Label text="{i18n>ReceivedDate}"/>
 				<DatePicker value="{path:'HeadSetData>/ShipmentReceivedDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd' } }"
 					required="true" id="idShipmentRDate"/>
-				<Label text="Shipping Parts to PDC"/>
+				<Label text="{i18n>ShippingPartstoPDC}"/>
 				<Select id="idPartsShipping">
 					<items>
-						<core:Item text="Yes" key="Yes"/>
-						<core:Item text="No" key="No"/>
+						<core:Item text="{i18n>Yes}" key="Yes"/>
+						<core:Item text="{i18n>No}" key="No"/>
 					</items>
 				</Select>
 				<core:Title text=""/>
-				<Label text="Outbound Delivery Date"/>
+				<Label text="{i18n>OutboundDeliveryDate}"/>
 				<DatePicker required="true" id="idOutBoundDD"
 					value="{path:'HeadSetData>/DeliveryDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium' , pattern: 'YYYY-MM-dd'}}"/>
-				<Label text="PDC Code"/>
+				<Label text="{i18n>PDCCode}"/>
 				<Input value="" id="idPdcCode" editable="false"/>
-				<Label text="Dealer Contact"/>
+				<Label text="{i18n>DealerContact}"/>
 				<Input value="{path:'HeadSetData>/DealerContact', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 10 } }"
 					required="true" id="idDealerContact"/>
 				<core:Title text=""/>
-				<Label text="TCI Waybill No"/>
+				<Label text="{i18n>TCIWaybillNo}"/>
 				<Input value="{HeadSetData>/TCIWaybillNumber}" id="idTCIWayBill" required="true"/>
-				<Label text="Carrier Name"/>
+				<Label text="{i18n>CarrierName}"/>
 				<ComboBox id="idCarrierName" required="true" items="{BpDealerModel>/BpDealerList}" change="onSelectPartsDealer"
 					selectedKey="{HeadSetData>/DeliveringCarrier}" showSecondaryValues="true">
 					<core:ListItem text="{BpDealerModel>BusinessPartner}" key="{BpDealerModel>BusinessPartnerKey}"
@@ -82,13 +82,13 @@
 			labelSpanS="12" adjustLabelSpan="false" emptySpanXL="1" emptySpanL="1" emptySpanM="1" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1"
 			singleContainerFullSize="false">
 			<f:content>
-				<core:Title text="Comments"/>
+				<core:Title text="{i18n>PartsComments}"/>
 				<TextArea height="8rem" value="{HeadSetData>/HeadText}">
 					<layoutData>
 						<l:GridData span="XL8 L8 M8 S4"/>
 					</layoutData>
 				</TextArea>
-				<Button text="Add">
+				<Button text="{i18n>PartsAdd}">
 					<layoutData>
 						<l:GridData span="XL2 L2 M3 S4"/>
 					</layoutData>
@@ -99,7 +99,7 @@
 	<Panel width="auto" class="sapUiSmallMarginBottom" accessibleRole="Region">
 		<headerToolbar>
 			<Toolbar height="3rem">
-				<Title text="Supporting Documents"/>
+				<Title text="{i18n>SupportingDocuments}"/>
 			</Toolbar>
 		</headerToolbar>
 		<content>
@@ -135,7 +135,7 @@
 				enableBusyIndicator="true">
 				<table:toolbar>
 					<Toolbar>
-						<Title id="idTableTitle" text="Claim Amount Summary" level="H2"/>
+						<Title id="idTableTitle" text="{i18n>ClaimAmountSummary}" level="H2"/>
 						<ToolbarSpacer/>
 						<!--<Button tooltip="View Settings" icon="sap-icon://drop-down-list" press="handleViewSettingsDialogButtonPressed"/>-->
 					</Toolbar>
@@ -143,7 +143,7 @@
 				<table:columns autoResizable="true">
 					<table:Column width="17rem">
 						<table:multiLabels>
-							<Label text="(Totals included mark-up and discounts)" textAlign="Center" width="100%"/>
+							<Label text="{i18n>Totalsincludedmarkupdiscounts}" textAlign="Center" width="100%"/>
 						</table:multiLabels>
 						<table:template hAlign = "Center">
 							<Text text="{LocalDataModel>ItemType}" wrapping="false"/>
@@ -151,7 +151,7 @@
 					</table:Column>
 					<table:Column width="11rem">
 						<table:multiLabels>
-							<Label text="Dealer Claimed Amount" textAlign="Center" width="100%"/>
+							<Label text="{i18n>Dealer Claimed Amount}" textAlign="Center" width="100%"/>
 						</table:multiLabels>
 						<table:template hAlign = "Center">
 							<Text text="{LocalDataModel>DealerClaim}" wrapping="false"/>
@@ -159,7 +159,7 @@
 					</table:Column>
 					<table:Column width="11rem">
 						<table:multiLabels>
-							<Label text="TCI Approved Amount" textAlign="Center" width="100%"/>
+							<Label text="{i18n>TCIApprovedAmount}" textAlign="Center" width="100%"/>
 						</table:multiLabels>
 						<table:template hAlign = "Center">
 							<Text text="{LocalDataModel>TCIAppr}" wrapping="false"/>
@@ -167,7 +167,7 @@
 					</table:Column>
 					<table:Column width="11rem">
 						<table:multiLabels>
-							<Label text="Difference (CAD)" textAlign="Center" width="100%"/>
+							<Label text="{i18n>DifferenceCAD}" textAlign="Center" width="100%"/>
 						</table:multiLabels>
 						<table:template hAlign = "Center">
 							<Text text="{LocalDataModel>Diff}" wrapping="false"/>
@@ -175,8 +175,8 @@
 					</table:Column>
 					<table:Column width="8rem" headerSpan="{multiHeaderConfig>/multiheader2}">
 						<table:multiLabels>
-							<Label text="GST/HST" textAlign="Center" width="100%"/>
-							<Label text="Amount" textAlign="Center" width="100%"/>
+							<Label text="{i18n>GSTHST}" textAlign="Center" width="100%"/>
+							<Label text="{i18n>Amount}" textAlign="Center" width="100%"/>
 						</table:multiLabels>
 						<table:template hAlign = "Center">
 							<Text text="{LocalDataModel>GSTHSTAmt}" wrapping="false"/>
@@ -184,8 +184,8 @@
 					</table:Column>
 					<table:Column width="8rem">
 						<table:multiLabels>
-							<Label text="GST/HST"/>
-							<Label text="Tax %" textAlign="Center" width="100%"/>
+							<Label text="{i18n>GSTHST}"/>
+							<Label text="{i18n>Tax}" textAlign="Center" width="100%"/>
 						</table:multiLabels>
 						<table:template hAlign = "Center">
 							<Text text="{LocalDataModel>GSTHSTRate}" wrapping="false"/>
@@ -193,8 +193,8 @@
 					</table:Column>
 					<table:Column width="8rem" headerSpan="{multiHeaderConfig>/multiheader2}">
 						<table:multiLabels>
-							<Label text="PST/QST" textAlign="Center" width="100%"/>
-							<Label text="Amount" textAlign="Center" width="100%"/>
+							<Label text="{i18n>PSTQST}" textAlign="Center" width="100%"/>
+							<Label text="{i18n>Amount}" textAlign="Center" width="100%"/>
 						</table:multiLabels>
 						<table:template hAlign = "Center">
 							<Text text="{LocalDataModel>PSTQSTAmt}" wrapping="false"/>
@@ -202,8 +202,8 @@
 					</table:Column>
 					<table:Column width="8rem">
 						<table:multiLabels>
-							<Label text="PST/QST"/>
-							<Label text="Tax %" textAlign="Center" width="100%"/>
+							<Label text="{i18n>PSTQST}"/>
+							<Label text="{i18n>Tax}" textAlign="Center" width="100%"/>
 						</table:multiLabels>
 						<table:template hAlign = "Center">
 							<Text text="{LocalDataModel>PSTQSTRate}" wrapping="false"/>
@@ -211,7 +211,7 @@
 					</table:Column>
 					<table:Column width="17rem">
 						<table:multiLabels>
-							<Label text="TCI Approved Amount Including Tax" textAlign="Center" width="100%"/>
+							<Label text="{i18n>TCIApprovedAmountIncludingTax}" textAlign="Center" width="100%"/>
 						</table:multiLabels>
 						<table:template hAlign = "Center">
 							<Text text="{LocalDataModel>TCIApprInclTax}" wrapping="false"/>

@@ -661,10 +661,11 @@ sap.ui.define([
 		},
 
 		ValidQty: function (liveQty) {
+			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			if (this.getView().getModel("PartDataModel").getProperty("/DiscreCode") == "2A") {
 				if (this.getView().getModel("PartDataModel").getProperty("/quant") <= liveQty.getParameters().newValue) {
 					this.youCanAddPartItem = false;
-					MessageBox.show("Ordered Quantity is more than Received, Not a Shortage.", MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK,
+					MessageBox.show(this.oBundle.getText("ShortageWarning"), MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK,
 						null, null);
 				}
 			}
@@ -672,7 +673,7 @@ sap.ui.define([
 			if (this.getView().getModel("PartDataModel").getProperty("/DiscreCode") == "3A") {
 				if (this.getView().getModel("PartDataModel").getProperty("/quant") >= liveQty.getParameters().newValue) {
 					this.youCanAddPartItem = false;
-					MessageBox.show("Ordered Quantity is less than Received, Not a Overage.", MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK,
+					MessageBox.show(this.oBundle.getText("OverageWarning"), MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK,
 						null, null);
 				}
 			}
@@ -680,6 +681,7 @@ sap.ui.define([
 		},
 
 		onPressSavePartClaim: function () {
+			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var oClaimModel = this.getModel("ProssingModel");
 			this._oToken = oClaimModel.getHeaders()['x-csrf-token'];
 			$.ajaxSetup({
@@ -697,7 +699,7 @@ sap.ui.define([
 								"'and LanguageKey eq 'E'"
 						},
 						success: $.proxy(function (pricedata) {
-							MessageToast.show("Claim has been updated successfully");
+							MessageToast.show(that.oBundle.getText("ClaimSuccessMSG"));
 							console.log("pricedata on saveClaim success", pricedata);
 						}, this),
 						error: function (err) {
@@ -718,6 +720,7 @@ sap.ui.define([
 		},
 
 		onPressSavePart: function () {
+			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var oValidator = new Validator();
 			if (this.getView().getModel("DateModel").getProperty("/partLine") == true) {
 				var Qty;
@@ -860,7 +863,7 @@ sap.ui.define([
 										"'and LanguageKey eq 'E'"
 								},
 								success: $.proxy(function (pricedata) {
-									MessageToast.show("Claim has been saved successfully");
+									MessageToast.show(that.oBundle.getText("PartItemSuccessMSG"));
 									console.log("pricedata", pricedata);
 									var pricingData = pricedata.results;
 									var oFilteredData = pricingData.filter(function (val) {
@@ -1096,7 +1099,7 @@ sap.ui.define([
 											console.log("Part Items stored",
 												this.getModel("LocalDataModel").getData());
 											// this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
-											MessageToast.show("Part Items has been saved successfully");
+											MessageToast.show(that.oBundle.getText("PartItemSuccessMSG"));
 
 											this.getView().getModel("PartDataModel").setProperty("/LineNo", "");
 											this.getView().getModel("DateModel").setProperty("/partLine", false);
@@ -1145,11 +1148,13 @@ sap.ui.define([
 		},
 
 		_openDialog01: function () {
+			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
+			var that=this;
 			var dialog = new Dialog({
 				title: "Close Letter of Intent",
 				type: "Message",
 				content: new Text({
-					text: "All data input will be lost, are you sure you want to close this Letter Of Intent?"
+					text: that.oBundle.getText("OnCloseLOIMSG")
 				}),
 
 				buttons: [
@@ -1220,8 +1225,8 @@ sap.ui.define([
 				title: "Send Letter to Intent to Carrier",
 				type: "Message",
 				content: new Text({
-					text: "Are you sure you will like to send this letter of intent to '" + this.getView().getModel("LOIDataModel").getProperty(
-						"/CarrierName") + "'?\n You will not be able to make any further changes to this letter."
+					text: _that.oBundle.getText("SendLOIConfirm1") + this.getView().getModel("LOIDataModel").getProperty(
+						"/CarrierName") + _that.oBundle.getText("SendLOIConfirm2")
 				}),
 
 				buttons: [
@@ -1278,7 +1283,7 @@ sap.ui.define([
 									success: $.proxy(function (data, response) {
 										console.log("LOI set data", data);
 										console.log("response", response);
-										MessageToast.show("Letter of Intent sent successfully");
+										MessageToast.show(_that.oBundle.getText("LOISuccessMSG"));
 										this.getView().getModel("DateModel").setProperty("/oLetterOfIntent", false);
 										var LOIData = new sap.ui.model.json.JSONModel({
 											"claimNumber": "",
@@ -1427,6 +1432,8 @@ sap.ui.define([
 		},
 
 		onRadioChangeEN: function (oEN) {
+			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
+			// this.oBundle.getText("Damage")
 			console.log("oEN", oEN);
 			var oVal;
 			// var oVal = oEN.getSource().getSelectedButton().getText();
@@ -1490,6 +1497,8 @@ sap.ui.define([
 		},
 
 		_getLOIData: function (obj, model) {
+			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
+			var that =this;
 			// var oValidator = new Validator();
 
 			// var oValid = oValidator.validate(this.getView().byId("id_LOIForm01"));
@@ -1553,10 +1562,10 @@ sap.ui.define([
 				success: $.proxy(function (data, response) {
 					console.log("data", data);
 					console.log("response", response);
-					MessageToast.show("Letter of Intent sent successfully");
+					MessageToast.show(that.oBundle.getText("LOISuccessMSG"));
 					// this.getModel("LOIDataModel").setData(response.data);
 					// console.log(this.getModel("LOIDataModel").getData());
-					dialog.close();
+					// dialog.close();
 				}, this),
 				error: function (err) {
 					console.log(err);
@@ -1796,6 +1805,8 @@ sap.ui.define([
 		},
 
 		onPressDeletePart: function () {
+			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
+			var that=this;
 			var oTable = this.getView().byId("partTable");
 			var oTableIndex = oTable._aSelectedPaths;
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
@@ -1833,7 +1844,7 @@ sap.ui.define([
 								}
 								this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
 								oTable.removeSelections("true");
-								MessageToast.show("Claim has been deleted successfully");
+								MessageToast.show(that.oBundle.getText("ClaimDeleteMSG"));
 								this._fnClaimSum();
 							}, this),
 							error: function (err) {
@@ -1870,11 +1881,11 @@ sap.ui.define([
 								this.getView().getModel("AttachmentModel").setProperty("/" + "/items", odata.results);
 							}, this)
 						});
-						MessageToast.show("File has been deleted successfully");
+						MessageToast.show(that.oBundle.getText("FileDeleteMSG"));
 					}, this)
 				});
 			} else {
-				MessageToast.show("Please select 1 row.");
+				MessageToast.show(that.oBundle.getText("MandatorySelectText"));
 				oTable.removeSelections("true");
 			}
 		},
@@ -2090,6 +2101,8 @@ sap.ui.define([
 		},
 
 		onUploadChangeParts: function (oEvent) {
+			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
+			var that=this;
 			// var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			// //this.obj.Message = "";
 			// this.obj.NumberOfWarrantyClaim = oClaimNum;
@@ -2142,7 +2155,7 @@ sap.ui.define([
 				}, this);
 
 			} else {
-				MessageToast.show("Please Save Claim then try Attachments");
+				MessageToast.show(that.oBundle.getText("AttachmentMSG"));
 			}
 		},
 
@@ -2216,6 +2229,7 @@ sap.ui.define([
 		},
 
 		onUploadComplete02Parts: function (oEvent) {
+			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			// var oClaimModel = this.getModel("ProssingModel");
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			var fileType = this.oUploadedFile.type;
@@ -2243,12 +2257,13 @@ sap.ui.define([
 				"AttachLevel": "HEAD"
 			};
 			this.obj.zc_claim_attachmentsSet.results.push(itemObj);
+			var that=this;
 
 			var oClaimModel = this.getModel("ProssingModel");
 			oClaimModel.refreshSecurityToken();
 			oClaimModel.create("/zc_headSet", this.obj, {
 				success: $.proxy(function (data, response) {
-					MessageToast.show("SuccesFully Uploaded");
+					MessageToast.show(that.oBundle.getText("UploadMSG"));
 					this.obj.zc_claim_attachmentsSet.results.pop();
 					oClaimModel.read("/zc_claim_attachmentsSet", { //and AttachLevel eq 'HEAD' 
 						urlParameters: {
@@ -2274,6 +2289,7 @@ sap.ui.define([
 		},
 
 		onFileDeleted: function (oEvent) {
+			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			this.deleteItemById(oEvent.getParameter("documentId"), "ClaimModel");
 			MessageToast.show("FileDeleted event triggered.");
@@ -2285,6 +2301,7 @@ sap.ui.define([
 				"COMP_ID": oFileName,
 				"DBOperation": "DELT"
 			};
+			var that=this;
 
 			oClaimModel.refreshSecurityToken();
 
@@ -2306,11 +2323,12 @@ sap.ui.define([
 							// this.getModel("LocalDataModel").setProperty("/oAttachmentSet", odata.results);
 						}, this)
 					});
-					MessageToast.show("File has been deleted successfully");
+					MessageToast.show(that.oBundle.getText("FileDeleteMSG"));
 				}, this)
 			});
 		},
 		onFileDeleted02: function (oEvent) {
+			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			this.deleteItemById(oEvent.getParameter("documentId"), "ClaimModel");
 			MessageToast.show("FileDeleted event triggered.");
@@ -2322,6 +2340,8 @@ sap.ui.define([
 				"COMP_ID": oFileName,
 				"DBOperation": "DELT"
 			};
+			
+			var that=this;
 
 			oClaimModel.refreshSecurityToken();
 
@@ -2342,7 +2362,7 @@ sap.ui.define([
 							// this.getModel("LocalDataModel").setProperty("/oAttachmentSet", odata.results);
 						}, this)
 					});
-					MessageToast.show("File has been deleted successfully");
+					MessageToast.show(that.oBundle.getText("FileDeleteMSG"));
 				}, this)
 			});
 		},
@@ -2463,6 +2483,8 @@ sap.ui.define([
 		},
 
 		_fnUpdateClaimParts: function () {
+			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
+			var that=this;
 			var oClaimModel = this.getModel("ProssingModel");
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 
@@ -2542,7 +2564,7 @@ sap.ui.define([
 					oClaimModel.refreshSecurityToken();
 					oClaimModel.create("/zc_headSet", this.obj, {
 						success: $.proxy(function (response) {
-							MessageToast.show("Claim has been Updated successfully");
+							MessageToast.show(that.oBundle.getText("ClaimUpdateMSG"));
 							this.getModel("LocalDataModel").setProperty("/step01Next", true);
 						}, this),
 						error: function () {
@@ -2557,6 +2579,7 @@ sap.ui.define([
 
 		_fnSaveClaimParts: function (oEvent) {
 			//idClaimForm
+			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var oClaimModel = this.getModel("ProssingModel");
 			var oValidator = new Validator();
 			var oCurrentDt = new Date();
@@ -2608,12 +2631,12 @@ sap.ui.define([
 						"results": []
 					}
 				};
-
+				var that=this;
 				console.log(this.obj);
 				oClaimModel.refreshSecurityToken();
 				oClaimModel.create("/zc_headSet", this.obj, {
 					success: $.proxy(function (data, response) {
-						MessageToast.show("Claim has been saved successfully");
+						MessageToast.show(that.oBundle.getText("ClaimSuccessMSG"));
 						this.getModel("LocalDataModel").setProperty("/WarrantyClaimNum", response.data.NumberOfWarrantyClaim);
 						// this.getModel("LOIDataModel").setProperty("/claimNumber", response.data.NumberOfWarrantyClaim);
 						this._fnClaimSum();
@@ -2810,6 +2833,7 @@ sap.ui.define([
 			}
 		},
 		onRevalidate: function () {
+			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var that = this;
 			var oClaimModel = this.getModel("ProssingModel");
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
@@ -2822,7 +2846,7 @@ sap.ui.define([
 				title: 'Revalidate Claim',
 				type: 'Message',
 				content: new Text({
-					text: 'Do you want to revalidate this claim? '
+					text: that.oBundle.getText("RevalidateMSG")
 				}),
 				beginButton: new Button({
 					text: 'Yes',
@@ -2832,7 +2856,7 @@ sap.ui.define([
 								MessageToast.show(this.obj.NumberOfWarrantyClaim + "has been Saved successfully");
 							},
 							error: function () {
-								MessageToast.show("Claim is not Saved");
+								MessageToast.show(that.oBundle.getText("ClaimNotSavedMSG"));
 							}
 						});
 						dialog.close();
@@ -2858,6 +2882,7 @@ sap.ui.define([
 			dialog.open();
 		},
 		onSubmitTci: function (oEvent) {
+			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var oClaimModel = this.getModel("ProssingModel");
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			this.obj.WarrantyClaimType = this.getView().getModel("HeadSetData").getProperty("/ClaimType");
@@ -2886,17 +2911,19 @@ sap.ui.define([
 				"TYPE": "",
 				"MESSAGE": ""
 			};
+			
+			var that=this;
 
 			// this.obj.zc_claim_vsrSet.results.push(oObj);
 			this.obj.zc_claim_vsrSet.results.push(oObj);
-
+// 
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			//var that = this;
 			var dialog = new Dialog({
 				title: "Submit Claim to TCI",
 				type: "Message",
 				content: new Text({
-					text: "Are you sure, you want to submit this Claim to TCI?"
+					text: that.oBundle.getText("TCISubmitConfirmMSG")
 				}),
 
 				buttons: [
