@@ -1385,7 +1385,7 @@ sap.ui.define([
 		},
 		onEnterComment: function () {
 			var oPrevComment = this.getView().getModel("HeadSetData").getProperty("/HeadText");
-			var oPartner = this.getView().getModel("HeadSetData").getProperty("/Partner");
+			var oPartner = this.getModel("LocalDataModel").getProperty("/BpDealerModel/0/BusinessPartnerKey");
 			var oDateFormat = sap.ui.core.format.DateFormat.getDateInstance({
 				pattern: "yyyy-MM-dd HH:mm:ss"
 			});
