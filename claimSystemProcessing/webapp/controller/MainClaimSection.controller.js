@@ -273,7 +273,7 @@ sap.ui.define([
 			this.getView().byId("idFilter06").setProperty("enabled", false);
 			this.getView().byId("idFilter07").setProperty("enabled", false);
 			this.getView().byId("idFilter08").setProperty("enabled", false);
-
+			this.getDealer();
 			//this.getModel("LocalDataModel").setProperty("/oClaimSelectedGroup", );
 			if (oClaim != "nun" && oClaim != undefined) {
 
@@ -1310,7 +1310,7 @@ sap.ui.define([
 				}
 				this._fnOFPenabled();
 				this.getModel("LocalDataModel").setProperty("/ClaimSum", "");
-				this.getDealer();
+				
 
 			}
 			this.getView().setModel(this.HeadSetData, "HeadSetData");
@@ -1398,7 +1398,7 @@ sap.ui.define([
 					"$filter": "BusinessPartner eq '" + oPartner + "'"
 				},
 				success: $.proxy(function (data) {
-					var oPartnerName = data.results[0].BusinessPartnerFullName;
+					var oPartnerName = data.results[0].OrganizationBPName1;
 					var oFinalText = `${oPrevComment} \n  ${oPartnerName} ( ${oDate} ) ${oText}`;
 					this.getView().getModel("HeadSetData").setProperty("/HeadText", oFinalText);
 					this.getView().getModel("HeadSetData").setProperty("/NewText", "");
