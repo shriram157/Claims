@@ -2454,7 +2454,8 @@ sap.ui.define([
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			var oSubletType = this.getView().getModel("SubletDataModel").getProperty("/SubletCode");
 			var fileType = this.oUploadedFile.type;
-			var fileName = oSubletType + "+++" + this.oUploadedFile.name;
+			var fileNamePrior = oSubletType + "+++" + this.oUploadedFile.name;
+			var fileName = fileNamePrior.toUpperCase();
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var isProxy = "";
 			if (window.document.domain == "localhost") {
