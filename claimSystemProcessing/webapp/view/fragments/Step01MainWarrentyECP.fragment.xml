@@ -398,7 +398,7 @@
 			columnsL="1" columnsM="1" singleContainerFullSize="false">
 			<f:content>
 				<core:Title text=""/>
-				<TextArea height="8rem" value="{HeadSetData>/HeadText}" editable="{DateModel>/oFormEdit}">
+				<TextArea height="8rem" value="{HeadSetData>/HeadText}" editable="{DateModel>/commentEditable}" enabled="{DateModel>/oFormEdit}" >
 					<layoutData>
 						<l:GridData span="XL8 L8 M8 S12"/>
 					</layoutData>

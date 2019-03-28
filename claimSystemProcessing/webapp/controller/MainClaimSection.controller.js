@@ -58,7 +58,8 @@ sap.ui.define([
 				oPrevInvNumReq: false,
 				oPrevInvDateReq: false,
 				DisableRadio: true,
-				oBatteryTestEnable: true
+				oBatteryTestEnable: true,
+				commentEditable:false
 			});
 			this.getView().setModel(oDateModel, "DateModel");
 			var oNodeModel = new sap.ui.model.json.JSONModel();
@@ -929,7 +930,6 @@ sap.ui.define([
 				this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", "");
 				oProssingModel.read("/ZC_CLAIM_GROUP", {
 					urlParameters: {
-
 						"$filter": "ClaimGroupDes eq 'WARRANTY'"
 					},
 					success: $.proxy(function (data) {
