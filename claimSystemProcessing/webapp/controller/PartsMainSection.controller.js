@@ -215,7 +215,7 @@ sap.ui.define([
 				dataType: "json",
 				success: function (oData) {
 					console.log("BPNameAddress", oData.d.results);
-					if (oData.d.results.length == 1) {
+					if (oData.d.results.length === 1) {
 						oFilteredDealerData = [];
 						var BpLength = oData.d.results[0].BusinessPartner.length;
 						oFilteredDealerData.push({
@@ -250,10 +250,12 @@ sap.ui.define([
 							"Region": item.to_BusinessPartnerAddress.results[0].Region
 						});
 					});
+
 					console.log("Role BP list filtered", BpDealerList);
 					that.getView().getModel("BpDealerModel").setProperty("/BpDealerList", BpDealerList);
 					// that.getView().getModel("BpDealerModel").updateBindings(true);
 					console.log("BPDealerModel", that.getView().getModel("BpDealerModel"));
+
 				},
 				error: function (response) {
 					sap.ui.core.BusyIndicator.hide();
@@ -271,6 +273,116 @@ sap.ui.define([
 			if (oClaim != "nun" && oClaim != undefined) {
 				this.getModel("LocalDataModel").setProperty("/step01Next", true);
 				this.claimType = oEvent.getParameters().arguments.oKey;
+				if (this.claimType === "ZPDC") {
+					this.getView().byId("idPdcCode").setProperty("editable", false);
+					this.getView().byId("idTCIWayBill").setProperty("editable", true);
+
+					this.getView().getModel("multiHeaderConfig").setProperty("/partMiscellanious", false);
+					this.getView().getModel("multiHeaderConfig").setProperty("/partDiscrepancies", false);
+					this.getView().getModel("multiHeaderConfig").setProperty("/partTransportation", false);
+
+					this.getView().getModel("multiHeaderConfig").setProperty("/partDamage", true);
+
+					this.getView().getModel("multiHeaderConfig").setProperty("/RetainPartV", false);
+					this.getView().getModel("multiHeaderConfig").setProperty("/PartNumberRcV", false);
+					this.getView().getModel("multiHeaderConfig").setProperty("/PartDescriptionOrdRcv", false);
+					this.getView().getModel("multiHeaderConfig").setProperty("/RepairAmtV", true);
+					this.getView().getModel("multiHeaderConfig").setProperty("/RepAmountCol", true);
+					this.getView().getModel("multiHeaderConfig").setProperty("/PartRepaired", true);
+					this.getView().getModel("multiHeaderConfig").setProperty("/PartRepCol", true);
+					this.getView().getModel("multiHeaderConfig").setProperty("/uploader", true);
+					this.getView().getModel("multiHeaderConfig").setProperty("/multiheader5", 6);
+					// console.log(oEvent.getSource().getProperty("value") + "ZPDC");
+					this.getView().getModel("multiHeaderConfig").setProperty("/AttachmentCol", true);
+					this.getView().getModel("multiHeaderConfig").setProperty("/RetainPartCol", false);
+					this.getView().getModel("multiHeaderConfig").setProperty("/DiscrepancyCol", false);
+					this.getView().getModel("multiHeaderConfig").setProperty("/DamageConditionCol", true);
+					this.getView().getModel("multiHeaderConfig").setProperty("/MiscellaneousCol", false);
+					this.getView().getModel("multiHeaderConfig").setProperty("/TransportCol", false);
+
+				} else if (this.claimType === "ZPMS") {
+					this.getView().byId("idPdcCode").setProperty("editable", false);
+					this.getView().byId("idTCIWayBill").setProperty("editable", true);
+
+					this.getView().getModel("multiHeaderConfig").setProperty("/partDamage", false);
+					this.getView().getModel("multiHeaderConfig").setProperty("/partMiscellanious", true);
+					this.getView().getModel("multiHeaderConfig").setProperty("/partDiscrepancies", false);
+					this.getView().getModel("multiHeaderConfig").setProperty("/partTransportation", false);
+
+					this.getView().getModel("multiHeaderConfig").setProperty("/RetainPartV", false);
+					this.getView().getModel("multiHeaderConfig").setProperty("/PartNumberRcV", false);
+					this.getView().getModel("multiHeaderConfig").setProperty("/PartDescriptionOrdRcv", false);
+					this.getView().getModel("multiHeaderConfig").setProperty("/RepairAmtV", true);
+					this.getView().getModel("multiHeaderConfig").setProperty("/RepAmountCol", true);
+					// this.getView().getModel("multiHeaderConfig").setProperty("/DealerNetPrcV", false);
+					this.getView().getModel("multiHeaderConfig").setProperty("/PartRepaired", true);
+					this.getView().getModel("multiHeaderConfig").setProperty("/PartRepCol", true);
+					this.getView().getModel("multiHeaderConfig").setProperty("/uploader", true);
+					this.getView().getModel("multiHeaderConfig").setProperty("/multiheader5", 6);
+					this.getView().getModel("multiHeaderConfig").setProperty("/AttachmentCol", true);
+					this.getView().getModel("multiHeaderConfig").setProperty("/RetainPartCol", false);
+					this.getView().getModel("multiHeaderConfig").setProperty("/DiscrepancyCol", false);
+					this.getView().getModel("multiHeaderConfig").setProperty("/DamageConditionCol", false);
+					this.getView().getModel("multiHeaderConfig").setProperty("/MiscellaneousCol", true);
+					this.getView().getModel("multiHeaderConfig").setProperty("/TransportCol", false);
+					//console.log(oEvent.getParameters().selectedItem.getText() + "PMS");
+				} else if (this.claimType === "ZPTS") {
+					this.getView().byId("idPdcCode").setProperty("editable", false);
+					this.getView().byId("idTCIWayBill").setProperty("editable", true);
+
+					this.getView().getModel("multiHeaderConfig").setProperty("/partDamage", false);
+					this.getView().getModel("multiHeaderConfig").setProperty("/partMiscellanious", false);
+					this.getView().getModel("multiHeaderConfig").setProperty("/partDiscrepancies", false);
+					this.getView().getModel("multiHeaderConfig").setProperty("/partTransportation", true);
+
+					// console.log(oEvent.getParameters().selectedItem.getText() + "PTS");
+					this.getView().getModel("multiHeaderConfig").setProperty("/RetainPartV", false);
+					this.getView().getModel("multiHeaderConfig").setProperty("/PartNumberRcV", false);
+					this.getView().getModel("multiHeaderConfig").setProperty("/PartDescriptionOrdRcv", false);
+					this.getView().getModel("multiHeaderConfig").setProperty("/RepairAmtV", false);
+					this.getView().getModel("multiHeaderConfig").setProperty("/RepAmountCol", false);
+					this.getView().getModel("multiHeaderConfig").setProperty("/PartRepaired", false);
+					this.getView().getModel("multiHeaderConfig").setProperty("/PartRepCol", false);
+					// this.getView().getModel("multiHeaderConfig").setProperty("/DealerNetPrcV", false);
+					this.getView().getModel("multiHeaderConfig").setProperty("/uploader", true);
+					this.getView().getModel("multiHeaderConfig").setProperty("/multiheader5", 6);
+					this.getView().getModel("multiHeaderConfig").setProperty("/AttachmentCol", true);
+					this.getView().getModel("multiHeaderConfig").setProperty("/RetainPartCol", false);
+					this.getView().getModel("multiHeaderConfig").setProperty("/DiscrepancyCol", false);
+					this.getView().getModel("multiHeaderConfig").setProperty("/DamageConditionCol", false);
+					this.getView().getModel("multiHeaderConfig").setProperty("/MiscellaneousCol", false);
+					this.getView().getModel("multiHeaderConfig").setProperty("/TransportCol", true);
+
+				} else if (this.claimType === "ZPPD") {
+					// console.log(oEvent.getSource().getProperty("value") + "ZPPD");
+					this.getView().byId("idPdcCode").setProperty("editable", false);
+					this.getView().byId("idTCIWayBill").setProperty("editable", false);
+					this.getView().getModel("multiHeaderConfig").setProperty("/OrderedPartDesc", false);
+
+					this.getView().getModel("multiHeaderConfig").setProperty("/partDamage", false);
+					this.getView().getModel("multiHeaderConfig").setProperty("/partMiscellanious", false);
+					this.getView().getModel("multiHeaderConfig").setProperty("/partDiscrepancies", true);
+					this.getView().getModel("multiHeaderConfig").setProperty("/partTransportation", false);
+
+					this.getView().getModel("multiHeaderConfig").setProperty("/multiheader5", 6);
+					this.getView().getModel("multiHeaderConfig").setProperty("/uploader", false);
+					this.getView().getModel("multiHeaderConfig").setProperty("/RetainPartV", true);
+					this.getView().getModel("multiHeaderConfig").setProperty("/PartNumberRcV", true);
+					this.getView().getModel("multiHeaderConfig").setProperty("/PartDescriptionOrdRcv", true);
+					this.getView().getModel("multiHeaderConfig").setProperty("/RepairAmtV", false);
+					this.getView().getModel("multiHeaderConfig").setProperty("/RepAmountCol", false);
+					this.getView().getModel("multiHeaderConfig").setProperty("/PartRepaired", false);
+					this.getView().getModel("multiHeaderConfig").setProperty("/PartRepCol", false);
+					// this.getView().getModel("multiHeaderConfig").setProperty("/DealerNetPrcEdt", false);
+					// this.getView().getModel("multiHeaderConfig").setProperty("/DealerNetPrcV", true);
+					this.getView().getModel("multiHeaderConfig").setProperty("/AttachmentCol", false);
+					this.getView().getModel("multiHeaderConfig").setProperty("/RetainPartCol", true);
+					this.getView().getModel("multiHeaderConfig").setProperty("/DiscrepancyCol", true);
+					this.getView().getModel("multiHeaderConfig").setProperty("/DamageConditionCol", false);
+					this.getView().getModel("multiHeaderConfig").setProperty("/MiscellaneousCol", false);
+					this.getView().getModel("multiHeaderConfig").setProperty("/TransportCol", false);
+				}
+
 				var DropDownModel = new sap.ui.model.json.JSONModel();
 				this.getView().setModel(DropDownModel, "DropDownModel");
 				this.getView().getModel("DropDownModel").setProperty("/" + "/items", "");
@@ -293,6 +405,14 @@ sap.ui.define([
 						var HeadSetData = new sap.ui.model.json.JSONModel(data.results[0]);
 						HeadSetData.setDefaultBindingMode("TwoWay");
 						this.getView().setModel(HeadSetData, "HeadSetData");
+						this.ClaimStatus = data.results[0].DecisionCode;
+						console.log("this.ClaimStatus", this.ClaimStatus);
+						if (this.ClaimStatus == "ZTRC" || this.ClaimStatus == "ZTIC") {
+							//code here
+							this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
+						} else {
+							this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
+						}
 
 					}, this),
 					error: function (err) {
@@ -399,6 +519,10 @@ sap.ui.define([
 					}, this)
 				});
 				this._fnClaimSum();
+
+				this.getView().byId("idFilter02").setProperty("enabled", true); //make it false before deploying/committing
+				this.getView().byId("idFilter03").setProperty("enabled", true);
+				this.getView().byId("idFilter04").setProperty("enabled", true);
 
 			} else {
 				this.getModel("LocalDataModel").setProperty("/step01Next", false);
@@ -582,13 +706,13 @@ sap.ui.define([
 				});
 				LOIData.setDefaultBindingMode("TwoWay");
 				this.getView().setModel(LOIData, "LOIDataModel");
+
+				this.getView().byId("idFilter02").setProperty("enabled", false); //make it false before deploying/committing
+				this.getView().byId("idFilter03").setProperty("enabled", false);
+				this.getView().byId("idFilter04").setProperty("enabled", false);
 			}
 			this.getView().setModel(HeadSetData, "HeadSetData");
-
 			this.getView().byId("idPartClaimIconBar").setSelectedKey("Tab1");
-			this.getView().byId("idFilter02").setProperty("enabled", false); //make it false before deploying/committing
-			this.getView().byId("idFilter03").setProperty("enabled", false);
-			this.getView().byId("idFilter04").setProperty("enabled", false);
 			// this._getBPList();
 		},
 
@@ -2727,120 +2851,6 @@ sap.ui.define([
 				this.getView().byId("idMainClaimMessage").setType("None");
 				this.getView().byId("idFilter02").setProperty("enabled", true);
 				this.getView().byId("idPartClaimIconBar").setSelectedKey("Tab2");
-				if (this.getView().getModel("DateModel").getProperty("/claimTypeEn") == false) {
-					console.log("View/Update claim");
-					// this.getView().getModel("DateModel").setProperty("/saveParts", true);
-					var claimtype = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType");
-					if (claimtype === "ZPDC") {
-						this.getView().byId("idPdcCode").setProperty("editable", false);
-						this.getView().byId("idTCIWayBill").setProperty("editable", true);
-
-						this.getView().getModel("multiHeaderConfig").setProperty("/partMiscellanious", false);
-						this.getView().getModel("multiHeaderConfig").setProperty("/partDiscrepancies", false);
-						this.getView().getModel("multiHeaderConfig").setProperty("/partTransportation", false);
-
-						this.getView().getModel("multiHeaderConfig").setProperty("/partDamage", true);
-
-						this.getView().getModel("multiHeaderConfig").setProperty("/RetainPartV", false);
-						this.getView().getModel("multiHeaderConfig").setProperty("/PartNumberRcV", false);
-						this.getView().getModel("multiHeaderConfig").setProperty("/PartDescriptionOrdRcv", false);
-						this.getView().getModel("multiHeaderConfig").setProperty("/RepairAmtV", true);
-						this.getView().getModel("multiHeaderConfig").setProperty("/RepAmountCol", true);
-						this.getView().getModel("multiHeaderConfig").setProperty("/PartRepaired", true);
-						this.getView().getModel("multiHeaderConfig").setProperty("/PartRepCol", true);
-						this.getView().getModel("multiHeaderConfig").setProperty("/uploader", true);
-						this.getView().getModel("multiHeaderConfig").setProperty("/multiheader5", 6);
-						// console.log(oEvent.getSource().getProperty("value") + "ZPDC");
-						this.getView().getModel("multiHeaderConfig").setProperty("/AttachmentCol", true);
-						this.getView().getModel("multiHeaderConfig").setProperty("/RetainPartCol", false);
-						this.getView().getModel("multiHeaderConfig").setProperty("/DiscrepancyCol", false);
-						this.getView().getModel("multiHeaderConfig").setProperty("/DamageConditionCol", true);
-						this.getView().getModel("multiHeaderConfig").setProperty("/MiscellaneousCol", false);
-						this.getView().getModel("multiHeaderConfig").setProperty("/TransportCol", false);
-
-					} else if (claimtype === "ZPMS") {
-						this.getView().byId("idPdcCode").setProperty("editable", false);
-						this.getView().byId("idTCIWayBill").setProperty("editable", true);
-
-						this.getView().getModel("multiHeaderConfig").setProperty("/partDamage", false);
-						this.getView().getModel("multiHeaderConfig").setProperty("/partMiscellanious", true);
-						this.getView().getModel("multiHeaderConfig").setProperty("/partDiscrepancies", false);
-						this.getView().getModel("multiHeaderConfig").setProperty("/partTransportation", false);
-
-						this.getView().getModel("multiHeaderConfig").setProperty("/RetainPartV", false);
-						this.getView().getModel("multiHeaderConfig").setProperty("/PartNumberRcV", false);
-						this.getView().getModel("multiHeaderConfig").setProperty("/PartDescriptionOrdRcv", false);
-						this.getView().getModel("multiHeaderConfig").setProperty("/RepairAmtV", true);
-						this.getView().getModel("multiHeaderConfig").setProperty("/RepAmountCol", true);
-						// this.getView().getModel("multiHeaderConfig").setProperty("/DealerNetPrcV", false);
-						this.getView().getModel("multiHeaderConfig").setProperty("/PartRepaired", true);
-						this.getView().getModel("multiHeaderConfig").setProperty("/PartRepCol", true);
-						this.getView().getModel("multiHeaderConfig").setProperty("/uploader", true);
-						this.getView().getModel("multiHeaderConfig").setProperty("/multiheader5", 6);
-						this.getView().getModel("multiHeaderConfig").setProperty("/AttachmentCol", true);
-						this.getView().getModel("multiHeaderConfig").setProperty("/RetainPartCol", false);
-						this.getView().getModel("multiHeaderConfig").setProperty("/DiscrepancyCol", false);
-						this.getView().getModel("multiHeaderConfig").setProperty("/DamageConditionCol", false);
-						this.getView().getModel("multiHeaderConfig").setProperty("/MiscellaneousCol", true);
-						this.getView().getModel("multiHeaderConfig").setProperty("/TransportCol", false);
-						//console.log(oEvent.getParameters().selectedItem.getText() + "PMS");
-					} else if (claimtype === "ZPTS") {
-						this.getView().byId("idPdcCode").setProperty("editable", false);
-						this.getView().byId("idTCIWayBill").setProperty("editable", true);
-
-						this.getView().getModel("multiHeaderConfig").setProperty("/partDamage", false);
-						this.getView().getModel("multiHeaderConfig").setProperty("/partMiscellanious", false);
-						this.getView().getModel("multiHeaderConfig").setProperty("/partDiscrepancies", false);
-						this.getView().getModel("multiHeaderConfig").setProperty("/partTransportation", true);
-
-						// console.log(oEvent.getParameters().selectedItem.getText() + "PTS");
-						this.getView().getModel("multiHeaderConfig").setProperty("/RetainPartV", false);
-						this.getView().getModel("multiHeaderConfig").setProperty("/PartNumberRcV", false);
-						this.getView().getModel("multiHeaderConfig").setProperty("/PartDescriptionOrdRcv", false);
-						this.getView().getModel("multiHeaderConfig").setProperty("/RepairAmtV", false);
-						this.getView().getModel("multiHeaderConfig").setProperty("/RepAmountCol", false);
-						this.getView().getModel("multiHeaderConfig").setProperty("/PartRepaired", false);
-						this.getView().getModel("multiHeaderConfig").setProperty("/PartRepCol", false);
-						// this.getView().getModel("multiHeaderConfig").setProperty("/DealerNetPrcV", false);
-						this.getView().getModel("multiHeaderConfig").setProperty("/uploader", true);
-						this.getView().getModel("multiHeaderConfig").setProperty("/multiheader5", 6);
-						this.getView().getModel("multiHeaderConfig").setProperty("/AttachmentCol", true);
-						this.getView().getModel("multiHeaderConfig").setProperty("/RetainPartCol", false);
-						this.getView().getModel("multiHeaderConfig").setProperty("/DiscrepancyCol", false);
-						this.getView().getModel("multiHeaderConfig").setProperty("/DamageConditionCol", false);
-						this.getView().getModel("multiHeaderConfig").setProperty("/MiscellaneousCol", false);
-						this.getView().getModel("multiHeaderConfig").setProperty("/TransportCol", true);
-
-					} else if (claimtype === "ZPPD") {
-						// console.log(oEvent.getSource().getProperty("value") + "ZPPD");
-						this.getView().byId("idPdcCode").setProperty("editable", false);
-						this.getView().byId("idTCIWayBill").setProperty("editable", false);
-						this.getView().getModel("multiHeaderConfig").setProperty("/OrderedPartDesc", false);
-
-						this.getView().getModel("multiHeaderConfig").setProperty("/partDamage", false);
-						this.getView().getModel("multiHeaderConfig").setProperty("/partMiscellanious", false);
-						this.getView().getModel("multiHeaderConfig").setProperty("/partDiscrepancies", true);
-						this.getView().getModel("multiHeaderConfig").setProperty("/partTransportation", false);
-
-						this.getView().getModel("multiHeaderConfig").setProperty("/multiheader5", 6);
-						this.getView().getModel("multiHeaderConfig").setProperty("/uploader", false);
-						this.getView().getModel("multiHeaderConfig").setProperty("/RetainPartV", true);
-						this.getView().getModel("multiHeaderConfig").setProperty("/PartNumberRcV", true);
-						this.getView().getModel("multiHeaderConfig").setProperty("/PartDescriptionOrdRcv", true);
-						this.getView().getModel("multiHeaderConfig").setProperty("/RepairAmtV", false);
-						this.getView().getModel("multiHeaderConfig").setProperty("/RepAmountCol", false);
-						this.getView().getModel("multiHeaderConfig").setProperty("/PartRepaired", false);
-						this.getView().getModel("multiHeaderConfig").setProperty("/PartRepCol", false);
-						// this.getView().getModel("multiHeaderConfig").setProperty("/DealerNetPrcEdt", false);
-						// this.getView().getModel("multiHeaderConfig").setProperty("/DealerNetPrcV", true);
-						this.getView().getModel("multiHeaderConfig").setProperty("/AttachmentCol", false);
-						this.getView().getModel("multiHeaderConfig").setProperty("/RetainPartCol", true);
-						this.getView().getModel("multiHeaderConfig").setProperty("/DiscrepancyCol", true);
-						this.getView().getModel("multiHeaderConfig").setProperty("/DamageConditionCol", false);
-						this.getView().getModel("multiHeaderConfig").setProperty("/MiscellaneousCol", false);
-						this.getView().getModel("multiHeaderConfig").setProperty("/TransportCol", false);
-					}
-				}
 			}
 
 		},
