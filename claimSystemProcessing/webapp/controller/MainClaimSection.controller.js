@@ -59,7 +59,7 @@ sap.ui.define([
 				oPrevInvDateReq: false,
 				DisableRadio: true,
 				oBatteryTestEnable: true,
-				commentEditable:false
+				commentEditable: false
 			});
 			this.getView().setModel(oDateModel, "DateModel");
 			var oNodeModel = new sap.ui.model.json.JSONModel();
@@ -692,7 +692,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/oDamageLineBtn", true);
 							this.getView().getModel("DateModel").setProperty("/claimEditSt", false);
 							this.getView().getModel("DateModel").setProperty("/updateEnable", true);
-							this.getView().getModel("DateModel").setProperty("/copyClaimEnable", true);
+							this.getView().getModel("DateModel").setProperty("/copyClaimEnable", false);
 							this.getModel("LocalDataModel").setProperty("/UploadEnable", true);
 							this.getView().getModel("DateModel").setProperty("/authAcClm", false);
 							this.getView().getModel("DateModel").setProperty("/authRejClm", false);
@@ -897,7 +897,7 @@ sap.ui.define([
 						// this.getModel("LocalDataModel").setProperty("/oAttachmentSet", );
 						var oArr = odata.results;
 						var oAttachSet = oArr.map(function (item) {
-							item.FileName = item.FileName.replace("HEAD+++", "");
+							item.FileName = item.FileName.replace("HEAD@@@", "");
 							return item;
 
 						});
@@ -1202,7 +1202,6 @@ sap.ui.define([
 					this.getView().getModel("DateModel").setProperty("/RepairdDetailVisible", true);
 				} else {
 					this.getView().getModel("DateModel").setProperty("/oFieldActionInput", false);
-					
 
 				}
 
@@ -1379,6 +1378,38 @@ sap.ui.define([
 		// 	return oDate;
 
 		// },
+		onAddComment: function (oEvent) {
+			var oDialogBox = sap.ui.xmlfragment("zclaimProcessing.view.fragments.ClaimComments", this);
+			this.getView().addDependent(oDialogBox);
+			oDialogBox.open();
+		},
+		onEnterComment: function () {
+			var oPrevComment = this.getView().getModel("HeadSetData").getProperty("/HeadText");
+			var oPartner = this.getView().getModel("HeadSetData").getProperty("/Partner");
+			var oDateFormat = sap.ui.core.format.DateFormat.getDateInstance({
+				pattern: "yyyy-MM-dd HH:mm:ss"
+			});
+			var oDate = oDateFormat.format(new Date());
+			var oText = this.getView().getModel("HeadSetData").getProperty("/NewText");
+
+			var oBusinessModel = this.getModel("ApiBusinessModel");
+			oBusinessModel.read("/A_BusinessPartner", {
+				urlParameters: {
+					"$filter": "BusinessPartner eq '" + oPartner + "'"
+				},
+				success: $.proxy(function (data) {
+					var oPartnerName = data.results[0].BusinessPartnerFullName;
+					var oFinalText = `${oPrevComment} \n  ${oPartnerName} ( ${oDate} ) ${oText}`;
+					this.getView().getModel("HeadSetData").setProperty("/HeadText", oFinalText);
+					this.getView().getModel("HeadSetData").setProperty("/NewText", "");
+					// console.log(oFinalText);
+				}, this)
+			});
+
+		},
+		onCloseComment : function(oEvent){
+			oEvent.getSource().getParent().getParent().getParent().getParent().getParent().close();
+		},
 		onSelectClaimTpe: function (oEvent) {
 			// this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") = oEvent.getSource().getSelectedKey();
 			// this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType");
@@ -1913,7 +1944,7 @@ sap.ui.define([
 									this.getView().getModel("DateModel").setProperty("/updateEnable", false);
 									this.getModel("LocalDataModel").setProperty("/CancelEnable", false);
 									this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
-									this.getModel("LocalDataModel").setProperty("/copyClaimEnable", false);
+									this.getView().getModel("DateModel").setProperty("/copyClaimEnable", false);
 
 									oClaimModel.read("/ZC_CLAIM_HEAD", {
 										urlParameters: {
@@ -1970,7 +2001,7 @@ sap.ui.define([
 					this.getView().getModel("DateModel").setProperty("/updateEnable", false);
 					this.getModel("LocalDataModel").setProperty("/CancelEnable", false);
 					this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
-					this.getModel("LocalDataModel").setProperty("/copyClaimEnable", true);
+					this.getView().getModel("DateModel").setProperty("/copyClaimEnable", true);
 					oClaimModel.read("/ZC_CLAIM_HEAD", {
 						urlParameters: {
 							"$filter": "NumberOfWarrantyClaim eq '" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") +
@@ -2002,7 +2033,7 @@ sap.ui.define([
 					this.getView().getModel("DateModel").setProperty("/updateEnable", false);
 					this.getModel("LocalDataModel").setProperty("/CancelEnable", false);
 					this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
-					this.getModel("LocalDataModel").setProperty("/copyClaimEnable", false);
+				    this.getView().getModel("DateModel").setProperty("/copyClaimEnable", false);
 					oClaimModel.read("/ZC_CLAIM_HEAD", {
 						urlParameters: {
 							"$filter": "NumberOfWarrantyClaim eq '" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") +
@@ -2256,7 +2287,6 @@ sap.ui.define([
 							var obj = {
 								NumberOfWarrantyClaim: oClaimNum,
 								DBOperation: "ZTEA"
-
 							};
 							oClaimModel.update("/zc_headSet(NumberOfWarrantyClaim='" + oClaimNum + "')", obj, {
 								method: "PUT",
@@ -2374,7 +2404,7 @@ sap.ui.define([
 			// var oClaimModel = this.getModel("ProssingModel");
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			var fileType = this.oUploadedFile.type;
-			var fileName = "HEAD+++" + this.oUploadedFile.name;
+			var fileName = "HEAD@@@" + this.oUploadedFile.name;
 
 			var isProxy = "";
 			if (window.document.domain == "localhost") {
@@ -2429,7 +2459,7 @@ sap.ui.define([
 						success: $.proxy(function (odata) {
 							var oArr = odata.results;
 							var oAttachSet = oArr.map(function (item) {
-								item.FileName = item.FileName.replace("HEAD+++", "");
+								item.FileName = item.FileName.replace("HEAD@@@", "");
 								return item;
 
 							});
@@ -2454,7 +2484,7 @@ sap.ui.define([
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			var oSubletType = this.getView().getModel("SubletDataModel").getProperty("/SubletCode");
 			var fileType = this.oUploadedFile.type;
-			var fileNamePrior = oSubletType + "+++" + this.oUploadedFile.name;
+			var fileNamePrior = oSubletType + "@@@" + this.oUploadedFile.name;
 			var fileName = fileNamePrior.toUpperCase();
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var isProxy = "";
@@ -2516,7 +2546,7 @@ sap.ui.define([
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			this.deleteItemById(oEvent.getParameter("documentId"), "ClaimModel");
 			//MessageToast.show("FileDeleted event triggered.");
-			var oFileName = "HEAD+++" + oEvent.getParameters().item.getFileName();
+			var oFileName = "HEAD@@@" + oEvent.getParameters().item.getFileName();
 			var oClaimModel = this.getModel("ProssingModel");
 
 			var itemObj = {
@@ -2540,7 +2570,7 @@ sap.ui.define([
 						success: $.proxy(function (odata) {
 							var oArr = odata.results;
 							var oAttachSet = oArr.map(function (item) {
-								item.FileName = item.FileName.replace("HEAD+++", "");
+								item.FileName = item.FileName.replace("HEAD@@@", "");
 								return item;
 
 							});
