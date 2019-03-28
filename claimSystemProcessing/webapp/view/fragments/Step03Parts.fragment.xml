@@ -4,18 +4,18 @@
 		<Panel width="auto" class="sapUiSmallMarginBottom" accessibleRole="Region">
 			<headerToolbar>
 				<Toolbar height="3rem">
-					<Title text="Parts Details"/>
+					<Title text="{i18n>PartsDetails}"/>
 					<ToolbarSpacer/>
-					<Title text="TCI Claim Number: {HeadSetData>/NumberOfWarrantyClaim}" textAlign="End"/>
+					<Title text="{i18n>TCIClaimNumber}: {HeadSetData>/NumberOfWarrantyClaim}" textAlign="End"/>
 				</Toolbar>
 			</headerToolbar>
 			<OverflowToolbar class="headerButtonsToolBar">
-				<Button text="Add Part Line" type="Emphasized" enabled="{DateModel>/oFormEdit}" press="onPressAddPart"/>
-				<Button text="Update Part Line" press="onPressUpdatePart" class="sapUiTinyMarginBeginEnd" enabled="{DateModel>/oFormEdit}"/>
-				<Button text="Delete Part Line" press="onPressDeletePart" class="sapUiTinyMarginBeginEnd" type="Reject" enabled="{DateModel>/oFormEdit}"/>
-				<Button text="Letter Of Intent" class="sapUiTinyMarginBeginEnd" enabled="{DateModel>/oLetterOfIntent}" press="onPressLetterOfIntent"/>
+				<Button text="{i18n>AddPartLine}" type="Emphasized" enabled="{DateModel>/oFormEdit}" press="onPressAddPart"/>
+				<Button text="{i18n>UpdatePartLine}" press="onPressUpdatePart" class="sapUiTinyMarginBeginEnd" enabled="{DateModel>/oFormEdit}"/>
+				<Button text="{i18n>DeletePartLine}" press="onPressDeletePart" class="sapUiTinyMarginBeginEnd" type="Reject" enabled="{DateModel>/oFormEdit}"/>
+				<Button text="{i18n>letterOfIntent}" class="sapUiTinyMarginBeginEnd" enabled="{DateModel>/oLetterOfIntent}" press="onPressLetterOfIntent"/>
 				<ToolbarSpacer/>
-				<Button text="Save Claim" class="sapUiTinyMarginBeginEnd" type="Emphasized" enabled="{DateModel>/oFormEdit}" press="onPressSavePartClaim"/>
+				<Button text="{i18n>SaveClaim}" class="sapUiTinyMarginBeginEnd" type="Emphasized" enabled="{DateModel>/oFormEdit}" press="onPressSavePartClaim"/>
 			</OverflowToolbar>
 			<VBox class="clBgColor">
 				<f:SimpleForm editable="true" labelSpanL="12" width="90%" title="" labelSpanXL="12" layout="ResponsiveGridLayout" emptySpanXL="0"
@@ -62,20 +62,20 @@
 						<f:content>
 							<core:Title text=""/>
 							<Label text=""/>
-							<Text text="Ordered"/>
+							<Text text="{i18n>Ordered}"/>
 							<core:Title text=""/>
-							<Label text="Line #:"></Label>
+							<Label text="{i18n>Line}"></Label>
 							<Input value="{ path : 'PartDataModel>/LineNo', type: 'sap.ui.model.type.Integer', constraints:{minimum:0}}"
 								required="false" enabled="{DateModel>/partLine}"></Input>
 							<core:Title text=""/>
-							<Label text="Part Number Ordered" width="10rem"></Label>
+							<Label text="{i18n>PartNumberOrdered}" width="10rem"></Label>
 							<Input value="{PartDataModel>/matnr}" required="true" id="idPartNumber" showValueHelp="true" valueHelpOnly="true"
 								valueHelpRequest="handlePNValueHelp" enabled="{DateModel>/partLine}"></Input>
 							<core:Title text=""/>
-							<Label text="Part Description"></Label>
+							<Label text="{i18n>PartDescription}"></Label>
 							<Input id="idOrderedPartDesc" value="{PartDataModel>/PartDescription}" editable="{multiHeaderConfig>/OrderedPartDesc}"></Input>
 							<core:Title text=""/>
-							<Label text="Quantity"></Label>
+							<Label text="{i18n>Quantity}"></Label>
 							<Input value="{path : 'PartDataModel>/quant', type : 'sap.ui.model.type.Integer', constraints : { minLength : 1, maxLength : 10 }}"
 								required="true" enabled="{DateModel>/partLine}" valueState="{DateModel>/partTypeState}" >
 								<layoutData>
@@ -89,7 +89,7 @@
 						columnsXL="{multiHeaderConfig>/multiheader5}">
 						<f:content>
 							<core:Title text=""/>
-							<Text text="Claimed"/>
+							<Text text="{i18n>Claimed}"/>
 							<core:Title text=""/>
 							<UploadCollection id="UploadCollection" class="uploadContainer" change="onUploadChange02Parts" uploadComplete="onUploadComplete02Parts"
 								fileDeleted="onFileDeleted02" visible="{multiHeaderConfig>/uploader}" items="{ path: 'AttachmentModel>/items', templateShareable: false }">
@@ -113,42 +113,42 @@
 								</items>
 							</UploadCollection>
 							<!--<core:Title text=""/>-->
-							<Label text="Retain Part" visible="{multiHeaderConfig>/RetainPartV}"/>
+							<Label text="{i18n>RetainPart}" visible="{multiHeaderConfig>/RetainPartV}"/>
 							<Select selectedKey="{PartDataModel>/RetainPart}" visible="{multiHeaderConfig>/RetainPartV}"  enabled="{DateModel>/partLine}" >
 								<items>
 									<core:Item text="" key=""/>
-									<core:Item text="Yes" key="Yes"/>
-									<core:Item text="No" key="No"/>
+									<core:Item text="{i18n>Yes}" key="Yes"/>
+									<core:Item text="{i18n>No}" key="No"/>
 								</items>
 								<layoutData>
 									<l:GridData span="XL8 L8"/>
 								</layoutData>
 							</Select>
 							<core:Title text=""/>
-							<Label text="Part Number Received" width="10rem" visible="{multiHeaderConfig>/PartNumberRcV}"/>
+							<Label text="{i18n>PartNumberReceived}" width="10rem" visible="{multiHeaderConfig>/PartNumberRcV}"/>
 							<!--<Input value="{ path : 'HeadSetData>/PartNumberRc'}" editable="{multiHeaderConfig>/PartNumberEdit}" required="true"-->
 							<!--	visible="{multiHeaderConfig>/PartNumberRcV}"></Input>-->
 							<Input value="{HeadSetData>/PartNumberRc}" id="idPartNumber2" required="true" showValueHelp="true" valueHelpOnly="true" editable="{multiHeaderConfig>/PartNumberEdit}" 
 								valueHelpRequest="handlePNValueHelp02" enabled="{DateModel>/partLine}" visible="{multiHeaderConfig>/PartNumberRcV}"></Input>
 							<core:Title text=""/>
-							<Label text="Part Description" visible="{multiHeaderConfig>/PartDescriptionOrdRcv}"/>
+							<Label text="{i18n>PartDescription}" visible="{multiHeaderConfig>/PartDescriptionOrdRcv}"/>
 							<Input value="{ path : 'HeadSetData>/PartNumberRcDesc'}" id="idOrderedReceivedPartDesc" editable="{multiHeaderConfig>/OrderedPartDesc}"
 								visible="{multiHeaderConfig>/PartDescriptionOrdRcv}"  enabled="{DateModel>/partLine}" ></Input>
-							<Label text="Part Repaired?" visible="{multiHeaderConfig>/PartRepaired}" />
+							<Label text="{i18n>PartRepaired}" visible="{multiHeaderConfig>/PartRepaired}" />
 							<Select visible="{multiHeaderConfig>/PartRepaired}" selectedKey="{HeadSetData>/PartRepaired}" enabled="{DateModel>/partLine}" >
 								<items>
 									<core:Item text="" key=""/>
-									<core:Item text="Yes" key="Yes"/>
-									<core:Item text="No" key="No"/>
+									<core:Item text="{i18n>Yes}" key="Yes"/>
+									<core:Item text="{i18n>No}" key="No"/>
 								</items>
 							</Select>
 							<core:Title text=""/>
 							<!--<Label text="Dealer Net Price" visible="{multiHeaderConfig>/DealerNetPrcV}"></Label>-->
 							<!--<Input id="idDealerNetPrc" visible="{multiHeaderConfig>/DealerNetPrcV}" editable="{multiHeaderConfig>/DealerNetPrcEdt}" maxLength="3"></Input>-->
-							<Label text="Repair Amount" visible="{multiHeaderConfig>/RepairAmtV}"></Label>
+							<Label text="{i18n>RepairAmount}" visible="{multiHeaderConfig>/RepairAmtV}"></Label>
 							<Input id="idReceivedAmt" value="{HeadSetData>/RepairAmount}" type="Number" visible="{multiHeaderConfig>/RepairAmtV}"  enabled="{DateModel>/partLine}" ></Input>
 							<core:Title text=""/>
-							<Label text="Quantity"></Label>
+							<Label text="{i18n>Quantity}"></Label>
 							<Input
 								value="{path : 'PartDataModel>/QuantityReceived', type : 'sap.ui.model.type.Integer', formatOptions : { groupingEnabled : true }, constraints : { minimum : 1, maximum : 100 } }"
 								required="true" id="idReceivedQnt" enabled="{DateModel>/partLine}" change="ValidQty" valueState="{DateModel>/partTypeState}" >
@@ -168,69 +168,69 @@
 				selectionChange="OnSelectionChange">
 				<columns>
 					<Column>
-						<Text text="Line #"/>
+						<Text text="{i18n>Line}"/>
 					</Column>
 					<Column visible="{multiHeaderConfig>/DiscrepancyCol}">
-						<Text text="Discrepancy Type"/>
+						<Text text="{i18n>DiscrepancyType}"/>
 					</Column>
 					<Column visible="{multiHeaderConfig>/DamageConditionCol}">
-						<Text text="Damage Condition"/>
+						<Text text="{i18n>DamageCondition}"/>
 					</Column>
 					<Column visible="{multiHeaderConfig>/MiscellaneousCol}">
-						<Text text="Miscellaneous Code*"/>
+						<Text text="{i18n>MiscellaneousCode}"/>
 					</Column>
 					<Column visible="{multiHeaderConfig>/TransportCol}">
-						<Text text="Transportation Storage"/>
+						<Text text="{i18n>TransportationStorage}"/>
 					</Column>
 					<Column>
-						<Text text="Part Number*"/>
+						<Text text="{i18n>PartNumber}*"/>
 					</Column>
 					<Column>
-						<Text text="Description" width="15rem"/>
+						<Text text="{i18n>Description}" width="15rem"/>
 					</Column>
 					<Column>
-						<Text text="Dealer Net Price"/>
+						<Text text="{i18n>DealerNetPrice}"/>
 					</Column>
 					<Column>
-						<Text text="Quantity"/>
+						<Text text="{i18n>Quantity}"/>
 					</Column>
 					<Column visible="{multiHeaderConfig>/DiscrepancyCol}">
-						<Text text="Claim Quantity"/>
+						<Text text="{i18n>ClaimQuantity}"/>
 					</Column>
 					<!--SAPQuant-->
 					<Column visible="{multiHeaderConfig>/RetainPartCol}">
-						<Text text="Retain Part"/>
+						<Text text="{i18n>RetainPart}"/>
 					</Column>
 					<Column visible="{multiHeaderConfig>/PartRepCol}">
-						<Text text="Part Repaired"/>
+						<Text text="{i18n>PartRepaired}"/>
 						<footer><Text text="{i18n>Subtotal}" textAlign="Center" width="100%"/></footer>
 					</Column>
 					<Column visible="{multiHeaderConfig>/RepAmountCol}">
-						<Text text="Repair Amount"/>
+						<Text text="{i18n>RepairAmount}"/>
 						<!--<footer><Text text="{path: 'LocalDataModel>DifferenceTotal'}" textAlign="Center"-->
 						<!--	width="100%"/></footer>-->
 						<footer><Text text="{path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnAmountRepairPW'}" textAlign="Center"
 							width="100%"/></footer>
 					</Column>
 					<Column>
-						<Text text="Amount Claimed"/>
+						<Text text="{i18n>AmountClaimed}"/>
 						<!--<footer><Text text="{path: 'LocalDataModel>AmountClaimedTotal'}" textAlign="Center"-->
 						<!--	width="100%"/></footer>-->
 						<footer><Text text="{path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnAmountClaimedPW'}" textAlign="Center"
 							width="100%"/></footer>
 					</Column>
 					<Column visible="{multiHeaderConfig>/AttachmentCol}">
-						<Text text="Attachment"/>
+						<Text text="{i18n>Attachments}"/>
 					</Column>
 					<Column>
-						<Text text="TCI Amount Approved"/>
+						<Text text="{i18n>TCIAmountApproved}"/>
 						<!--<footer><Text text="{path: 'LocalDataModel>TCIApprovedAmtTotal'}" textAlign="Center"-->
 						<!--	width="100%"/></footer>-->
 						<footer><Text text="{path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnTCIAprrovedPW'}" textAlign="Center"
 							width="100%"/></footer>
 					</Column>
 					<Column>
-						<Text text="Difference"/>
+						<Text text="{i18n>Difference}"/>
 						<footer><Text text="{path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnDifPW'}" textAlign="Center"
 							width="100%"/></footer>
 						<!--<footer><Text text="{path: 'LocalDataModel>DifferenceTotal'}" textAlign="Center"-->

@@ -23,7 +23,7 @@
 									</IconTabFilter>
 									<IconTabSeparator icon="sap-icon://open-command-field"/>
 									<IconTabFilter icon="sap-icon://complete" text="{i18n>Submit}" enabled="false" id="idFilter04" key="Tab4">
-										<Text text="Submit"/>
+										<Text text="{i18n>Submit}"/>
 									</IconTabFilter>
 								</items>
 							</IconTabBar>
