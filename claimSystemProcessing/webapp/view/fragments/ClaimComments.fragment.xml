@@ -1,0 +1,40 @@
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:u="sap.ui.unified" xmlns:l="sap.ui.layout"
+	xmlns="sap.m" xmlns:table="sap.ui.table">
+	<Dialog class="sapUiSizeCompact" title="{i18n>TCIDealerCommentsAddComment}" >
+		<content>
+		<f:SimpleForm  title="" layout="ResponsiveGridLayout" labelSpanXL="12" labelSpanL="12"
+			labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="1"
+			columnsL="1" columnsM="1" singleContainerFullSize="false">
+			<f:content>
+				<core:Title text=""/>
+				<Label text="{i18n>ClaimComments}"/>
+				<TextArea height="8rem" value="{HeadSetData>/HeadText}" editable="{DateModel>/commentEditable}" enabled="{DateModel>/oFormEdit}" >
+					<layoutData>
+						<l:GridData span="XL8 L8 M8 S12"/>
+					</layoutData>
+				</TextArea>
+				<core:Title text=""/>
+				<Label text="{i18n>NewComment}"/>
+				<TextArea height="8rem" value="{HeadSetData>/NewText}">
+					<layoutData>
+						<l:GridData span="XL8 L8 M8 S12"/>
+					</layoutData>
+				</TextArea>
+				<Button text="{i18n>Add}" press="onEnterComment" type="Emphasized">
+					<layoutData>
+						<l:GridData span="XL2 L2 M3 S4"/>
+					</layoutData>
+				</Button>
+				<Button text="{i18n>Close}" press="onCloseComment" type="Reject">
+					<layoutData>
+						<l:GridData span="XL2 L2 M3 S4"/>
+					</layoutData>
+				</Button>
+			</f:content>
+		</f:SimpleForm>
+		</content>
+		<!--<HBox class="sapUiSmallMarginTop">-->
+		<!--	<Button class="sapUiSmallMarginBeginEnd" type="Emphasized" text="{i18n>Close}" press="onCloseWrittenOf"/>-->
+		<!--</HBox>-->
+	</Dialog>
+</core:FragmentDefinition>

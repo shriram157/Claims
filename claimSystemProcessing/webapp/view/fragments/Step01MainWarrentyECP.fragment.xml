@@ -115,7 +115,7 @@
 			emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="3" columnsL="3" columnsM="3" singleContainerFullSize="false">
 			<f:content >
 				<core:Title text=""/>
-				<RadioButtonGroup selectedIndex="0" columns="2" id="idRequestType" select="onSelectRequestType" editable="{DateModel>/oFormEdit}">
+				<RadioButtonGroup enabled="{DateModel>/DisableRadio}" selectedIndex="0" columns="2" id="idRequestType" select="onSelectRequestType" editable="{DateModel>/oFormEdit}">
 					<buttons>
 						<RadioButton groupName="E" text="{i18n>VIN}"/>
 						<RadioButton groupName="E" text="{i18n>NonVehicle}"/>
@@ -319,7 +319,7 @@
 					<Label text="{i18n>MainOp}"/>
 					<Input value="{path:'HeadSetData>/MainOpsCode'}" editable="{DateModel>/oFormEdit}"/>
 					<Label text="{i18n>BatteryTestCode}"/>
-					<Input value="{HeadSetData>/BatteryTestCode}" editable="{DateModel>/oFormEdit}"/>
+					<Input value="{HeadSetData>/BatteryTestCode}" editable="{DateModel>/oFormEdit}" enabled="{DateModel>/oBatteryTestEnable}"/>
 					<Label text="{i18n>Condition}"/>
 					<TextArea required="true" editable="{DateModel>/oFormEdit}"
 						value="{path:'HeadSetData>/ZCondition', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 100 }}"></TextArea>
@@ -398,12 +398,12 @@
 			columnsL="1" columnsM="1" singleContainerFullSize="false">
 			<f:content>
 				<core:Title text=""/>
-				<TextArea height="8rem" value="{HeadSetData>/HeadText}" editable="{DateModel>/oFormEdit}">
+				<TextArea height="8rem" value="{HeadSetData>/HeadText}" editable="{DateModel>/commentEditable}" enabled="{DateModel>/oFormEdit}" >
 					<layoutData>
 						<l:GridData span="XL8 L8 M8 S12"/>
 					</layoutData>
 				</TextArea>
-				<Button text="Add">
+				<Button text="Add" press="onAddComment">
 					<layoutData>
 						<l:GridData span="XL2 L2 M3 S4"/>
 					</layoutData>

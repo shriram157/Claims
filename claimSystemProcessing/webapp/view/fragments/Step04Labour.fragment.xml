@@ -41,7 +41,7 @@
 					<Text
 						text="{path:'HeadSetData>/RepairDate', type: 'sap.ui.model.type.Date',  formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd', strictParsing: true , UTC: true}}"/>
 					<Label text="{i18n>RegDate}"/>
-					<Text text="{path:'HeadSetData>/RegDate'}"/>
+					<Text text="{path:'LocalDataModel>/DataVinDetails/RegDate', type: 'sap.ui.model.type.Date',  formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd'}}"/>
 					<core:Title text=""/>
 					<Label text="{i18n>Odometer}"/>
 					<Text text="{HeadSetData>/Odometer}"/>
