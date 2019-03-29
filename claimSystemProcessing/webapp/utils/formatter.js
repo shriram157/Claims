@@ -454,7 +454,7 @@ zclaimProcessing.utils.formatter = {
 	fnFormatDisplayDate: function (oDate) {
 		jQuery.sap.require("sap.ui.core.format.DateFormat");
 		var oDateFormatShort = sap.ui.core.format.DateFormat.getInstance({
-			pattern: "YYYY-dd-MM"
+			pattern: "YYYY-MM-dd"
 		});
 		return oDateFormatShort.format(new Date());
 	},

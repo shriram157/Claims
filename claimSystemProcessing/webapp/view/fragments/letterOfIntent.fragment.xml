@@ -13,13 +13,13 @@
 						<Label text="{i18n>CarrierName}" class="sapUiTinyMarginBeginEnd"/>
 						<Text text="{LOIDataModel>/CarrierName}"/>
 						<Label text="{i18n>CarrierAddress}" class="sapUiTinyMarginBeginEnd"/>
-						<TextArea  valueState="{DateModel>/partTypeState}" id="AddressLOI" growing="false" value="{LOIDataModel>/Address1} {LOIDataModel>/Address2} {LOIDataModel>/Address3} {LOIDataModel>/Address4}" maxLength="250" required="true"/>
+						<TextArea valueState="{DateModel>/partTypeState}" id="AddressLOI" growing="false" value="{LOIDataModel>/Address1} {LOIDataModel>/Address2} {LOIDataModel>/Address3} {LOIDataModel>/Address4}" maxLength="250" required="true"/>
 						<core:Title text=""/>
 						<Label text=""/>
 						<Text text="{LOIDataModel>/TopTextLOI}"/>
 						<Label text="{i18n>PartsDate}"/>
-						<Text text="{path:'LOIDataModel>LOIDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd' } }"/>
-						<!--<Text text="{path:'LOIDataModel>LOIDate', formatter: 'zclaimProcessing.utils.formatter.fnFormatDisplayDate'}"/>-->
+						<!--<Text text="{path:'LOIDataModel>LOIDate'}"/>-->
+						<Text text="{path:'LOIDataModel>LOIDate', formatter: 'zclaimProcessing.utils.formatter.fnFormatDisplayDate'}"/>
 						<!--</HBox>-->
 						<core:Title text="" level="H6" class="H6ID"/>
 						<HBox width="100%">
