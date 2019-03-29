@@ -1897,7 +1897,7 @@ sap.ui.define([
 					this.getView().getModel("HeadSetData").setProperty("/MiscellaneousCode", obj.DiscreCode);
 					this.getView().getModel("HeadSetData").setProperty("/TranportShortageType", obj.DiscreCode);
 					if (this.URI != undefined) {
-						var oFile = this.URI.split(",")[1].split("='HEAD+++")[1].split(")")[0]; //obj.URI.split(",")[1].split("=")[1].split(")")[0];
+						var oFile = this.URI.split(",")[1].split("='HEAD@@@")[1].split(")")[0]; //obj.URI.split(",")[1].split("=")[1].split(")")[0];
 						var oFileReplaced = oFile.replace(/'/g, "");
 
 						oClaimModel.read("/zc_claim_attachmentsSet", { //and AttachLevel eq 'HEAD'
@@ -2316,7 +2316,7 @@ sap.ui.define([
 			// var oClaimModel = this.getModel("ProssingModel");
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			var fileType = this.oUploadedFile.type;
-			var fileName = "HEAD+++" + this.oUploadedFile.name;
+			var fileName = "HEAD@@@" + this.oUploadedFile.name;
 
 			var isProxy = "";
 			if (window.document.domain == "localhost") {
@@ -2353,11 +2353,11 @@ sap.ui.define([
 						},
 						success: $.proxy(function (odata) {
 							var DataSet = odata.results.map(function (item) {
-								item.FileName = item.FileName.replace("HEAD+++", "");
+								item.FileName = item.FileName.replace("HEAD@@@", "");
 								return item;
 
 							});
-							//odata.results[1].FileName.split("HEAD+++")[1]
+							//odata.results[1].FileName.split("HEAD@@@")[1]
 							this.getView().getModel("ClaimModel").setProperty("/" + "/items", DataSet);
 							// this.getModel("LocalDataModel").setProperty("/oAttachmentSet", odata.results);
 						}, this)
@@ -2384,7 +2384,7 @@ sap.ui.define([
 			// var oClaimModel = this.getModel("ProssingModel");
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			var fileType = this.oUploadedFile.type;
-			var fileName = "HEAD+++" + this.oUploadedFile.name;
+			var fileName = "HEAD@@@" + this.oUploadedFile.name;
 
 			var isProxy = "";
 			if (window.document.domain == "localhost") {
@@ -2422,7 +2422,7 @@ sap.ui.define([
 						},
 						success: $.proxy(function (odata) {
 							var DataSet = odata.results.map(function (item) {
-								item.FileName = item.FileName.replace("HEAD+++", "");
+								item.FileName = item.FileName.replace("HEAD@@@", "");
 								return item;
 
 							});
@@ -2445,7 +2445,7 @@ sap.ui.define([
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			this.deleteItemById(oEvent.getParameter("documentId"), "ClaimModel");
 			MessageToast.show("FileDeleted event triggered.");
-			var oFileName = "HEAD+++" + oEvent.getParameters().item.getFileName();
+			var oFileName = "HEAD@@@" + oEvent.getParameters().item.getFileName();
 			var oClaimModel = this.getModel("ProssingModel");
 
 			var itemObj = {
@@ -2469,7 +2469,7 @@ sap.ui.define([
 
 						success: $.proxy(function (odata) {
 							var DataSet = odata.results.map(function (item) {
-								item.FileName = item.FileName.replace("HEAD+++", "");
+								item.FileName = item.FileName.replace("HEAD@@@", "");
 								return item;
 
 							});
@@ -2486,7 +2486,7 @@ sap.ui.define([
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			this.deleteItemById(oEvent.getParameter("documentId"), "ClaimModel");
 			MessageToast.show("FileDeleted event triggered.");
-			var oFileName = "HEAD+++" + oEvent.getParameters().item.getFileName();
+			var oFileName = "HEAD@@@" + oEvent.getParameters().item.getFileName();
 			var oClaimModel = this.getModel("ProssingModel");
 
 			var itemObj = {
@@ -2510,7 +2510,7 @@ sap.ui.define([
 
 						success: $.proxy(function (odata) {
 							var DataSet = odata.results.map(function (item) {
-								item.FileName = item.FileName.replace("HEAD+++", "");
+								item.FileName = item.FileName.replace("HEAD@@@", "");
 								return item;
 
 							});
