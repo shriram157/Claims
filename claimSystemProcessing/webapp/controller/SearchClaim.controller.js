@@ -523,7 +523,7 @@ sap.ui.define([
 			var oClaimNum = oEvent.getSource().getText();
 			var oClaimModel = this.getModel("ProssingModel");
 
-			oClaimModel.read("/ZC_CLAIM_HEAD", {
+			oClaimModel.read("/ZC_CLAIM_HEAD_NEW", {
 				urlParameters: {
 					"$filter": "NumberOfWarrantyClaim eq '" + oClaimNum + "'"
 				},

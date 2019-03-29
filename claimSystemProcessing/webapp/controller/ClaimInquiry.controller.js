@@ -40,7 +40,7 @@ sap.ui.define([
 			var FromDateFormat = oDateFormat.format(FromDate);
 			var ToDateFormat = oDateFormat.format(ToDate);
 			if (sQuery != "") {
-				oClaimModel.read("/ZC_CLAIM_HEAD", {
+				oClaimModel.read("/ZC_CLAIM_HEAD_NEW", {
 						urlParameters: {
 							"$filter": "ReferenceDate ge datetime'" + FromDateFormat +
 								"'and ReferenceDate le datetime'" + ToDateFormat +

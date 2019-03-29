@@ -329,7 +329,7 @@
 					<Label text="{i18n>MainOpDescription}"/>
 					<Text text="{path:'LocalDataModel>/MainOpsCodeDescription'}"/>
 					<Label text="{i18n>FieldActionCode}"/>
-					<Input required="{path:'DateModel>/oFieldActionInput'}" value="{path:'HeadSetData>/FieldActionReference'}" editable="{DateModel>/oFormEdit}"
+					<Input id="idFieldActionInput" required="{path:'DateModel>/oFieldActionInput'}" value="{path:'HeadSetData>/FieldActionReference'}" editable="{DateModel>/oFormEdit}"
 						enabled="{DateModel>/oFieldActionInput}" change="onFieldActionInput"/>
 					<Label text="{i18n>Cause}"/>
 					<TextArea required="true" editable="{DateModel>/oFormEdit}"
@@ -338,7 +338,7 @@
 					<Label text="{i18n>AppliedCoverage}"/>
 					<Text text="{HeadSetData>/AppliedWarrantyCoverage}"/>
 					<Label text="{i18n>T1 Code}"/>
-					<ComboBox  required="{DateModel>/enabledT1}" items="{ path: '/Zt1DescSrchhelpSet' }" selectedKey="{path:'HeadSetData>/T1WarrantyCodes', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 100 }}"
+					<ComboBox id="idT1Field"  required="{DateModel>/enabledT1}" items="{ path: '/Zt1DescSrchhelpSet' }" selectedKey="{path:'HeadSetData>/T1WarrantyCodes'}"
 						enabled="{DateModel>/enabledT1}" editable="{DateModel>/oFormEdit}">
 						<core:ListItem key="{T1}" text="{path:'T1'} - {T1Text}" />
 					</ComboBox>
@@ -346,7 +346,7 @@
 					<!--	<core:Item key="{T1}" text="{T1} - {T1Text}"/>-->
 					<!--</Select>-->
 					<Label text="{i18n>T2Code}"/>
-					<ComboBox required="{DateModel>/enabledT2}"  items="{ path: '/Zt2DescSrchhelpSet' }" selectedKey="{path:'HeadSetData>/T2WarrantyCodes', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 100 }}"
+					<ComboBox id="idT2Field" required="{DateModel>/enabledT2}"  items="{ path: '/Zt2DescSrchhelpSet' }" selectedKey="{path:'HeadSetData>/T2WarrantyCodes'}"
 						enabled="{DateModel>/enabledT2}" editable="{DateModel>/oFormEdit}">
 						<core:ListItem key="{path:'T2'}" text="{T2} - {T2Text}"/>
 					</ComboBox>
