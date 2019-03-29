@@ -63,7 +63,7 @@
 					<uxap:ObjectPageSubSection title="{i18n>ClaimList}">
 						<uxap:blocks>
 							<VBox>
-								<table:Table id="idClaimTable" class="classRCPTable" selectionMode="Single" rows="{ path: '/ZC_CLAIM_HEAD'}" rowSelectionChange="onNavigate"
+								<table:Table id="idClaimTable" class="classRCPTable" selectionMode="Single" rows="{ path: '/ZC_CLAIM_HEAD_NEW'}" rowSelectionChange="onNavigate"
 									visibleRowCount="{RowCountModel>/rowCount}" selectionBehavior="Row" showNoData="true" threshold="{RowCountModel>/rowCount}"
 									enableBusyIndicator="false">
 									<table:columns>
