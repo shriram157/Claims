@@ -403,7 +403,7 @@
 						<l:GridData span="XL8 L8 M8 S12"/>
 					</layoutData>
 				</TextArea>
-				<Button text="Add" press="onAddComment">
+				<Button text="Add" press="onAddComment" enabled="{DateModel>/oFormEdit}">
 					<layoutData>
 						<l:GridData span="XL2 L2 M3 S4"/>
 					</layoutData>
