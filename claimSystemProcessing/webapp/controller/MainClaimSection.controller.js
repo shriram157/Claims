@@ -253,7 +253,14 @@ sap.ui.define([
 			this.getView().byId("id_Date").setValueState("None");
 			this.getView().byId("idPrInvDate").setValueState("None");
 			this.getView().byId("idPreInvNum").setValueState("None");
+			this.getView().byId("idOFP").setValueState("None");
+			this.getView().byId("idFieldActionInput").setValueState("None");
+			this.getView().byId("idT1Field").setValueState("None");
+			this.getView().byId("idT2Field").setValueState("None");
+			this.getView().byId("idDealerContact").setValueState("None");
+			
 			var oProssingModel = this.getModel("ProssingModel");
+			this.getView().byId("idMainClaimMessage").setProperty("visible", false);
 			//oProssingModel.refresh();
 			var oClaim = oEvent.getParameters().arguments.claimNum;
 			var oGroupDescription = oEvent.getParameters().arguments.oKey;
