@@ -2316,7 +2316,8 @@ sap.ui.define([
 			// var oClaimModel = this.getModel("ProssingModel");
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			var fileType = this.oUploadedFile.type;
-			var fileName = "HEAD@@@" + this.oUploadedFile.name;
+			var fileNamePre = "HEAD@@@" + this.oUploadedFile.name;
+			var fileName = fileNamePre.toUpperCase();
 
 			var isProxy = "";
 			if (window.document.domain == "localhost") {
@@ -2381,63 +2382,114 @@ sap.ui.define([
 
 		onUploadComplete02Parts: function (oEvent) {
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
-			// var oClaimModel = this.getModel("ProssingModel");
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
-			var fileType = this.oUploadedFile.type;
-			var fileName = "HEAD@@@" + this.oUploadedFile.name;
+            var oPartNo = this.getView().getModel("PartDataModel").getProperty("/matnr");
+            var fileType = this.oUploadedFile.type;
+            var fileNamePrior = oPartNo + "@@@" + this.oUploadedFile.name;
+            var fileName = fileNamePrior.toUpperCase();
+            var oBundle = this.getView().getModel("i18n").getResourceBundle();
+            var isProxy = "";
+            if (window.document.domain == "localhost") {
+                isProxy = "proxy";
+            }
+            var oURI = isProxy + "/node/ZDLR_CLAIM_SRV/zc_attachSet(NumberOfWarrantyClaim='" + oClaimNum + "',FileName='" + fileName +
+                "')/$value";
 
-			var isProxy = "";
-			if (window.document.domain == "localhost") {
-				isProxy = "proxy";
-			}
-			var oURI = isProxy + "/node/ZDLR_CLAIM_SRV/zc_attachSet(NumberOfWarrantyClaim='" + oClaimNum + "',FileName='" + fileName +
-				"')/$value";
+            if (oURI == null) {
+                console.log("Error");
+                MessageBox.warning(oBundle.getText("Error.PopUpBloqued"));
+            }
+            console.log(oURI);
 
-			if (oURI == null) {
-				console.log("Error");
-				//MessageBox.warning(oBundle.getText("Error.PopUpBloqued"));
-			}
-			console.log(oURI);
+            var itemObj = {
+                "NumberOfWarrantyClaim": oClaimNum,
+                "ContentLine": this.oBase,
+                "COMP_ID": fileName,
+                "MIMEType": fileType,
+                "URI": oURI,
+                "AttachLevel": "PART",
+                "DBOperation": "POST"
+            };
 
-			var itemObj = {
-				"NumberOfWarrantyClaim": oClaimNum,
-				"ContentLine": this.oBase,
-				"COMP_ID": fileName,
-				"Mimetype": fileType,
-				"URI": oURI,
-				"AttachLevel": "HEAD"
-			};
-			this.obj.zc_claim_attachmentsSet.results.push(itemObj);
-			var that = this;
+            var oClaimModel = this.getModel("ProssingModel");
 
-			var oClaimModel = this.getModel("ProssingModel");
-			oClaimModel.refreshSecurityToken();
-			oClaimModel.create("/zc_headSet", this.obj, {
-				success: $.proxy(function (data, response) {
-					MessageToast.show(that.oBundle.getText("UploadMSG"));
-					this.obj.zc_claim_attachmentsSet.results.pop();
-					oClaimModel.read("/zc_claim_attachmentsSet", { //and AttachLevel eq 'HEAD' 
-						urlParameters: {
-							"$filter": "NumberOfWarrantyClaim eq'" + oClaimNum + "'and AttachLevel eq 'HEAD' and FileName eq''"
-						},
-						success: $.proxy(function (odata) {
-							var DataSet = odata.results.map(function (item) {
-								item.FileName = item.FileName.replace("HEAD@@@", "");
-								return item;
+            oClaimModel.refreshSecurityToken();
 
-							});
-							this.getView().getModel("AttachmentModel").setProperty("/" + "/items", DataSet);
-							// this.getModel("LocalDataModel").setProperty("/oAttachmentSet", odata.results);
-						}, this)
-					});
-				}, this),
-				error: function (err) {
-					console.log(err);
-					var err = JSON.parse(err.responseText);
-					var msg = err.error.message.value;
-					MessageBox.show(msg, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
-				}
-			});
+            oClaimModel.create("/zc_claim_subletattachmentSet", itemObj, {
+                success: $.proxy(function (data, response) {
+
+                    MessageToast.show(oBundle.getText("SuccesFullyUploaded"));
+                    //    var oFileName = "sub" + fileName;
+                    oClaimModel.read("/zc_claim_subletattachmentSet", {
+                        urlParameters: {
+                            "$filter": "NumberOfWarrantyClaim eq'" + oClaimNum + "'and AttachLevel eq 'PART' and FileName eq'" + fileName + "'"
+                        },
+                        success: $.proxy(function (subletData) {
+                            this.getModel("LocalDataModel").setProperty("/SubletAtchmentData", subletData.results);
+                        }, this)
+                    });
+                }, this),
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+			// var oClaimModel = this.getModel("ProssingModel");
+			// var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
+			// var fileType = this.oUploadedFile.type;
+			// var fileName = "HEAD@@@" + this.oUploadedFile.name;
+
+			// var isProxy = "";
+			// if (window.document.domain == "localhost") {
+			// 	isProxy = "proxy";
+			// }
+			// var oURI = isProxy + "/node/ZDLR_CLAIM_SRV/zc_attachSet(NumberOfWarrantyClaim='" + oClaimNum + "',FileName='" + fileName +
+			// 	"')/$value";
+
+			// if (oURI == null) {
+			// 	console.log("Error");
+			// 	//MessageBox.warning(oBundle.getText("Error.PopUpBloqued"));
+			// }
+			// console.log(oURI);
+
+			// var itemObj = {
+			// 	"NumberOfWarrantyClaim": oClaimNum,
+			// 	"ContentLine": this.oBase,
+			// 	"COMP_ID": fileName,
+			// 	"Mimetype": fileType,
+			// 	"URI": oURI,
+			// 	"AttachLevel": "HEAD"
+			// };
+			// this.obj.zc_claim_attachmentsSet.results.push(itemObj);
+			// var that = this;
+
+			// var oClaimModel = this.getModel("ProssingModel");
+			// oClaimModel.refreshSecurityToken();
+			// oClaimModel.create("/zc_headSet", this.obj, {
+			// 	success: $.proxy(function (data, response) {
+			// 		MessageToast.show(that.oBundle.getText("UploadMSG"));
+			// 		this.obj.zc_claim_attachmentsSet.results.pop();
+			// 		oClaimModel.read("/zc_claim_attachmentsSet", { //and AttachLevel eq 'HEAD' 
+			// 			urlParameters: {
+			// 				"$filter": "NumberOfWarrantyClaim eq'" + oClaimNum + "'and AttachLevel eq 'HEAD' and FileName eq''"
+			// 			},
+			// 			success: $.proxy(function (odata) {
+			// 				var DataSet = odata.results.map(function (item) {
+			// 					item.FileName = item.FileName.replace("HEAD@@@", "");
+			// 					return item;
+
+			// 				});
+			// 				this.getView().getModel("AttachmentModel").setProperty("/" + "/items", DataSet);
+			// 				// this.getModel("LocalDataModel").setProperty("/oAttachmentSet", odata.results);
+			// 			}, this)
+			// 		});
+			// 	}, this),
+			// 	error: function (err) {
+			// 		console.log(err);
+			// 		var err = JSON.parse(err.responseText);
+			// 		var msg = err.error.message.value;
+			// 		MessageBox.show(msg, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
+			// 	}
+			// });
 		},
 
 		onFileDeleted: function (oEvent) {
@@ -2484,7 +2536,8 @@ sap.ui.define([
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			this.deleteItemById(oEvent.getParameter("documentId"), "ClaimModel");
 			MessageToast.show("FileDeleted event triggered.");
-			var oFileName = "HEAD@@@" + oEvent.getParameters().item.getFileName();
+			var fileNamePre = "HEAD@@@" + oEvent.getParameters().item.getFileName();
+			var oFileName = fileNamePre.toUpperCase();
 			var oClaimModel = this.getModel("ProssingModel");
 
 			// var itemObj = {
