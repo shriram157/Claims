@@ -1,7 +1,19 @@
 <mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" controllerName="zclaimProcessing.controller.MainClaimSection"
-	xmlns:html="http://www.w3.org/1999/xhtml" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:uxap="sap.uxap">
+	xmlns:html="http://www.w3.org/1999/xhtml" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:uxap="sap.uxap" xmlns:tnt="sap.tnt">
 	<core:Fragment fragmentName="zclaimProcessing.view.fragments.ToolHeader" type="XML"/>
 	<uxap:ObjectPageLayout id="ObjectPageLayout">
+		<uxap:headerContent>
+			<VBox width="100%" class="sapUiSmallMarginTop">
+			<HBox width="100%" justifyContent="End" displayInline="true">
+				<Link text="CVSH" class="clFont01"/>
+				<Text   text="Labour Rate (CAD) :" class="sapUiMediumMarginBeginEnd clFont01" />
+				<Text text="{i18n>Status} : {HeadSetData>/ProcessingStatusOfWarrantyClm}" class="sapUiSmallMarginEnd clFont01" />
+				
+			</HBox>
+			</VBox>
+			
+		
+		</uxap:headerContent>
 		<uxap:sections>
 			<uxap:ObjectPageSection title="{i18n>MainSection}">
 				<uxap:subSections>
@@ -10,13 +22,14 @@
 							<VBox>
 								<MessageStrip id="idMainClaimMessage" text="" showIcon="true" showCloseButton="false" class="sapUiMediumMarginBottom" visible="false"></MessageStrip>
 								<IconTabBar select="onSelectTab" expandable="false" id="idIconTabMainClaim" expanded="{device>/isNoPhone}"
-									class=" sapUiLargePaddingBottom sapUiLargeMarginBottom" selectedKey="Tab1" >
+									class=" sapUiLargePaddingBottom sapUiLargeMarginBottom" selectedKey="Tab1">
 									<items>
 										<IconTabFilter icon="sap-icon://home" text="{i18n>Main}" key="Tab1" id="idFilter01">
 											<core:Fragment fragmentName="zclaimProcessing.view.fragments.Step01MainWarrentyECP" type="XML"/>
 										</IconTabFilter>
 										<IconTabSeparator icon="sap-icon://open-command-field" visible="{DateModel>/Authorization}"/>
-										<IconTabFilter icon="sap-icon://official-service" text="{i18n>Authorization}" enabled="false" visible="{DateModel>/Authorization}" id="idFilter02" key="Tab2">
+										<IconTabFilter icon="sap-icon://official-service" text="{i18n>Authorization}" enabled="false" visible="{DateModel>/Authorization}"
+											id="idFilter02" key="Tab2">
 											<core:Fragment fragmentName="zclaimProcessing.view.fragments.Step02Authorization" type="XML"/>
 										</IconTabFilter>
 										<IconTabSeparator icon="sap-icon://open-command-field" visible="{DateModel>/Parts}"/>
