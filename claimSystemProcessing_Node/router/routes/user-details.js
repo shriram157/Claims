@@ -258,7 +258,8 @@ module.exports = function (appContext) {
 		var viewDealerLaborRate = false;
 
 		var sendUserData = {
-			"loggedUserType": []
+			"loggedUserType": [],
+			"scopeData":scopeData
 		};
 
 		for (var i = 0; i < scopeData.length; i++) {
