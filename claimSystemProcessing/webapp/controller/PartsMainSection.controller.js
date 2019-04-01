@@ -2441,6 +2441,45 @@ sap.ui.define([
 		},
 
 		onFileDeleted: function (oEvent) {
+			// this.oBundle = this.getView().getModel("i18n").getResourceBundle();
+			// var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
+			// this.deleteItemById(oEvent.getParameter("documentId"), "ClaimModel");
+			// MessageToast.show("FileDeleted event triggered.");
+			// var oFileName = "HEAD@@@" + oEvent.getParameters().item.getFileName();
+			// var oClaimModel = this.getModel("ProssingModel");
+
+			// var itemObj = {
+			// 	"NumberOfWarrantyClaim": oClaimNum,
+			// 	"COMP_ID": oFileName,
+			// 	"DBOperation": "DELT"
+			// };
+			// var that = this;
+
+			// oClaimModel.refreshSecurityToken();
+
+			// oClaimModel.create("/zc_claim_attachmentsSet", itemObj, {
+
+			// 	success: $.proxy(function () {
+			// 		oClaimModel.refresh();
+
+			// 		oClaimModel.read("/zc_claim_attachmentsSet", { //and AttachLevel eq 'HEAD' 
+			// 			urlParameters: {
+			// 				"$filter": "NumberOfWarrantyClaim eq '" + oClaimNum + "'and AttachLevel eq 'HEAD' and FileName  eq ''"
+			// 			},
+
+			// 			success: $.proxy(function (odata) {
+			// 				var DataSet = odata.results.map(function (item) {
+			// 					item.FileName = item.FileName.replace("HEAD@@@", "");
+			// 					return item;
+
+			// 				});
+			// 				this.getView().getModel("ClaimModel").setProperty("/" + "/items", DataSet);
+			// 				// this.getModel("LocalDataModel").setProperty("/oAttachmentSet", odata.results);
+			// 			}, this)
+			// 		});
+			// 		MessageToast.show(that.oBundle.getText("FileDeleteMSG"));
+			// 	}, this)
+			// });
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			this.deleteItemById(oEvent.getParameter("documentId"), "ClaimModel");
@@ -2448,40 +2487,76 @@ sap.ui.define([
 			var oFileName = "HEAD@@@" + oEvent.getParameters().item.getFileName();
 			var oClaimModel = this.getModel("ProssingModel");
 
-			var itemObj = {
-				"NumberOfWarrantyClaim": oClaimNum,
-				"COMP_ID": oFileName,
-				"DBOperation": "DELT"
-			};
-			var that = this;
+			// var itemObj = {
+			// 	"NumberOfWarrantyClaim": oClaimNum,
+			// 	"COMP_ID": oFileName,
+			// 	"DBOperation": "DELT"
+			// };
 
 			oClaimModel.refreshSecurityToken();
 
-			oClaimModel.create("/zc_claim_attachmentsSet", itemObj, {
-
+			oClaimModel.remove("/zc_claim_attachmentsSet(NumberOfWarrantyClaim='" + oClaimNum + "',FileName='" + oFileName + "')", {
+				method: "DELETE",
 				success: $.proxy(function () {
-					oClaimModel.refresh();
-
-					oClaimModel.read("/zc_claim_attachmentsSet", { //and AttachLevel eq 'HEAD' 
+					MessageToast.show(this.oBundle.getText("Filedeletedsuccessfully"));
+					oClaimModel.read("/zc_claim_attachmentsSet", {
 						urlParameters: {
 							"$filter": "NumberOfWarrantyClaim eq '" + oClaimNum + "'and AttachLevel eq 'HEAD' and FileName  eq ''"
 						},
-
 						success: $.proxy(function (odata) {
-							var DataSet = odata.results.map(function (item) {
+							var oArr = odata.results;
+							var oAttachSet = oArr.map(function (item) {
 								item.FileName = item.FileName.replace("HEAD@@@", "");
 								return item;
 
 							});
-							this.getView().getModel("ClaimModel").setProperty("/" + "/items", DataSet);
-							// this.getModel("LocalDataModel").setProperty("/oAttachmentSet", odata.results);
+							this.getView().getModel("ClaimModel").setProperty("/" + "/items", oAttachSet);
 						}, this)
 					});
-					MessageToast.show(that.oBundle.getText("FileDeleteMSG"));
 				}, this)
 			});
 		},
 		onFileDeleted02: function (oEvent) {
+			// this.oBundle = this.getView().getModel("i18n").getResourceBundle();
+			// var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
+			// this.deleteItemById(oEvent.getParameter("documentId"), "ClaimModel");
+			// MessageToast.show("FileDeleted event triggered.");
+			// var oFileName = "HEAD@@@" + oEvent.getParameters().item.getFileName();
+			// var oClaimModel = this.getModel("ProssingModel");
+
+			// var itemObj = {
+			// 	"NumberOfWarrantyClaim": oClaimNum,
+			// 	"COMP_ID": oFileName,
+			// 	"DBOperation": "DELT"
+			// };
+
+			// var that = this;
+
+			// oClaimModel.refreshSecurityToken();
+
+			// oClaimModel.create("/zc_claim_attachmentsSet", itemObj, {
+			// 	success: $.proxy(function () {
+			// 		oClaimModel.refresh();
+
+			// 		oClaimModel.read("/zc_claim_attachmentsSet", { //and AttachLevel eq 'HEAD'
+			// 			urlParameters: {
+			// 				"$filter": "NumberOfWarrantyClaim eq '" + oClaimNum + "'and AttachLevel eq 'HEAD' and FileName  eq ''"
+			// 			},
+
+			// 			success: $.proxy(function (odata) {
+			// 				var DataSet = odata.results.map(function (item) {
+			// 					item.FileName = item.FileName.replace("HEAD@@@", "");
+			// 					return item;
+
+			// 				});
+			// 				this.getView().getModel("ClaimModel").setProperty("/" + "/items", DataSet);
+			// 				// this.getModel("LocalDataModel").setProperty("/oAttachmentSet", odata.results);
+			// 			}, this)
+			// 		});
+			// 		MessageToast.show(that.oBundle.getText("FileDeleteMSG"));
+			// 	}, this)
+			// });
+			
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			this.deleteItemById(oEvent.getParameter("documentId"), "ClaimModel");
@@ -2489,36 +2564,32 @@ sap.ui.define([
 			var oFileName = "HEAD@@@" + oEvent.getParameters().item.getFileName();
 			var oClaimModel = this.getModel("ProssingModel");
 
-			var itemObj = {
-				"NumberOfWarrantyClaim": oClaimNum,
-				"COMP_ID": oFileName,
-				"DBOperation": "DELT"
-			};
-
-			var that = this;
+			// var itemObj = {
+			// 	"NumberOfWarrantyClaim": oClaimNum,
+			// 	"COMP_ID": oFileName,
+			// 	"DBOperation": "DELT"
+			// };
 
 			oClaimModel.refreshSecurityToken();
 
-			oClaimModel.create("/zc_claim_attachmentsSet", itemObj, {
+			oClaimModel.remove("/zc_claim_attachmentsSet(NumberOfWarrantyClaim='" + oClaimNum + "',FileName='" + oFileName + "')", {
+				method: "DELETE",
 				success: $.proxy(function () {
-					oClaimModel.refresh();
-
-					oClaimModel.read("/zc_claim_attachmentsSet", { //and AttachLevel eq 'HEAD'
+					MessageToast.show(this.oBundle.getText("Filedeletedsuccessfully"));
+					oClaimModel.read("/zc_claim_attachmentsSet", {
 						urlParameters: {
 							"$filter": "NumberOfWarrantyClaim eq '" + oClaimNum + "'and AttachLevel eq 'HEAD' and FileName  eq ''"
 						},
-
 						success: $.proxy(function (odata) {
-							var DataSet = odata.results.map(function (item) {
+							var oArr = odata.results;
+							var oAttachSet = oArr.map(function (item) {
 								item.FileName = item.FileName.replace("HEAD@@@", "");
 								return item;
 
 							});
-							this.getView().getModel("ClaimModel").setProperty("/" + "/items", DataSet);
-							// this.getModel("LocalDataModel").setProperty("/oAttachmentSet", odata.results);
+							this.getView().getModel("ClaimModel").setProperty("/" + "/items", oAttachSet);
 						}, this)
 					});
-					MessageToast.show(that.oBundle.getText("FileDeleteMSG"));
 				}, this)
 			});
 		},
