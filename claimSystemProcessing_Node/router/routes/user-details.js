@@ -243,78 +243,83 @@ module.exports = function (appContext) {
 
 	});
 
-	// call with multiple requests. 
-
 	app.get("/currentScopesForUser", (req, res) => {
-
-		var xsAppName = uaa.xsappname
+		var xsAppName = uaa.xsappname;
 		var userAttributes = JSON.parse(JSON.stringify(req.authInfo.userAttributes));
 		var scopeData = req.authInfo.scopes;
 
+		var manageServiceClaims = false;
+		var managePartsClaims = false;
 		var viewServiceClaims = false;
 		var viewPartsClaims = false;
 		var viewClaimInquiry = false;
 		var viewQuickCoverageTool = false;
 		var viewDealerLaborRate = false;
+		var submitServiceClaims = false;
 
 		var sendUserData = {
 			"loggedUserType": [],
-			"scopeData":scopeData
+			"scopeData": scopeData
 		};
 
 		for (var i = 0; i < scopeData.length; i++) {
-			if (scopeData[i] == xsAppName + ".Manage_Service_Claims") {
-				// Only Dealer_Services_Admin role has Manage_Service_Claims scope
-				sendUserData.loggedUserType.push("Dealer_Services_Admin");
-				return res.type("text/plain").status(200).send(JSON.stringify(sendUserData));
+			if (scopeData[i] === xsAppName + ".Manage_Service_Claims") {
+				manageServiceClaims = true;
 			}
-			if (scopeData[i] == xsAppName + ".Manage_Parts_Claims") {
-				// Only Dealer_Parts_Admin role has Manage_Parts_Claims scope
-				sendUserData.loggedUserType.push("Dealer_Parts_Admin");
-				return res.type("text/plain").status(200).send(JSON.stringify(sendUserData));
+			if (scopeData[i] === xsAppName + ".Manage_Parts_Claims") {
+				managePartsClaims = true;
 			}
-			if (scopeData[i] == xsAppName + ".View_Service_Claims") {
+			if (scopeData[i] === xsAppName + ".View_Service_Claims") {
 				viewServiceClaims = true;
 			}
-			if (scopeData[i] == xsAppName + ".View_Parts_Claims") {
+			if (scopeData[i] === xsAppName + ".View_Parts_Claims") {
 				viewPartsClaims = true;
 			}
-			if (scopeData[i] == xsAppName + ".View_Claim_Inquiry") {
+			if (scopeData[i] === xsAppName + ".View_Claim_Inquiry") {
 				viewClaimInquiry = true;
 			}
-			if (scopeData[i] == xsAppName + ".View_Quick_Coverage_Tool") {
+			if (scopeData[i] === xsAppName + ".View_Quick_Coverage_Tool") {
 				viewQuickCoverageTool = true;
 			}
-			if (scopeData[i] == xsAppName + ".View_Dealer_Labor_Rate") {
+			if (scopeData[i] === xsAppName + ".View_Dealer_Labor_Rate") {
 				viewDealerLaborRate = true;
 			}
-		};
+			if (scopeData[i] === xsAppName + ".Submit_Service_Claims") {
+				submitServiceClaims = true;
+			}
+		}
+
+		console.log("manageServiceClaims: " + manageServiceClaims);
+		console.log("managePartsClaims: " + managePartsClaims);
 		console.log("viewServiceClaims: " + viewServiceClaims);
 		console.log("viewPartsClaims: " + viewPartsClaims);
 		console.log("viewClaimInquiry: " + viewClaimInquiry);
 		console.log("viewQuickCoverageTool: " + viewQuickCoverageTool);
 		console.log("viewDealerLaborRate: " + viewDealerLaborRate);
+		console.log("submitServiceClaims: " + submitServiceClaims);
 		console.log("userAttributes: " + userAttributes);
 
-		if (viewServiceClaims && viewPartsClaims && viewClaimInquiry && viewQuickCoverageTool && viewDealerLaborRate) {
-			var zone = userAttributes.Zone
-			if (zone != null) {
-				sendUserData.loggedUserType.push("Zone_User");
-			} else {
-				sendUserData.loggedUserType.push("TCI_Admin");
-			}
-			return res.type("text/plain").status(200).send(JSON.stringify(sendUserData));
-		}
-		if (!viewServiceClaims && !viewPartsClaims && viewClaimInquiry && viewQuickCoverageTool && viewDealerLaborRate) {
-			// Deler user
+		if (manageServiceClaims && !managePartsClaims && !viewServiceClaims && !viewPartsClaims && viewClaimInquiry && viewQuickCoverageTool &&
+			viewDealerLaborRate && !submitServiceClaims) {
+			sendUserData.loggedUserType.push("Dealer_Services_Admin");
+		} else if (!manageServiceClaims && managePartsClaims && !viewServiceClaims && !viewPartsClaims && viewClaimInquiry &&
+			viewQuickCoverageTool && viewDealerLaborRate && !submitServiceClaims) {
+			sendUserData.loggedUserType.push("Dealer_Parts_Admin");
+		} else if (!manageServiceClaims && !managePartsClaims && !viewServiceClaims && !viewPartsClaims && viewClaimInquiry &&
+			viewQuickCoverageTool && viewDealerLaborRate && !submitServiceClaims) {
 			sendUserData.loggedUserType.push("Dealer_User");
-			return res.type("text/plain").status(200).send(JSON.stringify(sendUserData));
-		}
-		if (!viewServiceClaims && !viewPartsClaims && viewClaimInquiry && viewQuickCoverageTool && !viewDealerLaborRate) {
+		} else if (!manageServiceClaims && !managePartsClaims && viewServiceClaims && viewPartsClaims && viewClaimInquiry &&
+			viewQuickCoverageTool && viewDealerLaborRate && !submitServiceClaims) {
+			sendUserData.loggedUserType.push(userAttributes.Zone ? "Zone_User" : "TCI_Admin");
+		} else if (!manageServiceClaims && !managePartsClaims && !viewServiceClaims && !viewPartsClaims && viewClaimInquiry &&
+			viewQuickCoverageTool && !viewDealerLaborRate && !submitServiceClaims) {
 			sendUserData.loggedUserType.push("TCI_User");
-			return res.type("text/plain").status(200).send(JSON.stringify(sendUserData));
+		} else if (manageServiceClaims && !managePartsClaims && !viewServiceClaims && !viewPartsClaims && viewClaimInquiry &&
+			viewQuickCoverageTool && viewDealerLaborRate && submitServiceClaims) {
+			sendUserData.loggedUserType.push("Dealer_Services_Manager");
+		} else {
+			sendUserData.loggedUserType.push("Unknown");
 		}
-		sendUserData.loggedUserType.push("Unknown");
 		return res.type("text/plain").status(200).send(JSON.stringify(sendUserData));
 	});
 
