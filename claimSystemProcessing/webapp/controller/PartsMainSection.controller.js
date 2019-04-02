@@ -1081,7 +1081,7 @@ sap.ui.define([
 				} else {
 					if (this.addPartFlag == true || this.updatePartFlag == true) {
 						console.log("descrecode for part item", this.getView().getModel("PartDataModel").getProperty("/DiscreCode"));
-						if (this.getView().getModel("PartDataModel").getProperty("/DiscreCode") !== "4A") {
+						if (this.getView().getModel("PartDataModel").getProperty("/DiscreCode") == "4A") {
 							var WrongPart = this.getView().getModel("HeadSetData").getProperty("/PartNumberRc");
 						} else {
 							WrongPart = "";
@@ -1866,7 +1866,7 @@ sap.ui.define([
 					this.getView().getModel("PartDataModel").setProperty("/ALMDiscreDesc", obj.ALMDiscreDesc.split("-")[1]);
 					if (obj.RetainPart == "Y") {
 						this.getView().getModel("PartDataModel").setProperty("/RetainPart", "Yes");
-					} else {
+					} else if(obj.RetainPart == "N"){
 						this.getView().getModel("PartDataModel").setProperty("/RetainPart", "No");
 					}
 				} else {
@@ -1880,7 +1880,7 @@ sap.ui.define([
 					this.getView().getModel("PartDataModel").setProperty("/DiscreCode", obj.DiscreCode);
 					if (obj.RetainPart == "Y") {
 						this.getView().getModel("PartDataModel").setProperty("/RetainPart", "Yes");
-					} else {
+					} else if(obj.RetainPart == "N"){
 						this.getView().getModel("PartDataModel").setProperty("/RetainPart", "No");
 					}
 					// this.getView().getModel("PartDataModel").setProperty("/RetainPart", obj.RetainPart);
@@ -1913,9 +1913,9 @@ sap.ui.define([
 					var oFile = obj.URI.split(",")[1].split("=")[1].split(")")[0];
 					var oFileReplaced = oFile.replace(/'/g, "");
 
-					oClaimModel.read("/zc_claim_attachmentsSet", {
+					oClaimModel.read("/zc_claim_partattachmentSet", {
 						urlParameters: {
-							"$filter": "NumberOfWarrantyClaim eq'" + oClaimNum + "'and AttachLevel eq '' and FileName eq'" + oFileReplaced + "'"
+							"$filter": "NumberOfWarrantyClaim eq'" + oClaimNum + "'and AttachLevel eq 'PART' and FileName eq'" + oFileReplaced + "'"
 						},
 						success: $.proxy(function (odata) {
 							this.getModel("LocalDataModel").setProperty("/partItemAttachments", odata.results);
@@ -2418,7 +2418,7 @@ sap.ui.define([
 				"COMP_ID": fileName,
 				"MIMEType": fileType,
 				"URI": oURI,
-				"AttachLevel": "",
+				"AttachLevel": "PART",
 				"DBOperation": "POST"
 			};
 
@@ -2426,14 +2426,14 @@ sap.ui.define([
 
 			oClaimModel.refreshSecurityToken();
 
-			oClaimModel.create("/zc_claim_attachmentsSet", itemObj, {
+			oClaimModel.create("/zc_claim_partattachmentSet", itemObj, {
 				success: $.proxy(function (data, response) {
 
 					MessageToast.show(oBundle.getText("SuccesFullyUploaded"));
 					//    var oFileName = "sub" + fileName;
-					oClaimModel.read("/zc_claim_attachmentsSet", {
+					oClaimModel.read("/zc_claim_partattachmentSet", {
 						urlParameters: {
-							"$filter": "NumberOfWarrantyClaim eq'" + oClaimNum + "'and AttachLevel eq '' and FileName eq'" + fileName + "'"
+							"$filter": "NumberOfWarrantyClaim eq'" + oClaimNum + "'and AttachLevel eq 'PART' and FileName eq'" + fileName + "'"
 						},
 						success: $.proxy(function (odata) {
 							this.getModel("LocalDataModel").setProperty("/partItemAttachments", odata.results);
@@ -2667,13 +2667,13 @@ sap.ui.define([
 				"DBOperation": "DELT"
 			};
 			oClaimModel.refreshSecurityToken();
-			oClaimModel.remove("/zc_claim_attachmentsSet(NumberOfWarrantyClaim='" + oClaimNum + "',FileName='" + oFileName + "')", {
+			oClaimModel.remove("/zc_claim_partattachmentSet(NumberOfWarrantyClaim='" + oClaimNum + "',FileName='" + oFileName + "')", {
 				method: "DELETE",
 				success: $.proxy(function () {
 					MessageToast.show(oBundle.getText("Filedeletedsuccessfully"));
-					oClaimModel.read("/zc_claim_subletattachmentSet", {
+					oClaimModel.read("/zc_claim_partattachmentSet", {
 						urlParameters: {
-							"$filter": "NumberOfWarrantyClaim eq'" + oClaimNum + "'and AttachLevel eq '' and FileName eq'" + oFileName + "'"
+							"$filter": "NumberOfWarrantyClaim eq'" + oClaimNum + "'and AttachLevel eq 'PART' and FileName eq'" + oFileName + "'"
 						},
 						success: $.proxy(function (odata) {
 							this.getModel("LocalDataModel").setProperty("/partItemAttachments", odata.results);
@@ -2824,7 +2824,7 @@ sap.ui.define([
 						// }
 						if (item.RetainPart == "Yes") {
 							var RetainPart = "Y";
-						} else {
+						} else if (item.RetainPart == "No"){
 							RetainPart = "N";
 						}
 						return {
