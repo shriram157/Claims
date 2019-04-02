@@ -281,7 +281,7 @@
 							<Text text="{LocalDataModel>AmtClaimed}"/>
 							<Link visible="{multiHeaderConfig>/AttachmentCol}" press="onClickURIParts" href="{LocalDataModel>URI}" text="View Attachment"
 								target="_blank" textAlign="Center" width="100%"/>
-							<!--<Text text="{LocalDataModel>Attachments}"/>-->
+							<!--<Text text="{LocalDataModel>URI}"/>-->
 							<Text text="{LocalDataModel>TCIApprovedAmount}"/>
 							<Text text="{LocalDataModel>DiffAmt}"/>
 						</cells>

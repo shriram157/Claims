@@ -1029,7 +1029,6 @@ sap.ui.define([
 											oFilteredData[m].ALMDiscreDesc = oFilteredData[m].ALMDiscreDesc.split("-")[1];
 										}
 										oFilteredData[m].quant2 = oFilteredData[m].quant;
-
 									}
 									this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
 
