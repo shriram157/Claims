@@ -20,11 +20,13 @@ module.exports = function (appContext) {
 	var app = express();
 
 	//	var app = express.Router();
+  
+	// Get UPS name from env var UPS_NAME
+	var apimServiceName = process.env.UPS_NAME;
 	var options = {};
-
 	options = Object.assign(options, xsenv.getServices({
 		api: {
-			name: "CLAIM_SYSTEM_PROCESSING_CUPS"
+			name: apimServiceName
 		}
 	}));
 
