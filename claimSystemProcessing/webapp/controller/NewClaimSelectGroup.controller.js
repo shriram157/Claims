@@ -24,7 +24,7 @@ sap.ui.define([
 								odata[i].ClaimGroupDes
 							);
 						}
-						
+
 					}
 
 					for (var j = 0; j < oClaimGroup.length; j++) {
@@ -33,22 +33,28 @@ sap.ui.define([
 						});
 					}
 					this.getOwnerComponent().getModel("LocalDataModel").setProperty("/ClaimGroupData", oClaimGroupJson);
-				
+					var oKey = oClaimGroupJson[0].ClaimGroupDes;
+					if (oKey === "WARRANTY") {
+						this.getOwnerComponent().getModel("LocalDataModel").setProperty("/RadioEdit", true);
+					} else {
+						this.getOwnerComponent().getModel("LocalDataModel").setProperty("/RadioEdit", false);
+					}
 
 				}, this),
-				error : function(){}
+				error: function () {}
 			});
-			
+
 			//sap.ui.getCore().getEventBus().subscribe("App", "oType", this.onSelectRequestType01, this);
 
 		},
-		
-		onSelectClaimType : function(oEvent){
+
+		onSelectClaimType: function (oEvent) {
 			var oSelectedKey = this.getView().byId("idClaimType").getSelectedKey();
 			if (oSelectedKey === "WARRANTY") {
 				this.getOwnerComponent().getModel("LocalDataModel").setProperty("/RadioEdit", true);
-			}else {
+			} else {
 				this.getOwnerComponent().getModel("LocalDataModel").setProperty("/RadioEdit", false);
+				this.getView().byId("idRequestType").setSelectedIndex(0);
 			}
 		},
 
@@ -56,88 +62,94 @@ sap.ui.define([
 			//var oSelectedIndex = this.getView().byId("idRequestType").getSelectedIndex();
 			var oSelectedKey = this.getView().byId("idClaimType").getSelectedKey();
 			var oClaimNum = "nun";
-			
+
 			var oUniqIndex = this.getView().byId("idRequestType").getSelectedIndex();
-			if(oUniqIndex == 1){
+			if (oUniqIndex == 1) {
 				this.oSelectedClaimGroup = "Authorization";
-			}else if(oUniqIndex == 0) {
+			} else if (oUniqIndex == 0) {
 				this.oSelectedClaimGroup = "Claim";
 			}
-			
+
 			if (oSelectedKey === "WARRANTY") {
-				
+
 				this.getRouter().navTo("MainClaimSection", {
-					claimNum : oClaimNum,
-					oKey : "WARRANTY",
-					oClaimGroup : this.oSelectedClaimGroup,
-						oClaimNav : "New"
-					
+					claimNum: oClaimNum,
+					oKey: "WARRANTY",
+					oClaimGroup: this.oSelectedClaimGroup,
+					oClaimNav: "New"
+
 				});
-				this.getView().byId("idRequestType").setSelectedIndex(0);
+
 			} else if (oSelectedKey === "PART WAREHOUSE") {
 				this.getRouter().navTo("PartsMainSection", {
-					claimNum : oClaimNum,
-					oKey : "PART WAREHOUSE",
-					oClaimGroup : this.oSelectedClaimGroup,
-					oClaimNav : "New"
+					claimNum: oClaimNum,
+					oKey: "PART WAREHOUSE",
+					oClaimGroup: this.oSelectedClaimGroup,
+					oClaimNav: "New"
 				});
-			}else if (oSelectedKey === "FIELD ACTION") {
-					this.getRouter().navTo("MainClaimSection", {
-					claimNum : oClaimNum,
-					oKey : "FIELD ACTION",
-					oClaimGroup : this.oSelectedClaimGroup,
-					oClaimNav : "New"
-					
-				});
-			}else if (oSelectedKey === "ECP") {
-					this.getRouter().navTo("MainClaimSection", {
-					claimNum : oClaimNum,
-					oKey : "ECP",
-					oClaimGroup : this.oSelectedClaimGroup,
-					oClaimNav : "New"
-					
-				});
-			}
-			else if (oSelectedKey === "SETR") {
-					this.getRouter().navTo("MainClaimSection", {
-					claimNum : oClaimNum,
-					oKey : "SETR",
-					oClaimGroup : this.oSelectedClaimGroup,
-					oClaimNav : "New"
-					
-				});
-			}else if (oSelectedKey === "CORE RETURN") {
-					this.getRouter().navTo("MainClaimSection", {
-					claimNum : oClaimNum,
-					oKey : "CORE RETURN",
-					oClaimGroup : this.oSelectedClaimGroup,
-					oClaimNav : "New"
-				});
-			}else if (oSelectedKey === "VEHICLE LOGISTICS") {
+				this.getView().byId("idRequestType").setSelectedIndex(0);
+			} else if (oSelectedKey === "FIELD ACTION") {
 				this.getRouter().navTo("MainClaimSection", {
-					claimNum : oClaimNum,
-					oKey : "VEHICLE LOGISTICS",
-					oClaimGroup : this.oSelectedClaimGroup,
-					oClaimNav : "New"
-					
+					claimNum: oClaimNum,
+					oKey: "FIELD ACTION",
+					oClaimGroup: this.oSelectedClaimGroup,
+					oClaimNav: "New"
+
 				});
-			}else if (oSelectedKey === "CUSTOMER RELATIONS") {
+				this.getView().byId("idRequestType").setSelectedIndex(0);
+			} else if (oSelectedKey === "ECP") {
 				this.getRouter().navTo("MainClaimSection", {
-					claimNum : oClaimNum,
-					oKey : "CUSTOMER RELATIONS",
-					oClaimGroup : this.oSelectedClaimGroup,
-					oClaimNav : "New"
-					
+					claimNum: oClaimNum,
+					oKey: "ECP",
+					oClaimGroup: this.oSelectedClaimGroup,
+					oClaimNav: "New"
+
 				});
+				this.getView().byId("idRequestType").setSelectedIndex(0);
+			} else if (oSelectedKey === "SETR") {
+				this.getRouter().navTo("MainClaimSection", {
+					claimNum: oClaimNum,
+					oKey: "SETR",
+					oClaimGroup: this.oSelectedClaimGroup,
+					oClaimNav: "New"
+
+				});
+				this.getView().byId("idRequestType").setSelectedIndex(0);
+			} else if (oSelectedKey === "CORE RETURN") {
+				this.getRouter().navTo("MainClaimSection", {
+					claimNum: oClaimNum,
+					oKey: "CORE RETURN",
+					oClaimGroup: this.oSelectedClaimGroup,
+					oClaimNav: "New"
+				});
+				this.getView().byId("idRequestType").setSelectedIndex(0);
+			} else if (oSelectedKey === "VEHICLE LOGISTICS") {
+				this.getRouter().navTo("MainClaimSection", {
+					claimNum: oClaimNum,
+					oKey: "VEHICLE LOGISTICS",
+					oClaimGroup: this.oSelectedClaimGroup,
+					oClaimNav: "New"
+
+				});
+				this.getView().byId("idRequestType").setSelectedIndex(0);
+			} else if (oSelectedKey === "CUSTOMER RELATIONS") {
+				this.getRouter().navTo("MainClaimSection", {
+					claimNum: oClaimNum,
+					oKey: "CUSTOMER RELATIONS",
+					oClaimGroup: this.oSelectedClaimGroup,
+					oClaimNav: "New"
+
+				});
+				this.getView().byId("idRequestType").setSelectedIndex(0);
 			}
 		},
-		
-		onSelectRequestType01 : function(oEvent){
-			
+
+		onSelectRequestType01: function (oEvent) {
+
 			// sap.ui.getCore().getEventBus().publish("App", "oType", {text : oUniqIndex});
 		},
-		
-		onPressCancel : function(){
+
+		onPressCancel: function () {
 			this.getRouter().navTo("SearchClaim");
 		}
 
