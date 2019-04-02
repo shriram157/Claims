@@ -12,10 +12,12 @@
 			<OverflowToolbar class="headerButtonsToolBar">
 				<Button text="{i18n>AddPartLine}" type="Emphasized" enabled="{DateModel>/oFormEdit}" press="onPressAddPart"/>
 				<Button text="{i18n>UpdatePartLine}" press="onPressUpdatePart" class="sapUiTinyMarginBeginEnd" enabled="{DateModel>/oFormEdit}"/>
-				<Button text="{i18n>DeletePartLine}" press="onPressDeletePart" class="sapUiTinyMarginBeginEnd" type="Reject" enabled="{DateModel>/oFormEdit}"/>
+				<Button text="{i18n>DeletePartLine}" press="onPressDeletePart" class="sapUiTinyMarginBeginEnd" type="Reject"
+					enabled="{DateModel>/oFormEdit}"/>
 				<Button text="{i18n>letterOfIntent}" class="sapUiTinyMarginBeginEnd" enabled="{DateModel>/oLetterOfIntent}" press="onPressLetterOfIntent"/>
 				<ToolbarSpacer/>
-				<Button text="{i18n>SaveClaim}" class="sapUiTinyMarginBeginEnd" type="Emphasized" enabled="{DateModel>/oFormEdit}" press="onPressSavePartClaim"/>
+				<Button text="{i18n>SaveClaim}" class="sapUiTinyMarginBeginEnd" type="Emphasized" enabled="{DateModel>/oFormEdit}"
+					press="onPressSavePartClaim"/>
 			</OverflowToolbar>
 			<VBox class="clBgColor">
 				<f:SimpleForm editable="true" labelSpanL="12" width="90%" title="" labelSpanXL="12" layout="ResponsiveGridLayout" emptySpanXL="0"
@@ -23,23 +25,23 @@
 					<f:content>
 						<HBox>
 							<Label text="{i18n>DamageCondition } " class="sapUiSmallMargin" textAlign="Begin" visible="{multiHeaderConfig>/partDamage}"/>
-							<Select width="15rem" id="DmgCodes" enabled="{DateModel>/partLine}" change="onDDChange" showSecondaryValues="false" items="{DropDownModel>/items}" visible="{multiHeaderConfig>/partDamage}"
-								selectedKey="{HeadSetData>/DamageCondition}">
+							<Select width="15rem" id="DmgCodes" enabled="{DateModel>/partLine}" change="onDDChange" showSecondaryValues="false"
+								items="{DropDownModel>/items}" visible="{multiHeaderConfig>/partDamage}" selectedKey="{HeadSetData>/DamageCondition}">
 								<core:ListItem key="{DropDownModel>DiscreCode}" text="{path:'DropDownModel>ALMDiscreDesc'}" additionalText="{DropDownModel>ALMDiscreCode}"/>
 							</Select>
 							<Label text="{i18n>DiscrepancyType}" class="sapUiSmallMargin" textAlign="Begin" visible="{multiHeaderConfig>/partDiscrepancies}"/>
-							<Select width="15rem" id="DscpCodes" enabled="{DateModel>/partLine}" change="onDDChange" showSecondaryValues="false" items="{DropDownModel>/items}" visible="{multiHeaderConfig>/partDiscrepancies}"
-								selectedKey="{HeadSetData>/DiscrepancyCodes}">
+							<Select width="15rem" id="DscpCodes" enabled="{DateModel>/partLine}" change="onDDChange" showSecondaryValues="false"
+								items="{DropDownModel>/items}" visible="{multiHeaderConfig>/partDiscrepancies}" selectedKey="{HeadSetData>/DiscrepancyCodes}">
 								<core:ListItem key="{DropDownModel>DiscreCode}" text="{path:'DropDownModel>ALMDiscreDesc'}" additionalText="{DropDownModel>ALMDiscreCode}"/>
 							</Select>
 							<Label text="{i18n>MiscellaneousCode} " class="sapUiSmallMargin" textAlign="Begin" visible="{multiHeaderConfig>/partMiscellanious}"/>
-							<Select width="15rem" id="MscCodes" enabled="{DateModel>/partLine}" change="onDDChange" showSecondaryValues="false" items="{DropDownModel>/items}" visible="{multiHeaderConfig>/partMiscellanious}"
-								selectedKey="{HeadSetData>/MiscellaneousCode}">
+							<Select width="15rem" id="MscCodes" enabled="{DateModel>/partLine}" change="onDDChange" showSecondaryValues="false"
+								items="{DropDownModel>/items}" visible="{multiHeaderConfig>/partMiscellanious}" selectedKey="{HeadSetData>/MiscellaneousCode}">
 								<core:ListItem key="{DropDownModel>DiscreCode}" text="{path:'DropDownModel>ALMDiscreDesc'}" additionalText="{DropDownModel>ALMDiscreCode}"/>
 							</Select>
 							<Label text="{i18n>TranportShortageType} " class="sapUiSmallMargin" textAlign="Begin" visible="{multiHeaderConfig>/partTransportation}"/>
-							<Select width="15rem" id="TransportCodes" enabled="{DateModel>/partLine}" change="onDDChange" showSecondaryValues="false" items="{DropDownModel>/items}" visible="{multiHeaderConfig>/partTransportation}"
-								selectedKey="{HeadSetData>/TranportShortageType}">
+							<Select width="15rem" id="TransportCodes" enabled="{DateModel>/partLine}" change="onDDChange" showSecondaryValues="false"
+								items="{DropDownModel>/items}" visible="{multiHeaderConfig>/partTransportation}" selectedKey="{HeadSetData>/TranportShortageType}">
 								<core:ListItem key="{DropDownModel>DiscreCode}" text="{path:'DropDownModel>ALMDiscreDesc'}" additionalText="{DropDownModel>ALMDiscreCode}"/>
 							</Select>
 						</HBox>
@@ -65,8 +67,8 @@
 							<Text text="{i18n>Ordered}"/>
 							<core:Title text=""/>
 							<Label text="{i18n>Line}"></Label>
-							<Input value="{ path : 'PartDataModel>/LineNo', type: 'sap.ui.model.type.Integer', constraints:{minimum:0}}"
-								required="false" enabled="{DateModel>/partLine}"></Input>
+							<Input value="{ path : 'PartDataModel>/LineNo', type: 'sap.ui.model.type.Integer', constraints:{minimum:0}}" required="false"
+								enabled="{DateModel>/partLine}"></Input>
 							<core:Title text=""/>
 							<Label text="{i18n>PartNumberOrdered}" width="10rem"></Label>
 							<Input value="{PartDataModel>/matnr}" required="true" id="idPartNumber" showValueHelp="true" valueHelpOnly="true"
@@ -77,7 +79,7 @@
 							<core:Title text=""/>
 							<Label text="{i18n>Quantity}"></Label>
 							<Input value="{path : 'PartDataModel>/quant', type : 'sap.ui.model.type.Integer', constraints : { minLength : 1, maxLength : 10 }}"
-								required="true" enabled="{DateModel>/partLine}" valueState="{DateModel>/partTypeState}" >
+								required="true" enabled="{DateModel>/partLine}" valueState="{DateModel>/partTypeState}">
 								<layoutData>
 									<l:GridData span="XL8 L8"/>
 								</layoutData>
@@ -91,20 +93,39 @@
 							<core:Title text=""/>
 							<Text text="{i18n>Claimed}"/>
 							<core:Title text=""/>
+							<!--	<UploadCollection id="UploadSublet" uploadEnabled="{LocalDataModel>/UploadEnable}" change="onUplaodChange" uploadComplete="onSubletUploadComplete" fileDeleted="onFileSubletDeleted"-->
+							<!--	 items="{ path: 'LocalDataModel>/SubletAtchmentData', templateShareable: false }">-->
+							<!--	<toolbar>-->
+							<!--		<OverflowToolbar>-->
+							<!--			<Breadcrumbs id="breadcrumbsSupportingDoc02" currentLocationText="{LocalDataModel>/currentLocationText}" links="{LocalDataModel>/history}">-->
+							<!--				<Link press="onBreadcrumbPress" text="{LocalDataModel>fileName}"/>-->
+							<!--			</Breadcrumbs>-->
+							<!--			<ToolbarSpacer/>-->
+							<!--			<UploadCollectionToolbarPlaceholder/>-->
+							<!--		</OverflowToolbar>-->
+							<!--	</toolbar>-->
+							<!--	<items>-->
+							<!--		<UploadCollectionItem documentId="{LocalDataModel>DOC_ID}" fileName="{LocalDataModel>FileName}" mimeType="{LocalDataModel>MIMETYPE}"-->
+							<!--			thumbnailUrl="{LocalDataModel>url}" url="{LocalDataModel>URI}" enableEdit="{settings>/enableEdit}" enableDelete="{settings>/enableDelete}"-->
+							<!--			visibleDelete="{settings>/visibleDelete}" visibleEdit="{settings>/visibleEdit}">-->
+							<!--		</UploadCollectionItem>-->
+							<!--	</items>-->
+							<!--</UploadCollection>-->
 							<UploadCollection id="UploadCollection" class="uploadContainer" change="onUploadChange02Parts" uploadComplete="onUploadComplete02Parts"
-								fileDeleted="onFileDeleted02" visible="{multiHeaderConfig>/uploader}" items="{ path: 'AttachmentModel>/items', templateShareable: false }">
+								fileDeleted="onFileDeleted02" visible="{multiHeaderConfig>/uploader}"
+								items="{ path: 'LocalDataModel>/partItemAttachments', templateShareable: false }">
 								<toolbar>
 									<OverflowToolbar>
-										<Breadcrumbs id="breadcrumbs" currentLocationText="{AttachmentModel>/currentLocationText}" links="{AttachmentModel>/partsHistory}">
-											<Link press="onBreadcrumbPress" text="{AttachmentModel>name}"/>
+										<Breadcrumbs id="breadcrumbs" currentLocationText="{LocalDataModel>/currentLocationText}" links="{LocalDataModel>/partsHistory}">
+											<Link press="onBreadcrumbPress" text="{LocalDataModel>fileName}"/>
 										</Breadcrumbs>
 										<ToolbarSpacer/>
 										<UploadCollectionToolbarPlaceholder/>
 									</OverflowToolbar>
 								</toolbar>
 								<items>
-									<UploadCollectionItem selected="onSelectUpload" documentId="{AttachmentModel>DOC_ID}" fileName="{AttachmentModel>FileName}"
-										mimeType="{AttachmentModel>MIMETYPE}" thumbnailUrl="{AttachmentModel>url}" url="{AttachmentModel>URI}" enableEdit="{settings>/enableEdit}"
+									<UploadCollectionItem selected="onSelectUpload" documentId="{LocalDataModel>DOC_ID}" fileName="{LocalDataModel>FileName}"
+										mimeType="{LocalDataModel>MIMETYPE}" thumbnailUrl="{LocalDataModel>url}" url="{LocalDataModel>URI}" enableEdit="{settings>/enableEdit}"
 										enableDelete="{settings>/enableDelete}" visibleDelete="{settings>/visibleDelete}" visibleEdit="{settings>/visibleEdit}">
 										<layoutData>
 											<l:GridData span="XL8 L8"/>
@@ -114,7 +135,7 @@
 							</UploadCollection>
 							<!--<core:Title text=""/>-->
 							<Label text="{i18n>RetainPart}" visible="{multiHeaderConfig>/RetainPartV}"/>
-							<Select selectedKey="{PartDataModel>/RetainPart}" visible="{multiHeaderConfig>/RetainPartV}"  enabled="{DateModel>/partLine}" >
+							<Select selectedKey="{PartDataModel>/RetainPart}" visible="{multiHeaderConfig>/RetainPartV}" enabled="{DateModel>/partLine}">
 								<items>
 									<core:Item text="" key=""/>
 									<core:Item text="{i18n>Yes}" key="Yes"/>
@@ -128,14 +149,15 @@
 							<Label text="{i18n>PartNumberReceived}" width="10rem" visible="{multiHeaderConfig>/PartNumberRcV}"/>
 							<!--<Input value="{ path : 'HeadSetData>/PartNumberRc'}" editable="{multiHeaderConfig>/PartNumberEdit}" required="true"-->
 							<!--	visible="{multiHeaderConfig>/PartNumberRcV}"></Input>-->
-							<Input value="{HeadSetData>/PartNumberRc}" id="idPartNumber2" required="true" showValueHelp="true" valueHelpOnly="true" editable="{multiHeaderConfig>/PartNumberEdit}" 
-								valueHelpRequest="handlePNValueHelp02" enabled="{DateModel>/partLine}" visible="{multiHeaderConfig>/PartNumberRcV}"></Input>
+							<Input value="{HeadSetData>/PartNumberRc}" id="idPartNumber2" required="true" showValueHelp="true" valueHelpOnly="true"
+								editable="{multiHeaderConfig>/PartNumberEdit}" valueHelpRequest="handlePNValueHelp02" enabled="{DateModel>/partLine}"
+								visible="{multiHeaderConfig>/PartNumberRcV}"></Input>
 							<core:Title text=""/>
 							<Label text="{i18n>PartDescription}" visible="{multiHeaderConfig>/PartDescriptionOrdRcv}"/>
 							<Input value="{ path : 'HeadSetData>/PartNumberRcDesc'}" id="idOrderedReceivedPartDesc" editable="{multiHeaderConfig>/OrderedPartDesc}"
-								visible="{multiHeaderConfig>/PartDescriptionOrdRcv}"  enabled="{DateModel>/partLine}" ></Input>
-							<Label text="{i18n>PartRepaired}" visible="{multiHeaderConfig>/PartRepaired}" />
-							<Select visible="{multiHeaderConfig>/PartRepaired}" selectedKey="{HeadSetData>/PartRepaired}" enabled="{DateModel>/partLine}" >
+								visible="{multiHeaderConfig>/PartDescriptionOrdRcv}" enabled="{DateModel>/partLine}"></Input>
+							<Label text="{i18n>PartRepaired}" visible="{multiHeaderConfig>/PartRepaired}"/>
+							<Select visible="{multiHeaderConfig>/PartRepaired}" selectedKey="{HeadSetData>/PartRepaired}" enabled="{DateModel>/partLine}">
 								<items>
 									<core:Item text="" key=""/>
 									<core:Item text="{i18n>Yes}" key="Yes"/>
@@ -146,12 +168,13 @@
 							<!--<Label text="Dealer Net Price" visible="{multiHeaderConfig>/DealerNetPrcV}"></Label>-->
 							<!--<Input id="idDealerNetPrc" visible="{multiHeaderConfig>/DealerNetPrcV}" editable="{multiHeaderConfig>/DealerNetPrcEdt}" maxLength="3"></Input>-->
 							<Label text="{i18n>RepairAmount}" visible="{multiHeaderConfig>/RepairAmtV}"></Label>
-							<Input id="idReceivedAmt" value="{HeadSetData>/RepairAmount}" type="Number" visible="{multiHeaderConfig>/RepairAmtV}"  enabled="{DateModel>/partLine}" ></Input>
+							<Input id="idReceivedAmt" value="{HeadSetData>/RepairAmount}" type="Number" visible="{multiHeaderConfig>/RepairAmtV}"
+								enabled="{DateModel>/partLine}"></Input>
 							<core:Title text=""/>
 							<Label text="{i18n>Quantity}"></Label>
 							<Input
 								value="{path : 'PartDataModel>/QuantityReceived', type : 'sap.ui.model.type.Integer', formatOptions : { groupingEnabled : true }, constraints : { minimum : 1, maximum : 100 } }"
-								required="true" id="idReceivedQnt" enabled="{DateModel>/partLine}" change="ValidQty" valueState="{DateModel>/partTypeState}" >
+								required="true" id="idReceivedQnt" enabled="{DateModel>/partLine}" change="ValidQty" valueState="{DateModel>/partTypeState}">
 								<!--<Input-->
 								<!--	value="{ path : 'PartDataModel>/QuantityReceived', type : 'sap.ui.model.type.Integer', formatOptions : { groupingEnabled : true }, constraints : { minimum : 50, maximum : 10000000 } }"-->
 								<!--	required="true" id="idReceivedQnt">-->
