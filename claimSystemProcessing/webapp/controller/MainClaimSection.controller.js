@@ -67,7 +67,7 @@ sap.ui.define([
 			var oNodeModel = new sap.ui.model.json.JSONModel();
 			oNodeModel.loadData(jQuery.sap.getModulePath("zclaimProcessing.utils", "/Nodes.json"));
 			this.oUploadCollection = this.byId("UploadSupportingDoc");
-			// this.oBreadcrumbs = this.byId("breadcrumbsSupportingDoc");
+			//  this.oBreadcrumbs = this.byId("breadcrumbsSupportingDoc");
 
 			// this.oUploadCollection.addEventDelegate({
 			// 	onAfterRendering: function () {
@@ -244,7 +244,7 @@ sap.ui.define([
 			this.getModel("LocalDataModel").setProperty("/PercentState", false);
 			this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
 			//this.getView().byId("__picker0-inner").setEnabled(false);
-			
+
 		},
 
 		_onRoutMatched: function (oEvent) {
@@ -283,13 +283,9 @@ sap.ui.define([
 			this.getView().byId("idFilter06").setProperty("enabled", false);
 			this.getView().byId("idFilter07").setProperty("enabled", false);
 			this.getView().byId("idFilter08").setProperty("enabled", false);
-			
+
 			//this.getModel("LocalDataModel").setProperty("/oClaimSelectedGroup", );
-			
-		
-			
-			
-			
+
 			if (oClaim != "nun" && oClaim != undefined) {
 
 				if (oClaimSelectedGroup == "Authorization") {
@@ -352,12 +348,25 @@ sap.ui.define([
 				this.getModel("LocalDataModel").setProperty("/oErrorSet", "");
 				//this.getView().getModel("DateModel").setProperty("/oECPfields", false);
 				var oECPModel = this.getOwnerComponent().getModel("EcpSalesModel");
+				var oBusinessModel = this.getModel("ApiBusinessModel");
 				oProssingModel.read("/ZC_CLAIM_HEAD_NEW", {
 					urlParameters: {
 						"$filter": "NumberOfWarrantyClaim eq '" + oClaim + "' "
 					},
 					success: $.proxy(function (data) {
 						var submissionType = data.results[0].WarrantyClaimSubType;
+
+						var oPartner = data.results[0].Partner;
+
+						oBusinessModel.read("/A_BusinessPartner", {
+							urlParameters: {
+								"$filter": "BusinessPartner eq '" + oPartner + "'"
+							},
+							success: $.proxy(function (sdata) {
+								this.getModel("LocalDataModel").setProperty("/BPOrgName", sdata.results[0].OrganizationBPName1);
+							}, this)
+						});
+
 						oProssingModel.read("/ZC_CLAIM_SUBLET_CODE", {
 							urlParameters: {
 								"$filter": "Clmty eq '" + data.results[0].WarrantyClaimType + "'"
@@ -550,7 +559,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/oPrevInvDateReq", false);
 							this.getView().getModel("DateModel").setProperty("/PreroOdometerVisible", false);
 							this.getView().getModel("DateModel").setProperty("/RepairdDetailVisible", true);
-						} else if (oClaimTypeDetail == "ZCWE"){
+						} else if (oClaimTypeDetail == "ZCWE") {
 							this.getView().getModel("DateModel").setProperty("/Paint", false);
 							this.getView().getModel("DateModel").setProperty("/Authorization", false);
 							this.getView().getModel("DateModel").setProperty("/Sublet", true);
@@ -577,7 +586,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/ShipmentVisible", false);
 							this.getView().getModel("DateModel").setProperty("/AcA1", false);
 							this.getView().getModel("DateModel").setProperty("/P1p2", false);
-						
+
 							this.getView().getModel("DateModel").setProperty("/oPrevInvNumReq", false);
 							this.getView().getModel("DateModel").setProperty("/oPrevInvDateReq", false);
 							this.getView().getModel("DateModel").setProperty("/PreroOdometerVisible", false);
@@ -728,7 +737,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/authRejClm", false);
 
 						}
-						
+
 						this._fnDealerContact();
 						this.onP2Claim(oClaimTypeDetail);
 						this._fnOFPenabled();
@@ -953,7 +962,6 @@ sap.ui.define([
 				//this._fnDealerContact();
 				this._fnClaimSumPercent();
 				this._fnEnableEdit();
-				
 
 			} else {
 				this.getModel("LocalDataModel").setProperty("/DataVinDetails", "");
@@ -1342,7 +1350,7 @@ sap.ui.define([
 					this.getView().getModel("DateModel").setProperty("/RepairdDetailVisible", true);
 					this.getModel("LocalDataModel").setProperty("/step01Next", false);
 				}
-				
+
 				this._fnDealerContact();
 				this._fnOFPenabled();
 				this.getModel("LocalDataModel").setProperty("/ClaimSum", "");
@@ -1383,7 +1391,7 @@ sap.ui.define([
 				this.getView().getModel("DateModel").setProperty("/oBatteryTestEnable", false);
 				this.getView().getModel("DateModel").setProperty("/ofpRequired", false);
 			} else if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") == "ZCWE" ||
-			this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZCWE") {
+				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZCWE") {
 				this.getView().getModel("DateModel").setProperty("/enabledT2", false);
 				this.getView().getModel("DateModel").setProperty("/enabledT1", false);
 				this.getView().getModel("DateModel").setProperty("/oBatteryTestEnable", false);
@@ -1398,18 +1406,18 @@ sap.ui.define([
 			}
 
 		},
-		
-		_fnDealerContact : function(){
-				if(this.getModel("LocalDataModel").getProperty("/oFieldAction") == "VEHICLE LOGISTICS" ||
-					this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZLDC"){
-					this.getView().getModel("DateModel").setProperty("/oDealerContactReq", true);
-					this.getView().getModel("DateModel").setProperty("/enabledT2", false);
-				   this.getView().getModel("DateModel").setProperty("/enabledT1", false);
-				}else {
-					this.getView().getModel("DateModel").setProperty("/oDealerContactReq", false);
-				}
+
+		_fnDealerContact: function () {
+			if (this.getModel("LocalDataModel").getProperty("/oFieldAction") == "VEHICLE LOGISTICS" ||
+				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZLDC") {
+				this.getView().getModel("DateModel").setProperty("/oDealerContactReq", true);
+				this.getView().getModel("DateModel").setProperty("/enabledT2", false);
+				this.getView().getModel("DateModel").setProperty("/enabledT1", false);
+			} else {
+				this.getView().getModel("DateModel").setProperty("/oDealerContactReq", false);
+			}
 		},
-		
+
 		onChangeDate: function (oEvent) {
 			// var oDate = oEvent.getParameters().value.split("-");
 			// var oMonth = parseInt(oDate[1]);
@@ -1746,21 +1754,21 @@ sap.ui.define([
 			// });
 
 		},
-		onChangeOdometer : function(oEvent){
+		onChangeOdometer: function (oEvent) {
 			var oOdoVal = oEvent.getSource().getValue();
-			
-			if(oOdoVal.length > 6){
+
+			if (oOdoVal.length > 6) {
 				//oOdoVal = oOdoVal.substr(0, 6);
 				//this.getView().getModel("HeadSetData").setProperty("/Odometer", oOdoVal.slice(0, 6));
-				
-			}else{
-			    //this.getView().getModel("HeadSetData").setProperty("/Odometer", oOdoVal);
+
+			} else {
+				//this.getView().getModel("HeadSetData").setProperty("/Odometer", oOdoVal);
 			}
 		},
 
 		_fnDateFormat: function (elm) {
 			if (elm) {
-				var oNumTime = new Date (elm.valueOf() + elm.getTimezoneOffset() * 60000);
+				var oNumTime = new Date(elm.valueOf() + elm.getTimezoneOffset() * 60000);
 				var oTime = "\/Date(" + oNumTime.getTime() + ")\/";
 				return oTime;
 			} else {
@@ -1952,18 +1960,18 @@ sap.ui.define([
 						}]
 					}
 				};
-				
-					var oPartner = this.getModel("LocalDataModel").getProperty("/BpDealerModel/0/BusinessPartnerKey");
-		
-			var oBusinessModel = this.getModel("ApiBusinessModel");
-			oBusinessModel.read("/A_BusinessPartner", {
-				urlParameters: {
-					"$filter": "BusinessPartner eq '" + oPartner + "'"
-				},
-				success: $.proxy(function (data) {
-					this.getModel("LocalDataModel").setProperty("/BPOrgName", data.results[0].OrganizationBPName1);
-				}, this)
-			});
+
+				var oPartner = this.getModel("LocalDataModel").getProperty("/BpDealerModel/0/BusinessPartnerKey");
+
+				var oBusinessModel = this.getModel("ApiBusinessModel");
+				oBusinessModel.read("/A_BusinessPartner", {
+					urlParameters: {
+						"$filter": "BusinessPartner eq '" + oPartner + "'"
+					},
+					success: $.proxy(function (data) {
+						this.getModel("LocalDataModel").setProperty("/BPOrgName", data.results[0].OrganizationBPName1);
+					}, this)
+				});
 				oClaimModel.refreshSecurityToken();
 				oClaimModel.create("/zc_headSet", this.obj, {
 					success: $.proxy(function (data, response) {
@@ -3598,8 +3606,8 @@ sap.ui.define([
 			oClaimModel.create("/zc_headSet", this.obj, {
 				success: $.proxy(function (data, response) {
 					var pricinghData = response.data.zc_claim_item_price_dataSet.results;
-					this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", response.OFPDescription);
-					this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.MainOpsCodeDescription);
+					this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", response.data.OFPDescription);
+					this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.data.MainOpsCodeDescription);
 					var oFilteredData = pricinghData.filter(function (val) {
 						return val.ItemType === "MAT";
 					});
@@ -3675,8 +3683,8 @@ sap.ui.define([
 						var oFilteredData = pricinghData.filter(function (val) {
 							return val.ItemType === "MAT";
 						});
-						this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", response.OFPDescription);
-						this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.MainOpsCodeDescription);
+						this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", response.data.OFPDescription);
+						this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.data.MainOpsCodeDescription);
 						console.log(oFilteredData);
 						this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
 						this._fnClaimSum();
@@ -3719,8 +3727,8 @@ sap.ui.define([
 							return val.ItemType === "MAT";
 
 						});
-						this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", response.OFPDescription);
-						this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.MainOpsCodeDescription);
+						this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", response.data.OFPDescription);
+						this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.data.MainOpsCodeDescription);
 						console.log(oFilteredData);
 						this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
 						oTable.removeSelections("true");
@@ -4008,8 +4016,8 @@ sap.ui.define([
 					var oFilteredData = pricinghData.filter(function (val) {
 						return val.ItemType === "FR" && val.ItemKey[0] != "P";
 					});
-					this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", response.OFPDescription);
-					this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.MainOpsCodeDescription);
+					this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", response.data.OFPDescription);
+					this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.data.MainOpsCodeDescription);
 					console.log(oFilteredData);
 					this.getModel("LocalDataModel").setProperty("/LabourPricingDataModel", oFilteredData);
 					//this.getModel("LocalDataModel").setProperty("/WarrantyClaimNum", response.data.NumberOfWarrantyClaim);
@@ -4062,8 +4070,8 @@ sap.ui.define([
 						var oFilteredData = pricinghData.filter(function (val) {
 							return val.ItemType === "FR" && val.ItemKey[0] != "P";
 						});
-						this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", response.OFPDescription);
-						this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.MainOpsCodeDescription);
+						this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", response.data.OFPDescription);
+						this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.data.MainOpsCodeDescription);
 						console.log(oFilteredData);
 						this.getModel("LocalDataModel").setProperty("/LabourPricingDataModel", oFilteredData);
 						MessageToast.show(oBundle.getText("Claimdeletedsuccessfully"));
@@ -4125,8 +4133,8 @@ sap.ui.define([
 						var oFilteredData = pricinghData.filter(function (val) {
 							return val.ItemType === "FR" && val.ItemKey[0] != "P";
 						});
-						this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", response.OFPDescription);
-						this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.MainOpsCodeDescription);
+						this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", response.data.OFPDescription);
+						this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.data.MainOpsCodeDescription);
 						console.log(oFilteredData);
 						this.getModel("LocalDataModel").setProperty("/LabourPricingDataModel", oFilteredData);
 						oTable.removeSelections("true");
@@ -4177,8 +4185,8 @@ sap.ui.define([
 					var oFilteredData = pricinghData.filter(function (val) {
 						return val.ItemType === "FR" && val.ItemKey[0] == "P";
 					});
-					this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", response.OFPDescription);
-					this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.MainOpsCodeDescription);
+					this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", response.data.OFPDescription);
+					this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.data.MainOpsCodeDescription);
 					console.log(oFilteredData);
 					this.getModel("LocalDataModel").setProperty("/PaintPricingDataModel", oFilteredData);
 					//this.getModel("LocalDataModel").setProperty("/WarrantyClaimNum", response.data.NumberOfWarrantyClaim);
@@ -4227,8 +4235,8 @@ sap.ui.define([
 						var oFilteredData = pricinghData.filter(function (val) {
 							return val.ItemType === "FR" && val.ItemKey[0] == "P";
 						});
-						this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", response.OFPDescription);
-						this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.MainOpsCodeDescription);
+						this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", response.data.OFPDescription);
+						this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.data.MainOpsCodeDescription);
 						console.log(oFilteredData);
 						this.getModel("LocalDataModel").setProperty("/PaintPricingDataModel", oFilteredData);
 						MessageToast.show(oBundle.getText("Claimdeletedsuccessfully"));
@@ -4276,8 +4284,8 @@ sap.ui.define([
 						var oFilteredData = pricinghData.filter(function (val) {
 							return val.ItemType === "SUBL";
 						});
-						this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", response.OFPDescription);
-						this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.MainOpsCodeDescription);
+						this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", response.data.OFPDescription);
+						this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.data.MainOpsCodeDescription);
 
 						this.getModel("LocalDataModel").setProperty("/SubletPricingDataModel", oFilteredData);
 
@@ -4348,8 +4356,8 @@ sap.ui.define([
 						var oFilteredData = pricinghData.filter(function (val) {
 							return val.ItemType === "SUBL";
 						});
-						this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", response.OFPDescription);
-						this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.MainOpsCodeDescription);
+						this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", response.data.OFPDescription);
+						this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.data.MainOpsCodeDescription);
 						console.log(oFilteredData);
 						this.getModel("LocalDataModel").setProperty("/SubletPricingDataModel", oFilteredData);
 						oTable.removeSelections("true");
@@ -4394,8 +4402,8 @@ sap.ui.define([
 						var oFilteredData = pricinghData.filter(function (val) {
 							return val.ItemType === "SUBL";
 						});
-						this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", response.OFPDescription);
-						this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.MainOpsCodeDescription);
+						this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", response.data.OFPDescription);
+						this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.data.MainOpsCodeDescription);
 						console.log(oFilteredData);
 						this.getModel("LocalDataModel").setProperty("/SubletPricingDataModel", oFilteredData);
 						MessageToast.show(oBundle.getText("Claimdeletedsuccessfully"));
@@ -4481,8 +4489,8 @@ sap.ui.define([
 
 			oClaimModel.create("/zc_headSet", this.obj, {
 				success: function (data, response) {
-					this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", response.OFPDescription);
-					this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.MainOpsCodeDescription);
+					this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", response.data.OFPDescription);
+					this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.data.MainOpsCodeDescription);
 					MessageToast.show(oBundle.getText("Claimhasbeensavedsuccessfully"));
 				},
 				error: function () {
@@ -4697,8 +4705,8 @@ sap.ui.define([
 							oClaimModel.refreshSecurityToken();
 							oClaimModel.create("/zc_headSet", this.obj, {
 								success: $.proxy(function (data, response) {
-									this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", response.OFPDescription);
-									this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.MainOpsCodeDescription);
+									this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", response.data.OFPDescription);
+									this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.data.MainOpsCodeDescription);
 									// var oErrorSet = response.data.zc_claim_vsrSet.results;
 									this.getModel("LocalDataModel").setProperty("/oErrorSet", response.data.zc_claim_vsrSet.results);
 									this.obj.zc_claim_vsrSet.results.pop(oObj);

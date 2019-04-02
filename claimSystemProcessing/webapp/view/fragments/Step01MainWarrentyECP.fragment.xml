@@ -429,15 +429,15 @@
 					<f:content>
 						<UploadCollection  uploadEnabled="{LocalDataModel>/UploadEnable}"  change="onUplaodChange" id="UploadSupportingDoc" uploadComplete="onUploadComplete" fileDeleted="onFileDeleted"
 							beforeUploadStarts="onBeforeUpload" items="{ path: 'ClaimModel>/items', templateShareable: false }">
-							<!--<toolbar>-->
-							<!--	<OverflowToolbar>-->
-							<!--		<Breadcrumbs id="breadcrumbsSupportingDoc" currentLocationText="{ClaimModel>/currentLocationText}" links="{ClaimModel>/history}">-->
-							<!--			<Link press="onBreadcrumbPress" text="{ClaimModel>fileName}"/>-->
-							<!--		</Breadcrumbs>-->
-							<!--		<ToolbarSpacer/>-->
-							<!--		<UploadCollectionToolbarPlaceholder/>-->
-							<!--	</OverflowToolbar>-->
-							<!--</toolbar>-->
+							<toolbar>
+								<OverflowToolbar>
+									<Breadcrumbs id="breadcrumbsSupportingDoc" currentLocationText="{ClaimModel>/currentLocationText}" links="{ClaimModel>/history}">
+										<Link press="onBreadcrumbPress" text="{ClaimModel>fileName}"/>
+									</Breadcrumbs>
+									<ToolbarSpacer/>
+									<UploadCollectionToolbarPlaceholder/>
+								</OverflowToolbar>
+							</toolbar>
 							<items>
 								<UploadCollectionItem   documentId="{ClaimModel>DOC_ID}" fileName="{ClaimModel>FileName}"
 									mimeType="{ClaimModel>MIMETYPE}" thumbnailUrl="{ClaimModel>url}" url="{ClaimModel>URI}" enableEdit="{settings>/enableEdit}"
