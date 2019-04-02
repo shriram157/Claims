@@ -964,6 +964,13 @@ sap.ui.define([
 				this._fnEnableEdit();
 
 			} else {
+				if (oClaimSelectedGroup == "Authorization") {
+					this.getView().getModel("DateModel").setProperty("/warrantySubmissionClaim", true);
+
+				} else {
+					this.getView().getModel("DateModel").setProperty("/warrantySubmissionClaim", false);
+				}
+
 				this.getModel("LocalDataModel").setProperty("/DataVinDetails", "");
 				this.getModel("LocalDataModel").setProperty("/step01Next", false);
 				this.getModel("LocalDataModel").setProperty("/CancelEnable", false);
@@ -1680,7 +1687,7 @@ sap.ui.define([
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 
 			var oECPModel = this.getOwnerComponent().getModel("EcpSalesModel");
-			oECPModel.read("/zc_ecp_agreement", {
+			oECPModel.read("/zc_cliam_agreement", {
 				urlParameters: {
 					"$filter": "VIN eq '" + oVin + "'"
 				},
@@ -1775,6 +1782,7 @@ sap.ui.define([
 				return null;
 			}
 		},
+
 		_fnSaveClaim: function () {
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var oClaimModel = this.getModel("ProssingModel");
@@ -2221,6 +2229,11 @@ sap.ui.define([
 			var oClaimModel = this.getModel("ProssingModel");
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
+			var oValidator = new Validator();
+			var oValid = oValidator.validate(this.getView().byId("idClaimMainForm"));
+			var oGroupType = this.getModel("LocalDataModel").getProperty("/WarrantyClaimTypeGroup");
+			// var oValid01 = oValidator.validate(this.getView().byId("idVehicleInfo"));
+			var oValid02 = oValidator.validate(this.getView().byId("idpart01Form"));
 			// var oCurrentDt = new Date();
 			var oActionCode = "";
 			if (this.getView().getModel("DateModel").getProperty("/oztac") == true) {
@@ -2399,10 +2412,78 @@ sap.ui.define([
 							"results": pricinghData
 						}
 					};
-					if (this.oText == "true") {
+					if (this.oText == "false") {
+						this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+						this.getView().byId("idMainClaimMessage").setText("Please Enter a Valid VIN.");
+						this.getView().byId("idMainClaimMessage").setType("Error");
+					} else if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == undefined) {
+						this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+						this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
+						this.getView().byId("idMainClaimMessage").setType("Error");
+						this.getView().getModel("DateModel").setProperty("/claimTypeState", "Error");
+					} else if (this.getView().getModel("HeadSetData").getProperty("/RepairDate") == undefined || this.getView().getModel(
+							"HeadSetData")
+						.getProperty("/RepairDate") == "") {
+						this.getView().byId("id_Date").setValueState("Error");
+					} else if (this.getView().getModel("HeadSetData").getProperty("/PreviousROInvoice") == "" && this.getView().getModel(
+							"HeadSetData").getProperty("/WarrantyClaimType") == "ZWP2") {
+						this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+						this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
+						this.getView().byId("idMainClaimMessage").setType("Error");
+						this.getView().byId("idPreInvNum").setValueState("Error");
+					} else if (this.getView().getModel("HeadSetData").getProperty("/PreviousROInvoiceDate") == "" && this.getView().getModel(
+							"HeadSetData").getProperty("/WarrantyClaimType") == "ZWP2") {
+						this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+						this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
+						this.getView().byId("idMainClaimMessage").setType("Error");
+						this.getView().byId("idPrInvDate").setValueState("Error");
+					} else if (this.getView().getModel("DateModel").getProperty("/enabledT1") == true &&
+						this.getView().getModel("HeadSetData").getProperty("/T1WarrantyCodes") == "") {
+						this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+						this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
+						this.getView().byId("idMainClaimMessage").setType("Error");
+						this.getView().byId("idT1Field").setValueState("Error");
+					} else if (this.getView().getModel("DateModel").getProperty("/oDealerContactReq") == true &&
+						this.getView().getModel("HeadSetData").getProperty("/DealerContact") == "") {
+						this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+						this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
+						this.getView().byId("idMainClaimMessage").setType("Error");
+						this.getView().byId("idDealerContact").setValueState("Error");
+					} else if (this.getView().getModel("DateModel").getProperty("/enabledT2") == true &&
+						this.getView().getModel("HeadSetData").getProperty("/T2WarrantyCodes") == "") {
+						this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+						this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
+						this.getView().byId("idMainClaimMessage").setType("Error");
+						this.getView().byId("idT2Field").setValueState("Error");
+					} else if (this.getView().getModel("DateModel").getProperty("/oFieldActionInput") == true &&
+						this.getView().getModel("HeadSetData").getProperty("/FieldActionReference") == "") {
+						this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+						this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
+						this.getView().byId("idMainClaimMessage").setType("Error");
+						this.getView().byId("idFieldActionInput").setValueState("Error");
+					} else if (this.getView().getModel("DateModel").getProperty("/ofpRequired") == true &&
+						this.getView().getModel("HeadSetData").getProperty("/OFP") == "") {
+						this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+						this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
+						this.getView().byId("idMainClaimMessage").setType("Error");
+						this.getView().byId("idOFP").setValueState("Error");
+					} else if (!oValid02) {
+						this.getModel("LocalDataModel").setProperty("/step01Next", false);
+						//do something additional to drawing red borders? message box?
+						this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+						this.getView().byId("idMainClaimMessage").setText(oBundle.getText("FillUpMandatoryField"));
+						this.getView().byId("idMainClaimMessage").setType("Error");
+						this.getView().getModel("DateModel").setProperty("/claimTypeState", "None");
+						return false;
+					} else {
 						this.getView().byId("idMainClaimMessage").setProperty("visible", false);
 						this.getView().byId("idMainClaimMessage").setText("");
 						this.getView().byId("idMainClaimMessage").setType("None");
+						this.getView().byId("idOFP").setValueState("None");
+						this.getView().byId("idFieldActionInput").setValueState("None");
+						this.getView().byId("idT2Field").setValueState("None");
+						this.getView().byId("idT1Field").setValueState("None");
+						this.getView().byId("idPreInvNum").setValueState("None");
 						oClaimModel.refreshSecurityToken();
 						oClaimModel.create("/zc_headSet", this.obj, {
 
@@ -2417,15 +2498,75 @@ sap.ui.define([
 
 							}
 						});
-					} else if (this.oText == "false") {
-						this.getView().byId("idMainClaimMessage").setProperty("visible", true);
-						this.getView().byId("idMainClaimMessage").setText("Please Enter a Valid VIN.");
-						this.getView().byId("idMainClaimMessage").setType("Error");
 					}
 
 				}, this),
 				error: function () {}
 			});
+
+			// if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == undefined) {
+			// 	this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+			// 	this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
+			// 	this.getView().byId("idMainClaimMessage").setType("Error");
+			// 	this.getView().getModel("DateModel").setProperty("/claimTypeState", "Error");
+			// } else if (this.getView().getModel("HeadSetData").getProperty("/RepairDate") == undefined || this.getView().getModel("HeadSetData")
+			// 	.getProperty("/RepairDate") == "") {
+			// 	this.getView().byId("id_Date").setValueState("Error");
+			// } else if (this.getView().getModel("HeadSetData").getProperty("/PreviousROInvoice") == "" && this.getView().getModel(
+			// 		"HeadSetData").getProperty("/WarrantyClaimType") == "ZWP2") {
+			// 	this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+			// 	this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
+			// 	this.getView().byId("idMainClaimMessage").setType("Error");
+			// 	this.getView().byId("idPreInvNum").setValueState("Error");
+			// } else if (this.getView().getModel("HeadSetData").getProperty("/PreviousROInvoiceDate") == "" && this.getView().getModel(
+			// 		"HeadSetData").getProperty("/WarrantyClaimType") == "ZWP2") {
+			// 	this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+			// 	this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
+			// 	this.getView().byId("idMainClaimMessage").setType("Error");
+			// 	this.getView().byId("idPrInvDate").setValueState("Error");
+			// } else if (this.getView().getModel("DateModel").getProperty("/enabledT1") == true &&
+			// 	this.getView().getModel("HeadSetData").getProperty("/T1WarrantyCodes") == "") {
+			// 	this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+			// 	this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
+			// 	this.getView().byId("idMainClaimMessage").setType("Error");
+			// 	this.getView().byId("idT1Field").setValueState("Error");
+			// } else if (this.getView().getModel("DateModel").getProperty("/oDealerContactReq") == true &&
+			// 	this.getView().getModel("HeadSetData").getProperty("/DealerContact") == "") {
+			// 	this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+			// 	this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
+			// 	this.getView().byId("idMainClaimMessage").setType("Error");
+			// 	this.getView().byId("idDealerContact").setValueState("Error");
+			// } else if (this.getView().getModel("DateModel").getProperty("/enabledT2") == true &&
+			// 	this.getView().getModel("HeadSetData").getProperty("/T2WarrantyCodes") == "") {
+			// 	this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+			// 	this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
+			// 	this.getView().byId("idMainClaimMessage").setType("Error");
+			// 	this.getView().byId("idT2Field").setValueState("Error");
+			// } else if (this.getView().getModel("DateModel").getProperty("/oFieldActionInput") == true &&
+			// 	this.getView().getModel("HeadSetData").getProperty("/FieldActionReference") == "") {
+			// 	this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+			// 	this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
+			// 	this.getView().byId("idMainClaimMessage").setType("Error");
+			// 	this.getView().byId("idFieldActionInput").setValueState("Error");
+			// } else if (this.getView().getModel("DateModel").getProperty("/ofpRequired") == true &&
+			// 	this.getView().getModel("HeadSetData").getProperty("/OFP") == "") {
+			// 	this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+			// 	this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
+			// 	this.getView().byId("idMainClaimMessage").setType("Error");
+			// 	this.getView().byId("idOFP").setValueState("Error");
+			// } else if (!oValid02) {
+			// 	this.getModel("LocalDataModel").setProperty("/step01Next", false);
+			// 	//do something additional to drawing red borders? message box?
+			// 	this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+			// 	this.getView().byId("idMainClaimMessage").setText(oBundle.getText("FillUpMandatoryField"));
+			// 	this.getView().byId("idMainClaimMessage").setType("Error");
+			// 	this.getView().getModel("DateModel").setProperty("/claimTypeState", "None");
+			// 	return false;
+			// } else if (this.oText == "false") {
+			// 	this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+			// 	this.getView().byId("idMainClaimMessage").setText(oBundle.getText("PleaseEnterValidVIN"));
+			// 	this.getView().byId("idMainClaimMessage").setType("Error");
+			// } else {}
 
 		},
 		onUpdateClaim: function () {
