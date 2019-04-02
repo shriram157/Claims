@@ -10,14 +10,14 @@ function(Input){
 			}
 		},
 		onkeyup: function(evt){
-			this.setValue(this.getValue().match(/^[+-]?\d+(\.\d+)?([Ee][+-]?\d+)?$/g));
+			this.setValue(this.getValue().match(/^(?=.{1,6}$)^[+-]?\d+(\.\d+)?([Ee][+-]?\d+)?$/g));
 		},
 	
 		renderer :"sap.m.InputRenderer"	
 		
 	});
 	CustomInput.prototype.onAfterRendering = function(){
-		this.setValue(this.getValue().match(/^[+-]?\d+(\.\d+)?([Ee][+-]?\d+)?$/g));
+		this.setValue(this.getValue().match(/^(?=.{1,6}$)^[+-]?\d+(\.\d+)?([Ee][+-]?\d+)?$/g));
 	};
 	return CustomInput;
 });

@@ -42,8 +42,8 @@
 					<Text
 						text="{ path: 'HeadSetData>/FinalProcdDate', type: 'sap.ui.model.type.Date',  formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd', strictParsing: true , UTC: true} }"/>
 					
-					<Label text="{i18n>Status}"/>
-					<Text text="{HeadSetData>/ProcessingStatusOfWarrantyClm}"/>
+					<!--<Label text="{i18n>Status}"/>-->
+					<!--<Text text="{HeadSetData>/ProcessingStatusOfWarrantyClm}"/>-->
 					
 					<core:Title text=""/>
 					<Button text="{i18n>SaveClaim}" class="sapUiSmallMarginEnd" type="Emphasized" press="onSaveClaim" visible="{DateModel>/saveClaimSt}">
@@ -88,7 +88,7 @@
 			<f:content>
 				<core:Title text=""/>
 				<Label text="{i18n>DealerName}"/>
-				<Text text="{HeadSetData>/CustomerFullName}"/>
+				<Text text="{LocalDataModel>/BPOrgName}"/>
 				<Label text="{i18n>DealerClaim}"/>
 				<Input
 					value="{path:'HeadSetData>/ExternalNumberOfClaim', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 40 } }"
@@ -99,7 +99,7 @@
 				<DatePicker class="clDatePicker"  id="id_Date" required="true" change="onChangeDate" value="{path:'HeadSetData>/RepairDate', type: 'sap.ui.model.type.Date',  
 				formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd', strictParsing: true , UTC: true}}" editable="{DateModel>/oFormEdit}"/>
 				<Label text="{i18n>DealerContact}"/>
-				<Input  required="{DateModel>/oDealerContactReq}"
+				<Input   required="{DateModel>/oDealerContactReq}"
 					value="{path:'HeadSetData>/DealerContact'}"
 					id="idDealerContact" editable="{DateModel>/oFormEdit}" enabled="{DateModel>/oDealerContactReq}"/>
 				<core:Title text=""/>
@@ -109,7 +109,7 @@
 					id="idRepairOrder" editable="{DateModel>/oFormEdit}"/>
 				<Label text="{i18n>ROOdometer}"/>
 				<custom:CustomInput
-					value="{path:'HeadSetData>/Odometer', type : 'sap.ui.model.type.String', constraints : { minLength : 2, maxLength : 7 }}"
+					value="{path:'HeadSetData>/Odometer', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 6 }}"
 					required="{DateModel>/OdometerReq}" visible="{DateModel>/OdometerReq}" id="idOdometer" editable="{DateModel>/oFormEdit}"/>
 				<Text text="{LocalDataModel>/MsrUnit}" visible="{DateModel>/OdometerReq}"/>
 			</f:content>

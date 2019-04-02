@@ -458,30 +458,44 @@ zclaimProcessing.utils.formatter = {
 		});
 		return oDateFormatShort.format(new Date());
 	},
-	
-	fnFormatPercent : function (val) {
+
+	fnFormatPercent: function (val) {
 		var oVal = "";
 		//var ostring = "";
 		if (val) {
 			var orepMin = val.replace("-", "");
 			var oValNum = parseInt(orepMin);
-				oVal = oValNum + "%";
-			} else {
-				oVal = val;
-			}
-	
+			oVal = oValNum + "%";
+		} else {
+			oVal = val;
+		}
+
 		return oVal;
 	},
-	
-	fnFileName : function(val){
+
+	fnFileName: function (val) {
 		var oVal = "";
-		if(val){
+		if (val) {
 			oVal = val.replace("HEAD+++", "");
-		}else {
+		} else {
 			oVal = val;
 		}
 		return oVal;
+	},
+	fnOdometer: function (oVal) {
+		console.log(oVal);
+		// var finalVal = "";
+		// if (oVal) {
+
+		// 	if (oVal.length > 6) {
+		// 		finalVal = oVal.substr(0, 6);
+		// 	} else {
+		// 		finalVal = oVal;
+		// 	}
+		// } else {
+		// 	finalVal = oVal;
+		// }
+		// return finalVal;
 	}
-	
 
 };
