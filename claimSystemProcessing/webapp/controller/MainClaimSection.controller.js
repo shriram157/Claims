@@ -76,8 +76,8 @@ sap.ui.define([
 			// 	}.bind(this)
 			// });
 
-			this.getView().setModel(oNodeModel, "ClaimModel");
-			this.bindUploadCollectionItems("ClaimModel>/items");
+			// this.getView().setModel(oNodeModel, "ClaimModel");
+			// this.bindUploadCollectionItems("ClaimModel>/items");
 			this.setModel(this.getModel("ProductMaster"), "ProductMasterModel");
 			this.setModel(this.getModel("ZVehicleMasterModel"), "ZVehicleMasterModel");
 			this.setModel(this.getModel("ProssingModel"));
@@ -941,7 +941,8 @@ sap.ui.define([
 						// 	return item;
 
 						// });
-						this.getView().getModel("ClaimModel").setProperty("/" + "/items", oArr);
+						// this.getView().getModel("ClaimModel").setProperty("/" + "/items", oArr);
+						this.getModel("LocalDataModel").setProperty("/HeadAtchmentData", oArr);
 					}, this)
 				});
 				if (oClaimTypeDetail == "ZECP") {
@@ -961,7 +962,7 @@ sap.ui.define([
 				this._fnClaimSum();
 				//this._fnDealerContact();
 				this._fnClaimSumPercent();
-				this._fnEnableEdit();
+				//this._fnEnableEdit();
 
 			} else {
 				if (oClaimSelectedGroup == "Authorization") {
@@ -1033,6 +1034,7 @@ sap.ui.define([
 				// this.getModel("LocalDataModel").setProperty("/CancelEnable", true);
 				this.getModel("LocalDataModel").setProperty("/AgreementDataECP", "");
 				this.getView().getModel("ClaimModel").setProperty("/" + "/items", "");
+				this.getModel("LocalDataModel").setProperty("/HeadAtchmentData", "");
 				this.getView().getModel("DateModel").setProperty("/saveClaimSt", true);
 				this.getView().getModel("DateModel").setProperty("/updateClaimSt", false);
 				this.getModel("LocalDataModel").setProperty("/LabourPricingDataModel", "");
@@ -1365,13 +1367,13 @@ sap.ui.define([
 			}
 			this.getView().setModel(this.HeadSetData, "HeadSetData");
 		},
-		_fnEnableEdit: function () {
-			if (this.getModel("LocalDataModel").getProperty("/UploadEnable") == false) {
-				this.getView().byId("UploadSupportingDoc").addStyleClass("hideDltBtn");
-			} else {
-				this.getView().byId("UploadSupportingDoc").removeStyleClass("hideDltBtn");
-			}
-		},
+		// _fnEnableEdit: function () {
+		// 	if (this.getModel("LocalDataModel").getProperty("/UploadEnable") == false) {
+		// 		this.getView().byId("UploadSupportingDoc").addStyleClass("hideDltBtn");
+		// 	} else {
+		// 		this.getView().byId("UploadSupportingDoc").removeStyleClass("hideDltBtn");
+		// 	}
+		// },
 		_fnOFPenabled: function () {
 			if (
 				this.getModel("LocalDataModel").getProperty("/oFieldAction") == "FIELD ACTION" ||
@@ -1792,13 +1794,36 @@ sap.ui.define([
 			var oGroupType = this.getModel("LocalDataModel").getProperty("/WarrantyClaimTypeGroup");
 			// var oValid01 = oValidator.validate(this.getView().byId("idVehicleInfo"));
 			var oValid02 = oValidator.validate(this.getView().byId("idpart01Form"));
+				
+			// 	if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == undefined) {
+			// 	this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+			// 	this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
+			// 	this.getView().byId("idMainClaimMessage").setType("Error");
+			// 	this.getView().getModel("DateModel").setProperty("/claimTypeState", "Error");
+			// } 
 
-			if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == undefined) {
+			if (!oValid02 && this.getView().getModel("DateModel").getProperty("/enabledT1") == true &&
+				this.getView().getModel("HeadSetData").getProperty("/T1WarrantyCodes") == "" &&
+				this.getView().getModel("DateModel").getProperty("/enabledT2") == true &&
+				this.getView().getModel("HeadSetData").getProperty("/T2WarrantyCodes") == ""
+				) {
+				this.getModel("LocalDataModel").setProperty("/step01Next", false);
+				//do something additional to drawing red borders? message box?
 				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
-				this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
+				this.getView().byId("idT2Field").setValueState("Error");
+				this.getView().byId("idT1Field").setValueState("Error");
+				this.getView().byId("id_Date").setValueState("Error");
+				this.getView().byId("idMainClaimMessage").setText(oBundle.getText("FillUpMandatoryField"));
 				this.getView().byId("idMainClaimMessage").setType("Error");
-				this.getView().getModel("DateModel").setProperty("/claimTypeState", "Error");
-			} else if (this.getView().getModel("HeadSetData").getProperty("/RepairDate") == undefined || this.getView().getModel("HeadSetData")
+					
+				//this.getView().getModel("DateModel").setProperty("/claimTypeState", "None");
+				return false;
+			}else if(!oValid02){
+				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+				this.getView().byId("idMainClaimMessage").setText(oBundle.getText("FillUpMandatoryField"));
+				this.getView().byId("idMainClaimMessage").setType("Error");
+				return false;
+			}else if (this.getView().getModel("HeadSetData").getProperty("/RepairDate") == undefined || this.getView().getModel("HeadSetData")
 				.getProperty("/RepairDate") == "") {
 				this.getView().byId("id_Date").setValueState("Error");
 			} else if (this.getView().getModel("HeadSetData").getProperty("/PreviousROInvoice") == "" && this.getView().getModel(
@@ -1843,14 +1868,6 @@ sap.ui.define([
 				this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
 				this.getView().byId("idMainClaimMessage").setType("Error");
 				this.getView().byId("idOFP").setValueState("Error");
-			} else if (!oValid02) {
-				this.getModel("LocalDataModel").setProperty("/step01Next", false);
-				//do something additional to drawing red borders? message box?
-				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
-				this.getView().byId("idMainClaimMessage").setText(oBundle.getText("FillUpMandatoryField"));
-				this.getView().byId("idMainClaimMessage").setType("Error");
-				this.getView().getModel("DateModel").setProperty("/claimTypeState", "None");
-				return false;
 			} else if (this.oText == "false") {
 				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
 				this.getView().byId("idMainClaimMessage").setText(oBundle.getText("PleaseEnterValidVIN"));
@@ -2235,6 +2252,19 @@ sap.ui.define([
 			// var oValid01 = oValidator.validate(this.getView().byId("idVehicleInfo"));
 			var oValid02 = oValidator.validate(this.getView().byId("idpart01Form"));
 			// var oCurrentDt = new Date();
+			
+			var oPartner = this.getModel("LocalDataModel").getProperty("/BpDealerModel/0/BusinessPartnerKey");
+
+				var oBusinessModel = this.getModel("ApiBusinessModel");
+				oBusinessModel.read("/A_BusinessPartner", {
+					urlParameters: {
+						"$filter": "BusinessPartner eq '" + oPartner + "'"
+					},
+					success: $.proxy(function (data) {
+						this.getModel("LocalDataModel").setProperty("/BPOrgName", data.results[0].OrganizationBPName1);
+					}, this)
+				});
+				
 			var oActionCode = "";
 			if (this.getView().getModel("DateModel").getProperty("/oztac") == true) {
 				oActionCode = "ZTEA";
@@ -2704,12 +2734,12 @@ sap.ui.define([
 			/****************To Fetch CSRF Token*******************/
 
 		},
-		getCurrentFolderPath: function () {
-			var aHistory = this.getView().getModel("ClaimModel").getProperty("/history");
-			// get the current folder path
-			var sPath = aHistory.length > 0 ? aHistory[aHistory.length - 1].path : "/";
-			return sPath;
-		},
+		// getCurrentFolderPath: function () {
+		// 	var aHistory = this.getView().getModel("ClaimModel").getProperty("/history");
+		// 	// get the current folder path
+		// 	var sPath = aHistory.length > 0 ? aHistory[aHistory.length - 1].path : "/";
+		// 	return sPath;
+		// },
 		onUploadComplete: function (oEvent) {
 			// var oClaimModel = this.getModel("ProssingModel");
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
@@ -2750,7 +2780,7 @@ sap.ui.define([
 			// 	}
 			// });
 			oClaimModel.refreshSecurityToken();
-			var sCurrentPath = this.getCurrentFolderPath();
+			//var sCurrentPath = this.getCurrentFolderPath();
 			//var oData = this.getView().getModel("ClaimModel").getProperty(sCurrentPath);
 			// var aItems = oData && oData.items;
 			// var oItem;
@@ -2775,7 +2805,8 @@ sap.ui.define([
 							// });
 
 							//this.getModel("LocalDataModel").setProperty("/oAttachmentSet", odata.results);
-							this.getView().getModel("ClaimModel").setProperty("/" + "/items", oArr);
+							//this.getView().getModel("ClaimModel").setProperty("/" + "/items", oArr);
+							this.getModel("LocalDataModel").setProperty("/HeadAtchmentData", oArr);
 							// // this.getModel("LocalDataModel").setProperty("/oAttachmentSet", );
 							// this.getView().getModel("ClaimModel").setProperty(sCurrentPath + "/items", odata.results);
 						}, this)
@@ -2854,11 +2885,13 @@ sap.ui.define([
 		onFileDeleted: function (oEvent) {
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
-			this.deleteItemById(oEvent.getParameter("documentId"), "ClaimModel");
+			// this.deleteItemById(oEvent.getParameter("documentId"), "ClaimModel");
 			//MessageToast.show("FileDeleted event triggered.");
-			var oFileName = oEvent.getParameters().item.getFileName();
+			//var oFileName = oEvent.getParameters().item.getFileName();
 			var oClaimModel = this.getModel("ProssingModel");
-
+			
+			var oLine = oEvent.getSource()._oItemForDelete._iLineNumber;
+			var oFileName = this.getModel("LocalDataModel").getProperty("/HeadAtchmentData/"+oLine+"/FileName");
 			// var itemObj = {
 			// 	"NumberOfWarrantyClaim": oClaimNum,
 			// 	"COMP_ID": oFileName,
@@ -2883,7 +2916,8 @@ sap.ui.define([
 							// 	return item;
 
 							// });
-							this.getView().getModel("ClaimModel").setProperty("/" + "/items", oArr);
+							// this.getView().getModel("ClaimModel").setProperty("/" + "/items", oArr);
+							this.getModel("LocalDataModel").setProperty("/HeadAtchmentData", oArr);
 
 						}, this)
 					});
@@ -2981,45 +3015,45 @@ sap.ui.define([
 				}, this)
 			});
 		},
-		deleteItemById: function (sItemToDeleteId, mModel) {
-			var sCurrentPath = this.getCurrentFolderPath();
-			var oData = this.getView().getModel(mModel).getProperty(sCurrentPath);
-			var aItems = oData && oData.items;
-			jQuery.each(aItems, function (index) {
-				if (aItems[index] && aItems[index].documentId === sItemToDeleteId) {
-					aItems.splice(index, 1);
-				}
-			});
-			this.getView().getModel(mModel).setProperty(sCurrentPath + "/items", aItems);
-		},
+		// deleteItemById: function (sItemToDeleteId, mModel) {
+		// 	var sCurrentPath = this.getCurrentFolderPath();
+		// 	var oData = this.getView().getModel(mModel).getProperty(sCurrentPath);
+		// 	var aItems = oData && oData.items;
+		// 	jQuery.each(aItems, function (index) {
+		// 		if (aItems[index] && aItems[index].documentId === sItemToDeleteId) {
+		// 			aItems.splice(index, 1);
+		// 		}
+		// 	});
+		// 	this.getView().getModel(mModel).setProperty(sCurrentPath + "/items", aItems);
+		// },
 
-		uploadCollectionItemFactory: function (id, context) {
-			var oItem = new sap.m.UploadCollectionItem(id, {
-				documentId: "{ClaimModel>DOC_ID}",
-				fileName: "{ClaimModel>FileName}",
-				mimeType: "{ClaimModel>MIMETYPE}",
-				thumbnailUrl: "{ClaimModel>url}",
-				url: "{ClaimModel>URI}"
-			});
+		// uploadCollectionItemFactory: function (id, context) {
+		// 	var oItem = new sap.m.UploadCollectionItem(id, {
+		// 		documentId: "{ClaimModel>DOC_ID}",
+		// 		fileName: "{ClaimModel>FileName}",
+		// 		mimeType: "{ClaimModel>MIMETYPE}",
+		// 		thumbnailUrl: "{ClaimModel>url}",
+		// 		url: "{ClaimModel>URI}"
+		// 	});
 
-			if (context.getProperty("type") === "folder") {
-				oItem.attachPress(this.onFolderPress, this);
-				oItem.attachDeletePress(this.onFolderDeletePress, this);
-				oItem.setAriaLabelForPicture("Folder");
-			}
-			return oItem;
-		},
-		bindUploadCollectionItems: function (path) {
-			this.oUploadCollection.bindItems({
-				path: path,
-				factory: this.uploadCollectionItemFactory.bind(this)
-			});
-		},
-		getCurrentLocationText: function () {
-			// Remove the previously added number of items from the currentLocationText in order to not show the number twice after rendering.
-			var sText = this.oBreadcrumbs.getCurrentLocationText().replace(/\s\([0-9]*\)/, "");
-			return sText;
-		},
+		// 	if (context.getProperty("type") === "folder") {
+		// 		oItem.attachPress(this.onFolderPress, this);
+		// 		oItem.attachDeletePress(this.onFolderDeletePress, this);
+		// 		oItem.setAriaLabelForPicture("Folder");
+		// 	}
+		// 	return oItem;
+		// },
+		// bindUploadCollectionItems: function (path) {
+		// 	this.oUploadCollection.bindItems({
+		// 		path: path,
+		// 		factory: this.uploadCollectionItemFactory.bind(this)
+		// 	});
+		// },
+		// getCurrentLocationText: function () {
+		// 	// Remove the previously added number of items from the currentLocationText in order to not show the number twice after rendering.
+		// 	var sText = this.oBreadcrumbs.getCurrentLocationText().replace(/\s\([0-9]*\)/, "");
+		// 	return sText;
+		// },
 
 		onFieldActionInput: function (oEvent) {
 			var FieldAction = oEvent.getParameters().value.toUpperCase();
