@@ -150,6 +150,13 @@ sap.ui.define([
 				error: function (response) {
 					sap.ui.core.BusyIndicator.hide();
 				}
+			}).done(function (data, textStatus, jqXHR) {
+
+				that.getModel("LocalDataModel").setProperty("/BPDealerDetails", data.attributes[0]);
+				//----------------------------------
+				//Code of Dealer Labour--------------
+				//------------------------------------
+				that.getDealerlabour(data.attributes[0]);
 			});
 
 		},
@@ -187,10 +194,10 @@ sap.ui.define([
 					success: function (zdata, textStatus, jqXHR) {
 						var oModel = new sap.ui.model.json.JSONModel();
 						zdata.d.Name = data.BusinessPartnerName;
-						var zd1 = parseInt(zdata.d.ECPEffectiveDate.replace(/[^0-9]+/g,''));
-						zdata.d.ECPEffectiveDate = new Date(zd1);
-							//var zd2 = parseInt(zdata.d.WTYEffectiveDate.replace(/[^0-9]+/g,''));
-						zdata.d.WTYEffectiveDate = new Date(zd1);
+						//var zd1 = parseInt(zdata.d.ECPEffectiveDate.replace(/[^0-9]+/g,''));
+						// zdata.d.ECPEffectiveDate = new Date(zd1);
+						// 	var zd2 = parseInt(zdata.d.WTYEffectiveDate.replace(/[^0-9]+/g,''));
+						// zdata.d.WTYEffectiveDate = new Date(zd1);
 						
 						oModel.setData(zdata.d);
 						

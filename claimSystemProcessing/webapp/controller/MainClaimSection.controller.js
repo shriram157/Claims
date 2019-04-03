@@ -1033,7 +1033,7 @@ sap.ui.define([
 				this.getModel("LocalDataModel").setProperty("/PricingDataModel", "");
 				// this.getModel("LocalDataModel").setProperty("/CancelEnable", true);
 				this.getModel("LocalDataModel").setProperty("/AgreementDataECP", "");
-				this.getView().getModel("ClaimModel").setProperty("/" + "/items", "");
+				//this.getView().getModel("ClaimModel").setProperty("/" + "/items", "");
 				this.getModel("LocalDataModel").setProperty("/HeadAtchmentData", "");
 				this.getView().getModel("DateModel").setProperty("/saveClaimSt", true);
 				this.getView().getModel("DateModel").setProperty("/updateClaimSt", false);
