@@ -97,6 +97,7 @@ sap.ui.define([
 						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ManageAll");
 						break;
 					case "Dealer_Services_Admin":
+
 						console.log("Dealer_Services_Admin");
 						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ManageAll");
 						break;
@@ -123,7 +124,7 @@ sap.ui.define([
 
 					default:
 						// raise a message, because this should not be allowed. 
-						console.log("This condition should not be allowed");
+
 					}
 				}
 			});
@@ -160,6 +161,13 @@ sap.ui.define([
 				error: function (response) {
 					sap.ui.core.BusyIndicator.hide();
 				}
+			}).done(function (data, textStatus, jqXHR) {
+
+				that.getModel("LocalDataModel").setProperty("/BPDealerDetails", data.attributes[0]);
+				//----------------------------------
+				//Code of Dealer Labour--------------
+				//------------------------------------
+				that.getDealerlabour(data.attributes[0]);
 			});
 
 		},
