@@ -11,6 +11,7 @@ sap.ui.define([
 		 * @public
 		 * @returns {sap.ui.core.routing.Router} the router for this component
 		 */
+
 		getRouter: function () {
 			return this.getOwnerComponent().getRouter();
 		},
@@ -71,6 +72,8 @@ sap.ui.define([
 			//======================================================================================================================//		
 			//  get the Scopes to the UI 
 			//this.sPrefix ="";
+			var oModel = new sap.ui.model.json.JSONModel();
+			sap.ui.getCore().setModel(oModel, "UserDataModel");
 			var that = this;
 			$.ajax({
 				url: this.sPrefix + "/userDetails/currentScopesForUser",
@@ -81,41 +84,49 @@ sap.ui.define([
 					// userScopes.forEach(function (data) {
 
 					var userType = oData.loggedUserType[0];
+					sap.ui.getCore().getModel("UserDataModel").setProperty("/LoggedInUser", userType);
+					sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "");
+					// sap.ui.getCore().getModel("UserDataModel").setProperty("/ManageAll",false);
+					// sap.ui.getCore().getModel("UserDataModel").setProperty("/ShowAuthorization",false);
+					// sap.ui.getCore().getModel("UserDataModel").setProperty("/NoNewUpdateViewOnly",false);
+					// sap.ui.getCore().getModel("UserDataModel").setProperty("/ReadOnlyViewAll",false);
+					// sap.ui.getCore().getModel("UserDataModel").setProperty("/ReadOnlyCoverageClaim",false);
 					switch (userType) {
 					case "Dealer_Parts_Admin":
 						console.log("Dealer Parts");
-
+						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ManageAll");
 						break;
 					case "Dealer_Services_Admin":
 
 						console.log("Dealer_Services_Admin");
+						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ManageAll");
 						break;
-
 					case "Dealer_User":
 						console.log("Dealer_User");
-
+						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "NoNewUpdateViewOnly");
 						break;
 					case "TCI_Admin":
 						console.log("TCI_Admin");
+						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ReadOnlyViewAll");
 						break;
 					case "TCI_User":
 						console.log("TCI_User");
+						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ReadOnlyCoverageClaim");
 						break;
-
 					case "Zone_User":
 						console.log("Zone_User");
+						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ReadOnlyViewAll");
 						break;
+					case "Dealer_Services_Manager":
+						console.log("Dealer_Services_Manager");
+						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ManageAllShowAuthorization");
+						break;
+
 					default:
 						// raise a message, because this should not be allowed. 
 
 					}
 				}
-
-				// if (data === "ecpSales!t1188.Manage_ECP_Application") {
-				// 	that.getView().getModel("oDateModel").setProperty("/oCreateButton", true);
-				// 	that.getModel("LocalDataModel").setProperty("/newAppLink", true);
-				// } 
-
 			});
 
 			// get the attributes and BP Details - Minakshi to confirm if BP details needed		// TODO: 
@@ -185,7 +196,7 @@ sap.ui.define([
 		getDealerlabour: function (data) {
 				var that = this;
 				var oUrl = this.sPrefix + "/node/ZDLR_CLAIM_SRV/zc_labour_rateSet(Partner='" + data.BusinessPartnerKey + "',Division='" + data.Division +
-					"')" ;
+					"')";
 				$.ajax({
 					url: oUrl,
 					method: 'GET',
@@ -194,14 +205,14 @@ sap.ui.define([
 					success: function (zdata, textStatus, jqXHR) {
 						var oModel = new sap.ui.model.json.JSONModel();
 						zdata.d.Name = data.BusinessPartnerName;
-						//var zd1 = parseInt(zdata.d.ECPEffectiveDate.replace(/[^0-9]+/g,''));
-						// zdata.d.ECPEffectiveDate = new Date(zd1);
-						// 	var zd2 = parseInt(zdata.d.WTYEffectiveDate.replace(/[^0-9]+/g,''));
-						// zdata.d.WTYEffectiveDate = new Date(zd1);
-						
+						var zd1 = parseInt(zdata.d.ECPEffectiveDate.replace(/[^0-9]+/g, ''));
+						zdata.d.ECPEffectiveDate = new Date(zd1);
+						//var zd2 = parseInt(zdata.d.WTYEffectiveDate.replace(/[^0-9]+/g,''));
+						zdata.d.WTYEffectiveDate = new Date(zd1);
+
 						oModel.setData(zdata.d);
-						
-                        that.getView().setModel(oModel,'DealerLabour');
+
+						that.getView().setModel(oModel, 'DealerLabour');
 					},
 					error: function (jqXHR, textStatus, errorThrown) {}
 				});
