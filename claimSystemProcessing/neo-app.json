@@ -1,40 +1,37 @@
 {
-  "welcomeFile": "/webapp/index.html",
-  "routes": [
-    {
-      "path": "/resources",
-      "target": {
-        "type": "service",
-        "name": "sapui5",
-        "entryPath": "/resources"
-      },
-      "description": "SAPUI5 Resources"
-    },
-    {
-      "path": "/test-resources",
-      "target": {
-        "type": "service",
-        "name": "sapui5",
-        "entryPath": "/test-resources"
-      },
-      "description": "SAPUI5 Test Resources"
-    },
-    {
-      "path": "Claim_Destination",
-      "target": {
-        "type": "destination",
-        "name": "Claim_Destination"
-      },
-      "description": "Claim_Destination"
-    },
-    {
-      "path": "/ecpSales_node_secured",
-      "target": {
-        "type": "destination",
-        "name": "ecpSales_node_secured"
-      },
-      "description": "ecp Sales Secured"
-    }
-  ],
-  "sendWelcomeFileRedirect": true
+	"welcomeFile": "/webapp/index.html",
+	"routes": [{
+		"path": "/resources",
+		"target": {
+			"type": "service",
+			"name": "sapui5",
+			"entryPath": "/resources",
+			"version": "1.63.1"
+		},
+		"description": "SAPUI5 Resources"
+	}, {
+		"path": "/test-resources",
+		"target": {
+			"type": "service",
+			"name": "sapui5",
+			"entryPath": "/test-resources",
+			"version": "1.63.1"
+		},
+		"description": "SAPUI5 Test Resources"
+	}, {
+		"path": "Claim_Destination",
+		"target": {
+			"type": "destination",
+			"name": "Claim_Destination"
+		},
+		"description": "Claim_Destination"
+	}, {
+		"path": "/ecpSales_node_secured",
+		"target": {
+			"type": "destination",
+			"name": "ecpSales_node_secured"
+		},
+		"description": "ecp Sales Secured"
+	}],
+	"sendWelcomeFileRedirect": true
 }
