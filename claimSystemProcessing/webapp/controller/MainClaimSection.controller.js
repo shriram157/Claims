@@ -243,6 +243,8 @@ sap.ui.define([
 			this.getModel("LocalDataModel").setProperty("/reCalculate", false);
 			this.getModel("LocalDataModel").setProperty("/PercentState", false);
 			this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
+			
+			this.getModel("LocalDataModel").setProperty("/IndicatorState", false);
 			//this.getView().byId("__picker0-inner").setEnabled(false);
 
 		},
@@ -702,7 +704,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
 							this.getView().getModel("DateModel").setProperty("/copyClaimEnable", false);
 							this.getView().getModel("DateModel").setProperty("/claimEditSt", false);
-							this.getView().getModel("DateModel").setProperty("/updateEnable", false);
+							//this.getView().getModel("DateModel").setProperty("/updateEnable", false);
 							this.getModel("LocalDataModel").setProperty("/CancelEnable", false);
 							this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
 							this.getView().getModel("DateModel").setProperty("/authAcClm", false);
@@ -2715,6 +2717,7 @@ sap.ui.define([
 		},
 		onUplaodChange: function (oEvent) {
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
+			this.getModel("LocalDataModel").setProperty("/IndicatorState", true);
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			//this.obj.Message = "";
 			this.obj.NumberOfWarrantyClaim = oClaimNum;
@@ -2746,7 +2749,7 @@ sap.ui.define([
 					var strCSV = e.target.result;
 					if (reader.result) reader.content = reader.result;
 					this.oBase = btoa(reader.content);
-
+					
 				}, this);
 
 			} else {
@@ -2801,6 +2804,7 @@ sap.ui.define([
 
 			oClaimModel.create("/zc_headSet", this.obj, {
 				success: $.proxy(function (data, response) {
+					this.getModel("LocalDataModel").setProperty("/IndicatorState", false);
 					this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", response.OFPDescription);
 					this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.MainOpsCodeDescription);
 					MessageToast.show(oBundle.getText("SuccesFullyUploaded"));
@@ -2821,6 +2825,7 @@ sap.ui.define([
 							//this.getModel("LocalDataModel").setProperty("/oAttachmentSet", odata.results);
 							//this.getView().getModel("ClaimModel").setProperty("/" + "/items", oArr);
 							this.getModel("LocalDataModel").setProperty("/HeadAtchmentData", oAttachSet);
+							
 							// // this.getModel("LocalDataModel").setProperty("/oAttachmentSet", );
 							// this.getView().getModel("ClaimModel").setProperty(sCurrentPath + "/items", odata.results);
 						}, this)
