@@ -21,16 +21,19 @@
 					</ComboBox>
 					<core:Title text=""/>
 					<Label text="{i18n>FirstSubmissionDate}"/>
-					<Text text="{ path: 'HeadSetData>/ReferenceDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium' , pattern: 'YYYY-MM-dd'} }"/>
+					<Text
+						text="{ path: 'HeadSetData>/ReferenceDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium' , pattern: 'YYYY-MM-dd'} }"/>
 					<Label text="{i18n>ClaimAge}"/>
 					<Text text="{HeadSetData>/ClaimAge}"/>
 					<Label text="{i18n>LastModifiedby}"/>
 					<Text text="{HeadSetData>/NameOfPersonRespWhoChangedObj}"/>
 					<core:Title text=""/>
 					<Label text="{i18n>LastSubmissionDate}"/>
-					<Text text="{ path: 'HeadSetData>/DateOfApplication', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium' , pattern: 'YYYY-MM-dd'} }"/>
+					<Text
+						text="{ path: 'HeadSetData>/DateOfApplication', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium' , pattern: 'YYYY-MM-dd'} }"/>
 					<Label text="{i18n>FinalProcessedDate}"/>
-					<Text text="{ path: 'HeadSetData>/FinalProcdDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium' , pattern: 'YYYY-MM-dd'} }"/>
+					<Text
+						text="{ path: 'HeadSetData>/FinalProcdDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium' , pattern: 'YYYY-MM-dd'} }"/>
 					<Label text=""></Label>
 					<Button text="{i18n>SaveClaim}" type="Emphasized" press="onSaveClaim">
 						<layoutData>
@@ -49,7 +52,8 @@
 				<Input value="{path:'HeadSetData>/Delivery', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 10 } }"
 					required="true" id="idOutboundDNum"/>
 				<Label text="{i18n>ReceivedDate}"/>
-				<DatePicker value="{path:'HeadSetData>/ShipmentReceivedDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd' } }"
+				<DatePicker
+					value="{path:'HeadSetData>/ShipmentReceivedDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd' } }"
 					required="true" id="idShipmentRDate"/>
 				<Label text="{i18n>ShippingPartstoPDC}"/>
 				<Select id="idPartsShipping">
@@ -107,23 +111,40 @@
 				adjustLabelSpan="false" emptySpanXL="4" emptySpanL="4" emptySpanM="0" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1"
 				singleContainerFullSize="false">
 				<f:content>
-					<UploadCollection change="onUploadChangeParts" id="UploadSupportingDoc" uploadComplete="onUploadCompleteParts" fileDeleted="onFileDeleted"
-						beforeUploadStarts="onBeforeUpload" items="{ path: 'ClaimModel>/items', templateShareable: false }">
+					<UploadCollection id="UploadSupportingDoc" uploadEnabled="{LocalDataModel>/UploadEnable}" change="onUploadChangeParts"
+						uploadComplete="onUploadCompleteParts" fileDeleted="onFileDeleted" items="{ path: 'LocalDataModel>/PartHeadAttachData', templateShareable: false }">
 						<toolbar>
 							<OverflowToolbar>
-								<Breadcrumbs id="breadcrumbsSupportingDoc" currentLocationText="{ClaimModel>/currentLocationText}" links="{ClaimModel>/partsHistory}">
-									<Link press="onBreadcrumbPress" text="{ClaimModel>fileName}"/>
+								<Breadcrumbs id="breadcrumbsSupportingDoc" currentLocationText="{LocalDataModel>/currentLocationText}" links="{LocalDataModel>/partsHistory}">
+									<Link press="onBreadcrumbPress" text="{LocalDataModel>fileName}"/>
 								</Breadcrumbs>
 								<ToolbarSpacer/>
 								<UploadCollectionToolbarPlaceholder/>
 							</OverflowToolbar>
 						</toolbar>
 						<items>
-							<UploadCollectionItem selected="onSelectUpload" documentId="{ClaimModel>DOC_ID}" fileName="{ClaimModel>FileName}"
-								mimeType="{ClaimModel>MIMETYPE}" thumbnailUrl="{ClaimModel>url}" url="{ClaimModel>URI}" enableEdit="{settings>/enableEdit}"
-								enableDelete="{settings>/enableDelete}" visibleDelete="{settings>/visibleDelete}" visibleEdit="{settings>/visibleEdit}"></UploadCollectionItem>
+							<UploadCollectionItem documentId="{LocalDataModel>DOC_ID}" fileName="{LocalDataModel>FileName}" mimeType="{LocalDataModel>MIMETYPE}"
+								thumbnailUrl="{LocalDataModel>url}" url="{LocalDataModel>URI}" enableEdit="{settings>/enableEdit}" enableDelete="{settings>/enableDelete}"
+								visibleDelete="{settings>/visibleDelete}" visibleEdit="{settings>/visibleEdit}"></UploadCollectionItem>
 						</items>
 					</UploadCollection>
+					<!--<UploadCollection change="onUploadChangeParts" id="UploadSupportingDoc" uploadComplete="onUploadCompleteParts" fileDeleted="onFileDeleted"-->
+					<!--	beforeUploadStarts="onBeforeUpload" items="{ path: 'ClaimModel>/items', templateShareable: false }">-->
+					<!--	<toolbar>-->
+					<!--		<OverflowToolbar>-->
+					<!--			<Breadcrumbs id="breadcrumbsSupportingDoc" currentLocationText="{ClaimModel>/currentLocationText}" links="{ClaimModel>/partsHistory}">-->
+					<!--				<Link press="onBreadcrumbPress" text="{ClaimModel>fileName}"/>-->
+					<!--			</Breadcrumbs>-->
+					<!--			<ToolbarSpacer/>-->
+					<!--			<UploadCollectionToolbarPlaceholder/>-->
+					<!--		</OverflowToolbar>-->
+					<!--	</toolbar>-->
+					<!--	<items>-->
+					<!--		<UploadCollectionItem selected="onSelectUpload" documentId="{ClaimModel>DOC_ID}" fileName="{ClaimModel>FileName}"-->
+					<!--			mimeType="{ClaimModel>MIMETYPE}" thumbnailUrl="{ClaimModel>url}" url="{ClaimModel>URI}" enableEdit="{settings>/enableEdit}"-->
+					<!--			enableDelete="{settings>/enableDelete}" visibleDelete="{settings>/visibleDelete}" visibleEdit="{settings>/visibleEdit}"></UploadCollectionItem>-->
+					<!--	</items>-->
+					<!--</UploadCollection>-->
 				</f:content>
 			</f:SimpleForm>
 		</content>
@@ -145,7 +166,7 @@
 						<table:multiLabels>
 							<Label text="{i18n>Totalsincludedmarkupdiscounts}" textAlign="Center" width="100%"/>
 						</table:multiLabels>
-						<table:template hAlign = "Center">
+						<table:template hAlign="Center">
 							<Text text="{LocalDataModel>ItemType}" wrapping="false"/>
 						</table:template>
 					</table:Column>
@@ -153,7 +174,7 @@
 						<table:multiLabels>
 							<Label text="{i18n>Dealer Claimed Amount}" textAlign="Center" width="100%"/>
 						</table:multiLabels>
-						<table:template hAlign = "Center">
+						<table:template hAlign="Center">
 							<Text text="{LocalDataModel>DealerClaim}" wrapping="false"/>
 						</table:template>
 					</table:Column>
@@ -161,7 +182,7 @@
 						<table:multiLabels>
 							<Label text="{i18n>TCIApprovedAmount}" textAlign="Center" width="100%"/>
 						</table:multiLabels>
-						<table:template hAlign = "Center">
+						<table:template hAlign="Center">
 							<Text text="{LocalDataModel>TCIAppr}" wrapping="false"/>
 						</table:template>
 					</table:Column>
@@ -169,7 +190,7 @@
 						<table:multiLabels>
 							<Label text="{i18n>DifferenceCAD}" textAlign="Center" width="100%"/>
 						</table:multiLabels>
-						<table:template hAlign = "Center">
+						<table:template hAlign="Center">
 							<Text text="{LocalDataModel>Diff}" wrapping="false"/>
 						</table:template>
 					</table:Column>
@@ -178,7 +199,7 @@
 							<Label text="{i18n>GSTHST}" textAlign="Center" width="100%"/>
 							<Label text="{i18n>Amount}" textAlign="Center" width="100%"/>
 						</table:multiLabels>
-						<table:template hAlign = "Center">
+						<table:template hAlign="Center">
 							<Text text="{LocalDataModel>GSTHSTAmt}" wrapping="false"/>
 						</table:template>
 					</table:Column>
@@ -187,7 +208,7 @@
 							<Label text="{i18n>GSTHST}"/>
 							<Label text="{i18n>Tax}" textAlign="Center" width="100%"/>
 						</table:multiLabels>
-						<table:template hAlign = "Center">
+						<table:template hAlign="Center">
 							<Text text="{LocalDataModel>GSTHSTRate}" wrapping="false"/>
 						</table:template>
 					</table:Column>
@@ -196,7 +217,7 @@
 							<Label text="{i18n>PSTQST}" textAlign="Center" width="100%"/>
 							<Label text="{i18n>Amount}" textAlign="Center" width="100%"/>
 						</table:multiLabels>
-						<table:template hAlign = "Center">
+						<table:template hAlign="Center">
 							<Text text="{LocalDataModel>PSTQSTAmt}" wrapping="false"/>
 						</table:template>
 					</table:Column>
@@ -205,7 +226,7 @@
 							<Label text="{i18n>PSTQST}"/>
 							<Label text="{i18n>Tax}" textAlign="Center" width="100%"/>
 						</table:multiLabels>
-						<table:template hAlign = "Center">
+						<table:template hAlign="Center">
 							<Text text="{LocalDataModel>PSTQSTRate}" wrapping="false"/>
 						</table:template>
 					</table:Column>
@@ -213,7 +234,7 @@
 						<table:multiLabels>
 							<Label text="{i18n>TCIApprovedAmountIncludingTax}" textAlign="Center" width="100%"/>
 						</table:multiLabels>
-						<table:template hAlign = "Center">
+						<table:template hAlign="Center">
 							<Text text="{LocalDataModel>TCIApprInclTax}" wrapping="false"/>
 						</table:template>
 					</table:Column>
