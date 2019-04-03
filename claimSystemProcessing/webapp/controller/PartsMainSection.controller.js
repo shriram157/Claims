@@ -2526,10 +2526,12 @@ sap.ui.define([
 			// });
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
-			this.deleteItemById(oEvent.getParameter("documentId"), "ClaimModel");
-			MessageToast.show("FileDeleted event triggered.");
-			var fileNamePre = "HEAD@@@" + oEvent.getParameters().item.getFileName();
-			var oFileName = fileNamePre.toUpperCase();
+			// this.deleteItemById(oEvent.getParameter("documentId"), "ClaimModel");
+			// MessageToast.show("FileDeleted event triggered.");
+			// var fileNamePre = "HEAD@@@" + oEvent.getParameters().item.getFileName();
+			var oLine = oEvent.getSource()._oItemForDelete._iLineNumber;
+			var oFileName = this.getModel("LocalDataModel").getProperty("/HeadAtchmentData/" + oLine + "/FileName");
+			oFileName = "HEAD@@@" + oFileName.toUpperCase();
 			var oClaimModel = this.getModel("ProssingModel");
 
 			// var itemObj = {
