@@ -66,7 +66,6 @@ sap.ui.define([
 				this.sPrefix = "";
 				this.attributeUrl = "/userDetails/attributes";
 			}
-
 			//======================================================================================================================//			
 			//  on init method,  get the token attributes and authentication details to the UI from node layer.  - begin
 			//======================================================================================================================//		
@@ -126,6 +125,7 @@ sap.ui.define([
 						// raise a message, because this should not be allowed. 
 
 					}
+					console.log(sap.ui.getCore().getModel("UserDataModel"));
 				}
 			});
 
