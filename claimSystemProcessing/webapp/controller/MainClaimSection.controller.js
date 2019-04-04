@@ -2766,7 +2766,17 @@ sap.ui.define([
 
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			var fileType = this.oUploadedFile.type;
-			var fileNamePrior = "HEAD@@@" + this.oUploadedFile.name;
+			var oUploadedFileArr = this.oUploadedFile.name.split(".").reverse();
+			var oFileExt = oUploadedFileArr[0].length;
+			var oFileName = "";
+			
+			if(oFileExt > 3) {
+				oFileName = this.oUploadedFile.name.slice(1, -1);
+			}else {
+				oFileName = this.oUploadedFile.name;
+			}
+			
+			var fileNamePrior = "HEAD@@@" + oFileName;
 			var fileName = fileNamePrior.toUpperCase();
 			var isProxy = "";
 			if (window.document.domain == "localhost") {
@@ -2839,7 +2849,16 @@ sap.ui.define([
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			var oSubletType = this.getView().getModel("SubletDataModel").getProperty("/SubletCode");
 			var fileType = this.oUploadedFile.type;
-			var fileNamePrior = oSubletType + "@@@" + this.oUploadedFile.name;
+			var oUploadedFileArr = this.oUploadedFile.name.split(".").reverse();
+			var oFileExt = oUploadedFileArr[0].length;
+			var oFileName = "";
+			
+			if(oFileExt > 3) {
+				oFileName = this.oUploadedFile.name.slice(1, -1);
+			}else {
+				oFileName = this.oUploadedFile.name;
+			}
+			var fileNamePrior = oSubletType + "@@@" + oFileName;
 			var fileName = fileNamePrior.toUpperCase();
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var isProxy = "";
