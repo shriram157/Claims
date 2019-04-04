@@ -73,7 +73,7 @@
 				<Button text="{i18n>SuggestedOperations}" press="onPressSuggestLabour" enabled="{DateModel>/oFormEdit}" visible="{DateModel>/LabourBtnVsbl}"/>
 				<core:Title text=""/>
 				<Label text="{i18n>LabourRate}"/>
-				<Text text="${LocalDataModel>/PricingDataModel/0/LabourPer}"/>
+				<Text text="${LocalDataModel>/LabourPricingDataModel/0/LabourPer}"/>
 				<core:Title text=""/>
 				<Button text="{i18n>SaveClaim}" type="Emphasized" press="onPressSaveClaimItemLabour" enabled="{DateModel>/labourLine}"/>
 			</f:content>
