@@ -138,8 +138,8 @@
 							</toolbar>
 							<items>
 								<UploadCollectionItem documentId="{LocalDataModel>DOC_ID}" fileName="{LocalDataModel>FileName}" mimeType="{LocalDataModel>MIMETYPE}"
-									thumbnailUrl="{LocalDataModel>url}" url="{LocalDataModel>URI}" enableEdit="{settings>/enableEdit}" enableDelete="{settings>/enableDelete}"
-									visibleDelete="{settings>/visibleDelete}" visibleEdit="{settings>/visibleEdit}">
+									thumbnailUrl="{LocalDataModel>url}" url="{LocalDataModel>URI}" enableEdit="false" enableDelete="{LocalDataModel>/UploadEnable}"
+									visibleDelete="{settings>/visibleDelete}" visibleEdit="false">
 									
 								</UploadCollectionItem>
 							</items>

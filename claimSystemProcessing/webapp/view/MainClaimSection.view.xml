@@ -6,7 +6,7 @@
 			<VBox width="100%" class="sapUiSmallMarginTop">
 			<HBox width="100%" justifyContent="End" displayInline="true">
 				<Link text="CVSH" class="clFont01"/>
-				<Text   text="Labour Rate (CAD) :" class="sapUiMediumMarginBeginEnd clFont01" />
+				<Text   text="Labour Rate (CAD) : ${LocalDataModel>/PricingDataModel/0/LabourPer}" class="sapUiMediumMarginBeginEnd clFont01" />
 				<Text text="{i18n>Status} : {HeadSetData>/ProcessingStatusOfWarrantyClm}" class="sapUiSmallMarginEnd clFont01" />
 				
 			</HBox>

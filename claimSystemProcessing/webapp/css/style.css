@@ -124,6 +124,9 @@
 }
 
 
-/*.hideDltBtn .sapMUCDeleteBtn {
-    display: none;
-}*/
+/*.hideDltBtn .sapMUCDeleteBtn {*/
+/*    visibility:hidden;*/
+/*}*/
+/*.showDltBtn .sapMUCDeleteBtn {*/
+/*    visibility:visible;*/
+/*}*/
