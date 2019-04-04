@@ -13,7 +13,7 @@
 				emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="3" columnsL="3" columnsM="3">
 				<f:content>
 					<core:Title text=""/>
-					<Label text="Claim Type"/>
+					<Label text="{i18n>ClaimType}"/>
 					<ComboBox id="ID_claimGroupsforParts" required="true"
 						items="{path:'/ZC_CLAIM_GROUP', filters : [{path:'ClaimGroupDes', operator:'EQ', value1 : 'PART WAREHOUSE' }]}" change="onSelectClaim"
 						selectedKey="{HeadSetData>/WarrantyClaimType}" enabled="{DateModel>/claimTypeEn}">

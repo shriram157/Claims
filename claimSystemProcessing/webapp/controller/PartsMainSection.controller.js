@@ -33,7 +33,8 @@ sap.ui.define([
 				oLetterOfIntent: false,
 				saveParts: false,
 				partTypeState: "None",
-				SaveClimBTN: false
+				SaveClimBTN: false,
+				submitTCIBtn:false
 			});
 			this.getView().setModel(oDateModel, "DateModel");
 			var oNodeModel = new sap.ui.model.json.JSONModel();
@@ -280,7 +281,8 @@ sap.ui.define([
 					oLetterOfIntent: false,
 					saveParts: false,
 					partTypeState: "None",
-					SaveClimBTN: false
+					SaveClimBTN: false,
+					submitTCIBtn:false
 				});
 			} else {
 				oDateModel.setData({
@@ -293,7 +295,8 @@ sap.ui.define([
 					oLetterOfIntent: false,
 					saveParts: false,
 					partTypeState: "None",
-					SaveClimBTN: true
+					SaveClimBTN: true,
+					submitTCIBtn:true
 				});
 			}
 			this.getView().setModel(oDateModel, "DateModel");
