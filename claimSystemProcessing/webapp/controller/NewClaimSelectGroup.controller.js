@@ -15,6 +15,11 @@ sap.ui.define([
 			var oClaimGroup = [];
 			var oClaimGroupJson = [];
 			this.getOwnerComponent().getModel("LocalDataModel").setProperty("/RadioEdit", false);
+			
+			//Model data set for Header Links visibility as per User login
+			console.log("HeaderLinksModel", sap.ui.getCore().getModel("HeaderLinksModel"));
+			this.getView().setModel(sap.ui.getCore().getModel("HeaderLinksModel"), "HeaderLinksModel");
+			
 			oProssingModel.read("/ZC_CLAIM_GROUP", {
 				success: $.proxy(function (data) {
 					var odata = data.results;

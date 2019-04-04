@@ -14,7 +14,9 @@ sap.ui.define([
 		 * @memberOf zclaimProcessing.view.QueryCoverageTools
 		 */
 		onInit: function () {
-
+			//Model data set for Header Links visibility as per User login
+			console.log("HeaderLinksModel", sap.ui.getCore().getModel("HeaderLinksModel"));
+			this.getView().setModel(sap.ui.getCore().getModel("HeaderLinksModel"), "HeaderLinksModel");
 		},
 
 		/**

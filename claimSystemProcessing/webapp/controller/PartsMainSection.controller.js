@@ -14,21 +14,26 @@ sap.ui.define([
 	"use strict";
 	var callData, arrPartLOI = [],
 		BpDealerModel, BpDealerList = [],
-		oFilteredDealerData, dialogValidator, BPKey;
+		oFilteredDealerData, dialogValidator, BPKey, userScope;
 	return BaseController.extend("zclaimProcessing.controller.PartsMainSection", {
 
 		onInit: function () {
+			userScope = sap.ui.getCore().getModel("UserDataModel").getProperty("/UserScope");
+			console.log("HeaderLinksModel", sap.ui.getCore().getModel("HeaderLinksModel"));
+			this.getView().setModel(sap.ui.getCore().getModel("HeaderLinksModel"), "HeaderLinksModel");
+			console.log(sap.ui.getCore().getModel("UserDataModel").getProperty("/UserScope"));
 			var oDateModel = new sap.ui.model.json.JSONModel();
 			oDateModel.setData({
 				dateValueDRS2: new Date(2018, 1, 1),
 				secondDateValueDRS2: new Date(2018, 2, 1),
 				partLine: false,
-				oFormEdit: true,
-				claimTypeEn: true,
-				SaveClaim07: true,
+				oFormEdit: false,
+				claimTypeEn: false,
+				SaveClaim07: false,
 				oLetterOfIntent: false,
 				saveParts: false,
-				partTypeState: "None"
+				partTypeState: "None",
+				SaveClimBTN: false
 			});
 			this.getView().setModel(oDateModel, "DateModel");
 			var oNodeModel = new sap.ui.model.json.JSONModel();
@@ -263,6 +268,35 @@ sap.ui.define([
 			});
 		},
 		_onRoutMatched: function (oEvent) {
+			var oDateModel = new sap.ui.model.json.JSONModel();
+			if (userScope == "ReadOnlyViewAll") {
+				oDateModel.setData({
+					dateValueDRS2: new Date(2018, 1, 1),
+					secondDateValueDRS2: new Date(2018, 2, 1),
+					partLine: false,
+					oFormEdit: false,
+					claimTypeEn: false,
+					SaveClaim07: false,
+					oLetterOfIntent: false,
+					saveParts: false,
+					partTypeState: "None",
+					SaveClimBTN: false
+				});
+			} else {
+				oDateModel.setData({
+					dateValueDRS2: new Date(2018, 1, 1),
+					secondDateValueDRS2: new Date(2018, 2, 1),
+					partLine: false,
+					oFormEdit: true,
+					claimTypeEn: true,
+					SaveClaim07: true,
+					oLetterOfIntent: false,
+					saveParts: false,
+					partTypeState: "None",
+					SaveClimBTN: true
+				});
+			}
+			this.getView().setModel(oDateModel, "DateModel");
 			// this._getBPModel();
 			this._getBPList();
 			var oClaim = oEvent.getParameters().arguments.claimNum;
@@ -407,11 +441,13 @@ sap.ui.define([
 						this.getView().setModel(HeadSetData, "HeadSetData");
 						this.ClaimStatus = data.results[0].DecisionCode;
 						console.log("this.ClaimStatus", this.ClaimStatus);
-						if (this.ClaimStatus == "ZTRC" || this.ClaimStatus == "ZTIC") {
-							//code here
-							this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
-						} else {
-							this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
+						if (userScope == "ReadOnlyViewAll") {} else {
+							if (this.ClaimStatus == "ZTRC" || this.ClaimStatus == "ZTIC") {
+								//code here
+								this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
+							} else {
+								this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
+							}
 						}
 
 					}, this),
