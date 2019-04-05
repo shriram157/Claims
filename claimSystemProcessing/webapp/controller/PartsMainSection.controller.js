@@ -2285,7 +2285,16 @@ sap.ui.define([
 		onUploadCompleteParts: function (oEvent) {
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			var fileType = this.oUploadedFile.type;
-			var fileNamePrior = "HEAD@@@" + this.oUploadedFile.name;
+			var oUploadedFileArr = this.oUploadedFile.name.split(".").reverse();
+			var oFileExt = oUploadedFileArr[0].length;
+			var oFileName = "";
+			//oFileName = this.oUploadedFile.name.replace("." + oFileExt, "");
+			if (oFileExt > 3) {
+				oFileName = this.oUploadedFile.name.slice(0, -1);
+			} else {
+				oFileName = this.oUploadedFile.name;
+			}
+			var fileNamePrior = "HEAD@@@" + oFileName;
 			var fileName = fileNamePrior.toUpperCase();
 			var isProxy = "";
 			if (window.document.domain == "localhost") {
@@ -2354,7 +2363,16 @@ sap.ui.define([
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			var oPartNo = this.getView().getModel("PartDataModel").getProperty("/matnr");
 			var fileType = this.oUploadedFile.type;
-			var fileNamePrior = oPartNo + "@@@" + this.oUploadedFile.name;
+			var oUploadedFileArr = this.oUploadedFile.name.split(".").reverse();
+			var oFileExt = oUploadedFileArr[0].length;
+			var oFileName = "";
+			//oFileName = this.oUploadedFile.name.replace("." + oFileExt, "");
+			if (oFileExt > 3) {
+				oFileName = this.oUploadedFile.name.slice(0, -1);
+			} else {
+				oFileName = this.oUploadedFile.name;
+			}
+			var fileNamePrior = oPartNo + "@@@" + oFileName;
 			var fileName = fileNamePrior.toUpperCase();
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var isProxy = "";
@@ -2443,22 +2461,19 @@ sap.ui.define([
 		onFileDeleted02: function (oEvent) {
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
-
+			var oPartNo = this.getView().getModel("PartDataModel").getProperty("/matnr");
 			var oFileName = oEvent.getParameters().item.getFileName();
+			var oFileDeleteName = oPartNo + "@@@" + oFileName;
 			var oClaimModel = this.getModel("ProssingModel");
-			// var itemObj = {
-			// 	"NumberOfWarrantyClaim": oClaimNum,
-			// 	"COMP_ID": oFileName,
-			// 	"DBOperation": "DELT"
-			// };
+			
 			oClaimModel.refreshSecurityToken();
-			oClaimModel.remove("/zc_claim_attachmentsSet(NumberOfWarrantyClaim='" + oClaimNum + "',FileName='" + oFileName + "')", {
+			oClaimModel.remove("/zc_claim_attachmentsSet(NumberOfWarrantyClaim='" + oClaimNum + "',FileName='" + oFileDeleteName + "')", {
 				method: "DELETE",
 				success: $.proxy(function () {
 					MessageToast.show(oBundle.getText("Filedeletedsuccessfully"));
 					oClaimModel.read("/zc_claim_partattachmentSet", {
 						urlParameters: {
-							"$filter": "NumberOfWarrantyClaim eq'" + oClaimNum + "'and AttachLevel eq 'SUBL' and FileName eq'" + oFileName + "'"
+							"$filter": "NumberOfWarrantyClaim eq'" + oClaimNum + "'and AttachLevel eq 'PART' and FileName eq'" + oFileDeleteName + "'"
 						},
 						success: $.proxy(function (odata) {
 							this.getModel("LocalDataModel").setProperty("/partItemAttachments", odata.results);
@@ -2467,42 +2482,6 @@ sap.ui.define([
 				}, this)
 			});
 		},
-
-		// uploadCollectionItemFactory: function (id, context) {
-		// 	var oItem = new sap.m.UploadCollectionItem(id, {
-		// 		documentId: "{ClaimModel>DOC_ID}",
-		// 		fileName: "{ClaimModel>FileName}",
-		// 		mimeType: "{ClaimModel>MIMETYPE}",
-		// 		thumbnailUrl: "{ClaimModel>url}",
-		// 		url: "{ClaimModel>URI}"
-		// 	});
-
-		// 	if (context.getProperty("type") === "folder") {
-		// 		oItem.attachPress(this.onFolderPress, this);
-		// 		oItem.attachDeletePress(this.onFolderDeletePress, this);
-		// 		oItem.setAriaLabelForPicture("Folder");
-		// 	}
-		// 	return oItem;
-		// },
-
-		// bindUploadCollectionItems: function (path) {
-		// 	this.oUploadCollection.bindItems({
-		// 		path: path,
-		// 		factory: this.uploadCollectionItemFactory.bind(this)
-		// 	});
-		// },
-
-		// deleteItemById: function (sItemToDeleteId, mModel) {
-		// 	var sCurrentPath = this.getCurrentFolderPath();
-		// 	var oData = this.getView().getModel(mModel).getProperty(sCurrentPath);
-		// 	var aItems = oData && oData.items;
-		// 	jQuery.each(aItems, function (index) {
-		// 		if (aItems[index] && aItems[index].documentId === sItemToDeleteId) {
-		// 			aItems.splice(index, 1);
-		// 		}
-		// 	});
-		// 	this.getView().getModel(mModel).setProperty(sCurrentPath + "/items", aItems);
-		// },
 
 		_fnDateFormat: function (elm) {
 			if (elm != "" && elm != null) {
