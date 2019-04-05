@@ -34,7 +34,7 @@ sap.ui.define([
 				saveParts: false,
 				partTypeState: "None",
 				SaveClimBTN: false,
-				submitTCIBtn:false
+				submitTCIBtn: false
 			});
 			this.getView().setModel(oDateModel, "DateModel");
 			var oNodeModel = new sap.ui.model.json.JSONModel();
@@ -86,24 +86,7 @@ sap.ui.define([
 
 			this.getView().setModel(new sap.ui.model.json.JSONModel(oMultiHeaderConfig), "multiHeaderConfig");
 			this.oUploadCollection = this.byId("UploadSupportingDoc");
-			// this.oBreadcrumbs = this.byId("breadcrumbsSupportingDoc");
-			// this.bindUploadCollectionItems("ClaimModel>/items");
-			// this.oUploadCollection.addEventDelegate({
-			// 	onAfterRendering: function () {
-			// 		var iCount = this.oUploadCollection.getItems().length;
-			// 		this.oBreadcrumbs.setCurrentLocationText(this.getCurrentLocationText() + " (" + iCount + ")");
-			// 	}.bind(this)
-			// });
-
 			this.oUploadCollection01 = this.byId("UploadCollection");
-			// this.oBreadcrumbs01 = this.byId("breadcrumbs");
-			// // this.bindUploadCollectionItems01("AttachmentModel>/items");
-			// this.oUploadCollection01.addEventDelegate({
-			// 	onAfterRendering: function () {
-			// 		var iCount = this.oUploadCollection01.getItems().length;
-			// 		this.oBreadcrumbs01.setCurrentLocationText(this.getCurrentLocationText01() + " (" + iCount + ")");
-			// 	}.bind(this)
-			// });
 			BpDealerModel = new sap.ui.model.json.JSONModel();
 			this.getView().setModel(BpDealerModel, "BpDealerModel");
 
@@ -269,6 +252,7 @@ sap.ui.define([
 			});
 		},
 		_onRoutMatched: function (oEvent) {
+			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var oDateModel = new sap.ui.model.json.JSONModel();
 			if (userScope == "ReadOnlyViewAll") {
 				oDateModel.setData({
@@ -282,7 +266,7 @@ sap.ui.define([
 					saveParts: false,
 					partTypeState: "None",
 					SaveClimBTN: false,
-					submitTCIBtn:false
+					submitTCIBtn: false
 				});
 			} else {
 				oDateModel.setData({
@@ -296,7 +280,7 @@ sap.ui.define([
 					saveParts: false,
 					partTypeState: "None",
 					SaveClimBTN: true,
-					submitTCIBtn:true
+					submitTCIBtn: true
 				});
 			}
 			this.getView().setModel(oDateModel, "DateModel");
@@ -336,6 +320,7 @@ sap.ui.define([
 					this.getView().getModel("multiHeaderConfig").setProperty("/DamageConditionCol", true);
 					this.getView().getModel("multiHeaderConfig").setProperty("/MiscellaneousCol", false);
 					this.getView().getModel("multiHeaderConfig").setProperty("/TransportCol", false);
+					this.getView().byId("textHeaderLabel").setText(this.oBundle.getText("Claimed"));
 
 				} else if (this.claimType === "ZPMS") {
 					this.getView().byId("idPdcCode").setProperty("editable", false);
@@ -362,6 +347,7 @@ sap.ui.define([
 					this.getView().getModel("multiHeaderConfig").setProperty("/DamageConditionCol", false);
 					this.getView().getModel("multiHeaderConfig").setProperty("/MiscellaneousCol", true);
 					this.getView().getModel("multiHeaderConfig").setProperty("/TransportCol", false);
+					this.getView().byId("textHeaderLabel").setText(this.oBundle.getText("Claimed"));
 					//console.log(oEvent.getParameters().selectedItem.getText() + "PMS");
 				} else if (this.claimType === "ZPTS") {
 					this.getView().byId("idPdcCode").setProperty("editable", false);
@@ -389,6 +375,7 @@ sap.ui.define([
 					this.getView().getModel("multiHeaderConfig").setProperty("/DamageConditionCol", false);
 					this.getView().getModel("multiHeaderConfig").setProperty("/MiscellaneousCol", false);
 					this.getView().getModel("multiHeaderConfig").setProperty("/TransportCol", true);
+					this.getView().byId("textHeaderLabel").setText(this.oBundle.getText("Claimed"));
 
 				} else if (this.claimType === "ZPPD") {
 					// console.log(oEvent.getSource().getProperty("value") + "ZPPD");
@@ -418,6 +405,7 @@ sap.ui.define([
 					this.getView().getModel("multiHeaderConfig").setProperty("/DamageConditionCol", false);
 					this.getView().getModel("multiHeaderConfig").setProperty("/MiscellaneousCol", false);
 					this.getView().getModel("multiHeaderConfig").setProperty("/TransportCol", false);
+					this.getView().byId("textHeaderLabel").setText(this.oBundle.getText("Received"));
 				}
 
 				var DropDownModel = new sap.ui.model.json.JSONModel();
@@ -564,7 +552,7 @@ sap.ui.define([
 
 				this.getView().byId("idFilter02").setProperty("enabled", true); //make it false before deploying/committing
 				this.getView().byId("idFilter03").setProperty("enabled", true);
-				this.getView().byId("idFilter04").setProperty("enabled", true);
+				this.getView().byId("idFilter04").setProperty("enabled", false);
 
 			} else {
 				this.getModel("LocalDataModel").setProperty("/step01Next", false);
@@ -2130,6 +2118,7 @@ sap.ui.define([
 		},
 		onSelectClaim: function (oEvent) {
 			this._getDropDownData(oEvent.getSource().getProperty("selectedKey"));
+			this._getDropDownData(oEvent.getSource().getProperty("selectedKey"));
 			if (oEvent.getSource().getProperty("selectedKey") === "ZPDC") {
 				this.getView().byId("idPdcCode").setProperty("editable", false);
 				this.getView().byId("idTCIWayBill").setProperty("editable", true);
@@ -2156,6 +2145,7 @@ sap.ui.define([
 				this.getView().getModel("multiHeaderConfig").setProperty("/DamageConditionCol", true);
 				this.getView().getModel("multiHeaderConfig").setProperty("/MiscellaneousCol", false);
 				this.getView().getModel("multiHeaderConfig").setProperty("/TransportCol", false);
+				this.getView().byId("textHeaderLabel").setText(this.oBundle.getText("Claimed"));
 
 			} else if (oEvent.getSource().getProperty("selectedKey") === "ZPMS") {
 				this.getView().byId("idPdcCode").setProperty("editable", false);
@@ -2182,6 +2172,7 @@ sap.ui.define([
 				this.getView().getModel("multiHeaderConfig").setProperty("/DamageConditionCol", false);
 				this.getView().getModel("multiHeaderConfig").setProperty("/MiscellaneousCol", true);
 				this.getView().getModel("multiHeaderConfig").setProperty("/TransportCol", false);
+				this.getView().byId("textHeaderLabel").setText(this.oBundle.getText("Claimed"));
 				//console.log(oEvent.getParameters().selectedItem.getText() + "PMS");
 			} else if (oEvent.getSource().getProperty("selectedKey") === "ZPTS") {
 				this.getView().byId("idPdcCode").setProperty("editable", false);
@@ -2209,6 +2200,7 @@ sap.ui.define([
 				this.getView().getModel("multiHeaderConfig").setProperty("/DamageConditionCol", false);
 				this.getView().getModel("multiHeaderConfig").setProperty("/MiscellaneousCol", false);
 				this.getView().getModel("multiHeaderConfig").setProperty("/TransportCol", true);
+				this.getView().byId("textHeaderLabel").setText(this.oBundle.getText("Claimed"));
 
 			} else if (oEvent.getSource().getProperty("selectedKey") === "ZPPD") {
 				console.log(oEvent.getSource().getProperty("value") + "ZPPD");
@@ -2238,6 +2230,7 @@ sap.ui.define([
 				this.getView().getModel("multiHeaderConfig").setProperty("/DamageConditionCol", false);
 				this.getView().getModel("multiHeaderConfig").setProperty("/MiscellaneousCol", false);
 				this.getView().getModel("multiHeaderConfig").setProperty("/TransportCol", false);
+				this.getView().byId("textHeaderLabel").setText(this.oBundle.getText("Received"));
 			}
 		},
 
@@ -2740,6 +2733,13 @@ sap.ui.define([
 				return;
 			}
 			if (oValidator.isValid()) {
+				if (userScope == "ReadOnlyViewAll") {
+					this.getView().getModel("DateModel").setProperty("/submitTCIBtn", false);
+					this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
+				} else {
+					this.getView().getModel("DateModel").setProperty("/submitTCIBtn", true);
+					this.getView().getModel("DateModel").setProperty("/SaveClaim07", true);
+				}
 				this.getView().byId("idMainClaimMessage").setProperty("visible", false);
 				this.getView().byId("idMainClaimMessage").setType("None");
 				this.getView().byId("idFilter02").setProperty("enabled", true);
@@ -2761,6 +2761,13 @@ sap.ui.define([
 				return;
 			}
 			if (validator.isValid()) {
+				if (userScope == "ReadOnlyViewAll") {
+					this.getView().getModel("DateModel").setProperty("/submitTCIBtn", false);
+					this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
+				} else {
+					this.getView().getModel("DateModel").setProperty("/submitTCIBtn", true);
+					this.getView().getModel("DateModel").setProperty("/SaveClaim07", true);
+				}
 				this.getView().byId("idMainClaimMessage").setProperty("visible", false);
 				this.getView().byId("idMainClaimMessage").setType("None");
 				this.getView().byId("idFilter03").setProperty("enabled", true);
