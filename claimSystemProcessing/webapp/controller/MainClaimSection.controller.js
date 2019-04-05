@@ -2771,7 +2771,7 @@ sap.ui.define([
 			var oFileName = "";
 			
 			if(oFileExt > 3) {
-				oFileName = this.oUploadedFile.name.slice(1, -1);
+				oFileName = this.oUploadedFile.name.slice(0, -1);
 			}else {
 				oFileName = this.oUploadedFile.name;
 			}
@@ -2854,7 +2854,7 @@ sap.ui.define([
 			var oFileName = "";
 			
 			if(oFileExt > 3) {
-				oFileName = this.oUploadedFile.name.slice(1, -1);
+				oFileName = this.oUploadedFile.name.slice(0, -1);
 			}else {
 				oFileName = this.oUploadedFile.name;
 			}
