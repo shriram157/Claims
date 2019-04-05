@@ -104,7 +104,7 @@
 						<!--		key="{LocalDataModel>J_3GKATNRC}" additionalText="{LocalDataModel>LTEXT}"/>-->
 						<!--</ComboBox>-->
 						
-						<Input type="Text" textFormatMode="Value" placeholder="{i18n>EnterPositionCode}" showSuggestion="true" showValueHelp="true"
+						<Input type="Text" textFormatMode="Value" placeholder="{i18n>EnterPositionCode}" showSuggestion="false" showValueHelp="true"
 							value="{PaintDataModel>/PaintPositionCode}" valueHelpRequest="handleValueHelpPaint" suggestionItems="{LocalDataModel>/oPaintList}"
 							suggestionItemSelected="onSelectPositionPaintCode" enabled="{DateModel>/paintLine}" >
 							<suggestionItems>
