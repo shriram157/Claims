@@ -89,6 +89,7 @@ sap.ui.define([
 			this.oUploadCollection01 = this.byId("UploadCollection");
 			BpDealerModel = new sap.ui.model.json.JSONModel();
 			this.getView().setModel(BpDealerModel, "BpDealerModel");
+			this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
 
 			this.setModel(this.getModel("ProssingModel"));
 			var oProssingModel = this.getModel("ProssingModel");
@@ -254,6 +255,7 @@ sap.ui.define([
 		_onRoutMatched: function (oEvent) {
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var oDateModel = new sap.ui.model.json.JSONModel();
+			this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
 			/*Uncomment for security*/
 			// if (userScope == "ReadOnlyViewAll") {
 			// 	oDateModel.setData({
@@ -325,6 +327,7 @@ sap.ui.define([
 					this.getView().getModel("multiHeaderConfig").setProperty("/MiscellaneousCol", false);
 					this.getView().getModel("multiHeaderConfig").setProperty("/TransportCol", false);
 					this.getView().byId("textHeaderLabel").setText(this.oBundle.getText("Claimed"));
+					this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
 
 				} else if (this.claimType === "ZPMS") {
 					this.getView().byId("idPdcCode").setProperty("editable", false);
@@ -352,6 +355,7 @@ sap.ui.define([
 					this.getView().getModel("multiHeaderConfig").setProperty("/MiscellaneousCol", true);
 					this.getView().getModel("multiHeaderConfig").setProperty("/TransportCol", false);
 					this.getView().byId("textHeaderLabel").setText(this.oBundle.getText("Claimed"));
+					this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
 					//console.log(oEvent.getParameters().selectedItem.getText() + "PMS");
 				} else if (this.claimType === "ZPTS") {
 					this.getView().byId("idPdcCode").setProperty("editable", false);
@@ -361,6 +365,7 @@ sap.ui.define([
 					this.getView().getModel("multiHeaderConfig").setProperty("/partMiscellanious", false);
 					this.getView().getModel("multiHeaderConfig").setProperty("/partDiscrepancies", false);
 					this.getView().getModel("multiHeaderConfig").setProperty("/partTransportation", true);
+					this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
 
 					// console.log(oEvent.getParameters().selectedItem.getText() + "PTS");
 					this.getView().getModel("multiHeaderConfig").setProperty("/RetainPartV", false);
@@ -391,6 +396,7 @@ sap.ui.define([
 					this.getView().getModel("multiHeaderConfig").setProperty("/partMiscellanious", false);
 					this.getView().getModel("multiHeaderConfig").setProperty("/partDiscrepancies", true);
 					this.getView().getModel("multiHeaderConfig").setProperty("/partTransportation", false);
+					this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
 
 					this.getView().getModel("multiHeaderConfig").setProperty("/multiheader5", 6);
 					this.getView().getModel("multiHeaderConfig").setProperty("/uploader", false);
@@ -1074,6 +1080,7 @@ sap.ui.define([
 									this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
 
 									this.getView().getModel("DateModel").setProperty("/partLine", false);
+									this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
 									this.addPartFlag = false;
 									this.updatePartFlag = false;
 									this.getView().getModel("PartDataModel").setProperty("/LineNo", "");
@@ -1801,6 +1808,7 @@ sap.ui.define([
 		},
 		onPressAddPart: function () {
 			this.getView().getModel("DateModel").setProperty("/partLine", true);
+			this.getModel("LocalDataModel").setProperty("/UploadEnable", true);
 			this.getView().getModel("DateModel").setProperty("/saveParts", true);
 			this.getView().getModel("DateModel").setProperty("/oLetterOfIntent", false);
 			this.addPartFlag = true;
@@ -2487,7 +2495,12 @@ sap.ui.define([
 								"'"
 						},
 						success: $.proxy(function (odata) {
-							this.getModel("LocalDataModel").setProperty("/partItemAttachments", odata.results);
+							var oAttachSet = odata.results.map(function (item) {
+								item.FileName = item.FileName.replace(oPartNo + "@@@", "");
+								return item;
+
+							});
+							this.getModel("LocalDataModel").setProperty("/partItemAttachments", oAttachSet);
 						}, this)
 					});
 				}, this)
