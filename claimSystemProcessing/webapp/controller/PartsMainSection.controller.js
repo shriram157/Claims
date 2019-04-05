@@ -254,35 +254,39 @@ sap.ui.define([
 		_onRoutMatched: function (oEvent) {
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var oDateModel = new sap.ui.model.json.JSONModel();
-			if (userScope == "ReadOnlyViewAll") {
-				oDateModel.setData({
-					dateValueDRS2: new Date(2018, 1, 1),
-					secondDateValueDRS2: new Date(2018, 2, 1),
-					partLine: false,
-					oFormEdit: false,
-					claimTypeEn: false,
-					SaveClaim07: false,
-					oLetterOfIntent: false,
-					saveParts: false,
-					partTypeState: "None",
-					SaveClimBTN: false,
-					submitTCIBtn: false
-				});
-			} else {
-				oDateModel.setData({
-					dateValueDRS2: new Date(2018, 1, 1),
-					secondDateValueDRS2: new Date(2018, 2, 1),
-					partLine: false,
-					oFormEdit: true,
-					claimTypeEn: true,
-					SaveClaim07: true,
-					oLetterOfIntent: false,
-					saveParts: false,
-					partTypeState: "None",
-					SaveClimBTN: true,
-					submitTCIBtn: true
-				});
-			}
+			/*Uncomment for security*/
+			// if (userScope == "ReadOnlyViewAll") {
+			// 	oDateModel.setData({
+			// 		dateValueDRS2: new Date(2018, 1, 1),
+			// 		secondDateValueDRS2: new Date(2018, 2, 1),
+			// 		partLine: false,
+			// 		oFormEdit: false,
+			// 		claimTypeEn: false,
+			// 		SaveClaim07: false,
+			// 		oLetterOfIntent: false,
+			// 		saveParts: false,
+			// 		partTypeState: "None",
+			// 		SaveClimBTN: false,
+			// 		submitTCIBtn: false
+			// 	});
+			// } else {
+			/*Uncomment for security*/
+			oDateModel.setData({
+				dateValueDRS2: new Date(2018, 1, 1),
+				secondDateValueDRS2: new Date(2018, 2, 1),
+				partLine: false,
+				oFormEdit: true,
+				claimTypeEn: true,
+				SaveClaim07: true,
+				oLetterOfIntent: false,
+				saveParts: false,
+				partTypeState: "None",
+				SaveClimBTN: true,
+				submitTCIBtn: true
+			});
+			/*Uncomment for security*/
+			// }
+			/*Uncomment for security*/
 			this.getView().setModel(oDateModel, "DateModel");
 			// this._getBPModel();
 			this._getBPList();
@@ -432,14 +436,20 @@ sap.ui.define([
 						this.getView().setModel(HeadSetData, "HeadSetData");
 						this.ClaimStatus = data.results[0].DecisionCode;
 						console.log("this.ClaimStatus", this.ClaimStatus);
-						if (userScope == "ReadOnlyViewAll") {} else {
-							if (this.ClaimStatus == "ZTRC" || this.ClaimStatus == "ZTIC") {
-								//code here
-								this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
-							} else {
-								this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
-							}
+						/*Uncomment for security*/
+						// if (userScope == "ReadOnlyViewAll") {
+						// 	this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
+						// } else {
+						/*Uncomment for security*/
+						if (this.ClaimStatus == "ZTRC" || this.ClaimStatus == "ZTIC") {
+							//code here
+							this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
+						} else {
+							this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
 						}
+						/*Uncomment for security*/
+						// }
+						/*Uncomment for security*/
 
 					}, this),
 					error: function (err) {
@@ -2465,7 +2475,7 @@ sap.ui.define([
 			var oFileName = oEvent.getParameters().item.getFileName();
 			var oFileDeleteName = oPartNo + "@@@" + oFileName;
 			var oClaimModel = this.getModel("ProssingModel");
-			
+
 			oClaimModel.refreshSecurityToken();
 			oClaimModel.remove("/zc_claim_attachmentsSet(NumberOfWarrantyClaim='" + oClaimNum + "',FileName='" + oFileDeleteName + "')", {
 				method: "DELETE",
@@ -2473,7 +2483,8 @@ sap.ui.define([
 					MessageToast.show(oBundle.getText("Filedeletedsuccessfully"));
 					oClaimModel.read("/zc_claim_partattachmentSet", {
 						urlParameters: {
-							"$filter": "NumberOfWarrantyClaim eq'" + oClaimNum + "'and AttachLevel eq 'PART' and FileName eq'" + oFileDeleteName + "'"
+							"$filter": "NumberOfWarrantyClaim eq'" + oClaimNum + "'and AttachLevel eq 'PART' and FileName eq'" + oFileDeleteName +
+								"'"
 						},
 						success: $.proxy(function (odata) {
 							this.getModel("LocalDataModel").setProperty("/partItemAttachments", odata.results);
@@ -2712,13 +2723,17 @@ sap.ui.define([
 				return;
 			}
 			if (oValidator.isValid()) {
-				if (userScope == "ReadOnlyViewAll") {
-					this.getView().getModel("DateModel").setProperty("/submitTCIBtn", false);
-					this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
-				} else {
-					this.getView().getModel("DateModel").setProperty("/submitTCIBtn", true);
-					this.getView().getModel("DateModel").setProperty("/SaveClaim07", true);
-				}
+				/*Uncomment for security*/
+				// if (userScope == "ReadOnlyViewAll") {
+				// 	this.getView().getModel("DateModel").setProperty("/submitTCIBtn", false);
+				// 	this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
+				// } else {
+				/*Uncomment for security*/
+				this.getView().getModel("DateModel").setProperty("/submitTCIBtn", true);
+				this.getView().getModel("DateModel").setProperty("/SaveClaim07", true);
+				/*Uncomment for security*/
+				// }
+				/*Uncomment for security*/
 				this.getView().byId("idMainClaimMessage").setProperty("visible", false);
 				this.getView().byId("idMainClaimMessage").setType("None");
 				this.getView().byId("idFilter02").setProperty("enabled", true);
@@ -2740,13 +2755,17 @@ sap.ui.define([
 				return;
 			}
 			if (validator.isValid()) {
-				if (userScope == "ReadOnlyViewAll") {
-					this.getView().getModel("DateModel").setProperty("/submitTCIBtn", false);
-					this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
-				} else {
-					this.getView().getModel("DateModel").setProperty("/submitTCIBtn", true);
-					this.getView().getModel("DateModel").setProperty("/SaveClaim07", true);
-				}
+				/*Uncomment for security*/
+				// if (userScope == "ReadOnlyViewAll") {
+				// 	this.getView().getModel("DateModel").setProperty("/submitTCIBtn", false);
+				// 	this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
+				// } else {
+				/*Uncomment for security*/
+				this.getView().getModel("DateModel").setProperty("/submitTCIBtn", true);
+				this.getView().getModel("DateModel").setProperty("/SaveClaim07", true);
+				/*Uncomment for security*/
+				// }
+				/*Uncomment for security*/
 				this.getView().byId("idMainClaimMessage").setProperty("visible", false);
 				this.getView().byId("idMainClaimMessage").setType("None");
 				this.getView().byId("idFilter03").setProperty("enabled", true);
