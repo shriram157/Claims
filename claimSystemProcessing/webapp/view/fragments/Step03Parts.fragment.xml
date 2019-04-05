@@ -91,7 +91,7 @@
 						columnsXL="{multiHeaderConfig>/multiheader5}">
 						<f:content>
 							<core:Title text=""/>
-							<Text text="{i18n>Claimed}"/>
+							<Text text="" id="textHeaderLabel"/>
 							<core:Title text=""/>
 							<UploadCollection id="UploadCollection" uploadEnabled="{LocalDataModel>/UploadEnable}" change="onUploadChangeParts" uploadComplete="onUploadComplete02Parts" fileDeleted="onFileDeleted02"
 							 items="{ path: 'LocalDataModel>/partItemAttachments', templateShareable: false }">

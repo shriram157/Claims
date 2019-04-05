@@ -67,6 +67,10 @@ sap.ui.define([
 			var oNodeModel = new sap.ui.model.json.JSONModel();
 			oNodeModel.loadData(jQuery.sap.getModulePath("zclaimProcessing.utils", "/Nodes.json"));
 			this.oUploadCollection = this.byId("UploadSupportingDoc");
+			
+			//Model data set for Header Links visibility as per User login
+			console.log("HeaderLinksModel", sap.ui.getCore().getModel("HeaderLinksModel"));
+			this.getView().setModel(sap.ui.getCore().getModel("HeaderLinksModel"), "HeaderLinksModel");
 			//  this.oBreadcrumbs = this.byId("breadcrumbsSupportingDoc");
 
 			// this.oUploadCollection.addEventDelegate({
