@@ -289,16 +289,15 @@ sap.ui.define([
 			//this.getModel("LocalDataModel").setProperty("/oClaimSelectedGroup", );
 
 			if (oClaim != "nun" && oClaim != undefined) {
-				
+
 				var sSelectedLocale;
-                //  get the locale to determine the language.
-                var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
-                if (isLocaleSent) {
-                    sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
-                } else {
-                    sSelectedLocale = "en"; // default is english
-                }
-                
+				//  get the locale to determine the language.
+				var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
+				if (isLocaleSent) {
+					sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
+				} else {
+					sSelectedLocale = "en"; // default is english
+				}
 
 				if (oClaimSelectedGroup == "Authorization") {
 					this.getView().getModel("DateModel").setProperty("/warrantySubmissionClaim", true);
@@ -394,7 +393,8 @@ sap.ui.define([
 
 						oProssingModel.read("/zc_get_operation_numberSet", {
 							urlParameters: {
-								"$filter": "CLMNO eq '" + oClaim + "' and VHVIN eq '" + data.results[0].ExternalObjectNumber + "' and Langu eq '" + sSelectedLocale.toUpperCase() + "'"
+								"$filter": "CLMNO eq '" + oClaim + "' and VHVIN eq '" + data.results[0].ExternalObjectNumber + "' and Langu eq '" +
+									sSelectedLocale.toUpperCase() + "'"
 							},
 							success: $.proxy(function (oPdata) {
 								var oLabourArray = oPdata.results.filter(function (item) {
@@ -3314,6 +3314,16 @@ sap.ui.define([
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			var oOFP = this.getView().getModel("HeadSetData").getProperty("/OFP");
 			var oVin = this.getModel("LocalDataModel").getProperty("/ClaimDetails/ExternalObjectNumber");
+			var oProssingModel = this.getModel("ProssingModel");
+			var sSelectedLocale;
+			//  get the locale to determine the language.
+			var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
+			if (isLocaleSent) {
+				sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
+			} else {
+				sSelectedLocale = "en"; // default is english
+			}
+
 			if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZWP2" || this.getView().getModel("HeadSetData").getProperty(
 					"/WarrantyClaimSubType") == "ZWP2") {
 				this.getView().byId("idFilter07").setProperty("enabled", true);
@@ -3327,16 +3337,7 @@ sap.ui.define([
 				this.getView().byId("idFilter04").setProperty("enabled", true);
 				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab4");
 			}
-			var oProssingModel = this.getModel("ProssingModel");
-			var sSelectedLocale;
-                //  get the locale to determine the language.
-                var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
-                if (isLocaleSent) {
-                    sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
-                } else {
-                    sSelectedLocale = "en"; // default is english
-                }
-                
+
 			oProssingModel.read("/zc_get_operation_numberSet", {
 				urlParameters: {
 					"$filter": "CLMNO eq '" + oClaimNum + "' and VHVIN eq '" + oVin + "' and Langu eq '" + sSelectedLocale.toUpperCase() + "'"
@@ -3376,7 +3377,8 @@ sap.ui.define([
 
 			oProssingModel.read("/zc_get_suggested_operationsSet", {
 				urlParameters: {
-					"$filter": "CLMNO eq '" + oClaimNum + "'and OFP_GROUP eq '" + oOFP + "' and VHVIN eq '" + oVin + "' and Langu eq '" + sSelectedLocale.toUpperCase() + "'"
+					"$filter": "CLMNO eq '" + oClaimNum + "'and OFP_GROUP eq '" + oOFP + "' and VHVIN eq '" + oVin + "' and Langu eq '" +
+						sSelectedLocale.toUpperCase() + "'"
 				},
 				success: $.proxy(function (data) {
 					this.getModel("LocalDataModel").setProperty("/SuggetionOperationListFiltered", data.results);
@@ -3970,21 +3972,23 @@ sap.ui.define([
 		onSelectOFPLabour: function (oEvent) {
 			var table = this.getView().byId("idLabourTable");
 			var oVin = this.getModel("LocalDataModel").getProperty("/ClaimDetails/ExternalObjectNumber");
-			var oSelectedPart = this.getView().getModel("HeadSetData").getProperty("/OFP");
+			var oSelectedPart = oEvent.getSource().getParent().getCells()[2].getText();
+			var oOFP = this.getView().getModel("HeadSetData").getProperty("/OFP");
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			this.getView().byId("idOFPLabour").setText(oSelectedPart);
 			var oProssingModel = this.getModel("ProssingModel");
 			var sSelectedLocale;
-                //  get the locale to determine the language.
-                var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
-                if (isLocaleSent) {
-                    sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
-                } else {
-                    sSelectedLocale = "en"; // default is english
-                }
+			//  get the locale to determine the language.
+			var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
+			if (isLocaleSent) {
+				sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
+			} else {
+				sSelectedLocale = "en"; // default is english
+			}
 			oProssingModel.read("/zc_get_suggested_operationsSet", {
 				urlParameters: {
-					"$filter": "CLMNO eq '" + oClaimNum + "'and OFP_GROUP eq '" + oSelectedPart + "' and VHVIN eq '" + oVin + "' and Langu eq '" + sSelectedLocale.toUpperCase() + "'"
+					"$filter": "CLMNO eq '" + oClaimNum + "'and OFP_GROUP eq '" + oOFP + "' and VHVIN eq '" + oVin + "' and Langu eq '" +
+						sSelectedLocale.toUpperCase() + "'"
 				},
 				success: $.proxy(function (data) {
 					this.getModel("LocalDataModel").setProperty("/SuggetionOperationListFiltered", data.results);
@@ -4042,12 +4046,39 @@ sap.ui.define([
 		},
 		_handleValueHelpCloseLabour: function (evt) {
 			var oSelectedItem = evt.getParameter("selectedItem");
+			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
+			var oOFP = this.getView().getModel("HeadSetData").getProperty("/OFP");
+			var oVin = this.getModel("LocalDataModel").getProperty("/ClaimDetails/ExternalObjectNumber");
+			var oProssingModel = this.getModel("ProssingModel");
+			var sSelectedLocale;
+			//  get the locale to determine the language.
+			var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
+			if (isLocaleSent) {
+				sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
+			} else {
+				sSelectedLocale = "en"; // default is english
+			}
+
 			if (oSelectedItem) {
 				var oTitle = oSelectedItem.getTitle();
 				var oDescription = oSelectedItem.getDescription();
-
 				this.getView().getModel("LabourDataModel").setProperty("/LabourOp", oTitle);
 				this.getView().getModel("LabourDataModel").setProperty("/LabourDescription", oDescription);
+				oProssingModel.read("/zc_get_operation_numberSet", {
+					urlParameters: {
+						"$filter": "CLMNO eq '" + oClaimNum + "' and J_3GKATNRC eq '" + oTitle + "' and VHVIN eq '" + oVin + "' and Langu eq '" +
+							sSelectedLocale.toUpperCase() + "'"
+					},
+					success: $.proxy(function (data) {
+						
+						this.getView().getModel("LabourDataModel").setProperty("/ClaimedHours", data.results[0].TIME);
+
+					}, this),
+					error: function () {
+						console.log("Error");
+					}
+				});
+
 				// var productInput = this.byId(this.inputId),
 				// 	oText = this.byId('selectedKey'),
 				// 	sDescription = oSelectedItem.getDescription();
