@@ -67,7 +67,7 @@ sap.ui.define([
 			var oNodeModel = new sap.ui.model.json.JSONModel();
 			oNodeModel.loadData(jQuery.sap.getModulePath("zclaimProcessing.utils", "/Nodes.json"));
 			this.oUploadCollection = this.byId("UploadSupportingDoc");
-			
+
 			//Model data set for Header Links visibility as per User login
 			console.log("HeaderLinksModel", sap.ui.getCore().getModel("HeaderLinksModel"));
 			this.getView().setModel(sap.ui.getCore().getModel("HeaderLinksModel"), "HeaderLinksModel");
@@ -4026,22 +4026,40 @@ sap.ui.define([
 				sSelectedLocale = "en"; // default is english
 			}
 			var oDialogBox = sap.ui.xmlfragment("zclaimProcessing.view.fragments.operationList", this);
-			oProssingModel.read("/zc_get_suggested_operationsSet", {
-				urlParameters: {
-					"$filter": "CLMNO eq '" + oClaimNum + "'and OFP_GROUP eq '" + oOFP + "' and VHVIN eq '" + oVin + "' and Langu eq '" +
-						sSelectedLocale.toUpperCase() + "'"
-				},
-				success: $.proxy(function (data) {
-					this.getModel("LocalDataModel").setProperty("/SuggetionOperationListFiltered", data.results);
 
-					this.getView().addDependent(oDialogBox);
-					oDialogBox.open();
-				}, this),
-				error: function () {
-					console.log("Error");
-				}
-			});
-			// table.removeSelections("true");
+			if (oOFP === "") {
+				oProssingModel.read("/zc_get_suggested_operationsSet", {
+					urlParameters: {
+						"$filter": "CLMNO eq '" + oClaimNum + "'and VHVIN eq '" + oVin + "' and Langu eq '" +
+							sSelectedLocale.toUpperCase() + "'"
+					},
+					success: $.proxy(function (data) {
+						this.getModel("LocalDataModel").setProperty("/SuggetionOperationListFiltered", data.results);
+
+						this.getView().addDependent(oDialogBox);
+						oDialogBox.open();
+					}, this),
+					error: function () {
+						console.log("Error");
+					}
+				});
+			} else {
+				oProssingModel.read("/zc_get_suggested_operationsSet", {
+					urlParameters: {
+						"$filter": "CLMNO eq '" + oClaimNum + "'and OFP_GROUP eq '" + oOFP + "' and VHVIN eq '" + oVin + "' and Langu eq '" +
+							sSelectedLocale.toUpperCase() + "'"
+					},
+					success: $.proxy(function (data) {
+						this.getModel("LocalDataModel").setProperty("/SuggetionOperationListFiltered", data.results);
+
+						this.getView().addDependent(oDialogBox);
+						oDialogBox.open();
+					}, this),
+					error: function () {
+						console.log("Error");
+					}
+				});
+			}
 
 		},
 		onCloseLabour: function (oEvent) {
@@ -4101,22 +4119,21 @@ sap.ui.define([
 			if (oSelectedItem) {
 				var oTitle = oSelectedItem.getTitle();
 				var oDescription = oSelectedItem.getDescription();
+				var oGetHr = oSelectedItem.getInfo();
 				this.getView().getModel("LabourDataModel").setProperty("/LabourOp", oTitle);
 				this.getView().getModel("LabourDataModel").setProperty("/LabourDescription", oDescription);
-				oProssingModel.read("/zc_get_operation_numberSet", {
-					urlParameters: {
-						"$filter": "CLMNO eq '" + oClaimNum + "' and J_3GKATNRC eq '" + oTitle + "' and VHVIN eq '" + oVin + "' and Langu eq '" +
-							sSelectedLocale.toUpperCase() + "'"
-					},
-					success: $.proxy(function (data) {
+				this.getView().getModel("LabourDataModel").setProperty("/ClaimedHours", oGetHr);
+				// oProssingModel.read("/zc_get_operation_numberSet", {
+				// 	urlParameters: {
+				// 		"$filter": "CLMNO eq '" + oClaimNum + "' and J_3GKATNRC eq '" + oTitle + "' and VHVIN eq '" + oVin + "' and Langu eq '" + sSelectedLocale.toUpperCase() + "'"
+				// 	},
+				// 	success: $.proxy(function (data) {
 
-						this.getView().getModel("LabourDataModel").setProperty("/ClaimedHours", data.results[0].TIME);
-
-					}, this),
-					error: function () {
-						console.log("Error");
-					}
-				});
+				// 	}, this),
+				// 	error: function () {
+				// 		console.log("Error");
+				// 	}
+				// });
 
 				// var productInput = this.byId(this.inputId),
 				// 	oText = this.byId('selectedKey'),
