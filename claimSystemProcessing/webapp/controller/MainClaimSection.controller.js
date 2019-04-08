@@ -4606,6 +4606,9 @@ sap.ui.define([
 				oTable.removeSelections("true");
 			}
 		},
+			onChangeSublet: function(oEvent){
+			this.AdditonalUnit = oEvent.getParameters().selectedItem.getAdditionalText();
+		},
 		onPressSaveClaimItemSublet: function () {
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
@@ -4624,7 +4627,7 @@ sap.ui.define([
 					"Amount": this.getView().getModel("SubletDataModel").getProperty("/Amount"),
 					"SubletDescription": this.getView().getModel("SubletDataModel").getProperty("/description"),
 					"URI": this.getModel("LocalDataModel").getProperty("/SubletAtchmentData/0/URI"),
-					"UnitOfMeasure": "EA"
+					"UnitOfMeasure": this.AdditonalUnit
 				};
 
 				this.obj.zc_item_subletSet.results.push(itemObj);
@@ -4670,7 +4673,7 @@ sap.ui.define([
 				MessageToast.show("Attachment is required.");
 			}
 		},
-
+	
 		onPressUpdateSublet: function (oEvent) {
 			var oTable = this.getView().byId("idSubletTable");
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
