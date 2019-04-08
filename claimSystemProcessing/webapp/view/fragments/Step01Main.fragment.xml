@@ -111,7 +111,7 @@
 				adjustLabelSpan="false" emptySpanXL="4" emptySpanL="4" emptySpanM="0" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1"
 				singleContainerFullSize="false">
 				<f:content>
-					<UploadCollection id="UploadSupportingDoc" uploadEnabled="{LocalDataModel>/UploadEnable}" change="onUploadChangeParts"
+					<UploadCollection id="UploadSupportingDoc" uploadEnabled="{LocalDataModel>/UploadEnableHeader}" change="onUploadChangeParts"
 						uploadComplete="onUploadCompleteParts" fileDeleted="onFileDeleted" items="{ path: 'LocalDataModel>/PartHeadAttachData', templateShareable: false }">
 						<toolbar>
 							<OverflowToolbar>
