@@ -556,7 +556,7 @@
 				<Button class="sapUiTinyMarginBeginEnd" press="onPressBack" text="{i18n>BackList}" type="Back"/>
 				<Button class="sapUiTinyMarginBeginEnd" press="onCancelClaim" enabled="{LocalDataModel>/CancelEnable}" text="{i18n>CancelClaim}"
 					type="Reject"/>
-				<Button class="sapUiTinyMarginBeginEnd" text="{i18n>Print}"/>
+				<Button class="sapUiTinyMarginBeginEnd" text="{i18n>Print}" press="onPressPrint"/>
 				<Button class="sapUiTinyMarginBeginEnd" press="onStep01Next" enabled="{LocalDataModel>/step01Next}" text="{i18n>Next}" type="Emphasized"/>
 			</HBox>
 		</Panel>
