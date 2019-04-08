@@ -1873,6 +1873,7 @@ sap.ui.define([
 			// this.getView().getModel("DateModel").setProperty("/saveParts", true);
 			var oTable = this.getView().byId("partTable");
 			var oTableIndex = oTable._aSelectedPaths;
+			var oPartNo = this.getView().getModel("PartDataModel").getProperty("/matnr");
 
 			if (oTableIndex.length == 1) {
 				var oSelectedRow = oTableIndex.toString();
@@ -1948,7 +1949,14 @@ sap.ui.define([
 							"$filter": "NumberOfWarrantyClaim eq'" + oClaimNum + "'and AttachLevel eq 'PART' and FileName eq'" + oFileReplaced + "'"
 						},
 						success: $.proxy(function (odata) {
-							this.getModel("LocalDataModel").setProperty("/partItemAttachments", odata.results);
+							var oAttachSet = odata.results.map(function (item) {
+								item.FileName = item.FileName.replace(oPartNo + "@@@", "");
+								return item;
+
+							});
+							this.getModel("LocalDataModel").setProperty("/partItemAttachments", oAttachSet);
+							this.getView().getModel("AttachmentModel").setProperty("/" + "/items", oAttachSet);
+							// this.getModel("LocalDataModel").setProperty("/partItemAttachments", oAttachSet);
 						}, this)
 					});
 				}
@@ -2434,8 +2442,14 @@ sap.ui.define([
 							"$filter": "NumberOfWarrantyClaim eq'" + oClaimNum + "'and AttachLevel eq 'PART' and FileName eq'" + fileName + "'"
 						},
 						success: $.proxy(function (odata) {
-							this.getView().getModel("AttachmentModel").setProperty("/" + "/items", odata.results);
-							this.getModel("LocalDataModel").setProperty("/partItemAttachments", odata.results);
+							var oAttachSet = odata.results.map(function (item) {
+								item.FileName = item.FileName.replace(oPartNo + "@@@", "");
+								return item;
+
+							});
+							this.getModel("LocalDataModel").setProperty("/partItemAttachments", oAttachSet);
+							this.getView().getModel("AttachmentModel").setProperty("/" + "/items", oAttachSet);
+							// this.getModel("LocalDataModel").setProperty("/partItemAttachments", oAttachSet);
 						}, this)
 					});
 				}, this),
