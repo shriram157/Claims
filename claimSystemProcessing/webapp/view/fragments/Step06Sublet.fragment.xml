@@ -98,7 +98,7 @@
 						<Text text=""/>
 						<core:Title text=""/>
 						<Label text="{i18n>SubletType}" textAlign="Left"/>
-						<ComboBox change="onChangeSublet" id="idSubletCode" required="true" items="{path:'LocalDataModel>/ClaimSubletCodeModel', type : 'sap.ui.model.type.String'}"
+						<ComboBox selectionChange="onChangeSublet" id="idSubletCode" required="true" items="{path:'LocalDataModel>/ClaimSubletCodeModel', type : 'sap.ui.model.type.String'}"
 							selectedKey="{SubletDataModel>/SubletCode}" enabled="{DateModel>/subletLine}" 
 							filterSecondaryValues="true" showSecondaryValues="true" >
 							<core:ListItem text="{path:'LocalDataModel>Matnr'} - {path:'LocalDataModel>MaterialDesc'}" key="{LocalDataModel>Matnr}" 
