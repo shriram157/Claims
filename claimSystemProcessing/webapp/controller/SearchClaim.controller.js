@@ -25,13 +25,13 @@ sap.ui.define([
 			var HeaderLinksModel = new sap.ui.model.json.JSONModel();
 			this.getOwnerComponent().getModel("LocalDataModel").setProperty("/visibleNewBtn", true);
 			/*Uncomment for security*/
-			// HeaderLinksModel.setData({
-			// 	NewClaim: false,
-			// 	ViewUpdateClaims: false,
-			// 	QuickCoverageTool: false,
-			// 	ClaimInquiry: false,
-			// 	DealerLabourRateInquiry: false
-			// });
+			HeaderLinksModel.setData({
+				NewClaim: false,
+				ViewUpdateClaims: false,
+				QuickCoverageTool: false,
+				ClaimInquiry: false,
+				DealerLabourRateInquiry: false
+			});
 			/*Uncomment for security*/
 			HeaderLinksModel.setData({
 				NewClaim: true,
@@ -348,6 +348,12 @@ sap.ui.define([
 
 				}, this)
 			});
+		},
+		
+		onAddPartsComment: function (oEvent) {
+			var oDialogBox = sap.ui.xmlfragment("zclaimProcessing.view.fragments.ClaimComments", this);
+			this.getView().addDependent(oDialogBox);
+			oDialogBox.open();
 		},
 
 		handleSelectClaimGroupFinish: function (oEvent) {
