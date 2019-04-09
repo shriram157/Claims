@@ -167,7 +167,7 @@
 						<Text text="{LocalDataModel>AmtClaimed}" wrapping="true" textAlign="Center" width="100%"/>
 						<Text text="{LocalDataModel>TotalAfterDisct}" wrapping="true" textAlign="Center" width="100%"/>
 						<Text text="{LocalDataModel>TCIApprQty}" wrapping="true" textAlign="Center" width="100%"/>
-						<Text text="{LocalDataModel>TCIApprAmt}" wrapping="true" textAlign="Center" width="100%"/>
+						<Text text="{LocalDataModel>TCIApprovedAmount}" wrapping="true" textAlign="Center" width="100%"/>
 						<Text text="{LocalDataModel>DiffAmt}" wrapping="true" textAlign="Center" width="100%"/>
 					</cells>
 				</ColumnListItem>

@@ -54,7 +54,7 @@
 										<core:Title text=""/>
 										<Button text="{i18n>Search}" press="onPressSearch" type="Emphasized"/>
 										<Button text="{i18n>Clear}" press="onPressClear"/>
-										<Button text="{i18n>NewClaim}" press="onCreateNewClaim"/>
+										<Button text="{i18n>NewClaim}"  press="onCreateNewClaim" visible="{LocalDataModel>/visibleNewBtn}"/>
 									</f:content>
 								</f:SimpleForm>
 							</VBox>
