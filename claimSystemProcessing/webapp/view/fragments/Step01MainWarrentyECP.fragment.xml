@@ -136,14 +136,14 @@
 				<Text text="{LocalDataModel>/DataVinDetails/VehicleDays}" id="idVehicleAge"/>
 				<core:Title text=""/>
 				<Label text="{i18n>ForeignVIN}" vAlign="Middle"/>
-				<Text text="{LocalDataModel>/DataVinDetails/ForeignVIN}" id="idForeignVin"/>
-				<Button icon="sap-icon://message-warning" type="Transparent" press="onPressForeignVin" class="clWarning"/>
+				<Text  text="{LocalDataModel>/DataVinDetails/ForeignVIN}" id="idForeignVin"/>
+				<Button icon="sap-icon://message-warning" visible="{DateModel>/foreignVinInd}" type="Transparent" press="onPressForeignVin" class="clWarning"/>
 				<Label text="{i18n>WrittenOff}" vAlign="Middle"/>
 				<Text text="{LocalDataModel>/DataVinDetails/WrittenOff}" id="idWrittenoff"/>
-				<Button icon="sap-icon://message-warning" type="Transparent" press="onPressWrittenOff" class="clWarning"/>
+				<Button icon="sap-icon://message-warning" type="Transparent"  visible="{DateModel>/writtenOffInd}" press="onPressWrittenOff" class="clWarning"/>
 				<Label text="{i18n>SpecialVINReview}" vAlign="Middle"/>
 				<Text text="{LocalDataModel>/DataVinDetails/SpecialVINReview}" id="idSpecialVin"/>
-				<Button icon="sap-icon://message-warning" type="Transparent" press="onPressSpecialVin" class="clWarning"/>
+				<Button icon="sap-icon://message-warning" type="Transparent" visible="{DateModel>/specialVinInd}" press="onPressSpecialVin" class="clWarning"/>
 			</f:content>
 		</f:SimpleForm>
 		<VBox visible="{DateModel>/ShipmentVisible}">
@@ -153,7 +153,7 @@
 				<f:content>
 					<core:Title text=""/>
 					<Label text="{i18n>DeliveringCarrier}"/>
-					<ComboBox required="true" editable="{DateModel>/oFormEdit}" items="" selectedKey="" value="{HeadSetData>/DeliveringCarrier}">
+					<ComboBox required="true" editable="{DateModel>/oFormEdit}"  selectedKey="" value="{HeadSetData>/DeliveringCarrier}">
 						<core:ListItem key="" text="Hansen's"/>
 						<core:ListItem key="" text="United Road"/>
 						<core:ListItem key="" text="MCGill"/>
