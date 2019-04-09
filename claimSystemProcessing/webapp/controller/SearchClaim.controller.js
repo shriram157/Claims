@@ -25,13 +25,13 @@ sap.ui.define([
 			var HeaderLinksModel = new sap.ui.model.json.JSONModel();
 			this.getOwnerComponent().getModel("LocalDataModel").setProperty("/visibleNewBtn", true);
 			/*Uncomment for security*/
-			HeaderLinksModel.setData({
-				NewClaim: false,
-				ViewUpdateClaims: false,
-				QuickCoverageTool: false,
-				ClaimInquiry: false,
-				DealerLabourRateInquiry: false
-			});
+			// HeaderLinksModel.setData({
+			// 	NewClaim: false,
+			// 	ViewUpdateClaims: false,
+			// 	QuickCoverageTool: false,
+			// 	ClaimInquiry: false,
+			// 	DealerLabourRateInquiry: false
+			// });
 			/*Uncomment for security*/
 			HeaderLinksModel.setData({
 				NewClaim: true,

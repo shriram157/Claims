@@ -68,21 +68,21 @@ sap.ui.define([
 			
 			var HeaderLinksModel = new sap.ui.model.json.JSONModel();
 			/*Uncomment for security*/
-			HeaderLinksModel.setData({
-				NewClaim: false,
-				ViewUpdateClaims: false,
-				QuickCoverageTool: false,
-				ClaimInquiry: false,
-				DealerLabourRateInquiry: false
-			});
-			/*Uncomment for security*/
 			// HeaderLinksModel.setData({
-			// 	NewClaim: true,
-			// 	ViewUpdateClaims: true,
-			// 	QuickCoverageTool: true,
-			// 	ClaimInquiry: true,
-			// 	DealerLabourRateInquiry: true
+			// 	NewClaim: false,
+			// 	ViewUpdateClaims: false,
+			// 	QuickCoverageTool: false,
+			// 	ClaimInquiry: false,
+			// 	DealerLabourRateInquiry: false
 			// });
+			/*Uncomment for security*/
+			HeaderLinksModel.setData({
+				NewClaim: true,
+				ViewUpdateClaims: true,
+				QuickCoverageTool: true,
+				ClaimInquiry: true,
+				DealerLabourRateInquiry: true
+			});
 			this.getView().setModel(HeaderLinksModel, "HeaderLinksModel");
 			sap.ui.getCore().setModel(HeaderLinksModel, "HeaderLinksModel");
 			
