@@ -127,7 +127,8 @@
 					<f:content>
 						<core:Title text=""/>
 						<Label text="{i18n>Attachments}" textAlign="Left"/>
-						<UploadCollection id="UploadSublet" uploadEnabled="{LocalDataModel>/UploadEnable}" change="onUplaodChange" uploadComplete="onSubletUploadComplete" fileDeleted="onFileSubletDeleted"
+						<UploadCollection id="UploadSublet" maximumFileSize="10"  fileSizeExceed="onFileSizeExceed"
+						uploadEnabled="{LocalDataModel>/UploadEnable}" change="onUplaodChange" uploadComplete="onSubletUploadComplete" fileDeleted="onFileSubletDeleted"
 							 items="{ path: 'LocalDataModel>/SubletAtchmentData', templateShareable: false }">
 							<toolbar>
 								<OverflowToolbar>
@@ -140,7 +141,7 @@
 							</toolbar>
 							<items>
 								<UploadCollectionItem documentId="{LocalDataModel>DOC_ID}" fileName="{LocalDataModel>FileName}" mimeType="{LocalDataModel>MIMETYPE}"
-									thumbnailUrl="{LocalDataModel>url}" url="{LocalDataModel>URI}" enableEdit="false" enableDelete="{LocalDataModel>/UploadEnable}"
+									thumbnailUrl="{LocalDataModel>url}" url="{LocalDataModel>URI}" busy="{LocalDataModel>/IndicatorState}"  enableEdit="false" enableDelete="{LocalDataModel>/UploadEnable}"
 									visibleDelete="{settings>/visibleDelete}" visibleEdit="false">
 									
 								</UploadCollectionItem>
@@ -203,7 +204,7 @@
 						<Text text="{LocalDataModel>SubletDescription}" wrapping="true" textAlign="Center" width="100%"/>
 						<Text text="{LocalDataModel>Amount}" wrapping="true" textAlign="Center" width="100%"/>
 						<Text text="{LocalDataModel>TotalAfterDisct}" wrapping="true" textAlign="Center" width="100%"/>
-						<Text text="{LocalDataModel>TCIApprAmt}" wrapping="true" textAlign="Center" width="100%"/>
+						<Text text="{LocalDataModel>TCIApprovedAmount}" wrapping="true" textAlign="Center" width="100%"/>
 						<Text text="{LocalDataModel>DiffAmt}" wrapping="true" textAlign="Center" width="100%"/>
 					</cells>
 				</ColumnListItem>

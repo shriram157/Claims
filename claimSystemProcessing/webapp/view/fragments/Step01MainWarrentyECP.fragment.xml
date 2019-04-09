@@ -321,7 +321,7 @@
 					<Label text="{i18n>OFP}"/>
 					<Input id="idOFP" required="{DateModel>/ofpRequired}" value="{path:'HeadSetData>/OFP'}" editable="{DateModel>/oFormEdit}" enabled="{DateModel>/ofpEnabled}"/>
 					<Label text="{i18n>MainOp}"/>
-					<Input value="{path:'HeadSetData>/MainOpsCode'}" editable="{DateModel>/oFormEdit}"/>
+					<Input value="{path:'HeadSetData>/MainOpsCode'}" editable="{DateModel>/oFormEdit}" visible="{DateModel>/oMainOps}" />
 					<Label text="{i18n>BatteryTestCode}"/>
 					<Input value="{HeadSetData>/BatteryTestCode}" editable="{DateModel>/oFormEdit}" enabled="{DateModel>/oBatteryTestEnable}"/>
 					<Label text="{i18n>Condition}"/>
