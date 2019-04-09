@@ -4485,4 +4485,769 @@ sap.ui.define([
 								});
 
 								dialog.close();
-		
+							}, this)
+						}),
+						new Button({
+							text: "No",
+							press: function () {
+								dialog.close();
+							}
+						})
+
+					],
+
+					afterClose: function () {
+						dialog.destroy();
+					}
+				});
+
+				dialog.open();
+
+			} else {
+				MessageToast.show(oBundle.getText("Pleaseselect1row"));
+				oTable.removeSelections("true");
+			}
+		},
+
+		onPressUpdateLabour: function (oEvent) {
+			var oTable = this.getView().byId("idLabourTable");
+			var oTableIndex = oTable._aSelectedPaths;
+			var oBundle = this.getView().getModel("i18n").getResourceBundle();
+
+			if (oTableIndex.length == 1) {
+				// var oString = oTableIndex.toString();
+				var oSelectedRow = oTableIndex.toString();
+				var obj = this.getView().getModel("LocalDataModel").getProperty(oSelectedRow);
+				var LabourNum = obj.ItemKey;
+				var LabourHr = obj.QtyHrs;
+				this.getView().getModel("LabourDataModel").setProperty("/LabourOp", LabourNum);
+				this.getView().getModel("LabourDataModel").setProperty("/ClaimedHours", LabourHr);
+				this.getView().getModel("DateModel").setProperty("/labourLine", true);
+				//this.getView().byId("idLabourDes").setText(obj.LabourDescription);
+				this.getView().getModel("LabourDataModel").setProperty("/LabourDescription", obj.LabourDescription);
+				// for (var j = 0; j < this.obj.zc_claim_item_labourSet.results.length; j++) {
+				// 	if (this.obj.zc_claim_item_labourSet.results[j].LabourNumber == LabourNum) {
+				// 		this.obj.zc_claim_item_labourSet.results.splice(j);
+				// 	}
+				// }
+				var oIndex = parseInt(oTable._aSelectedPaths.toString().split("/")[2]);
+				this.obj.zc_claim_item_labourSet.results.splice(oIndex, 1);
+				var oClaimModel = this.getModel("ProssingModel");
+				// this._oToken = oClaimModel.getHeaders()['x-csrf-token'];
+				// $.ajaxSetup({
+				// 	headers: {
+				// 		'X-CSRF-Token': this._oToken
+				// 	}
+				// });
+
+				oClaimModel.refreshSecurityToken();
+
+				oClaimModel.create("/zc_headSet", this.obj, {
+					success: $.proxy(function (data, response) {
+						var pricinghData = response.data.zc_claim_item_price_dataSet.results;
+						var oFilteredData = pricinghData.filter(function (val) {
+							return val.ItemType === "FR" && val.ItemKey[0] != "P";
+						});
+						this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", response.data.OFPDescription);
+						this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.data.MainOpsCodeDescription);
+						console.log(oFilteredData);
+						this.getModel("LocalDataModel").setProperty("/LabourPricingDataModel", oFilteredData);
+						oTable.removeSelections("true");
+						this._fnClaimSum();
+						this._fnClaimSumPercent();
+						//MessageToast.show("Claim has been deleted successfully");
+					}, this),
+					error: function (err) {
+						console.log(err);
+					}
+				});
+			} else {
+				MessageToast.show(oBundle.getText("Pleaseselect1row"));
+				oTable.removeSelections("true");
+			}
+		},
+
+		onPressSavePaint: function () {
+			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
+			var oBundle = this.getView().getModel("i18n").getResourceBundle();
+			this.obj.Message = "";
+			this.obj.NumberOfWarrantyClaim = oClaimNum;
+			this.obj.OFP = this.getView().getModel("HeadSetData").getProperty("/OFP");
+			this.obj.MainOpsCode = this.getView().getModel("HeadSetData").getProperty("/MainOpsCode");
+			var oTable = this.getView().byId("idPaintTable");
+			var itemObj = {
+				"ItemType": "PAINT",
+				"PaintPositionCode": this.getView().getModel("PaintDataModel").getProperty("/PaintPositionCode"),
+				"ClaimedHours": "0.00"
+			};
+
+			this.obj.zc_claim_item_paintSet.results.push(itemObj);
+
+			var oClaimModel = this.getModel("ProssingModel");
+			// this._oToken = oClaimModel.getHeaders()['x-csrf-token'];
+			// $.ajaxSetup({
+			// 	headers: {
+			// 		'X-CSRF-Token': this._oToken
+			// 	}
+			// });
+
+			oClaimModel.refreshSecurityToken();
+
+			oClaimModel.create("/zc_headSet", this.obj, {
+				success: $.proxy(function (data, response) {
+					console.log(response);
+					var pricinghData = response.data.zc_claim_item_price_dataSet.results;
+					var oFilteredData = pricinghData.filter(function (val) {
+						return val.ItemType === "FR" && val.ItemKey[0] == "P";
+					});
+					this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", response.data.OFPDescription);
+					this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.data.MainOpsCodeDescription);
+					console.log(oFilteredData);
+					this.getModel("LocalDataModel").setProperty("/PaintPricingDataModel", oFilteredData);
+					//this.getModel("LocalDataModel").setProperty("/WarrantyClaimNum", response.data.NumberOfWarrantyClaim);
+					MessageToast.show(oBundle.getText("Claimhasbeensavedsuccessfully"));
+					this.getView().getModel("DateModel").setProperty("/paintLine", false);
+					this.getView().getModel("PaintDataModel").setProperty("/PaintPositionCode", "");
+					oTable.removeSelections("true");
+				}, this),
+				error: function (err) {
+					console.log(err);
+				}
+			});
+
+		},
+		// onNavigatePaint: function (oEvent) {
+		// 	console.log(oEvent);
+		// 	this.ArrIndexPaint = [];
+		// 	var oSelectedRow = oEvent.getParameters().rowContext.sPath;
+		// 	var oIndex = oSelectedRow.split("/")[2];
+		// 	this.ArrIndexPaint.push(oIndex);
+		// 	// var obj = oEvent.getSource().getModel("LocalDataModel").getProperty(this.oAgrTable);
+		// 	// this.PartNum = obj.matnr;
+		// },
+		onPressDeletePaint: function () {
+			var oTable = this.getView().byId("idPaintTable");
+			var oTableIndex = oTable._aSelectedPaths;
+			var oBundle = this.getView().getModel("i18n").getResourceBundle();
+
+			if (oTableIndex.length == 1) {
+
+				var dialog = new Dialog({
+					title: oBundle.getText("deleteLine"),
+					type: "Message",
+					content: new Text({
+						text: oBundle.getText("Aredeleteitem")
+					}),
+
+					buttons: [
+						new Button({
+							text: oBundle.getText("Yes"),
+							press: $.proxy(function () {
+								var oIndex = parseInt(oTable._aSelectedPaths.toString().split("/")[2]);
+								this.obj.zc_claim_item_paintSet.results.splice(oIndex, 1);
+								var oClaimModel = this.getModel("ProssingModel");
+								oClaimModel.refreshSecurityToken();
+								oClaimModel.create("/zc_headSet", this.obj, {
+									success: $.proxy(function (data, response) {
+										var pricinghData = response.data.zc_claim_item_price_dataSet.results;
+										var oFilteredData = pricinghData.filter(function (val) {
+											return val.ItemType === "FR" && val.ItemKey[0] == "P";
+										});
+										this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", response.data.OFPDescription);
+										this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.data.MainOpsCodeDescription);
+
+										this.getModel("LocalDataModel").setProperty("/PaintPricingDataModel", oFilteredData);
+										MessageToast.show(oBundle.getText("ItemDeletedSuccessfully"));
+										oTable.removeSelections("true");
+									}, this),
+									error: function (err) {
+
+									}
+								});
+
+								dialog.close();
+							}, this)
+						}),
+						new Button({
+							text: "No",
+							press: function () {
+								dialog.close();
+							}
+						})
+
+					],
+
+					afterClose: function () {
+						dialog.destroy();
+					}
+				});
+
+				dialog.open();
+
+			} else {
+				MessageToast.show(oBundle.getText("Pleaseselect1row"));
+				oTable.removeSelections("true");
+			}
+		},
+		onChangeSublet: function (oEvent) {
+			this.AdditonalUnit = oEvent.getParameters().selectedItem.getAdditionalText();
+		},
+		onPressSaveClaimItemSublet: function () {
+			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
+			var oBundle = this.getView().getModel("i18n").getResourceBundle();
+			var oTable = this.getView().byId("idSubletTable");
+			this.obj.Message = "";
+			this.obj.OFP = this.getView().getModel("HeadSetData").getProperty("/OFP");
+			this.obj.MainOpsCode = this.getView().getModel("HeadSetData").getProperty("/MainOpsCode");
+			this.obj.NumberOfWarrantyClaim = oClaimNum;
+
+			if (this.getModel("LocalDataModel").getProperty("/SubletAtchmentData") != undefined && this.getModel("LocalDataModel").getProperty(
+					"/SubletAtchmentData") != "") {
+				var itemObj = {
+					"ItemType": "SUBL",
+					"SubletType": this.getView().getModel("SubletDataModel").getProperty("/SubletCode"),
+					"InvoiceNo": this.getView().getModel("SubletDataModel").getProperty("/InvoiceNo"),
+					"Amount": this.getView().getModel("SubletDataModel").getProperty("/Amount"),
+					"SubletDescription": this.getView().getModel("SubletDataModel").getProperty("/description"),
+					"URI": this.getModel("LocalDataModel").getProperty("/SubletAtchmentData/0/URI"),
+					"UnitOfMeasure": this.AdditonalUnit
+				};
+
+				this.obj.zc_item_subletSet.results.push(itemObj);
+
+				var oClaimModel = this.getModel("ProssingModel");
+
+				oClaimModel.refreshSecurityToken();
+				oClaimModel.create("/zc_headSet", this.obj, {
+					success: $.proxy(function (data, response) {
+
+						var pricinghData = response.data.zc_claim_item_price_dataSet.results;
+						var oFilteredData = pricinghData.filter(function (val) {
+							return val.ItemType === "SUBL";
+						});
+						this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", response.data.OFPDescription);
+						this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.data.MainOpsCodeDescription);
+
+						this.getModel("LocalDataModel").setProperty("/SubletPricingDataModel", oFilteredData);
+
+						var oFilteredDataLabour = pricinghData.filter(function (val) {
+							return val.ItemType === "FR" && val.ItemKey[0] != "P";
+						});
+
+						this.getModel("LocalDataModel").setProperty("/LabourPricingDataModel", oFilteredDataLabour);
+
+						MessageToast.show(oBundle.getText("Claimhasbeensavedsuccessfully"));
+						this.getView().getModel("DateModel").setProperty("/subletLine", false);
+						this.getView().getModel("SubletDataModel").setProperty("/SubletCode", "");
+						this.getView().getModel("SubletDataModel").setProperty("/InvoiceNo", "");
+						this.getView().getModel("SubletDataModel").setProperty("/Amount", "");
+						this.getView().getModel("SubletDataModel").setProperty("/description", "");
+						oTable.removeSelections("true");
+						this._fnClaimSum();
+						this._fnClaimSumPercent();
+						this.getModel("LocalDataModel").setProperty("/SubletAtchmentData", "");
+
+					}, this),
+					error: function (err) {
+						console.log(err);
+					}
+				});
+			} else {
+				MessageToast.show("Attachment is required.");
+			}
+		},
+
+		onPressUpdateSublet: function (oEvent) {
+			var oTable = this.getView().byId("idSubletTable");
+			var oBundle = this.getView().getModel("i18n").getResourceBundle();
+			var oTableIndex = oTable._aSelectedPaths;
+			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
+			var oClaimModel = this.getModel("ProssingModel");
+			if (oTableIndex.length == 1) {
+				//var oString = oTableIndex.toString();
+				var oSelectedRow = oTableIndex.toString();
+				var obj = this.getView().getModel("LocalDataModel").getProperty(oSelectedRow);
+				var SubletNum = obj.matnr;
+				var SubletInv = obj.InvoiceNo;
+				var SubletAmount = obj.Amount;
+				this.getView().getModel("SubletDataModel").setProperty("/SubletCode", SubletNum);
+				this.getView().getModel("SubletDataModel").setProperty("/InvoiceNo", SubletInv);
+				this.getView().getModel("SubletDataModel").setProperty("/Amount", SubletAmount);
+				this.getView().getModel("SubletDataModel").setProperty("/description", obj.SubletDescription);
+				this.getView().getModel("DateModel").setProperty("/subletLine", true);
+				var oFile = obj.URI.split(",")[1].split("=")[1].split(")")[0];
+				var oFileReplaced = oFile.replace(/'/g, "");
+
+				oClaimModel.read("/zc_claim_subletattachmentSet", {
+					urlParameters: {
+						"$filter": "NumberOfWarrantyClaim eq'" + oClaimNum + "'and AttachLevel eq 'SUBL' and FileName eq'" + oFileReplaced + "'"
+					},
+					success: $.proxy(function (subletData) {
+						var oAttachSet = subletData.results.map(function (item) {
+							item.FileName = item.FileName.replace(SubletNum + "@@@", "");
+							return item;
+
+						});
+						this.getModel("LocalDataModel").setProperty("/SubletAtchmentData", oAttachSet);
+					}, this)
+				});
+
+				// oClaimModel.read("/zc_claim_subletattachmentSet", {
+				// 		urlParameters: {
+				// 			"$filter": "NumberOfWarrantyClaim eq'" + oClaimNum + "'and AttachLevel eq 'SUBL' and FileName eq'" + oFileDeleteName +
+				// 				"'"
+				// 		},
+				// 		success: $.proxy(function (subletData) {
+				// 			var oAttachSet = subletData.results.map(function (item) {
+				// 				item.FileName = item.FileName.replace(oSubletType + "@@@", "");
+				// 				return item;
+
+				// 			});
+				// 			this.getModel("LocalDataModel").setProperty("/SubletAtchmentData", oAttachSet);
+				// 		}, this)
+				// 	});
+
+				var oIndex = parseInt(oTable._aSelectedPaths.toString().split("/")[2]);
+				this.obj.zc_item_subletSet.results.splice(oIndex, 1);
+
+				oClaimModel.refreshSecurityToken();
+				oClaimModel.create("/zc_headSet", this.obj, {
+					success: $.proxy(function (data, response) {
+						var pricinghData = response.data.zc_claim_item_price_dataSet.results;
+						var oFilteredData = pricinghData.filter(function (val) {
+							return val.ItemType === "SUBL";
+						});
+						this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", response.data.OFPDescription);
+						this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.data.MainOpsCodeDescription);
+						console.log(oFilteredData);
+						this.getModel("LocalDataModel").setProperty("/SubletPricingDataModel", oFilteredData);
+						oTable.removeSelections("true");
+						this._fnClaimSum();
+						this._fnClaimSumPercent();
+						//MessageToast.show("Claim has been deleted successfully");
+					}, this),
+					error: function (err) {
+						console.log(err);
+					}
+				});
+			} else {
+				MessageToast.show(oBundle.getText("Pleaseselect1row"));
+				oTable.removeSelections("true");
+			}
+		},
+		onPressDeleteSublet: function () {
+			var oTable = this.getView().byId("idSubletTable");
+			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
+			var oBundle = this.getView().getModel("i18n").getResourceBundle();
+			var oTableIndex = oTable._aSelectedPaths;
+			var oPath = oTableIndex.toString();
+			var oFile = this.getModel("LocalDataModel").getProperty(oPath).URI.split(",")[1].split("=")[1].split(")")[0];
+			var oFileReplaced = oFile.replace(/'/g, "");
+
+			// var oSubletType = this.getView().getModel("SubletDataModel").getProperty("/SubletCode");
+			// var fileType = this.oUploadedFile.type;
+			// var fileNamePrior = oSubletType + "@@@" + this.oUploadedFile.name;
+
+			if (oTableIndex.length == 1) {
+
+				var dialog = new Dialog({
+					title: oBundle.getText("deleteLine"),
+					type: "Message",
+					content: new Text({
+						text: oBundle.getText("Aredeleteitem")
+					}),
+
+					buttons: [
+						new Button({
+							text: oBundle.getText("Yes"),
+							press: $.proxy(function () {
+
+								var oIndex = parseInt(oTable._aSelectedPaths.toString().split("/")[2]);
+								this.obj.zc_item_subletSet.results.splice(oIndex, 1);
+								var oClaimModel = this.getModel("ProssingModel");
+
+								oClaimModel.refreshSecurityToken();
+								oClaimModel.create("/zc_headSet", this.obj, {
+									success: $.proxy(function (data, response) {
+										var pricinghData = response.data.zc_claim_item_price_dataSet.results;
+										var oFilteredData = pricinghData.filter(function (val) {
+											return val.ItemType === "SUBL";
+										});
+										this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", response.data.OFPDescription);
+										this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.data.MainOpsCodeDescription);
+
+										this.getModel("LocalDataModel").setProperty("/SubletPricingDataModel", oFilteredData);
+										MessageToast.show(oBundle.getText("ItemDeletedSuccessfully"));
+										oTable.removeSelections("true");
+										this._fnClaimSum();
+										this._fnClaimSumPercent();
+									}, this),
+									error: function (err) {
+
+									}
+								});
+								oClaimModel.refreshSecurityToken();
+
+								oClaimModel.remove("/zc_claim_attachmentsSet(NumberOfWarrantyClaim='" + oClaimNum + "',FileName='" + oFileReplaced +
+									"')", {
+										method: "DELETE",
+										success: function () {
+											MessageToast.show(oBundle.getText("Filedeletedsuccessfully"));
+										}
+									});
+
+								dialog.close();
+							}, this)
+						}),
+						new Button({
+							text: "No",
+							press: function () {
+								dialog.close();
+							}
+						})
+
+					],
+
+					afterClose: function () {
+						dialog.destroy();
+					}
+				});
+
+				dialog.open();
+
+			} else {
+				MessageToast.show(oBundle.getText("Pleaseselect1row"));
+				oTable.removeSelections("true");
+			}
+		},
+
+		onRevalidate: function () {
+			var oClaimModel = this.getModel("ProssingModel");
+			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
+			var oBundle = this.getView().getModel("i18n").getResourceBundle();
+			this.obj.Message = "";
+			this.obj.DBOperation = "SAVE";
+			this.obj.NumberOfWarrantyClaim = oClaimNum;
+			// this._oToken = oClaimModel.getHeaders()['x-csrf-token'];
+			// $.ajaxSetup({
+			// 	headers: {
+			// 		'X-CSRF-Token': this._oToken
+			// 	}
+			// });
+			oClaimModel.refreshSecurityToken();
+
+			oClaimModel.create("/zc_headSet", this.obj, {
+				success: function (data, response) {
+					this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", response.data.OFPDescription);
+					this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.data.MainOpsCodeDescription);
+					MessageToast.show(oBundle.getText("Claimhasbeensavedsuccessfully"));
+				},
+				error: function () {
+					MessageToast.show(oBundle.getText("ClaimnotSaved"));
+				}
+
+			});
+		},
+
+		onSaveDamage: function (oEvent) {
+			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
+			this.obj.Message = "";
+			this.obj.NumberOfWarrantyClaim = oClaimNum;
+			this.obj.OFP = this.getView().getModel("HeadSetData").getProperty("/OFP");
+			this.obj.MainOpsCode = this.getView().getModel("HeadSetData").getProperty("/MainOpsCode");
+			var oClaimModel = this.getModel("ProssingModel");
+
+			var itemObj = {
+				"DmgAreaCode": this.getView().getModel("HeadSetData").getProperty("/DmgAreaCode"),
+				"DmgTypeCode": this.getView().getModel("HeadSetData").getProperty("/DmgTypeCode"),
+				"DmgSevrCode": this.getView().getModel("HeadSetData").getProperty("/DmgSevrCode")
+			};
+			this.obj.zc_claim_item_damageSet.results.push(itemObj);
+
+			oClaimModel.refreshSecurityToken();
+
+			oClaimModel.create("/zc_headSet", this.obj, {
+				success: $.proxy(function (data, response) {
+					// console.log(response);
+					oClaimModel.read("/zc_claim_item_damageSet", {
+						urlParameters: {
+							"$filter": "NumberOfWarrantyClaim eq '" + oClaimNum + "'and LanguageKey eq 'E' "
+						},
+						success: $.proxy(function (sdata) {
+							this.getModel("LocalDataModel").setProperty("/DataItemDamageSet", sdata.results);
+							this.getView().getModel("HeadSetData").setProperty("/DmgAreaCode", "");
+							this.getView().getModel("HeadSetData").setProperty("/DmgTypeCode", "");
+							this.getView().getModel("HeadSetData").setProperty("/DmgSevrCode", "");
+						}, this)
+					});
+				}, this),
+				error: function (err) {
+					console.log(err);
+				}
+			});
+
+		},
+		onAddDamageLine: function () {
+			this.getView().getModel("DateModel").setProperty("/damageLine", true);
+		},
+
+		onUpdateDamageLine: function () {
+			var oTable = this.getView().byId("idDamageDetailTable");
+			var oTableIndex = oTable._aSelectedPaths;
+			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
+			if (oTableIndex.length == 1) {
+				//var oString = oTableIndex.toString();
+				var oSelectedRow = oTableIndex.toString();
+				var obj = this.getView().getModel("LocalDataModel").getProperty(oSelectedRow);
+				var oDmgAreaCode = obj.DmgAreaCode;
+				var oDmgTypeCode = obj.DmgTypeCode;
+				var oDmgSevrCode = obj.DmgSevrCode;
+				this.getView().getModel("HeadSetData").setProperty("/DmgAreaCode", oDmgAreaCode);
+				this.getView().getModel("HeadSetData").setProperty("/DmgTypeCode", oDmgTypeCode);
+				this.getView().getModel("HeadSetData").setProperty("/DmgSevrCode", oDmgSevrCode);
+
+				this.getView().getModel("DateModel").setProperty("/subletLine", true);
+
+				var oIndex = parseInt(oTable._aSelectedPaths.toString().split("/")[2]);
+				this.obj.zc_claim_item_damageSet.results.splice(oIndex, 1);
+
+				var oClaimModel = this.getModel("ProssingModel");
+
+				oClaimModel.refreshSecurityToken();
+				oClaimModel.create("/zc_headSet", this.obj, {
+					success: $.proxy(function (data, response) {
+						oClaimModel.read("/zc_claim_item_damageSet", {
+							urlParameters: {
+								"$filter": "NumberOfWarrantyClaim eq '" + oClaimNum + "'and LanguageKey eq 'E' "
+							},
+							success: $.proxy(function (sdata) {
+								this.getModel("LocalDataModel").setProperty("/DataItemDamageSet", sdata.results);
+
+								//MessageToast.show("Damage Line Updated successfully");
+							}, this)
+						});
+						//MessageToast.show("Claim has been deleted successfully");
+					}, this),
+					error: function (err) {
+						console.log(err);
+					}
+				});
+			}
+		},
+		onDeleteDamageLine: function () {
+			var oTable = this.getView().byId("idDamageDetailTable");
+			var oTableIndex = oTable._aSelectedPaths;
+			var oBundle = this.getView().getModel("i18n").getResourceBundle();
+			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
+			if (oTableIndex.length == 1) {
+
+				var oIndex = parseInt(oTableIndex.toString().split("/")[2]);
+				this.obj.zc_claim_item_damageSet.results.splice(oIndex, 1);
+
+				var oClaimModel = this.getModel("ProssingModel");
+
+				oClaimModel.refreshSecurityToken();
+				oClaimModel.create("/zc_headSet", this.obj, {
+					success: $.proxy(function (data, response) {
+						oClaimModel.read("/zc_claim_item_damageSet", {
+							urlParameters: {
+								"$filter": "NumberOfWarrantyClaim eq '" + oClaimNum + "'and LanguageKey eq 'E' "
+							},
+							success: $.proxy(function (sdata) {
+								this.getModel("LocalDataModel").setProperty("/DataItemDamageSet", sdata.results);
+
+								MessageToast.show(oBundle.getText("DamageLineDeletedsuccessfully"));
+							}, this)
+						});
+					}, this),
+					error: function (err) {
+						console.log(err);
+					}
+				});
+			}
+		},
+		onSubmitTci: function () {
+			var oClaimModel = this.getModel("ProssingModel");
+			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
+			this.obj.WarrantyClaimType = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType");
+			this.obj.Partner = this.getModel("LocalDataModel").getProperty("/BpDealerModel/0/BusinessPartnerKey");
+			this.obj.ActionCode = "";
+			this.obj.NumberOfWarrantyClaim = this.getView().getModel("HeadSetData").getProperty("/NumberOfWarrantyClaim");
+			this.obj.PartnerRole = "AS";
+			this.obj.ReferenceDate = this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/ReferenceDate"));
+			this.obj.DateOfApplication = this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/DateOfApplication"));
+			this.obj.FinalProcdDate = null;
+			this.obj.RepairDate = this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairDate"));
+			this.obj.RepairOrderNumberExternal = this.getView().getModel("HeadSetData").getProperty("/RepairOrderNumberExternal");
+			this.obj.ExternalNumberOfClaim = this.getView().getModel("HeadSetData").getProperty("/ExternalNumberOfClaim");
+			this.obj.ExternalObjectNumber = this.getView().getModel("HeadSetData").getProperty("/ExternalObjectNumber");
+			this.obj.Odometer = this.getView().getModel("HeadSetData").getProperty("/Odometer");
+
+			this.obj.DeliveryDate = this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/DeliveryDate"));
+			this.obj.TCIWaybillNumber = "";
+			this.obj.ShipmentReceivedDate = null;
+			this.obj.DealerContact = this.getView().getModel("HeadSetData").getProperty("/DealerContact");
+
+			this.obj.HeadText = this.getView().getModel("HeadSetData").getProperty("/HeadText");
+			this.obj.OFP = this.getView().getModel("HeadSetData").getProperty("/OFP");
+			this.obj.WTYClaimRecoverySource = "";
+			this.obj.MainOpsCode = this.getView().getModel("HeadSetData").getProperty("/MainOpsCode");
+			this.obj.T1WarrantyCodes = this.getView().getModel("HeadSetData").getProperty("/T1WarrantyCodes");
+			this.obj.BatteryTestCode = this.getView().getModel("HeadSetData").getProperty("/BatteryTestCode");
+			this.obj.T2WarrantyCodes = this.getView().getModel("HeadSetData").getProperty("/T2WarrantyCodes");
+			this.obj.FieldActionReference = this.getView().getModel("HeadSetData").getProperty("/FieldActionReference").toUpperCase();
+			this.obj.ZCondition = this.getView().getModel("HeadSetData").getProperty("/ZCondition");
+			this.obj.Cause = this.getView().getModel("HeadSetData").getProperty("/Cause");
+			this.obj.Remedy = this.getView().getModel("HeadSetData").getProperty("/Remedy");
+			this.obj.PreviousROInvoiceDate = this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/PreviousROInvoiceDate"));
+			this.obj.PreviousROOdometer = this.getView().getModel("HeadSetData").getProperty("/PreviousROOdometer");
+			this.obj.PreviousROInvoice = this.getView().getModel("HeadSetData").getProperty("/PreviousROInvoice");
+			this.obj.AccessoryInstallOdometer = this.getView().getModel("HeadSetData").getProperty("/AccessoryInstallOdometer");
+			this.obj.AgreementNumber = this.getView().getModel("HeadSetData").getProperty("/AgreementNumber");
+			this.obj.CustomerPostalCode = this.getView().getModel("HeadSetData").getProperty("/CustomerPostalCode");
+			this.obj.CustomerFullName = this.getView().getModel("HeadSetData").getProperty("/CustomerFullName");
+			this.obj.AccessoryInstallDate = this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/AccessoryInstallDate"));
+			this.obj.ProbillNum = this.getView().getModel("HeadSetData").getProperty("/ProbillNum");
+			this.obj.Delivery = this.getView().getModel("HeadSetData").getProperty("/Delivery");
+			this.obj.DeliveringCarrier = this.getView().getModel("HeadSetData").getProperty("/DeliveringCarrier");
+
+			this.obj.Message = "";
+			this.obj.DBOperation = "SUB";
+			this.obj.NumberOfWarrantyClaim = oClaimNum;
+			var oObj = {
+				"NumberOfWarrantyClaim": oClaimNum,
+				"POSNR": "",
+				"NUMBER": "",
+				"TYPE": "",
+				"MESSAGE": ""
+			};
+
+			this.obj.zc_claim_vsrSet.results.push(oObj);
+
+			var oBundle = this.getView().getModel("i18n").getResourceBundle();
+
+			// if (ogetKey > 1 && ogetKey <= 8) {
+			// 	var oSelectedNum = ogetKey - 1;
+			// 	this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab" + oSelectedNum + "");
+			// } else {
+			// 	this.getRouter().navTo("SearchClaim");
+			// }
+
+			//var that = this;
+			var dialog = new Dialog({
+				title: oBundle.getText("SubmitClaimTCI"),
+				type: "Message",
+				content: new Text({
+					text: oBundle.getText("AresubmitClaimTCI?")
+				}),
+
+				buttons: [
+					new Button({
+						text: oBundle.getText("Yes"),
+						press: $.proxy(function () {
+							// this._oToken = oClaimModel.getHeaders()['x-csrf-token'];
+							// $.ajaxSetup({
+							// 	headers: {
+							// 		'X-CSRF-Token': this._oToken
+							// 	}
+							// });
+							oClaimModel.refreshSecurityToken();
+							oClaimModel.create("/zc_headSet", this.obj, {
+								success: $.proxy(function (data, response) {
+									this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", response.data.OFPDescription);
+									this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.data.MainOpsCodeDescription);
+
+									oClaimModel.read("/ZC_CLAIM_HEAD_NEW", {
+										urlParameters: {
+											"$filter": "NumberOfWarrantyClaim eq '" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") +
+												"'"
+										},
+										success: $.proxy(function (sdata) {
+											this.getView().getModel("HeadSetData").setProperty("/ProcessingStatusOfWarrantyClm", sdata.results[0].ProcessingStatusOfWarrantyClm);
+										}, this)
+									});
+
+									// var oErrorSet = response.data.zc_claim_vsrSet.results;
+									this.getModel("LocalDataModel").setProperty("/oErrorSet", response.data.zc_claim_vsrSet.results);
+									this.obj.zc_claim_vsrSet.results.pop(oObj);
+									if (response.data.zc_claim_vsrSet.results.length <= 0) {
+										this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
+										MessageToast.show(oBundle.getText("ClaimNumber") + " " + oClaimNum + " " + oBundle.getText(
+											"successfullysubmittedTCI"));
+									} else {
+										MessageToast.show(
+											oBundle.getText("ClaimNumber") + " " + oClaimNum + " " + oBundle.getText("RejectedTCIValidationResultsdetails"));
+									}
+
+									dialog.close();
+								}, this),
+								error: function (err) {
+
+								}
+							});
+
+						}, this)
+					}),
+					new Button({
+						text: oBundle.getText("Cancel"),
+						press: function () {
+							dialog.close();
+						}
+					})
+
+				],
+
+				afterClose: function () {
+					dialog.destroy();
+				}
+			});
+
+			dialog.open();
+
+		},
+
+		/**
+		 * Similar to onAfterRendering, but this hook is invoked before the controller's View is re-rendered
+		 * (NOT before the first rendering! onInit() is used for that one!).
+		 * @memberOf zclaimProcessing.view.MainClaimSection
+		 */
+		//	onBeforeRendering: function() {
+		//
+		//	},
+
+		/**
+		 * Called when the View has been rendered (so its HTML is part of the document). Post-rendering manipulations of the HTML could be done here.
+		 * This hook is the same one that SAPUI5 controls get after being rendered.
+		 * @memberOf zclaimProcessing.view.MainClaimSection
+		 */
+		onAfterRendering: function () {
+			var oDate = this.getView().byId("id_Date");
+			console.log(oDate);
+		},
+
+		onPressPrint: function () {
+			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
+			var isProxy = "";
+			if (window.document.domain == "localhost") {
+				isProxy = "proxy";
+			}
+			var w = window.open(isProxy +
+				"/node/ZDLR_CLAIM_SRV/zc_claim_printSet(NumberOfWarrantyClaim='" + oClaimNum + "')/$value",
+				'_blank');
+			if (w == null) {
+				console.log("Error");
+				//MessageBox.warning(oBundle.getText("Error.PopUpBloqued"));
+			}
+		},
+
+		/**
+		 * Called when the Controller is destroyed. Use this one to free resources and finalize activities.
+		 * @memberOf zclaimProcessing.view.MainClaimSection
+		 */
+		onExit: function () {
+			alert("Hello");
+		}
+
+	});
+
+});
