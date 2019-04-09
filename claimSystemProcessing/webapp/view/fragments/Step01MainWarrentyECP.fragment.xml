@@ -331,7 +331,7 @@
 					<Label text="{i18n>OFPDescription}" />
 					<Text text="{path:'LocalDataModel>/OFPDescription'}" />
 					<Label text="{i18n>MainOpDescription}"/>
-					<Text text="{path:'LocalDataModel>/MainOpsCodeDescription'}"/>
+					<Text text="{path:'LocalDataModel>/MainOpsCodeDescription'}" visible="{DateModel>/oMainOps}"/>
 					<Label text="{i18n>FieldActionCode}"/>
 					<Input id="idFieldActionInput" required="{path:'DateModel>/oFieldActionInput'}" value="{path:'HeadSetData>/FieldActionReference'}" editable="{DateModel>/oFormEdit}"
 						enabled="{DateModel>/oFieldActionInput}" change="onFieldActionInput"/>
