@@ -50,13 +50,13 @@
 				<core:Title text=""/>
 				<Label text="{i18n>OutboundDeliveryNumber}"/>
 				<Input value="{path:'HeadSetData>/Delivery', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 10 } }"
-					required="true" id="idOutboundDNum"/>
+					required="true" id="idOutboundDNum" enabled="{DateModel>/oFormEdit}"/>
 				<Label text="{i18n>ReceivedDate}"/>
 				<DatePicker
 					value="{path:'HeadSetData>/ShipmentReceivedDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd' } }"
-					required="true" id="idShipmentRDate"/>
+					required="true" id="idShipmentRDate" enabled="{DateModel>/oFormEdit}"/>
 				<Label text="{i18n>ShippingPartstoPDC}"/>
-				<Select id="idPartsShipping">
+				<Select id="idPartsShipping" enabled="{DateModel>/oFormEdit}">
 					<items>
 						<core:Item text="{i18n>Yes}" key="Yes"/>
 						<core:Item text="{i18n>No}" key="No"/>
@@ -65,18 +65,18 @@
 				<core:Title text=""/>
 				<Label text="{i18n>OutboundDeliveryDate}"/>
 				<DatePicker required="true" id="idOutBoundDD"
-					value="{path:'HeadSetData>/DeliveryDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium' , pattern: 'YYYY-MM-dd'}}"/>
+					value="{path:'HeadSetData>/DeliveryDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium' , pattern: 'YYYY-MM-dd'}}" enabled="{DateModel>/oFormEdit}"/>
 				<Label text="{i18n>PDCCode}"/>
 				<Input value="" id="idPdcCode" editable="false"/>
 				<Label text="{i18n>DealerContact}"/>
 				<Input value="{path:'HeadSetData>/DealerContact', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 10 } }"
-					required="true" id="idDealerContact"/>
+					required="true" id="idDealerContact" enabled="{DateModel>/oFormEdit}"/>
 				<core:Title text=""/>
 				<Label text="{i18n>TCIWaybillNo}"/>
-				<Input value="{HeadSetData>/TCIWaybillNumber}" id="idTCIWayBill" required="true"/>
+				<Input value="{HeadSetData>/TCIWaybillNumber}" id="idTCIWayBill" required="true"  enabled="{DateModel>/oFormEdit}"/>
 				<Label text="{i18n>CarrierName}"/>
 				<ComboBox id="idCarrierName" required="true" items="{BpDealerModel>/BpDealerList}" change="onSelectPartsDealer"
-					selectedKey="{HeadSetData>/DeliveringCarrier}" showSecondaryValues="true">
+					selectedKey="{HeadSetData>/DeliveringCarrier}" showSecondaryValues="true"  enabled="{DateModel>/oFormEdit}">
 					<core:ListItem text="{BpDealerModel>BusinessPartner}" key="{BpDealerModel>BusinessPartnerKey}"
 						additionalText="{BpDealerModel>BusinessPartnerName}"/>
 				</ComboBox>
@@ -87,12 +87,12 @@
 			singleContainerFullSize="false">
 			<f:content>
 				<core:Title text="{i18n>PartsComments}"/>
-				<TextArea height="8rem" value="{HeadSetData>/HeadText}">
+				<TextArea height="8rem" value="{HeadSetData>/HeadText}" enabled="{DateModel>/oFormEdit}">
 					<layoutData>
 						<l:GridData span="XL8 L8 M8 S4"/>
 					</layoutData>
 				</TextArea>
-				<Button text="{i18n>PartsAdd}">
+				<Button text="{i18n>PartsAdd}"  press="onAddPartsComment" enabled="{DateModel>/oFormEdit}">
 					<layoutData>
 						<l:GridData span="XL2 L2 M3 S4"/>
 					</layoutData>
@@ -124,8 +124,8 @@
 						</toolbar>
 						<items>
 							<UploadCollectionItem documentId="{LocalDataModel>DOC_ID}" fileName="{LocalDataModel>FileName}" mimeType="{LocalDataModel>MIMETYPE}"
-								thumbnailUrl="{LocalDataModel>url}" url="{LocalDataModel>URI}" enableEdit="{settings>/enableEdit}" enableDelete="{settings>/enableDelete}"
-								visibleDelete="{settings>/visibleDelete}" visibleEdit="{settings>/visibleEdit}"></UploadCollectionItem>
+								thumbnailUrl="{LocalDataModel>url}" url="{LocalDataModel>URI}" enableEdit="false" enableDelete="{LocalDataModel>/UploadEnableHeader}"
+								visibleDelete="{settings>/visibleDelete}" visibleEdit="false"></UploadCollectionItem>
 						</items>
 					</UploadCollection>
 					<!--<UploadCollection change="onUploadChangeParts" id="UploadSupportingDoc" uploadComplete="onUploadCompleteParts" fileDeleted="onFileDeleted"-->

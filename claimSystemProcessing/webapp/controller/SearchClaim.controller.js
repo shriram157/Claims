@@ -24,13 +24,13 @@ sap.ui.define([
 			}
 			var HeaderLinksModel = new sap.ui.model.json.JSONModel();
 			/*Uncomment for security*/
-			// HeaderLinksModel.setData({
-			// 	NewClaim: false,
-			// 	ViewUpdateClaims: false,
-			// 	QuickCoverageTool: false,
-			// 	ClaimInquiry: false,
-			// 	DealerLabourRateInquiry: false
-			// });
+			HeaderLinksModel.setData({
+				NewClaim: false,
+				ViewUpdateClaims: false,
+				QuickCoverageTool: false,
+				ClaimInquiry: false,
+				DealerLabourRateInquiry: false
+			});
 			/*Uncomment for security*/
 			HeaderLinksModel.setData({
 				NewClaim: true,
@@ -156,12 +156,12 @@ sap.ui.define([
 						// raise a message, because this should not be allowed. 
 						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ReadOnlyViewAll");
 						/*Uncomment for security*/
-						// that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", false);
-						// that.getView().getModel("HeaderLinksModel").setProperty("/ViewUpdateClaims", true);
-						// that.getView().getModel("HeaderLinksModel").setProperty("/QuickCoverageTool", true);
-						// that.getView().getModel("HeaderLinksModel").setProperty("/ClaimInquiry", true);
-						// that.getView().getModel("HeaderLinksModel").setProperty("/DealerLabourRateInquiry", true);
-						// sap.ui.getCore().getModel("HeaderLinksModel").updateBindings(true);
+						that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", false);
+						that.getView().getModel("HeaderLinksModel").setProperty("/ViewUpdateClaims", true);
+						that.getView().getModel("HeaderLinksModel").setProperty("/QuickCoverageTool", true);
+						that.getView().getModel("HeaderLinksModel").setProperty("/ClaimInquiry", true);
+						that.getView().getModel("HeaderLinksModel").setProperty("/DealerLabourRateInquiry", true);
+						sap.ui.getCore().getModel("HeaderLinksModel").updateBindings(true);
 						/*Uncomment for security*/
 					}
 					console.log(sap.ui.getCore().getModel("UserDataModel"));
@@ -342,6 +342,12 @@ sap.ui.define([
 
 				}, this)
 			});
+		},
+		
+		onAddPartsComment: function (oEvent) {
+			var oDialogBox = sap.ui.xmlfragment("zclaimProcessing.view.fragments.ClaimComments", this);
+			this.getView().addDependent(oDialogBox);
+			oDialogBox.open();
 		},
 
 		handleSelectClaimGroupFinish: function (oEvent) {
