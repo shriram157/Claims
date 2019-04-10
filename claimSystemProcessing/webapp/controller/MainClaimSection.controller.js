@@ -433,6 +433,12 @@ sap.ui.define([
 							},
 							success: $.proxy(function (vehData) {
 								this.getModel("LocalDataModel").setProperty("/DataVinDetails", vehData.results[0]);
+								var oRepDate = this.getView().getModel("HeadSetData").getProperty("/RepairDate");
+								var regTime = new Date(data.results[0].RegDate).getTime();
+								var repTime = new Date(oRepDate).getTime();
+								var oMonth = (regTime - repTime) / (1000 * 60 * 60 * 24 * 30);
+								//parseFloat(oMonth).toFixed(2);
+								this.getModel("LocalDataModel").setProperty("/VehicleMonths", Math.abs(oMonth.toFixed(2)));
 
 								if (data.results[0].ForeignVIN == "YES") {
 									this.getView().getModel("DateModel").setProperty("/foreignVinInd", true);
@@ -741,7 +747,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/authRejClm", false);
 							this.getView().getModel("DateModel").setProperty("/copyClaimEnable", true);
 							this.getView().getModel("DateModel").setProperty("/oDamageLineBtn", false);
-						} else if (data.results[0].ProcessingStatusOfWarrantyClm == "ZTMR" ) {
+						} else if (data.results[0].ProcessingStatusOfWarrantyClm == "ZTMR") {
 							//sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") == "Dealer_Services_Manager"
 							this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
 							this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
@@ -754,7 +760,8 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/authAcClm", false);
 							this.getView().getModel("DateModel").setProperty("/authRejClm", false);
 							this.getView().getModel("DateModel").setProperty("/claimEditSt", true);
-						}else if (data.results[0].ProcessingStatusOfWarrantyClm == "ZTMR" && sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") == "Dealer_Services_Manager") {
+						} else if (data.results[0].ProcessingStatusOfWarrantyClm == "ZTMR" && sap.ui.getCore().getModel("UserDataModel").getProperty(
+								"/LoggedInUser") == "Dealer_Services_Manager") {
 							//sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") == "Dealer_Services_Manager"
 							this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
 							this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
@@ -783,9 +790,10 @@ sap.ui.define([
 						}
 
 						if (data.results[0].ProcessingStatusOfWarrantyClm == "ZTIC" && oClaimNav != "Inq" &&
-							sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") != "Zone_User" && sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") != "TCI_Admin"
-							) {
-						
+							sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") != "Zone_User" && sap.ui.getCore().getModel(
+								"UserDataModel").getProperty("/LoggedInUser") != "TCI_Admin"
+						) {
+
 							this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
 							this.getView().getModel("DateModel").setProperty("/SaveClaim07", true);
 							this.getModel("LocalDataModel").setProperty("/CancelEnable", true);
@@ -797,11 +805,10 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/authRejClm", false);
 							this.getView().getModel("DateModel").setProperty("/damageLine", true);
 							this.getView().getModel("DateModel").setProperty("/oDamageLineBtn", true);
-						} else if (data.results[0].ProcessingStatusOfWarrantyClm == "ZTRC" && oClaimNav != "Inq" 
-						&& sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") != "Zone_User" 
-						&& sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") != "TCI_Admin"
-							) {
-							
+						} else if (data.results[0].ProcessingStatusOfWarrantyClm == "ZTRC" && oClaimNav != "Inq" && sap.ui.getCore().getModel(
+								"UserDataModel").getProperty("/LoggedInUser") != "Zone_User" && sap.ui.getCore().getModel("UserDataModel").getProperty(
+								"/LoggedInUser") != "TCI_Admin") {
+
 							this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
 							this.getView().getModel("DateModel").setProperty("/SaveClaim07", true);
 							this.getModel("LocalDataModel").setProperty("/CancelEnable", true);
@@ -1805,7 +1812,7 @@ sap.ui.define([
 			oProssingModel.read("/zc_vehicle_informationSet", {
 				urlParameters: {
 					"$filter": "Vin eq '" + oVin + "' and NumberOfWarrantyClaim eq ''"
-					
+
 				},
 				//"$expand": "ZC_SPECIAL_HANDLINGVEHICLESET, ZC_WRITTENOFFVEHICLESET"
 				success: $.proxy(function (data) {
