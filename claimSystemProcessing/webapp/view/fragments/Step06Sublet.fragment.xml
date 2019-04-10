@@ -45,7 +45,7 @@
 					<Label text="{i18n>Odometer}"/>
 					<Text text="{HeadSetData>/Odometer}"/>
 					<Label text="{i18n>Elapse}"/>
-					<Text text="{HeadSetData>/ElapsedMonths}"/>
+					<Text text="{LocalDataModel>/VehicleMonths} {i18n>Months}"/>
 					<core:Title text=""/>
 					<Label text="{i18n>Type}"/>
 					<Text text="{HeadSetData>/WarrantyClaimType}"/>
