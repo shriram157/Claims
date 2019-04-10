@@ -543,7 +543,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/PreroOdometerVisible", true);
 							this.getView().getModel("DateModel").setProperty("/RepairdDetailVisible", true);
 						} else if (oClaimTypeDetail == "ZWMS" || submissionType == "ZWMS") {
-							this.getView().getModel("DateModel").setProperty("/oMainOps", true);
+							this.getView().getModel("DateModel").setProperty("/oMainOps", false);
 							this.getView().getModel("DateModel").setProperty("/Paint", false);
 							this.getView().getModel("DateModel").setProperty("/Parts", false);
 							this.getView().getModel("DateModel").setProperty("/Labour", false);
@@ -1665,7 +1665,7 @@ sap.ui.define([
 				this.getView().getModel("DateModel").setProperty("/ofpRequired", false);
 				this.getView().getModel("DateModel").setProperty("/oBatteryTestEnable", true);
 			} else if (oKey == "ZWMS") {
-				this.getView().getModel("DateModel").setProperty("/oMainOps", true);
+				this.getView().getModel("DateModel").setProperty("/oMainOps", false);
 				this.getView().getModel("DateModel").setProperty("/Paint", false);
 				this.getView().getModel("DateModel").setProperty("/Parts", false);
 				this.getView().getModel("DateModel").setProperty("/Labour", false);
@@ -3911,6 +3911,20 @@ sap.ui.define([
 				"PartDescription": this.getView().getModel("PartDataModel").getProperty("/PartDescription"),
 				"UnitOfMeasure": this.getView().getModel("LocalDataModel").getProperty("/BaseUnit")
 			};
+			var oTable = this.getView().byId("idTableParts");
+			var oTableIndex = oTable._aSelectedPaths;
+		
+			
+			if (oTableIndex.length == 1) {
+				var oIndex = parseInt(oTableIndex.toString().split("/")[2]);
+				this.obj.zc_itemSet.results.splice(oIndex, 1);
+			}
+			
+			// for(let i in this.obj.zc_itemSet.results){
+			// 	if(this.obj.zc_itemSet.results[i].MaterialNumber == itemObj.MaterialNumber){
+					
+			// 	}
+			// }
 
 			this.obj.zc_itemSet.results.push(itemObj);
 
@@ -3981,7 +3995,7 @@ sap.ui.define([
 				this.getView().getModel("DateModel").setProperty("/partLine", true);
 			
 				var oIndex = parseInt(oTableIndex.toString().split("/")[2]);
-				this.obj.zc_itemSet.results.splice(oIndex, 1);
+				//this.obj.zc_itemSet.results.splice(oIndex, 1);
 				var oClaimModel = this.getModel("ProssingModel");
 			
 				oClaimModel.refreshSecurityToken();
