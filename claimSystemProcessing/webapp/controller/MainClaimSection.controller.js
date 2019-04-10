@@ -438,7 +438,7 @@ sap.ui.define([
 								var repTime = new Date(oRepDate).getTime();
 								var oMonth = (regTime - repTime) / (1000 * 60 * 60 * 24 * 30);
 								//parseFloat(oMonth).toFixed(2);
-								this.getModel("LocalDataModel").setProperty("/VehicleMonths", Math.abs(oMonth.toFixed(2)));
+								this.getModel("LocalDataModel").setProperty("/VehicleMonths", Math.abs(oMonth.toFixed(1)));
 
 								if (data.results[0].ForeignVIN == "YES") {
 									this.getView().getModel("DateModel").setProperty("/foreignVinInd", true);
@@ -1822,7 +1822,7 @@ sap.ui.define([
 					var repTime = new Date(oRepDate).getTime();
 					var oMonth = (regTime - repTime) / (1000 * 60 * 60 * 24 * 30);
 					//parseFloat(oMonth).toFixed(2);
-					this.getModel("LocalDataModel").setProperty("/VehicleMonths", Math.abs(oMonth.toFixed(2)));
+					this.getModel("LocalDataModel").setProperty("/VehicleMonths", Math.abs(oMonth.toFixed(1)));
 					if (data.results[0].ForeignVIN == "YES") {
 						this.getModel("LocalDataModel").setProperty("/MsrUnit", oBundle.getText("distancemiles"));
 						this.getView().getModel("DateModel").setProperty("/foreignVinInd", true);
