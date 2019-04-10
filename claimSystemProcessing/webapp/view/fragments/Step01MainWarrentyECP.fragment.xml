@@ -131,9 +131,9 @@
 				<core:Title text=""/>
 				<Label text="{i18n>RegDate}"/>
 				<Text
-					text="{path:'LocalDataModel>/DataVinDetails/RegDate', type: 'sap.ui.model.type.Date',  formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd'}}"/>
+					text="{path:'LocalDataModel>/DataVinDetails/RegDate', type: 'sap.ui.model.type.Date',  formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd', strictParsing: true , UTC: true}}"/>
 				<Label text="{i18n>VehicleAge}"/>
-				<Text text="{LocalDataModel>/DataVinDetails/VehicleDays}" id="idVehicleAge"/>
+				<Text text="{LocalDataModel>/VehicleMonths} {i18n>Months}" id="idVehicleAge"/>
 				<core:Title text=""/>
 				<Label text="{i18n>ForeignVIN}" vAlign="Middle"/>
 				<Text  text="{LocalDataModel>/DataVinDetails/ForeignVIN}" id="idForeignVin"/>

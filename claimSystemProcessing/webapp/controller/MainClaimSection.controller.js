@@ -1804,11 +1804,18 @@ sap.ui.define([
 
 			oProssingModel.read("/zc_vehicle_informationSet", {
 				urlParameters: {
-					"$filter": "Vin eq '" + oVin + "'",
-					"$expand": "ZC_SPECIAL_HANDLINGVEHICLESET,ZC_WRITTENOFFVEHICLESET"
+					"$filter": "Vin eq '" + oVin + "' and NumberOfWarrantyClaim eq ''"
+					
 				},
+				//"$expand": "ZC_SPECIAL_HANDLINGVEHICLESET, ZC_WRITTENOFFVEHICLESET"
 				success: $.proxy(function (data) {
 					this.getModel("LocalDataModel").setProperty("/DataVinDetails", data.results[0]);
+					var oRepDate = this.getView().getModel("HeadSetData").getProperty("/RepairDate");
+					var regTime = new Date(data.results[0].RegDate).getTime();
+					var repTime = new Date(oRepDate).getTime();
+					var oMonth = (regTime - repTime) / (1000 * 60 * 60 * 24 * 30);
+					//parseFloat(oMonth).toFixed(2);
+					this.getModel("LocalDataModel").setProperty("/VehicleMonths", Math.abs(oMonth.toFixed(2)));
 					if (data.results[0].ForeignVIN == "YES") {
 						this.getModel("LocalDataModel").setProperty("/MsrUnit", oBundle.getText("distancemiles"));
 						this.getView().getModel("DateModel").setProperty("/foreignVinInd", true);
