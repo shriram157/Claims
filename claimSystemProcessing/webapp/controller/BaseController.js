@@ -108,10 +108,10 @@ sap.ui.define([
 					userType = "Dealer User";
 					sap.ui.getCore().getModel("UserDataModel").setProperty("/LoggedInUser", userType);
 					sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "");
-					// switch (userType) {
+					switch (userType) {
 					// case "Dealer_Parts_Admin":
 					// 	console.log("Dealer Parts");
-					// 	sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ManageAll");
+					// 	sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ManageAllParts");
 					// 	/*Uncomment for security*/
 					// 	that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", true);
 					// 	that.getView().getModel("HeaderLinksModel").setProperty("/ViewUpdateClaims", true);
@@ -119,12 +119,12 @@ sap.ui.define([
 					// 	that.getView().getModel("HeaderLinksModel").setProperty("/ClaimInquiry", true);
 					// 	that.getView().getModel("HeaderLinksModel").setProperty("/DealerLabourRateInquiry", true);
 					// 	sap.ui.getCore().getModel("HeaderLinksModel").updateBindings(true);
-					// 	/*Uncomment for security*/
+					// 	// /*Uncomment for security*/
 					// 	break;
 					// case "Dealer_Services_Admin":
 
 					// 	console.log("Dealer_Services_Admin");
-					// 	sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ManageAll");
+					// 	sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ManageAllServices");
 					// 	/*Uncomment for security*/
 					// 	that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", true);
 					// 	that.getView().getModel("HeaderLinksModel").setProperty("/ViewUpdateClaims", true);
@@ -162,8 +162,6 @@ sap.ui.define([
 					// 	break;
 					// case "TCI_User":
 					// 	console.log("TCI_User");
-						
-						
 					// 	sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ReadOnlyCoverageClaim");
 					// 	/*Uncomment for security*/
 					// 	that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", false);
@@ -204,8 +202,8 @@ sap.ui.define([
 					// 	break;
 					// default:
 					// console.log("Dealer User");
-					// 	// raise a message, because this should not be allowed. 
-					// //	sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ReadOnlyViewAll");
+					// 	raise a message, because this should not be allowed. 
+					// 	sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ReadOnlyViewAll");
 					// 	/*Uncomment for security*/
 					// 	that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", true);
 					// 	that.getView().getModel("HeaderLinksModel").setProperty("/ViewUpdateClaims", true);
@@ -215,7 +213,7 @@ sap.ui.define([
 					// 	that.getOwnerComponent().getModel("LocalDataModel").setProperty("/visibleNewBtn", true);
 					// 	sap.ui.getCore().getModel("HeaderLinksModel").updateBindings(true);
 					// 	/*Uncomment for security*/
-					// }
+					}
 					// console.log(sap.ui.getCore().getModel("UserDataModel"));
 				}
 			});

@@ -63,10 +63,10 @@ sap.ui.define([
 					userType = "Dealer User";
 					sap.ui.getCore().getModel("UserDataModel").setProperty("/LoggedInUser", userType);
 					sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "");
-					// switch (userType) {
+					switch (userType) {
 					// case "Dealer_Parts_Admin":
 					// 	console.log("Dealer Parts");
-					// 	sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ManageAll");
+					// 	sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ManageAllParts");
 					// 	/*Uncomment for security*/
 					// 	that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", true);
 					// 	that.getView().getModel("HeaderLinksModel").setProperty("/ViewUpdateClaims", true);
@@ -79,7 +79,7 @@ sap.ui.define([
 					// case "Dealer_Services_Admin":
 
 					// 	console.log("Dealer_Services_Admin");
-					// 	sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ManageAll");
+					// 	sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ManageAllServices");
 					// 	/*Uncomment for security*/
 					// 	that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", true);
 					// 	that.getView().getModel("HeaderLinksModel").setProperty("/ViewUpdateClaims", true);
@@ -124,7 +124,7 @@ sap.ui.define([
 					// 	that.getView().getModel("HeaderLinksModel").setProperty("/QuickCoverageTool", true);
 					// 	that.getView().getModel("HeaderLinksModel").setProperty("/ClaimInquiry", true);
 					// 	that.getView().getModel("HeaderLinksModel").setProperty("/DealerLabourRateInquiry", false);
-						
+
 					// 	sap.ui.getCore().getModel("HeaderLinksModel").updateBindings(true);
 					// 	sap.ui.getCore().getModel("HeaderLinksModel").updateBindings(true);
 					// 	that.getOwnerComponent().getRouter().navTo("QueryCoverageTools");
@@ -141,7 +141,7 @@ sap.ui.define([
 					// 	that.getView().getModel("HeaderLinksModel").setProperty("/DealerLabourRateInquiry", true);
 					// 	that.getOwnerComponent().getModel("LocalDataModel").setProperty("/visibleNewBtn", false);
 					// 	sap.ui.getCore().getModel("HeaderLinksModel").updateBindings(true);
-					// 	/*Uncomment for security*/
+					// 	// /*Uncomment for security*/
 					// 	break;
 					// case "Dealer_Services_Manager":
 					// 	console.log("Dealer_Services_Manager");
@@ -157,10 +157,10 @@ sap.ui.define([
 					// 	break;
 					// default:
 					// console.log("Dealer User");
-					// 	// raise a message, because this should not be allowed. 
-					// //	sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ReadOnlyViewAll");
+					// 	raise a message, because this should not be allowed. 
+					// 	sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ReadOnlyViewAll");
 					// 	/*Uncomment for security*/
-						
+
 					// 	that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", true);
 					// 	that.getView().getModel("HeaderLinksModel").setProperty("/ViewUpdateClaims", true);
 					// 	that.getView().getModel("HeaderLinksModel").setProperty("/QuickCoverageTool", true);
@@ -169,7 +169,7 @@ sap.ui.define([
 					// 	that.getOwnerComponent().getModel("LocalDataModel").setProperty("/visibleNewBtn", true);
 					// 	sap.ui.getCore().getModel("HeaderLinksModel").updateBindings(true);
 					// 	/*Uncomment for security*/
-					// }
+					}
 					// console.log(sap.ui.getCore().getModel("UserDataModel"));
 				}
 			});
@@ -286,7 +286,8 @@ sap.ui.define([
 					}, this)
 				});
 			}
-			var oArrClaimGroup = [];
+			var oArrClaimGroup;
+			var oArrClaimGroupNoFilter = [];
 			var oClaimGroup = [];
 			oClaimModel.read("/ZC_CLAIM_GROUP", {
 				urlParameters: {
@@ -295,8 +296,22 @@ sap.ui.define([
 				},
 				success: $.proxy(function (data) {
 					for (var i = 0; i < data.results.length; i++) {
-						if (data.results[i].ClaimGroupDes !== "" && oArrClaimGroup.indexOf(data.results[i].ClaimGroupDes) < 0) {
-							oArrClaimGroup.push(data.results[i].ClaimGroupDes);
+						if (data.results[i].ClaimGroupDes !== "" && oArrClaimGroupNoFilter.indexOf(data.results[i].ClaimGroupDes) < 0) {
+
+							oArrClaimGroupNoFilter.push(data.results[i].ClaimGroupDes);
+							if (sap.ui.getCore().getModel("UserDataModel").getProperty("/UserScope") == "ManageAllParts") {
+								oArrClaimGroup = oArrClaimGroupNoFilter.filter(function (val) {
+									return val == "CORE RETURN" || val == "SMART PARTS" || val == "PART WAREHOUSE";
+								});
+							} else if (sap.ui.getCore().getModel("UserDataModel").getProperty("/UserScope") == "ManageAllServices") {
+								oArrClaimGroup = oArrClaimGroupNoFilter.filter(function (val) {
+									return val == "SETR" || val == "CUSTOMER RELATIONS" || val == "VEHICLE LOGISTICS" || val == "ECP" || val ==
+										"FIELD ACTION";
+								});
+							}
+							else {
+								oArrClaimGroup.push(data.results[i].ClaimGroupDes);
+							}
 						}
 					}
 					for (var j = 0; j < oArrClaimGroup.length; j++) {
@@ -349,7 +364,7 @@ sap.ui.define([
 				}, this)
 			});
 		},
-		
+
 		onAddPartsComment: function (oEvent) {
 			var oDialogBox = sap.ui.xmlfragment("zclaimProcessing.view.fragments.ClaimComments", this);
 			this.getView().addDependent(oDialogBox);
