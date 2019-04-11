@@ -25,6 +25,73 @@ sap.ui.define([
 			});
 			this.getView().setModel(oDateModel, "DateModel");
 		},
+		onPressForeignVin: function () {
+			var oDialogBox = sap.ui.xmlfragment("zclaimProcessing.view.fragments.ForeignVinNotification", this);
+			this.getView().addDependent(oDialogBox);
+			oDialogBox.open();
+		},
+		onPressWrittenOff: function () {
+			var oDialogBox = sap.ui.xmlfragment("zclaimProcessing.view.fragments.WrittenOff", this);
+			this.getView().addDependent(oDialogBox);
+			oDialogBox.open();
+		},
+		onCloseWrittenOf: function (oEvent) {
+			oEvent.getSource().getParent().getParent().close();
+		},
+		onCloseForeinNotification: function (oEvent) {
+			oEvent.getSource().getParent().getParent().close();
+		},
+		onPressSpecialVin: function () {
+			var oDialogBox = sap.ui.xmlfragment("zclaimProcessing.view.fragments.SpecialHandling", this);
+			this.getView().addDependent(oDialogBox);
+			oDialogBox.open();
+			this.getView().getModel("HeadSetData").setProperty("/SpecialVINReview", "Yes");
+		},
+		
+		onEnterVIN: function (oEvent) {
+
+			var oVin = oEvent.getParameters().value;
+			var oProssingModel = this.getModel("ProssingModel");
+			var oBundle = this.getView().getModel("i18n").getResourceBundle();
+			
+
+			oProssingModel.read("/ZC_GET_FORE_VIN(p_vhvin='" + oVin + "')/Set", {
+				success: $.proxy(function (data) {
+					if (data.results.length > 0) {
+						var oVinModel = data.results[0].Model;
+						if (oVinModel == "I_VEH_US") {
+							this.getView().getModel("HeadSetData").setProperty("/ForeignVINIndicator", "Yes");
+							this.oText = "true";
+							this.getView().byId("idMainClaimMessage").setProperty("visible", false);
+							this.getView().byId("idMainClaimMessage").setText("");
+							this.getView().byId("idMainClaimMessage").setType("None");
+						} else if (data.results[0].Message == "Invalid VIN Number") {
+							this.oText = "false";
+							this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+							this.getView().byId("idMainClaimMessage").setText(oBundle.getText("PleaseEnterValidVIN"));
+							this.getView().byId("idMainClaimMessage").setType("Error");
+						} else {
+							this.getView().getModel("HeadSetData").setProperty("/ForeignVINIndicator", "No");
+							this.oText = "true";
+							this.getView().byId("idMainClaimMessage").setProperty("visible", false);
+							this.getView().byId("idMainClaimMessage").setText("");
+							this.getView().byId("idMainClaimMessage").setType("None");
+						}
+
+					}
+				}, this),
+				error: function () {
+
+				}
+			});
+
+		},
+		onLiveVINEnter : function(oEvent){
+			var oVin = oEvent.getParameters().value;
+			if(oVin.length > 17){
+				this.getView().byId("vin").setValue("");
+			}
+		},
 
 		/**
 		 * Similar to onAfterRendering, but this hook is invoked before the controller's View is re-rendered

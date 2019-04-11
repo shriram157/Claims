@@ -1,6 +1,6 @@
 <mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" controllerName="zclaimProcessing.controller.QueryCoverageTools"
 	xmlns:html="http://www.w3.org/1999/xhtml" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:uxap="sap.uxap"
-	xmlns:table="sap.ui.table" xmlns:custom="zclaimProcessing.control">
+	xmlns:table="sap.ui.table" xmlns:custom="zclaimProcessing.control" >
 	<core:Fragment fragmentName="zclaimProcessing.view.fragments.ToolHeader" type="XML"/>
 	<uxap:ObjectPageLayout id="ObjectPageLayout" enableLazyLoading="true">
 		<uxap:sections>
@@ -9,14 +9,14 @@
 					<uxap:ObjectPageSubSection title="">
 						<uxap:blocks>
 							<VBox>
-								<MessageStrip id="idNewClaimMsgStrp" text="" showIcon="true" showCloseButton="true" class="sapUiMediumMarginBottom" visible="false"></MessageStrip>
+								<MessageStrip id="idMainClaimMessage" text="" showIcon="true" showCloseButton="true" class="sapUiMediumMarginBottom" visible="false"></MessageStrip>
 								<f:SimpleForm id="SimpleFormChange354" editable="true" layout="ResponsiveGridLayout" title="{i18n>EnterCoverageSearch}" labelSpanXL="4"
 									labelSpanL="4" labelSpanM="3" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
 									columnsXL="3" columnsL="3" columnsM="1" singleContainerFullSize="false">
 									<f:content>
 										<core:Title text=""/>
 										<Label text="{i18n>VIN}" textAlign="Begin" required="true"/>
-										<Input value="" id='vin'/>
+										<Input value="" id='vin' change="onEnterVIN" liveChange="onLiveVINEnter"/>
 										<core:Title text=""/>
 										<Label text="{i18n>Odometer}" textAlign="Begin" required="true"/>
 										<custom:CustomInput value="" id='Odometer'/>

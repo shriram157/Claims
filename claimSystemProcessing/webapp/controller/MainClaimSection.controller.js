@@ -1895,21 +1895,6 @@ sap.ui.define([
 				}
 			});
 
-			// oProssingModel.read("/ZC_CLAIM_SPHL_WROF(p_vhvin='" + oVin + "',p_langu='E')/Set", {
-			// 	success: $.proxy(function (data) {
-			// 		this.getView().getModel("LocalDataModel").setProperty("/SPWROF", data.results);
-			// 		if (data.results.length < 1) {
-
-			// 			this.getView().getModel("HeadSetData").setProperty("/WrittenOffCode", "No");
-			// 			this.getView().getModel("HeadSetData").setProperty("/SpecialVINReview", "No");
-			// 		} else {
-			// 			this.getView().getModel("HeadSetData").setProperty("/WrittenOffCode", "Yes");
-			// 			this.getView().getModel("HeadSetData").setProperty("/SpecialVINReview", "Yes");
-			// 		}
-			// 	}, this),
-			// 	error: function () {}
-			// });
-
 		},
 		onChangeOdometer: function (oEvent) {
 			var oOdoVal = oEvent.getSource().getValue();
@@ -4426,6 +4411,9 @@ sap.ui.define([
 			if (oClaimHr == "") {
 				oClaimHr = "0.0";
 			}
+			
+			
+			
 			var itemObj = {
 				"Type": "LABOUR",
 				"ItemType": "FR",
@@ -4433,16 +4421,19 @@ sap.ui.define([
 				"ClaimedHours": oClaimHr,
 				"LabourDescription": this.getView().getModel("LabourDataModel").getProperty("/LabourDescription")
 			};
+			
+			var oTableIndex = oTable._aSelectedPaths;
+
+			if (oTableIndex.length == 1) {
+				var oIndex = parseInt(oTableIndex.toString().split("/")[2]);
+				this.obj.zc_itemSet.results.splice(oIndex, 1);
+			}
+			
 
 			this.obj.zc_claim_item_labourSet.results.push(itemObj);
 
 			var oClaimModel = this.getModel("ProssingModel");
-			// this._oToken = oClaimModel.getHeaders()['x-csrf-token'];
-			// $.ajaxSetup({
-			// 	headers: {
-			// 		'X-CSRF-Token': this._oToken
-			// 	}
-			// });
+		
 
 			oClaimModel.refreshSecurityToken();
 
@@ -4576,8 +4567,8 @@ sap.ui.define([
 				// 		this.obj.zc_claim_item_labourSet.results.splice(j);
 				// 	}
 				// }
-				var oIndex = parseInt(oTable._aSelectedPaths.toString().split("/")[2]);
-				this.obj.zc_claim_item_labourSet.results.splice(oIndex, 1);
+				//var oIndex = parseInt(oTable._aSelectedPaths.toString().split("/")[2]);
+				//this.obj.zc_claim_item_labourSet.results.splice(oIndex, 1);
 				var oClaimModel = this.getModel("ProssingModel");
 				// this._oToken = oClaimModel.getHeaders()['x-csrf-token'];
 				// $.ajaxSetup({
@@ -4586,27 +4577,27 @@ sap.ui.define([
 				// 	}
 				// });
 
-				oClaimModel.refreshSecurityToken();
+				// oClaimModel.refreshSecurityToken();
 
-				oClaimModel.create("/zc_headSet", this.obj, {
-					success: $.proxy(function (data, response) {
-						var pricinghData = response.data.zc_claim_item_price_dataSet.results;
-						var oFilteredData = pricinghData.filter(function (val) {
-							return val.ItemType === "FR" && val.ItemKey[0] != "P";
-						});
-						this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", response.data.OFPDescription);
-						this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.data.MainOpsCodeDescription);
-						console.log(oFilteredData);
-						this.getModel("LocalDataModel").setProperty("/LabourPricingDataModel", oFilteredData);
-						oTable.removeSelections("true");
-						this._fnClaimSum();
-						this._fnClaimSumPercent();
-						//MessageToast.show("Claim has been deleted successfully");
-					}, this),
-					error: function (err) {
-						console.log(err);
-					}
-				});
+				// oClaimModel.create("/zc_headSet", this.obj, {
+				// 	success: $.proxy(function (data, response) {
+				// 		var pricinghData = response.data.zc_claim_item_price_dataSet.results;
+				// 		var oFilteredData = pricinghData.filter(function (val) {
+				// 			return val.ItemType === "FR" && val.ItemKey[0] != "P";
+				// 		});
+				// 		this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", response.data.OFPDescription);
+				// 		this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.data.MainOpsCodeDescription);
+				// 		console.log(oFilteredData);
+				// 		this.getModel("LocalDataModel").setProperty("/LabourPricingDataModel", oFilteredData);
+				// 		oTable.removeSelections("true");
+				// 		this._fnClaimSum();
+				// 		this._fnClaimSumPercent();
+				// 		//MessageToast.show("Claim has been deleted successfully");
+				// 	}, this),
+				// 	error: function (err) {
+				// 		console.log(err);
+				// 	}
+				// });
 			} else {
 				MessageToast.show(oBundle.getText("Pleaseselect1row"));
 				oTable.removeSelections("true");
@@ -4758,6 +4749,8 @@ sap.ui.define([
 					"URI": this.getModel("LocalDataModel").getProperty("/SubletAtchmentData/0/URI"),
 					"UnitOfMeasure": this.AdditonalUnit
 				};
+				//"Brand" : this.getView().getModel("SubletDataModel").getProperty("/brand"),
+					//"Days" : this.getView().getModel("SubletDataModel").getProperty("/days")
 
 				this.obj.zc_item_subletSet.results.push(itemObj);
 
