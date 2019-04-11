@@ -3890,9 +3890,7 @@ sap.ui.define([
 			this.obj.NumberOfWarrantyClaim = oClaimNum;
 			this.obj.OFP = this.getView().getModel("HeadSetData").getProperty("/OFP");
 			this.obj.MainOpsCode = this.getView().getModel("HeadSetData").getProperty("/MainOpsCode");
-			
-			
-			
+
 			var itemObj = {
 				"Type": "PART",
 				"ItemType": "",
@@ -3902,7 +3900,7 @@ sap.ui.define([
 				"PartDescription": this.getView().getModel("PartDataModel").getProperty("/PartDescription"),
 				"UnitOfMeasure": this.getView().getModel("LocalDataModel").getProperty("/BaseUnit")
 			};
-			
+
 			var oTableIndex = oTable._aSelectedPaths;
 
 			if (oTableIndex.length == 1) {
@@ -4411,9 +4409,7 @@ sap.ui.define([
 			if (oClaimHr == "") {
 				oClaimHr = "0.0";
 			}
-			
-			
-			
+
 			var itemObj = {
 				"Type": "LABOUR",
 				"ItemType": "FR",
@@ -4421,19 +4417,17 @@ sap.ui.define([
 				"ClaimedHours": oClaimHr,
 				"LabourDescription": this.getView().getModel("LabourDataModel").getProperty("/LabourDescription")
 			};
-			
+
 			var oTableIndex = oTable._aSelectedPaths;
 
 			if (oTableIndex.length == 1) {
 				var oIndex = parseInt(oTableIndex.toString().split("/")[2]);
 				this.obj.zc_itemSet.results.splice(oIndex, 1);
 			}
-			
 
 			this.obj.zc_claim_item_labourSet.results.push(itemObj);
 
 			var oClaimModel = this.getModel("ProssingModel");
-		
 
 			oClaimModel.refreshSecurityToken();
 
@@ -4747,10 +4741,10 @@ sap.ui.define([
 					"Amount": this.getView().getModel("SubletDataModel").getProperty("/Amount"),
 					"SubletDescription": this.getView().getModel("SubletDataModel").getProperty("/description"),
 					"URI": this.getModel("LocalDataModel").getProperty("/SubletAtchmentData/0/URI"),
-					"UnitOfMeasure": this.AdditonalUnit
+					"UnitOfMeasure": this.AdditonalUnit,
+					"Brand": this.getView().getModel("SubletDataModel").getProperty("/brand"),
+					"Days": this.getView().getModel("SubletDataModel").getProperty("/days")
 				};
-				//"Brand" : this.getView().getModel("SubletDataModel").getProperty("/brand"),
-					//"Days" : this.getView().getModel("SubletDataModel").getProperty("/days")
 
 				this.obj.zc_item_subletSet.results.push(itemObj);
 
@@ -4781,6 +4775,8 @@ sap.ui.define([
 						this.getView().getModel("SubletDataModel").setProperty("/InvoiceNo", "");
 						this.getView().getModel("SubletDataModel").setProperty("/Amount", "");
 						this.getView().getModel("SubletDataModel").setProperty("/description", "");
+						this.getView().getModel("SubletDataModel").setProperty("/brand", "");
+						this.getView().getModel("SubletDataModel").setProperty("/days", "");
 						oTable.removeSelections("true");
 						this._fnClaimSum();
 						this._fnClaimSumPercent();
