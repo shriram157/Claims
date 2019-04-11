@@ -94,8 +94,8 @@
 							<Text text="" id="textHeaderLabel"/>
 							<core:Title text=""/>
 							<UploadCollection id="UploadCollection" uploadEnabled="{LocalDataModel>/UploadEnable}" change="onUploadChangeParts"
-								uploadComplete="onUploadComplete02Parts" fileDeleted="onFileDeleted02"
-								items="{ path: 'LocalDataModel>/partItemAttachments', templateShareable: false }" visible="{multiHeaderConfig>/uploader}">
+								uploadComplete="onUploadComplete02Parts" fileDeleted="onFileDeleted02" visible="{multiHeaderConfig>/uploader}"
+								items="{ path: 'LocalDataModel>/partItemAttachments', templateShareable: false }">
 								<toolbar>
 									<OverflowToolbar>
 										<Breadcrumbs id="breadcrumbs" currentLocationText="{LocalDataModel>/currentLocationText}" links="{LocalDataModel>/partsHistory}">
