@@ -10,9 +10,6 @@
 						<Text text="|" class="sapUiTinyMarginBeginEnd"/>
 						<Text class="clCustomFont" text="Claim Processing"/>
 					</contentLeft>
-					<contentRight>
-						<Button text="Logout"/>
-					</contentRight>
 				</Bar>
 			</customHeader>
 			<content>
