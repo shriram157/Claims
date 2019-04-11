@@ -1,6 +1,6 @@
 <mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" controllerName="zclaimProcessing.controller.QueryCoverageTools"
 	xmlns:html="http://www.w3.org/1999/xhtml" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:uxap="sap.uxap"
-	xmlns:table="sap.ui.table">
+	xmlns:table="sap.ui.table" xmlns:custom="zclaimProcessing.control">
 	<core:Fragment fragmentName="zclaimProcessing.view.fragments.ToolHeader" type="XML"/>
 	<uxap:ObjectPageLayout id="ObjectPageLayout" enableLazyLoading="true">
 		<uxap:sections>
@@ -19,7 +19,7 @@
 										<Input value="" id='vin'/>
 										<core:Title text=""/>
 										<Label text="{i18n>Odometer}" textAlign="Begin" required="true"/>
-										<Input value="" id='Odometer'/>
+										<custom:CustomInput value="" id='Odometer'/>
 										<core:Title text=""/>
 										<Button text="{i18n>Search}" press="onPressSearch" type="Emphasized"/>
 										<Button text="{i18n>Reset}" press="onPressClear"/>
@@ -30,23 +30,44 @@
 									<f:content>
 										<core:Title text=""/>
 										<Label text="{i18n>Model}"/>
-										<Text text="{Vehicleinfo>/VehicleDescription}"/>
+										<Text text="{LocalDataModel>/DataVinDetails/VehicleDescription}"/>
 										<Label text="{i18n>InServiceDate}"/>
-										<Text text="{path:'Vehicleinfo>/RegDate',type:'sap.ui.model.type.DateTime', formatOptions: { pattern: 'MMMM d, y', strictParsing: false, relative: false }}"/>
+										<Text
+					text="{path:'LocalDataModel>/DataVinDetails/RegDate', type: 'sap.ui.model.type.Date',  formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd', strictParsing: true , UTC: true}}"/>
 										<Label text="{i18n>Age}"/>
-										<Text text="{Vehicleinfo>/VehicleDays}"/>
+										<Text text="{LocalDataModel>/VehicleMonths} {i18n>Months}" id="idVehicleAge"/>
 										<core:Title text=""/>
 										<Label text="{i18n>ModelYear}"/>
-										<Text text="{Vehicleinfo>/ModelYear}"/>
+										<Text text="{LocalDataModel>/DataVinDetails/ModelYear}"/>
 										<Label text="{i18n>WrittenOff}"/>
-										<Text text="{Vehicleinfo>/WrittenOff}"/>
+										<Text text="{LocalDataModel>/DataVinDetails/WrittenOff}" id="idWrittenoff"/>
+										<Button icon="sap-icon://message-warning" type="Transparent"  visible="{DateModel>/writtenOffInd}" press="onPressWrittenOff" class="clWarning"/>
 										<core:Title text=""/>
 										<Label text="{i18n>ForeignVIN}"/>
-										<Text text="{Vehicleinfo>/ForeignVIN}"/>
+										<Text  text="{LocalDataModel>/DataVinDetails/ForeignVIN}" id="idForeignVin"/>
+										<Button icon="sap-icon://message-warning" visible="{DateModel>/foreignVinInd}" type="Transparent" press="onPressForeignVin" class="clWarning"/>
 										<Label text="{i18n>SpecialVINReview}"/>
-										<Text text="{Vehicleinfo>/SpecialVINReview}"/>
+										<Text text="{LocalDataModel>/DataVinDetails/SpecialVINReview}" id="idSpecialVin"/>
+										<Button icon="sap-icon://message-warning" type="Transparent" visible="{DateModel>/specialVinInd}" press="onPressSpecialVin" class="clWarning"/>
 									</f:content>
 								</f:SimpleForm>
+								
+				<!--					<Label text="{i18n>RegDate}"/>-->
+				<!--<Text-->
+				<!--	text="{path:'LocalDataModel>/DataVinDetails/RegDate', type: 'sap.ui.model.type.Date',  formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd', strictParsing: true , UTC: true}}"/>-->
+				<!--<Label text="{i18n>VehicleAge}"/>-->
+				<!--<Text text="{LocalDataModel>/VehicleMonths} {i18n>Months}" id="idVehicleAge"/>-->
+				<!--<core:Title text=""/>-->
+				<!--<Label text="{i18n>ForeignVIN}" vAlign="Middle"/>-->
+				<!--<Text  text="{LocalDataModel>/DataVinDetails/ForeignVIN}" id="idForeignVin"/>-->
+				<!--<Button icon="sap-icon://message-warning" visible="{DateModel>/foreignVinInd}" type="Transparent" press="onPressForeignVin" class="clWarning"/>-->
+				<!--<Label text="{i18n>WrittenOff}" vAlign="Middle"/>-->
+				<!--<Text text="{LocalDataModel>/DataVinDetails/WrittenOff}" id="idWrittenoff"/>-->
+				<!--<Button icon="sap-icon://message-warning" type="Transparent"  visible="{DateModel>/writtenOffInd}" press="onPressWrittenOff" class="clWarning"/>-->
+				<!--<Label text="{i18n>SpecialVINReview}" vAlign="Middle"/>-->
+				<!--<Text text="{LocalDataModel>/DataVinDetails/SpecialVINReview}" id="idSpecialVin"/>-->
+				<!--<Button icon="sap-icon://message-warning" type="Transparent" visible="{DateModel>/specialVinInd}" press="onPressSpecialVin" class="clWarning"/>-->
+								
 							</VBox>
 						</uxap:blocks>
 					</uxap:ObjectPageSubSection>
