@@ -60,7 +60,7 @@ sap.ui.define([
 					// userScopes.forEach(function (data) {
 
 					var userType = oData.loggedUserType[0];
-					userType = "Dealer User";
+					userType = "TCI_Admin";
 					sap.ui.getCore().getModel("UserDataModel").setProperty("/LoggedInUser", userType);
 					sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "");
 					switch (userType) {
@@ -156,17 +156,14 @@ sap.ui.define([
 						/*Uncomment for security*/
 						break;
 					default:
-					console.log("Dealer User");
-						raise a message, because this should not be allowed. 
+						console.log("TCI_Admin");
 						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ReadOnlyViewAll");
 						/*Uncomment for security*/
-
-						that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", true);
+						that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", false);
 						that.getView().getModel("HeaderLinksModel").setProperty("/ViewUpdateClaims", true);
 						that.getView().getModel("HeaderLinksModel").setProperty("/QuickCoverageTool", true);
 						that.getView().getModel("HeaderLinksModel").setProperty("/ClaimInquiry", true);
 						that.getView().getModel("HeaderLinksModel").setProperty("/DealerLabourRateInquiry", true);
-						that.getOwnerComponent().getModel("LocalDataModel").setProperty("/visibleNewBtn", true);
 						sap.ui.getCore().getModel("HeaderLinksModel").updateBindings(true);
 						/*Uncomment for security*/
 					}
@@ -238,6 +235,7 @@ sap.ui.define([
 			//console.log(sap.ui.getCore().getConfiguration().getLanguage());
 			this.getView().setModel(this.getModel("ProssingModel"));
 			var oClaimModel = this.getModel("ProssingModel");
+			var oClaimGroup = [];
 			var oClaimGroupdata = [];
 			var oClaimGroupObj = [];
 			oClaimModel.read("/ZC_CLAIM_GROUP", {
@@ -245,21 +243,33 @@ sap.ui.define([
 				success: $.proxy(function (data) {
 					var oClaimData = data.results;
 					for (var i = 0; i < oClaimData.length; i++) {
-						if (oClaimGroupdata.indexOf(oClaimData[i].ClaimGroupDes) < 0) {
-
-							oClaimGroupdata.push(
+						if (oClaimGroup.indexOf(oClaimData[i].ClaimGroupDes) < 0) {
+							oClaimGroup.push(
 								oClaimData[i].ClaimGroupDes
 							);
-
 						}
 					}
 
+					// debugger;
+					if (sap.ui.getCore().getModel("UserDataModel").getProperty("/UserScope") == "ManageAllParts") {
+						oClaimGroupdata = oClaimGroup.filter(function (val) {
+							return val == "CORE RETURN" || val == "SMART PARTS" || val == "PART WAREHOUSE";
+						});
+					} else if (sap.ui.getCore().getModel("UserDataModel").getProperty("/UserScope") == "ManageAllServices") {
+						oClaimGroupdata = oClaimGroup.filter(function (val) {
+							return val == "SETR" || val == "WARRANTY" || val == "CUSTOMER RELATIONS" || val == "VEHICLE LOGISTICS" || val == "ECP" ||
+								val ==
+								"FIELD ACTION";
+						});
+					} else {
+						oClaimGroupdata = oClaimGroup;
+					}
 					oClaimGroupdata.forEach(function (item) {
 						oClaimGroupObj.push({
 							CLaimGroupDes: item
 						});
 					});
-					console.log(oClaimGroupObj);
+					console.log(oClaimGroupdata);
 					this.getModel("LocalDataModel").setProperty("/ClaimStatusDataGroup", oClaimGroupObj);
 				}, this)
 			});
@@ -286,8 +296,7 @@ sap.ui.define([
 					}, this)
 				});
 			}
-			var oArrClaimGroup;
-			var oArrClaimGroupNoFilter = [];
+			var oArrClaimGroup = [];
 			var oClaimGroup = [];
 			oClaimModel.read("/ZC_CLAIM_GROUP", {
 				urlParameters: {
@@ -296,22 +305,8 @@ sap.ui.define([
 				},
 				success: $.proxy(function (data) {
 					for (var i = 0; i < data.results.length; i++) {
-						if (data.results[i].ClaimGroupDes !== "" && oArrClaimGroupNoFilter.indexOf(data.results[i].ClaimGroupDes) < 0) {
-
-							oArrClaimGroupNoFilter.push(data.results[i].ClaimGroupDes);
-							if (sap.ui.getCore().getModel("UserDataModel").getProperty("/UserScope") == "ManageAllParts") {
-								oArrClaimGroup = oArrClaimGroupNoFilter.filter(function (val) {
-									return val == "CORE RETURN" || val == "SMART PARTS" || val == "PART WAREHOUSE";
-								});
-							} else if (sap.ui.getCore().getModel("UserDataModel").getProperty("/UserScope") == "ManageAllServices") {
-								oArrClaimGroup = oArrClaimGroupNoFilter.filter(function (val) {
-									return val == "SETR" || val == "CUSTOMER RELATIONS" || val == "VEHICLE LOGISTICS" || val == "ECP" || val ==
-										"FIELD ACTION";
-								});
-							}
-							else {
-								oArrClaimGroup.push(data.results[i].ClaimGroupDes);
-							}
+						if (data.results[i].ClaimGroupDes !== "" && oArrClaimGroup.indexOf(data.results[i].ClaimGroupDes) < 0) {
+							oArrClaimGroup.push(data.results[i].ClaimGroupDes);
 						}
 					}
 					for (var j = 0; j < oArrClaimGroup.length; j++) {

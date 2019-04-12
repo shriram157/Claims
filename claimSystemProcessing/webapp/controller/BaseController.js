@@ -65,7 +65,7 @@ sap.ui.define([
 				this.sPrefix = "";
 				this.attributeUrl = "/userDetails/attributes";
 			}
-			
+
 			var HeaderLinksModel = new sap.ui.model.json.JSONModel();
 			/*Uncomment for security*/
 			HeaderLinksModel.setData({
@@ -85,9 +85,7 @@ sap.ui.define([
 			// });
 			this.getView().setModel(HeaderLinksModel, "HeaderLinksModel");
 			sap.ui.getCore().setModel(HeaderLinksModel, "HeaderLinksModel");
-			
-			
-			
+
 			//======================================================================================================================//			
 			//  on init method,  get the token attributes and authentication details to the UI from node layer.  - begin
 			//======================================================================================================================//		
@@ -104,8 +102,8 @@ sap.ui.define([
 					// var userScopes = oData;
 					// userScopes.forEach(function (data) {
 
-				var userType = oData.loggedUserType[0];
-					userType = "Dealer User";
+					var userType = oData.loggedUserType[0];
+					userType = "TCI_Admin";
 					sap.ui.getCore().getModel("UserDataModel").setProperty("/LoggedInUser", userType);
 					sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "");
 					switch (userType) {
@@ -122,7 +120,6 @@ sap.ui.define([
 						// /*Uncomment for security*/
 						break;
 					case "Dealer_Services_Admin":
-
 						console.log("Dealer_Services_Admin");
 						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ManageAllServices");
 						/*Uncomment for security*/
@@ -169,7 +166,7 @@ sap.ui.define([
 						that.getView().getModel("HeaderLinksModel").setProperty("/QuickCoverageTool", true);
 						that.getView().getModel("HeaderLinksModel").setProperty("/ClaimInquiry", true);
 						that.getView().getModel("HeaderLinksModel").setProperty("/DealerLabourRateInquiry", false);
-						
+
 						sap.ui.getCore().getModel("HeaderLinksModel").updateBindings(true);
 						sap.ui.getCore().getModel("HeaderLinksModel").updateBindings(true);
 						that.getOwnerComponent().getRouter().navTo("QueryCoverageTools");
@@ -201,16 +198,14 @@ sap.ui.define([
 						/*Uncomment for security*/
 						break;
 					default:
-					console.log("Dealer User");
-						raise a message, because this should not be allowed. 
+						console.log("TCI_Admin");
 						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ReadOnlyViewAll");
 						/*Uncomment for security*/
-						that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", true);
+						that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", false);
 						that.getView().getModel("HeaderLinksModel").setProperty("/ViewUpdateClaims", true);
 						that.getView().getModel("HeaderLinksModel").setProperty("/QuickCoverageTool", true);
 						that.getView().getModel("HeaderLinksModel").setProperty("/ClaimInquiry", true);
 						that.getView().getModel("HeaderLinksModel").setProperty("/DealerLabourRateInquiry", true);
-						that.getOwnerComponent().getModel("LocalDataModel").setProperty("/visibleNewBtn", true);
 						sap.ui.getCore().getModel("HeaderLinksModel").updateBindings(true);
 						/*Uncomment for security*/
 					}
@@ -296,7 +291,7 @@ sap.ui.define([
 						zdata.d.Name = data.BusinessPartnerName;
 						// var zd1 = parseInt(zdata.d.ECPEffectiveDate.replace(/[^0-9]+/g, ''));
 						// zdata.d.ECPEffectiveDate = new Date(zd1);
-						
+
 						// zdata.d.WTYEffectiveDate = new Date(zd1);
 
 						oModel.setData(zdata.d);
