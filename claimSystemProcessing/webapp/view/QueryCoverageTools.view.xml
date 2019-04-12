@@ -25,8 +25,8 @@
 										<Button text="{i18n>Reset}" press="onPressClear"/>
 									</f:content>
 								</f:SimpleForm>
-								<f:SimpleForm id="vin_details" editable="true" layout="ResponsiveGridLayout" title="" labelSpanXL="6" labelSpanL="6" labelSpanM="12"
-									labelSpanS="12" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="3" columnsL="3" columnsM="3">
+								<f:SimpleForm id="vin_details" editable="true" layout="ResponsiveGridLayout" labelSpanXL="6" labelSpanL="6" labelSpanM="6" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0"
+			emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="3" columnsL="3" columnsM="3" singleContainerFullSize="false">
 									<f:content>
 										<core:Title text=""/>
 										<Label text="{i18n>Model}" vAlign="Middle"/>
@@ -42,10 +42,10 @@
 										<Label text="{i18n>WrittenOff}" vAlign="Middle"/>
 										<Text text="{LocalDataModel>/DataVinDetails/WrittenOff}" id="idWrittenoff">
 											<layoutData>
-												<l:GridData span="XL1 L1 M3 S4"/>
+												<l:GridData span="XL1 L2 M3 S4"/>
 											</layoutData>
 										</Text>
-										<core:Icon src="sap-icon://message-warning" class="clWarning" color="#f00" visible="{DateModel>/writtenOffInd}" press="onPressWrittenOff">
+										<core:Icon src="sap-icon://message-warning" class="clWarning sapUiSmallMarginTopBottom" color="#f00" visible="{DateModel>/writtenOffInd}" press="onPressWrittenOff">
 											<core:layoutData>
 												<FlexItemData/>
 											</core:layoutData>
@@ -54,10 +54,10 @@
 										<Label text="{i18n>ForeignVIN}" vAlign="Middle"/>
 										<Text text="{LocalDataModel>/DataVinDetails/ForeignVIN}" id="idForeignVin">
 											<layoutData>
-												<l:GridData span="XL1 L1 M3 S4"/>
+												<l:GridData span="XL1 L2 M3 S4"/>
 											</layoutData>
 										</Text>
-										<core:Icon src="sap-icon://message-warning" class="clWarning" color="#f00" visible="{DateModel>/foreignVinInd}" press="onPressForeignVin">
+										<core:Icon src="sap-icon://message-warning" class="clWarning sapUiSmallMarginTopBottom" color="#f00" visible="{DateModel>/foreignVinInd}" press="onPressForeignVin">
 											<core:layoutData>
 												<FlexItemData/>
 											</core:layoutData>
@@ -65,10 +65,10 @@
 										<Label text="{i18n>SpecialVINReview}" vAlign="Middle"/>
 										<Text text="{LocalDataModel>/DataVinDetails/SpecialVINReview}" id="idSpecialVin">
 											<layoutData>
-												<l:GridData span="XL1 L1 M3 S4"/>
+												<l:GridData span="XL1 L2 M3 S4"/>
 											</layoutData>
 										</Text>
-										<core:Icon class="clWarning" src="sap-icon://message-warning" color="#f00" visible="{DateModel>/specialVinInd}" press="onPressSpecialVin"></core:Icon>
+										<core:Icon class="clWarning sapUiSmallMarginTopBottom" src="sap-icon://message-warning" color="#f00" visible="{DateModel>/specialVinInd}" press="onPressSpecialVin"></core:Icon>
 									</f:content>
 								</f:SimpleForm>
 								<!--					<Label text="{i18n>RegDate}"/>-->

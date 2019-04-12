@@ -135,7 +135,7 @@
 				<Label text="{i18n>ForeignVIN}" vAlign="Middle"/>
 				<Text text="{LocalDataModel>/DataVinDetails/ForeignVIN}" id="idForeignVin">
 					<layoutData>
-							<l:GridData span="XL1 L1 M3 S4"/>
+							<l:GridData span="XL1 L2 M3 S4"/>
 						</layoutData>
 				</Text>
 				<core:Icon src="sap-icon://message-warning" class="clWarning" color="#f00" visible="{DateModel>/foreignVinInd}" press="onPressForeignVin">
@@ -147,7 +147,7 @@
 				<Label text="{i18n>WrittenOff}" vAlign="Middle"/>
 				<Text text="{LocalDataModel>/DataVinDetails/WrittenOff}" id="idWrittenoff">
 					<layoutData>
-							<l:GridData span="XL1 L1 M3 S4"/>
+							<l:GridData span="XL1 L2 M3 S4"/>
 						</layoutData>
 				</Text>
 				<core:Icon src="sap-icon://message-warning" class="clWarning" color="#f00" visible="{DateModel>/writtenOffInd}" press="onPressWrittenOff">
@@ -159,7 +159,7 @@
 				<Label text="{i18n>SpecialVINReview}" vAlign="Middle"/>
 				<Text text="{LocalDataModel>/DataVinDetails/SpecialVINReview}" id="idSpecialVin">
 					<layoutData>
-							<l:GridData span="XL1 L1 M3 S4"/>
+							<l:GridData span="XL1 L2 M3 S4"/>
 						</layoutData>
 				</Text>
 				<core:Icon class="clWarning" src="sap-icon://message-warning" color="#f00" visible="{DateModel>/specialVinInd}" press="onPressSpecialVin">
