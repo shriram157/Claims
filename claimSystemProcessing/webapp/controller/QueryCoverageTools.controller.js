@@ -5,7 +5,7 @@ sap.ui.define([
 ], function (BaseController, formatter, MessageBox) {
 	"use strict";
 	var agreementno = '',
-		dometerunit;
+		dometerunit,that;
 	return BaseController.extend("zclaimProcessing.controller.QueryCoverageTools", {
 		formatter: formatter,
 		/**
@@ -18,6 +18,7 @@ sap.ui.define([
 			console.log("HeaderLinksModel", sap.ui.getCore().getModel("HeaderLinksModel"));
 			this.getView().setModel(sap.ui.getCore().getModel("HeaderLinksModel"), "HeaderLinksModel");
 			var oDateModel = new sap.ui.model.json.JSONModel();
+			that = this;
 			oDateModel.setData({
 				foreignVinInd: false,
 				writtenOffInd: false,
@@ -258,7 +259,7 @@ sap.ui.define([
 				this.getView().byId('ofptable').getBinding('rows').filter(new sap.ui.model.Filter(filters, true));
 				this.getView().byId('ofptable').getModel('ProssingModel').attachRequestFailed(function (e) {
 					if (e.getParameters().response) {
-						if (e.getParameters().response.responseText) {
+						if (e.getParameters().response.responseText && that.getView().byId('partofp').getValue() != '') {
 							var x = jQuery.parseXML(e.getParameters().response.responseText);
 							var oXMLMsg = x.querySelector("message");
 							MessageBox.show(oXMLMsg.textContent, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
@@ -285,7 +286,8 @@ sap.ui.define([
 			this.getView().byId('Odometer').setValue('');
 			this.getView().byId('partofp').setValue('');
 			this.getView().byId('mainop').setValue('');
-			this.getView().getModel('Vehicleinfo').setData();
+			this.getView().getModel('LocalDataModel').setProperty('/DataVinDetails','');
+			this.getView().getModel('LocalDataModel').setProperty('/VehicleMonths','');
 			this.byId('idActiveAgreement').getBinding('rows').filter([new sap.ui.model.Filter("VIN", sap.ui.model.FilterOperator.EQ, '0')]);
 			this.getView().byId('ofptable').getBinding('rows').filter();
 			this.getView().byId('idMainClaimMessage').setVisible(false);
