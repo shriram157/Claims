@@ -53,7 +53,7 @@ sap.ui.define([
 			var oVin = oEvent.getParameters().value;
 			var oProssingModel = this.getModel("ProssingModel");
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
-			
+			//this.getModel("LocalDataModel").setProperty("/selectedVehicle", oVin);
 
 			oProssingModel.read("/ZC_GET_FORE_VIN(p_vhvin='" + oVin + "')/Set", {
 				success: $.proxy(function (data) {
@@ -131,6 +131,7 @@ sap.ui.define([
 			var Bundle = this.getView().getModel("i18n").getResourceBundle();
 			var Messageinvalid = Bundle.getText('Vin_I');
 			var oVin = this.getView().byId('vin').getValue();
+			this.getModel("LocalDataModel").setProperty("/selectedVehicle", oVin);
 			var that = this;
 			//-------------------------------------------------------------
 			//-----Get Vehicle Details---------------------------------------
