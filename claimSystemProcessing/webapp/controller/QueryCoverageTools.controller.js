@@ -288,6 +288,7 @@ sap.ui.define([
 			this.getView().getModel('Vehicleinfo').setData();
 			this.byId('idActiveAgreement').getBinding('rows').filter([new sap.ui.model.Filter("VIN", sap.ui.model.FilterOperator.EQ, '0')]);
 			this.getView().byId('ofptable').getBinding('rows').filter();
+			this.getView().byId('idMainClaimMessage').setVisible(false);
 		}
 	});
 
