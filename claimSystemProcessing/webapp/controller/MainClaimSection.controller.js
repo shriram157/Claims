@@ -166,7 +166,8 @@ sap.ui.define([
 				"description": "",
 				"Amount": "",
 				"days": "",
-				"brand": ""
+				"brand": "",
+				"unitOfMeasure" : ""
 			});
 			SubletData.setDefaultBindingMode("TwoWay");
 			this.getView().setModel(SubletData, "SubletDataModel");
@@ -4490,6 +4491,13 @@ sap.ui.define([
 		onPressSaveClaimItemLabour: function () {
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			var oTable = this.getView().byId("idLabourTable");
+			var oTableIndex = oTable._aSelectedPaths;
+
+			if (oTableIndex.length == 1) {
+				var oIndex = parseInt(oTableIndex.toString().split("/")[2]);
+				this.obj.zc_claim_item_labourSet.results.splice(oIndex, 1);
+			}
+
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			// this.obj.Message = "";
 			this.obj.NumberOfWarrantyClaim = oClaimNum;
@@ -4507,13 +4515,6 @@ sap.ui.define([
 				"ClaimedHours": oClaimHr,
 				"LabourDescription": this.getView().getModel("LabourDataModel").getProperty("/LabourDescription")
 			};
-
-			var oTableIndex = oTable._aSelectedPaths;
-
-			if (oTableIndex.length == 1) {
-				var oIndex = parseInt(oTableIndex.toString().split("/")[2]);
-				this.obj.zc_itemSet.results.splice(oIndex, 1);
-			}
 
 			this.obj.zc_claim_item_labourSet.results.push(itemObj);
 
@@ -4811,7 +4812,19 @@ sap.ui.define([
 			}
 		},
 		onChangeSublet: function (oEvent) {
-			this.AdditonalUnit = oEvent.getParameters().selectedItem.getAdditionalText();
+			var AdditonalUnit = oEvent.getParameters().selectedItem.getAdditionalText();
+			this.getView().getModel("SubletDataModel").setProperty("/unitOfMeasure", AdditonalUnit);
+			var oSelectedSublet = oEvent.getParameters().selectedItem.getKey();
+			if (oSelectedSublet == "L2" || oSelectedSublet == "L3" ||
+				oSelectedSublet == "L4" ||
+				oSelectedSublet == "C2" ||
+				oSelectedSublet == "C3" || oSelectedSublet == "C4" ||
+				oSelectedSublet == "RT" || oSelectedSublet == "RL" || oSelectedSublet == "RO") {
+				this.getView().getModel("DateModel").setProperty("/disableBrandDays", true);
+
+			} else {
+				this.getView().getModel("DateModel").setProperty("/disableBrandDays", false);
+			}
 		},
 		onPressSaveClaimItemSublet: function () {
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
@@ -4821,7 +4834,18 @@ sap.ui.define([
 			this.obj.OFP = this.getView().getModel("HeadSetData").getProperty("/OFP");
 			this.obj.MainOpsCode = this.getView().getModel("HeadSetData").getProperty("/MainOpsCode");
 			this.obj.NumberOfWarrantyClaim = oClaimNum;
+			var oDays;
+			var oTableIndex = oTable._aSelectedPaths;
+			if (oTableIndex.length == 1) {
+				var oIndex = parseInt(oTable._aSelectedPaths.toString().split("/")[2]);
+				this.obj.zc_item_subletSet.results.splice(oIndex, 1);
+			}
 
+			if (this.getView().getModel("SubletDataModel").getProperty("/days") == "") {
+				oDays = null;
+			} else {
+				oDays = this.getView().getModel("SubletDataModel").getProperty("/days");
+			}
 			if (this.getModel("LocalDataModel").getProperty("/SubletAtchmentData") != undefined && this.getModel("LocalDataModel").getProperty(
 					"/SubletAtchmentData") != "") {
 				var itemObj = {
@@ -4831,9 +4855,9 @@ sap.ui.define([
 					"Amount": this.getView().getModel("SubletDataModel").getProperty("/Amount"),
 					"SubletDescription": this.getView().getModel("SubletDataModel").getProperty("/description"),
 					"URI": this.getModel("LocalDataModel").getProperty("/SubletAtchmentData/0/URI"),
-					"UnitOfMeasure": this.AdditonalUnit,
+					"UnitOfMeasure": this.getView().getModel("SubletDataModel").getProperty("/unitOfMeasure"),
 					"Brand": this.getView().getModel("SubletDataModel").getProperty("/brand"),
-					"Days": this.getView().getModel("SubletDataModel").getProperty("/days")
+					"Days": oDays
 				};
 
 				this.obj.zc_item_subletSet.results.push(itemObj);
@@ -4883,15 +4907,30 @@ sap.ui.define([
 		},
 
 		onPressUpdateSublet: function (oEvent) {
+			//Math.abs(
 			var oTable = this.getView().byId("idSubletTable");
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
-			var oTableIndex = oTable._aSelectedPaths;
+
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			var oClaimModel = this.getModel("ProssingModel");
+
+			var oTableIndex = oTable._aSelectedPaths;
 			if (oTableIndex.length == 1) {
+
 				//var oString = oTableIndex.toString();
 				var oSelectedRow = oTableIndex.toString();
 				var obj = this.getView().getModel("LocalDataModel").getProperty(oSelectedRow);
+				if (obj.matnr == "L2" || obj.matnr == "L3" ||
+					obj.matnr == "L4" ||
+					obj.matnr == "C2" ||
+					obj.matnr == "C3" || obj.matnr == "C4" ||
+					obj.matnr == "RT" || obj.matnr == "RL" || obj.matnr == "RO") {
+					this.getView().getModel("DateModel").setProperty("/disableBrandDays", true);
+
+				} else {
+					this.getView().getModel("DateModel").setProperty("/disableBrandDays", false);
+				}
+
 				var SubletNum = obj.matnr;
 				var SubletInv = obj.InvoiceNo;
 				var SubletAmount = obj.Amount;
@@ -4899,6 +4938,11 @@ sap.ui.define([
 				this.getView().getModel("SubletDataModel").setProperty("/InvoiceNo", SubletInv);
 				this.getView().getModel("SubletDataModel").setProperty("/Amount", SubletAmount);
 				this.getView().getModel("SubletDataModel").setProperty("/description", obj.SubletDescription);
+				this.getView().getModel("SubletDataModel").setProperty("/brand", obj.Brand);
+				this.getView().getModel("SubletDataModel").setProperty("/days", Math.abs(parseInt(obj.Days)));
+				this.getView().getModel("SubletDataModel").setProperty("/unitOfMeasure", obj.Meinh);
+				
+
 				this.getView().getModel("DateModel").setProperty("/subletLine", true);
 				var oFile = obj.URI.split(",")[1].split("=")[1].split(")")[0];
 				var oFileReplaced = oFile.replace(/'/g, "");
@@ -4917,44 +4961,29 @@ sap.ui.define([
 					}, this)
 				});
 
-				// oClaimModel.read("/zc_claim_subletattachmentSet", {
-				// 		urlParameters: {
-				// 			"$filter": "NumberOfWarrantyClaim eq'" + oClaimNum + "'and AttachLevel eq 'SUBL' and FileName eq'" + oFileDeleteName +
-				// 				"'"
-				// 		},
-				// 		success: $.proxy(function (subletData) {
-				// 			var oAttachSet = subletData.results.map(function (item) {
-				// 				item.FileName = item.FileName.replace(oSubletType + "@@@", "");
-				// 				return item;
+				// var oIndex = parseInt(oTable._aSelectedPaths.toString().split("/")[2]);
+				// this.obj.zc_item_subletSet.results.splice(oIndex, 1);
 
-				// 			});
-				// 			this.getModel("LocalDataModel").setProperty("/SubletAtchmentData", oAttachSet);
-				// 		}, this)
-				// 	});
-
-				var oIndex = parseInt(oTable._aSelectedPaths.toString().split("/")[2]);
-				this.obj.zc_item_subletSet.results.splice(oIndex, 1);
-
-				oClaimModel.refreshSecurityToken();
-				oClaimModel.create("/zc_headSet", this.obj, {
-					success: $.proxy(function (data, response) {
-						var pricinghData = response.data.zc_claim_item_price_dataSet.results;
-						var oFilteredData = pricinghData.filter(function (val) {
-							return val.ItemType === "SUBL";
-						});
-						this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", response.data.OFPDescription);
-						this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.data.MainOpsCodeDescription);
-						console.log(oFilteredData);
-						this.getModel("LocalDataModel").setProperty("/SubletPricingDataModel", oFilteredData);
-						oTable.removeSelections("true");
-						this._fnClaimSum();
-						this._fnClaimSumPercent();
-						//MessageToast.show("Claim has been deleted successfully");
-					}, this),
-					error: function (err) {
-						console.log(err);
-					}
-				});
+				// oClaimModel.refreshSecurityToken();
+				// oClaimModel.create("/zc_headSet", this.obj, {
+				// 	success: $.proxy(function (data, response) {
+				// 		var pricinghData = response.data.zc_claim_item_price_dataSet.results;
+				// 		var oFilteredData = pricinghData.filter(function (val) {
+				// 			return val.ItemType === "SUBL";
+				// 		});
+				// 		this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", response.data.OFPDescription);
+				// 		this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.data.MainOpsCodeDescription);
+				// 		console.log(oFilteredData);
+				// 		this.getModel("LocalDataModel").setProperty("/SubletPricingDataModel", oFilteredData);
+				// 		oTable.removeSelections("true");
+				// 		this._fnClaimSum();
+				// 		this._fnClaimSumPercent();
+				// 		//MessageToast.show("Claim has been deleted successfully");
+				// 	}, this),
+				// 	error: function (err) {
+				// 		console.log(err);
+				// 	}
+				// });
 			} else {
 				MessageToast.show(oBundle.getText("Pleaseselect1row"));
 				oTable.removeSelections("true");

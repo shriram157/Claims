@@ -29,35 +29,46 @@
 									labelSpanS="12" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="3" columnsL="3" columnsM="3">
 									<f:content>
 										<core:Title text=""/>
-										<Label text="{i18n>Model}"/>
+										<Label text="{i18n>Model}" vAlign="Middle"/>
 										<Text text="{LocalDataModel>/DataVinDetails/VehicleDescription}"/>
-										<Label text="{i18n>InServiceDate}"/>
+										<Label text="{i18n>InServiceDate}" vAlign="Middle"/>
 										<Text
 											text="{path:'LocalDataModel>/DataVinDetails/RegDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd', strictParsing: true , UTC: true}}"/>
-										<Label text="{i18n>Age}"/>
+										<Label text="{i18n>Age}" vAlign="Middle"/>
 										<Text text="{LocalDataModel>/VehicleMonths} {i18n>Months}" id="idVehicleAge"/>
 										<core:Title text=""/>
 										<Label text="{i18n>ModelYear}"/>
 										<Text text="{LocalDataModel>/DataVinDetails/ModelYear}"/>
-										<Label text="{i18n>WrittenOff}"/>
-										<Text text="{LocalDataModel>/DataVinDetails/WrittenOff}" id="idWrittenoff"/>
+										<Label text="{i18n>WrittenOff}" vAlign="Middle"/>
+										<Text text="{LocalDataModel>/DataVinDetails/WrittenOff}" id="idWrittenoff">
+											<layoutData>
+												<l:GridData span="XL1 L1 M3 S4"/>
+											</layoutData>
+										</Text>
 										<core:Icon src="sap-icon://message-warning" class="clWarning" color="#f00" visible="{DateModel>/writtenOffInd}" press="onPressWrittenOff">
 											<core:layoutData>
 												<FlexItemData/>
 											</core:layoutData>
 										</core:Icon>
 										<core:Title text=""/>
-										<Label text="{i18n>ForeignVIN}"/>
-										<Text text="{LocalDataModel>/DataVinDetails/ForeignVIN}" id="idForeignVin"/>
+										<Label text="{i18n>ForeignVIN}" vAlign="Middle"/>
+										<Text text="{LocalDataModel>/DataVinDetails/ForeignVIN}" id="idForeignVin">
+											<layoutData>
+												<l:GridData span="XL1 L1 M3 S4"/>
+											</layoutData>
+										</Text>
 										<core:Icon src="sap-icon://message-warning" class="clWarning" color="#f00" visible="{DateModel>/foreignVinInd}" press="onPressForeignVin">
 											<core:layoutData>
 												<FlexItemData/>
 											</core:layoutData>
 										</core:Icon>
-										<Label text="{i18n>SpecialVINReview}"/>
-										<Text text="{LocalDataModel>/DataVinDetails/SpecialVINReview}" id="idSpecialVin"/>
-										<core:Icon class="clWarning" src="sap-icon://message-warning" color="#f00" visible="{DateModel>/specialVinInd}" press="onPressSpecialVin">
-										</core:Icon>
+										<Label text="{i18n>SpecialVINReview}" vAlign="Middle"/>
+										<Text text="{LocalDataModel>/DataVinDetails/SpecialVINReview}" id="idSpecialVin">
+											<layoutData>
+												<l:GridData span="XL1 L1 M3 S4"/>
+											</layoutData>
+										</Text>
+										<core:Icon class="clWarning" src="sap-icon://message-warning" color="#f00" visible="{DateModel>/specialVinInd}" press="onPressSpecialVin"></core:Icon>
 									</f:content>
 								</f:SimpleForm>
 								<!--					<Label text="{i18n>RegDate}"/>-->

@@ -127,7 +127,7 @@
 					<f:content>
 						<core:Title text=""/>
 						<Label text="{i18n>Attachments}" textAlign="Left"/>
-						<UploadCollection id="UploadSublet" maximumFileSize="10"  fileSizeExceed="onFileSizeExceed"
+						<UploadCollection id="UploadSublet" maximumFileSize="10"  fileSizeExceed="onFileSizeExceed" busy="{LocalDataModel>/IndicatorState}" 
 						uploadEnabled="{LocalDataModel>/UploadEnable}" change="onUplaodChange" uploadComplete="onSubletUploadComplete" fileDeleted="onFileSubletDeleted"
 							 items="{ path: 'LocalDataModel>/SubletAtchmentData', templateShareable: false }">
 							<toolbar>
@@ -141,7 +141,7 @@
 							</toolbar>
 							<items>
 								<UploadCollectionItem documentId="{LocalDataModel>DOC_ID}" fileName="{LocalDataModel>FileName}" mimeType="{LocalDataModel>MIMETYPE}"
-									thumbnailUrl="{LocalDataModel>url}" url="{LocalDataModel>URI}" busy="{LocalDataModel>/IndicatorState}"  enableEdit="false" enableDelete="{LocalDataModel>/UploadEnable}"
+									thumbnailUrl="{LocalDataModel>url}" url="{LocalDataModel>URI}"  enableEdit="false" enableDelete="{LocalDataModel>/UploadEnable}"
 									visibleDelete="{settings>/visibleDelete}" visibleEdit="false">
 									
 								</UploadCollectionItem>
@@ -149,10 +149,10 @@
 						</UploadCollection>
 						<core:Title text=""/>
 						<Label text="{i18n>Days}" textAlign="Left"/>
-						<Input value="{SubletDataModel>/days}" enabled="{DateModel>/subletLine}"/>
+						<custom:CustomInput value="{SubletDataModel>/days}" enabled="{DateModel>/subletLine}" visible="{DateModel>/disableBrandDays}"/>
 						<core:Title text=""/>
 						<Label text="{i18n>VehicleBrand}" textAlign="Left"/>
-						<Select forceSelection="false" selectedKey="{SubletDataModel>/brand}" enabled="{DateModel>/subletLine}">
+						<Select forceSelection="false" selectedKey="{SubletDataModel>/brand}" enabled="{DateModel>/subletLine}" visible="{DateModel>/disableBrandDays}">
 							<items>
 								<core:Item key="{i18n>Toyota}" text="Toyota"/>
 								<core:Item key="{i18n>Lexus}" text="Lexus"/>
