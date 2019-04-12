@@ -1,8 +1,8 @@
 <core:FragmentDefinition xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:u="sap.ui.unified" xmlns:l="sap.ui.layout"
 	xmlns="sap.m" xmlns:table="sap.ui.table">
-	<Dialog class="sapUiSizeCompact" title="{i18n>SpecialHandlingDetailsVIN}">
+	<Dialog class="sapUiSizeCompact" title="{i18n>SpecialHandlingDetailsVIN} {LocalDataModel>/selectedVehicle}">
 		<content>
-			<table:Table class="classRCPTable" selectionMode="MultiToggle" rows="{LocalDataModel>/DataSpecialHandlingSet}" visibleRowCountMode="Auto"
+			<table:Table class="classRCPTable" selectionMode="None" rows="{LocalDataModel>/DataSpecialHandlingSet}" visibleRowCountMode="Auto"
 				rowSelectionChange="onNavigatePaint" selectionBehavior="Row" showNoData="true" threshold="20" enableBusyIndicator="true">
 				<table:columns autoResizable="true">
 					<table:Column width="17rem">

@@ -65,7 +65,8 @@ sap.ui.define([
 				oMainOps: true,
 				foreignVinInd: false,
 				writtenOffInd: false,
-				specialVinInd: false
+				specialVinInd: false,
+				oMainOpsReq: false
 
 			});
 			this.getView().setModel(oDateModel, "DateModel");
@@ -263,6 +264,7 @@ sap.ui.define([
 			oValidator.validate("");
 			this.getModel("LocalDataModel").setProperty("/DataVinDetails", "");
 			this.getModel("LocalDataModel").setProperty("/VehicleMonths", "");
+			this.getModel("LocalDataModel").setProperty("/selectedVehicle", "");
 			this.getView().byId("id_Date").setValueState("None");
 			this.getView().byId("idPrInvDate").setValueState("None");
 			this.getView().byId("idPreInvNum").setValueState("None");
@@ -508,6 +510,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/PreroOdometerVisible", false);
 							this.getView().getModel("DateModel").setProperty("/RepairdDetailVisible", true);
 							this.getView().getModel("DateModel").setProperty("/oMainOps", true);
+							this.getView().getModel("DateModel").setProperty("/oMainOpsReq", false);
 						} else if (oClaimTypeDetail == "ZWP2" || submissionType == "ZWP2") {
 							this.getView().getModel("DateModel").setProperty("/oMainOps", false);
 							this.getView().getModel("DateModel").setProperty("/Paint", false);
@@ -517,7 +520,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/Authorization", true);
 							this.getView().getModel("DateModel").setProperty("/oECPfields", false);
 							this.getView().getModel("DateModel").setProperty("/ShipmentVisible", false);
-
+							this.getView().getModel("DateModel").setProperty("/oMainOpsReq", false);
 							this.getView().getModel("DateModel").setProperty("/oPrevInvNumReq", true);
 							this.getView().getModel("DateModel").setProperty("/oPrevInvDateReq", true);
 							this.getView().getModel("DateModel").setProperty("/PreroOdometerVisible", false);
@@ -542,6 +545,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/oPrevInvDateReq", false);
 							this.getView().getModel("DateModel").setProperty("/PreroOdometerVisible", true);
 							this.getView().getModel("DateModel").setProperty("/RepairdDetailVisible", true);
+							this.getView().getModel("DateModel").setProperty("/oMainOpsReq", false);
 						} else if (oClaimTypeDetail == "ZWMS" || submissionType == "ZWMS") {
 							this.getView().getModel("DateModel").setProperty("/oMainOps", false);
 							this.getView().getModel("DateModel").setProperty("/Paint", false);
@@ -558,6 +562,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/oPrevInvDateReq", false);
 							this.getView().getModel("DateModel").setProperty("/PreroOdometerVisible", false);
 							this.getView().getModel("DateModel").setProperty("/RepairdDetailVisible", true);
+							this.getView().getModel("DateModel").setProperty("/oMainOpsReq", false);
 						} else if (oClaimTypeDetail == "ZWA1" || submissionType == "ZWA1" || oClaimTypeDetail == "ZWA2" || submissionType == "ZWA2") {
 							this.getView().getModel("DateModel").setProperty("/oMainOps", true);
 							this.getView().getModel("DateModel").setProperty("/Paint", false);
@@ -574,6 +579,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/oFieldActionInput", false);
 							this.getView().getModel("DateModel").setProperty("/PreroOdometerVisible", false);
 							this.getView().getModel("DateModel").setProperty("/RepairdDetailVisible", true);
+							this.getView().getModel("DateModel").setProperty("/oMainOpsReq", false);
 						} else if (oClaimTypeDetail == "ZWAC" || submissionType == "ZWAC") {
 							this.getView().getModel("DateModel").setProperty("/oMainOps", true);
 							this.getView().getModel("DateModel").setProperty("/Paint", false);
@@ -590,6 +596,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/PreroOdometerVisible", false);
 							this.getView().getModel("DateModel").setProperty("/oFieldActionInput", false);
 							this.getView().getModel("DateModel").setProperty("/RepairdDetailVisible", true);
+							this.getView().getModel("DateModel").setProperty("/oMainOpsReq", false);
 						} else if (oClaimTypeDetail == "ZWVE" || submissionType == "ZWVE") {
 							this.getView().getModel("DateModel").setProperty("/oMainOps", true);
 							this.getView().getModel("DateModel").setProperty("/Paint", true);
@@ -606,6 +613,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/PreroOdometerVisible", false);
 							this.getView().getModel("DateModel").setProperty("/RepairdDetailVisible", true);
 							this.getView().getModel("DateModel").setProperty("/oFieldActionInput", false);
+							this.getView().getModel("DateModel").setProperty("/oMainOpsReq", false);
 							this._fnClaimSumPercent();
 						} else if (oClaimTypeDetail == "ZCSR" || oClaimTypeDetail == "ZCER" || oClaimTypeDetail == "ZCLS") {
 							this.getView().getModel("DateModel").setProperty("/oMainOps", true);
@@ -623,6 +631,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/oPrevInvDateReq", false);
 							this.getView().getModel("DateModel").setProperty("/PreroOdometerVisible", false);
 							this.getView().getModel("DateModel").setProperty("/RepairdDetailVisible", true);
+							this.getView().getModel("DateModel").setProperty("/oMainOpsReq", false);
 						} else if (oClaimTypeDetail == "ZCWE") {
 							this.getView().getModel("DateModel").setProperty("/oMainOps", true);
 							this.getView().getModel("DateModel").setProperty("/Paint", false);
@@ -639,6 +648,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/oPrevInvDateReq", false);
 							this.getView().getModel("DateModel").setProperty("/PreroOdometerVisible", false);
 							this.getView().getModel("DateModel").setProperty("/RepairdDetailVisible", true);
+							this.getView().getModel("DateModel").setProperty("/oMainOpsReq", false);
 						} else if (oClaimTypeDetail == "ZSSM" || oClaimTypeDetail == "ZSCR") {
 							this.getView().getModel("DateModel").setProperty("/oMainOps", true);
 							this.getView().getModel("DateModel").setProperty("/Paint", false);
@@ -656,6 +666,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/oPrevInvNumReq", false);
 							this.getView().getModel("DateModel").setProperty("/oPrevInvDateReq", false);
 							this.getView().getModel("DateModel").setProperty("/PreroOdometerVisible", false);
+							this.getView().getModel("DateModel").setProperty("/oMainOpsReq", false);
 						} else if (oClaimTypeDetail == "ZSSE") {
 							this.getView().getModel("DateModel").setProperty("/oMainOps", true);
 							this.getView().getModel("DateModel").setProperty("/Paint", true);
@@ -672,7 +683,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/oPrevInvDateReq", false);
 							this.getView().getModel("DateModel").setProperty("/PreroOdometerVisible", false);
 							this.getView().getModel("DateModel").setProperty("/RepairdDetailVisible", true);
-
+							this.getView().getModel("DateModel").setProperty("/oMainOpsReq", false);
 						} else if (oClaimTypeDetail == "ZRCR") {
 							this.getView().getModel("DateModel").setProperty("/oMainOps", true);
 							this.getView().getModel("DateModel").setProperty("/Paint", false);
@@ -690,6 +701,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/oPrevInvDateReq", false);
 							this.getView().getModel("DateModel").setProperty("/PreroOdometerVisible", false);
 							this.getView().getModel("DateModel").setProperty("/RepairdDetailVisible", true);
+							this.getView().getModel("DateModel").setProperty("/oMainOpsReq", false);
 						} else if (oClaimTypeDetail == "ZLDC") {
 							this.getView().getModel("DateModel").setProperty("/oMainOps", true);
 							this.getView().getModel("DateModel").setProperty("/Paint", false);
@@ -709,6 +721,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/oPrevInvNumReq", false);
 							this.getView().getModel("DateModel").setProperty("/oPrevInvDateReq", false);
 							this.getView().getModel("DateModel").setProperty("/PreroOdometerVisible", false);
+							this.getView().getModel("DateModel").setProperty("/oMainOpsReq", false);
 						} else {
 							this.getView().getModel("DateModel").setProperty("/LabourBtnVsbl", true);
 							this.getView().getModel("DateModel").setProperty("/oMainOps", true);
@@ -1322,6 +1335,7 @@ sap.ui.define([
 					this.getView().getModel("DateModel").setProperty("/RepairdDetailVisible", true);
 					this.getView().getModel("DateModel").setProperty("/AcA1", false);
 					this.getView().getModel("DateModel").setProperty("/P1p2", false);
+					this.getView().getModel("DateModel").setProperty("/oMainOpsReq", false);
 				} else if (oGroupDescription == "SETR") {
 					oProssingModel.read("/ZC_CLAIM_GROUP", {
 						urlParameters: {
@@ -1345,6 +1359,7 @@ sap.ui.define([
 					this.getView().getModel("DateModel").setProperty("/RepairdDetailVisible", true);
 					this.getView().getModel("DateModel").setProperty("/AcA1", false);
 					this.getView().getModel("DateModel").setProperty("/P1p2", false);
+					this.getView().getModel("DateModel").setProperty("/oMainOpsReq", true);
 				} else {
 					this.getView().getModel("DateModel").setProperty("/oFieldActionInput", false);
 
@@ -1373,6 +1388,7 @@ sap.ui.define([
 					this.getView().getModel("DateModel").setProperty("/RepairdDetailVisible", true);
 					this.getView().getModel("DateModel").setProperty("/AcA1", false);
 					this.getView().getModel("DateModel").setProperty("/P1p2", false);
+					this.getView().getModel("DateModel").setProperty("/oMainOpsReq", false);
 
 				} else {
 					this.getView().getModel("DateModel").setProperty("/oECPfields", false);
@@ -1402,6 +1418,7 @@ sap.ui.define([
 					this.getModel("LocalDataModel").setProperty("/step01Next", false);
 					this.getView().getModel("DateModel").setProperty("/AcA1", false);
 					this.getView().getModel("DateModel").setProperty("/P1p2", false);
+					this.getView().getModel("DateModel").setProperty("/oMainOpsReq", false);
 				}
 				if (oGroupDescription == "VEHICLE LOGISTICS") {
 					oProssingModel.read("/ZC_CLAIM_GROUP", {
@@ -1432,6 +1449,7 @@ sap.ui.define([
 					this.getView().getModel("DateModel").setProperty("/oDamageLineBtn", false);
 					this.getView().getModel("DateModel").setProperty("/AcA1", false);
 					this.getView().getModel("DateModel").setProperty("/P1p2", false);
+					this.getView().getModel("DateModel").setProperty("/oMainOpsReq", false);
 				} else {
 					this.getView().getModel("DateModel").setProperty("/ShipmentVisible", false);
 					this.getView().getModel("DateModel").setProperty("/LabourBtnVsbl", true);
@@ -1462,6 +1480,7 @@ sap.ui.define([
 					this.getModel("LocalDataModel").setProperty("/step01Next", false);
 					this.getView().getModel("DateModel").setProperty("/AcA1", false);
 					this.getView().getModel("DateModel").setProperty("/P1p2", false);
+					this.getView().getModel("DateModel").setProperty("/oMainOpsReq", false);
 				}
 
 				this._fnDealerContact();
@@ -1804,10 +1823,11 @@ sap.ui.define([
 		onEnterVIN: function (oEvent) {
 
 			var oVin = oEvent.getParameters().value;
+			this.getModel("LocalDataModel").setProperty("/selectedVehicle", oVin);
 			var oProssingModel = this.getModel("ProssingModel");
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
-
-			var oECPModel = this.getOwnerComponent().getModel("EcpSalesModel");
+			var oRepDate;
+			//var oECPModel = this.getOwnerComponent().getModel("EcpSalesModel");
 			oProssingModel.read("/zc_cliam_agreement", {
 				urlParameters: {
 					"$filter": "VIN eq '" + oVin + "'"
@@ -1826,7 +1846,12 @@ sap.ui.define([
 				//"$expand": "ZC_SPECIAL_HANDLINGVEHICLESET, ZC_WRITTENOFFVEHICLESET"
 				success: $.proxy(function (data) {
 					this.getModel("LocalDataModel").setProperty("/DataVinDetails", data.results[0]);
-					var oRepDate = this.getView().getModel("HeadSetData").getProperty("/RepairDate");
+					if (this.getView().getModel("HeadSetData").getProperty("/RepairDate") != undefined) {
+						oRepDate = this.getView().getModel("HeadSetData").getProperty("/RepairDate");
+					} else {
+						oRepDate = new Date();
+					}
+					//var oRepDate = this.getView().getModel("HeadSetData").getProperty("/RepairDate");
 					var regTime = new Date(data.results[0].RegDate).getTime();
 					var repTime = new Date(oRepDate).getTime();
 					var oMonth = (regTime - repTime) / (1000 * 60 * 60 * 24 * 30);
@@ -1835,7 +1860,7 @@ sap.ui.define([
 					if (data.results[0].ForeignVIN == "YES") {
 						this.getModel("LocalDataModel").setProperty("/MsrUnit", oBundle.getText("distancemiles"));
 						this.getView().getModel("DateModel").setProperty("/foreignVinInd", true);
-					} else {
+					} else if (data.results[0].ForeignVIN == "NO") {
 						this.getModel("LocalDataModel").setProperty("/MsrUnit", oBundle.getText("distancekm"));
 						this.getView().getModel("DateModel").setProperty("/foreignVinInd", false);
 
@@ -1844,7 +1869,7 @@ sap.ui.define([
 					if (data.results[0].WrittenOff == "YES") {
 
 						this.getView().getModel("DateModel").setProperty("/writtenOffInd", true);
-					} else {
+					} else if (data.results[0].WrittenOff == "NO") {
 
 						this.getView().getModel("DateModel").setProperty("/writtenOffInd", false);
 
@@ -1853,7 +1878,7 @@ sap.ui.define([
 					if (data.results[0].SpecialVINReview == "YES") {
 
 						this.getView().getModel("DateModel").setProperty("/specialVinInd", true);
-					} else {
+					} else if (data.results[0].SpecialVINReview == "NO") {
 
 						this.getView().getModel("DateModel").setProperty("/specialVinInd", false);
 
@@ -1935,7 +1960,38 @@ sap.ui.define([
 			// 	this.getView().getModel("DateModel").setProperty("/claimTypeState", "Error");
 			// } 
 
-			if (!oValid02 &&
+			if (!oValid02 && this.getView().getModel("DateModel").getProperty("/oMainOpsReq") == true &&
+				this.getView().getModel("DateModel").getProperty("/oMainOps") == true &&
+				this.getView().getModel("HeadSetData").getProperty("/MainOpsCode") == "" &&
+				this.getView().getModel("DateModel").getProperty("/oFieldActionInput") == true &&
+				this.getView().getModel("HeadSetData").getProperty("/FieldActionReference") == "" &&
+				this.getView().getModel("HeadSetData").getProperty("/RepairDate") == undefined || this.getView().getModel("HeadSetData")
+				.getProperty("/RepairDate") == ""
+			) {
+				this.getModel("LocalDataModel").setProperty("/step01Next", false);
+				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+				this.getView().byId("idMainOps").setValueState("Error");
+				this.getView().byId("id_Date").setValueState("Error");
+				this.getView().byId("idFieldActionInput").setValueState("Error");
+				this.getView().byId("idMainClaimMessage").setText(oBundle.getText("FillUpMandatoryField"));
+				this.getView().byId("idMainClaimMessage").setType("Error");
+
+				//this.getView().getModel("DateModel").setProperty("/claimTypeState", "None");
+				return false;
+			} else if (this.getView().getModel("DateModel").getProperty("/oMainOpsReq") == true &&
+				this.getView().getModel("DateModel").getProperty("/oMainOps") == true &&
+				this.getView().getModel("HeadSetData").getProperty("/MainOpsCode") == ""
+			) {
+				this.getModel("LocalDataModel").setProperty("/step01Next", false);
+				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+				this.getView().byId("idMainOps").setValueState("Error");
+				this.getView().byId("idFieldActionInput").setValueState("None");
+				this.getView().byId("idMainClaimMessage").setText(oBundle.getText("FillUpMandatoryField"));
+				this.getView().byId("idMainClaimMessage").setType("Error");
+
+				//this.getView().getModel("DateModel").setProperty("/claimTypeState", "None");
+				return false;
+			} else if (!oValid02 &&
 				this.getView().getModel("DateModel").getProperty("/oFieldActionInput") == true &&
 				this.getView().getModel("HeadSetData").getProperty("/FieldActionReference") == "" &&
 				this.getView().getModel("HeadSetData").getProperty("/RepairDate") == undefined || this.getView().getModel("HeadSetData")
@@ -1943,9 +1999,10 @@ sap.ui.define([
 				this.getModel("LocalDataModel").setProperty("/step01Next", false);
 				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
 				this.getView().byId("id_Date").setValueState("Error");
+				this.getView().byId("idFieldActionInput").setValueState("Error");
 				this.getView().byId("idMainClaimMessage").setText(oBundle.getText("FillUpMandatoryField"));
 				this.getView().byId("idMainClaimMessage").setType("Error");
-				this.getView().byId("idFieldActionInput").setValueState("Error");
+
 				//this.getView().getModel("DateModel").setProperty("/claimTypeState", "None");
 				return false;
 
@@ -2082,6 +2139,7 @@ sap.ui.define([
 				this.getView().byId("idT2Field").setValueState("None");
 				this.getView().byId("idT1Field").setValueState("None");
 				this.getView().byId("idOFP").setValueState("None");
+				this.getView().byId("idMainOps").setValueState("None");
 				this.getView().byId("idDealerContact").setValueState("None");
 				this.getView().byId("idFieldActionInput").setValueState("None");
 				var oActionCode = "";
@@ -2700,6 +2758,37 @@ sap.ui.define([
 						this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
 						this.getView().byId("idMainClaimMessage").setType("Error");
 						this.getView().byId("idOFP").setValueState("Error");
+					} else if (!oValid02 && this.getView().getModel("DateModel").getProperty("/oMainOpsReq") == true &&
+						this.getView().getModel("DateModel").getProperty("/oMainOps") == true &&
+						this.getView().getModel("HeadSetData").getProperty("/MainOpsCode") == "" &&
+						this.getView().getModel("DateModel").getProperty("/oFieldActionInput") == true &&
+						this.getView().getModel("HeadSetData").getProperty("/FieldActionReference") == "" &&
+						this.getView().getModel("HeadSetData").getProperty("/RepairDate") == undefined || this.getView().getModel("HeadSetData")
+						.getProperty("/RepairDate") == ""
+					) {
+						this.getModel("LocalDataModel").setProperty("/step01Next", false);
+						this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+						this.getView().byId("idMainOps").setValueState("Error");
+						this.getView().byId("id_Date").setValueState("Error");
+						this.getView().byId("idFieldActionInput").setValueState("Error");
+						this.getView().byId("idMainClaimMessage").setText(oBundle.getText("FillUpMandatoryField"));
+						this.getView().byId("idMainClaimMessage").setType("Error");
+
+						//this.getView().getModel("DateModel").setProperty("/claimTypeState", "None");
+						return false;
+					} else if (this.getView().getModel("DateModel").getProperty("/oMainOpsReq") == true &&
+						this.getView().getModel("DateModel").getProperty("/oMainOps") == true &&
+						this.getView().getModel("HeadSetData").getProperty("/MainOpsCode") == ""
+					) {
+						this.getModel("LocalDataModel").setProperty("/step01Next", false);
+						this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+						this.getView().byId("idMainOps").setValueState("Error");
+						this.getView().byId("idFieldActionInput").setValueState("None");
+						this.getView().byId("idMainClaimMessage").setText(oBundle.getText("FillUpMandatoryField"));
+						this.getView().byId("idMainClaimMessage").setType("Error");
+
+						//this.getView().getModel("DateModel").setProperty("/claimTypeState", "None");
+						return false;
 					} else if (!oValid02) {
 						this.getModel("LocalDataModel").setProperty("/step01Next", false);
 						//do something additional to drawing red borders? message box?
@@ -2713,6 +2802,7 @@ sap.ui.define([
 						this.getView().byId("idMainClaimMessage").setText("");
 						this.getView().byId("idMainClaimMessage").setType("None");
 						this.getView().byId("idOFP").setValueState("None");
+						this.getView().byId("idMainOps").setValueState("None");
 						this.getView().byId("idFieldActionInput").setValueState("None");
 						this.getView().byId("idT2Field").setValueState("None");
 						this.getView().byId("idT1Field").setValueState("None");
