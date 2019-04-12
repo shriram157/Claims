@@ -20,7 +20,7 @@
 										<!--	text="{parts: [{path: 'LocalDataModel>/DealerText'}, {path: 'LocalDataModel>/AdditionalText'}], formatter: 'zclaimProcessing.utils.formatter.fnFormatter'}"/>-->
 										<Select showSecondaryValues="true" id="idDealerCode" change="onSelectiDealer" items="{LocalDataModel>/BpDealerModel}"
 												selectedKey="{LocalDataModel>/BpDealerModel/0/BusinessPartnerKey}">
-												<core:ListItem key="{LocalDataModel>BusinessPartnerKey}" text="{path:'LocalDataModel>BusinessPartnerKey'}"
+												<core:ListItem key="{LocalDataModel>BusinessPartnerKey}" text="{path:'LocalDataModel>BusinessPartner'}"
 													additionalText="{LocalDataModel>BusinessPartnerName}"/>
 											</Select>
 										<Label text="{i18n>SearchBy}" textAlign="Begin"/>

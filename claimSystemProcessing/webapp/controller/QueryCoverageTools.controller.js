@@ -17,6 +17,80 @@ sap.ui.define([
 			//Model data set for Header Links visibility as per User login
 			console.log("HeaderLinksModel", sap.ui.getCore().getModel("HeaderLinksModel"));
 			this.getView().setModel(sap.ui.getCore().getModel("HeaderLinksModel"), "HeaderLinksModel");
+			var oDateModel = new sap.ui.model.json.JSONModel();
+			oDateModel.setData({
+				foreignVinInd: false,
+				writtenOffInd: false,
+				specialVinInd: false
+			});
+			this.getView().setModel(oDateModel, "DateModel");
+		},
+		onPressForeignVin: function () {
+			var oDialogBox = sap.ui.xmlfragment("zclaimProcessing.view.fragments.ForeignVinNotification", this);
+			this.getView().addDependent(oDialogBox);
+			oDialogBox.open();
+		},
+		onPressWrittenOff: function () {
+			var oDialogBox = sap.ui.xmlfragment("zclaimProcessing.view.fragments.WrittenOff", this);
+			this.getView().addDependent(oDialogBox);
+			oDialogBox.open();
+		},
+		onCloseWrittenOf: function (oEvent) {
+			oEvent.getSource().getParent().getParent().close();
+		},
+		onCloseForeinNotification: function (oEvent) {
+			oEvent.getSource().getParent().getParent().close();
+		},
+		onPressSpecialVin: function () {
+			var oDialogBox = sap.ui.xmlfragment("zclaimProcessing.view.fragments.SpecialHandling", this);
+			this.getView().addDependent(oDialogBox);
+			oDialogBox.open();
+			this.getView().getModel("HeadSetData").setProperty("/SpecialVINReview", "Yes");
+		},
+		
+		onEnterVIN: function (oEvent) {
+
+			var oVin = oEvent.getParameters().value;
+			var oProssingModel = this.getModel("ProssingModel");
+			var oBundle = this.getView().getModel("i18n").getResourceBundle();
+			
+
+			oProssingModel.read("/ZC_GET_FORE_VIN(p_vhvin='" + oVin + "')/Set", {
+				success: $.proxy(function (data) {
+					if (data.results.length > 0) {
+						var oVinModel = data.results[0].Model;
+						if (oVinModel == "I_VEH_US") {
+							this.getView().getModel("HeadSetData").setProperty("/ForeignVINIndicator", "Yes");
+							this.oText = "true";
+							this.getView().byId("idMainClaimMessage").setProperty("visible", false);
+							this.getView().byId("idMainClaimMessage").setText("");
+							this.getView().byId("idMainClaimMessage").setType("None");
+						} else if (data.results[0].Message == "Invalid VIN Number") {
+							this.oText = "false";
+							this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+							this.getView().byId("idMainClaimMessage").setText(oBundle.getText("PleaseEnterValidVIN"));
+							this.getView().byId("idMainClaimMessage").setType("Error");
+						} else {
+							this.getView().getModel("HeadSetData").setProperty("/ForeignVINIndicator", "No");
+							this.oText = "true";
+							this.getView().byId("idMainClaimMessage").setProperty("visible", false);
+							this.getView().byId("idMainClaimMessage").setText("");
+							this.getView().byId("idMainClaimMessage").setType("None");
+						}
+
+					}
+				}, this),
+				error: function () {
+
+				}
+			});
+
+		},
+		onLiveVINEnter : function(oEvent){
+			var oVin = oEvent.getParameters().value;
+			if(oVin.length > 17){
+				this.getView().byId("vin").setValue("");
+			}
 		},
 
 		/**
@@ -61,40 +135,91 @@ sap.ui.define([
 			//-------------------------------------------------------------
 			//-----Get Vehicle Details---------------------------------------
 			//---------------------------------------------------------
-			var oUrl = this.sPrefix + "/node/ZDLR_CLAIM_SRV/zc_vehicle_informationSet?$filter=Vin eq" + "'" + oVin + "'";
-			$.ajax({
-				url: oUrl,
-				method: 'GET',
-				async: false,
-				dataType: 'json',
-				success: function (zdata, textStatus, jqXHR) {
-					if (zdata.d.results[0]) {
-						var oModel = new sap.ui.model.json.JSONModel();
-						if (zdata.d.results[0].RegDate) {
-							var zd1 = parseInt(zdata.d.results[0].RegDate.replace(/[^0-9]+/g, ''));
-							zdata.d.results[0].RegDate = new Date(zd1);
-						}
-						if (zdata.d.results[0].WrittenOff == 'YES') {
-							that.getView().byId('partofp').setEditable(false);
-							that.getView().byId('mainop').setEditable(false);
-						} else if (zdata.d.results[0].WrittenOff == 'NO') {
-							that.getView().byId('partofp').setEditable(true);
-							that.getView().byId('mainop').setEditable(true);
-						}
-						if (zdata.d.results[0].ForeignVIN == 'YES') {
-							dometerunit = 'MI';
-						} else if (zdata.d.results[0].ForeignVIN == 'NO') {
-							dometerunit = 'KM';
-						}
-						oModel.setData(zdata.d.results[0]);
-						that.getView().setModel(oModel, 'Vehicleinfo');
-					} else {
-						MessageBox.show(Messageinvalid, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
-					}
+			//var oUrl = this.sPrefix + "/node/ZDLR_CLAIM_SRV/zc_vehicle_informationSet?$filter=Vin eq" + "'" + oVin + "'";
+			// $.ajax({
+			// 	url: oUrl,
+			// 	method: 'GET',
+			// 	async: false,
+			// 	dataType: 'json',
+			// 	success: function (zdata, textStatus, jqXHR) {
+			// 		if (zdata.d.results[0]) {
+			// 			var oModel = new sap.ui.model.json.JSONModel();
+			// 			if (zdata.d.results[0].RegDate) {
+			// 				var zd1 = parseInt(zdata.d.results[0].RegDate.replace(/[^0-9]+/g, ''));
+			// 				zdata.d.results[0].RegDate = new Date(zd1);
+			// 			}
+			// 			if (zdata.d.results[0].WrittenOff == 'YES') {
+			// 				that.getView().byId('partofp').setEditable(false);
+			// 				that.getView().byId('mainop').setEditable(false);
+			// 			} else if (zdata.d.results[0].WrittenOff == 'NO') {
+			// 				that.getView().byId('partofp').setEditable(true);
+			// 				that.getView().byId('mainop').setEditable(true);
+			// 			}
+			// 			if (zdata.d.results[0].ForeignVIN == 'YES') {
+			// 				dometerunit = 'MI';
+			// 			} else if (zdata.d.results[0].ForeignVIN == 'NO') {
+			// 				dometerunit = 'KM';
+			// 			}
+			// 			oModel.setData(zdata.d.results[0]);
+			// 			that.getView().setModel(oModel, 'Vehicleinfo');
+			// 		} else {
+			// 			MessageBox.show(Messageinvalid, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
+			// 		}
 
-				},
-				error: function (jqXHR, textStatus, errorThrown) {}
-			});
+			// 	},
+			// 	error: function (jqXHR, textStatus, errorThrown) {}
+			// });
+			
+			var oBundle = this.getView().getModel("i18n").getResourceBundle();
+			var oProssingModel = this.getModel("ProssingModel");
+			oProssingModel.read("/zc_vehicle_informationSet", {
+								urlParameters: {
+									"$filter": "Vin eq '" + oVin + "'",
+									"$expand": "ZC_SPECIAL_HANDLINGVEHICLESET,ZC_WRITTENOFFVEHICLESET"
+
+								},
+								//	"$expand": "ZC_SPECIAL_HANDLINGVEHICLESET, ZC_WRITTENOFFVEHICLESET"
+								success: $.proxy(function (vehData) {
+									this.getModel("LocalDataModel").setProperty("/DataVinDetails", vehData.results[0]);
+									//var oRepDate = this.getView().getModel("HeadSetData").getProperty("/RepairDate");
+									var regTime = new Date(vehData.results[0].RegDate).getTime();
+									var repTime = new Date().getTime();
+									var oMonth = (regTime - repTime) / (1000 * 60 * 60 * 24 * 30);
+									//parseFloat(oMonth).toFixed(2);
+									this.getModel("LocalDataModel").setProperty("/VehicleMonths", Math.abs(oMonth.toFixed(1)));
+
+									if (vehData.results[0].ForeignVIN == "YES") {
+										dometerunit = 'MI';
+										this.getView().getModel("DateModel").setProperty("/foreignVinInd", true);
+										this.getModel("LocalDataModel").setProperty("/MsrUnit", oBundle.getText("distancemiles"));
+									} else {
+										dometerunit = 'KM';
+										this.getView().getModel("DateModel").setProperty("/foreignVinInd", false);
+										this.getModel("LocalDataModel").setProperty("/MsrUnit", oBundle.getText("distancekm"));
+									}
+
+									if (vehData.results[0].WrittenOff == "YES") {
+										this.getView().getModel("DateModel").setProperty("/writtenOffInd", true);
+									} else {
+										this.getView().getModel("DateModel").setProperty("/writtenOffInd", false);
+									}
+
+									if (vehData.results[0].SpecialVINReview == "YES") {
+
+										this.getView().getModel("DateModel").setProperty("/specialVinInd", true);
+									} else {
+
+										this.getView().getModel("DateModel").setProperty("/specialVinInd", false);
+
+									}
+
+									this.getModel("LocalDataModel").setProperty("/DataSpecialHandlingSet", vehData.results[0].ZC_SPECIAL_HANDLINGVEHICLESET
+										.results);
+									this.getModel("LocalDataModel").setProperty("/DataWrittenOffSet", vehData.results[0].ZC_WRITTENOFFVEHICLESET.results);
+								}, this),
+								error: function () {}
+							});
+							
 			//----------------------------------------------
 			//-------Get Aggrements--------------------------
 			//----------------------------------------------
