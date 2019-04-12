@@ -167,7 +167,7 @@ sap.ui.define([
 				"Amount": "",
 				"days": "",
 				"brand": "",
-				"unitOfMeasure" : ""
+				"unitOfMeasure": ""
 			});
 			SubletData.setDefaultBindingMode("TwoWay");
 			this.getView().setModel(SubletData, "SubletDataModel");
@@ -274,6 +274,9 @@ sap.ui.define([
 			this.getView().byId("idT1Field").setValueState("None");
 			this.getView().byId("idT2Field").setValueState("None");
 			this.getView().byId("idDealerContact").setValueState("None");
+			this.getView().getModel("DateModel").setProperty("/foreignVinInd", false);
+			this.getView().getModel("DateModel").setProperty("/writtenOffInd", false);
+			this.getView().getModel("DateModel").setProperty("/specialVinInd", false);
 			this.getDealer();
 			var oProssingModel = this.getModel("ProssingModel");
 			this.getView().byId("idMainClaimMessage").setProperty("visible", false);
@@ -4941,7 +4944,6 @@ sap.ui.define([
 				this.getView().getModel("SubletDataModel").setProperty("/brand", obj.Brand);
 				this.getView().getModel("SubletDataModel").setProperty("/days", Math.abs(parseInt(obj.Days)));
 				this.getView().getModel("SubletDataModel").setProperty("/unitOfMeasure", obj.Meinh);
-				
 
 				this.getView().getModel("DateModel").setProperty("/subletLine", true);
 				var oFile = obj.URI.split(",")[1].split("=")[1].split(")")[0];
