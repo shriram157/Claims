@@ -47,7 +47,7 @@ sap.ui.define([
 			oDialogBox.open();
 			this.getView().getModel("HeadSetData").setProperty("/SpecialVINReview", "Yes");
 		},
-		
+
 		onEnterVIN: function (oEvent) {
 
 			var oVin = oEvent.getParameters().value;
@@ -86,9 +86,9 @@ sap.ui.define([
 			});
 
 		},
-		onLiveVINEnter : function(oEvent){
+		onLiveVINEnter: function (oEvent) {
 			var oVin = oEvent.getParameters().value;
-			if(oVin.length > 17){
+			if (oVin.length > 17) {
 				this.getView().byId("vin").setValue("");
 			}
 		},
@@ -170,57 +170,57 @@ sap.ui.define([
 			// 	},
 			// 	error: function (jqXHR, textStatus, errorThrown) {}
 			// });
-			
+
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var oProssingModel = this.getModel("ProssingModel");
 			oProssingModel.read("/zc_vehicle_informationSet", {
-								urlParameters: {
-									"$filter": "Vin eq '" + oVin + "'",
-									"$expand": "ZC_SPECIAL_HANDLINGVEHICLESET,ZC_WRITTENOFFVEHICLESET"
+				urlParameters: {
+					"$filter": "Vin eq '" + oVin + "'",
+					"$expand": "ZC_SPECIAL_HANDLINGVEHICLESET,ZC_WRITTENOFFVEHICLESET"
 
-								},
-								//	"$expand": "ZC_SPECIAL_HANDLINGVEHICLESET, ZC_WRITTENOFFVEHICLESET"
-								success: $.proxy(function (vehData) {
-									this.getModel("LocalDataModel").setProperty("/DataVinDetails", vehData.results[0]);
-									//var oRepDate = this.getView().getModel("HeadSetData").getProperty("/RepairDate");
-									var regTime = new Date(vehData.results[0].RegDate).getTime();
-									var repTime = new Date().getTime();
-									var oMonth = (regTime - repTime) / (1000 * 60 * 60 * 24 * 30);
-									//parseFloat(oMonth).toFixed(2);
-									this.getModel("LocalDataModel").setProperty("/VehicleMonths", Math.abs(oMonth.toFixed(1)));
+				},
+				//	"$expand": "ZC_SPECIAL_HANDLINGVEHICLESET, ZC_WRITTENOFFVEHICLESET"
+				success: $.proxy(function (vehData) {
+					this.getModel("LocalDataModel").setProperty("/DataVinDetails", vehData.results[0]);
+					//var oRepDate = this.getView().getModel("HeadSetData").getProperty("/RepairDate");
+					var regTime = new Date(vehData.results[0].RegDate).getTime();
+					var repTime = new Date().getTime();
+					var oMonth = (regTime - repTime) / (1000 * 60 * 60 * 24 * 30);
+					//parseFloat(oMonth).toFixed(2);
+					this.getModel("LocalDataModel").setProperty("/VehicleMonths", Math.abs(oMonth.toFixed(1)));
 
-									if (vehData.results[0].ForeignVIN == "YES") {
-										dometerunit = 'MI';
-										this.getView().getModel("DateModel").setProperty("/foreignVinInd", true);
-										this.getModel("LocalDataModel").setProperty("/MsrUnit", oBundle.getText("distancemiles"));
-									} else {
-										dometerunit = 'KM';
-										this.getView().getModel("DateModel").setProperty("/foreignVinInd", false);
-										this.getModel("LocalDataModel").setProperty("/MsrUnit", oBundle.getText("distancekm"));
-									}
+					if (vehData.results[0].ForeignVIN == "YES") {
+						dometerunit = 'MI';
+						this.getView().getModel("DateModel").setProperty("/foreignVinInd", true);
+						this.getModel("LocalDataModel").setProperty("/MsrUnit", oBundle.getText("distancemiles"));
+					} else {
+						dometerunit = 'KM';
+						this.getView().getModel("DateModel").setProperty("/foreignVinInd", false);
+						this.getModel("LocalDataModel").setProperty("/MsrUnit", oBundle.getText("distancekm"));
+					}
 
-									if (vehData.results[0].WrittenOff == "YES") {
-										this.getView().getModel("DateModel").setProperty("/writtenOffInd", true);
-									} else {
-										this.getView().getModel("DateModel").setProperty("/writtenOffInd", false);
-									}
+					if (vehData.results[0].WrittenOff == "YES") {
+						this.getView().getModel("DateModel").setProperty("/writtenOffInd", true);
+					} else {
+						this.getView().getModel("DateModel").setProperty("/writtenOffInd", false);
+					}
 
-									if (vehData.results[0].SpecialVINReview == "YES") {
+					if (vehData.results[0].SpecialVINReview == "YES") {
 
-										this.getView().getModel("DateModel").setProperty("/specialVinInd", true);
-									} else {
+						this.getView().getModel("DateModel").setProperty("/specialVinInd", true);
+					} else {
 
-										this.getView().getModel("DateModel").setProperty("/specialVinInd", false);
+						this.getView().getModel("DateModel").setProperty("/specialVinInd", false);
 
-									}
+					}
 
-									this.getModel("LocalDataModel").setProperty("/DataSpecialHandlingSet", vehData.results[0].ZC_SPECIAL_HANDLINGVEHICLESET
-										.results);
-									this.getModel("LocalDataModel").setProperty("/DataWrittenOffSet", vehData.results[0].ZC_WRITTENOFFVEHICLESET.results);
-								}, this),
-								error: function () {}
-							});
-							
+					this.getModel("LocalDataModel").setProperty("/DataSpecialHandlingSet", vehData.results[0].ZC_SPECIAL_HANDLINGVEHICLESET
+						.results);
+					this.getModel("LocalDataModel").setProperty("/DataWrittenOffSet", vehData.results[0].ZC_WRITTENOFFVEHICLESET.results);
+				}, this),
+				error: function () {}
+			});
+
 			//----------------------------------------------
 			//-------Get Aggrements--------------------------
 			//----------------------------------------------
@@ -254,7 +254,17 @@ sap.ui.define([
 					new sap.ui.model.Filter("AgreementNumber", sap.ui.model.FilterOperator.EQ, agreementselected),
 					new sap.ui.model.Filter("OdometerUOM", sap.ui.model.FilterOperator.EQ, dometerunit) //till iget the odmeter km
 				];
+
 				this.getView().byId('ofptable').getBinding('rows').filter(new sap.ui.model.Filter(filters, true));
+				this.getView().byId('ofptable').getModel('ProssingModel').attachRequestFailed(function (e) {
+					if (e.getParameters().response) {
+						if (e.getParameters().response.responseText) {
+							var x = jQuery.parseXML(e.getParameters().response.responseText);
+							var oXMLMsg = x.querySelector("message");
+							MessageBox.show(oXMLMsg.textContent, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
+						}
+					}
+				});
 
 			} else {
 				MessageBox.show(Messagevalidf, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
