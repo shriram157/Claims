@@ -2736,7 +2736,8 @@ sap.ui.define([
 						this.getView().byId("idMainClaimMessage").setType("Error");
 						this.getView().byId("idPrInvDate").setValueState("Error");
 					} else if (this.getView().getModel("DateModel").getProperty("/enabledT1") == true &&
-						this.getView().getModel("HeadSetData").getProperty("/T1WarrantyCodes") == "") {
+						this.getView().getModel("HeadSetData").getProperty("/T1WarrantyCodes") == "" &&
+						this.getView().getModel("DateModel").getProperty("/RepairdDetailVisible") == true) {
 						this.getView().byId("idMainClaimMessage").setProperty("visible", true);
 						this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
 						this.getView().byId("idMainClaimMessage").setType("Error");
@@ -2748,7 +2749,8 @@ sap.ui.define([
 						this.getView().byId("idMainClaimMessage").setType("Error");
 						this.getView().byId("idDealerContact").setValueState("Error");
 					} else if (this.getView().getModel("DateModel").getProperty("/enabledT2") == true &&
-						this.getView().getModel("HeadSetData").getProperty("/T2WarrantyCodes") == "") {
+						this.getView().getModel("HeadSetData").getProperty("/T2WarrantyCodes") == "" &&
+						this.getView().getModel("DateModel").getProperty("/RepairdDetailVisible") == true) {
 						this.getView().byId("idMainClaimMessage").setProperty("visible", true);
 						this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
 						this.getView().byId("idMainClaimMessage").setType("Error");
