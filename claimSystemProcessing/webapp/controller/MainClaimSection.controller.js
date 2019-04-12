@@ -950,7 +950,7 @@ sap.ui.define([
 									return {
 										ItemType: "SUBL",
 										InvoiceNo: item.InvoiceNo,
-										UnitOfMeasure: "EA",
+										UnitOfMeasure: item.Meinh,
 										Amount: item.Amount,
 										SubletDescription: item.SubletDescription,
 										URI: item.URI,
@@ -2636,7 +2636,7 @@ sap.ui.define([
 						return {
 							ItemType: "SUBL",
 							InvoiceNo: item.InvoiceNo,
-							UnitOfMeasure: "EA",
+							UnitOfMeasure: item.Meinh,
 							Amount: item.Amount,
 							SubletDescription: item.SubletDescription,
 							URI: item.URI,
