@@ -257,7 +257,6 @@ sap.ui.define([
 
 			this.getModel("LocalDataModel").setProperty("/IndicatorState", false);
 			//this.getView().byId("__picker0-inner").setEnabled(false);
-			
 
 		},
 
@@ -955,7 +954,9 @@ sap.ui.define([
 										Amount: item.Amount,
 										SubletDescription: item.SubletDescription,
 										URI: item.URI,
-										SubletType: item.ItemKey
+										SubletType: item.ItemKey,
+										Brand: item.Brand,
+										Days: item.Days
 									};
 
 								});
@@ -2641,7 +2642,9 @@ sap.ui.define([
 							Amount: item.Amount,
 							SubletDescription: item.SubletDescription,
 							URI: item.URI,
-							SubletType: item.ItemKey
+							SubletType: item.ItemKey,
+							Brand: item.Brand,
+							Days: item.Days
 						};
 
 					});
@@ -5415,13 +5418,13 @@ sap.ui.define([
 				//MessageBox.warning(oBundle.getText("Error.PopUpBloqued"));
 			}
 		},
-		onPressAbbr : function(){
+		onPressAbbr: function () {
 			//var oCCR = new sap.ui.model.json.JSONModel();
 			//oCCR.loadData(jQuery.sap.getModulePath("zclaimProcessing.utils", "/ccr.json"));
-			
+
 			var sPath = sap.ui.require.toUrl("zclaimProcessing/utils") + "/ccr.json";
 			this.getView().setModel(new sap.ui.model.json.JSONModel(sPath), "ccrModel");
-			
+
 			var oDialogBox = sap.ui.xmlfragment("zclaimProcessing.view.fragments.CCRAbbr", this);
 			this.getView().addDependent(oDialogBox);
 			oDialogBox.open();
