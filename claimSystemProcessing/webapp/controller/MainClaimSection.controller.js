@@ -2105,7 +2105,7 @@ sap.ui.define([
 			} else if (this.getView().getModel("DateModel").getProperty("/enabledT1") == true &&
 				this.getView().getModel("HeadSetData").getProperty("/T1WarrantyCodes") == "" &&
 				this.getView().getModel("DateModel").getProperty("/RepairdDetailVisible") == true
-				) {
+			) {
 				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
 				this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
 				this.getView().byId("idMainClaimMessage").setType("Error");
@@ -5393,7 +5393,21 @@ sap.ui.define([
 				isProxy = "proxy";
 			}
 			var w = window.open(isProxy +
-				"/node/ZDLR_CLAIM_SRV/zc_claim_printSet(NumberOfWarrantyClaim='" + oClaimNum + "')/$value",
+				"/node/ZDLR_CLAIM_SRV/zc_claim_printSet(NumberOfWarrantyClaim='" + oClaimNum + "',PrintType='WTY')/$value",
+				'_blank');
+			if (w == null) {
+				console.log("Error");
+				//MessageBox.warning(oBundle.getText("Error.PopUpBloqued"));
+			}
+		},
+		onPressSuggestPart: function () {
+			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
+			var isProxy = "";
+			if (window.document.domain == "localhost") {
+				isProxy = "proxy";
+			}
+			var w = window.open(isProxy +
+				"/node/ZDLR_CLAIM_SRV/zc_claim_printSet(NumberOfWarrantyClaim='" + oClaimNum + "',PrintType='CORE_PK')/$value",
 				'_blank');
 			if (w == null) {
 				console.log("Error");
