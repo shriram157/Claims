@@ -351,6 +351,8 @@
 					<Label text="{i18n>Condition}"/>
 					<TextArea required="true" editable="{DateModel>/oFormEdit}"
 						value="{path:'HeadSetData>/ZCondition', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 100 }}"></TextArea>
+					<Label text=""/>
+					<Link text="{i18n>ViewCCRAbbreviations}" press="onPressAbbr"/>
 					<core:Title text=""/>
 					<Label text="{i18n>OFPDescription}"/>
 					<Text text="{path:'LocalDataModel>/OFPDescription'}"/>
@@ -386,7 +388,7 @@
 						value="{path:'HeadSetData>/Remedy', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 100 }}"></TextArea>
 				</f:content>
 			</f:SimpleForm>
-			<Button text="{i18n>ViewCCRAbbreviations}" press="onPressAbbr"/>
+			
 		</VBox>
 		<f:SimpleForm visible="{DateModel>/AcA1}" editable="{DateModel>/oFormEdit}" title="Accessory Installation/Purchase"
 			layout="ResponsiveGridLayout" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0"
