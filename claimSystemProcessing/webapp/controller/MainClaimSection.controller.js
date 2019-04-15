@@ -1838,6 +1838,7 @@ sap.ui.define([
 		onLiveVINEnter: function (oEvent) {
 			var oVin = oEvent.getParameters().value;
 			if (oVin.length > 17) {
+				this.getView().getModel("HeadSetData").setProperty("/ExternalObjectNumber", "");
 				this.getView().byId("vin").setValue("");
 			}
 		},
