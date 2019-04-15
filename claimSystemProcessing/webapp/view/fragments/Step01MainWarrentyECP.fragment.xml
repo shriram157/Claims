@@ -124,7 +124,7 @@
 				</RadioButtonGroup>
 				<Input required="{DateModel>/OdometerReq}"
 					value="{path:'HeadSetData>/ExternalObjectNumber', type : 'sap.ui.model.type.String', constraints : { minLength : 16, maxLength : 17 }}"
-					visible="{DateModel>/OdometerReq}" id="idVinNum" change="onEnterVIN" editable="{DateModel>/oFormEdit}"/>
+					visible="{DateModel>/OdometerReq}" id="idVinNum" liveChange="onLiveVINEnter" change="onEnterVIN" editable="{DateModel>/oFormEdit}"/>
 				<core:Title text=""/>
 				<Label text="{i18n>RegDate}"/>
 				<Text
@@ -580,7 +580,7 @@
 				<Button class="sapUiTinyMarginBeginEnd" press="onPressBack" text="{i18n>BackList}" type="Back"/>
 				<Button class="sapUiTinyMarginBeginEnd" press="onCancelClaim" enabled="{LocalDataModel>/CancelEnable}" text="{i18n>CancelClaim}"
 					type="Reject"/>
-				<Button class="sapUiTinyMarginBeginEnd" text="{i18n>Print}" press="onPressPrint"/>
+				<Button class="sapUiTinyMarginBeginEnd" text="{i18n>Print}" enabled="{LocalDataModel>/PrintEnable}" press="onPressPrint"/>
 				<Button class="sapUiTinyMarginBeginEnd" press="onStep01Next" enabled="{LocalDataModel>/step01Next}" text="{i18n>Next}" type="Emphasized"/>
 			</HBox>
 		</Panel>

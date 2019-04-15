@@ -185,6 +185,8 @@ sap.ui.define([
 			this.ArrIndexLabour = [];
 
 			this.getModel("LocalDataModel").setProperty("/CancelEnable", false);
+			this.getModel("LocalDataModel").setProperty("/PrintEnable", false);
+			
 			this.getView().getModel("DateModel").setProperty("/OdometerReq", true);
 
 			var HeadSetData = new sap.ui.model.json.JSONModel();
@@ -308,6 +310,7 @@ sap.ui.define([
 			if (oClaim != "nun" && oClaim != undefined) {
 
 				var sSelectedLocale;
+				this.getModel("LocalDataModel").setProperty("/PrintEnable", true);
 				//  get the locale to determine the language.
 				var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
 				if (isLocaleSent) {
@@ -482,8 +485,10 @@ sap.ui.define([
 							});
 
 						} else {
-
 							this.getView().byId("idRequestType").setSelectedIndex(1);
+							this.getView().getModel("DateModel").setProperty("/foreignVinInd", false);
+							this.getView().getModel("DateModel").setProperty("/writtenOffInd", false);
+							this.getView().getModel("DateModel").setProperty("/specialVinInd", false);
 						}
 
 						if (oClaimTypeDetail == "ZECP") {
@@ -744,6 +749,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/updateEnable", false);
 							this.getView().getModel("DateModel").setProperty("/copyClaimEnable", false);
 							this.getModel("LocalDataModel").setProperty("/CancelEnable", false);
+							
 							this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
 							this.getView().getModel("DateModel").setProperty("/oDamageLineBtn", false);
 						} else if (data.results[0].ProcessingStatusOfWarrantyClm == "ZTAC") {
@@ -1806,6 +1812,9 @@ sap.ui.define([
 				this.getView().getModel("HeadSetData").setProperty("/Odometer", "");
 				this.getView().byId("idVinNum").setValue("");
 				this.getView().getModel("HeadSetData").setProperty("/ExternalObjectNumber", "");
+				this.getView().getModel("DateModel").setProperty("/foreignVinInd", false);
+				this.getView().getModel("DateModel").setProperty("/writtenOffInd", false);
+				this.getView().getModel("DateModel").setProperty("/specialVinInd", false);
 
 			} else {
 				this.getView().byId("idVinNum").setProperty("enabled", true);
@@ -1823,6 +1832,13 @@ sap.ui.define([
 				this.getView().getModel("DateModel").setProperty("/DisableRadio", true);
 				this.getView().getModel("DateModel").setProperty("/OdometerReq", true);
 				this.getView().byId("idRequestType").setSelectedIndex(0);
+			}
+		},
+		
+		onLiveVINEnter: function (oEvent) {
+			var oVin = oEvent.getParameters().value;
+			if (oVin.length > 17) {
+				this.getView().byId("vin").setValue("");
 			}
 		},
 
@@ -1844,6 +1860,38 @@ sap.ui.define([
 				error: function () {}
 			});
 
+			
+			oProssingModel.read("/ZC_GET_FORE_VIN(p_vhvin='" + oVin + "')/Set", {
+				success: $.proxy(function (data) {
+					if (data.results.length > 0) {
+						var oVinModel = data.results[0].Model;
+						if (oVinModel == "I_VEH_US") {
+							this.getView().getModel("HeadSetData").setProperty("/ForeignVINIndicator", "Yes");
+							this.oText = "true";
+							this.getView().byId("idMainClaimMessage").setProperty("visible", false);
+							this.getView().byId("idMainClaimMessage").setText("");
+							this.getView().byId("idMainClaimMessage").setType("None");
+						} else if (data.results[0].Message == "Invalid VIN Number") {
+							this.oText = "false";
+							this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+							this.getView().byId("idMainClaimMessage").setText("Please Enter a Valid VIN.");
+							this.getView().byId("idMainClaimMessage").setType("Error");
+							this.getView().getModel("HeadSetData").setProperty("/ForeignVINIndicator", "No");
+						} else {
+							this.getView().getModel("HeadSetData").setProperty("/ForeignVINIndicator", "No");
+							this.oText = "true";
+							this.getView().byId("idMainClaimMessage").setProperty("visible", false);
+							this.getView().byId("idMainClaimMessage").setText("");
+							this.getView().byId("idMainClaimMessage").setType("None");
+						}
+
+					}
+				}, this),
+				error: function () {
+
+				}
+			});
+			
 			oProssingModel.read("/zc_vehicle_informationSet", {
 				urlParameters: {
 					"$filter": "Vin eq '" + oVin + "'",
@@ -1896,35 +1944,6 @@ sap.ui.define([
 				error: function () {}
 			});
 
-			oProssingModel.read("/ZC_GET_FORE_VIN(p_vhvin='" + oVin + "')/Set", {
-				success: $.proxy(function (data) {
-					if (data.results.length > 0) {
-						var oVinModel = data.results[0].Model;
-						if (oVinModel == "I_VEH_US") {
-							this.getView().getModel("HeadSetData").setProperty("/ForeignVINIndicator", "Yes");
-							this.oText = "true";
-							this.getView().byId("idMainClaimMessage").setProperty("visible", false);
-							this.getView().byId("idMainClaimMessage").setText("");
-							this.getView().byId("idMainClaimMessage").setType("None");
-						} else if (data.results[0].Message == "Invalid VIN Number") {
-							this.oText = "false";
-							this.getView().byId("idMainClaimMessage").setProperty("visible", true);
-							this.getView().byId("idMainClaimMessage").setText("Please Enter a Valid VIN.");
-							this.getView().byId("idMainClaimMessage").setType("Error");
-						} else {
-							this.getView().getModel("HeadSetData").setProperty("/ForeignVINIndicator", "No");
-							this.oText = "true";
-							this.getView().byId("idMainClaimMessage").setProperty("visible", false);
-							this.getView().byId("idMainClaimMessage").setText("");
-							this.getView().byId("idMainClaimMessage").setType("None");
-						}
-
-					}
-				}, this),
-				error: function () {
-
-				}
-			});
 
 		},
 		onChangeOdometer: function (oEvent) {
@@ -2278,6 +2297,7 @@ sap.ui.define([
 						this.getView().getModel("DateModel").setProperty("/saveClaimSt", false);
 						this.getView().getModel("DateModel").setProperty("/updateClaimSt", true);
 						this.getModel("LocalDataModel").setProperty("/CancelEnable", true);
+						this.getModel("LocalDataModel").setProperty("/PrintEnable", true);
 						this.getModel("LocalDataModel").setProperty("/UploadEnable", true);
 						this.getView().getModel("DateModel").setProperty("/oDamageLineBtn", true);
 						this._fnClaimSum();
