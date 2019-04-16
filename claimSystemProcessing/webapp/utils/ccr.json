@@ -1,0 +1,86 @@
+{
+
+	"abbrList": [
+		{
+			"name" : "CUST",
+			"description" : "Customer"
+		},
+		{
+			"name" : "DIAG",
+			"description" : "Diagnosis"
+		},
+		{
+			"name" : "DLR",
+			"description" : "Dealer"
+		},
+		{
+			"name" : "EN",
+			"description" : "English"
+		},
+		{
+			"name" : "EX",
+			"description" : "Exhaust"
+		},
+		{
+			"name" : "INSP",
+			"description" : "Inspection"
+		},
+		{
+			"name" : "LF",
+			"description" : "Left front"
+		},
+		{
+			"name" : "LHS",
+			"description" : "Left hand side"
+		},
+		{
+			"name" : "LR",
+			"description" : "Left rear"
+		},
+		{
+			"name" : "ML",
+			"description" : "Engine light on"
+		},
+		{
+			"name" : "MNF",
+			"description" : "Manifold"
+		},
+		{
+			"name" : "RBLD",
+			"description" : "Rebuild"
+		},
+		{
+			"name" : "RE/RE",
+			"description" : "Remove and replace"
+		},
+		{
+			"name" : "RECON",
+			"description" : "Recondition"
+		},
+		{
+			"name" : "RF",
+			"description" : "Right Front"
+		},
+		{
+			"name" : "RHS",
+			"description" : "Right hand side"
+		},
+		{
+			"name" : "RR",
+			"description" : "Right Rear"
+		},
+		{
+			"name" : "TRANS",
+			"description" : "Transmission"
+		},
+		{
+			"name" : "VLV GRD",
+			"description" : "Valve grind"
+		},
+		{
+			"name" : "VLVS",
+			"description" : "Valves"
+		}
+		
+	]
+}

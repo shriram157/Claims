@@ -34,11 +34,14 @@ sap.ui.define([
 				this.getOwnerComponent().getRouter().navTo("ClaimInquiry");
 				this.getModel("ProssingModel").refresh();
 			} else if (oGetText === oBundle.getText("DealerLabourRateInquiry")) {
-				var a_Dialog = sap.ui.xmlfragment("zclaimProcessing.view.fragments.DealerLabour",
-					this);
+
 				this.getDealer();
-				this.getView().addDependent(a_Dialog);
-				a_Dialog.open();
+				if (!this.a_Dialog) {
+					this.a_Dialog = sap.ui.xmlfragment("zclaimProcessing.view.fragments.DealerLabour",
+						this);
+					this.getView().addDependent(this.a_Dialog);
+				}
+				this.a_Dialog.open();
 			}
 		},
 
@@ -103,7 +106,7 @@ sap.ui.define([
 					// userScopes.forEach(function (data) {
 
 					var userType = oData.loggedUserType[0];
-					userType = "TCI_Admin";
+					userType = "Dealer_Parts_Admin";
 					sap.ui.getCore().getModel("UserDataModel").setProperty("/LoggedInUser", userType);
 					sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "");
 					switch (userType) {
@@ -117,9 +120,10 @@ sap.ui.define([
 						that.getView().getModel("HeaderLinksModel").setProperty("/ClaimInquiry", true);
 						that.getView().getModel("HeaderLinksModel").setProperty("/DealerLabourRateInquiry", true);
 						sap.ui.getCore().getModel("HeaderLinksModel").updateBindings(true);
-						// /*Uncomment for security*/
+						/*Uncomment for security*/
 						break;
 					case "Dealer_Services_Admin":
+
 						console.log("Dealer_Services_Admin");
 						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ManageAllServices");
 						/*Uncomment for security*/
@@ -183,7 +187,7 @@ sap.ui.define([
 						that.getView().getModel("HeaderLinksModel").setProperty("/DealerLabourRateInquiry", true);
 						that.getOwnerComponent().getModel("LocalDataModel").setProperty("/visibleNewBtn", false);
 						sap.ui.getCore().getModel("HeaderLinksModel").updateBindings(true);
-						/*Uncomment for security*/
+						// /*Uncomment for security*/
 						break;
 					case "Dealer_Services_Manager":
 						console.log("Dealer_Services_Manager");
@@ -198,10 +202,10 @@ sap.ui.define([
 						/*Uncomment for security*/
 						break;
 					default:
-						console.log("TCI_Admin");
-						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ReadOnlyViewAll");
+						console.log("Dealer_Services_Admin");
+						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ManageAllParts");
 						/*Uncomment for security*/
-						that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", false);
+						that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", true);
 						that.getView().getModel("HeaderLinksModel").setProperty("/ViewUpdateClaims", true);
 						that.getView().getModel("HeaderLinksModel").setProperty("/QuickCoverageTool", true);
 						that.getView().getModel("HeaderLinksModel").setProperty("/ClaimInquiry", true);
@@ -289,10 +293,17 @@ sap.ui.define([
 					success: function (zdata, textStatus, jqXHR) {
 						var oModel = new sap.ui.model.json.JSONModel();
 						zdata.d.Name = data.BusinessPartnerName;
-						// var zd1 = parseInt(zdata.d.ECPEffectiveDate.replace(/[^0-9]+/g, ''));
-						// zdata.d.ECPEffectiveDate = new Date(zd1);
+// <<<<<<< HEAD
+// 						// var zd1 = parseInt(zdata.d.ECPEffectiveDate.replace(/[^0-9]+/g, ''));
+// 						// zdata.d.ECPEffectiveDate = new Date(zd1);
 
-						// zdata.d.WTYEffectiveDate = new Date(zd1);
+// 						// zdata.d.WTYEffectiveDate = new Date(zd1);
+// =======
+						var zd1 = parseInt(zdata.d.ECPEffectiveDate.replace(/[^0-9]+/g, ''));
+						zdata.d.ECPEffectiveDate = new Date(zd1);
+
+						zdata.d.WTYEffectiveDate = new Date(zd1);
+// >>>>>>> refs/heads/master
 
 						oModel.setData(zdata.d);
 

@@ -40,10 +40,12 @@
     border: 1px solid #cccccc;
 }
 
-.clWarning:not(.sapMBtnDisabled) .sapMBtnTransparent>.sapMBtnIcon,
-.clWarning:not(.sapMBtnDisabled) .sapMBtnGhost>.sapMBtnIcon {
-    color: #f00;
-}
+/*.clWarning:not(.sapMBtnDisabled) .sapMBtnTransparent>.sapMBtnIcon,*/
+/*.clWarning:not(.sapMBtnDisabled) .sapMBtnGhost>.sapMBtnIcon {*/
+/*    color: #f00;*/
+/*}*/
+
+.clWarning {width:auto!important;}
 
 .oVisible {
     display: none;

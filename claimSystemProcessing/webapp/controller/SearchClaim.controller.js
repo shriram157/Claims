@@ -60,7 +60,7 @@ sap.ui.define([
 					// userScopes.forEach(function (data) {
 
 					var userType = oData.loggedUserType[0];
-					userType = "TCI_Admin";
+					userType = "Dealer_Parts_Admin";
 					sap.ui.getCore().getModel("UserDataModel").setProperty("/LoggedInUser", userType);
 					sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "");
 					switch (userType) {
@@ -156,10 +156,10 @@ sap.ui.define([
 						/*Uncomment for security*/
 						break;
 					default:
-						console.log("TCI_Admin");
-						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ReadOnlyViewAll");
+						console.log("Dealer_Services_Admin");
+						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ManageAllParts");
 						/*Uncomment for security*/
-						that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", false);
+						that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", true);
 						that.getView().getModel("HeaderLinksModel").setProperty("/ViewUpdateClaims", true);
 						that.getView().getModel("HeaderLinksModel").setProperty("/QuickCoverageTool", true);
 						that.getView().getModel("HeaderLinksModel").setProperty("/ClaimInquiry", true);

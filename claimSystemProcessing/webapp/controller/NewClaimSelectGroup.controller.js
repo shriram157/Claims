@@ -11,8 +11,10 @@ sap.ui.define([
 		 * @memberOf zclaimProcessing.view.NewClaimSelectGroup
 		 */
 		onInit: function () {
+			console.log(sap.ui.getCore().getModel("UserDataModel"));
 			var oProssingModel = this.getModel("ProssingModel");
 			var oClaimGroup = [];
+			var oClaimData =[];
 			var oClaimGroupJson = [];
 			this.getOwnerComponent().getModel("LocalDataModel").setProperty("/RadioEdit", false);
 			
@@ -24,12 +26,26 @@ sap.ui.define([
 				success: $.proxy(function (data) {
 					var odata = data.results;
 					for (var i = 0; i < odata.length; i++) {
-						if (oClaimGroup.indexOf(odata[i].ClaimGroupDes) < 0 && !$.isEmptyObject(odata[i].ClaimGroupDes)) {
-							oClaimGroup.push(
+						if (oClaimData.indexOf(odata[i].ClaimGroupDes) < 0 && !$.isEmptyObject(odata[i].ClaimGroupDes)) {
+							oClaimData.push(
 								odata[i].ClaimGroupDes
 							);
 						}
 
+					}
+					
+					if (sap.ui.getCore().getModel("UserDataModel").getProperty("/UserScope") == "ManageAllParts") {
+						oClaimGroup = oClaimData.filter(function (val) {
+							return val == "CORE RETURN" || val == "SMART PARTS" || val == "PART WAREHOUSE";
+						});
+					} else if (sap.ui.getCore().getModel("UserDataModel").getProperty("/UserScope") == "ManageAllServices") {
+						oClaimGroup = oClaimData.filter(function (val) {
+							return val == "SETR" || val == "WARRANTY" || val == "CUSTOMER RELATIONS" || val == "VEHICLE LOGISTICS" || val == "ECP" ||
+								val ==
+								"FIELD ACTION";
+						});
+					} else {
+						oClaimGroup = oClaimData;
 					}
 
 					for (var j = 0; j < oClaimGroup.length; j++) {
@@ -55,7 +71,7 @@ sap.ui.define([
 
 		onSelectClaimType: function (oEvent) {
 			var oSelectedKey = this.getView().byId("idClaimType").getSelectedKey();
-			if (oSelectedKey === "WARRANTY") {
+			if (oSelectedKey === "WARRANTY" || oSelectedKey === "FIELD ACTION") {
 				this.getOwnerComponent().getModel("LocalDataModel").setProperty("/RadioEdit", true);
 			} else {
 				this.getOwnerComponent().getModel("LocalDataModel").setProperty("/RadioEdit", false);

@@ -27,11 +27,7 @@
 										<IconTabFilter icon="sap-icon://home" text="{i18n>Main}" key="Tab1" id="idFilter01">
 											<core:Fragment fragmentName="zclaimProcessing.view.fragments.Step01MainWarrentyECP" type="XML"/>
 										</IconTabFilter>
-										<IconTabSeparator icon="sap-icon://open-command-field" visible="{DateModel>/Authorization}"/>
-										<IconTabFilter icon="sap-icon://official-service" text="{i18n>Authorization}" enabled="false" visible="{DateModel>/Authorization}"
-											id="idFilter02" key="Tab2">
-											<core:Fragment fragmentName="zclaimProcessing.view.fragments.Step02Authorization" type="XML"/>
-										</IconTabFilter>
+										
 										<IconTabSeparator icon="sap-icon://open-command-field" visible="{DateModel>/Parts}"/>
 										<IconTabFilter icon="sap-icon://shelf" text="{i18n>Parts}" enabled="false" visible="{DateModel>/Parts}" id="idFilter03" key="Tab3">
 											<core:Fragment fragmentName="zclaimProcessing.view.fragments.Step03PartsWarrenty" type="XML"/>
@@ -47,6 +43,11 @@
 										<IconTabSeparator icon="sap-icon://open-command-field" visible="{DateModel>/Sublet}"/>
 										<IconTabFilter icon="sap-icon://activity-2" text="{i18n>Sublet}" enabled="false" visible="{DateModel>/Sublet}" id="idFilter06" key="Tab6">
 											<core:Fragment fragmentName="zclaimProcessing.view.fragments.Step06Sublet" type="XML"/>
+										</IconTabFilter>
+										<IconTabSeparator icon="sap-icon://open-command-field" visible="{DateModel>/Authorization}"/>
+										<IconTabFilter icon="sap-icon://official-service" text="{i18n>Authorization}" enabled="false" visible="{DateModel>/Authorization}"
+											id="idFilter02" key="Tab2">
+											<core:Fragment fragmentName="zclaimProcessing.view.fragments.Step02Authorization" type="XML"/>
 										</IconTabFilter>
 										<IconTabSeparator icon="sap-icon://open-command-field"/>
 										<IconTabFilter icon="sap-icon://validate" text="{i18n>Validate}" enabled="false" id="idFilter07" key="Tab7">

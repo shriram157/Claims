@@ -1,6 +1,6 @@
 <core:FragmentDefinition xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:u="sap.ui.unified" xmlns:l="sap.ui.layout"
 	xmlns="sap.m" xmlns:table="sap.ui.table" xmlns:custom="zclaimProcessing.control">
-	<VBox class="sapUiSmallMargin clFormTitleGap"  id="idpart01Form" >
+	<VBox class="sapUiSmallMargin clFormTitleGap" id="idpart01Form">
 		<Panel width="auto" class="sapUiSmallMarginBottom" accessibleRole="Region">
 			<headerToolbar>
 				<Toolbar height="3rem">
@@ -29,7 +29,7 @@
 					<core:Title text=""/>
 					<Label text="{i18n>FirstSubmissionDate}"/>
 					<Text
-						text="{ path: 'HeadSetData>/ReferenceDate', type: 'sap.ui.model.type.Date',  formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd', strictParsing: true , UTC: true}}"/>
+						text="{ path: 'HeadSetData>/ReferenceDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd', strictParsing: true , UTC: true}}"/>
 					<Label text="{i18n>ClaimAge}"/>
 					<Text text="{HeadSetData>/ClaimAge}"/>
 					<Label text="{i18n>LastModifiedby}"/>
@@ -37,14 +37,12 @@
 					<core:Title text=""/>
 					<Label text="{i18n>LastSubmissionDate}"/>
 					<Text
-						text="{ path: 'HeadSetData>/DateOfApplication', type: 'sap.ui.model.type.Date',  formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd', strictParsing: true , UTC: true}}"/>
+						text="{ path: 'HeadSetData>/DateOfApplication', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd', strictParsing: true , UTC: true}}"/>
 					<Label text="{i18n>FinalProcessedDate}"/>
 					<Text
-						text="{ path: 'HeadSetData>/FinalProcdDate', type: 'sap.ui.model.type.Date',  formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd', strictParsing: true , UTC: true} }"/>
-					
+						text="{ path: 'HeadSetData>/FinalProcdDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd', strictParsing: true , UTC: true} }"/>
 					<!--<Label text="{i18n>Status}"/>-->
 					<!--<Text text="{HeadSetData>/ProcessingStatusOfWarrantyClm}"/>-->
-					
 					<core:Title text=""/>
 					<Button text="{i18n>SaveClaim}" class="sapUiSmallMarginEnd" type="Emphasized" press="onSaveClaim" visible="{DateModel>/saveClaimSt}">
 						<layoutData>
@@ -67,13 +65,11 @@
 							<l:GridData span="XL8 L8 M12 S12"/>
 						</layoutData>
 					</Button>
-					
 					<Button text="{i18n>Approve}" visible="{DateModel>/authAcClm}" type="Accept" press="onApproveClaim">
 						<layoutData>
 							<l:GridData span="XL8 L8 M12 S12"/>
 						</layoutData>
 					</Button>
-					
 					<Button text="{i18n>Reject}" visible="{DateModel>/authRejClm}" type="Reject" press="onRejectClaim">
 						<layoutData>
 							<l:GridData span="XL8 L8 M12 S12"/>
@@ -96,12 +92,12 @@
 				<core:Title text=""/>
 				<Label text="{i18n>RepairDate}"/>
 				<!--<DatePicker class="clDatePicker" required="true" value="{path:'HeadSetData>/RepairDate',type : 'sap.ui.model.type.Date'}" editable="{DateModel>/oFormEdit}"/>-->
-				<DatePicker class="clDatePicker"  id="id_Date" required="true" change="onChangeDate" value="{path:'HeadSetData>/RepairDate', type: 'sap.ui.model.type.Date',  
-				formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd', strictParsing: true , UTC: true}}" editable="{DateModel>/oFormEdit}"/>
+				<DatePicker class="clDatePicker" id="id_Date" required="true" change="onChangeDate"
+					value="{path:'HeadSetData>/RepairDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd', strictParsing: true , UTC: true}}"
+					editable="{DateModel>/oFormEdit}"/>
 				<Label text="{i18n>DealerContact}"/>
-				<Input   required="{DateModel>/oDealerContactReq}"
-					value="{path:'HeadSetData>/DealerContact'}"
-					id="idDealerContact" editable="{DateModel>/oFormEdit}" enabled="{DateModel>/oDealerContactReq}"/>
+				<Input required="{DateModel>/oDealerContactReq}" value="{path:'HeadSetData>/DealerContact'}" id="idDealerContact"
+					editable="{DateModel>/oFormEdit}" enabled="{DateModel>/oDealerContactReq}"/>
 				<core:Title text=""/>
 				<Label text="{i18n>RepairOrder}"/>
 				<Input required="true"
@@ -119,7 +115,8 @@
 			emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="3" columnsL="3" columnsM="3" singleContainerFullSize="false">
 			<f:content >
 				<core:Title text=""/>
-				<RadioButtonGroup enabled="{DateModel>/DisableRadio}" selectedIndex="0" columns="2" id="idRequestType" select="onSelectRequestType" editable="{DateModel>/oFormEdit}">
+				<RadioButtonGroup enabled="{DateModel>/DisableRadio}" selectedIndex="0" columns="2" id="idRequestType" select="onSelectRequestType"
+					editable="{DateModel>/oFormEdit}">
 					<buttons>
 						<RadioButton groupName="E" text="{i18n>VIN}"/>
 						<RadioButton groupName="E" text="{i18n>NonVehicle}"/>
@@ -127,23 +124,48 @@
 				</RadioButtonGroup>
 				<Input required="{DateModel>/OdometerReq}"
 					value="{path:'HeadSetData>/ExternalObjectNumber', type : 'sap.ui.model.type.String', constraints : { minLength : 16, maxLength : 17 }}"
-					visible="{DateModel>/OdometerReq}" id="idVinNum" change="onEnterVIN" editable="{DateModel>/oFormEdit}"/>
+					visible="{DateModel>/OdometerReq}" id="idVinNum" liveChange="onLiveVINEnter" change="onEnterVIN" editable="{DateModel>/oFormEdit}"/>
 				<core:Title text=""/>
 				<Label text="{i18n>RegDate}"/>
 				<Text
-					text="{path:'LocalDataModel>/DataVinDetails/RegDate', type: 'sap.ui.model.type.Date',  formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd', strictParsing: true , UTC: true}}"/>
+					text="{path:'LocalDataModel>/DataVinDetails/RegDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd', strictParsing: true , UTC: true}}"/>
 				<Label text="{i18n>VehicleAge}"/>
 				<Text text="{LocalDataModel>/VehicleMonths} {i18n>Months}" id="idVehicleAge"/>
 				<core:Title text=""/>
 				<Label text="{i18n>ForeignVIN}" vAlign="Middle"/>
-				<Text  text="{LocalDataModel>/DataVinDetails/ForeignVIN}" id="idForeignVin"/>
-				<Button icon="sap-icon://message-warning" visible="{DateModel>/foreignVinInd}" type="Transparent" press="onPressForeignVin" class="clWarning"/>
+				<Text text="{LocalDataModel>/DataVinDetails/ForeignVIN}" id="idForeignVin">
+					<layoutData>
+							<l:GridData span="XL1 L2 M3 S4"/>
+						</layoutData>
+				</Text>
+				<core:Icon src="sap-icon://message-warning" class="clWarning" color="#f00" visible="{DateModel>/foreignVinInd}" press="onPressForeignVin">
+					<core:layoutData>
+						<FlexItemData/>
+					</core:layoutData>
+				</core:Icon>
+				<!--<Button icon="sap-icon://message-warning" visible="{DateModel>/foreignVinInd}" type="Transparent" press="onPressForeignVin" class="clWarning"/>-->
 				<Label text="{i18n>WrittenOff}" vAlign="Middle"/>
-				<Text text="{LocalDataModel>/DataVinDetails/WrittenOff}" id="idWrittenoff"/>
-				<Button icon="sap-icon://message-warning" type="Transparent"  visible="{DateModel>/writtenOffInd}" press="onPressWrittenOff" class="clWarning"/>
+				<Text text="{LocalDataModel>/DataVinDetails/WrittenOff}" id="idWrittenoff">
+					<layoutData>
+							<l:GridData span="XL1 L2 M3 S4"/>
+						</layoutData>
+				</Text>
+				<core:Icon src="sap-icon://message-warning" class="clWarning" color="#f00" visible="{DateModel>/writtenOffInd}" press="onPressWrittenOff">
+					<core:layoutData>
+						<FlexItemData/>
+					</core:layoutData>
+				</core:Icon>
+				<!--<Button icon="sap-icon://message-warning" type="Transparent"  visible="{DateModel>/writtenOffInd}" press="onPressWrittenOff" class="clWarning"/>-->
 				<Label text="{i18n>SpecialVINReview}" vAlign="Middle"/>
-				<Text text="{LocalDataModel>/DataVinDetails/SpecialVINReview}" id="idSpecialVin"/>
-				<Button icon="sap-icon://message-warning" type="Transparent" visible="{DateModel>/specialVinInd}" press="onPressSpecialVin" class="clWarning"/>
+				<Text text="{LocalDataModel>/DataVinDetails/SpecialVINReview}" id="idSpecialVin">
+					<layoutData>
+							<l:GridData span="XL1 L2 M3 S4"/>
+						</layoutData>
+				</Text>
+				<core:Icon class="clWarning" src="sap-icon://message-warning" color="#f00" visible="{DateModel>/specialVinInd}" press="onPressSpecialVin">
+					
+				</core:Icon>
+				<!--<Button icon="sap-icon://message-warning" type="Transparent" visible="{DateModel>/specialVinInd}" press="onPressSpecialVin" class="clWarning"/>-->
 			</f:content>
 		</f:SimpleForm>
 		<VBox visible="{DateModel>/ShipmentVisible}">
@@ -153,7 +175,7 @@
 				<f:content>
 					<core:Title text=""/>
 					<Label text="{i18n>DeliveringCarrier}"/>
-					<ComboBox required="true" editable="{DateModel>/oFormEdit}"  selectedKey="" value="{HeadSetData>/DeliveringCarrier}">
+					<ComboBox required="true" editable="{DateModel>/oFormEdit}" selectedKey="" value="{HeadSetData>/DeliveringCarrier}">
 						<core:ListItem key="" text="Hansen's"/>
 						<core:ListItem key="" text="United Road"/>
 						<core:ListItem key="" text="MCGill"/>
@@ -166,7 +188,9 @@
 					<Input value="{HeadSetData>/ProbillNum}" required="true"/>
 					<core:Title text=""/>
 					<Label text="{i18n>DeliveryDate}"/>
-					<DatePicker class="clDatePicker" required="true" value="{path:'HeadSetData>/DeliveryDate', type: 'sap.ui.model.type.Date',  formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd', strictParsing: true , UTC: true}}" editable="{DateModel>/oFormEdit}"/>
+					<DatePicker class="clDatePicker" required="true"
+						value="{path:'HeadSetData>/DeliveryDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd', strictParsing: true , UTC: true}}"
+						editable="{DateModel>/oFormEdit}"/>
 					<core:Title text=""/>
 					<Label text="{i18n>Delivery}"/>
 					<ComboBox required="true" editable="{DateModel>/oFormEdit}" items="" selectedKey="" value="{HeadSetData>/Delivery}">
@@ -176,7 +200,7 @@
 				</f:content>
 			</f:SimpleForm>
 			<HBox justifyContent="End">
-				<Button text="{i18n>AddDamageLine}" press="onAddDamageLine" type="Emphasized"  enabled="{DateModel>/oDamageLineBtn}"/>
+				<Button text="{i18n>AddDamageLine}" press="onAddDamageLine" type="Emphasized" enabled="{DateModel>/oDamageLineBtn}"/>
 				<Button text="{i18n>UpdateDamageLine}" press="onUpdateDamageLine" class="sapUiTinyMarginBeginEnd" enabled="{DateModel>/oDamageLineBtn}"/>
 				<Button text="{i18n>DeleteDamageLine}" press="onDeleteDamageLine" class="sapUiTinyMarginBeginEnd" type="Reject"
 					enabled="{DateModel>/oDamageLineBtn}"/>
@@ -187,25 +211,25 @@
 					<f:content>
 						<core:Title text=""/>
 						<Label text="{i18n>Area}"/>
-						<ComboBox showSecondaryValues="true" editable="{DateModel>/oFormEdit}" required="true" filterSecondaryValues="true" items="{LocalDataModel>/DataAreaCode}" selectedKey=""
-							value="{HeadSetData>/DmgAreaCode}" enabled="{DateModel>/damageLine}">
+						<ComboBox showSecondaryValues="true" editable="{DateModel>/oFormEdit}" required="true" filterSecondaryValues="true"
+							items="{LocalDataModel>/DataAreaCode}" selectedKey="" value="{HeadSetData>/DmgAreaCode}" enabled="{DateModel>/damageLine}">
 							<core:ListItem key="{LocalDataModel>DmgAreaCode}" text="{LocalDataModel>DmgAreaCode}" additionalText="{LocalDataModel>DmgAreaCodeDesc}"/>
 						</ComboBox>
 						<core:Title text=""/>
 						<Label text="{i18n>Type}"/>
-						<ComboBox showSecondaryValues="true" editable="{DateModel>/oFormEdit}" required="true" selectedKey="" value="{HeadSetData>/DmgTypeCode}" filterSecondaryValues="true"
-							items="{LocalDataModel>/DataTypeCode}" enabled="{DateModel>/damageLine}">
+						<ComboBox showSecondaryValues="true" editable="{DateModel>/oFormEdit}" required="true" selectedKey="" value="{HeadSetData>/DmgTypeCode}"
+							filterSecondaryValues="true" items="{LocalDataModel>/DataTypeCode}" enabled="{DateModel>/damageLine}">
 							<core:ListItem key="{LocalDataModel>DmgTypeCode}" text="{LocalDataModel>DmgTypeCode}" additionalText="{LocalDataModel>DmgTypeCodeDesc}"/>
 						</ComboBox>
 						<core:Title text=""/>
 						<Label text="{i18n>Severity}"/>
-						<ComboBox showSecondaryValues="true" editable="{DateModel>/oFormEdit}" required="true" selectedKey="" value="{HeadSetData>/DmgSevrCode}" filterSecondaryValues="true"
-							items="{LocalDataModel>/DataSeverety}" enabled="{DateModel>/damageLine}">
+						<ComboBox showSecondaryValues="true" editable="{DateModel>/oFormEdit}" required="true" selectedKey="" value="{HeadSetData>/DmgSevrCode}"
+							filterSecondaryValues="true" items="{LocalDataModel>/DataSeverety}" enabled="{DateModel>/damageLine}">
 							<core:ListItem key="{LocalDataModel>DmgSevrCode}" text="{LocalDataModel>DmgSevrCode}" additionalText="{LocalDataModel>DmgSevrCodeDesc}"/>
 						</ComboBox>
 						<core:Title text=""/>
 						<Label text=" "/>
-						<Button text="{i18n>SaveDamage}" press="onSaveDamage"  type="Emphasized" enabled="{DateModel>/damageLine}"/>
+						<Button text="{i18n>SaveDamage}" press="onSaveDamage" type="Emphasized" enabled="{DateModel>/damageLine}"/>
 						<Link text="{i18n>CancelClaim}" enabled="{DateModel>/damageLine}"/>
 					</f:content>
 				</f:SimpleForm>
@@ -283,14 +307,13 @@
 							text="{path:'LocalDataModel>StatusDate', type: 'sap.ui.model.type.Date', constraints: { displayFormat: 'Date' }, formatOptions: { style: 'medium', strictParsing: true , UTC: true}}"
 							wrapping="true"/>
 						<Text
-							text="{path:'LocalDataModel>AgreementthruDate', type: 'sap.ui.model.type.Date',  formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd'}}"
+							text="{path:'LocalDataModel>AgreementthruDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd'}}"
 							wrapping="true"/>
 						<Text text="{LocalDataModel>AgreementthruKMreading}" wrapping="true"/>
 					</cells>
 				</ColumnListItem>
 			</items>
 		</Table>
-		
 		<f:SimpleForm editable="" title="" layout="ResponsiveGridLayout" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12"
 			adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="5" columnsL="5" columnsM="3"
 			singleContainerFullSize="false" visible="{DateModel>/oECPfields}">
@@ -319,22 +342,25 @@
 				<f:content>
 					<core:Title text=""/>
 					<Label text="{i18n>OFP}"/>
-					<Input id="idOFP" required="{DateModel>/ofpRequired}" value="{path:'HeadSetData>/OFP'}" editable="{DateModel>/oFormEdit}" enabled="{DateModel>/ofpEnabled}"/>
+					<Input id="idOFP" required="{DateModel>/ofpRequired}" value="{path:'HeadSetData>/OFP'}" editable="{DateModel>/oFormEdit}"
+						enabled="{DateModel>/ofpEnabled}"/>
 					<Label text="{i18n>MainOp}"/>
-					<Input value="{path:'HeadSetData>/MainOpsCode'}" editable="{DateModel>/oFormEdit}" visible="{DateModel>/oMainOps}" />
+					<Input id="idMainOps" value="{path:'HeadSetData>/MainOpsCode'}" required="{DateModel>/oMainOpsReq}"  editable="{DateModel>/oFormEdit}" visible="{DateModel>/oMainOps}"/>
 					<Label text="{i18n>BatteryTestCode}"/>
 					<Input value="{HeadSetData>/BatteryTestCode}" editable="{DateModel>/oFormEdit}" enabled="{DateModel>/oBatteryTestEnable}"/>
 					<Label text="{i18n>Condition}"/>
 					<TextArea required="true" editable="{DateModel>/oFormEdit}"
 						value="{path:'HeadSetData>/ZCondition', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 100 }}"></TextArea>
+					<Label text=""/>
+					<Link text="{i18n>ViewCCRAbbreviations}" press="onPressAbbr"/>
 					<core:Title text=""/>
-					<Label text="{i18n>OFPDescription}" />
-					<Text text="{path:'LocalDataModel>/OFPDescription'}" />
+					<Label text="{i18n>OFPDescription}"/>
+					<Text text="{path:'LocalDataModel>/OFPDescription'}"/>
 					<Label text="{i18n>MainOpDescription}"/>
 					<Text text="{path:'LocalDataModel>/MainOpsCodeDescription'}" visible="{DateModel>/oMainOps}"/>
 					<Label text="{i18n>FieldActionCode}"/>
-					<Input id="idFieldActionInput" required="{path:'DateModel>/oFieldActionInput'}" value="{path:'HeadSetData>/FieldActionReference'}" editable="{DateModel>/oFormEdit}"
-						enabled="{DateModel>/oFieldActionInput}" change="onFieldActionInput"/>
+					<Input id="idFieldActionInput" required="{path:'DateModel>/oFieldActionInput'}" value="{path:'HeadSetData>/FieldActionReference'}"
+						editable="{DateModel>/oFormEdit}" enabled="{DateModel>/oFieldActionInput}" change="onFieldActionInput"/>
 					<Label text="{i18n>Cause}"/>
 					<TextArea required="true" editable="{DateModel>/oFormEdit}"
 						value="{path:'HeadSetData>/Cause',type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 100 }}"></TextArea>
@@ -342,16 +368,16 @@
 					<Label text="{i18n>AppliedCoverage}"/>
 					<Text text="{HeadSetData>/AppliedWarrantyCoverage}"/>
 					<Label text="{i18n>T1 Code}"/>
-					<ComboBox id="idT1Field"  required="{DateModel>/enabledT1}" items="{ path: '/Zt1DescSrchhelpSet' }" selectedKey="{path:'HeadSetData>/T1WarrantyCodes'}"
-						enabled="{DateModel>/enabledT1}" editable="{DateModel>/oFormEdit}">
-						<core:ListItem key="{T1}" text="{path:'T1'} - {T1Text}" />
+					<ComboBox id="idT1Field" required="{DateModel>/enabledT1}" items="{ path: '/Zt1DescSrchhelpSet' }"
+						selectedKey="{path:'HeadSetData>/T1WarrantyCodes'}" enabled="{DateModel>/enabledT1}" editable="{DateModel>/oFormEdit}">
+						<core:ListItem key="{T1}" text="{path:'T1'} - {T1Text}"/>
 					</ComboBox>
 					<!--<Select selectedKey="{HeadSetData>/T1WarrantyCodes}" items="{ path: '/Zt1DescSrchhelpSet' }" enabled="{DateModel>/oFormEdit}">-->
 					<!--	<core:Item key="{T1}" text="{T1} - {T1Text}"/>-->
 					<!--</Select>-->
 					<Label text="{i18n>T2Code}"/>
-					<ComboBox id="idT2Field" required="{DateModel>/enabledT2}"  items="{ path: '/Zt2DescSrchhelpSet' }" selectedKey="{path:'HeadSetData>/T2WarrantyCodes'}"
-						enabled="{DateModel>/enabledT2}" editable="{DateModel>/oFormEdit}">
+					<ComboBox id="idT2Field" required="{DateModel>/enabledT2}" items="{ path: '/Zt2DescSrchhelpSet' }"
+						selectedKey="{path:'HeadSetData>/T2WarrantyCodes'}" enabled="{DateModel>/enabledT2}" editable="{DateModel>/oFormEdit}">
 						<core:ListItem key="{path:'T2'}" text="{T2} - {T2Text}"/>
 					</ComboBox>
 					<!--<Select selectedKey="{HeadSetData>/T2WarrantyCodes}" items="{ path: '/Zt2DescSrchhelpSet' }" enabled="{DateModel>/oFormEdit}">-->
@@ -362,7 +388,7 @@
 						value="{path:'HeadSetData>/Remedy', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 100 }}"></TextArea>
 				</f:content>
 			</f:SimpleForm>
-			<Button text="{i18n>ViewCCRAbbreviations}" press="onPressAbbr"/>
+			
 		</VBox>
 		<f:SimpleForm visible="{DateModel>/AcA1}" editable="{DateModel>/oFormEdit}" title="Accessory Installation/Purchase"
 			layout="ResponsiveGridLayout" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0"
@@ -370,14 +396,13 @@
 			<f:content>
 				<core:Title text=""/>
 				<Label text="{i18n>InstallDate}"/>
-				<DatePicker id="idAccDate" class="clDatePicker" visible="{DateModel>/AcA1}" required="{DateModel>/AcA1}" value="{path:'HeadSetData>/AccessoryInstallDate', type: 'sap.ui.model.type.Date',  formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd', strictParsing: true , UTC: true}}"
+				<DatePicker id="idAccDate" class="clDatePicker" visible="{DateModel>/AcA1}" required="{DateModel>/AcA1}"
+					value="{path:'HeadSetData>/AccessoryInstallDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd', strictParsing: true , UTC: true}}"
 					editable="{DateModel>/oFormEdit}"/>
 				<core:Title text=""/>
 				<Label text="{i18n>InstallOdometer}"/>
-				<Input required="{DateModel>/AcA1}" visible="{DateModel>/AcA1}" editable="{DateModel>/oFormEdit}" value="{path:'HeadSetData>/AccessoryInstallOdometer', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 6 }}" />
-				
-				
-					
+				<Input required="{DateModel>/AcA1}" visible="{DateModel>/AcA1}" editable="{DateModel>/oFormEdit}"
+					value="{path:'HeadSetData>/AccessoryInstallOdometer', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 6 }}"/>
 				<core:Title text=""/>
 			</f:content>
 		</f:SimpleForm>
@@ -387,17 +412,17 @@
 			<f:content>
 				<core:Title text=""/>
 				<Label text="{i18n>PreviousROInvoice}"/>
-				<Input required="{DateModel>/oPrevInvNumReq}" id="idPreInvNum" value="{path:'HeadSetData>/PreviousROInvoice'}" editable="{DateModel>/oFormEdit}"/>
-				
+				<Input required="{DateModel>/oPrevInvNumReq}" id="idPreInvNum" value="{path:'HeadSetData>/PreviousROInvoice'}"
+					editable="{DateModel>/oFormEdit}"/>
 				<core:Title text=""/>
 				<Label text="{i18n>ROInvoiceDate}"/>
-				<DatePicker class="clDatePicker" id="idPrInvDate"  required="{DateModel>/oPrevInvDateReq}" value="{path:'HeadSetData>/PreviousROInvoiceDate', type: 'sap.ui.model.type.Date',  
-				formatOptions: { pattern: 'YYYY-MM-dd', strictParsing: true , UTC: true}}"
+				<DatePicker class="clDatePicker" id="idPrInvDate" required="{DateModel>/oPrevInvDateReq}"
+					value="{path:'HeadSetData>/PreviousROInvoiceDate', type: 'sap.ui.model.type.Date', formatOptions: { pattern: 'YYYY-MM-dd', strictParsing: true , UTC: true}}"
 					editable="{DateModel>/oFormEdit}"/>
-					
 				<core:Title text=""/>
 				<Label text="{i18n>ROOdometer}"/>
-				<custom:CustomInput visible="{DateModel>/PreroOdometerVisible}" value="{path:'HeadSetData>/PreviousROOdometer'}" editable="{DateModel>/oFormEdit}"/>
+				<custom:CustomInput visible="{DateModel>/PreroOdometerVisible}" value="{path:'HeadSetData>/PreviousROOdometer'}"
+					editable="{DateModel>/oFormEdit}"/>
 			</f:content>
 		</f:SimpleForm>
 		<f:SimpleForm editable="{DateModel>/oFormEdit}" title="{i18n>ClaimComments}" layout="ResponsiveGridLayout" labelSpanXL="3" labelSpanL="3"
@@ -405,7 +430,7 @@
 			columnsL="1" columnsM="1" singleContainerFullSize="false">
 			<f:content>
 				<core:Title text=""/>
-				<TextArea height="8rem" value="{HeadSetData>/HeadText}" editable="{DateModel>/commentEditable}" enabled="{DateModel>/oFormEdit}" >
+				<TextArea height="8rem" value="{HeadSetData>/HeadText}" editable="{DateModel>/commentEditable}" enabled="{DateModel>/oFormEdit}">
 					<layoutData>
 						<l:GridData span="XL8 L8 M8 S12"/>
 					</layoutData>
@@ -434,10 +459,10 @@
 						<!--change="onUplaodChange" id="UploadSupportingDoc" multiple="false" -->
 						<!--uploadComplete="onUploadComplete" fileDeleted="onFileDeleted"-->
 						<!-- items="{ path: 'LocalDataModel>/HeadAtchmentData'}">-->
-							
-							<UploadCollection id="idHeadAttachment" maximumFileSize="10" fileSizeExceed="onFileSizeExceed" uploadEnabled="{LocalDataModel>/UploadEnable}" change="onUplaodChange" 
-							uploadComplete="onUploadComplete" fileDeleted="onFileDeleted"  instantUpload="true" busy="{LocalDataModel>/IndicatorState}" sameFilenameAllowed="false"
-							 items="{ path: 'LocalDataModel>/HeadAtchmentData', templateShareable: false }">
+						<UploadCollection id="idHeadAttachment" maximumFileSize="10" fileSizeExceed="onFileSizeExceed"
+							uploadEnabled="{LocalDataModel>/UploadEnable}" change="onUplaodChange" uploadComplete="onUploadComplete" fileDeleted="onFileDeleted"
+							instantUpload="true" busy="{LocalDataModel>/IndicatorState}" sameFilenameAllowed="false"
+							items="{ path: 'LocalDataModel>/HeadAtchmentData', templateShareable: false }">
 							<toolbar>
 								<OverflowToolbar>
 									<Breadcrumbs id="breadcrumbsSupportingDoc" currentLocationText="{LocalDataModel>/currentLocationText}" links="{LocalDataModel>/history}">
@@ -453,8 +478,7 @@
 								<!--	enableDelete="{settings>/enableDelete}" visibleDelete="{settings>/visibleDelete}" visibleEdit="{settings>/visibleEdit}"></UploadCollectionItem>-->
 								<UploadCollectionItem documentId="{LocalDataModel>DOC_ID}" fileName="{LocalDataModel>FileName}" mimeType="{LocalDataModel>MIMETYPE}"
 									thumbnailUrl="{LocalDataModel>url}" url="{LocalDataModel>URI}" enableEdit="false" enableDelete="{LocalDataModel>/UploadEnable}"
-									visibleDelete="{settings>/visibleDelete}" visibleEdit="false">
-									</UploadCollectionItem>
+									visibleDelete="{settings>/visibleDelete}" visibleEdit="false"></UploadCollectionItem>
 							</items>
 						</UploadCollection>
 					</f:content>
@@ -464,99 +488,99 @@
 		<Panel width="auto" class="sapUiSmallMarginBottom" accessibleRole="Region">
 			<content>
 				<table:Table class="classRCPTable" selectionMode="Single" rows="{path:'LocalDataModel>/ClaimSum'}" visibleRowCount="5"
-			rowSelectionChange="onNavigate" selectionBehavior="Row" showNoData="true" threshold="5" enableBusyIndicator="true">
-			<table:toolbar>
-				<Toolbar>
-					<Title text="{i18n>ClaimAmountSummary}" level="H2"/>
-					<ToolbarSpacer/>
-					<!--<Button tooltip="View Settings" icon="sap-icon://drop-down-list" press="handleViewSettingsDialogButtonPressed"/>-->
-				</Toolbar>
-			</table:toolbar>
-			<table:columns autoResizable="true">
-				<table:Column width="17rem">
-					<table:multiLabels>
-						<Label text="{i18n>Totalsincludedmarkupdiscounts}" textAlign="Center" width="100%"/>
-					</table:multiLabels>
-					<table:template>
-						<Text text="{path:'LocalDataModel>ItemType', formatter: 'zclaimProcessing.utils.formatter.fnFormatText'}" wrapping="false"/>
-					</table:template>
-				</table:Column>
-				<table:Column width="11rem">
-					<table:multiLabels>
-						<Label text="{i18n>DealerClaimedAmount}" textAlign="Center" width="100%"/>
-					</table:multiLabels>
-					<table:template>
-						<Text text="{LocalDataModel>DealerClaim}" wrapping="false"/>
-					</table:template>
-				</table:Column>
-				<table:Column width="11rem">
-					<table:multiLabels>
-						<Label text="{i18n>TCIApprovedAmount}" textAlign="Center" width="100%"/>
-					</table:multiLabels>
-					<table:template>
-						<Text text="{LocalDataModel>TCIAppr}" wrapping="false"/>
-					</table:template>
-				</table:Column>
-				<table:Column width="11rem">
-					<table:multiLabels>
-						<Label text="{i18n>DifferenceCAD}" textAlign="Center" width="100%"/>
-					</table:multiLabels>
-					<table:template>
-						<Text text="{LocalDataModel>Diff}" wrapping="false"/>
-					</table:template>
-				</table:Column>
-				<table:Column width="8rem" headerSpan="{multiHeaderConfig>/multiheader2}">
-					<table:multiLabels>
-						<Label text="{i18n>GSTHST}" textAlign="Center" width="100%"/>
-						<Label text="{i18n>Amount}" textAlign="Center" width="100%"/>
-					</table:multiLabels>
-					<table:template>
-						<Text text="{LocalDataModel>GSTHSTAmt}" wrapping="false"/>
-					</table:template>
-				</table:Column>
-				<table:Column width="8rem">
-					<table:multiLabels>
-						<Label text="{i18n>GSTHST}"/>
-						<Label text="{i18n>Tax}" textAlign="Center" width="100%"/>
-					</table:multiLabels>
-					<table:template>
-						<Text text="{LocalDataModel>GSTHSTRate}" wrapping="false"/>
-					</table:template>
-				</table:Column>
-				<table:Column width="8rem" headerSpan="{multiHeaderConfig>/multiheader2}">
-					<table:multiLabels>
-						<Label text="{i18n>PSTQST}" textAlign="Center" width="100%"/>
-						<Label text="Amount" textAlign="Center" width="100%"/>
-					</table:multiLabels>
-					<table:template>
-						<Text text="{LocalDataModel>PSTQSTAmt}" wrapping="false"/>
-					</table:template>
-				</table:Column>
-				<table:Column width="8rem">
-					<table:multiLabels>
-						<Label text="{i18n>PSTQST}"/>
-						<Label text="{i18n>Tax}" textAlign="Center" width="100%"/>
-					</table:multiLabels>
-					<table:template>
-						<Text text="{LocalDataModel>PSTQSTRate}" wrapping="false"/>
-					</table:template>
-				</table:Column>
-				<table:Column width="17rem">
-					<table:multiLabels>
-						<Label text="{i18n>TCIApprovedAmountIncludingTax}" textAlign="Center" width="100%"/>
-					</table:multiLabels>
-					<table:template>
-						<Text text="{LocalDataModel>TCIApprInclTax}" wrapping="false"/>
-					</table:template>
-				</table:Column>
-			</table:columns>
-		</table:Table>
+					rowSelectionChange="onNavigate" selectionBehavior="Row" showNoData="true" threshold="5" enableBusyIndicator="true">
+					<table:toolbar>
+						<Toolbar>
+							<Title text="{i18n>ClaimAmountSummary}" level="H2"/>
+							<ToolbarSpacer/>
+							<!--<Button tooltip="View Settings" icon="sap-icon://drop-down-list" press="handleViewSettingsDialogButtonPressed"/>-->
+						</Toolbar>
+					</table:toolbar>
+					<table:columns autoResizable="true">
+						<table:Column width="17rem">
+							<table:multiLabels>
+								<Label text="{i18n>Totalsincludedmarkupdiscounts}" textAlign="Center" width="100%"/>
+							</table:multiLabels>
+							<table:template>
+								<Text text="{path:'LocalDataModel>ItemType', formatter: 'zclaimProcessing.utils.formatter.fnFormatText'}" wrapping="false"/>
+							</table:template>
+						</table:Column>
+						<table:Column width="11rem">
+							<table:multiLabels>
+								<Label text="{i18n>DealerClaimedAmount}" textAlign="Center" width="100%"/>
+							</table:multiLabels>
+							<table:template>
+								<Text text="{LocalDataModel>DealerClaim}" wrapping="false"/>
+							</table:template>
+						</table:Column>
+						<table:Column width="11rem">
+							<table:multiLabels>
+								<Label text="{i18n>TCIApprovedAmount}" textAlign="Center" width="100%"/>
+							</table:multiLabels>
+							<table:template>
+								<Text text="{LocalDataModel>TCIAppr}" wrapping="false"/>
+							</table:template>
+						</table:Column>
+						<table:Column width="11rem">
+							<table:multiLabels>
+								<Label text="{i18n>DifferenceCAD}" textAlign="Center" width="100%"/>
+							</table:multiLabels>
+							<table:template>
+								<Text text="{LocalDataModel>Diff}" wrapping="false"/>
+							</table:template>
+						</table:Column>
+						<table:Column width="8rem" headerSpan="{multiHeaderConfig>/multiheader2}">
+							<table:multiLabels>
+								<Label text="{i18n>GSTHST}" textAlign="Center" width="100%"/>
+								<Label text="{i18n>Amount}" textAlign="Center" width="100%"/>
+							</table:multiLabels>
+							<table:template>
+								<Text text="{LocalDataModel>GSTHSTAmt}" wrapping="false"/>
+							</table:template>
+						</table:Column>
+						<table:Column width="8rem">
+							<table:multiLabels>
+								<Label text="{i18n>GSTHST}"/>
+								<Label text="{i18n>Tax}" textAlign="Center" width="100%"/>
+							</table:multiLabels>
+							<table:template>
+								<Text text="{LocalDataModel>GSTHSTRate}" wrapping="false"/>
+							</table:template>
+						</table:Column>
+						<table:Column width="8rem" headerSpan="{multiHeaderConfig>/multiheader2}">
+							<table:multiLabels>
+								<Label text="{i18n>PSTQST}" textAlign="Center" width="100%"/>
+								<Label text="Amount" textAlign="Center" width="100%"/>
+							</table:multiLabels>
+							<table:template>
+								<Text text="{LocalDataModel>PSTQSTAmt}" wrapping="false"/>
+							</table:template>
+						</table:Column>
+						<table:Column width="8rem">
+							<table:multiLabels>
+								<Label text="{i18n>PSTQST}"/>
+								<Label text="{i18n>Tax}" textAlign="Center" width="100%"/>
+							</table:multiLabels>
+							<table:template>
+								<Text text="{LocalDataModel>PSTQSTRate}" wrapping="false"/>
+							</table:template>
+						</table:Column>
+						<table:Column width="17rem">
+							<table:multiLabels>
+								<Label text="{i18n>TCIApprovedAmountIncludingTax}" textAlign="Center" width="100%"/>
+							</table:multiLabels>
+							<table:template>
+								<Text text="{LocalDataModel>TCIApprInclTax}" wrapping="false"/>
+							</table:template>
+						</table:Column>
+					</table:columns>
+				</table:Table>
 			</content>
 			<HBox alignContent="Center" justifyContent="Center" class="sapUiTinyMarginTop">
 				<Button class="sapUiTinyMarginBeginEnd" press="onPressBack" text="{i18n>BackList}" type="Back"/>
 				<Button class="sapUiTinyMarginBeginEnd" press="onCancelClaim" enabled="{LocalDataModel>/CancelEnable}" text="{i18n>CancelClaim}"
 					type="Reject"/>
-				<Button class="sapUiTinyMarginBeginEnd" text="{i18n>Print}" press="onPressPrint"/>
+				<Button class="sapUiTinyMarginBeginEnd" text="{i18n>Print}" enabled="{LocalDataModel>/PrintEnable}" press="onPressPrint"/>
 				<Button class="sapUiTinyMarginBeginEnd" press="onStep01Next" enabled="{LocalDataModel>/step01Next}" text="{i18n>Next}" type="Emphasized"/>
 			</HBox>
 		</Panel>
