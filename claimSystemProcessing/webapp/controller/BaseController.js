@@ -106,7 +106,7 @@ sap.ui.define([
 					// userScopes.forEach(function (data) {
 
 					var userType = oData.loggedUserType[0];
-					userType = "Dealer_Parts_Admin";
+					// userType = "Dealer_Services_Manager";
 					sap.ui.getCore().getModel("UserDataModel").setProperty("/LoggedInUser", userType);
 					sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "");
 					switch (userType) {
@@ -202,15 +202,16 @@ sap.ui.define([
 						/*Uncomment for security*/
 						break;
 					default:
-						console.log("Dealer_Services_Admin");
-						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ManageAllParts");
-						/*Uncomment for security*/
-						that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", true);
-						that.getView().getModel("HeaderLinksModel").setProperty("/ViewUpdateClaims", true);
-						that.getView().getModel("HeaderLinksModel").setProperty("/QuickCoverageTool", true);
-						that.getView().getModel("HeaderLinksModel").setProperty("/ClaimInquiry", true);
-						that.getView().getModel("HeaderLinksModel").setProperty("/DealerLabourRateInquiry", true);
-						sap.ui.getCore().getModel("HeaderLinksModel").updateBindings(true);
+						console.log("Invalid Case");
+						// console.log("Dealer_Services_Admin");
+						// sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ManageAllShowAuthorization");
+						// /*Uncomment for security*/
+						// that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", true);
+						// that.getView().getModel("HeaderLinksModel").setProperty("/ViewUpdateClaims", true);
+						// that.getView().getModel("HeaderLinksModel").setProperty("/QuickCoverageTool", true);
+						// that.getView().getModel("HeaderLinksModel").setProperty("/ClaimInquiry", true);
+						// that.getView().getModel("HeaderLinksModel").setProperty("/DealerLabourRateInquiry", true);
+						// sap.ui.getCore().getModel("HeaderLinksModel").updateBindings(true);
 						/*Uncomment for security*/
 					}
 					console.log(sap.ui.getCore().getModel("UserDataModel"));
@@ -293,17 +294,17 @@ sap.ui.define([
 					success: function (zdata, textStatus, jqXHR) {
 						var oModel = new sap.ui.model.json.JSONModel();
 						zdata.d.Name = data.BusinessPartnerName;
-// <<<<<<< HEAD
-// 						// var zd1 = parseInt(zdata.d.ECPEffectiveDate.replace(/[^0-9]+/g, ''));
-// 						// zdata.d.ECPEffectiveDate = new Date(zd1);
+						// <<<<<<< HEAD
+						// 						// var zd1 = parseInt(zdata.d.ECPEffectiveDate.replace(/[^0-9]+/g, ''));
+						// 						// zdata.d.ECPEffectiveDate = new Date(zd1);
 
-// 						// zdata.d.WTYEffectiveDate = new Date(zd1);
-// =======
+						// 						// zdata.d.WTYEffectiveDate = new Date(zd1);
+						// =======
 						var zd1 = parseInt(zdata.d.ECPEffectiveDate.replace(/[^0-9]+/g, ''));
 						zdata.d.ECPEffectiveDate = new Date(zd1);
 
 						zdata.d.WTYEffectiveDate = new Date(zd1);
-// >>>>>>> refs/heads/master
+						// >>>>>>> refs/heads/master
 
 						oModel.setData(zdata.d);
 
