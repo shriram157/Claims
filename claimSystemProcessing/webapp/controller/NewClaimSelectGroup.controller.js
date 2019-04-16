@@ -55,7 +55,7 @@ sap.ui.define([
 
 		onSelectClaimType: function (oEvent) {
 			var oSelectedKey = this.getView().byId("idClaimType").getSelectedKey();
-			if (oSelectedKey === "WARRANTY" || oSelectedKey === "FIELD ACTION") {
+			if (oSelectedKey === "WARRANTY") {
 				this.getOwnerComponent().getModel("LocalDataModel").setProperty("/RadioEdit", true);
 			} else {
 				this.getOwnerComponent().getModel("LocalDataModel").setProperty("/RadioEdit", false);

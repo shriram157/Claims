@@ -66,7 +66,8 @@ sap.ui.define([
 				foreignVinInd: false,
 				writtenOffInd: false,
 				specialVinInd: false,
-				oMainOpsReq: false
+				oMainOpsReq: false,
+				oSlipVisible: false
 
 			});
 			this.getView().setModel(oDateModel, "DateModel");
@@ -186,7 +187,7 @@ sap.ui.define([
 
 			this.getModel("LocalDataModel").setProperty("/CancelEnable", false);
 			this.getModel("LocalDataModel").setProperty("/PrintEnable", false);
-			
+
 			this.getView().getModel("DateModel").setProperty("/OdometerReq", true);
 
 			var HeadSetData = new sap.ui.model.json.JSONModel();
@@ -627,7 +628,7 @@ sap.ui.define([
 						} else if (oClaimTypeDetail == "ZCSR" || oClaimTypeDetail == "ZCER" || oClaimTypeDetail == "ZCLS") {
 							this.getView().getModel("DateModel").setProperty("/oMainOps", true);
 							this.getView().getModel("DateModel").setProperty("/Paint", false);
-							this.getView().getModel("DateModel").setProperty("/Authorization", false);
+							this.getView().getModel("DateModel").setProperty("/Authorization", true);
 							this.getView().getModel("DateModel").setProperty("/Sublet", true);
 							this.getView().getModel("DateModel").setProperty("/Parts", true);
 							this.getView().getModel("DateModel").setProperty("/Labour", true);
@@ -644,7 +645,7 @@ sap.ui.define([
 						} else if (oClaimTypeDetail == "ZCWE") {
 							this.getView().getModel("DateModel").setProperty("/oMainOps", true);
 							this.getView().getModel("DateModel").setProperty("/Paint", false);
-							this.getView().getModel("DateModel").setProperty("/Authorization", false);
+							this.getView().getModel("DateModel").setProperty("/Authorization", true);
 							this.getView().getModel("DateModel").setProperty("/Sublet", true);
 							this.getView().getModel("DateModel").setProperty("/Parts", true);
 							this.getView().getModel("DateModel").setProperty("/Labour", true);
@@ -676,6 +677,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/oPrevInvDateReq", false);
 							this.getView().getModel("DateModel").setProperty("/PreroOdometerVisible", false);
 							this.getView().getModel("DateModel").setProperty("/oMainOpsReq", false);
+							
 						} else if (oClaimTypeDetail == "ZSSE") {
 							this.getView().getModel("DateModel").setProperty("/oMainOps", true);
 							this.getView().getModel("DateModel").setProperty("/Paint", true);
@@ -735,6 +737,8 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/LabourBtnVsbl", true);
 							this.getView().getModel("DateModel").setProperty("/oMainOps", true);
 						}
+						
+					
 
 						var HeadSetData = new sap.ui.model.json.JSONModel(data.results[0]);
 						HeadSetData.setDefaultBindingMode("TwoWay");
@@ -749,9 +753,10 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/updateEnable", false);
 							this.getView().getModel("DateModel").setProperty("/copyClaimEnable", false);
 							this.getModel("LocalDataModel").setProperty("/CancelEnable", false);
-							
+
 							this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
 							this.getView().getModel("DateModel").setProperty("/oDamageLineBtn", false);
+							this.getView().getModel("DateModel").setProperty("/oSlipVisible", true);
 						} else if (data.results[0].ProcessingStatusOfWarrantyClm == "ZTAC") {
 							this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
 							this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
@@ -764,6 +769,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/authRejClm", false);
 							this.getView().getModel("DateModel").setProperty("/damageLine", false);
 							this.getView().getModel("DateModel").setProperty("/oDamageLineBtn", false);
+							this.getView().getModel("DateModel").setProperty("/oSlipVisible", true);
 
 						} else if (data.results[0].ProcessingStatusOfWarrantyClm == "ZTAA") {
 							this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
@@ -777,6 +783,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/authRejClm", false);
 							this.getView().getModel("DateModel").setProperty("/copyClaimEnable", true);
 							this.getView().getModel("DateModel").setProperty("/oDamageLineBtn", false);
+							this.getView().getModel("DateModel").setProperty("/oSlipVisible", true);
 						}
 						// } else if (data.results[0].ProcessingStatusOfWarrantyClm == "ZTMR") {
 						// 	//sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") == "Dealer_Services_Manager"
@@ -805,6 +812,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/authAcClm", true);
 							this.getView().getModel("DateModel").setProperty("/authRejClm", true);
 							this.getView().getModel("DateModel").setProperty("/claimEditSt", true);
+							this.getView().getModel("DateModel").setProperty("/oSlipVisible", true);
 
 						} else {
 							this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
@@ -818,6 +826,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/authRejClm", false);
 							this.getView().getModel("DateModel").setProperty("/damageLine", false);
 							this.getView().getModel("DateModel").setProperty("/oDamageLineBtn", false);
+							this.getView().getModel("DateModel").setProperty("/oSlipVisible", true);
 						}
 
 						if (data.results[0].ProcessingStatusOfWarrantyClm == "ZTIC" && oClaimNav != "Inq") {
@@ -836,6 +845,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/authRejClm", false);
 							this.getView().getModel("DateModel").setProperty("/damageLine", true);
 							this.getView().getModel("DateModel").setProperty("/oDamageLineBtn", true);
+						
 						} else if (data.results[0].ProcessingStatusOfWarrantyClm == "ZTRC" && oClaimNav != "Inq") {
 							//	sap.ui.getCore().getModel(	"UserDataModel").getProperty("/LoggedInUser") != "Zone_User" && sap.ui.getCore().getModel("UserDataModel").getProperty(
 							//	"/LoggedInUser") != "TCI_Admin"
@@ -850,12 +860,22 @@ sap.ui.define([
 							this.getModel("LocalDataModel").setProperty("/UploadEnable", true);
 							this.getView().getModel("DateModel").setProperty("/authAcClm", false);
 							this.getView().getModel("DateModel").setProperty("/authRejClm", false);
+						
 
 						}
+						
 
 						this._fnDealerContact();
 						this.onP2Claim(oClaimTypeDetail);
 						this._fnOFPenabled();
+						
+						if (oClaimTypeDetail == "ZSCR" && data.results[0].ProcessingStatusOfWarrantyClm == "ZTRC") {
+							this.getView().getModel("DateModel").setProperty("/oSlipVisible", false);
+						}else if (oClaimTypeDetail == "ZSCR" && data.results[0].ProcessingStatusOfWarrantyClm == "ZTIC") {
+							this.getView().getModel("DateModel").setProperty("/oSlipVisible", false);
+						}else {
+							this.getView().getModel("DateModel").setProperty("/oSlipVisible", true);
+						}
 
 					}, this),
 					error: function () {}
@@ -1338,9 +1358,41 @@ sap.ui.define([
 							console.log("Error");
 						}
 					});
+
+					// oProssingModel.read("/ZC_CLAIM_GROUP", {
+					// 	urlParameters: {
+					// 		"$filter": "ClaimGroupDes eq 'FIELD ACTION'"
+					// 	},
+					// 	success: $.proxy(function (data) {
+
+					// 		var oResult = data.results;
+
+					// 		if (oClaimSelectedGroup == "Authorization") {
+					// 			this.oFilteredData = oResult.filter(function (v, t) {
+					// 				return v.ALMClaimType == "ZACD" || v.ALMClaimType == "ZAUT";
+					// 			});
+					// 			this.getView().getModel("DateModel").setProperty("/warrantySubmissionClaim", true);
+					// 			this.getModel("LocalDataModel").setProperty("/linkToAuth", false);
+					// 			this.getModel("LocalDataModel").setProperty("/reCalculate", true);
+					// 			this.getModel("LocalDataModel").setProperty("/PercentState", true);
+					// 		} else if (oClaimSelectedGroup == "Claim") {
+					// 			this.oFilteredData = oResult.filter(function (v, t) {
+					// 				return v.ALMClaimType != "ZACD" && v.ALMClaimType != "ZAUT";
+					// 			});
+					// 			this.getView().getModel("DateModel").setProperty("/warrantySubmissionClaim", false);
+
+					// 		} else {
+					// 			this.getView().getModel("DateModel").setProperty("/warrantySubmissionClaim", false);
+					// 		}
+					// 		this.getModel("LocalDataModel").setProperty("/ClaimGroupSet", this.oFilteredData);
+					// 	}, this),
+					// 	error: function () {}
+					// });
+
 					this.getView().getModel("DateModel").setProperty("/Paint", false);
 					this.getView().getModel("DateModel").setProperty("/Sublet", true);
 					this.getView().getModel("DateModel").setProperty("/Labour", true);
+					this.getView().getModel("DateModel").setProperty("/Parts", true);
 					this.getView().getModel("DateModel").setProperty("/oFieldActionInput", true);
 					this.getView().getModel("DateModel").setProperty("/Authorization", false);
 					this.getView().getModel("DateModel").setProperty("/oECPfields", false);
@@ -1364,6 +1416,7 @@ sap.ui.define([
 					});
 					this.getView().getModel("DateModel").setProperty("/Paint", true);
 					this.getView().getModel("DateModel").setProperty("/Sublet", true);
+					this.getView().getModel("DateModel").setProperty("/Parts", true);
 					this.getView().getModel("DateModel").setProperty("/Labour", true);
 					this.getView().getModel("DateModel").setProperty("/oFieldActionInput", true);
 					this.getView().getModel("DateModel").setProperty("/Authorization", false);
@@ -1393,6 +1446,7 @@ sap.ui.define([
 					});
 					this.getView().getModel("DateModel").setProperty("/Paint", false);
 					this.getView().getModel("DateModel").setProperty("/Sublet", true);
+					this.getView().getModel("DateModel").setProperty("/Parts", true);
 					this.getView().getModel("DateModel").setProperty("/Labour", true);
 					this.getView().getModel("DateModel").setProperty("/oFieldActionInput", false);
 					this.getView().getModel("DateModel").setProperty("/Authorization", false);
@@ -1423,6 +1477,7 @@ sap.ui.define([
 					this.getView().getModel("DateModel").setProperty("/Paint", false);
 					this.getView().getModel("DateModel").setProperty("/Sublet", false);
 					this.getView().getModel("DateModel").setProperty("/Labour", false);
+					this.getView().getModel("DateModel").setProperty("/Parts", true);
 					this.getView().getModel("DateModel").setProperty("/oFieldActionInput", false);
 					this.getView().getModel("DateModel").setProperty("/Authorization", false);
 					this.getView().getModel("DateModel").setProperty("/oECPfields", false);
@@ -1431,6 +1486,7 @@ sap.ui.define([
 					this.getView().getModel("DateModel").setProperty("/AcA1", false);
 					this.getView().getModel("DateModel").setProperty("/P1p2", false);
 					this.getView().getModel("DateModel").setProperty("/oMainOpsReq", false);
+					this.getView().getModel("DateModel").setProperty("/oSlipVisible", true);
 				}
 				if (oGroupDescription == "VEHICLE LOGISTICS") {
 					oProssingModel.read("/ZC_CLAIM_GROUP", {
@@ -1764,7 +1820,7 @@ sap.ui.define([
 				this.getView().getModel("DateModel").setProperty("/Sublet", true);
 				this.getView().getModel("DateModel").setProperty("/Parts", true);
 				this.getView().getModel("DateModel").setProperty("/Labour", true);
-				this.getView().getModel("DateModel").setProperty("/Authorization", false);
+				this.getView().getModel("DateModel").setProperty("/Authorization", true);
 				this.getView().getModel("DateModel").setProperty("/P1p2", false);
 				this.getView().getModel("DateModel").setProperty("/AcA1", false);
 				this.getView().getModel("DateModel").setProperty("/oECPfields", false);
@@ -1782,7 +1838,7 @@ sap.ui.define([
 				this.getView().getModel("DateModel").setProperty("/Sublet", true);
 				this.getView().getModel("DateModel").setProperty("/Parts", true);
 				this.getView().getModel("DateModel").setProperty("/Labour", true);
-				this.getView().getModel("DateModel").setProperty("/Authorization", false);
+				this.getView().getModel("DateModel").setProperty("/Authorization", true);
 				this.getView().getModel("DateModel").setProperty("/P1p2", false);
 				this.getView().getModel("DateModel").setProperty("/AcA1", false);
 				this.getView().getModel("DateModel").setProperty("/oECPfields", false);
@@ -1834,12 +1890,12 @@ sap.ui.define([
 				this.getView().byId("idRequestType").setSelectedIndex(0);
 			}
 		},
-		
+
 		onLiveVINEnter: function (oEvent) {
 			var oVin = oEvent.getParameters().value;
 			if (oVin.length > 17) {
 				this.getView().getModel("HeadSetData").setProperty("/ExternalObjectNumber", "");
-				this.getView().byId("vin").setValue("");
+				this.getView().byId("idVinNum").setValue("");
 			}
 		},
 
@@ -1860,91 +1916,102 @@ sap.ui.define([
 				}, this),
 				error: function () {}
 			});
+			if (oVin != "") {
+				oProssingModel.read("/ZC_GET_FORE_VIN(p_vhvin='" + oVin + "')/Set", {
+					success: $.proxy(function (data) {
+						if (data.results.length > 0) {
+							var oVinModel = data.results[0].Model;
+							if (oVinModel == "I_VEH_US") {
+								this.getView().getModel("HeadSetData").setProperty("/ForeignVINIndicator", "Yes");
+								this.oText = "true";
+								this.getView().byId("idMainClaimMessage").setProperty("visible", false);
+								this.getView().byId("idMainClaimMessage").setText("");
+								this.getView().byId("idMainClaimMessage").setType("None");
+							} else if (data.results[0].Message == "Invalid VIN Number") {
+								this.oText = "false";
+								this.getModel("LocalDataModel").setProperty("/DataVinDetails", "");
+								this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+								this.getModel("LocalDataModel").setProperty("/VehicleMonths", "");
+								this.getView().byId("idMainClaimMessage").setText("Please Enter a Valid VIN.");
+								this.getView().byId("idMainClaimMessage").setType("Error");
+								this.getView().getModel("HeadSetData").setProperty("/ForeignVINIndicator", "No");
+							} else {
+								this.getView().getModel("HeadSetData").setProperty("/ForeignVINIndicator", "No");
+								this.oText = "true";
+								this.getView().byId("idMainClaimMessage").setProperty("visible", false);
+								this.getView().byId("idMainClaimMessage").setText("");
+								this.getView().byId("idMainClaimMessage").setType("None");
+							}
 
-			
-			oProssingModel.read("/ZC_GET_FORE_VIN(p_vhvin='" + oVin + "')/Set", {
-				success: $.proxy(function (data) {
-					if (data.results.length > 0) {
-						var oVinModel = data.results[0].Model;
-						if (oVinModel == "I_VEH_US") {
-							this.getView().getModel("HeadSetData").setProperty("/ForeignVINIndicator", "Yes");
-							this.oText = "true";
-							this.getView().byId("idMainClaimMessage").setProperty("visible", false);
-							this.getView().byId("idMainClaimMessage").setText("");
-							this.getView().byId("idMainClaimMessage").setType("None");
-						} else if (data.results[0].Message == "Invalid VIN Number") {
-							this.oText = "false";
-							this.getView().byId("idMainClaimMessage").setProperty("visible", true);
-							this.getView().byId("idMainClaimMessage").setText("Please Enter a Valid VIN.");
-							this.getView().byId("idMainClaimMessage").setType("Error");
-							this.getView().getModel("HeadSetData").setProperty("/ForeignVINIndicator", "No");
-						} else {
-							this.getView().getModel("HeadSetData").setProperty("/ForeignVINIndicator", "No");
-							this.oText = "true";
-							this.getView().byId("idMainClaimMessage").setProperty("visible", false);
-							this.getView().byId("idMainClaimMessage").setText("");
-							this.getView().byId("idMainClaimMessage").setType("None");
+							if (data.results[0].Message != "Invalid VIN Number") {
+								oProssingModel.read("/zc_vehicle_informationSet", {
+									urlParameters: {
+										"$filter": "Vin eq '" + oVin + "'",
+										"$expand": "ZC_SPECIAL_HANDLINGVEHICLESET,ZC_WRITTENOFFVEHICLESET"
+									},
+									//"$expand": "ZC_SPECIAL_HANDLINGVEHICLESET, ZC_WRITTENOFFVEHICLESET"
+									success: $.proxy(function (sdata) {
+										this.getModel("LocalDataModel").setProperty("/DataVinDetails", sdata.results[0]);
+										if (this.getView().getModel("HeadSetData").getProperty("/RepairDate") != undefined) {
+											oRepDate = this.getView().getModel("HeadSetData").getProperty("/RepairDate");
+										} else {
+											oRepDate = new Date();
+										}
+										//var oRepDate = this.getView().getModel("HeadSetData").getProperty("/RepairDate");
+										var regTime = new Date(sdata.results[0].RegDate).getTime();
+										var repTime = new Date(oRepDate).getTime();
+										var oMonth = (regTime - repTime) / (1000 * 60 * 60 * 24 * 30);
+										//parseFloat(oMonth).toFixed(2);
+										this.getModel("LocalDataModel").setProperty("/VehicleMonths", Math.abs(oMonth.toFixed(1)));
+										if (sdata.results[0].ForeignVIN == "YES") {
+											this.getModel("LocalDataModel").setProperty("/MsrUnit", oBundle.getText("distancemiles"));
+											this.getView().getModel("DateModel").setProperty("/foreignVinInd", true);
+										} else if (sdata.results[0].ForeignVIN == "NO") {
+											this.getModel("LocalDataModel").setProperty("/MsrUnit", oBundle.getText("distancekm"));
+											this.getView().getModel("DateModel").setProperty("/foreignVinInd", false);
+
+										}
+
+										if (sdata.results[0].WrittenOff == "YES") {
+
+											this.getView().getModel("DateModel").setProperty("/writtenOffInd", true);
+										} else if (sdata.results[0].WrittenOff == "NO") {
+
+											this.getView().getModel("DateModel").setProperty("/writtenOffInd", false);
+
+										}
+
+										if (sdata.results[0].SpecialVINReview == "YES") {
+
+											this.getView().getModel("DateModel").setProperty("/specialVinInd", true);
+										} else if (sdata.results[0].SpecialVINReview == "NO") {
+
+											this.getView().getModel("DateModel").setProperty("/specialVinInd", false);
+
+										}
+
+										this.getModel("LocalDataModel").setProperty("/DataSpecialHandlingSet", sdata.results[0].ZC_SPECIAL_HANDLINGVEHICLESET
+											.results);
+										this.getModel("LocalDataModel").setProperty("/DataWrittenOffSet", sdata.results[0].ZC_WRITTENOFFVEHICLESET.results);
+									}, this),
+									error: function () {}
+								});
+
+							}
+
 						}
-
-					}
-				}, this),
-				error: function () {
-
-				}
-			});
-			
-			oProssingModel.read("/zc_vehicle_informationSet", {
-				urlParameters: {
-					"$filter": "Vin eq '" + oVin + "'",
-					"$expand": "ZC_SPECIAL_HANDLINGVEHICLESET,ZC_WRITTENOFFVEHICLESET"
-				},
-				//"$expand": "ZC_SPECIAL_HANDLINGVEHICLESET, ZC_WRITTENOFFVEHICLESET"
-				success: $.proxy(function (data) {
-					this.getModel("LocalDataModel").setProperty("/DataVinDetails", data.results[0]);
-					if (this.getView().getModel("HeadSetData").getProperty("/RepairDate") != undefined) {
-						oRepDate = this.getView().getModel("HeadSetData").getProperty("/RepairDate");
-					} else {
-						oRepDate = new Date();
-					}
-					//var oRepDate = this.getView().getModel("HeadSetData").getProperty("/RepairDate");
-					var regTime = new Date(data.results[0].RegDate).getTime();
-					var repTime = new Date(oRepDate).getTime();
-					var oMonth = (regTime - repTime) / (1000 * 60 * 60 * 24 * 30);
-					//parseFloat(oMonth).toFixed(2);
-					this.getModel("LocalDataModel").setProperty("/VehicleMonths", Math.abs(oMonth.toFixed(1)));
-					if (data.results[0].ForeignVIN == "YES") {
-						this.getModel("LocalDataModel").setProperty("/MsrUnit", oBundle.getText("distancemiles"));
-						this.getView().getModel("DateModel").setProperty("/foreignVinInd", true);
-					} else if (data.results[0].ForeignVIN == "NO") {
-						this.getModel("LocalDataModel").setProperty("/MsrUnit", oBundle.getText("distancekm"));
-						this.getView().getModel("DateModel").setProperty("/foreignVinInd", false);
+					}, this),
+					error: function () {
 
 					}
 
-					if (data.results[0].WrittenOff == "YES") {
+				});
 
-						this.getView().getModel("DateModel").setProperty("/writtenOffInd", true);
-					} else if (data.results[0].WrittenOff == "NO") {
+			} else {
+				this.getModel("LocalDataModel").setProperty("/DataVinDetails", "");
 
-						this.getView().getModel("DateModel").setProperty("/writtenOffInd", false);
-
-					}
-
-					if (data.results[0].SpecialVINReview == "YES") {
-
-						this.getView().getModel("DateModel").setProperty("/specialVinInd", true);
-					} else if (data.results[0].SpecialVINReview == "NO") {
-
-						this.getView().getModel("DateModel").setProperty("/specialVinInd", false);
-
-					}
-
-					this.getModel("LocalDataModel").setProperty("/DataSpecialHandlingSet", data.results[0].ZC_SPECIAL_HANDLINGVEHICLESET.results);
-					this.getModel("LocalDataModel").setProperty("/DataWrittenOffSet", data.results[0].ZC_WRITTENOFFVEHICLESET.results);
-				}, this),
-				error: function () {}
-			});
-
+				this.getModel("LocalDataModel").setProperty("/VehicleMonths", "");
+			}
 
 		},
 		onChangeOdometer: function (oEvent) {
@@ -3485,36 +3552,7 @@ sap.ui.define([
 		},
 		onStep01Next: function (oEvent) {
 
-			if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZWA1" && this.getView().getModel("HeadSetData").getProperty(
-					"/WarrantyClaimType") != "ZWA2" && this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZWAC" && this.getView()
-				.getModel(
-					"HeadSetData").getProperty("/WarrantyClaimType") != "ZWMS" &&
-				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") != "ZWA1" && this.getView().getModel("HeadSetData").getProperty(
-					"/WarrantyClaimSubType") != "ZWA2" && this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") != "ZWAC" &&
-				this.getView()
-				.getModel(
-					"HeadSetData").getProperty("/WarrantyClaimSubType") != "ZWMS" &&
-
-				this.getView().getModel(
-					"HeadSetData").getProperty("/WarrantyClaimType") != "ZSSE" &&
-				this.getModel("LocalDataModel").getProperty("/oFieldAction") != "FIELD ACTION" &&
-				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZECP" &&
-				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZCSR" &&
-				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZCER" &&
-				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZCWE" &&
-				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZCLS" &&
-				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZSCR" &&
-				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZSSM" &&
-				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZLDC" &&
-				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZRCR" &&
-				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") != "ZCER" &&
-				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") != "ZCLS" &&
-				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") != "ZCSR" &&
-				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") != "ZCWE"
-			) {
-				this.getView().byId("idFilter02").setProperty("enabled", true);
-				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab2");
-			} else if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZWMS" ||
+			if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZWMS" ||
 				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") == "ZWMS" || this.getModel("LocalDataModel").getProperty(
 					"/GroupDescriptionName") === "CUSTOMER RELATIONS" || this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") ===
 				"ZRCR") {
@@ -3526,27 +3564,6 @@ sap.ui.define([
 			}
 
 		},
-
-		onStep02Next: function () {
-
-			if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZWMS" && this.getView().getModel("HeadSetData").getProperty(
-					"/WarrantyClaimType") != "ZWA1" && this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZWA2" && this.getView()
-				.getModel(
-					"HeadSetData").getProperty("/WarrantyClaimType") != "ZWAC" &&
-				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") != "ZWMS" && this.getView().getModel("HeadSetData").getProperty(
-					"/WarrantyClaimSubType") != "ZWA1" && this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") != "ZWA2" &&
-				this.getView()
-				.getModel(
-					"HeadSetData").getProperty("/WarrantyClaimSubType") != "ZWAC") {
-				this.getView().byId("idFilter03").setProperty("enabled", true);
-				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab3");
-			}
-		},
-		onStep02Back: function () {
-			this.getView().byId("idFilter01").setProperty("enabled", true);
-			this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab1");
-		},
-
 		onStep03Next: function () {
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			var oOFP = this.getView().getModel("HeadSetData").getProperty("/OFP");
@@ -3627,35 +3644,10 @@ sap.ui.define([
 
 		},
 		onStep03Back: function () {
-			if (
-				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZWMS" &&
-				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZWA1" &&
-				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZWA2" &&
-				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZWAC" &&
-				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") != "ZWMS" &&
-				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") != "ZWA1" &&
-				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") != "ZWA2" &&
-				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") != "ZWAC" &&
-				this.getModel("LocalDataModel").getProperty("/oFieldAction") != "FIELD ACTION" &&
-				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZECP" &&
-				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZCSR" &&
-				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZCER" &&
-				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZCWE" &&
-				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZCLS" &&
-				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") != "ZCSR" &&
-				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") != "ZCER" &&
-				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") != "ZCWE" &&
-				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") != "ZCLS" &&
 
-				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZSCR" &&
-				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZLDC" &&
-				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZSSM") {
-				this.getView().byId("idFilter02").setProperty("enabled", true);
-				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab2");
-			} else {
-				this.getView().byId("idFilter01").setProperty("enabled", true);
-				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab1");
-			}
+			this.getView().byId("idFilter01").setProperty("enabled", true);
+			this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab1");
+
 		},
 
 		onStep04Next: function () {
@@ -3729,7 +3721,33 @@ sap.ui.define([
 		},
 
 		onStep06Next: function () {
-			if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZWP2") {
+			// 	if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZWP2") {
+			// 	this.getView().byId("idFilter07").setProperty("enabled", true);
+			// 	this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab7");
+			// }else 
+			if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZWA1" && this.getView().getModel("HeadSetData").getProperty(
+					"/WarrantyClaimType") != "ZWA2" && this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZWAC" && this.getView()
+				.getModel(
+					"HeadSetData").getProperty("/WarrantyClaimType") != "ZWMS" &&
+				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") != "ZWA1" && this.getView().getModel("HeadSetData").getProperty(
+					"/WarrantyClaimSubType") != "ZWA2" && this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") != "ZWAC" &&
+				this.getView()
+				.getModel(
+					"HeadSetData").getProperty("/WarrantyClaimSubType") != "ZWMS" &&
+
+				this.getView().getModel(
+					"HeadSetData").getProperty("/WarrantyClaimType") != "ZSSE" &&
+
+				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZECP" &&
+				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZCSR" &&
+
+				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZSSM" &&
+				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZLDC" &&
+				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZRCR"
+			) {
+				this.getView().byId("idFilter02").setProperty("enabled", true);
+				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab2");
+			} else {
 				this.getView().byId("idFilter07").setProperty("enabled", true);
 				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab7");
 			}
@@ -3776,6 +3794,25 @@ sap.ui.define([
 			}
 
 		},
+		onStep02Next: function () {
+
+			if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZWMS" && this.getView().getModel("HeadSetData").getProperty(
+					"/WarrantyClaimType") != "ZWA1" && this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZWA2" && this.getView()
+				.getModel(
+					"HeadSetData").getProperty("/WarrantyClaimType") != "ZWAC" &&
+				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") != "ZWMS" && this.getView().getModel("HeadSetData").getProperty(
+					"/WarrantyClaimSubType") != "ZWA1" && this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") != "ZWA2" &&
+				this.getView()
+				.getModel(
+					"HeadSetData").getProperty("/WarrantyClaimSubType") != "ZWAC") {
+				this.getView().byId("idFilter07").setProperty("enabled", true);
+				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab7");
+			}
+		},
+		onStep02Back: function () {
+			this.getView().byId("idFilter06").setProperty("enabled", true);
+			this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab6");
+		},
 
 		onStep07Back: function () {
 			if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZWP2" ||
@@ -3785,6 +3822,23 @@ sap.ui.define([
 			) {
 				this.getView().byId("idFilter03").setProperty("enabled", true);
 				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab3");
+			} else if (
+				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZWMS" &&
+				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZWA1" &&
+				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZWA2" &&
+				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZWAC" &&
+				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") != "ZWMS" &&
+				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") != "ZWA1" &&
+				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") != "ZWA2" &&
+				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") != "ZWAC" &&
+
+				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZECP" &&
+
+				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZSCR" &&
+				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZLDC" &&
+				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZSSM") {
+				this.getView().byId("idFilter02").setProperty("enabled", true);
+				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab2");
 			} else {
 				this.getView().byId("idFilter06").setProperty("enabled", true);
 				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab6");
@@ -5410,19 +5464,53 @@ sap.ui.define([
 			var oDate = this.getView().byId("id_Date");
 			console.log(oDate);
 		},
+		onPressPackingSlip: function () {
 
-		onPressPrint: function () {
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			var isProxy = "";
 			if (window.document.domain == "localhost") {
 				isProxy = "proxy";
 			}
 			var w = window.open(isProxy +
-				"/node/ZDLR_CLAIM_SRV/zc_claim_printSet(NumberOfWarrantyClaim='" + oClaimNum + "',PrintType='WTY')/$value",
+				"/node/ZDLR_CLAIM_SRV/zc_claim_printSet(NumberOfWarrantyClaim='" + oClaimNum + "',PrintType='CORE_PK')/$value",
 				'_blank');
 			if (w == null) {
 				console.log("Error");
 				//MessageBox.warning(oBundle.getText("Error.PopUpBloqued"));
+			}
+
+		},
+
+		onPressPrint: function () {
+			var oClaimtype = this.getModel("LocalDataModel").getProperty("/GroupDescriptionName");
+			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
+			var isProxy = "";
+			if (window.document.domain == "localhost") {
+				isProxy = "proxy";
+			}
+			if (oClaimtype == "FIELD ACTION" || oClaimtype == "ECP" || oClaimtype == "SETR" || oClaimtype == "CUSTOMER RELATION" || oClaimtype ==
+				"WARRANTY" ||
+				oClaimtype == "ZCSR" || oClaimtype == "ZCLS" || oClaimtype == "ZCWE" || oClaimtype == "ZCER" ||
+				oClaimtype == "ZECP" || oClaimtype == "ZSSE" || oClaimtype == "ZRCR" || oClaimtype == "ZWVE" ||
+				oClaimtype == "ZWP1" || oClaimtype == "ZWP2" || oClaimtype == "ZWMS" || oClaimtype == "ZWAC" ||
+				oClaimtype == "ZGGW" || oClaimtype == "ZWA1" || oClaimtype == "ZWA2") {
+
+				var w = window.open(isProxy +
+					"/node/ZDLR_CLAIM_SRV/zc_claim_printSet(NumberOfWarrantyClaim='" + oClaimNum + "',PrintType='WTY')/$value",
+					'_blank');
+				if (w == null) {
+					console.log("Error");
+					//MessageBox.warning(oBundle.getText("Error.PopUpBloqued"));
+				}
+			} else if (oClaimtype == "CORE RETURN" || oClaimtype == "SMART PARTS" || oClaimtype == "VEHICLE LOGISTICS" ||
+				oClaimtype == "ZSCR" || oClaimtype == "ZSSM" || oClaimtype == "ZLDC") {
+				var w = window.open(isProxy +
+					"/node/ZDLR_CLAIM_SRV/zc_claim_printSet(NumberOfWarrantyClaim='" + oClaimNum + "',PrintType='NON_WTY')/$value",
+					'_blank');
+				if (w == null) {
+					console.log("Error");
+					//MessageBox.warning(oBundle.getText("Error.PopUpBloqued"));
+				}
 			}
 		},
 		onPressSuggestPart: function () {
