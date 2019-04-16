@@ -31,10 +31,10 @@ sap.ui.define([
 						}
 
 					}
-
-					for (var j = 0; j < oClaimGroup.length; j++) {
+				var newArray = oClaimGroup.filter(e => e !== "SMART PARTS");
+					for (var j = 0; j < newArray.length; j++) {
 						oClaimGroupJson.push({
-							ClaimGroupDes: oClaimGroup[j]
+							ClaimGroupDes: newArray[j]
 						});
 					}
 					this.getOwnerComponent().getModel("LocalDataModel").setProperty("/ClaimGroupData", oClaimGroupJson);

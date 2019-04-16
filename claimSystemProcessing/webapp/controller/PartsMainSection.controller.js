@@ -258,21 +258,21 @@ sap.ui.define([
 			var oDateModel = new sap.ui.model.json.JSONModel();
 			this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
 			/*Uncomment for security*/
-			// if (userScope == "ReadOnlyViewAll") {
-			// 	oDateModel.setData({
-			// 		dateValueDRS2: new Date(2018, 1, 1),
-			// 		secondDateValueDRS2: new Date(2018, 2, 1),
-			// 		partLine: false,
-			// 		oFormEdit: false,
-			// 		claimTypeEn: false,
-			// 		SaveClaim07: false,
-			// 		oLetterOfIntent: false,
-			// 		saveParts: false,
-			// 		partTypeState: "None",
-			// 		SaveClimBTN: false,
-			// 		submitTCIBtn: false
-			// 	});
-			// } else {
+			if (userScope == "ReadOnlyViewAll") {
+				oDateModel.setData({
+					dateValueDRS2: new Date(2018, 1, 1),
+					secondDateValueDRS2: new Date(2018, 2, 1),
+					partLine: false,
+					oFormEdit: false,
+					claimTypeEn: false,
+					SaveClaim07: false,
+					oLetterOfIntent: false,
+					saveParts: false,
+					partTypeState: "None",
+					SaveClimBTN: false,
+					submitTCIBtn: false
+				});
+			} else {
 				/*Uncomment for security*/
 				oDateModel.setData({
 					dateValueDRS2: new Date(2018, 1, 1),
@@ -288,7 +288,7 @@ sap.ui.define([
 					submitTCIBtn: true
 				});
 				/*Uncomment for security*/
-			// }
+			}
 			/*Uncomment for security*/
 			this.getView().setModel(oDateModel, "DateModel");
 			// this._getBPModel();
@@ -444,9 +444,9 @@ sap.ui.define([
 						this.ClaimStatus = data.results[0].DecisionCode;
 						console.log("this.ClaimStatus", this.ClaimStatus);
 						/*Uncomment for security*/
-						// if (userScope == "ReadOnlyViewAll") {
-						// 	this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
-						// } else {
+						if (userScope == "ReadOnlyViewAll") {
+							this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
+						} else {
 							/*Uncomment for security*/
 							if (this.ClaimStatus == "ZTRC" || this.ClaimStatus == "ZTIC") {
 								//code here
@@ -457,7 +457,7 @@ sap.ui.define([
 								this.getModel("LocalDataModel").setProperty("/UploadEnableHeader", false);
 							}
 							/*Uncomment for security*/
-						// }
+						}
 						/*Uncomment for security*/
 
 					}, this),
@@ -2764,15 +2764,15 @@ sap.ui.define([
 			}
 			if (oValidator.isValid()) {
 				/*Uncomment for security*/
-				// if (userScope == "ReadOnlyViewAll") {
-				// 	this.getView().getModel("DateModel").setProperty("/submitTCIBtn", false);
-				// 	this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
-				// } else {
+				if (userScope == "ReadOnlyViewAll") {
+					this.getView().getModel("DateModel").setProperty("/submitTCIBtn", false);
+					this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
+				} else {
 					/*Uncomment for security*/
 					this.getView().getModel("DateModel").setProperty("/submitTCIBtn", true);
 					this.getView().getModel("DateModel").setProperty("/SaveClaim07", true);
 					/*Uncomment for security*/
-				// }
+				}
 				/*Uncomment for security*/
 				this.getView().byId("idMainClaimMessage").setProperty("visible", false);
 				this.getView().byId("idMainClaimMessage").setType("None");
@@ -2798,15 +2798,15 @@ sap.ui.define([
 			}
 			if (validator.isValid()) {
 				/*Uncomment for security*/
-				// if (userScope == "ReadOnlyViewAll") {
-				// 	this.getView().getModel("DateModel").setProperty("/submitTCIBtn", false);
-				// 	this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
-				// } else {
+				if (userScope == "ReadOnlyViewAll") {
+					this.getView().getModel("DateModel").setProperty("/submitTCIBtn", false);
+					this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
+				} else {
 					/*Uncomment for security*/
 					this.getView().getModel("DateModel").setProperty("/submitTCIBtn", true);
 					this.getView().getModel("DateModel").setProperty("/SaveClaim07", true);
 					/*Uncomment for security*/
-				// }
+				}
 				/*Uncomment for security*/
 				this.getView().byId("idMainClaimMessage").setProperty("visible", false);
 				this.getView().byId("idMainClaimMessage").setType("None");
