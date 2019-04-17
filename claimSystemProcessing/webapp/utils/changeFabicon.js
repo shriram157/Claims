@@ -22,14 +22,14 @@ if (isDivisionSent) {
 
 	if (this.sDivision == "10")
 	{
-		changeFavicon("images/favicon-32x32.png");
+		changeFavicon("images/favicon-16x16.png");
 	} else if (this.sDivision == "20") 
 	{
 		changeFavicon("images/faviconL-32x32.png");
 	} else { 
-		changeFavicon("images/favicon-32x32.png");
+		changeFavicon("images/favicon-16x16.png");
 	}
 
 } else { 
-		changeFavicon("images/favicon-32x32.png");
+		changeFavicon("images/favicon-16x16.png");
 }
