@@ -288,6 +288,8 @@ sap.ui.define([
 			var oGroupDescription = oEvent.getParameters().arguments.oKey;
 			var oClaimAuthType = oEvent.getParameters().arguments.oClaimGroup;
 			var oClaimTypeDetail = oEvent.getParameters().arguments.oKey;
+			var oNavList = oEvent.getParameters().arguments.oClaimNav;
+			this.getModel("LocalDataModel").setProperty("/NavList", oNavList);
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			this.getModel("LocalDataModel").setProperty("/MsrUnit", oBundle.getText("distancekm"));
 			var oClaimNav = oEvent.getParameters().arguments.oClaimNav;
@@ -1905,7 +1907,9 @@ sap.ui.define([
 		},
 
 		onLiveVINEnter: function (oEvent) {
-			var oVin = oEvent.getParameters().value;
+			var oVin = oEvent.getParameters().value.toUpperCase();
+		
+			this.getView().getModel("HeadSetData").setProperty("/ExternalObjectNumber", oVin);
 			if (oVin.length > 17) {
 				this.getView().getModel("HeadSetData").setProperty("/ExternalObjectNumber", "");
 				this.getView().byId("idVinNum").setValue("");
@@ -3882,7 +3886,12 @@ sap.ui.define([
 							} else {
 								that._fnUpdateClaim();
 							}
-							that.getRouter().navTo("SearchClaim");
+							if(that.getModel("LocalDataModel").getProperty("/NavList") == "Inq"){
+								that.getRouter().navTo("ClaimInquiry");
+							}else {
+								that.getRouter().navTo("SearchClaim");
+							}
+							
 							dialog.close();
 
 						}
@@ -3891,7 +3900,11 @@ sap.ui.define([
 					new Button({
 						text: oBundle.getText("No"),
 						press: function () {
-							that.getRouter().navTo("SearchClaim");
+							if(that.getModel("LocalDataModel").getProperty("/NavList") == "Inq"){
+								that.getRouter().navTo("ClaimInquiry");
+							}else {
+								that.getRouter().navTo("SearchClaim");
+							}
 							dialog.close();
 						}
 					})
