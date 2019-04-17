@@ -166,7 +166,7 @@ sap.ui.define([
 						that.getView().getModel("HeaderLinksModel").setProperty("/ClaimInquiry", true);
 						that.getView().getModel("HeaderLinksModel").setProperty("/DealerLabourRateInquiry", true);
 						sap.ui.getCore().getModel("HeaderLinksModel").updateBindings(true);
-						// /*Uncomment for security*/
+						/*Uncomment for security*/
 					}
 					// console.log(sap.ui.getCore().getModel("UserDataModel"));
 				}

@@ -766,15 +766,14 @@ sap.ui.define([
 			this.getView().byId("idPartClaimIconBar").setSelectedKey("Tab1");
 			// this._getBPList();
 		},
-		
-		onReceivedDateChange:function(oReceivedDate){
-			debugger;
+
+		onReceivedDateChange: function (oReceivedDate) {
+			// debugger;
 			var receivedDate = new Date(oReceivedDate.getParameters().newValue);
-			if(this.getView().getModel("HeadSetData").getProperty("/DeliveryDate")>receivedDate){
+			if (this.getView().getModel("HeadSetData").getProperty("/DeliveryDate") > receivedDate) {
 				this.getView().getModel("DateModel").setProperty("/SaveClimBTN", false);
 				MessageToast.show(this.oBundle.getText("receivedDateErrMSG"));
-			}
-			else if(this.getView().getModel("HeadSetData").getProperty("/DeliveryDate")<=receivedDate){
+			} else if (this.getView().getModel("HeadSetData").getProperty("/DeliveryDate") <= receivedDate) {
 				this.getView().getModel("DateModel").setProperty("/SaveClimBTN", true);
 			}
 		},
@@ -2660,20 +2659,44 @@ sap.ui.define([
 			var oCurrentDt = new Date();
 			// var WarrantyClaimType = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType");
 			var oValid = oValidator.validate(this.getView().byId("idClaimForm"));
-			if (!oValid && (this.getView().getModel("HeadSetData").getProperty("/ShipmentReceivedDate") == undefined || this.getView().getModel(
-					"ShipmentReceivedDate").getProperty("/RepairDate") == "") && (this.getView().getModel("HeadSetData").getProperty("/DeliveryDate") ==
-					undefined || this.getView().getModel("HeadSetData").getProperty("/DeliveryDate") == "") && (this.getView().getModel("HeadSetData")
-					.getProperty("/DeliveringCarrier") == "" || this.getView().getModel("HeadSetData").getProperty("/DeliveringCarrier") == undefined
-				)) {
+			if (!oValid || (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZPDC" || this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZPTS"))
+				{
 				this.getModel("LocalDataModel").setProperty("/step01Next", false);
 				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
-				this.getView().byId("idOutBoundDD").setValueState("Error");
-				this.getView().byId("idCarrierName").setValueState("Error");
-				this.getView().byId("idShipmentRDate").setValueState("Error");
+				
+				if (this.getView().getModel("HeadSetData").getProperty("/DeliveryDate") == undefined || this.getView().getModel(
+						"HeadSetData").getProperty("/DeliveryDate") == "") {
+					this.getView().byId("idOutBoundDD").setValueState("Error");
+				}
+				if (this.getView().getModel("HeadSetData").getProperty("/DeliveringCarrier") == undefined || this.getView().getModel("HeadSetData").getProperty("/DeliveringCarrier") == "") {
+					this.getView().byId("idCarrierName").setValueState("Error");
+				}
+				if (this.getView().getModel("HeadSetData").getProperty("/ShipmentReceivedDate") == undefined || this.getView().getModel(
+						"HeadSetData").getProperty("/ShipmentReceivedDate") == "") {
+					this.getView().byId("idShipmentRDate").setValueState("Error");
+				}
 				this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
 				this.getView().byId("idMainClaimMessage").setType("Error");
 				return false;
-			} else if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == undefined && this.getView().getModel(
+			} 
+			else if (!oValid && (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") !== "ZPDC" || this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") !== "ZPTS")) {
+				this.getModel("LocalDataModel").setProperty("/step01Next", false);
+				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+				
+				if (this.getView().getModel("HeadSetData").getProperty("/DeliveryDate") == undefined || this.getView().getModel(
+						"HeadSetData").getProperty("/DeliveryDate") == "") {
+					this.getView().byId("idOutBoundDD").setValueState("Error");
+				}
+				if (this.getView().getModel("HeadSetData").getProperty("/ShipmentReceivedDate") == undefined || this.getView().getModel(
+						"HeadSetData").getProperty("/ShipmentReceivedDate") == "") {
+					this.getView().byId("idShipmentRDate").setValueState("Error");
+				}
+				this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
+				this.getView().byId("idMainClaimMessage").setType("Error");
+				this.getView().byId("idCarrierName").setValueState("None");
+				return false;
+			}
+			else if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == undefined && this.getView().getModel(
 					"HeadSetData").getProperty("/WarrantyClaimType") != "") {
 				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
 				this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");

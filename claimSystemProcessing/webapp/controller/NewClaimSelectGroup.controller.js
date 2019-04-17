@@ -11,7 +11,6 @@ sap.ui.define([
 		 * @memberOf zclaimProcessing.view.NewClaimSelectGroup
 		 */
 		onInit: function () {
-			console.log(sap.ui.getCore().getModel("UserDataModel"));
 			var oProssingModel = this.getModel("ProssingModel");
 			var oClaimGroup = [];
 			var oClaimData =[];
@@ -41,8 +40,7 @@ sap.ui.define([
 					} else if (sap.ui.getCore().getModel("UserDataModel").getProperty("/UserScope") == "ManageAllServices") {
 						oClaimGroup = oClaimData.filter(function (val) {
 							return val == "SETR" || val == "WARRANTY" || val == "CUSTOMER RELATIONS" || val == "VEHICLE LOGISTICS" || val == "ECP" ||
-								val ==
-								"FIELD ACTION";
+								val =="FIELD ACTION";
 						});
 					} else {
 						oClaimGroup = oClaimData;
@@ -71,7 +69,7 @@ sap.ui.define([
 
 		onSelectClaimType: function (oEvent) {
 			var oSelectedKey = this.getView().byId("idClaimType").getSelectedKey();
-			if (oSelectedKey === "WARRANTY" || oSelectedKey === "FIELD ACTION") {
+			if (oSelectedKey === "WARRANTY") {
 				this.getOwnerComponent().getModel("LocalDataModel").setProperty("/RadioEdit", true);
 			} else {
 				this.getOwnerComponent().getModel("LocalDataModel").setProperty("/RadioEdit", false);

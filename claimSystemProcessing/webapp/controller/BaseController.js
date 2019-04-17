@@ -205,7 +205,7 @@ sap.ui.define([
 						console.log("Invalid Case");
 						console.log("Dealer_Services_Admin");
 						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ManageAllShowAuthorization");
-						// /*Uncomment for security*/
+						/*Uncomment for security*/
 						that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", true);
 						that.getView().getModel("HeaderLinksModel").setProperty("/ViewUpdateClaims", true);
 						that.getView().getModel("HeaderLinksModel").setProperty("/QuickCoverageTool", true);
@@ -214,7 +214,7 @@ sap.ui.define([
 						sap.ui.getCore().getModel("HeaderLinksModel").updateBindings(true);
 						/*Uncomment for security*/
 					}
-					console.log(sap.ui.getCore().getModel("UserDataModel"));
+					// console.log(sap.ui.getCore().getModel("UserDataModel"));
 				}
 			});
 
@@ -294,20 +294,10 @@ sap.ui.define([
 					success: function (zdata, textStatus, jqXHR) {
 						var oModel = new sap.ui.model.json.JSONModel();
 						zdata.d.Name = data.BusinessPartnerName;
-						// <<<<<<< HEAD
-						// 						// var zd1 = parseInt(zdata.d.ECPEffectiveDate.replace(/[^0-9]+/g, ''));
-						// 						// zdata.d.ECPEffectiveDate = new Date(zd1);
-
-						// 						// zdata.d.WTYEffectiveDate = new Date(zd1);
-						// =======
 						var zd1 = parseInt(zdata.d.ECPEffectiveDate.replace(/[^0-9]+/g, ''));
 						zdata.d.ECPEffectiveDate = new Date(zd1);
-
 						zdata.d.WTYEffectiveDate = new Date(zd1);
-						// >>>>>>> refs/heads/master
-
 						oModel.setData(zdata.d);
-
 						that.getView().setModel(oModel, 'DealerLabour');
 					},
 					error: function (jqXHR, textStatus, errorThrown) {}
