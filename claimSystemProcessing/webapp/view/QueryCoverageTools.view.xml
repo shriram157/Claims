@@ -131,7 +131,7 @@
 											</table:multiLabels>
 											<table:template>
 												<Text
-													text="{path:'EcpSalesModel>StatusDate' ,type:'sap.ui.model.type.DateTime', formatOptions: { pattern: 'MMMM d, y', strictParsing: false, relative: false }}"
+													text="{path:'EcpSalesModel>StatusDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd', strictParsing: true , UTC: true}}"
 													wrapping="false"/>
 											</table:template>
 										</table:Column>
@@ -141,7 +141,7 @@
 											</table:multiLabels>
 											<table:template>
 												<Text
-													text="{path:'EcpSalesModel>AgreementthruDate' ,type:'sap.ui.model.type.DateTime', formatOptions: { pattern: 'MMMM d, y', strictParsing: false, relative: false }}"
+													text="{path:'EcpSalesModel>AgreementthruDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd', strictParsing: true , UTC: true}}"
 													wrapping="false"/>
 											</table:template>
 										</table:Column>
@@ -151,7 +151,7 @@
 											</table:multiLabels>
 											<table:template>
 												<Text
-													text="{path:'EcpSalesModel>RoadHazardExpiryDate' ,type:'sap.ui.model.type.DateTime', formatOptions: { pattern: 'MMMM d, y', strictParsing: false, relative: false }}"
+													text="{path:'EcpSalesModel>AgreementthruKMreading'}"
 													wrapping="false"/>
 											</table:template>
 										</table:Column>
