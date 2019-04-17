@@ -425,7 +425,7 @@ sap.ui.define([
 				this._getDropDownData(oEvent.getParameters().arguments.oKey);
 				this.getView().getModel("DateModel").setProperty("/claimTypeEn", false);
 				var oProssingModel = this.getModel("ProssingModel");
-				oProssingModel.read("/ZC_CLAIM_HEAD", {
+				oProssingModel.read("/ZC_CLAIM_HEAD_NEW", {
 					urlParameters: {
 						"$filter": "NumberOfWarrantyClaim eq '" + oClaim + "' "
 					},
@@ -765,6 +765,17 @@ sap.ui.define([
 			this.getView().setModel(HeadSetData, "HeadSetData");
 			this.getView().byId("idPartClaimIconBar").setSelectedKey("Tab1");
 			// this._getBPList();
+		},
+
+		onReceivedDateChange: function (oReceivedDate) {
+			// debugger;
+			var receivedDate = new Date(oReceivedDate.getParameters().newValue);
+			if (this.getView().getModel("HeadSetData").getProperty("/DeliveryDate") > receivedDate) {
+				this.getView().getModel("DateModel").setProperty("/SaveClimBTN", false);
+				MessageToast.show(this.oBundle.getText("receivedDateErrMSG"));
+			} else if (this.getView().getModel("HeadSetData").getProperty("/DeliveryDate") <= receivedDate) {
+				this.getView().getModel("DateModel").setProperty("/SaveClimBTN", true);
+			}
 		},
 
 		handlePNValueHelp02: function (oController) {
@@ -2648,20 +2659,44 @@ sap.ui.define([
 			var oCurrentDt = new Date();
 			// var WarrantyClaimType = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType");
 			var oValid = oValidator.validate(this.getView().byId("idClaimForm"));
-			if (!oValid && (this.getView().getModel("HeadSetData").getProperty("/ShipmentReceivedDate") == undefined || this.getView().getModel(
-					"ShipmentReceivedDate").getProperty("/RepairDate") == "") && (this.getView().getModel("HeadSetData").getProperty("/DeliveryDate") ==
-					undefined || this.getView().getModel("HeadSetData").getProperty("/DeliveryDate") == "") && (this.getView().getModel("HeadSetData")
-					.getProperty("/DeliveringCarrier") == "" || this.getView().getModel("HeadSetData").getProperty("/DeliveringCarrier") == undefined
-				)) {
+			if (!oValid || (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZPDC" || this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZPTS"))
+				{
 				this.getModel("LocalDataModel").setProperty("/step01Next", false);
 				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
-				this.getView().byId("idOutBoundDD").setValueState("Error");
-				this.getView().byId("idCarrierName").setValueState("Error");
-				this.getView().byId("idShipmentRDate").setValueState("Error");
+				
+				if (this.getView().getModel("HeadSetData").getProperty("/DeliveryDate") == undefined || this.getView().getModel(
+						"HeadSetData").getProperty("/DeliveryDate") == "") {
+					this.getView().byId("idOutBoundDD").setValueState("Error");
+				}
+				if (this.getView().getModel("HeadSetData").getProperty("/DeliveringCarrier") == undefined || this.getView().getModel("HeadSetData").getProperty("/DeliveringCarrier") == "") {
+					this.getView().byId("idCarrierName").setValueState("Error");
+				}
+				if (this.getView().getModel("HeadSetData").getProperty("/ShipmentReceivedDate") == undefined || this.getView().getModel(
+						"HeadSetData").getProperty("/ShipmentReceivedDate") == "") {
+					this.getView().byId("idShipmentRDate").setValueState("Error");
+				}
 				this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
 				this.getView().byId("idMainClaimMessage").setType("Error");
 				return false;
-			} else if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == undefined && this.getView().getModel(
+			} 
+			else if (!oValid && (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") !== "ZPDC" || this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") !== "ZPTS")) {
+				this.getModel("LocalDataModel").setProperty("/step01Next", false);
+				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+				
+				if (this.getView().getModel("HeadSetData").getProperty("/DeliveryDate") == undefined || this.getView().getModel(
+						"HeadSetData").getProperty("/DeliveryDate") == "") {
+					this.getView().byId("idOutBoundDD").setValueState("Error");
+				}
+				if (this.getView().getModel("HeadSetData").getProperty("/ShipmentReceivedDate") == undefined || this.getView().getModel(
+						"HeadSetData").getProperty("/ShipmentReceivedDate") == "") {
+					this.getView().byId("idShipmentRDate").setValueState("Error");
+				}
+				this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
+				this.getView().byId("idMainClaimMessage").setType("Error");
+				this.getView().byId("idCarrierName").setValueState("None");
+				return false;
+			}
+			else if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == undefined && this.getView().getModel(
 					"HeadSetData").getProperty("/WarrantyClaimType") != "") {
 				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
 				this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
@@ -2705,20 +2740,22 @@ sap.ui.define([
 					}
 				};
 				var that = this;
-				console.log(this.obj);
+				console.log("Data for saving claim", this.obj);
 				oClaimModel.refreshSecurityToken();
 				oClaimModel.create("/zc_headSet", this.obj, {
 					success: $.proxy(function (data, response) {
+						console.log("1st Response after claim is saved", data);
 						MessageToast.show(that.oBundle.getText("ClaimSuccessMSG"));
 						this.getModel("LocalDataModel").setProperty("/WarrantyClaimNum", response.data.NumberOfWarrantyClaim);
 						// this.getModel("LOIDataModel").setProperty("/claimNumber", response.data.NumberOfWarrantyClaim);
 						this._fnClaimSum();
-						oClaimModel.read("/ZC_CLAIM_HEAD", {
+						oClaimModel.read("/ZC_CLAIM_HEAD_NEW", {
 							urlParameters: {
 								"$filter": "NumberOfWarrantyClaim eq '" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") +
 									"'"
 							},
 							success: $.proxy(function (sdata) {
+								console.log("Response after claim is saved", sdata);
 								this.getModel("LocalDataModel").setProperty("/ClaimDetails", sdata.results[0]);
 								this.getView().getModel("HeadSetData").setData(sdata.results[0]);
 								// var oCLaim = this.getModel("LocalDataModel").getProperty("/ClaimDetails/NumberOfWarrantyClaim");

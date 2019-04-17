@@ -13,6 +13,7 @@ sap.ui.define([
 		onInit: function () {
 			var oProssingModel = this.getModel("ProssingModel");
 			var oClaimGroup = [];
+			var oClaimData =[];
 			var oClaimGroupJson = [];
 			this.getOwnerComponent().getModel("LocalDataModel").setProperty("/RadioEdit", false);
 			
@@ -24,17 +25,30 @@ sap.ui.define([
 				success: $.proxy(function (data) {
 					var odata = data.results;
 					for (var i = 0; i < odata.length; i++) {
-						if (oClaimGroup.indexOf(odata[i].ClaimGroupDes) < 0 && !$.isEmptyObject(odata[i].ClaimGroupDes)) {
-							oClaimGroup.push(
+						if (oClaimData.indexOf(odata[i].ClaimGroupDes) < 0 && !$.isEmptyObject(odata[i].ClaimGroupDes)) {
+							oClaimData.push(
 								odata[i].ClaimGroupDes
 							);
 						}
 
 					}
-				var newArray = oClaimGroup.filter(e => e !== "SMART PARTS");
-					for (var j = 0; j < newArray.length; j++) {
+					
+					if (sap.ui.getCore().getModel("UserDataModel").getProperty("/UserScope") == "ManageAllParts") {
+						oClaimGroup = oClaimData.filter(function (val) {
+							return val == "CORE RETURN" || val == "SMART PARTS" || val == "PART WAREHOUSE";
+						});
+					} else if (sap.ui.getCore().getModel("UserDataModel").getProperty("/UserScope") == "ManageAllServices") {
+						oClaimGroup = oClaimData.filter(function (val) {
+							return val == "SETR" || val == "WARRANTY" || val == "CUSTOMER RELATIONS" || val == "VEHICLE LOGISTICS" || val == "ECP" ||
+								val =="FIELD ACTION";
+						});
+					} else {
+						oClaimGroup = oClaimData;
+					}
+
+					for (var j = 0; j < oClaimGroup.length; j++) {
 						oClaimGroupJson.push({
-							ClaimGroupDes: newArray[j]
+							ClaimGroupDes: oClaimGroup[j]
 						});
 					}
 					this.getOwnerComponent().getModel("LocalDataModel").setProperty("/ClaimGroupData", oClaimGroupJson);

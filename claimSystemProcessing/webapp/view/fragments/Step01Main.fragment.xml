@@ -52,9 +52,9 @@
 				<Input value="{path:'HeadSetData>/Delivery', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 10 } }"
 					required="true" id="idOutboundDNum" enabled="{DateModel>/oFormEdit}"/>
 				<Label text="{i18n>ReceivedDate}"/>
-				<DatePicker
+				<DatePicker 
 					value="{path:'HeadSetData>/ShipmentReceivedDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd' } }"
-					required="true" id="idShipmentRDate" enabled="{DateModel>/oFormEdit}"/>
+					required="true" id="idShipmentRDate" enabled="{DateModel>/oFormEdit}" change="onReceivedDateChange"/>
 				<Label text="{i18n>ShippingPartstoPDC}"/>
 				<Select id="idPartsShipping" enabled="{DateModel>/oFormEdit}">
 					<items>
