@@ -320,6 +320,7 @@ sap.ui.define([
 					this.getModel("LocalDataModel").setProperty("/linkToAuth", false);
 					this.getModel("LocalDataModel").setProperty("/reCalculate", true);
 					this.getModel("LocalDataModel").setProperty("/PercentState", true);
+					this.getModel("LocalDataModel").setProperty("/SaveAuthClaim", oBundle.getText("SaveAuth"));
 					this.getModel("LocalDataModel").setProperty("/copyClaimAuthText", oBundle.getText("CopytoClaim"));
 
 					this.getModel("LocalDataModel").setProperty("/WarrantyClaimNumber", oBundle.getText("TCIAuthNumber") + " : " + oClaim);
@@ -355,6 +356,7 @@ sap.ui.define([
 					this.getModel("LocalDataModel").setProperty("/PercentState", false);
 					this.getView().getModel("DateModel").setProperty("/warrantySubmissionClaim", false);
 					this.getModel("LocalDataModel").setProperty("/copyClaimAuthText", oBundle.getText("CopytoAuthorization"));
+					this.getModel("LocalDataModel").setProperty("/SaveAuthClaim", oBundle.getText("SaveClaim"));
 					this.getModel("LocalDataModel").setProperty("/WarrantyClaimNumber", oBundle.getText("TCIClaimNumber") + " : " + oClaim);
 				}
 
@@ -1128,6 +1130,7 @@ sap.ui.define([
 
 				this.getModel("LocalDataModel").setProperty("/DataItemDamageSet", "");
 				if (oClaimAuthType == "Authorization") {
+					this.getModel("LocalDataModel").setProperty("/SaveAuthClaim", oBundle.getText("SaveAuth"));
 					this.getModel("LocalDataModel").setProperty("/copyClaimAuthText", oBundle.getText("CopytoClaim"));
 					this.getModel("LocalDataModel").setProperty("/WarrantyClaimNumber", oBundle.getText("TCIAuthNumber"));
 
@@ -1137,6 +1140,7 @@ sap.ui.define([
 				} else {
 					this.getModel("LocalDataModel").setProperty("/WarrantyClaimNumber", oBundle.getText("TCIClaimNumber"));
 					this.getModel("LocalDataModel").setProperty("/copyClaimAuthText", oBundle.getText("CopytoAuthorization"));
+					this.getModel("LocalDataModel").setProperty("/SaveAuthClaim", oBundle.getText("SaveClaim"));
 					this.getModel("LocalDataModel").setProperty("/linkToAuth", true);
 					this.getModel("LocalDataModel").setProperty("/reCalculate", false);
 					this.getModel("LocalDataModel").setProperty("/PercentState", false);
@@ -2349,9 +2353,9 @@ sap.ui.define([
 						this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.data.MainOpsCodeDescription);
 						this.getModel("LocalDataModel").setProperty("/WarrantyClaimNum", response.data.NumberOfWarrantyClaim);
 						MessageToast.show(oBundle.getText("Claimhasbeensavedsuccessfully"), {
-									my: "center center",
-									at: "center center"
-								});
+							my: "center center",
+							at: "center center"
+						});
 
 						this.getView().getModel("DateModel").setProperty("/saveClaimSt", false);
 						this.getView().getModel("DateModel").setProperty("/updateClaimSt", true);
@@ -2499,9 +2503,9 @@ sap.ui.define([
 										}, this)
 									});
 									MessageToast.show(oBundle.getText("Claimcancelledsuccessfully"), {
-									my: "center center",
-									at: "center center"
-								});
+										my: "center center",
+										at: "center center"
+									});
 									this.getView().getModel("LocalDataModel").setProperty("/CancelEnable", false);
 								}, this),
 								error: function () {
@@ -2555,9 +2559,9 @@ sap.ui.define([
 						},
 						success: $.proxy(function (sdata) {
 							MessageToast.show(oBundle.getText("Authorizationapprovedsuccessfully"), {
-									my: "center center",
-									at: "center center"
-								});
+								my: "center center",
+								at: "center center"
+							});
 							this.getView().getModel("HeadSetData").setProperty("/ProcessingStatusOfWarrantyClm", sdata.results[0].ProcessingStatusOfWarrantyClm);
 							this.getView().getModel("DateModel").setProperty("/authAcClm", false);
 							this.getView().getModel("DateModel").setProperty("/authRejClm", false);
@@ -2593,9 +2597,9 @@ sap.ui.define([
 						},
 						success: $.proxy(function (sdata) {
 							MessageToast.show(oBundle.getText("AuthorizationRejected"), {
-									my: "center center",
-									at: "center center"
-								});
+								my: "center center",
+								at: "center center"
+							});
 							this.getView().getModel("HeadSetData").setProperty("/ProcessingStatusOfWarrantyClm", sdata.results[0].ProcessingStatusOfWarrantyClm);
 
 							this.getView().getModel("DateModel").setProperty("/authAcClm", false);
@@ -3226,9 +3230,9 @@ sap.ui.define([
 				success: $.proxy(function (data, response) {
 					this.getModel("LocalDataModel").setProperty("/IndicatorState", false);
 					MessageToast.show(oBundle.getText("SuccesFullyUploaded"), {
-									my: "center center",
-									at: "center center"
-								});
+						my: "center center",
+						at: "center center"
+					});
 					//	var oFileName = "sub" + fileName;
 					oClaimModel.read("/zc_claim_subletattachmentSet", {
 						urlParameters: {
@@ -3273,9 +3277,9 @@ sap.ui.define([
 				method: "DELETE",
 				success: $.proxy(function () {
 					MessageToast.show(oBundle.getText("Filedeletedsuccessfully"), {
-									my: "center center",
-									at: "center center"
-								});
+						my: "center center",
+						at: "center center"
+					});
 					oClaimModel.read("/zc_claim_attachmentsSet", {
 						urlParameters: {
 							"$filter": "NumberOfWarrantyClaim eq '" + oClaimNum + "'and AttachLevel eq 'HEAD' and FileName  eq ''"
@@ -3333,9 +3337,9 @@ sap.ui.define([
 				method: "DELETE",
 				success: $.proxy(function () {
 					MessageToast.show(oBundle.getText("Filedeletedsuccessfully"), {
-									my: "center center",
-									at: "center center"
-								});
+						my: "center center",
+						at: "center center"
+					});
 					oClaimModel.read("/zc_claim_subletattachmentSet", {
 						urlParameters: {
 							"$filter": "NumberOfWarrantyClaim eq'" + oClaimNum + "'and AttachLevel eq 'SUBL' and FileName eq'" + oFileDeleteName +
@@ -3421,9 +3425,9 @@ sap.ui.define([
 			if ((oCustomerPer + oDealerPer + oTciPer) > 100) {
 				//console.log("The Sum of percent should be within 100%");
 				MessageToast.show(oBundle.getText("TheSumpercentwithin100"), {
-									my: "center center",
-									at: "center center"
-								});
+					my: "center center",
+					at: "center center"
+				});
 			} else {
 				var oClaimModel = this.getModel("ProssingModel");
 				oClaimModel.read("/zc_authorizationSet", {
@@ -3497,14 +3501,15 @@ sap.ui.define([
 									this.getModel("LocalDataModel").setProperty("/reCalculate", false);
 									this.getModel("LocalDataModel").setProperty("/PercentState", false);
 									this.getModel("LocalDataModel").setProperty("/copyClaimAuthText", oBundle.getText("CopytoAuthorization"));
+									this.getModel("LocalDataModel").setProperty("/SaveAuthClaim", oBundle.getText("SaveClaim"));
 								}, this)
 							});
 						}, this),
 						error: function (error) {
 							MessageToast.show(JSON.parse(error.responseText).error.message.value, {
-									my: "center center",
-									at: "center center"
-								});
+								my: "center center",
+								at: "center center"
+							});
 						}
 
 					});
@@ -3537,22 +3542,23 @@ sap.ui.define([
 									this.getModel("LocalDataModel").setProperty("/reCalculate", true);
 									this.getModel("LocalDataModel").setProperty("/PercentState", true);
 									this.getModel("LocalDataModel").setProperty("/copyClaimAuthText", oBundle.getText("CopytoClaim"));
+									this.getModel("LocalDataModel").setProperty("/SaveAuthClaim", oBundle.getText("SaveAuth"));
 								}, this)
 							});
 						}, this),
 						error: function (error) {
 							MessageToast.show(JSON.parse(error.responseText).error.message.value, {
-									my: "center center",
-									at: "center center"
-								});
+								my: "center center",
+								at: "center center"
+							});
 						}
 					});
 				}
 			} else {
 				MessageToast.show(oBundle.getText("PleasecreateclaimNumber"), {
-									my: "center center",
-									at: "center center"
-								});
+					my: "center center",
+					at: "center center"
+				});
 			}
 
 		},
@@ -3585,9 +3591,9 @@ sap.ui.define([
 
 					if (data.results[0].Message != "") {
 						MessageToast.show(data.results[0].Message, {
-									my: "center center",
-									at: "center center"
-								});
+							my: "center center",
+							at: "center center"
+						});
 					}
 				}, this)
 			});
@@ -4168,9 +4174,9 @@ sap.ui.define([
 					console.log(oFilteredData);
 					this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
 					MessageToast.show(oBundle.getText("Claimhasbeensavedsuccessfully"), {
-									my: "center center",
-									at: "center center"
-								});
+						my: "center center",
+						at: "center center"
+					});
 					this.getView().getModel("DateModel").setProperty("/partLine", false);
 					this.getView().getModel("PartDataModel").setProperty("/matnr", "");
 					this.getView().getModel("PartDataModel").setProperty("/quant", "");
@@ -4243,9 +4249,9 @@ sap.ui.define([
 				});
 			} else {
 				MessageToast.show(oBundle.getText("Pleaseselect1row"), {
-									my: "center center",
-									at: "center center"
-								});
+					my: "center center",
+					at: "center center"
+				});
 				oTable.removeSelections("true");
 			}
 		},
@@ -4285,9 +4291,9 @@ sap.ui.define([
 										this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
 										oTable.removeSelections("true");
 										MessageToast.show(oBundle.getText("ItemDeletedSuccessfully"), {
-									my: "center center",
-									at: "center center"
-								});
+											my: "center center",
+											at: "center center"
+										});
 										this._fnClaimSum();
 										this._fnClaimSumPercent();
 									}, this),
@@ -4316,9 +4322,9 @@ sap.ui.define([
 
 			} else {
 				MessageToast.show(oBundle.getText("Pleaseselect1row"), {
-									my: "center center",
-									at: "center center"
-								});
+					my: "center center",
+					at: "center center"
+				});
 				oTable.removeSelections("true");
 			}
 		},
@@ -4685,9 +4691,9 @@ sap.ui.define([
 					this.getModel("LocalDataModel").setProperty("/LabourPricingDataModel", oFilteredData);
 					//this.getModel("LocalDataModel").setProperty("/WarrantyClaimNum", response.data.NumberOfWarrantyClaim);
 					MessageToast.show(oBundle.getText("Claimhasbeensavedsuccessfully"), {
-									my: "center center",
-									at: "center center"
-								});
+						my: "center center",
+						at: "center center"
+					});
 					this.getView().getModel("DateModel").setProperty("/labourLine", false);
 					this.getView().getModel("LabourDataModel").setProperty("/LabourOp", "");
 					this.getView().getModel("LabourDataModel").setProperty("/ClaimedHours", "");
@@ -4745,9 +4751,9 @@ sap.ui.define([
 										console.log(oFilteredData);
 										this.getModel("LocalDataModel").setProperty("/LabourPricingDataModel", oFilteredData);
 										MessageToast.show(oBundle.getText("ItemDeletedSuccessfully"), {
-									my: "center center",
-									at: "center center"
-								});
+											my: "center center",
+											at: "center center"
+										});
 										oTable.removeSelections("true");
 										this._fnClaimSum();
 										this._fnClaimSumPercent();
@@ -4783,9 +4789,9 @@ sap.ui.define([
 
 			} else {
 				MessageToast.show(oBundle.getText("Pleaseselect1row"), {
-									my: "center center",
-									at: "center center"
-								});
+					my: "center center",
+					at: "center center"
+				});
 				oTable.removeSelections("true");
 			}
 		},
@@ -4844,9 +4850,9 @@ sap.ui.define([
 				// });
 			} else {
 				MessageToast.show(oBundle.getText("Pleaseselect1row"), {
-									my: "center center",
-									at: "center center"
-								});
+					my: "center center",
+					at: "center center"
+				});
 				oTable.removeSelections("true");
 			}
 		},
@@ -4890,9 +4896,9 @@ sap.ui.define([
 					this.getModel("LocalDataModel").setProperty("/PaintPricingDataModel", oFilteredData);
 					//this.getModel("LocalDataModel").setProperty("/WarrantyClaimNum", response.data.NumberOfWarrantyClaim);
 					MessageToast.show(oBundle.getText("Claimhasbeensavedsuccessfully"), {
-									my: "center center",
-									at: "center center"
-								});
+						my: "center center",
+						at: "center center"
+					});
 					this.getView().getModel("DateModel").setProperty("/paintLine", false);
 					this.getView().getModel("PaintDataModel").setProperty("/PaintPositionCode", "");
 					oTable.removeSelections("true");
@@ -4945,9 +4951,9 @@ sap.ui.define([
 
 										this.getModel("LocalDataModel").setProperty("/PaintPricingDataModel", oFilteredData);
 										MessageToast.show(oBundle.getText("ItemDeletedSuccessfully"), {
-									my: "center center",
-									at: "center center"
-								});
+											my: "center center",
+											at: "center center"
+										});
 										oTable.removeSelections("true");
 									}, this),
 									error: function (err) {
@@ -4976,9 +4982,9 @@ sap.ui.define([
 
 			} else {
 				MessageToast.show(oBundle.getText("Pleaseselect1row"), {
-									my: "center center",
-									at: "center center"
-								});
+					my: "center center",
+					at: "center center"
+				});
 				oTable.removeSelections("true");
 			}
 		},
@@ -5055,9 +5061,9 @@ sap.ui.define([
 						this.getModel("LocalDataModel").setProperty("/LabourPricingDataModel", oFilteredDataLabour);
 
 						MessageToast.show(oBundle.getText("Claimhasbeensavedsuccessfully"), {
-									my: "center center",
-									at: "center center"
-								});
+							my: "center center",
+							at: "center center"
+						});
 						this.getView().getModel("DateModel").setProperty("/subletLine", false);
 						this.getView().getModel("SubletDataModel").setProperty("/SubletCode", "");
 						this.getView().getModel("SubletDataModel").setProperty("/InvoiceNo", "");
@@ -5077,9 +5083,9 @@ sap.ui.define([
 				});
 			} else {
 				MessageToast.show("Attachment is required.", {
-									my: "center center",
-									at: "center center"
-								});
+					my: "center center",
+					at: "center center"
+				});
 			}
 		},
 
@@ -5162,9 +5168,9 @@ sap.ui.define([
 				// });
 			} else {
 				MessageToast.show(oBundle.getText("Pleaseselect1row"), {
-									my: "center center",
-									at: "center center"
-								});
+					my: "center center",
+					at: "center center"
+				});
 				oTable.removeSelections("true");
 			}
 		},
@@ -5211,9 +5217,9 @@ sap.ui.define([
 
 										this.getModel("LocalDataModel").setProperty("/SubletPricingDataModel", oFilteredData);
 										MessageToast.show(oBundle.getText("ItemDeletedSuccessfully"), {
-									my: "center center",
-									at: "center center"
-								});
+											my: "center center",
+											at: "center center"
+										});
 										oTable.removeSelections("true");
 										this._fnClaimSum();
 										this._fnClaimSumPercent();
@@ -5253,9 +5259,9 @@ sap.ui.define([
 
 			} else {
 				MessageToast.show(oBundle.getText("Pleaseselect1row"), {
-									my: "center center",
-									at: "center center"
-								});
+					my: "center center",
+					at: "center center"
+				});
 				oTable.removeSelections("true");
 			}
 		},
@@ -5280,15 +5286,15 @@ sap.ui.define([
 					this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", response.data.OFPDescription);
 					this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.data.MainOpsCodeDescription);
 					MessageToast.show(oBundle.getText("Claimhasbeensavedsuccessfully"), {
-									my: "center center",
-									at: "center center"
-								});
+						my: "center center",
+						at: "center center"
+					});
 				},
 				error: function () {
 					MessageToast.show(oBundle.getText("ClaimnotSaved"), {
-									my: "center center",
-									at: "center center"
-								});
+						my: "center center",
+						at: "center center"
+					});
 				}
 
 			});
@@ -5522,15 +5528,15 @@ sap.ui.define([
 										this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
 										MessageToast.show(oBundle.getText("ClaimNumber") + " " + oClaimNum + " " + oBundle.getText(
 											"successfullysubmittedTCI"), {
-									my: "center center",
-									at: "center center"
-								});
+											my: "center center",
+											at: "center center"
+										});
 									} else {
 										MessageToast.show(
 											oBundle.getText("ClaimNumber") + " " + oClaimNum + " " + oBundle.getText("RejectedTCIValidationResultsdetails"), {
-									my: "center center",
-									at: "center center"
-								});
+												my: "center center",
+												at: "center center"
+											});
 									}
 
 									dialog.close();

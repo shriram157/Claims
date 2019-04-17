@@ -44,7 +44,7 @@
 					<!--<Label text="{i18n>Status}"/>-->
 					<!--<Text text="{HeadSetData>/ProcessingStatusOfWarrantyClm}"/>-->
 					<core:Title text=""/>
-					<Button text="{i18n>SaveClaim}" class="sapUiSmallMarginEnd" type="Emphasized" press="onSaveClaim" visible="{DateModel>/saveClaimSt}">
+					<Button text="{LocalDataModel>/SaveAuthClaim}" class="sapUiSmallMarginEnd" type="Emphasized" press="onSaveClaim" visible="{DateModel>/saveClaimSt}">
 						<layoutData>
 							<l:GridData span="XL8 L8 M12 S12"/>
 						</layoutData>
@@ -54,7 +54,7 @@
 							<l:GridData span="XL8 L8 M12 S12"/>
 						</layoutData>
 					</Button>
-					<Button text="{i18n>SaveClaim}" class="sapUiSmallMarginEnd" enabled="{DateModel>/updateEnable}" type="Emphasized" press="onUpdateClaim"
+					<Button text="{LocalDataModel>/SaveAuthClaim}" class="sapUiSmallMarginEnd" enabled="{DateModel>/updateEnable}" type="Emphasized" press="onUpdateClaim"
 						visible="{DateModel>/updateClaimSt}">
 						<layoutData>
 							<l:GridData span="XL8 L8 M12 S12"/>
