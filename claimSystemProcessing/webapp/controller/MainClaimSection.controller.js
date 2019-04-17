@@ -80,12 +80,7 @@ sap.ui.define([
 			this.getView().setModel(sap.ui.getCore().getModel("HeaderLinksModel"), "HeaderLinksModel");
 			//  this.oBreadcrumbs = this.byId("breadcrumbsSupportingDoc");
 
-			// this.oUploadCollection.addEventDelegate({
-			// 	onAfterRendering: function () {
-			// 		var iCount = this.oUploadCollection.getItems().length;
-			// 		this.oBreadcrumbs.setCurrentLocationText(this.getCurrentLocationText() + " (" + iCount + ")");
-			// 	}.bind(this)
-			// });
+			
 
 			// this.getView().setModel(oNodeModel, "ClaimModel");
 			// this.bindUploadCollectionItems("ClaimModel>/items");
