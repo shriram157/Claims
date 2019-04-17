@@ -2555,8 +2555,13 @@ sap.ui.define([
 								"'"
 						},
 						success: $.proxy(function (sdata) {
-							this.getView().getModel("HeadSetData").setProperty("/ProcessingStatusOfWarrantyClm", sdata.results[0].ProcessingStatusOfWarrantyClm);
 							MessageToast.show(oBundle.getText("Authorizationapprovedsuccessfully"));
+							this.getView().getModel("HeadSetData").setProperty("/ProcessingStatusOfWarrantyClm", sdata.results[0].ProcessingStatusOfWarrantyClm);
+							this.getView().getModel("DateModel").setProperty("/authAcClm", false);
+							this.getView().getModel("DateModel").setProperty("/authRejClm", false);
+						
+							
+							
 						}, this)
 					});
 				}, this)
@@ -2587,8 +2592,11 @@ sap.ui.define([
 								"'"
 						},
 						success: $.proxy(function (sdata) {
-							this.getView().getModel("HeadSetData").setProperty("/ProcessingStatusOfWarrantyClm", sdata.results[0].ProcessingStatusOfWarrantyClm);
 							MessageToast.show(oBundle.getText("AuthorizationRejected"));
+							this.getView().getModel("HeadSetData").setProperty("/ProcessingStatusOfWarrantyClm", sdata.results[0].ProcessingStatusOfWarrantyClm);
+							
+							this.getView().getModel("DateModel").setProperty("/authAcClm", false);
+							this.getView().getModel("DateModel").setProperty("/authRejClm", false);
 						}, this)
 					});
 				}, this)
@@ -3075,19 +3083,19 @@ sap.ui.define([
 
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			var fileType = this.oUploadedFile.type;
-			var oUploadedFileArr = this.oUploadedFile.name.split(".").reverse();
-			var oFileExt = oUploadedFileArr[0].length;
-			var oFileName = "";
+			//var oUploadedFileArr = this.oUploadedFile.name.split(".").reverse();
+			//var oFileExt = oUploadedFileArr[0].length;
+			var oFileName = this.oUploadedFile.name;
 			//oFileName = this.oUploadedFile.name.replace("." + oFileExt, "");
 
-			if (oFileExt > 3) {
-				oFileName = this.oUploadedFile.name.slice(0, -1);
-			} else {
-				oFileName = this.oUploadedFile.name;
-			}
+			// if (oFileExt > 3) {
+			// 	oFileName = this.oUploadedFile.name.slice(0, -1);
+			// } else {
+			// 	oFileName = this.oUploadedFile.name;
+			// }
 
 			var fileNamePrior = "HEAD@@@" + oFileName;
-			var fileName = fileNamePrior.toUpperCase();
+			var fileName = fileNamePrior;
 			var isProxy = "";
 			if (window.document.domain == "localhost") {
 				isProxy = "proxy";
@@ -3159,18 +3167,18 @@ sap.ui.define([
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			var oSubletType = this.getView().getModel("SubletDataModel").getProperty("/SubletCode");
 			var fileType = this.oUploadedFile.type;
-			var oUploadedFileArr = this.oUploadedFile.name.split(".").reverse();
-			var oFileExt = oUploadedFileArr[0].length;
-			var oFileName = "";
+			//var oUploadedFileArr = this.oUploadedFile.name.split(".").reverse();
+			//var oFileExt = oUploadedFileArr[0].length;
+			var oFileName = this.oUploadedFile.name;
 			//oFileName = this.oUploadedFile.name.replace("." + oFileExt, "");
 
-			if (oFileExt > 3) {
-				oFileName = this.oUploadedFile.name.slice(0, -1);
-			} else {
-				oFileName = this.oUploadedFile.name;
-			}
+			// if (oFileExt > 3) {
+			// 	oFileName = this.oUploadedFile.name.slice(0, -1);
+			// } else {
+			// 	oFileName = this.oUploadedFile.name;
+			// }
 			var fileNamePrior = oSubletType + "@@@" + oFileName;
-			var fileName = fileNamePrior.toUpperCase();
+			var fileName = fileNamePrior;
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var isProxy = "";
 			if (window.document.domain == "localhost") {
