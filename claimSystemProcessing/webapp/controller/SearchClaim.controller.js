@@ -571,6 +571,17 @@ sap.ui.define([
 					and: true
 				});
 				this.getView().getModel("RowCountModel").setProperty("/rowCount", 10);
+			}else if (sQueryStat != "" && sQuerySearchText == "" && sQueryDate != "" && sQueryClaimGroup != "" && sQueryDealer != "" && sQueryClaimType == "") {
+				andFilter = new sap.ui.model.Filter({
+					filters: [
+						new sap.ui.model.Filter("Partner", sap.ui.model.FilterOperator.EQ, sQueryDealer),
+						new sap.ui.model.Filter(sDate, sap.ui.model.FilterOperator.BT, FromDateFormat, ToDateFormat),
+						new sap.ui.model.Filter("WarrantyClaimGroupDes", sap.ui.model.FilterOperator.EQ, sQueryClaimGroup),
+						new sap.ui.model.Filter(oResult)
+					],
+					and: true
+				});
+				this.getView().getModel("RowCountModel").setProperty("/rowCount", 10);
 			} else if (sQueryStat != "" && sQueryDate != "" && sQueryDealer != "" && sQueryClaimType == "" && sQuerySearchText == "") {
 
 				andFilter = new sap.ui.model.Filter({
