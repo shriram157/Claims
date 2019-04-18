@@ -259,8 +259,7 @@ sap.ui.define([
 					} else if (sap.ui.getCore().getModel("UserDataModel").getProperty("/UserScope") == "ManageAllServices") {
 						oClaimGroupdata = oClaimGroup.filter(function (val) {
 							return val == "SETR" || val == "WARRANTY" || val == "CUSTOMER RELATIONS" || val == "VEHICLE LOGISTICS" || val == "ECP" ||
-								val ==
-								"FIELD ACTION";
+								val == "FIELD ACTION";
 						});
 					} else {
 						oClaimGroupdata = oClaimGroup;

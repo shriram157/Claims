@@ -802,7 +802,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/oDamageLineBtn", false);
 							this.getView().getModel("DateModel").setProperty("/authAcClm", false);
 							this.getView().getModel("DateModel").setProperty("/authRejClm", false);
-							this.getView().getModel("DateModel").setProperty("/claimEditSt", true);
+							this.getView().getModel("DateModel").setProperty("/claimEditSt", false);
 						 } 
 						 else {
 							this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
