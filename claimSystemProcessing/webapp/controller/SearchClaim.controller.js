@@ -571,7 +571,8 @@ sap.ui.define([
 					and: true
 				});
 				this.getView().getModel("RowCountModel").setProperty("/rowCount", 10);
-			}else if (sQueryStat != "" && sQuerySearchText == "" && sQueryDate != "" && sQueryClaimGroup != "" && sQueryDealer != "" && sQueryClaimType == "") {
+			} else if (sQueryStat != "" && sQuerySearchText == "" && sQueryDate != "" && sQueryClaimGroup != "" && sQueryDealer != "" &&
+				sQueryClaimType == "") {
 				andFilter = new sap.ui.model.Filter({
 					filters: [
 						new sap.ui.model.Filter("Partner", sap.ui.model.FilterOperator.EQ, sQueryDealer),

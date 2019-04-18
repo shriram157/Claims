@@ -16,7 +16,7 @@ sap.ui.define([
 			var oClaimData =[];
 			var oClaimGroupJson = [];
 			this.getOwnerComponent().getModel("LocalDataModel").setProperty("/RadioEdit", false);
-			
+			this.getDealer();
 			//Model data set for Header Links visibility as per User login
 			console.log("HeaderLinksModel", sap.ui.getCore().getModel("HeaderLinksModel"));
 			this.getView().setModel(sap.ui.getCore().getModel("HeaderLinksModel"), "HeaderLinksModel");
@@ -33,11 +33,11 @@ sap.ui.define([
 
 					}
 					
-					if (sap.ui.getCore().getModel("UserDataModel").getProperty("/UserScope") == "ManageAllParts") {
+					if (sap.ui.getCore().getModel("UserDataModel").getProperty("/UserScope") == "Dealer_Parts_Admin") {
 						oClaimGroup = oClaimData.filter(function (val) {
 							return val == "CORE RETURN" || val == "SMART PARTS" || val == "PART WAREHOUSE";
 						});
-					} else if (sap.ui.getCore().getModel("UserDataModel").getProperty("/UserScope") == "ManageAllServices") {
+					} else if (sap.ui.getCore().getModel("UserDataModel").getProperty("/UserScope") == "Dealer_Services_Admin") {
 						oClaimGroup = oClaimData.filter(function (val) {
 							return val == "SETR" || val == "WARRANTY" || val == "CUSTOMER RELATIONS" || val == "VEHICLE LOGISTICS" || val == "ECP" ||
 								val =="FIELD ACTION";
