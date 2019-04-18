@@ -113,7 +113,7 @@
 							<cells>
 								<Text text="{i18n>Participation%}"/>
 								<Text text=""/>
-								<Select items="{LocalDataModel>/DataPercent}" enabled="{LocalDataModel>/PercentState}" selectedKey="{path:'DataPercetCalculate>/CustomerPer'}" >
+								<Select items="{LocalDataModel>/DataPercent}" enabled="{LocalDataModel>/PercentState}"  selectedKey="{path:'DataPercetCalculate>/CustomerPer'}" >
 									<core:Item key="{LocalDataModel>okey}" text="{LocalDataModel>num}"/>
 								</Select>
 								<Select items="{LocalDataModel>/DataPercent}" enabled="{LocalDataModel>/PercentState}" selectedKey="{DataPercetCalculate>/DealerPer}">
@@ -137,7 +137,9 @@
 				</Table>
 			</html:div>
 			
-			<html:div ><Button text="Re-calculate Claim Amount" visible="{LocalDataModel>/reCalculate}" press="onPressRecalculate" type="Emphasized"/></html:div>
+			<html:div >
+				<Button text="Re-calculate Claim Amount" visible="{LocalDataModel>/reCalculate}" enabled="{DateModel>/oFormEdit}"  press="onPressRecalculate" type="Emphasized"/>
+			</html:div>
 		</l:Grid>
 		</l:VerticalLayout>
 		
