@@ -259,8 +259,7 @@ sap.ui.define([
 					} else if (sap.ui.getCore().getModel("UserDataModel").getProperty("/UserScope") == "ManageAllServices") {
 						oClaimGroupdata = oClaimGroup.filter(function (val) {
 							return val == "SETR" || val == "WARRANTY" || val == "CUSTOMER RELATIONS" || val == "VEHICLE LOGISTICS" || val == "ECP" ||
-								val ==
-								"FIELD ACTION";
+								val == "FIELD ACTION";
 						});
 					} else {
 						oClaimGroupdata = oClaimGroup;
@@ -568,6 +567,17 @@ sap.ui.define([
 						new sap.ui.model.Filter(sDate, sap.ui.model.FilterOperator.BT, FromDateFormat, ToDateFormat),
 						new sap.ui.model.Filter(oResult)
 
+					],
+					and: true
+				});
+				this.getView().getModel("RowCountModel").setProperty("/rowCount", 10);
+			}else if (sQueryStat != "" && sQuerySearchText == "" && sQueryDate != "" && sQueryClaimGroup != "" && sQueryDealer != "" && sQueryClaimType == "") {
+				andFilter = new sap.ui.model.Filter({
+					filters: [
+						new sap.ui.model.Filter("Partner", sap.ui.model.FilterOperator.EQ, sQueryDealer),
+						new sap.ui.model.Filter(sDate, sap.ui.model.FilterOperator.BT, FromDateFormat, ToDateFormat),
+						new sap.ui.model.Filter("WarrantyClaimGroupDes", sap.ui.model.FilterOperator.EQ, sQueryClaimGroup),
+						new sap.ui.model.Filter(oResult)
 					],
 					and: true
 				});
