@@ -2740,8 +2740,8 @@ sap.ui.define([
 			var oValid = oValidator.validate(this.getView().byId("idClaimForm"));
 
 			if (((this.getView().getModel("HeadSetData").getProperty("/DeliveringCarrier") == "") || (this.getView().getModel("HeadSetData").getProperty(
-					"/DeliveringCarrier") == undefined)) && this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZPDC" ||
-				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZPTS") {
+					"/DeliveringCarrier") == undefined)) && (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZPDC" ||
+				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZPTS")) {
 				// if (!oValid) {
 				// if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZPDC" || this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZPTS") {
 				// if (this.getView().getModel("HeadSetData").getProperty("/DeliveringCarrier") == undefined || this.getView().getModel("HeadSetData").getProperty("/DeliveringCarrier") == "") {
@@ -3185,6 +3185,7 @@ sap.ui.define([
 			oFilteredDealerData = oDealerEvt.getSource().getModel("BpDealerModel").getData().BpDealerList.filter(function (val) {
 				return val.BusinessPartner === oDealerEvt.getParameter("newValue");
 			});
+			this.getView().byId("idCarrierName").setValueState("None");
 		},
 
 		onExit: function () {
