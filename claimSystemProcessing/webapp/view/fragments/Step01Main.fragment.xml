@@ -87,7 +87,7 @@
 			singleContainerFullSize="false">
 			<f:content>
 				<core:Title text="{i18n>PartsComments}"/>
-				<TextArea height="8rem" value="{HeadSetData>/HeadText}" enabled="{DateModel>/oFormEdit}">
+				<TextArea height="8rem" value="{HeadSetData>/NewPartsText}" enabled="{DateModel>/oFormEdit}" change="onEnterPartsComments">
 					<layoutData>
 						<l:GridData span="XL8 L8 M8 S4"/>
 					</layoutData>
