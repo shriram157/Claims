@@ -1641,14 +1641,15 @@ sap.ui.define([
 			this.getView().addDependent(oDialogBox);
 			oDialogBox.open();
 		},
-		onEnterComment: function () {
+		
+		onEnterPartsComments: function () {
 			var oPrevComment = this.getView().getModel("HeadSetData").getProperty("/HeadText");
 			var oPartner = this.getModel("LocalDataModel").getProperty("/BpDealerModel/0/BusinessPartnerKey");
 			var oDateFormat = sap.ui.core.format.DateFormat.getDateInstance({
 				pattern: "yyyy-MM-dd HH:mm:ss"
 			});
 			var oDate = oDateFormat.format(new Date());
-			var oText = this.getView().getModel("HeadSetData").getProperty("/NewText");
+			var oText = this.getView().getModel("HeadSetData").getProperty("/NewPartsText");
 
 			var oBusinessModel = this.getModel("ApiBusinessModel");
 			oBusinessModel.read("/A_BusinessPartner", {
@@ -1660,11 +1661,10 @@ sap.ui.define([
 					//var oFinalText = `${oPrevComment} \n  ${oPartnerName} ( ${oDate} ) ${oText}`;
 					var oFinalText = oPrevComment + "\n" + oPartnerName + "(" + oDate + ") " + " : " + oText;
 					this.getView().getModel("HeadSetData").setProperty("/HeadText", oFinalText);
-					this.getView().getModel("HeadSetData").setProperty("/NewText", "");
+					this.getView().getModel("HeadSetData").setProperty("/NewPartsText", "");
 					// console.log(oFinalText);
 				}, this)
 			});
-
 		},
 		onCloseComment: function (oEvent) {
 			oEvent.getSource().getParent().getParent().getParent().getParent().getParent().close();

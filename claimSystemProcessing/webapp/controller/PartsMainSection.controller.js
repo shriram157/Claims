@@ -425,7 +425,7 @@ sap.ui.define([
 				this._getDropDownData(oEvent.getParameters().arguments.oKey);
 				this.getView().getModel("DateModel").setProperty("/claimTypeEn", false);
 				var oProssingModel = this.getModel("ProssingModel");
-				oProssingModel.read("/ZC_CLAIM_HEAD_NEW", {
+				oProssingModel.read("/ZC_CLAIM_HEAD", {
 					urlParameters: {
 						"$filter": "NumberOfWarrantyClaim eq '" + oClaim + "' "
 					},
@@ -435,7 +435,7 @@ sap.ui.define([
 						BPKey = data.results[0].Partner;
 						this._getBPModel(BPKey);
 						this.getModel("LocalDataModel").setProperty("/NumberOfWarrantyClaim", data.results[0].NumberOfWarrantyClaim);
-						this.getModel("LocalDataModel").setProperty("/PartDetailList", data.results[0].to_claimitem.results);
+						// this.getModel("LocalDataModel").setProperty("/PartDetailList", data.results[0].to_claimitem.results);
 						console.log(data.results);
 						console.log("oFilteredDealerData", oFilteredDealerData);
 						var HeadSetData = new sap.ui.model.json.JSONModel(data.results[0]);
@@ -776,6 +776,41 @@ sap.ui.define([
 			} else if (this.getView().getModel("HeadSetData").getProperty("/DeliveryDate") <= receivedDate) {
 				this.getView().getModel("DateModel").setProperty("/SaveClimBTN", true);
 			}
+		},
+
+		onAddPartsComment: function () {
+			var oDialogBox = sap.ui.xmlfragment("zclaimProcessing.view.fragments.ClaimComments", this);
+			this.getView().addDependent(oDialogBox);
+			oDialogBox.open();
+		},
+		
+		onEnterComment: function () {
+			var oPrevComment = this.getView().getModel("HeadSetData").getProperty("/HeadText");
+			var oPartner = this.getModel("LocalDataModel").getProperty("/BpDealerModel/0/BusinessPartnerKey");
+			var oDateFormat = sap.ui.core.format.DateFormat.getDateInstance({
+				pattern: "yyyy-MM-dd HH:mm:ss"
+			});
+			var oDate = oDateFormat.format(new Date());
+			var oText = this.getView().getModel("HeadSetData").getProperty("/NewText");
+
+			var oBusinessModel = this.getModel("ApiBusinessModel");
+			oBusinessModel.read("/A_BusinessPartner", {
+				urlParameters: {
+					"$filter": "BusinessPartner eq '" + oPartner + "'"
+				},
+				success: $.proxy(function (data) {
+					var oPartnerName = data.results[0].OrganizationBPName1;
+					//var oFinalText = `${oPrevComment} \n  ${oPartnerName} ( ${oDate} ) ${oText}`;
+					var oFinalText = oPrevComment + "\n" + oPartnerName + "(" + oDate + ") " + " : " + oText;
+					this.getView().getModel("HeadSetData").setProperty("/HeadText", oFinalText);
+					this.getView().getModel("HeadSetData").setProperty("/NewText", "");
+					// console.log(oFinalText);
+				}, this)
+			});
+		},
+		
+		onCloseComment: function (oEvent) {
+			oEvent.getSource().getParent().getParent().getParent().getParent().getParent().close();
 		},
 
 		handlePNValueHelp02: function (oController) {
@@ -2754,7 +2789,7 @@ sap.ui.define([
 						this.getModel("LocalDataModel").setProperty("/WarrantyClaimNum", response.data.NumberOfWarrantyClaim);
 						// this.getModel("LOIDataModel").setProperty("/claimNumber", response.data.NumberOfWarrantyClaim);
 						this._fnClaimSum();
-						oClaimModel.read("/ZC_CLAIM_HEAD_NEW", {
+						oClaimModel.read("/ZC_CLAIM_HEAD", {
 							urlParameters: {
 								"$filter": "NumberOfWarrantyClaim eq '" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") +
 									"'"
