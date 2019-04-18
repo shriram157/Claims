@@ -776,22 +776,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/authRejClm", false);
 							this.getView().getModel("DateModel").setProperty("/copyClaimEnable", true);
 							this.getView().getModel("DateModel").setProperty("/oDamageLineBtn", false);
-						}
-						else if (data.results[0].ProcessingStatusOfWarrantyClm == "ZTMR") {
-						// 	//sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") == "Dealer_Services_Manager"
-							this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
-							this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
-							this.getView().getModel("DateModel").setProperty("/damageLine", false);
-							this.getView().getModel("DateModel").setProperty("/updateEnable", false);
-							this.getView().getModel("DateModel").setProperty("/copyClaimEnable", false);
-							this.getModel("LocalDataModel").setProperty("/CancelEnable", false);
-							this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
-							this.getView().getModel("DateModel").setProperty("/oDamageLineBtn", false);
-							this.getView().getModel("DateModel").setProperty("/authAcClm", false);
-							this.getView().getModel("DateModel").setProperty("/authRejClm", false);
-							this.getView().getModel("DateModel").setProperty("/claimEditSt", true);
-						 } 
-						else if (data.results[0].ProcessingStatusOfWarrantyClm == "ZTMR" && sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") == "Dealer_Services_Manager") {
+						}else if (data.results[0].ProcessingStatusOfWarrantyClm == "ZTMR" && sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") == "Dealer_Services_Manager") {
 							//sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") == "Dealer_Services_Manager"
 							this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
 							this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
@@ -805,7 +790,21 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/authRejClm", true);
 							this.getView().getModel("DateModel").setProperty("/claimEditSt", true);
 
-						} else {
+						} else if (data.results[0].ProcessingStatusOfWarrantyClm == "ZTMR") {
+						// 	//sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") == "Dealer_Services_Manager"
+							this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
+							this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
+							this.getView().getModel("DateModel").setProperty("/damageLine", false);
+							this.getView().getModel("DateModel").setProperty("/updateEnable", false);
+							this.getView().getModel("DateModel").setProperty("/copyClaimEnable", false);
+							this.getModel("LocalDataModel").setProperty("/CancelEnable", false);
+							this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
+							this.getView().getModel("DateModel").setProperty("/oDamageLineBtn", false);
+							this.getView().getModel("DateModel").setProperty("/authAcClm", false);
+							this.getView().getModel("DateModel").setProperty("/authRejClm", false);
+							this.getView().getModel("DateModel").setProperty("/claimEditSt", true);
+						 } 
+						 else {
 							this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
 							this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
 							this.getView().getModel("DateModel").setProperty("/copyClaimEnable", false);
@@ -1896,6 +1895,7 @@ sap.ui.define([
 		onEnterVIN: function (oEvent) {
 
 			var oVin = oEvent.getParameters().value;
+			this.getView().getModel("HeadSetData").setProperty("/ExternalObjectNumber", oVin.toUpperCase());
 			this.getModel("LocalDataModel").setProperty("/selectedVehicle", oVin);
 			var oProssingModel = this.getModel("ProssingModel");
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
