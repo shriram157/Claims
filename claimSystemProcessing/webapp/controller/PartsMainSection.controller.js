@@ -14,7 +14,7 @@ sap.ui.define([
 	"use strict";
 	var callData, arrPartLOI = [],
 		BpDealerModel, BpDealerList = [],
-		oFilteredDealerData, dialogValidator, BPKey, userScope;
+		oFilteredDealerData, dialogValidator, BPKey, userScope, sSelectedLocale;
 	return BaseController.extend("zclaimProcessing.controller.PartsMainSection", {
 
 		onInit: function () {
@@ -783,7 +783,7 @@ sap.ui.define([
 			this.getView().addDependent(oDialogBox);
 			oDialogBox.open();
 		},
-		
+
 		onEnterComment: function () {
 			var oPrevComment = this.getView().getModel("HeadSetData").getProperty("/HeadText");
 			var oPartner = this.getModel("LocalDataModel").getProperty("/BpDealerModel/0/BusinessPartnerKey");
@@ -808,7 +808,7 @@ sap.ui.define([
 				}, this)
 			});
 		},
-		
+
 		onCloseComment: function (oEvent) {
 			oEvent.getSource().getParent().getParent().getParent().getParent().getParent().close();
 		},
@@ -2169,13 +2169,21 @@ sap.ui.define([
 		// },
 
 		_getDropDownData: function (oClaimType) {
+			//  get the locale to determine the language.
+			var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
+			if (isLocaleSent) {
+				sSelectedLocale = (window.location.search.match(/language=([^&]*)/i)[1]).toUpperCase();
+			} else {
+				sSelectedLocale = "EN"; // default is english
+			}
+
 			console.log("claimType", oClaimType);
 			//zc_discre_codesSet?$filter=ClaimType eq 'ZPDC' and LanguageKey eq 'E'&$format=json
 			var oClaimModel = this.getModel("ProssingModel");
 			oClaimModel.refreshSecurityToken();
 			oClaimModel.read("/zc_discre_codesSet", {
 				urlParameters: {
-					"$filter": "ClaimType eq'" + oClaimType + "'and LanguageKey eq 'E'"
+					"$filter": "ClaimType eq'" + oClaimType + "'and LanguageKey eq '"+sSelectedLocale+"'"
 				},
 				success: $.proxy(function (odata) {
 					console.log("DD data for screen2", odata);
@@ -2361,17 +2369,17 @@ sap.ui.define([
 		onUploadCompleteParts: function (oEvent) {
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			var fileType = this.oUploadedFile.type;
-			var oUploadedFileArr = this.oUploadedFile.name.split(".").reverse();
-			var oFileExt = oUploadedFileArr[0].length;
-			var oFileName = "";
+			// var oUploadedFileArr = this.oUploadedFile.name.split(".").reverse();
+			// var oFileExt = oUploadedFileArr[0].length;
+			// var oFileName = "";
 			//oFileName = this.oUploadedFile.name.replace("." + oFileExt, "");
-			if (oFileExt > 3) {
-				oFileName = this.oUploadedFile.name.slice(0, -1);
-			} else {
-				oFileName = this.oUploadedFile.name;
-			}
+			// if (oFileExt > 3) {
+			// oFileName = this.oUploadedFile.name.slice(0, -1);
+			// } else {
+			var oFileName = this.oUploadedFile.name;
+			// }
 			var fileNamePrior = "HEAD@@@" + oFileName;
-			var fileName = fileNamePrior.toUpperCase();
+			var fileName = fileNamePrior; // .toUpperCase();
 			var isProxy = "";
 			if (window.document.domain == "localhost") {
 				isProxy = "proxy";
@@ -2439,17 +2447,17 @@ sap.ui.define([
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			var oPartNo = this.getView().getModel("PartDataModel").getProperty("/matnr");
 			var fileType = this.oUploadedFile.type;
-			var oUploadedFileArr = this.oUploadedFile.name.split(".").reverse();
-			var oFileExt = oUploadedFileArr[0].length;
-			var oFileName = "";
+			// var oUploadedFileArr = this.oUploadedFile.name.split(".").reverse();
+			// var oFileExt = oUploadedFileArr[0].length;
+			// var oFileName = "";
 			//oFileName = this.oUploadedFile.name.replace("." + oFileExt, "");
-			if (oFileExt > 3) {
-				oFileName = this.oUploadedFile.name.slice(0, -1);
-			} else {
-				oFileName = this.oUploadedFile.name;
-			}
+			// if (oFileExt > 3) {
+			// 	oFileName = this.oUploadedFile.name.slice(0, -1);
+			// } else {
+			var oFileName = this.oUploadedFile.name;
+			// }
 			var fileNamePrior = oPartNo + "@@@" + oFileName;
-			var fileName = fileNamePrior.toUpperCase();
+			var fileName = fileNamePrior; //.toUpperCase();
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var isProxy = "";
 			if (window.document.domain == "localhost") {
