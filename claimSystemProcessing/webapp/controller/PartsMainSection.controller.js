@@ -254,6 +254,42 @@ sap.ui.define([
 			});
 		},
 		_onRoutMatched: function (oEvent) {
+			//zc_claim_groupSet?$filter=LanguageKey%20eq%20%27EN%27
+			var sSelectedLocale;
+			var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
+			if (isLocaleSent) {
+				sSelectedLocale = (window.location.search.match(/language=([^&]*)/i)[1]).toUpperCase();
+			} else {
+				sSelectedLocale = "EN"; // default is english
+			}
+			var oProssingModel = this.getModel("ProssingModel");
+
+			oProssingModel.read("/zc_claim_groupSet", {
+				urlParameters: {
+					"$filter": "LanguageKey eq '" + sSelectedLocale + "'"
+				},
+				success: $.proxy(function (groupData) {
+					var oClaimGroupsData;
+					console.log("groupData", groupData);
+					if (sSelectedLocale == "EN") {
+						oClaimGroupsData = groupData.results.filter(function (item) {
+							item.ALMClaimTypeDes = item.ALMClaimTypeDesEn;
+							item.ALMClaimType = item.WarrantyClaimType;
+							return item.ClaimGroupDesEn == "PART WAREHOUSE";
+						});
+						console.log("oClaimGroupsData", oClaimGroupsData);
+					} else if (sSelectedLocale == "FR") {
+						oClaimGroupsData = groupData.results.filter(function (item) {
+							item.ALMClaimTypeDes = item.ALMClaimTypeDesFr;
+							item.ALMClaimType = item.WarrantyClaimType;
+							return item.ClaimGroupDesFr == "PART WAREHOUSE"; // "ENTREPÔT PARTIE";
+						});
+						console.log("oClaimGroupsData", oClaimGroupsData);
+					}
+					this.getModel("LocalDataModel").setProperty("/oClaimPartsGroupsData", oClaimGroupsData);
+				}, this)
+			});
+
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var oDateModel = new sap.ui.model.json.JSONModel();
 			this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
@@ -2183,7 +2219,7 @@ sap.ui.define([
 			oClaimModel.refreshSecurityToken();
 			oClaimModel.read("/zc_discre_codesSet", {
 				urlParameters: {
-					"$filter": "ClaimType eq'" + oClaimType + "'and LanguageKey eq '"+sSelectedLocale+"'"
+					"$filter": "ClaimType eq'" + oClaimType + "'and LanguageKey eq '" + sSelectedLocale + "'"
 				},
 				success: $.proxy(function (odata) {
 					console.log("DD data for screen2", odata);

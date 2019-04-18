@@ -14,10 +14,11 @@
 				<f:content>
 					<core:Title text=""/>
 					<Label text="{i18n>ClaimType}"/>
+					<!--{path:'/ZC_CLAIM_GROUP', filters : [{path:'ClaimGroupDes', operator:'EQ', value1 : 'PART WAREHOUSE' }]}-->
 					<ComboBox id="ID_claimGroupsforParts" required="true"
-						items="{path:'/ZC_CLAIM_GROUP', filters : [{path:'ClaimGroupDes', operator:'EQ', value1 : 'PART WAREHOUSE' }]}" change="onSelectClaim"
+						items="{LocalDataModel>/oClaimPartsGroupsData}" change="onSelectClaim"
 						selectedKey="{HeadSetData>/WarrantyClaimType}" enabled="{DateModel>/claimTypeEn}">
-						<core:Item text="{ALMClaimTypeDes}" key="{ALMClaimType}"/>
+						<core:Item text="{LocalDataModel>ALMClaimTypeDes}" key="{LocalDataModel>ALMClaimType}"/>
 					</ComboBox>
 					<core:Title text=""/>
 					<Label text="{i18n>FirstSubmissionDate}"/>
