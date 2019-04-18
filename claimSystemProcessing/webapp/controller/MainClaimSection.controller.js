@@ -3431,6 +3431,7 @@ sap.ui.define([
 					at: "center center"
 				});
 			} else {
+			
 				var oClaimModel = this.getModel("ProssingModel");
 				oClaimModel.read("/zc_authorizationSet", {
 					urlParameters: {
@@ -3446,6 +3447,8 @@ sap.ui.define([
 						this.getView().getModel("DataPercetCalculate").setProperty("/CustomerPer", ocust);
 						this.getView().getModel("DataPercetCalculate").setProperty("/DealerPer", odeal);
 						this.getView().getModel("DataPercetCalculate").setProperty("/TCIPer", otci);
+						this._fnClaimSumPercent();
+						
 					}, this)
 				});
 			}
