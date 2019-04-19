@@ -33,11 +33,11 @@ sap.ui.define([
 
 					}
 					
-					if (sap.ui.getCore().getModel("UserDataModel").getProperty("/UserScope") == "Dealer_Parts_Admin") {
+					if (sap.ui.getCore().getModel("UserDataModel").getProperty("/UserScope") == "ManageAllParts") {
 						oClaimGroup = oClaimData.filter(function (val) {
 							return val == "CORE RETURN" || val == "SMART PARTS" || val == "PART WAREHOUSE";
 						});
-					} else if (sap.ui.getCore().getModel("UserDataModel").getProperty("/UserScope") == "Dealer_Services_Admin") {
+					} else if (sap.ui.getCore().getModel("UserDataModel").getProperty("/UserScope") == "ManageAllServices") {
 						oClaimGroup = oClaimData.filter(function (val) {
 							return val == "SETR" || val == "WARRANTY" || val == "CUSTOMER RELATIONS" || val == "VEHICLE LOGISTICS" || val == "ECP" ||
 								val =="FIELD ACTION";

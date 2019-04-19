@@ -1117,7 +1117,7 @@ sap.ui.define([
 								"PartQty": Qty.toString(),
 								"PartDescription": this.getView().getModel("PartDataModel").getProperty("/PartDescription"),
 								"UnitOfMeasure": this.getModel("LocalDataModel").getProperty("/BaseUnit"),
-								"LineRefnr": ,
+								"LineRefnr":this.getView().getModel("PartDataModel").getProperty("/LineNo").toString(),
 								"ItemKey": this.getView().getModel("PartDataModel").getProperty("/matnr"),
 								"RetainPart": retainval,
 								"QuantityOrdered": this.getView().getModel("PartDataModel").getProperty("/quant").toString(),
