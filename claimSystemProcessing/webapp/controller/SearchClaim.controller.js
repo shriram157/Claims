@@ -255,7 +255,7 @@ sap.ui.define([
 						oClaimGroupdata = oClaimGroup.filter(function (val) {
 							return val == "CORE RETURN" || val == "SMART PARTS" || val == "PART WAREHOUSE";
 						});
-					} else if (sap.ui.getCore().getModel("UserDataModel").getProperty("/UserScope") == "ManageAllServices") {
+					} else if (sap.ui.getCore().getModel("UserDataModel").getProperty("/UserScope") == "ManageAllServices" || sap.ui.getCore().getModel("UserDataModel").getProperty("/UserScope") == "ManageAllShowAuthorization") {
 						oClaimGroupdata = oClaimGroup.filter(function (val) {
 							return val == "SETR" || val == "WARRANTY" || val == "CUSTOMER RELATIONS" || val == "VEHICLE LOGISTICS" || val == "ECP" ||
 								val == "FIELD ACTION";
