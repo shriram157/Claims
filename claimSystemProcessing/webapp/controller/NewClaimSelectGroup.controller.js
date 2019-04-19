@@ -30,7 +30,6 @@ sap.ui.define([
 								odata[i].ClaimGroupDes
 							);
 						}
-
 					}
 					
 					if (sap.ui.getCore().getModel("UserDataModel").getProperty("/UserScope") == "ManageAllParts") {
