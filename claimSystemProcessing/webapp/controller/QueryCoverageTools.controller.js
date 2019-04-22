@@ -5,7 +5,7 @@ sap.ui.define([
 ], function (BaseController, formatter, MessageBox) {
 	"use strict";
 	var agreementno = '',
-		dometerunit,that;
+		dometerunit, that;
 	return BaseController.extend("zclaimProcessing.controller.QueryCoverageTools", {
 		formatter: formatter,
 		/**
@@ -109,7 +109,7 @@ sap.ui.define([
 		 * @memberOf zclaimProcessing.view.QueryCoverageTools
 		 */
 		onAfterRendering: function () {
-			this.byId('idActiveAgreement').getBinding('rows').filter([new sap.ui.model.Filter("VIN", sap.ui.model.FilterOperator.EQ, '0')]);
+			//this.byId('idActiveAgreement').getBinding('rows').filter([new sap.ui.model.Filter("VIN", sap.ui.model.FilterOperator.EQ, '0')]);
 		},
 
 		/**
@@ -171,9 +171,19 @@ sap.ui.define([
 			// 	},
 			// 	error: function (jqXHR, textStatus, errorThrown) {}
 			// });
+			var oProssingModel = this.getModel("ProssingModel");
+			oProssingModel.read("/zc_cliam_agreement", {
+				urlParameters: {
+					"$filter": "VIN eq '" + oVin + "'"
+				},
+				success: $.proxy(function (agrData) {
+					this.getModel("LocalDataModel").setProperty("/AgreementDataECP", agrData.results);
+				}, this),
+				error: function () {}
+			});
 
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
-			var oProssingModel = this.getModel("ProssingModel");
+
 			oProssingModel.read("/zc_vehicle_informationSet", {
 				urlParameters: {
 					"$filter": "Vin eq '" + oVin + "'",
@@ -286,8 +296,8 @@ sap.ui.define([
 			this.getView().byId('Odometer').setValue('');
 			this.getView().byId('partofp').setValue('');
 			this.getView().byId('mainop').setValue('');
-			this.getView().getModel('LocalDataModel').setProperty('/DataVinDetails','');
-			this.getView().getModel('LocalDataModel').setProperty('/VehicleMonths','');
+			this.getView().getModel('LocalDataModel').setProperty('/DataVinDetails', '');
+			this.getView().getModel('LocalDataModel').setProperty('/VehicleMonths', '');
 			this.byId('idActiveAgreement').getBinding('rows').filter([new sap.ui.model.Filter("VIN", sap.ui.model.FilterOperator.EQ, '0')]);
 			this.getView().byId('ofptable').getBinding('rows').filter();
 			this.getView().byId('idMainClaimMessage').setVisible(false);
