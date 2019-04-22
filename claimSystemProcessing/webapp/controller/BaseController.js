@@ -158,6 +158,7 @@ sap.ui.define([
 						that.getView().getModel("HeaderLinksModel").setProperty("/QuickCoverageTool", true);
 						that.getView().getModel("HeaderLinksModel").setProperty("/ClaimInquiry", true);
 						that.getView().getModel("HeaderLinksModel").setProperty("/DealerLabourRateInquiry", true);
+						that.getOwnerComponent().getModel("LocalDataModel").setProperty("/visibleNewBtn", false);
 						sap.ui.getCore().getModel("HeaderLinksModel").updateBindings(true);
 						/*Uncomment for security*/
 						break;
@@ -202,14 +203,15 @@ sap.ui.define([
 						/*Uncomment for security*/
 						break;
 					default:
-						console.log("Dealer Parts");
-						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ManageAllParts");
+						console.log("TCI_Admin");
+						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ReadOnlyViewAll");
 						/*Uncomment for security*/
-						that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", true);
+						that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", false);
 						that.getView().getModel("HeaderLinksModel").setProperty("/ViewUpdateClaims", true);
 						that.getView().getModel("HeaderLinksModel").setProperty("/QuickCoverageTool", true);
 						that.getView().getModel("HeaderLinksModel").setProperty("/ClaimInquiry", true);
 						that.getView().getModel("HeaderLinksModel").setProperty("/DealerLabourRateInquiry", true);
+						that.getOwnerComponent().getModel("LocalDataModel").setProperty("/visibleNewBtn", false);
 						sap.ui.getCore().getModel("HeaderLinksModel").updateBindings(true);
 						/*Uncomment for security*/
 					}
