@@ -461,7 +461,7 @@ sap.ui.define([
 				this._getDropDownData(oEvent.getParameters().arguments.oKey);
 				this.getView().getModel("DateModel").setProperty("/claimTypeEn", false);
 				var oProssingModel = this.getModel("ProssingModel");
-				oProssingModel.read("/ZC_CLAIM_HEAD", {
+				oProssingModel.read("/ZC_CLAIM_HEAD_NEW", {
 					urlParameters: {
 						"$filter": "NumberOfWarrantyClaim eq '" + oClaim + "' "
 					},
@@ -1061,6 +1061,8 @@ sap.ui.define([
 					// 	this.getView().getModel("PartDataModel").setProperty("/quant", "0.000");
 					// }
 					retainval = "N";
+				} else {
+					retainval = "";
 				}
 
 				if (this.getView().getModel("HeadSetData").getProperty("/PartRepaired") == "Yes") {
@@ -1117,7 +1119,7 @@ sap.ui.define([
 								"PartQty": Qty.toString(),
 								"PartDescription": this.getView().getModel("PartDataModel").getProperty("/PartDescription"),
 								"UnitOfMeasure": this.getModel("LocalDataModel").getProperty("/BaseUnit"),
-								"LineRefnr":this.getView().getModel("PartDataModel").getProperty("/LineNo").toString(),
+								"LineRefnr": this.getView().getModel("PartDataModel").getProperty("/LineNo").toString(),
 								"ItemKey": this.getView().getModel("PartDataModel").getProperty("/matnr"),
 								"RetainPart": retainval,
 								"QuantityOrdered": this.getView().getModel("PartDataModel").getProperty("/quant").toString(),
@@ -1922,14 +1924,17 @@ sap.ui.define([
 					this.getView().getModel("multiHeaderConfig").setProperty("/flagIncorrectPart", false);
 					this.getView().getModel("multiHeaderConfig").setProperty("/PartNumberEdit", false);
 					this.getView().getModel("HeadSetData").setProperty("/PartNumberRc", matrnr);
+					this.getView().getModel("multiHeaderConfig").setProperty("/RetainPartV", false);
 				} else if (SelectedDD.DiscreCode == "3A") { //Overage
 					// RetainPartOV
 					this.getView().getModel("multiHeaderConfig").setProperty("/flagIncorrectPart", false);
 					this.getView().getModel("multiHeaderConfig").setProperty("/PartNumberEdit", false);
+					this.getView().getModel("multiHeaderConfig").setProperty("/RetainPartV", true);
 					this.getView().getModel("HeadSetData").setProperty("/PartNumberRc", matrnr);
 				} else {
 					this.getView().getModel("multiHeaderConfig").setProperty("/flagIncorrectPart", true);
 					this.getView().getModel("multiHeaderConfig").setProperty("/PartNumberEdit", true);
+					this.getView().getModel("multiHeaderConfig").setProperty("/RetainPartV", true);
 				}
 			}
 			//ZPMS ZPTS ZPPD ZPDC
@@ -2842,7 +2847,7 @@ sap.ui.define([
 						this.getModel("LocalDataModel").setProperty("/WarrantyClaimNum", response.data.NumberOfWarrantyClaim);
 						// this.getModel("LOIDataModel").setProperty("/claimNumber", response.data.NumberOfWarrantyClaim);
 						this._fnClaimSum();
-						oClaimModel.read("/ZC_CLAIM_HEAD", {
+						oClaimModel.read("/ZC_CLAIM_HEAD_NEW", {
 							urlParameters: {
 								"$filter": "NumberOfWarrantyClaim eq '" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") +
 									"'"
