@@ -1056,7 +1056,10 @@ sap.ui.define([
 				var retainval, RepairOrRetrunPart;
 				if (this.getView().getModel("PartDataModel").getProperty("/RetainPart") == "Yes") {
 					retainval = "Y";
-				} else {
+				} else if (this.getView().getModel("PartDataModel").getProperty("/RetainPart") == "No") {
+					// if (this.getView().getModel("PartDataModel").getProperty("/DiscreCode") == "3A") {
+					// 	this.getView().getModel("PartDataModel").setProperty("/quant", "0.000");
+					// }
 					retainval = "N";
 				}
 
@@ -1100,6 +1103,12 @@ sap.ui.define([
 							} else {
 								RepairAmt = this.getView().getModel("HeadSetData").getProperty("/RepairAmount");
 							}
+							var finalQTY;
+							// if (this.getView().getModel("PartDataModel").getProperty("/quant") !== "0.000" || this.getView().getModel("PartDataModel").getProperty(	"/quant") !== "") {
+							// 	finalQTY = this.getView().getModel("PartDataModel").getProperty("/quant").toString();
+							// } else {
+							// 	finalQTY = "0.000";
+							// }
 							var itemObj = {
 								"Type": "PART",
 								"ItemType": "MAT",
@@ -1108,7 +1117,7 @@ sap.ui.define([
 								"PartQty": Qty.toString(),
 								"PartDescription": this.getView().getModel("PartDataModel").getProperty("/PartDescription"),
 								"UnitOfMeasure": this.getModel("LocalDataModel").getProperty("/BaseUnit"),
-								"LineRefnr": this.getView().getModel("PartDataModel").getProperty("/LineNo").toString(),
+								"LineRefnr":this.getView().getModel("PartDataModel").getProperty("/LineNo").toString(),
 								"ItemKey": this.getView().getModel("PartDataModel").getProperty("/matnr"),
 								"RetainPart": retainval,
 								"QuantityOrdered": this.getView().getModel("PartDataModel").getProperty("/quant").toString(),
@@ -2740,8 +2749,8 @@ sap.ui.define([
 			var oValid = oValidator.validate(this.getView().byId("idClaimForm"));
 
 			if (((this.getView().getModel("HeadSetData").getProperty("/DeliveringCarrier") == "") || (this.getView().getModel("HeadSetData").getProperty(
-					"/DeliveringCarrier") == undefined)) && this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZPDC" ||
-				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZPTS") {
+					"/DeliveringCarrier") == undefined)) && (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZPDC" ||
+					this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZPTS")) {
 				// if (!oValid) {
 				// if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZPDC" || this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZPTS") {
 				// if (this.getView().getModel("HeadSetData").getProperty("/DeliveringCarrier") == undefined || this.getView().getModel("HeadSetData").getProperty("/DeliveringCarrier") == "") {
@@ -3185,6 +3194,7 @@ sap.ui.define([
 			oFilteredDealerData = oDealerEvt.getSource().getModel("BpDealerModel").getData().BpDealerList.filter(function (val) {
 				return val.BusinessPartner === oDealerEvt.getParameter("newValue");
 			});
+			this.getView().byId("idCarrierName").setValueState("None");
 		},
 
 		onExit: function () {

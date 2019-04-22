@@ -156,9 +156,8 @@ sap.ui.define([
 						/*Uncomment for security*/
 						break;
 					default:
-						console.log("Invalid Case");
-						console.log("Dealer_Services_Admin");
-						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ManageAllShowAuthorization");
+						console.log("Dealer Parts");
+						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ManageAllParts");
 						/*Uncomment for security*/
 						that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", true);
 						that.getView().getModel("HeaderLinksModel").setProperty("/ViewUpdateClaims", true);
@@ -256,7 +255,7 @@ sap.ui.define([
 						oClaimGroupdata = oClaimGroup.filter(function (val) {
 							return val == "CORE RETURN" || val == "SMART PARTS" || val == "PART WAREHOUSE";
 						});
-					} else if (sap.ui.getCore().getModel("UserDataModel").getProperty("/UserScope") == "ManageAllServices") {
+					} else if (sap.ui.getCore().getModel("UserDataModel").getProperty("/UserScope") == "ManageAllServices" || sap.ui.getCore().getModel("UserDataModel").getProperty("/UserScope") == "ManageAllShowAuthorization") {
 						oClaimGroupdata = oClaimGroup.filter(function (val) {
 							return val == "SETR" || val == "WARRANTY" || val == "CUSTOMER RELATIONS" || val == "VEHICLE LOGISTICS" || val == "ECP" ||
 								val == "FIELD ACTION";
