@@ -25,8 +25,9 @@
 										<Button text="{i18n>Reset}" press="onPressClear"/>
 									</f:content>
 								</f:SimpleForm>
-								<f:SimpleForm id="vin_details" editable="true" layout="ResponsiveGridLayout" labelSpanXL="6" labelSpanL="6" labelSpanM="6" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0"
-			emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="3" columnsL="3" columnsM="3" singleContainerFullSize="false">
+								<f:SimpleForm id="vin_details" editable="true" layout="ResponsiveGridLayout" labelSpanXL="6" labelSpanL="6" labelSpanM="6" labelSpanS="12"
+									adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="3" columnsL="3" columnsM="3"
+									singleContainerFullSize="false">
 									<f:content>
 										<core:Title text=""/>
 										<Label text="{i18n>Model}" vAlign="Middle"/>
@@ -45,7 +46,8 @@
 												<l:GridData span="XL1 L2 M3 S4"/>
 											</layoutData>
 										</Text>
-										<core:Icon src="sap-icon://message-warning" class="clWarning sapUiSmallMarginTopBottom" color="#f00" visible="{DateModel>/writtenOffInd}" press="onPressWrittenOff">
+										<core:Icon src="sap-icon://message-warning" class="clWarning sapUiSmallMarginTopBottom" color="#f00" visible="{DateModel>/writtenOffInd}"
+											press="onPressWrittenOff">
 											<core:layoutData>
 												<FlexItemData/>
 											</core:layoutData>
@@ -57,7 +59,8 @@
 												<l:GridData span="XL1 L2 M3 S4"/>
 											</layoutData>
 										</Text>
-										<core:Icon src="sap-icon://message-warning" class="clWarning sapUiSmallMarginTopBottom" color="#f00" visible="{DateModel>/foreignVinInd}" press="onPressForeignVin">
+										<core:Icon src="sap-icon://message-warning" class="clWarning sapUiSmallMarginTopBottom" color="#f00" visible="{DateModel>/foreignVinInd}"
+											press="onPressForeignVin">
 											<core:layoutData>
 												<FlexItemData/>
 											</core:layoutData>
@@ -68,7 +71,8 @@
 												<l:GridData span="XL1 L2 M3 S4"/>
 											</layoutData>
 										</Text>
-										<core:Icon class="clWarning sapUiSmallMarginTopBottom" src="sap-icon://message-warning" color="#f00" visible="{DateModel>/specialVinInd}" press="onPressSpecialVin"></core:Icon>
+										<core:Icon class="clWarning sapUiSmallMarginTopBottom" src="sap-icon://message-warning" color="#f00" visible="{DateModel>/specialVinInd}"
+											press="onPressSpecialVin"></core:Icon>
 									</f:content>
 								</f:SimpleForm>
 								<!--					<Label text="{i18n>RegDate}"/>-->
@@ -92,71 +96,110 @@
 					<uxap:ObjectPageSubSection >
 						<uxap:blocks>
 							<VBox>
-								<table:Table id="idActiveAgreement" class="classRCPTable" selectionMode="Single" rows="{EcpSalesModel>/zc_ecp_agreement}"
-									visibleRowCountMode="Auto" rowSelectionChange="onNavigate" selectionBehavior="Row" showNoData="true" threshold="20"
-									enableBusyIndicator="true">
-									<table:toolbar>
-										<Toolbar>
-											<Title text="{i18n>ActiveAgreeement}" level="H2"/>
-										</Toolbar>
-									</table:toolbar>
-									<table:columns autoResizable="true">
-										<table:Column width="17rem">
-											<table:multiLabels>
-												<Label text="{i18n>ECPAgreement}" textAlign="Center" width="100%"/>
-											</table:multiLabels>
-											<table:template>
-												<Text text="{EcpSalesModel>AgreementNumber}" wrapping="false"/>
-											</table:template>
-										</table:Column>
-										<table:Column width="17rem">
-											<table:multiLabels>
-												<Label text="{i18n>PlanCode}" textAlign="Center" width="100%"/>
-											</table:multiLabels>
-											<table:template>
-												<Text text="{EcpSalesModel>PlanType}" wrapping="false"/>
-											</table:template>
-										</table:Column>
-										<table:Column width="17rem">
-											<table:multiLabels>
-												<Label text="{i18n>Status}" textAlign="Center" width="100%"/>
-											</table:multiLabels>
-											<table:template>
-												<Text text="{EcpSalesModel>AgreementStatus}" wrapping="false"/>
-											</table:template>
-										</table:Column>
-										<table:Column width="17rem">
-											<table:multiLabels>
-												<Label text="{i18n>StatusDate}" textAlign="Center" width="100%"/>
-											</table:multiLabels>
-											<table:template>
+								<Table id="idECPAGR" headerText="{i18n>ActiveAgreeement}" mode="None" items="{path:'LocalDataModel>/AgreementDataECP'}"
+									selectionChange="onSelectECP" visible="{DateModel>/oECPfields}">
+									<columns>
+										<Column>
+											<Label text="{i18n>ECPAgreement}"/>
+										</Column>
+										<Column>
+											<Label text="{i18n>PlanCode}"/>
+										</Column>
+										<Column>
+											<Label text="{i18n>Status}"/>
+										</Column>
+										<Column>
+											<Label text="{i18n>StatusDate}"/>
+										</Column>
+										<Column>
+											<Label text="{i18n>ExpiryDate}"/>
+										</Column>
+										<Column>
+											<Label text="{i18n>ExpiryKM}"/>
+										</Column>
+									</columns>
+									<items>
+										<ColumnListItem>
+											<cells>
+												<Text text="{LocalDataModel>AgreementNumber}" wrapping="true"/>
+												<Text text="{LocalDataModel>PlanType}" wrapping="true"/>
+												<Text text="{LocalDataModel>bcc_agr_st_cd}" wrapping="true"/>
 												<Text
-													text="{path:'EcpSalesModel>StatusDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd', strictParsing: true , UTC: true}}"
-													wrapping="false"/>
-											</table:template>
-										</table:Column>
-										<table:Column width="17rem">
-											<table:multiLabels>
-												<Label text="{i18n>ExpiryDate}" textAlign="Center" width="100%"/>
-											</table:multiLabels>
-											<table:template>
+													text="{path:'LocalDataModel>StatusDate', type: 'sap.ui.model.type.Date', constraints: { displayFormat: 'Date' }, formatOptions: { style: 'medium', strictParsing: true , UTC: true}}"
+													wrapping="true"/>
 												<Text
-													text="{path:'EcpSalesModel>AgreementthruDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd', strictParsing: true , UTC: true}}"
-													wrapping="false"/>
-											</table:template>
-										</table:Column>
-										<table:Column width="17rem">
-											<table:multiLabels>
-												<Label text="{i18n>ExpiryKM}" textAlign="Center" width="100%"/>
-											</table:multiLabels>
-											<table:template>
-												<Text
-													text="{path:'EcpSalesModel>AgreementthruKMreading'}"
-													wrapping="false"/>
-											</table:template>
-										</table:Column>
-									</table:columns>
-								</table:Table>
+													text="{path:'LocalDataModel>AgreementthruDate', type: 'sap.ui.model.type.Date', constraints: { displayFormat: 'Date' }, formatOptions: { style: 'medium', strictParsing: true , UTC: true}}"
+													wrapping="true"/>
+												<Text text="{LocalDataModel>AgreementthruKMreading}" wrapping="true"/>
+											</cells>
+										</ColumnListItem>
+									</items>
+								</Table>
+								<!--<table:Table id="idActiveAgreement" class="classRCPTable" selectionMode="Single" rows="{EcpSalesModel>/zc_ecp_agreement}"-->
+								<!--	visibleRowCountMode="Auto" rowSelectionChange="onNavigate" selectionBehavior="Row" showNoData="true" threshold="20"-->
+								<!--	enableBusyIndicator="true">-->
+								<!--	<table:toolbar>-->
+								<!--		<Toolbar>-->
+								<!--			<Title text="{i18n>ActiveAgreeement}" level="H2"/>-->
+								<!--		</Toolbar>-->
+								<!--	</table:toolbar>-->
+								<!--	<table:columns autoResizable="true">-->
+								<!--		<table:Column width="17rem">-->
+								<!--			<table:multiLabels>-->
+								<!--				<Label text="{i18n>ECPAgreement}" textAlign="Center" width="100%"/>-->
+								<!--			</table:multiLabels>-->
+								<!--			<table:template>-->
+								<!--				<Text text="{EcpSalesModel>AgreementNumber}" wrapping="false"/>-->
+								<!--			</table:template>-->
+								<!--		</table:Column>-->
+								<!--		<table:Column width="17rem">-->
+								<!--			<table:multiLabels>-->
+								<!--				<Label text="{i18n>PlanCode}" textAlign="Center" width="100%"/>-->
+								<!--			</table:multiLabels>-->
+								<!--			<table:template>-->
+								<!--				<Text text="{EcpSalesModel>PlanType}" wrapping="false"/>-->
+								<!--			</table:template>-->
+								<!--		</table:Column>-->
+								<!--		<table:Column width="17rem">-->
+								<!--			<table:multiLabels>-->
+								<!--				<Label text="{i18n>Status}" textAlign="Center" width="100%"/>-->
+								<!--			</table:multiLabels>-->
+								<!--			<table:template>-->
+								<!--				<Text text="{EcpSalesModel>AgreementStatus}" wrapping="false"/>-->
+								<!--			</table:template>-->
+								<!--		</table:Column>-->
+								<!--		<table:Column width="17rem">-->
+								<!--			<table:multiLabels>-->
+								<!--				<Label text="{i18n>StatusDate}" textAlign="Center" width="100%"/>-->
+								<!--			</table:multiLabels>-->
+								<!--			<table:template>-->
+								<!--				<Text-->
+								<!--					text="{path:'EcpSalesModel>StatusDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd', strictParsing: true , UTC: true}}"-->
+								<!--					wrapping="false"/>-->
+								<!--			</table:template>-->
+								<!--		</table:Column>-->
+								<!--		<table:Column width="17rem">-->
+								<!--			<table:multiLabels>-->
+								<!--				<Label text="{i18n>ExpiryDate}" textAlign="Center" width="100%"/>-->
+								<!--			</table:multiLabels>-->
+								<!--			<table:template>-->
+								<!--				<Text-->
+								<!--					text="{path:'EcpSalesModel>AgreementthruDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd', strictParsing: true , UTC: true}}"-->
+								<!--					wrapping="false"/>-->
+								<!--			</table:template>-->
+								<!--		</table:Column>-->
+								<!--		<table:Column width="17rem">-->
+								<!--			<table:multiLabels>-->
+								<!--				<Label text="{i18n>ExpiryKM}" textAlign="Center" width="100%"/>-->
+								<!--			</table:multiLabels>-->
+								<!--			<table:template>-->
+								<!--				<Text-->
+								<!--					text="{path:'EcpSalesModel>AgreementthruKMreading'}"-->
+								<!--					wrapping="false"/>-->
+								<!--			</table:template>-->
+								<!--		</table:Column>-->
+								<!--	</table:columns>-->
+								<!--</table:Table>-->
 								<table:Table class="classRCPTable" selectionMode="Single" rows="{ProssingModel>/zc_coverageSet}" visibleRowCountMode="Auto" id='ofptable'
 									selectionBehavior="Row" showNoData="true" threshold="20" enableBusyIndicator="true">
 									<table:toolbar>

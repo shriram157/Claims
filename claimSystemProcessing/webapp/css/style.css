@@ -40,12 +40,21 @@
     border: 1px solid #cccccc;
 }
 
+
 /*.clWarning:not(.sapMBtnDisabled) .sapMBtnTransparent>.sapMBtnIcon,*/
+
+
 /*.clWarning:not(.sapMBtnDisabled) .sapMBtnGhost>.sapMBtnIcon {*/
+
+
 /*    color: #f00;*/
+
+
 /*}*/
 
-.clWarning {width:auto!important;}
+.clWarning {
+    width: auto!important;
+}
 
 .oVisible {
     display: none;
@@ -118,17 +127,41 @@
 .sapMUCEditBtn {
     display: none;
 }
+
 .clDatePicker .sapMInputBaseInner {
-	pointer-events: none;
+    pointer-events: none;
 }
+
 .clFont01 {
-	font-size:1rem;
+    font-size: 1rem;
+}
+
+#__xmlview1--vin_details h5.sapUiFormTitleH5 {
+    height: 0!important;
+}
+
+#ObjectPageLayout h5.sapUiFormTitleH5 {
+    height: 0!important;
+}
+
+.sapUxAPObjectPageLayout-Std-Desktop .sapUxAPBlockContainer {
+    padding-bottom: 0rem!important;
 }
 
 
 /*.hideDltBtn .sapMUCDeleteBtn {*/
+
+
 /*    visibility:hidden;*/
+
+
 /*}*/
+
+
 /*.showDltBtn .sapMUCDeleteBtn {*/
+
+
 /*    visibility:visible;*/
+
+
 /*}*/
