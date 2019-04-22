@@ -1,0 +1,39 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+	<Dialog title="Rejection Code">
+		<content>
+			<!--<Textarea/>-->
+			<Table showSeparators="All" class="sapUiSmallMarginBottom">
+				<headerToolbar >
+					<OverflowToolbar>
+						<ToolbarSpacer/>
+						<Button class="sapUiSmallMarginBeginEnd" type="Reject" text="Close" press="onCloseLabour"/>
+					</OverflowToolbar>
+				</headerToolbar>
+				<columns>
+					<Column><Text text="REJECTION EXPLANATION:"/></Column>
+					<Column></Column>
+				</columns>
+				<items>
+					<ColumnListItem>
+						<cells>
+							<Text text="1. Not returned in a Genuine Toyota Remanufactured Parts box"/>
+							<Text text="4. Not received."/>
+						</cells>
+					</ColumnListItem>
+					<ColumnListItem>
+						<cells>
+							<Text text="2. Disassembled / Damaged."/>
+							<Text text="5. Non- Genuine Toyota Core / Part Number not valid for core return."/>
+						</cells>
+					</ColumnListItem>
+					<ColumnListItem>
+						<cells>
+							<Text text="3. Seized / Excessive rust or corrosion."/>
+							<Text text="FOR TRANSMISSIONS ONLY: 6. Fluids not properly drained."/>
+						</cells>
+					</ColumnListItem>
+				</items>
+			</Table>
+		</content>
+	</Dialog>
+</core:FragmentDefinition>

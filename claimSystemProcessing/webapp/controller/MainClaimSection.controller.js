@@ -67,7 +67,8 @@ sap.ui.define([
 				writtenOffInd: false,
 				specialVinInd: false,
 				oMainOpsReq: false,
-				oSlipVisible: false
+				oSlipVisible: false,
+				oTciQtyAppr: false
 
 			});
 			this.getView().setModel(oDateModel, "DateModel");
@@ -776,7 +777,8 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/authRejClm", false);
 							this.getView().getModel("DateModel").setProperty("/copyClaimEnable", true);
 							this.getView().getModel("DateModel").setProperty("/oDamageLineBtn", false);
-						}else if (data.results[0].ProcessingStatusOfWarrantyClm == "ZTMR" && sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") == "Dealer_Services_Manager") {
+						} else if (data.results[0].ProcessingStatusOfWarrantyClm == "ZTMR" && sap.ui.getCore().getModel("UserDataModel").getProperty(
+								"/LoggedInUser") == "Dealer_Services_Manager") {
 							//sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") == "Dealer_Services_Manager"
 							this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
 							this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
@@ -791,7 +793,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/claimEditSt", true);
 
 						} else if (data.results[0].ProcessingStatusOfWarrantyClm == "ZTMR") {
-						// 	//sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") == "Dealer_Services_Manager"
+							// 	//sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") == "Dealer_Services_Manager"
 							this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
 							this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
 							this.getView().getModel("DateModel").setProperty("/damageLine", false);
@@ -803,8 +805,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/authAcClm", false);
 							this.getView().getModel("DateModel").setProperty("/authRejClm", false);
 							this.getView().getModel("DateModel").setProperty("/claimEditSt", false);
-						 } 
-						 else {
+						} else {
 							this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
 							this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
 							this.getView().getModel("DateModel").setProperty("/copyClaimEnable", false);
@@ -819,8 +820,9 @@ sap.ui.define([
 
 						}
 
-						if (data.results[0].ProcessingStatusOfWarrantyClm == "ZTIC" && oClaimNav != "Inq" && sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") != "Zone_User" && 
-						sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") != "TCI_Admin") {
+						if (data.results[0].ProcessingStatusOfWarrantyClm == "ZTIC" && oClaimNav != "Inq" && sap.ui.getCore().getModel(
+								"UserDataModel").getProperty("/LoggedInUser") != "Zone_User" &&
+							sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") != "TCI_Admin") {
 
 							//sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") != "Zone_User" && sap.ui.getCore().getModel(
 							//	"UserDataModel").getProperty("/LoggedInUser") != "TCI_Admin"
@@ -836,8 +838,9 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/authRejClm", false);
 							this.getView().getModel("DateModel").setProperty("/damageLine", true);
 							this.getView().getModel("DateModel").setProperty("/oDamageLineBtn", true);
-						} else if (data.results[0].ProcessingStatusOfWarrantyClm == "ZTRC" && oClaimNav != "Inq" && sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") != "Zone_User" && 
-						sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") != "TCI_Admin") {
+						} else if (data.results[0].ProcessingStatusOfWarrantyClm == "ZTRC" && oClaimNav != "Inq" && sap.ui.getCore().getModel(
+								"UserDataModel").getProperty("/LoggedInUser") != "Zone_User" &&
+							sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") != "TCI_Admin") {
 							//	sap.ui.getCore().getModel(	"UserDataModel").getProperty("/LoggedInUser") != "Zone_User" && sap.ui.getCore().getModel("UserDataModel").getProperty(
 							//	"/LoggedInUser") != "TCI_Admin"
 							this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
@@ -864,6 +867,17 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/oSlipVisible", false);
 						} else if (oClaimTypeDetail == "ZSCR" && data.results[0].ProcessingStatusOfWarrantyClm == "ZTRC") {
 							this.getView().getModel("DateModel").setProperty("/oSlipVisible", false);
+						}
+
+						if (oClaimTypeDetail == "ZSCR") {
+							this.getView().getModel("DateModel").setProperty("/oTciQtyAppr", true);
+						} else {
+							this.getView().getModel("DateModel").setProperty("/oTciQtyAppr", false);
+						}
+
+						if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZACD" &&
+							this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") == "ZWVE") {
+							this.getView().getModel("DateModel").setProperty("/oFieldActionInput", true);
 						}
 
 					}, this),
@@ -1640,7 +1654,7 @@ sap.ui.define([
 			this.getView().addDependent(oDialogBox);
 			oDialogBox.open();
 		},
-		
+
 		onEnterPartsComments: function () {
 			var oPrevComment = this.getView().getModel("HeadSetData").getProperty("/HeadText");
 			var oPartner = this.getModel("LocalDataModel").getProperty("/BpDealerModel/0/BusinessPartnerKey");
@@ -1671,12 +1685,11 @@ sap.ui.define([
 		onSelectClaimTpe: function (oEvent) {
 			// this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") = oEvent.getSource().getSelectedKey();
 			// this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType");
+			//var oClaimType = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType");
+			//var oClaimSubType = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType");
 			var oKey = oEvent.getSource().getSelectedKey();
-			if (oKey == "ZACD") {
 
-			} else if (oKey == "ZAUT") {
-
-			} else if (oKey == "ZGGW") {
+			if (oKey == "ZGGW") {
 				this.getView().getModel("DateModel").setProperty("/oMainOps", true);
 				this.getView().getModel("DateModel").setProperty("/Paint", true);
 				this.getView().getModel("DateModel").setProperty("/Sublet", true);
@@ -1843,6 +1856,10 @@ sap.ui.define([
 				this.getView().getModel("DateModel").setProperty("/oBatteryTestEnable", false);
 			}
 			this.onP2Claim(oKey);
+			if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZACD" &&
+				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") == "ZWVE") {
+				this.getView().getModel("DateModel").setProperty("/oFieldActionInput", true);
+			}
 
 		},
 
@@ -3405,6 +3422,12 @@ sap.ui.define([
 			this.getView().getModel("HeadSetData").setProperty("/FieldActionReference", FieldAction);
 		},
 
+		onPressTCIQty: function () {
+			var oDialogBox = sap.ui.xmlfragment("zclaimProcessing.view.fragments.ViewRejectionCode", this);
+			this.getView().addDependent(oDialogBox);
+			oDialogBox.open();
+		},
+
 		onPressAddPart: function () {
 			this.getView().getModel("DateModel").setProperty("/partLine", true);
 		},
@@ -3431,7 +3454,7 @@ sap.ui.define([
 					at: "center center"
 				});
 			} else {
-			
+
 				var oClaimModel = this.getModel("ProssingModel");
 				oClaimModel.read("/zc_authorizationSet", {
 					urlParameters: {
@@ -3448,7 +3471,7 @@ sap.ui.define([
 						this.getView().getModel("DataPercetCalculate").setProperty("/DealerPer", odeal);
 						this.getView().getModel("DataPercetCalculate").setProperty("/TCIPer", otci);
 						this._fnClaimSumPercent();
-						
+
 					}, this)
 				});
 			}
