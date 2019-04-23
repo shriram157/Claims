@@ -439,7 +439,8 @@ sap.ui.define([
 							this.getView().byId("idRequestType").setSelectedIndex(0);
 							oProssingModel.read("/zc_vehicle_informationSet", {
 								urlParameters: {
-									"$filter": "Vin eq '" + data.results[0].ExternalObjectNumber + "'",
+									"$filter": "LanguageKey eq '" + sSelectedLocale.toUpperCase() + "'and Vin eq '" + data.results[0].ExternalObjectNumber +
+										"'",
 									"$expand": "ZC_SPECIAL_HANDLINGVEHICLESET,ZC_WRITTENOFFVEHICLESET"
 
 								},
@@ -1910,7 +1911,14 @@ sap.ui.define([
 		},
 
 		onEnterVIN: function (oEvent) {
-
+			var sSelectedLocale;
+			//  get the locale to determine the language.
+			var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
+			if (isLocaleSent) {
+				sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
+			} else {
+				sSelectedLocale = "en"; // default is english
+			}
 			var oVin = oEvent.getParameters().value;
 			this.getView().getModel("HeadSetData").setProperty("/ExternalObjectNumber", oVin.toUpperCase());
 			this.getModel("LocalDataModel").setProperty("/selectedVehicle", oVin);
@@ -1957,7 +1965,7 @@ sap.ui.define([
 							if (data.results[0].Message != "Invalid VIN Number") {
 								oProssingModel.read("/zc_vehicle_informationSet", {
 									urlParameters: {
-										"$filter": "Vin eq '" + oVin + "'",
+										"$filter": "LanguageKey eq '" + sSelectedLocale.toUpperCase() + "'and Vin eq '" + oVin + "'",
 										"$expand": "ZC_SPECIAL_HANDLINGVEHICLESET,ZC_WRITTENOFFVEHICLESET"
 									},
 									//"$expand": "ZC_SPECIAL_HANDLINGVEHICLESET, ZC_WRITTENOFFVEHICLESET"

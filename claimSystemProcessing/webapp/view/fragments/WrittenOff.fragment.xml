@@ -1,6 +1,6 @@
 <core:FragmentDefinition xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:u="sap.ui.unified" xmlns:l="sap.ui.layout"
 	xmlns="sap.m" xmlns:table="sap.ui.table">
-	<Dialog class="sapUiSizeCompact" title="{i18n>WrittenOffDetailsVIN} {LocalDataModel>/selectedVehicle}" >
+	<Dialog class="sapUiSizeCompact" title="{i18n>WrittenOffDetailsVIN} {LocalDataModel>/selectedVehicle}">
 		<content>
 			<table:Table class="classRCPTable" selectionMode="None" rows="{LocalDataModel>/DataWrittenOffSet}" visibleRowCountMode="Auto"
 				rowSelectionChange="onNavigatePaint" selectionBehavior="Row" showNoData="true" threshold="20" enableBusyIndicator="true">
@@ -18,7 +18,7 @@
 							<Label text="{i18n>Description}" textAlign="Center" width="100%"/>
 						</table:multiLabels>
 						<table:template>
-							<Text text="{LocalDataModel>DescriptionEN}" wrapping="false"/>
+							<Text text="{LocalDataModel>Description}" wrapping="false"/>
 						</table:template>
 					</table:Column>
 					<table:Column width="17rem">
@@ -26,7 +26,9 @@
 							<Label text="{i18n>DateIssued}" textAlign="Center" width="100%"/>
 						</table:multiLabels>
 						<table:template>
-							<Text text="{path:'LocalDataModel>IssueDate', type: 'sap.ui.model.type.Date', constraints: {displayFormat: 'Date' }, formatOptions: { style: 'medium', strictParsing: true , UTC: true}}" wrapping="false"/>
+							<Text
+								text="{path:'LocalDataModel>IssueDate', type: 'sap.ui.model.type.Date', constraints: {displayFormat: 'Date' }, formatOptions: { style: 'medium', strictParsing: true , UTC: true}}"
+								wrapping="false"/>
 						</table:template>
 					</table:Column>
 				</table:columns>

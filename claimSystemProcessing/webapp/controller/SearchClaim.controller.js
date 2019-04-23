@@ -160,12 +160,12 @@ sap.ui.define([
 						console.log("TCI_Admin");
 						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ReadOnlyViewAll");
 						/*Uncomment for security*/
-						that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", false);
+						that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", true);
 						that.getView().getModel("HeaderLinksModel").setProperty("/ViewUpdateClaims", true);
 						that.getView().getModel("HeaderLinksModel").setProperty("/QuickCoverageTool", true);
 						that.getView().getModel("HeaderLinksModel").setProperty("/ClaimInquiry", true);
 						that.getView().getModel("HeaderLinksModel").setProperty("/DealerLabourRateInquiry", true);
-						that.getOwnerComponent().getModel("LocalDataModel").setProperty("/visibleNewBtn", false);
+						that.getOwnerComponent().getModel("LocalDataModel").setProperty("/visibleNewBtn", true);
 						sap.ui.getCore().getModel("HeaderLinksModel").updateBindings(true);
 						/*Uncomment for security*/
 					}
@@ -257,7 +257,8 @@ sap.ui.define([
 						oClaimGroupdata = oClaimGroup.filter(function (val) {
 							return val == "CORE RETURN" || val == "SMART PARTS" || val == "PART WAREHOUSE";
 						});
-					} else if (sap.ui.getCore().getModel("UserDataModel").getProperty("/UserScope") == "ManageAllServices" || sap.ui.getCore().getModel("UserDataModel").getProperty("/UserScope") == "ManageAllShowAuthorization") {
+					} else if (sap.ui.getCore().getModel("UserDataModel").getProperty("/UserScope") == "ManageAllServices" || sap.ui.getCore().getModel(
+							"UserDataModel").getProperty("/UserScope") == "ManageAllShowAuthorization") {
 						oClaimGroupdata = oClaimGroup.filter(function (val) {
 							return val == "SETR" || val == "WARRANTY" || val == "CUSTOMER RELATIONS" || val == "VEHICLE LOGISTICS" || val == "ECP" ||
 								val == "FIELD ACTION";
