@@ -25,9 +25,9 @@
 										<Button text="{i18n>Reset}" press="onPressClear"/>
 									</f:content>
 								</f:SimpleForm>
-								<f:SimpleForm id="vin_details" editable="true" layout="ResponsiveGridLayout" labelSpanXL="6" labelSpanL="6" labelSpanM="6" labelSpanS="12"
-									adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="3" columnsL="3" columnsM="3"
-									singleContainerFullSize="false">
+								<f:SimpleForm id="vin_details" class="clVinDetails" editable="true" layout="ResponsiveGridLayout" labelSpanXL="6" labelSpanL="6"
+									labelSpanM="6" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="3"
+									columnsL="3" columnsM="3" singleContainerFullSize="false">
 									<f:content>
 										<core:Title text=""/>
 										<Label text="{i18n>Model}" vAlign="Middle"/>
@@ -96,8 +96,8 @@
 					<uxap:ObjectPageSubSection >
 						<uxap:blocks>
 							<VBox>
-								<Table id="idECPAGR" headerText="{i18n>ActiveAgreeement}" mode="None" items="{path:'LocalDataModel>/AgreementDataECP'}"
-									selectionChange="onSelectECP" visible="{DateModel>/oECPfields}">
+								<Table id="idECPAGR" visible="{DateModel>/oAgrTable}" headerText="{i18n>ActiveAgreeement}" mode="None"
+									items="{path:'LocalDataModel>/AgreementDataECP'}" selectionChange="onSelectECP">
 									<columns>
 										<Column>
 											<Label text="{i18n>ECPAgreement}"/>

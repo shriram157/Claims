@@ -22,9 +22,18 @@ sap.ui.define([
 			oDateModel.setData({
 				foreignVinInd: false,
 				writtenOffInd: false,
-				specialVinInd: false
+				specialVinInd: false,
+				oAgrTable: false
 			});
+
+			oDateModel.setDefaultBindingMode("TwoWay");
 			this.getView().setModel(oDateModel, "DateModel");
+
+			var HeadSetData = new sap.ui.model.json.JSONModel();
+
+			HeadSetData.setDefaultBindingMode("TwoWay");
+			this.getView().setModel(HeadSetData, "HeadSetData");
+
 		},
 		onPressForeignVin: function () {
 			var oDialogBox = sap.ui.xmlfragment("zclaimProcessing.view.fragments.ForeignVinNotification", this);
@@ -120,6 +129,14 @@ sap.ui.define([
 		//
 		//	}
 		onPressSearch: function (oEvent) {
+			var sSelectedLocale;
+			var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
+			if (isLocaleSent) {
+				sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
+			} else {
+				sSelectedLocale = "en"; // default is english
+			}
+
 			var sLocation = window.location.host;
 			var sLocation_conf = sLocation.search("webide");
 			if (sLocation_conf == 0) {
@@ -134,43 +151,7 @@ sap.ui.define([
 			var oVin = this.getView().byId('vin').getValue();
 			this.getModel("LocalDataModel").setProperty("/selectedVehicle", oVin);
 			var that = this;
-			//-------------------------------------------------------------
-			//-----Get Vehicle Details---------------------------------------
-			//---------------------------------------------------------
-			//var oUrl = this.sPrefix + "/node/ZDLR_CLAIM_SRV/zc_vehicle_informationSet?$filter=Vin eq" + "'" + oVin + "'";
-			// $.ajax({
-			// 	url: oUrl,
-			// 	method: 'GET',
-			// 	async: false,
-			// 	dataType: 'json',
-			// 	success: function (zdata, textStatus, jqXHR) {
-			// 		if (zdata.d.results[0]) {
-			// 			var oModel = new sap.ui.model.json.JSONModel();
-			// 			if (zdata.d.results[0].RegDate) {
-			// 				var zd1 = parseInt(zdata.d.results[0].RegDate.replace(/[^0-9]+/g, ''));
-			// 				zdata.d.results[0].RegDate = new Date(zd1);
-			// 			}
-			// 			if (zdata.d.results[0].WrittenOff == 'YES') {
-			// 				that.getView().byId('partofp').setEditable(false);
-			// 				that.getView().byId('mainop').setEditable(false);
-			// 			} else if (zdata.d.results[0].WrittenOff == 'NO') {
-			// 				that.getView().byId('partofp').setEditable(true);
-			// 				that.getView().byId('mainop').setEditable(true);
-			// 			}
-			// 			if (zdata.d.results[0].ForeignVIN == 'YES') {
-			// 				dometerunit = 'MI';
-			// 			} else if (zdata.d.results[0].ForeignVIN == 'NO') {
-			// 				dometerunit = 'KM';
-			// 			}
-			// 			oModel.setData(zdata.d.results[0]);
-			// 			that.getView().setModel(oModel, 'Vehicleinfo');
-			// 		} else {
-			// 			MessageBox.show(Messageinvalid, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
-			// 		}
 
-			// 	},
-			// 	error: function (jqXHR, textStatus, errorThrown) {}
-			// });
 			var oProssingModel = this.getModel("ProssingModel");
 			oProssingModel.read("/zc_cliam_agreement", {
 				urlParameters: {
@@ -178,6 +159,12 @@ sap.ui.define([
 				},
 				success: $.proxy(function (agrData) {
 					this.getModel("LocalDataModel").setProperty("/AgreementDataECP", agrData.results);
+					if (agrData.results.length > 0) {
+						this.getView().getModel("DateModel").setProperty("/oAgrTable", true);
+					} else {
+						this.getView().getModel("DateModel").setProperty("/oAgrTable", false);
+					}
+
 				}, this),
 				error: function () {}
 			});
@@ -186,7 +173,7 @@ sap.ui.define([
 
 			oProssingModel.read("/zc_vehicle_informationSet", {
 				urlParameters: {
-					"$filter": "Vin eq '" + oVin + "'",
+					"$filter": "LanguageKey eq '" + sSelectedLocale.toUpperCase() + "'and Vin eq '" + oVin + "'",
 					"$expand": "ZC_SPECIAL_HANDLINGVEHICLESET,ZC_WRITTENOFFVEHICLESET"
 
 				},
@@ -235,8 +222,8 @@ sap.ui.define([
 			//----------------------------------------------
 			//-------Get Aggrements--------------------------
 			//----------------------------------------------
-			this.getView().byId('idActiveAgreement').getBinding('rows').filter([new sap.ui.model.Filter("VIN", sap.ui.model.FilterOperator.EQ,
-				oVin)]);
+			// 			this.getView().byId('idActiveAgreement').getBinding('rows').filter([new sap.ui.model.Filter("VIN", sap.ui.model.FilterOperator.EQ,
+			// 				oVin)]);
 
 		},
 		onPressLookUp: function (oEvent) {

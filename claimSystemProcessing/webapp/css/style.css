@@ -136,7 +136,7 @@
     font-size: 1rem;
 }
 
-#__xmlview1--vin_details h5.sapUiFormTitleH5 {
+.clVinDetails h5.sapUiFormTitleH5 {
     height: 0!important;
 }
 
@@ -144,9 +144,14 @@
     height: 0!important;
 }
 
-.sapUxAPObjectPageLayout-Std-Desktop .sapUxAPBlockContainer {
-    padding-bottom: 0rem!important;
-}
+
+/*.sapUxAPObjectPageLayout-Std-Desktop .sapUxAPBlockContainer {*/
+
+
+/*    padding-bottom: 0rem!important;*/
+
+
+/*}*/
 
 
 /*.hideDltBtn .sapMUCDeleteBtn {*/
