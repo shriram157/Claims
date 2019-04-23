@@ -22,9 +22,18 @@ sap.ui.define([
 			oDateModel.setData({
 				foreignVinInd: false,
 				writtenOffInd: false,
-				specialVinInd: false
+				specialVinInd: false,
+				oAgrTable: false
 			});
+
+			oDateModel.setDefaultBindingMode("TwoWay");
 			this.getView().setModel(oDateModel, "DateModel");
+
+			var HeadSetData = new sap.ui.model.json.JSONModel();
+
+			HeadSetData.setDefaultBindingMode("TwoWay");
+			this.getView().setModel(HeadSetData, "HeadSetData");
+
 		},
 		onPressForeignVin: function () {
 			var oDialogBox = sap.ui.xmlfragment("zclaimProcessing.view.fragments.ForeignVinNotification", this);
@@ -150,6 +159,12 @@ sap.ui.define([
 				},
 				success: $.proxy(function (agrData) {
 					this.getModel("LocalDataModel").setProperty("/AgreementDataECP", agrData.results);
+					if (agrData.results.length > 0) {
+						this.getView().getModel("DateModel").setProperty("/oAgrTable", true);
+					} else {
+						this.getView().getModel("DateModel").setProperty("/oAgrTable", false);
+					}
+
 				}, this),
 				error: function () {}
 			});
@@ -207,8 +222,8 @@ sap.ui.define([
 			//----------------------------------------------
 			//-------Get Aggrements--------------------------
 			//----------------------------------------------
-			this.getView().byId('idActiveAgreement').getBinding('rows').filter([new sap.ui.model.Filter("VIN", sap.ui.model.FilterOperator.EQ,
-				oVin)]);
+			// 			this.getView().byId('idActiveAgreement').getBinding('rows').filter([new sap.ui.model.Filter("VIN", sap.ui.model.FilterOperator.EQ,
+			// 				oVin)]);
 
 		},
 		onPressLookUp: function (oEvent) {

@@ -96,8 +96,8 @@
 					<uxap:ObjectPageSubSection >
 						<uxap:blocks>
 							<VBox>
-								<Table id="idECPAGR" headerText="{i18n>ActiveAgreeement}" mode="None" items="{path:'LocalDataModel>/AgreementDataECP'}"
-									selectionChange="onSelectECP" visible="{DateModel>/oECPfields}">
+								<Table id="idECPAGR" visible="{DateModel>/oAgrTable}" headerText="{i18n>ActiveAgreeement}" mode="None"
+									items="{path:'LocalDataModel>/AgreementDataECP'}" selectionChange="onSelectECP">
 									<columns>
 										<Column>
 											<Label text="{i18n>ECPAgreement}"/>
