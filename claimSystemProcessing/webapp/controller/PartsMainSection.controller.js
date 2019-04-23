@@ -34,7 +34,8 @@ sap.ui.define([
 				saveParts: false,
 				partTypeState: "None",
 				SaveClimBTN: false,
-				submitTCIBtn: false
+				submitTCIBtn: false,
+				oFormEdit2:false
 			});
 			this.getView().setModel(oDateModel, "DateModel");
 			var oNodeModel = new sap.ui.model.json.JSONModel();
@@ -306,7 +307,8 @@ sap.ui.define([
 					saveParts: false,
 					partTypeState: "None",
 					SaveClimBTN: false,
-					submitTCIBtn: false
+					submitTCIBtn: false,
+					oFormEdit2:false
 				});
 			} else {
 				/*Uncomment for security*/
@@ -321,7 +323,8 @@ sap.ui.define([
 					saveParts: false,
 					partTypeState: "None",
 					SaveClimBTN: true,
-					submitTCIBtn: true
+					submitTCIBtn: true,
+					oFormEdit2:false
 				});
 				/*Uncomment for security*/
 			}
@@ -815,19 +818,20 @@ sap.ui.define([
 		},
 
 		onAddPartsComment: function () {
-			var oDialogBox = sap.ui.xmlfragment("zclaimProcessing.view.fragments.ClaimComments", this);
+			var oDialogBox = sap.ui.xmlfragment("zclaimProcessing.view.fragments.PartsClaimComments", this);
+			this.getView().getModel("DateModel").setProperty("/oFormEdit2", true);
 			this.getView().addDependent(oDialogBox);
 			oDialogBox.open();
 		},
 
-		onEnterComment: function () {
+		onEnterPartsComments: function () {
 			var oPrevComment = this.getView().getModel("HeadSetData").getProperty("/HeadText");
 			var oPartner = this.getModel("LocalDataModel").getProperty("/BpDealerModel/0/BusinessPartnerKey");
 			var oDateFormat = sap.ui.core.format.DateFormat.getDateInstance({
 				pattern: "yyyy-MM-dd HH:mm:ss"
 			});
 			var oDate = oDateFormat.format(new Date());
-			var oText = this.getView().getModel("HeadSetData").getProperty("/NewText");
+			var oText = this.getView().getModel("HeadSetData").getProperty("/NewPartsText");
 
 			var oBusinessModel = this.getModel("ApiBusinessModel");
 			oBusinessModel.read("/A_BusinessPartner", {
@@ -839,7 +843,7 @@ sap.ui.define([
 					//var oFinalText = `${oPrevComment} \n  ${oPartnerName} ( ${oDate} ) ${oText}`;
 					var oFinalText = oPrevComment + "\n" + oPartnerName + "(" + oDate + ") " + " : " + oText;
 					this.getView().getModel("HeadSetData").setProperty("/HeadText", oFinalText);
-					this.getView().getModel("HeadSetData").setProperty("/NewText", "");
+					this.getView().getModel("HeadSetData").setProperty("/NewPartsText", "");
 					// console.log(oFinalText);
 				}, this)
 			});

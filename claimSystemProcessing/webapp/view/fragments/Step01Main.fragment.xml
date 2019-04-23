@@ -88,7 +88,7 @@
 			singleContainerFullSize="false">
 			<f:content>
 				<core:Title text="{i18n>PartsComments}"/>
-				<TextArea height="8rem" value="{HeadSetData>/NewPartsText}" enabled="{DateModel>/oFormEdit}" change="onEnterPartsComments">
+				<TextArea height="8rem" value="{HeadSetData>/HeadText}" enabled="{DateModel>/oFormEdit2}" editable="false">
 					<layoutData>
 						<l:GridData span="XL8 L8 M8 S4"/>
 					</layoutData>
@@ -206,7 +206,7 @@
 					</table:Column>
 					<table:Column width="8rem">
 						<table:multiLabels>
-							<Label text="{i18n>GSTHST}"/>
+							<Label text="{i18n>GSTHST}" textAlign="Center" width="100%"/>
 							<Label text="{i18n>Tax}" textAlign="Center" width="100%"/>
 						</table:multiLabels>
 						<table:template hAlign="Center">
@@ -224,7 +224,7 @@
 					</table:Column>
 					<table:Column width="8rem">
 						<table:multiLabels>
-							<Label text="{i18n>PSTQST}"/>
+							<Label text="{i18n>PSTQST}" textAlign="Center" width="100%"/>
 							<Label text="{i18n>Tax}" textAlign="Center" width="100%"/>
 						</table:multiLabels>
 						<table:template hAlign="Center">
