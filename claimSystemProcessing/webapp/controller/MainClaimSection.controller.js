@@ -4192,11 +4192,11 @@ sap.ui.define([
 					my: "center center",
 					at: "center center"
 				});
-				this.getView().getModel("DateModel").setProperty("/partLine", false);
-				this.getView().getModel("PartDataModel").setProperty("/matnr", "");
-				this.getView().getModel("PartDataModel").setProperty("/quant", "");
-				this.getView().getModel("PartDataModel").setProperty("/PartDescription", "");
-				this.getView().getModel("LocalDataModel").setProperty("/BaseUnit", "");
+				// this.getView().getModel("DateModel").setProperty("/partLine", false);
+				// this.getView().getModel("PartDataModel").setProperty("/matnr", "");
+				// this.getView().getModel("PartDataModel").setProperty("/quant", "");
+				// this.getView().getModel("PartDataModel").setProperty("/PartDescription", "");
+				// this.getView().getModel("LocalDataModel").setProperty("/BaseUnit", "");
 			} else {
 				this._oToken = oClaimModel.getHeaders()['x-csrf-token'];
 				$.ajaxSetup({
