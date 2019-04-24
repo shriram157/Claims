@@ -860,9 +860,9 @@ sap.ui.define([
 
 						}
 
-						this._fnDealerContact();
 						this.onP2Claim(oClaimTypeDetail);
 						this._fnOFPenabled();
+						this._fnDealerContact();
 
 						if (oClaimTypeDetail == "ZSCR" && data.results[0].ProcessingStatusOfWarrantyClm != "ZTIC") {
 							this.getView().getModel("DateModel").setProperty("/oSlipVisible", true);
@@ -1566,8 +1566,8 @@ sap.ui.define([
 					this.getView().getModel("DateModel").setProperty("/oMainOpsReq", false);
 				}
 
-				this._fnDealerContact();
 				this._fnOFPenabled();
+				this._fnDealerContact();
 				this.getModel("LocalDataModel").setProperty("/ClaimSum", "");
 
 			}
@@ -1628,6 +1628,8 @@ sap.ui.define([
 				this.getView().getModel("DateModel").setProperty("/oDealerContactReq", true);
 				this.getView().getModel("DateModel").setProperty("/enabledT2", false);
 				this.getView().getModel("DateModel").setProperty("/enabledT1", false);
+				this.getView().getModel("DateModel").setProperty("/ofpEnabled", false);
+
 			} else {
 				this.getView().getModel("DateModel").setProperty("/oDealerContactReq", false);
 			}
