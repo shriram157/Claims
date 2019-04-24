@@ -263,6 +263,7 @@ sap.ui.define([
 		_onRoutMatched: function (oEvent) {
 			var oValidator = new Validator();
 			oValidator.validate("");
+			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			this.getModel("LocalDataModel").setProperty("/DataVinDetails", "");
 			this.getModel("LocalDataModel").setProperty("/VehicleMonths", "");
 			this.getModel("LocalDataModel").setProperty("/selectedVehicle", "");
@@ -298,6 +299,7 @@ sap.ui.define([
 			var oClaimSelectedGroup = oEvent.getParameters().arguments.oClaimGroup;
 
 			this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab1");
+			this.getView().byId("mainSectionTitle").setTitle(this.oBundle.getText("MainSection"));
 			this.getView().byId("idFilter02").setProperty("enabled", false);
 			this.getView().byId("idFilter03").setProperty("enabled", false);
 			this.getView().byId("idFilter04").setProperty("enabled", false);
@@ -3650,6 +3652,7 @@ sap.ui.define([
 			});
 		},
 		onStep01Next: function (oEvent) {
+			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZWMS" ||
 				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") == "ZWMS" || this.getModel("LocalDataModel").getProperty(
 					"/GroupDescriptionName") === "CUSTOMER RELATIONS" || this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") ===
@@ -3665,6 +3668,7 @@ sap.ui.define([
 
 		},
 		onStep03Next: function () {
+			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			var oOFP = this.getView().getModel("HeadSetData").getProperty("/OFP");
 			var oVin = this.getModel("LocalDataModel").getProperty("/ClaimDetails/ExternalObjectNumber");
@@ -3747,11 +3751,14 @@ sap.ui.define([
 
 		},
 		onStep03Back: function () {
+			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			this.getView().byId("idFilter01").setProperty("enabled", true);
 			this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab1");
+			this.getView().byId("mainSectionTitle").setTitle(this.oBundle.getText("MainSection"));
 		},
 
 		onStep04Next: function () {
+			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZWMS" && this.getView().getModel("HeadSetData").getProperty(
 					"/WarrantyClaimType") != "ZWA1" && this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZWA2" && this.getView()
 				.getModel(
@@ -3785,14 +3792,15 @@ sap.ui.define([
 			}
 		},
 		onStep04Back: function () {
-
+			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			this.getView().byId("idFilter03").setProperty("enabled", true);
 			this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab3");
-				this.getView().byId("mainSectionTitle").setTitle(this.oBundle.getText("ClaimPartsSection"));
+			this.getView().byId("mainSectionTitle").setTitle(this.oBundle.getText("ClaimPartsSection"));
 
 		},
 
 		onStep05Next: function () {
+			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZWMS" && this.getView().getModel("HeadSetData").getProperty(
 					"/WarrantyClaimType") != "ZWA1" && this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZWA2" && this.getView()
 				.getModel(
@@ -3819,14 +3827,15 @@ sap.ui.define([
 			}
 		},
 		onStep05Back: function () {
-
+			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			this.getView().byId("idFilter04").setProperty("enabled", true);
 			this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab4");
-				this.getView().byId("mainSectionTitle").setTitle(this.oBundle.getText("ClaimLabourSection"));
+			this.getView().byId("mainSectionTitle").setTitle(this.oBundle.getText("ClaimLabourSection"));
 
 		},
 
 		onStep06Next: function () {
+			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			// 	if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZWP2") {
 			// 	this.getView().byId("idFilter07").setProperty("enabled", true);
 			// 	this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab7");
@@ -3861,6 +3870,7 @@ sap.ui.define([
 			}
 		},
 		onStep06Back: function () {
+			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZWA1" && this.getView().getModel("HeadSetData").getProperty(
 					"/WarrantyClaimType") == "ZWA2" && this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZWAC" &&
 				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") == "ZWA1" && this.getView().getModel("HeadSetData").getProperty(
@@ -3873,6 +3883,7 @@ sap.ui.define([
 					"HeadSetData").getProperty("/WarrantyClaimType") == "ZRCR") {
 				this.getView().byId("idFilter01").setProperty("enabled", true);
 				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab1");
+				this.getView().byId("mainSectionTitle").setTitle(this.oBundle.getText("MainSection"));
 			} else {
 				this.getView().byId("idFilter05").setProperty("enabled", true);
 				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab5");
@@ -3908,7 +3919,7 @@ sap.ui.define([
 
 		},
 		onStep02Next: function () {
-
+			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZWMS" && this.getView().getModel("HeadSetData").getProperty(
 					"/WarrantyClaimType") != "ZWA1" && this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZWA2" && this.getView()
 				.getModel(
@@ -3924,12 +3935,14 @@ sap.ui.define([
 			}
 		},
 		onStep02Back: function () {
+			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			this.getView().byId("idFilter06").setProperty("enabled", true);
 			this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab6");
-				this.getView().byId("mainSectionTitle").setTitle(this.oBundle.getText("ClaimSubletSection"));
+			this.getView().byId("mainSectionTitle").setTitle(this.oBundle.getText("ClaimSubletSection"));
 		},
 
 		onStep07Back: function () {
+			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZWP2" ||
 				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") == "ZWP2" ||
 				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZSCR" ||
@@ -3964,17 +3977,24 @@ sap.ui.define([
 
 		},
 
-		onSelectTab:function(oSelectedKey){
+		onSelectTab: function (oSelectedKey) {
 			// debugger;
-			// this.oBundle = this.getView().getModel("i18n").getResourceBundle();
-			// if (oselectedTab.getParameters().selectedItem.getText() == this.oBundle.getText("Parts")) {
-			// 	this.getView().byId("mainSectionTitle").setTitle(this.oBundle.getText("ClaimPartsSection"));
-			// } else if(oselectedTab.getParameters().selectedItem.getText() == this.oBundle.getText("PaintRust")){
-			// 	this.getView().byId("mainSectionTitle").setTitle(this.oBundle.getText("ValidatePartsSection"));
-			// } 
-			// else {
-			// 	this.getView().byId("mainSectionTitle").setTitle(this.oBundle.getText("MainSection"));
-			// }
+			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
+			if (oSelectedKey.getParameters().selectedKey == "Tab1") {
+				this.getView().byId("mainSectionTitle").setTitle(this.oBundle.getText("MainSection"));
+			} else if (oSelectedKey.getParameters().selectedKey == "Tab2") {
+				this.getView().byId("mainSectionTitle").setTitle(this.oBundle.getText("ClaimAuthorizationSection"));
+			} else if (oSelectedKey.getParameters().selectedKey == "Tab3") {
+				this.getView().byId("mainSectionTitle").setTitle(this.oBundle.getText("ClaimPartsSection"));
+			} else if (oSelectedKey.getParameters().selectedKey == "Tab4") {
+				this.getView().byId("mainSectionTitle").setTitle(this.oBundle.getText("ClaimLabourSection"));
+			} else if (oSelectedKey.getParameters().selectedKey == "Tab5") {
+				this.getView().byId("mainSectionTitle").setTitle(this.oBundle.getText("ClaimPaintRustSection"));
+			} else if (oSelectedKey.getParameters().selectedKey == "Tab6") {
+				this.getView().byId("mainSectionTitle").setTitle(this.oBundle.getText("ClaimSubletSection"));
+			} else if (oSelectedKey.getParameters().selectedKey == "Tab7") {
+				this.getView().byId("mainSectionTitle").setTitle(this.oBundle.getText("ValidatePartsSection"));
+			}
 		},
 		onPressBack: function (oEvent) {
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
