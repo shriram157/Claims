@@ -175,14 +175,14 @@
 				<f:content>
 					<core:Title text=""/>
 					<Label text="{i18n>DeliveringCarrier}"/>
-					<ComboBox required="true" editable="{DateModel>/oFormEdit}" selectedKey="" value="{HeadSetData>/DeliveringCarrier}">
+					<custom:CustomCombo required="true" editable="{DateModel>/oFormEdit}" selectedKey="" value="{HeadSetData>/DeliveringCarrier}">
 						<core:ListItem key="" text="Hansen's"/>
 						<core:ListItem key="" text="United Road"/>
 						<core:ListItem key="" text="MCGill"/>
 						<core:ListItem key="" text="Harvey"/>
 						<core:ListItem key="" text="Laberge"/>
 						<core:ListItem key="" text="Others"/>
-					</ComboBox>
+					</custom:CustomCombo>
 					<core:Title text=""/>
 					<Label text="{i18n>Probill}"/>
 					<Input value="{HeadSetData>/ProbillNum}" required="true"/>
@@ -193,10 +193,10 @@
 						editable="{DateModel>/oFormEdit}"/>
 					<core:Title text=""/>
 					<Label text="{i18n>Delivery}"/>
-					<ComboBox required="true" editable="{DateModel>/oFormEdit}" items="" selectedKey="" value="{HeadSetData>/Delivery}">
+					<custom:CustomCombo required="true" editable="{DateModel>/oFormEdit}" items="" selectedKey="" value="{HeadSetData>/Delivery}">
 						<core:ListItem key="" text="{i18n>Attended}"/>
 						<core:ListItem key="" text="{i18n>Unattended}"/>
-					</ComboBox>
+					</custom:CustomCombo>
 				</f:content>
 			</f:SimpleForm>
 			<HBox justifyContent="End">
@@ -211,22 +211,22 @@
 					<f:content>
 						<core:Title text=""/>
 						<Label text="{i18n>Area}"/>
-						<ComboBox showSecondaryValues="true" editable="{DateModel>/oFormEdit}" required="true" filterSecondaryValues="true"
+						<custom:CustomCombo showSecondaryValues="true" editable="{DateModel>/oFormEdit}" required="true" filterSecondaryValues="true"
 							items="{LocalDataModel>/DataAreaCode}" selectedKey="" value="{HeadSetData>/DmgAreaCode}" enabled="{DateModel>/damageLine}">
 							<core:ListItem key="{LocalDataModel>DmgAreaCode}" text="{LocalDataModel>DmgAreaCode}" additionalText="{LocalDataModel>DmgAreaCodeDesc}"/>
-						</ComboBox>
+						</custom:CustomCombo>
 						<core:Title text=""/>
 						<Label text="{i18n>Type}"/>
-						<ComboBox showSecondaryValues="true" editable="{DateModel>/oFormEdit}" required="true" selectedKey="" value="{HeadSetData>/DmgTypeCode}"
-							filterSecondaryValues="true" items="{LocalDataModel>/DataTypeCode}" enabled="{DateModel>/damageLine}">
+						<custom:CustomCombo showSecondaryValues="true" editable="{DateModel>/oFormEdit}" required="true" selectedKey=""
+							value="{HeadSetData>/DmgTypeCode}" filterSecondaryValues="true" items="{LocalDataModel>/DataTypeCode}" enabled="{DateModel>/damageLine}">
 							<core:ListItem key="{LocalDataModel>DmgTypeCode}" text="{LocalDataModel>DmgTypeCode}" additionalText="{LocalDataModel>DmgTypeCodeDesc}"/>
-						</ComboBox>
+						</custom:CustomCombo>
 						<core:Title text=""/>
 						<Label text="{i18n>Severity}"/>
-						<ComboBox showSecondaryValues="true" editable="{DateModel>/oFormEdit}" required="true" selectedKey="" value="{HeadSetData>/DmgSevrCode}"
-							filterSecondaryValues="true" items="{LocalDataModel>/DataSeverety}" enabled="{DateModel>/damageLine}">
+						<custom:CustomCombo showSecondaryValues="true" editable="{DateModel>/oFormEdit}" required="true" selectedKey=""
+							value="{HeadSetData>/DmgSevrCode}" filterSecondaryValues="true" items="{LocalDataModel>/DataSeverety}" enabled="{DateModel>/damageLine}">
 							<core:ListItem key="{LocalDataModel>DmgSevrCode}" text="{LocalDataModel>DmgSevrCode}" additionalText="{LocalDataModel>DmgSevrCodeDesc}"/>
-						</ComboBox>
+						</custom:CustomCombo>
 						<core:Title text=""/>
 						<Label text=" "/>
 						<Button text="{i18n>SaveDamage}" press="onSaveDamage" type="Emphasized" enabled="{DateModel>/damageLine}"/>
