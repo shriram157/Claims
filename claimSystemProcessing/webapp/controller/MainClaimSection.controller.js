@@ -4172,64 +4172,81 @@ sap.ui.define([
 				"UnitOfMeasure": this.getView().getModel("LocalDataModel").getProperty("/BaseUnit")
 			};
 
+			var oArrNew = this.obj.zc_itemSet.results.filter(function (val) {
+				return val.MaterialNumber === itemObj.MaterialNumber;
+			}).length;
+
+			console.log(oArrNew);
+
 			var oTableIndex = oTable._aSelectedPaths;
+
+			var oClaimModel = this.getModel("ProssingModel");
 
 			if (oTableIndex.length == 1) {
 				var oIndex = parseInt(oTableIndex.toString().split("/")[2]);
 				this.obj.zc_itemSet.results.splice(oIndex, 1);
 			}
 
-			// for(let i in this.obj.zc_itemSet.results){
-			// 	if(this.obj.zc_itemSet.results[i].MaterialNumber == itemObj.MaterialNumber){
+			if (oArrNew > 0) {
+				MessageToast.show("Material already exists", {
+					my: "center center",
+					at: "center center"
+				});
+				// this.getView().getModel("DateModel").setProperty("/partLine", false);
+				this.getView().getModel("PartDataModel").setProperty("/matnr", "");
+				this.getView().getModel("PartDataModel").setProperty("/quant", "");
+				this.getView().getModel("PartDataModel").setProperty("/PartDescription", "");
+				this.getView().getModel("LocalDataModel").setProperty("/BaseUnit", "");
+			} else {
+				this._oToken = oClaimModel.getHeaders()['x-csrf-token'];
+				$.ajaxSetup({
+					headers: {
+						'X-CSRF-Token': this._oToken
+					}
+				});
+				this.obj.zc_itemSet.results.push(itemObj);
+				oClaimModel.create("/zc_headSet", this.obj, {
+					success: $.proxy(function (data, response) {
+						var pricinghData = response.data.zc_claim_item_price_dataSet.results;
+						this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", response.data.OFPDescription);
+						this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.data.MainOpsCodeDescription);
+						var oFilteredData = pricinghData.filter(function (val) {
+							return val.ItemType === "MAT";
+						});
+						console.log(oFilteredData);
+						this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
+						MessageToast.show(oBundle.getText("Claimhasbeensavedsuccessfully"), {
+							my: "center center",
+							at: "center center"
+						});
+						this.getView().getModel("DateModel").setProperty("/partLine", false);
+						this.getView().getModel("PartDataModel").setProperty("/matnr", "");
+						this.getView().getModel("PartDataModel").setProperty("/quant", "");
+						this.getView().getModel("PartDataModel").setProperty("/PartDescription", "");
+						this.getView().getModel("LocalDataModel").setProperty("/BaseUnit", "");
+						//this.getView().byId("idPartDes").setValue("");
 
-			// 	}
+						oTable.removeSelections("true");
+
+						this._fnClaimSum();
+						this._fnClaimSumPercent();
+
+					}, this),
+					error: function (err) {
+						console.log(err);
+					}
+				});
+			}
+
+			// if (this.obj.zc_itemSet.results[i].MaterialNumber !== itemObj.MaterialNumber) {
+
+			// } else {
+			// 	alert("Already exists");
 			// }
-
-			this.obj.zc_itemSet.results.push(itemObj);
 
 			//obj.zc_itemSet.results.push(itemObj);
 
-			var oClaimModel = this.getModel("ProssingModel");
-
-			this._oToken = oClaimModel.getHeaders()['x-csrf-token'];
-			$.ajaxSetup({
-				headers: {
-					'X-CSRF-Token': this._oToken
-				}
-			});
 			// oClaimModel.refreshSecurityToken();
-
-			oClaimModel.create("/zc_headSet", this.obj, {
-				success: $.proxy(function (data, response) {
-					var pricinghData = response.data.zc_claim_item_price_dataSet.results;
-					this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", response.data.OFPDescription);
-					this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.data.MainOpsCodeDescription);
-					var oFilteredData = pricinghData.filter(function (val) {
-						return val.ItemType === "MAT";
-					});
-					console.log(oFilteredData);
-					this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
-					MessageToast.show(oBundle.getText("Claimhasbeensavedsuccessfully"), {
-						my: "center center",
-						at: "center center"
-					});
-					this.getView().getModel("DateModel").setProperty("/partLine", false);
-					this.getView().getModel("PartDataModel").setProperty("/matnr", "");
-					this.getView().getModel("PartDataModel").setProperty("/quant", "");
-					this.getView().getModel("PartDataModel").setProperty("/PartDescription", "");
-					this.getView().getModel("LocalDataModel").setProperty("/BaseUnit", "");
-					//this.getView().byId("idPartDes").setValue("");
-
-					oTable.removeSelections("true");
-
-					this._fnClaimSum();
-					this._fnClaimSumPercent();
-
-				}, this),
-				error: function (err) {
-					console.log(err);
-				}
-			});
 
 		},
 		// onNavigatePart: function (oEvent) {
@@ -5645,7 +5662,8 @@ sap.ui.define([
 			if (window.document.domain == "localhost") {
 				isProxy = "proxy";
 			}
-			if (oClaimtype == "FIELD ACTION" || oClaimtype == "ECP" || oClaimtype == "SETR" || oClaimtype == "CUSTOMER RELATION" || oClaimtype ==
+			if (oClaimtype == "FIELD ACTION" || oClaimtype == "ECP" || oClaimtype == "SETR" || oClaimtype == "CUSTOMER RELATION" ||
+				oClaimtype ==
 				"WARRANTY" ||
 				oClaimtype == "ZCSR" || oClaimtype == "ZCLS" || oClaimtype == "ZCWE" || oClaimtype == "ZCER" ||
 				oClaimtype == "ZECP" || oClaimtype == "ZSSE" || oClaimtype == "ZRCR" || oClaimtype == "ZWVE" ||
