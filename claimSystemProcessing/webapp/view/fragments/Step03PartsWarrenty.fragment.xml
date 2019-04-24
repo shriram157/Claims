@@ -60,9 +60,9 @@
 			labelSpanM="12" labelSpanS="12" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="6" columnsL="6" columnsM="6">
 			<f:content>
 				<core:Title text=""/>
-				<Button text="{i18n>AddPartLine}" press="onPressAddPart" enabled="{DateModel>/oFormEdit}"/>
+				<Button text="{i18n>AddPartLine}" visible="{DateModel>/oAddPartLine}" press="onPressAddPart" enabled="{DateModel>/oFormEdit}"/>
 				<core:Title text=""/>
-				<Button text="{i18n>UpdatePartLine}" press="onPressUpdatePart" enabled="{DateModel>/oFormEdit}"/>
+				<Button text="{i18n>UpdatePartLine}" visible="{DateModel>/oUpdatePartLine}" press="onPressUpdatePart" enabled="{DateModel>/oFormEdit}"/>
 				<core:Title text=""/>
 				<Button text="{i18n>DeletePartLine}" type="Reject" press="onPressDeletePart" enabled="{DateModel>/oFormEdit}"/>
 				<core:Title text=""/>
@@ -124,7 +124,7 @@
 			noDataText="No Data" showNoData="true">
 			<columns>
 				<Column><Text text="{i18n>Line}" textAlign="Center" width="100%"/></Column>
-				<Column><Text text="{i18n>OFP}" textAlign="Center" width="100%"/></Column>
+				<Column visible="{DateModel>/ofpEnabled}"><Text text="{i18n>OFP}" textAlign="Center" width="100%"/></Column>
 				<Column><Text text="{i18n>PartNumber}" textAlign="Center" width="100%"/></Column>
 				<Column><Text text="{i18n>Description}" textAlign="Center" width="100%"/></Column>
 				<Column>
@@ -166,7 +166,7 @@
 				<ColumnListItem vAlign="Middle">
 					<cells>
 						<Text text="{LocalDataModel>posnr}" textAlign="Center" width="100%"/>
-						<RadioButton groupName="A" id="idPartRadio" editable="{DateModel>/ofpEnabled}" enabled="{DateModel>/oFormEdit}" select="onSelectOFP"
+						<RadioButton groupName="A" id="idPartRadio" visible="{DateModel>/ofpEnabled}" enabled="{DateModel>/oFormEdit}" select="onSelectOFP"
 							textAlign="Center" width="100%"/>
 						<Text text="{LocalDataModel>matnr}" wrapping="true" textAlign="Center" width="100%"/>
 						<Text text="{LocalDataModel>PartDescription}" wrapping="true" textAlign="Center" width="100%"/>

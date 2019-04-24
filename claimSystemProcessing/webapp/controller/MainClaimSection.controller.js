@@ -68,7 +68,10 @@ sap.ui.define([
 				specialVinInd: false,
 				oMainOpsReq: false,
 				oSlipVisible: false,
-				oTciQtyAppr: false
+				oTciQtyAppr: false,
+				oAddPartLine: true,
+				oUpdatePartLine: true,
+				authHide: true
 
 			});
 			this.getView().setModel(oDateModel, "DateModel");
@@ -263,6 +266,7 @@ sap.ui.define([
 			this.getModel("LocalDataModel").setProperty("/DataVinDetails", "");
 			this.getModel("LocalDataModel").setProperty("/VehicleMonths", "");
 			this.getModel("LocalDataModel").setProperty("/selectedVehicle", "");
+			this.getModel("LocalDataModel").setProperty("/DataAuthDetails", "");
 			this.getView().byId("id_Date").setValueState("None");
 			this.getView().byId("idPrInvDate").setValueState("None");
 			this.getView().byId("idPreInvNum").setValueState("None");
@@ -858,9 +862,9 @@ sap.ui.define([
 
 						}
 
-						this._fnDealerContact();
 						this.onP2Claim(oClaimTypeDetail);
 						this._fnOFPenabled();
+						this._fnDealerContact();
 
 						if (oClaimTypeDetail == "ZSCR" && data.results[0].ProcessingStatusOfWarrantyClm != "ZTIC") {
 							this.getView().getModel("DateModel").setProperty("/oSlipVisible", true);
@@ -880,7 +884,14 @@ sap.ui.define([
 							this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") == "ZWVE") {
 							this.getView().getModel("DateModel").setProperty("/oFieldActionInput", true);
 						}
+						if (oClaimTypeDetail == "ZSSM") {
+							this.getView().getModel("DateModel").setProperty("/oUpdatePartLine", false);
+							this.getView().getModel("DateModel").setProperty("/oAddPartLine", false);
 
+						} else {
+							this.getView().getModel("DateModel").setProperty("/oUpdatePartLine", true);
+							this.getView().getModel("DateModel").setProperty("/oAddPartLine", true);
+						}
 					}, this),
 					error: function () {}
 				});
@@ -1557,8 +1568,8 @@ sap.ui.define([
 					this.getView().getModel("DateModel").setProperty("/oMainOpsReq", false);
 				}
 
-				this._fnDealerContact();
 				this._fnOFPenabled();
+				this._fnDealerContact();
 				this.getModel("LocalDataModel").setProperty("/ClaimSum", "");
 
 			}
@@ -1619,8 +1630,11 @@ sap.ui.define([
 				this.getView().getModel("DateModel").setProperty("/oDealerContactReq", true);
 				this.getView().getModel("DateModel").setProperty("/enabledT2", false);
 				this.getView().getModel("DateModel").setProperty("/enabledT1", false);
+				this.getView().getModel("DateModel").setProperty("/ofpEnabled", false);
+				this.getView().getModel("DateModel").setProperty("/authHide", false);
 			} else {
 				this.getView().getModel("DateModel").setProperty("/oDealerContactReq", false);
+				this.getView().getModel("DateModel").setProperty("/authHide", true);
 			}
 		},
 
@@ -3600,6 +3614,7 @@ sap.ui.define([
 		},
 		onPressLinkAuthorization: function () {
 			var oProssingModel = this.getModel("ProssingModel");
+			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			var oClaim = this.getView().getModel("DataPercetCalculate").getProperty("/AuthorizationNumber");
 			oProssingModel.read("/zc_authorization_detailsSet", {
 				urlParameters: {
