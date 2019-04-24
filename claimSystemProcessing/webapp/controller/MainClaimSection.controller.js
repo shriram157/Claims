@@ -70,7 +70,8 @@ sap.ui.define([
 				oSlipVisible: false,
 				oTciQtyAppr: false,
 				oAddPartLine: true,
-				oUpdatePartLine: true
+				oUpdatePartLine: true,
+				authHide: true
 
 			});
 			this.getView().setModel(oDateModel, "DateModel");
@@ -265,6 +266,7 @@ sap.ui.define([
 			this.getModel("LocalDataModel").setProperty("/DataVinDetails", "");
 			this.getModel("LocalDataModel").setProperty("/VehicleMonths", "");
 			this.getModel("LocalDataModel").setProperty("/selectedVehicle", "");
+			this.getModel("LocalDataModel").setProperty("/DataAuthDetails", "");
 			this.getView().byId("id_Date").setValueState("None");
 			this.getView().byId("idPrInvDate").setValueState("None");
 			this.getView().byId("idPreInvNum").setValueState("None");
@@ -1629,9 +1631,10 @@ sap.ui.define([
 				this.getView().getModel("DateModel").setProperty("/enabledT2", false);
 				this.getView().getModel("DateModel").setProperty("/enabledT1", false);
 				this.getView().getModel("DateModel").setProperty("/ofpEnabled", false);
-
+				this.getView().getModel("DateModel").setProperty("/authHide", false);
 			} else {
 				this.getView().getModel("DateModel").setProperty("/oDealerContactReq", false);
+				this.getView().getModel("DateModel").setProperty("/authHide", true);
 			}
 		},
 
@@ -3611,6 +3614,7 @@ sap.ui.define([
 		},
 		onPressLinkAuthorization: function () {
 			var oProssingModel = this.getModel("ProssingModel");
+			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			var oClaim = this.getView().getModel("DataPercetCalculate").getProperty("/AuthorizationNumber");
 			oProssingModel.read("/zc_authorization_detailsSet", {
 				urlParameters: {
