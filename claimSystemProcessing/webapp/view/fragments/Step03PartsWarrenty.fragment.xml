@@ -60,9 +60,9 @@
 			labelSpanM="12" labelSpanS="12" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="6" columnsL="6" columnsM="6">
 			<f:content>
 				<core:Title text=""/>
-				<Button text="{i18n>AddPartLine}" press="onPressAddPart" enabled="{DateModel>/oFormEdit}"/>
+				<Button text="{i18n>AddPartLine}" visible="{DateModel>/oAddPartLine}" press="onPressAddPart" enabled="{DateModel>/oFormEdit}"/>
 				<core:Title text=""/>
-				<Button text="{i18n>UpdatePartLine}" press="onPressUpdatePart" enabled="{DateModel>/oFormEdit}"/>
+				<Button text="{i18n>UpdatePartLine}" visible="{DateModel>/oUpdatePartLine}" press="onPressUpdatePart" enabled="{DateModel>/oFormEdit}"/>
 				<core:Title text=""/>
 				<Button text="{i18n>DeletePartLine}" type="Reject" press="onPressDeletePart" enabled="{DateModel>/oFormEdit}"/>
 				<core:Title text=""/>

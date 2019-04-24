@@ -68,7 +68,9 @@ sap.ui.define([
 				specialVinInd: false,
 				oMainOpsReq: false,
 				oSlipVisible: false,
-				oTciQtyAppr: false
+				oTciQtyAppr: false,
+				oAddPartLine: true,
+				oUpdatePartLine: true
 
 			});
 			this.getView().setModel(oDateModel, "DateModel");
@@ -880,7 +882,14 @@ sap.ui.define([
 							this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") == "ZWVE") {
 							this.getView().getModel("DateModel").setProperty("/oFieldActionInput", true);
 						}
+						if (oClaimTypeDetail == "ZSSM") {
+							this.getView().getModel("DateModel").setProperty("/oUpdatePartLine", false);
+							this.getView().getModel("DateModel").setProperty("/oAddPartLine", false);
 
+						} else {
+							this.getView().getModel("DateModel").setProperty("/oUpdatePartLine", true);
+							this.getView().getModel("DateModel").setProperty("/oAddPartLine", true);
+						}
 					}, this),
 					error: function () {}
 				});
