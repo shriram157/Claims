@@ -812,7 +812,10 @@ sap.ui.define([
 			if (this.getView().getModel("HeadSetData").getProperty("/DeliveryDate") > receivedDate) {
 				this.getView().getModel("DateModel").setProperty("/SaveClimBTN", false);
 				MessageToast.show(this.oBundle.getText("receivedDateErrMSG"));
-			} else if (this.getView().getModel("HeadSetData").getProperty("/DeliveryDate") <= receivedDate) {
+			} else if (receivedDate > new Date()) {
+				this.getView().getModel("DateModel").setProperty("/SaveClimBTN", false);
+				MessageToast.show(this.oBundle.getText("receivedDateErrMSG2"));
+			} else if (this.getView().getModel("HeadSetData").getProperty("/DeliveryDate") <= receivedDate ) {
 				this.getView().getModel("DateModel").setProperty("/SaveClimBTN", true);
 			}
 		},
