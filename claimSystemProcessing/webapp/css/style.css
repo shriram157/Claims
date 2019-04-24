@@ -132,6 +132,10 @@
     pointer-events: none;
 }
 
+.clShipmentInfo .sapMInputBaseHasEndIcons .sapMInputBaseInner {
+    pointer-events: none;
+}
+
 .clFont01 {
     font-size: 1rem;
 }

@@ -44,7 +44,8 @@
 					<!--<Label text="{i18n>Status}"/>-->
 					<!--<Text text="{HeadSetData>/ProcessingStatusOfWarrantyClm}"/>-->
 					<core:Title text=""/>
-					<Button text="{LocalDataModel>/SaveAuthClaim}" class="sapUiSmallMarginEnd" type="Emphasized" press="onSaveClaim" visible="{DateModel>/saveClaimSt}">
+					<Button text="{LocalDataModel>/SaveAuthClaim}" class="sapUiSmallMarginEnd" type="Emphasized" press="onSaveClaim"
+						visible="{DateModel>/saveClaimSt}">
 						<layoutData>
 							<l:GridData span="XL8 L8 M12 S12"/>
 						</layoutData>
@@ -54,8 +55,8 @@
 							<l:GridData span="XL8 L8 M12 S12"/>
 						</layoutData>
 					</Button>
-					<Button text="{LocalDataModel>/SaveAuthClaim}" class="sapUiSmallMarginEnd" enabled="{DateModel>/updateEnable}" type="Emphasized" press="onUpdateClaim"
-						visible="{DateModel>/updateClaimSt}">
+					<Button text="{LocalDataModel>/SaveAuthClaim}" class="sapUiSmallMarginEnd" enabled="{DateModel>/updateEnable}" type="Emphasized"
+						press="onUpdateClaim" visible="{DateModel>/updateClaimSt}">
 						<layoutData>
 							<l:GridData span="XL8 L8 M12 S12"/>
 						</layoutData>
@@ -124,7 +125,7 @@
 				</RadioButtonGroup>
 				<Input required="{DateModel>/OdometerReq}"
 					value="{path:'HeadSetData>/ExternalObjectNumber', type : 'sap.ui.model.type.String', constraints : { minLength : 16, maxLength : 17 }}"
-					visible="{DateModel>/OdometerReq}" id="idVinNum"  change="onEnterVIN" editable="{DateModel>/oFormEdit}"/>
+					visible="{DateModel>/OdometerReq}" id="idVinNum" change="onEnterVIN" editable="{DateModel>/oFormEdit}"/>
 				<core:Title text=""/>
 				<Label text="{i18n>RegDate}"/>
 				<Text
@@ -135,8 +136,8 @@
 				<Label text="{i18n>ForeignVIN}" vAlign="Middle"/>
 				<Text text="{LocalDataModel>/DataVinDetails/ForeignVIN}" id="idForeignVin">
 					<layoutData>
-							<l:GridData span="XL1 L2 M3 S4"/>
-						</layoutData>
+						<l:GridData span="XL1 L2 M3 S4"/>
+					</layoutData>
 				</Text>
 				<core:Icon src="sap-icon://message-warning" class="clWarning" color="#f00" visible="{DateModel>/foreignVinInd}" press="onPressForeignVin">
 					<core:layoutData>
@@ -147,8 +148,8 @@
 				<Label text="{i18n>WrittenOff}" vAlign="Middle"/>
 				<Text text="{LocalDataModel>/DataVinDetails/WrittenOff}" id="idWrittenoff">
 					<layoutData>
-							<l:GridData span="XL1 L2 M3 S4"/>
-						</layoutData>
+						<l:GridData span="XL1 L2 M3 S4"/>
+					</layoutData>
 				</Text>
 				<core:Icon src="sap-icon://message-warning" class="clWarning" color="#f00" visible="{DateModel>/writtenOffInd}" press="onPressWrittenOff">
 					<core:layoutData>
@@ -159,19 +160,17 @@
 				<Label text="{i18n>SpecialVINReview}" vAlign="Middle"/>
 				<Text text="{LocalDataModel>/DataVinDetails/SpecialVINReview}" id="idSpecialVin">
 					<layoutData>
-							<l:GridData span="XL1 L2 M3 S4"/>
-						</layoutData>
+						<l:GridData span="XL1 L2 M3 S4"/>
+					</layoutData>
 				</Text>
-				<core:Icon class="clWarning" src="sap-icon://message-warning" color="#f00" visible="{DateModel>/specialVinInd}" press="onPressSpecialVin">
-					
-				</core:Icon>
+				<core:Icon class="clWarning" src="sap-icon://message-warning" color="#f00" visible="{DateModel>/specialVinInd}" press="onPressSpecialVin"></core:Icon>
 				<!--<Button icon="sap-icon://message-warning" type="Transparent" visible="{DateModel>/specialVinInd}" press="onPressSpecialVin" class="clWarning"/>-->
 			</f:content>
 		</f:SimpleForm>
 		<VBox visible="{DateModel>/ShipmentVisible}">
-			<f:SimpleForm editable="true" id="idShipmentInfo" title="{i18n>ShipmentInformation}" layout="ResponsiveGridLayout" labelSpanXL="12"
-				labelSpanL="12" labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
-				columnsXL="4" columnsL="4" columnsM="3" singleContainerFullSize="false">
+			<f:SimpleForm editable="true" id="idShipmentInfo" class="clShipmentInfo" title="{i18n>ShipmentInformation}" layout="ResponsiveGridLayout"
+				labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0"
+				emptySpanS="0" columnsXL="4" columnsL="4" columnsM="3" singleContainerFullSize="false">
 				<f:content>
 					<core:Title text=""/>
 					<Label text="{i18n>DeliveringCarrier}"/>
@@ -205,7 +204,7 @@
 				<Button text="{i18n>DeleteDamageLine}" press="onDeleteDamageLine" class="sapUiTinyMarginBeginEnd" type="Reject"
 					enabled="{DateModel>/oDamageLineBtn}"/>
 			</HBox>
-			<VBox id="idDamageArea" class="clBgColor sapUiSmallMarginTop" wrap="Wrap" width="100%">
+			<VBox id="idDamageArea" class="clBgColor sapUiSmallMarginTop clShipmentInfo" wrap="Wrap" width="100%">
 				<f:SimpleForm editable="true" labelSpanL="4" width="100%" title="" labelSpanXL="12" layout="ResponsiveGridLayout" emptySpanXL="0"
 					emptySpanL="0" columnsM="3" columnsL="4" columnsXL="4">
 					<f:content>
@@ -345,7 +344,8 @@
 					<Input id="idOFP" required="{DateModel>/ofpRequired}" value="{path:'HeadSetData>/OFP'}" editable="{DateModel>/oFormEdit}"
 						enabled="{DateModel>/ofpEnabled}"/>
 					<Label text="{i18n>MainOp}"/>
-					<Input id="idMainOps" value="{path:'HeadSetData>/MainOpsCode'}" required="{DateModel>/oMainOpsReq}"  editable="{DateModel>/oFormEdit}" visible="{DateModel>/oMainOps}"/>
+					<Input id="idMainOps" value="{path:'HeadSetData>/MainOpsCode'}" required="{DateModel>/oMainOpsReq}" editable="{DateModel>/oFormEdit}"
+						visible="{DateModel>/oMainOps}"/>
 					<Label text="{i18n>BatteryTestCode}"/>
 					<Input value="{HeadSetData>/BatteryTestCode}" editable="{DateModel>/oFormEdit}" enabled="{DateModel>/oBatteryTestEnable}"/>
 					<Label text="{i18n>Condition}"/>
@@ -388,7 +388,6 @@
 						value="{path:'HeadSetData>/Remedy', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 100 }}"></TextArea>
 				</f:content>
 			</f:SimpleForm>
-			
 		</VBox>
 		<f:SimpleForm visible="{DateModel>/AcA1}" editable="{DateModel>/oFormEdit}" title="Accessory Installation/Purchase"
 			layout="ResponsiveGridLayout" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0"
