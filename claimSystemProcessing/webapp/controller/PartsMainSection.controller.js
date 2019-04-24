@@ -2283,8 +2283,7 @@ sap.ui.define([
 				},
 				success: $.proxy(function (odata) {
 					console.log("DD data for screen2", odata);
-					this.getView().getModel("DropDownModel").setProperty("/" + "/items", odata.results);
-					this.getView().getModel("DropDownModel").getData().items.unshift({
+					odata.results.unshift({
 						"ALMDiscreCode": "",
 						"ALMDiscreDesc": "",
 						"ClaimType": "",
@@ -2292,12 +2291,21 @@ sap.ui.define([
 						"DiscreDesc": "",
 						"LanguageKey": ""
 					});
+					this.getView().getModel("DropDownModel").setProperty("/" + "/items", odata.results);
+					// this.getView().getModel("DropDownModel").getData().items[0].unshift({
+					// 	"ALMDiscreCode": "",
+					// 	"ALMDiscreDesc": "",
+					// 	"ClaimType": "",
+					// 	"DiscreCode": "",
+					// 	"DiscreDesc": "",
+					// 	"LanguageKey": ""
+					// });
 					this.getView().getModel("DropDownModel").updateBindings(true);
 				}, this)
 			});
 		},
 		onSelectClaim: function (oEvent) {
-			this._getDropDownData(oEvent.getSource().getProperty("selectedKey"));
+			// this._getDropDownData(oEvent.getSource().getProperty("selectedKey"));
 			this._getDropDownData(oEvent.getSource().getProperty("selectedKey"));
 			if (oEvent.getSource().getProperty("selectedKey") === "ZPDC") {
 				this.getView().byId("idPdcCode").setProperty("editable", false);
@@ -2906,6 +2914,7 @@ sap.ui.define([
 					success: $.proxy(function (data, response) {
 						that.DataRes1 = response.data;
 						this.getView().byId("idFilter02").setProperty("enabled", true);
+						this.getView().byId("idFilter03").setProperty("enabled", true);
 						// this.getView().byId("idPartClaimIconBar").setSelectedKey("Tab2");
 						console.log("1st Response after claim is saved", data);
 						MessageToast.show(that.oBundle.getText("ClaimSuccessMSG"));
@@ -3129,11 +3138,21 @@ sap.ui.define([
 									this.obj.zc_claim_vsrSet.results.pop(oObj);
 									if (response.data.zc_claim_vsrSet.results.length <= 0) {
 										this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
-										MessageToast.show("Claim Number " + oClaimNum + " successfully submitted to TCI.");
+										MessageToast.show(oBundle.getText("ClaimNumber") + " " + oClaimNum + " " + oBundle.getText(
+											"successfullysubmittedTCI"), {
+											my: "center center",
+											at: "center center"
+										});
+										// MessageToast.show("Claim Number " + oClaimNum + " successfully submitted to TCI.");
 										this.getView().byId("idFilter04").setProperty("enabled", true);
 									} else {
 										MessageToast.show(
-											"Claim Number " + oClaimNum + " was Rejected by TCI, please see Validation Results for more details.");
+											oBundle.getText("ClaimNumber") + " " + oClaimNum + " " + oBundle.getText("RejectedTCIValidationResultsdetails"), {
+												my: "center center",
+												at: "center center"
+											});
+										// MessageToast.show(
+										// 	"Claim Number " + oClaimNum + " was Rejected by TCI, please see Validation Results for more details.");
 									}
 									dialog.close();
 								}, this),

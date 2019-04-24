@@ -15,8 +15,7 @@
 					<core:Title text=""/>
 					<Label text="{i18n>ClaimType}"/>
 					<!--{path:'/ZC_CLAIM_GROUP', filters : [{path:'ClaimGroupDes', operator:'EQ', value1 : 'PART WAREHOUSE' }]}-->
-					<ComboBox id="ID_claimGroupsforParts" required="true"
-						items="{LocalDataModel>/oClaimPartsGroupsData}" change="onSelectClaim"
+					<ComboBox id="ID_claimGroupsforParts" required="true" items="{LocalDataModel>/oClaimPartsGroupsData}" change="onSelectClaim"
 						selectedKey="{HeadSetData>/WarrantyClaimType}" enabled="{DateModel>/claimTypeEn}">
 						<core:Item text="{LocalDataModel>ALMClaimTypeDes}" key="{LocalDataModel>ALMClaimType}"/>
 					</ComboBox>
@@ -53,31 +52,25 @@
 				<Input value="{path:'HeadSetData>/Delivery', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 10 } }"
 					required="true" id="idOutboundDNum" enabled="{DateModel>/oFormEdit}"/>
 				<Label text="{i18n>ReceivedDate}"/>
-				<DatePicker 
+				<DatePicker
 					value="{path:'HeadSetData>/ShipmentReceivedDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd' } }"
 					required="true" id="idShipmentRDate" enabled="{DateModel>/oFormEdit}" change="onReceivedDateChange"/>
-				<!--<Label text="{i18n>ShippingPartstoPDC}"/>-->
-				<!--<Select id="idPartsShipping" enabled="{DateModel>/oFormEdit}">-->
-				<!--	<items>-->
-				<!--		<core:Item text="{i18n>Yes}" key="Yes"/>-->
-				<!--		<core:Item text="{i18n>No}" key="No"/>-->
-				<!--	</items>-->
-				<!--</Select>-->
-				<core:Title text=""/>
-				<Label text="{i18n>OutboundDeliveryDate}"/>
-				<DatePicker required="true" id="idOutBoundDD"
-					value="{path:'HeadSetData>/DeliveryDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium' , pattern: 'YYYY-MM-dd'}}" enabled="{DateModel>/oFormEdit}"/>
-				<Label text="{i18n>PDCCode}"/>
-				<Input value="" id="idPdcCode" editable="false"/>
 				<Label text="{i18n>DealerContact}"/>
 				<Input value="{path:'HeadSetData>/DealerContact', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 10 } }"
 					required="true" id="idDealerContact" enabled="{DateModel>/oFormEdit}"/>
+				<core:Title text=""/>
+				<Label text="{i18n>OutboundDeliveryDate}"/>
+				<DatePicker required="true" id="idOutBoundDD"
+					value="{path:'HeadSetData>/DeliveryDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium' , pattern: 'YYYY-MM-dd'}}"
+					enabled="{DateModel>/oFormEdit}"/>
+				<Label text="{i18n>PDCCode}"/>
+				<Input value="" id="idPdcCode" editable="false"/>
 				<core:Title text=""/>
 				<Label text="{i18n>TCIWaybillNo}"/>
 				<Input value="{HeadSetData>/TCIWaybillNumber}" id="idTCIWayBill" enabled="{DateModel>/oFormEdit}"/>
 				<Label text="{i18n>CarrierName}"/>
 				<ComboBox id="idCarrierName" required="true" items="{BpDealerModel>/BpDealerList}" change="onSelectPartsDealer"
-					selectedKey="{HeadSetData>/DeliveringCarrier}" showSecondaryValues="true"  enabled="{DateModel>/oFormEdit}">
+					selectedKey="{HeadSetData>/DeliveringCarrier}" showSecondaryValues="true" enabled="{DateModel>/oFormEdit}">
 					<core:ListItem text="{BpDealerModel>BusinessPartner}" key="{BpDealerModel>BusinessPartnerKey}"
 						additionalText="{BpDealerModel>BusinessPartnerName}"/>
 				</ComboBox>
@@ -93,7 +86,7 @@
 						<l:GridData span="XL8 L8 M8 S4"/>
 					</layoutData>
 				</TextArea>
-				<Button text="{i18n>PartsAdd}"  press="onAddPartsComment" enabled="{DateModel>/oFormEdit}">
+				<Button text="{i18n>PartsAdd}" press="onAddPartsComment" enabled="{DateModel>/oFormEdit}">
 					<layoutData>
 						<l:GridData span="XL2 L2 M3 S4"/>
 					</layoutData>
@@ -113,10 +106,12 @@
 				singleContainerFullSize="false">
 				<f:content>
 					<UploadCollection id="UploadSupportingDoc" uploadEnabled="{LocalDataModel>/UploadEnableHeader}" change="onUploadChangeParts"
-						uploadComplete="onUploadCompleteParts" fileDeleted="onFileDeleted" items="{ path: 'LocalDataModel>/PartHeadAttachData', templateShareable: false }">
+						uploadComplete="onUploadCompleteParts" fileDeleted="onFileDeleted"
+						items="{ path: 'LocalDataModel>/PartHeadAttachData', templateShareable: false }">
 						<toolbar>
 							<OverflowToolbar>
-								<Breadcrumbs id="breadcrumbsSupportingDoc" currentLocationText="{LocalDataModel>/currentLocationText}" links="{LocalDataModel>/partsHistory}">
+								<Breadcrumbs id="breadcrumbsSupportingDoc" currentLocationText="{LocalDataModel>/currentLocationText}"
+									links="{LocalDataModel>/partsHistory}">
 									<Link press="onBreadcrumbPress" text="{LocalDataModel>fileName}"/>
 								</Breadcrumbs>
 								<ToolbarSpacer/>

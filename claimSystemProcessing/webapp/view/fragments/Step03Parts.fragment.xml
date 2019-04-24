@@ -134,7 +134,7 @@
 							<!--	</items>-->
 							<!--</UploadCollection>-->
 							<!--<core:Title text=""/>-->
-							<Label text="{i18n>RetainPart}" visible="{multiHeaderConfig>/RetainPartV}"/>
+							<Label text="{i18n>RetainPart}" visible="{multiHeaderConfig>/RetainPartV}" required="true"/>
 							<Select valueState="{DateModel>/RetainPartType}" change="onRetainChange" selectedKey="{PartDataModel>/RetainPart}" visible="{multiHeaderConfig>/RetainPartV}" enabled="{DateModel>/partLine}">
 								<items>
 									<core:Item text="" key=""/>

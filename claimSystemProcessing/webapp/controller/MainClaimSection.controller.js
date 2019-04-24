@@ -3650,16 +3650,17 @@ sap.ui.define([
 			});
 		},
 		onStep01Next: function (oEvent) {
-
 			if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZWMS" ||
 				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") == "ZWMS" || this.getModel("LocalDataModel").getProperty(
 					"/GroupDescriptionName") === "CUSTOMER RELATIONS" || this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") ===
 				"ZRCR") {
 				this.getView().byId("idFilter06").setProperty("enabled", true);
 				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab6");
+				this.getView().byId("mainSectionTitle").setTitle(this.oBundle.getText("ClaimSubletSection"));
 			} else {
 				this.getView().byId("idFilter03").setProperty("enabled", true);
 				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab3");
+				this.getView().byId("mainSectionTitle").setTitle(this.oBundle.getText("ClaimPartsSection"));
 			}
 
 		},
@@ -3681,14 +3682,17 @@ sap.ui.define([
 					"/WarrantyClaimSubType") == "ZWP2") {
 				this.getView().byId("idFilter07").setProperty("enabled", true);
 				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab7");
+				this.getView().byId("mainSectionTitle").setTitle(this.oBundle.getText("ValidatePartsSection"));
 			} else if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZSCR" || this.getView().getModel(
 					"HeadSetData").getProperty(
 					"/WarrantyClaimType") == "ZSSM") {
 				this.getView().byId("idFilter07").setProperty("enabled", true);
 				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab7");
+				this.getView().byId("mainSectionTitle").setTitle(this.oBundle.getText("ValidatePartsSection"));
 			} else {
 				this.getView().byId("idFilter04").setProperty("enabled", true);
 				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab4");
+				this.getView().byId("mainSectionTitle").setTitle(this.oBundle.getText("ClaimLabourSection"));
 			}
 
 			oProssingModel.read("/zc_get_operation_numberSet", {
@@ -3743,10 +3747,8 @@ sap.ui.define([
 
 		},
 		onStep03Back: function () {
-
 			this.getView().byId("idFilter01").setProperty("enabled", true);
 			this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab1");
-
 		},
 
 		onStep04Next: function () {
@@ -3775,15 +3777,18 @@ sap.ui.define([
 			) {
 				this.getView().byId("idFilter05").setProperty("enabled", true);
 				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab5");
+				this.getView().byId("mainSectionTitle").setTitle(this.oBundle.getText("ClaimPaintRustSection"));
 			} else {
 				this.getView().byId("idFilter06").setProperty("enabled", true);
 				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab6");
+				this.getView().byId("mainSectionTitle").setTitle(this.oBundle.getText("ClaimSubletSection"));
 			}
 		},
 		onStep04Back: function () {
 
 			this.getView().byId("idFilter03").setProperty("enabled", true);
 			this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab3");
+				this.getView().byId("mainSectionTitle").setTitle(this.oBundle.getText("ClaimPartsSection"));
 
 		},
 
@@ -3810,12 +3815,14 @@ sap.ui.define([
 			) {
 				this.getView().byId("idFilter06").setProperty("enabled", true);
 				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab6");
+				this.getView().byId("mainSectionTitle").setTitle(this.oBundle.getText("ClaimSubletSection"));
 			}
 		},
 		onStep05Back: function () {
 
 			this.getView().byId("idFilter04").setProperty("enabled", true);
 			this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab4");
+				this.getView().byId("mainSectionTitle").setTitle(this.oBundle.getText("ClaimLabourSection"));
 
 		},
 
@@ -3846,9 +3853,11 @@ sap.ui.define([
 			) {
 				this.getView().byId("idFilter02").setProperty("enabled", true);
 				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab2");
+				this.getView().byId("mainSectionTitle").setTitle(this.oBundle.getText("ClaimAuthorizationSection"));
 			} else {
 				this.getView().byId("idFilter07").setProperty("enabled", true);
 				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab7");
+				this.getView().byId("mainSectionTitle").setTitle(this.oBundle.getText("ValidatePartsSection"));
 			}
 		},
 		onStep06Back: function () {
@@ -3859,6 +3868,7 @@ sap.ui.define([
 			) {
 				this.getView().byId("idFilter04").setProperty("enabled", true);
 				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab4");
+				this.getView().byId("mainSectionTitle").setTitle(this.oBundle.getText("ClaimLabourSection"));
 			} else if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZWMS" || this.getView().getModel(
 					"HeadSetData").getProperty("/WarrantyClaimType") == "ZRCR") {
 				this.getView().byId("idFilter01").setProperty("enabled", true);
@@ -3866,15 +3876,18 @@ sap.ui.define([
 			} else {
 				this.getView().byId("idFilter05").setProperty("enabled", true);
 				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab5");
+				this.getView().byId("mainSectionTitle").setTitle(this.oBundle.getText("ClaimPaintRustSection"));
 			}
 			if (this.getModel("LocalDataModel").getProperty("/oFieldAction") == "FIELD ACTION") {
 				this.getView().byId("idFilter04").setProperty("enabled", true);
 				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab4");
+				this.getView().byId("mainSectionTitle").setTitle(this.oBundle.getText("ClaimLabourSection"));
 			}
 
 			if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZECP") {
 				this.getView().byId("idFilter04").setProperty("enabled", true);
 				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab4");
+				this.getView().byId("mainSectionTitle").setTitle(this.oBundle.getText("ClaimLabourSection"));
 			}
 
 			if (
@@ -3890,6 +3903,7 @@ sap.ui.define([
 			) {
 				this.getView().byId("idFilter04").setProperty("enabled", true);
 				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab4");
+				this.getView().byId("mainSectionTitle").setTitle(this.oBundle.getText("ClaimLabourSection"));
 			}
 
 		},
@@ -3906,11 +3920,13 @@ sap.ui.define([
 					"HeadSetData").getProperty("/WarrantyClaimSubType") != "ZWAC") {
 				this.getView().byId("idFilter07").setProperty("enabled", true);
 				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab7");
+				this.getView().byId("mainSectionTitle").setTitle(this.oBundle.getText("ValidatePartsSection"));
 			}
 		},
 		onStep02Back: function () {
 			this.getView().byId("idFilter06").setProperty("enabled", true);
 			this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab6");
+				this.getView().byId("mainSectionTitle").setTitle(this.oBundle.getText("ClaimSubletSection"));
 		},
 
 		onStep07Back: function () {
@@ -3921,6 +3937,7 @@ sap.ui.define([
 			) {
 				this.getView().byId("idFilter03").setProperty("enabled", true);
 				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab3");
+				this.getView().byId("mainSectionTitle").setTitle(this.oBundle.getText("ClaimPartsSection"));
 			} else if (
 				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZWMS" &&
 				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZWA1" &&
@@ -3938,9 +3955,11 @@ sap.ui.define([
 				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZSSM") {
 				this.getView().byId("idFilter02").setProperty("enabled", true);
 				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab2");
+				this.getView().byId("mainSectionTitle").setTitle(this.oBundle.getText("ClaimAuthorizationSection"));
 			} else {
 				this.getView().byId("idFilter06").setProperty("enabled", true);
 				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab6");
+				this.getView().byId("mainSectionTitle").setTitle(this.oBundle.getText("ClaimSubletSection"));
 			}
 
 		},
