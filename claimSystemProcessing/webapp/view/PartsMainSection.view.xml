@@ -3,26 +3,26 @@
 	<core:Fragment fragmentName="zclaimProcessing.view.fragments.ToolHeader" type="XML"/>
 	<uxap:ObjectPageLayout enableLazyLoading="true">
 		<uxap:sections>
-			<uxap:ObjectPageSection title="Main Claim Section">
+			<uxap:ObjectPageSection title="{i18n>MainSection}" id="mainSectionTitle">
 				<uxap:subSections>
 					<uxap:ObjectPageSubSection title=" ">
 						<uxap:blocks>
 							<MessageStrip id="idMainClaimMessage" text="" showIcon="true" showCloseButton="false" class="sapUiMediumMarginBottom" visible="false"></MessageStrip>
-							<IconTabBar headerMode="Inline" id="idPartClaimIconBar"  expanded="{device>/isNoPhone}" class="sapUiResponsiveContentPadding sapUiLargeMarginBottom" >
+							<IconTabBar select="onPartsTabSelect" headerMode="Inline" id="idPartClaimIconBar"  expanded="{device>/isNoPhone}" class="sapUiResponsiveContentPadding sapUiLargeMarginBottom" >
 								<items>
-									<IconTabFilter icon="sap-icon://home" text="{i18n>Main}" key="Tab1" id="idFilter01">
+									<IconTabFilter icon="sap-icon://home" text="{i18n>Main}" key="Tab1" id="idFilter01" >
 										<core:Fragment fragmentName="zclaimProcessing.view.fragments.Step01Main" type="XML"/>
 									</IconTabFilter>
 									<IconTabSeparator icon="sap-icon://open-command-field"/>
-									<IconTabFilter icon="sap-icon://shelf" text="{i18n>Parts}" id="idFilter02" key="Tab2">
+									<IconTabFilter icon="sap-icon://shelf" text="{i18n>Parts}" id="idFilter02" key="Tab2" >
 										<core:Fragment fragmentName="zclaimProcessing.view.fragments.Step03Parts" type="XML"/>
 									</IconTabFilter>
 									<IconTabSeparator icon="sap-icon://open-command-field"/>
-									<IconTabFilter icon="sap-icon://validate" text="{i18n>Validate}" enabled="false" id="idFilter03" key="Tab3">
+									<IconTabFilter icon="sap-icon://validate" text="{i18n>Validate}" enabled="false" id="idFilter03" key="Tab3"  >
 										<core:Fragment fragmentName="zclaimProcessing.view.fragments.Step07ValidatePartsSubmit" type="XML"/>
 									</IconTabFilter>
 									<IconTabSeparator icon="sap-icon://open-command-field"/>
-									<IconTabFilter icon="sap-icon://complete" text="{i18n>Submit}" enabled="false" id="idFilter04" key="Tab4">
+									<IconTabFilter icon="sap-icon://complete" text="{i18n>Submit}" enabled="false" id="idFilter04" key="Tab4"  >
 										<Text text="{i18n>Submit}"/>
 									</IconTabFilter>
 								</items>

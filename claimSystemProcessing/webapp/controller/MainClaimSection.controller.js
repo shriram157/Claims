@@ -3930,6 +3930,18 @@ sap.ui.define([
 
 		},
 
+		onSelectTab:function(oSelectedKey){
+			// debugger;
+			// this.oBundle = this.getView().getModel("i18n").getResourceBundle();
+			// if (oselectedTab.getParameters().selectedItem.getText() == this.oBundle.getText("Parts")) {
+			// 	this.getView().byId("mainSectionTitle").setTitle(this.oBundle.getText("ClaimPartsSection"));
+			// } else if(oselectedTab.getParameters().selectedItem.getText() == this.oBundle.getText("PaintRust")){
+			// 	this.getView().byId("mainSectionTitle").setTitle(this.oBundle.getText("ValidatePartsSection"));
+			// } 
+			// else {
+			// 	this.getView().byId("mainSectionTitle").setTitle(this.oBundle.getText("MainSection"));
+			// }
+		},
 		onPressBack: function (oEvent) {
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			this.ogetSelectedKey = this.getView().byId("idIconTabMainClaim").getSelectedKey();

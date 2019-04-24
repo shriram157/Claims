@@ -157,7 +157,7 @@ sap.ui.define([
 						/*Uncomment for security*/
 						break;
 					default:
-					console.log("Dealer_Services_Manager");
+						console.log("Dealer_Services_Manager");
 						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ManageAllShowAuthorization");
 						/*Uncomment for security*/
 						that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", true);
@@ -348,7 +348,9 @@ sap.ui.define([
 			this.getOwnerComponent().getModel("LocalDataModel").setProperty("/AdditionalText", ogetAdditionalText);
 		},
 		onSelectGroup: function (oEvent) {
+			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var oText = oEvent.getParameters().selectedItem.getText();
+			
 			var oProssingModel = this.getModel("ProssingModel");
 			oProssingModel.read("/ZC_CLAIM_GROUP", {
 				urlParameters: {

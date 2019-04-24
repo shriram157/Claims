@@ -25,22 +25,22 @@
 					<f:content>
 						<HBox>
 							<Label text="{i18n>DamageCondition } " class="sapUiSmallMargin" textAlign="Begin" visible="{multiHeaderConfig>/partDamage}"/>
-							<Select width="15rem" id="DmgCodes" enabled="{DateModel>/partLine}" change="onDDChange" showSecondaryValues="false"
+							<Select valueState="{DateModel>/ddType}" width="15rem" id="DmgCodes" enabled="{DateModel>/partLine}" change="onDDChange" showSecondaryValues="false"
 								items="{DropDownModel>/items}" visible="{multiHeaderConfig>/partDamage}" selectedKey="{HeadSetData>/DamageCondition}">
 								<core:ListItem key="{DropDownModel>DiscreCode}" text="{path:'DropDownModel>ALMDiscreDesc'}" additionalText="{DropDownModel>ALMDiscreCode}"/>
 							</Select>
 							<Label text="{i18n>DiscrepancyType}" class="sapUiSmallMargin" textAlign="Begin" visible="{multiHeaderConfig>/partDiscrepancies}"/>
-							<Select width="15rem" id="DscpCodes" enabled="{DateModel>/partLine}" change="onDDChange" showSecondaryValues="false"
+							<Select valueState="{DateModel>/ddType}" width="15rem" id="DscpCodes" enabled="{DateModel>/partLine}" change="onDDChange" showSecondaryValues="false"
 								items="{DropDownModel>/items}" visible="{multiHeaderConfig>/partDiscrepancies}" selectedKey="{HeadSetData>/DiscrepancyCodes}">
 								<core:ListItem key="{DropDownModel>DiscreCode}" text="{path:'DropDownModel>ALMDiscreDesc'}" additionalText="{DropDownModel>ALMDiscreCode}"/>
 							</Select>
 							<Label text="{i18n>MiscellaneousCode} " class="sapUiSmallMargin" textAlign="Begin" visible="{multiHeaderConfig>/partMiscellanious}"/>
-							<Select width="15rem" id="MscCodes" enabled="{DateModel>/partLine}" change="onDDChange" showSecondaryValues="false"
+							<Select valueState="{DateModel>/ddType}" width="15rem" id="MscCodes" enabled="{DateModel>/partLine}" change="onDDChange" showSecondaryValues="false"
 								items="{DropDownModel>/items}" visible="{multiHeaderConfig>/partMiscellanious}" selectedKey="{HeadSetData>/MiscellaneousCode}">
 								<core:ListItem key="{DropDownModel>DiscreCode}" text="{path:'DropDownModel>ALMDiscreDesc'}" additionalText="{DropDownModel>ALMDiscreCode}"/>
 							</Select>
 							<Label text="{i18n>TranportShortageType} " class="sapUiSmallMargin" textAlign="Begin" visible="{multiHeaderConfig>/partTransportation}"/>
-							<Select width="15rem" id="TransportCodes" enabled="{DateModel>/partLine}" change="onDDChange" showSecondaryValues="false"
+							<Select valueState="{DateModel>/ddType}" width="15rem" id="TransportCodes" enabled="{DateModel>/partLine}" change="onDDChange" showSecondaryValues="false"
 								items="{DropDownModel>/items}" visible="{multiHeaderConfig>/partTransportation}" selectedKey="{HeadSetData>/TranportShortageType}">
 								<core:ListItem key="{DropDownModel>DiscreCode}" text="{path:'DropDownModel>ALMDiscreDesc'}" additionalText="{DropDownModel>ALMDiscreCode}"/>
 							</Select>
@@ -135,7 +135,7 @@
 							<!--</UploadCollection>-->
 							<!--<core:Title text=""/>-->
 							<Label text="{i18n>RetainPart}" visible="{multiHeaderConfig>/RetainPartV}"/>
-							<Select selectedKey="{PartDataModel>/RetainPart}" visible="{multiHeaderConfig>/RetainPartV}" enabled="{DateModel>/partLine}">
+							<Select valueState="{DateModel>/RetainPartType}" change="onRetainChange" selectedKey="{PartDataModel>/RetainPart}" visible="{multiHeaderConfig>/RetainPartV}" enabled="{DateModel>/partLine}">
 								<items>
 									<core:Item text="" key=""/>
 									<core:Item text="{i18n>Yes}" key="Yes"/>
@@ -157,7 +157,7 @@
 							<Input value="{ path : 'HeadSetData>/PartNumberRcDesc'}" id="idOrderedReceivedPartDesc" editable="{multiHeaderConfig>/OrderedPartDesc}"
 								visible="{multiHeaderConfig>/PartDescriptionOrdRcv}" enabled="{DateModel>/partLine}"></Input>
 							<Label text="{i18n>PartRepaired}" visible="{multiHeaderConfig>/PartRepaired}"/>
-							<Select visible="{multiHeaderConfig>/PartRepaired}" selectedKey="{HeadSetData>/PartRepaired}" enabled="{DateModel>/partLine}">
+							<Select visible="{multiHeaderConfig>/PartRepaired}" selectedKey="{HeadSetData>/PartRepaired}" enabled="{DateModel>/partLine}" change="onPartRepairedChange">
 								<items>
 									<core:Item text="" key=""/>
 									<core:Item text="{i18n>Yes}" key="Yes"/>
@@ -262,7 +262,7 @@
 					</Column>
 				</columns>
 				<items>
-					<ColumnListItem>
+					<ColumnListItem vAlign="Middle">
 						<cells>
 							<Text text="{LocalDataModel>posnr}"/>
 							<Text text="{LocalDataModel>ALMDiscreDesc}"/>
