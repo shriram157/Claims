@@ -89,7 +89,7 @@
 				</table:Column>
 			</table:columns>
 		</table:Table>
-		<List headerText="{i18n>ErrorList}" items="{ path: 'LocalDataModel>/oErrorSet' }">
+		<List headerText="{i18n>Validations}" items="{ path: 'LocalDataModel>/oErrorSet' }">
 			<ObjectListItem >
 				<attributes>
 					<ObjectAttribute text="{i18n>Error} : {LocalDataModel>NUMBER}"/>
