@@ -268,6 +268,10 @@ sap.ui.define([
 			this.getModel("LocalDataModel").setProperty("/VehicleMonths", "");
 			this.getModel("LocalDataModel").setProperty("/selectedVehicle", "");
 			this.getModel("LocalDataModel").setProperty("/DataAuthDetails", "");
+			this.getView().getModel("DataPercetCalculate").setProperty("/CustomerPer", "");
+			this.getView().getModel("DataPercetCalculate").setProperty("/DealerPer", "");
+			this.getView().getModel("DataPercetCalculate").setProperty("/TCIPer", "");
+			this.getModel("LocalDataModel").setProperty("/ClaimSumAuth", "");
 			this.getView().byId("id_Date").setValueState("None");
 			this.getView().byId("idPrInvDate").setValueState("None");
 			this.getView().byId("idPreInvNum").setValueState("None");
@@ -365,6 +369,9 @@ sap.ui.define([
 					this.getModel("LocalDataModel").setProperty("/copyClaimAuthText", oBundle.getText("CopytoAuthorization"));
 					this.getModel("LocalDataModel").setProperty("/SaveAuthClaim", oBundle.getText("SaveClaim"));
 					this.getModel("LocalDataModel").setProperty("/WarrantyClaimNumber", oBundle.getText("TCIClaimNumber") + " : " + oClaim);
+					this.getView().getModel("DataPercetCalculate").setProperty("/CustomerPer", "");
+					this.getView().getModel("DataPercetCalculate").setProperty("/DealerPer", "");
+					this.getView().getModel("DataPercetCalculate").setProperty("/TCIPer", "");
 				}
 
 				this.getModel("LocalDataModel").setProperty("/WarrantyClaimNum", oClaim);
@@ -3658,6 +3665,7 @@ sap.ui.define([
 					this.getView().getModel("DataPercetCalculate").setProperty("/CustomerPer", ocust);
 					this.getView().getModel("DataPercetCalculate").setProperty("/DealerPer", odeal);
 					this.getView().getModel("DataPercetCalculate").setProperty("/TCIPer", otci);
+					this.getView().getModel("DataPercetCalculate").setProperty("/AuthorizationNumber", "");
 
 					if (data.results[0].Message != "") {
 						MessageToast.show(data.results[0].Message, {
