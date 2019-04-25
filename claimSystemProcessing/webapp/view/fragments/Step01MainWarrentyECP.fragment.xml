@@ -327,7 +327,7 @@
 				<Input value="{HeadSetData>/CustomerPostalCode}" required="true"/>
 				<core:Title text=""/>
 				<Label text=" "/>
-				<Button text="{i18n>LookupECPAgreements}"/>
+				<Button press="onPressLookUpECP" text="{i18n>LookupECPAgreements}"/>
 				<core:Title text=""/>
 				<Label text=" "/>
 				<Button text="{i18n>PerformCIC}"/>

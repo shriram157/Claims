@@ -2047,6 +2047,22 @@ sap.ui.define([
 			}
 
 		},
+
+		onPressLookUpECP: function () {
+			var oAgreement = this.getView().getModel("HeadSetData").getProperty("/AgreementNumber");
+			var oECPModel = this.getOwnerComponent().getModel("EcpSalesModel");
+			oECPModel.read("/zc_ecp_agreement", {
+				urlParameters: {
+					"$filter": "AgreementNumber eq '" + oAgreement + "'"
+				},
+				success: $.proxy(function (data) {
+					this.getView().getModel("LocalDataModel").setProperty("/AgreementLookUpData", data.results[0]);
+				}, this)
+			});
+			var oDialogBox = sap.ui.xmlfragment("zclaimProcessing.view.fragments.AgreementLookup", this);
+			this.getView().addDependent(oDialogBox);
+			oDialogBox.open();
+		},
 		onChangeOdometer: function (oEvent) {
 			var oOdoVal = oEvent.getSource().getValue();
 
@@ -3946,7 +3962,7 @@ sap.ui.define([
 
 		},
 
-		onSelectTab:function(oSelectedKey){
+		onSelectTab: function (oSelectedKey) {
 			// debugger;
 			// this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			// if (oselectedTab.getParameters().selectedItem.getText() == this.oBundle.getText("Parts")) {
@@ -4504,6 +4520,9 @@ sap.ui.define([
 		},
 		onCloseLabour: function (oEvent) {
 			oEvent.getSource().getParent().getParent().getParent().close();
+		},
+		onCloseLoop: function (oEvent) {
+			oEvent.getSource().getParent().getParent().close();
 		},
 		onSelectPositionCode: function (oEvent) {
 			if (oEvent) {

@@ -1,0 +1,39 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:l="sap.ui.layout">
+	<Dialog title="{i18n>ECPAgreementDetails}">
+		<content>
+			<OverflowToolbar>
+				<ToolbarSpacer/>
+				<!--<core:Icon src="sap-icon://decline" class="size5" color="#f00" press="onCloseLoop">-->
+				<!--	<core:layoutData>-->
+				<!--		<FlexItemData growFactor="1"/>-->
+				<!--	</core:layoutData>-->
+				<!--</core:Icon>-->
+				<Button text="Close" press="onCloseLoop"/>
+			</OverflowToolbar>
+			<f:SimpleForm editable="true" class="clShipmentInfo" title="{i18n>ShipmentInformation}" layout="ResponsiveGridLayout" labelSpanXL="3"
+				labelSpanL="3" labelSpanM="3" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
+				columnsXL="1" columnsL="1" columnsM="1" singleContainerFullSize="false">
+				<f:content>
+					<core:Title text=""/>
+					<Label text="{i18n>ECPAgreement}"/>
+					<Text text="{LocalDataModel>/AgreementLookUpData/AgreementNumber}"/>
+					<Label text="{i18n>Status}"/>
+					<Text text="{LocalDataModel>/AgreementLookUpData/AgreementStatus}"/>
+					<Label text="{i18n>PlanTerm}"/>
+					<Text text="{LocalDataModel>/AgreementLookUpData/LienMonth}"/>
+					<Label text="{i18n>BenefitsCoverage}"/>
+					<TextArea value=""/>
+					<core:Title text=""/>
+					<Label text="{i18n>PlanCode}"/>
+					<Text text="{LocalDataModel>/AgreementLookUpData/PlanType}"/>
+					<Label text="{i18n>ExpiryDate}"/>
+					<Text text="{LocalDataModel>/AgreementLookUpData/AgreementthruDate}"/>
+					<Label text="{i18n>AgreementType}"/>
+					<Text text="{LocalDataModel>/AgreementLookUpData/AgreementElectricVehicletype}"/>
+					<Label text="{i18n>BenefitsTypes}"/>
+					<TextArea value=""/>
+				</f:content>
+			</f:SimpleForm>
+		</content>
+	</Dialog>
+</core:FragmentDefinition>
