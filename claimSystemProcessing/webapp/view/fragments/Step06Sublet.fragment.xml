@@ -182,16 +182,16 @@
 				</Column>
 				<Column>
 					<Text text="{i18n>Amount}" textAlign="Center" width="100%"/>
-					<footer><Text text="${path: 'LocalDataModel>/SubletPricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnAmountSublet'}" textAlign="Center" width="100%"/></footer>
+					<footer><Text text="{path: 'LocalDataModel>/SubletPricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnAmountSublet'}" textAlign="Center" width="100%"/></footer>
 				</Column>
 				<Column><Text text="{i18n>TotalAfterDiscount}"/>
-					<footer><Text text="${path: 'LocalDataModel>/SubletPricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnTotalSubletAfDisc'}" textAlign="Center" width="100%"/></footer>
+					<footer><Text text="{path: 'LocalDataModel>/SubletPricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnTotalSubletAfDisc'}" textAlign="Center" width="100%"/></footer>
 				</Column>
 				<Column><Text text="{i18n>TCIAmountApproved}"/>
-					<footer><Text text="${path: 'LocalDataModel>/SubletPricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnTCISubletApr'}" textAlign="Center" width="100%"/></footer>
+					<footer><Text text="{path: 'LocalDataModel>/SubletPricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnTCISubletApr'}" textAlign="Center" width="100%"/></footer>
 				</Column>
 				<Column><Text text="{i18n>Difference}"/>
-					<footer><Text text="${path: 'LocalDataModel>/SubletPricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnSubletDif'}" textAlign="Center" width="100%"/></footer>
+					<footer><Text text="{path: 'LocalDataModel>/SubletPricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnSubletDif'}" textAlign="Center" width="100%"/></footer>
 				</Column>
 			</columns>
 			<items>

@@ -56,7 +56,11 @@ zclaimProcessing.utils.formatter = {
 				).toFixed(2);
 			}
 		}
-		return oNum;
+		if (oNum == undefined) {
+
+		} else {
+			return "$" + oNum;
+		}
 	},
 	fnSumMarkUpVal: function (sum) {
 		var oNum;
@@ -77,7 +81,11 @@ zclaimProcessing.utils.formatter = {
 				).toFixed(2);
 			}
 		}
-		return oNum;
+		if (oNum == undefined) {
+
+		} else {
+			return "$" + oNum;
+		}
 	},
 	fnAmountClaimVal: function (sum) {
 		var oNum;
@@ -97,8 +105,12 @@ zclaimProcessing.utils.formatter = {
 					}
 				).toFixed(2);
 			}
+		} 
+		if (oNum == undefined) {
+
+		} else {
+			return "$"+ oNum;
 		}
-		return oNum;
 	},
 	fnAfterDiscVal: function (sum) {
 		var oNum;
@@ -118,8 +130,12 @@ zclaimProcessing.utils.formatter = {
 					}
 				).toFixed(2);
 			}
+		} 
+		if (oNum == undefined) {
+
+		} else {
+			return "$"+ oNum;
 		}
-		return oNum;
 	},
 	fnTCIAmtVal: function (sum) {
 		var oNum;
@@ -139,8 +155,12 @@ zclaimProcessing.utils.formatter = {
 					}
 				).toFixed(2);
 			}
+		} 
+		if (oNum == undefined) {
+
+		} else {
+			return "$"+ oNum;
 		}
-		return oNum;
 	},
 	fnDiffVal: function (sum) {
 		var oNum;
@@ -160,8 +180,12 @@ zclaimProcessing.utils.formatter = {
 					}
 				).toFixed(2);
 			}
+		} 
+		if (oNum == undefined) {
+
+		} else {
+			return "$"+ oNum;
 		}
-		return oNum;
 	},
 	fnClaimedHr: function (sum) {
 		var oNum;
@@ -202,8 +226,12 @@ zclaimProcessing.utils.formatter = {
 					}
 				).toFixed(2);
 			}
+		} 
+		if (oNum == undefined) {
+
+		} else {
+			return "$"+ oNum;
 		}
-		return oNum;
 	},
 	fnTotalAfDisLab: function (sum) {
 		var oNum;
@@ -223,8 +251,12 @@ zclaimProcessing.utils.formatter = {
 					}
 				).toFixed(2);
 			}
+		} 
+		if (oNum == undefined) {
+
+		} else {
+			return "$"+ oNum;
 		}
-		return oNum;
 	},
 	fnHrApTCI: function (sum) {
 		var oNum;
@@ -266,8 +298,12 @@ zclaimProcessing.utils.formatter = {
 					}
 				).toFixed(2);
 			}
+		} 
+		if (oNum == undefined) {
+
+		} else {
+			return "$"+ oNum;
 		}
-		return oNum;
 	},
 	fnAmountSublet: function (sum) {
 		var oNum;
@@ -287,8 +323,12 @@ zclaimProcessing.utils.formatter = {
 					}
 				).toFixed(2);
 			}
+		} 
+		if (oNum == undefined) {
+
+		} else {
+			return "$"+ oNum;
 		}
-		return oNum;
 	},
 	fnTotalSubletAfDisc: function (sum) {
 		var oNum;
@@ -308,8 +348,12 @@ zclaimProcessing.utils.formatter = {
 					}
 				).toFixed(2);
 			}
+		} 
+		if (oNum == undefined) {
+
+		} else {
+			return "$"+ oNum;
 		}
-		return oNum;
 	},
 	fnTCISubletApr: function (sum) {
 		var oNum;
@@ -329,8 +373,12 @@ zclaimProcessing.utils.formatter = {
 					}
 				).toFixed(2);
 			}
+		} 
+		if (oNum == undefined) {
+
+		} else {
+			return "$"+ oNum;
 		}
-		return oNum;
 	},
 	fnSubletDif: function (sum) {
 		var oNum;
@@ -350,8 +398,12 @@ zclaimProcessing.utils.formatter = {
 					}
 				).toFixed(2);
 			}
+		} 
+		if (oNum == undefined) {
+
+		} else {
+			return "$"+ oNum;
 		}
-		return oNum;
 	},
 	fnFormatText: function (val) {
 		var oText = "";
@@ -385,8 +437,12 @@ zclaimProcessing.utils.formatter = {
 					}
 				).toFixed(2);
 			}
+		} 
+		if (oNum == undefined) {
+
+		} else {
+			return "$"+ oNum;
 		}
-		return oNum;
 	},
 	fnAmountClaimedPW: function (sum) {
 		var oNum;
@@ -406,8 +462,12 @@ zclaimProcessing.utils.formatter = {
 					}
 				).toFixed(2);
 			}
+		} 
+		if (oNum == undefined) {
+
+		} else {
+			return "$"+ oNum;
 		}
-		return oNum;
 	},
 	fnDifPW: function (sum) {
 		var oNum;
@@ -427,8 +487,12 @@ zclaimProcessing.utils.formatter = {
 					}
 				).toFixed(2);
 			}
+		} 
+		if (oNum == undefined) {
+
+		} else {
+			return "$"+ oNum;
 		}
-		return oNum;
 	},
 	fnTCIAprrovedPW: function (sum) {
 		var oNum;
@@ -448,8 +512,12 @@ zclaimProcessing.utils.formatter = {
 					}
 				).toFixed(2);
 			}
+		} 
+		if (oNum == undefined) {
+
+		} else {
+			return "$"+ oNum;
 		}
-		return oNum;
 	},
 	fnFormatDisplayDate: function (oDate) {
 		jQuery.sap.require("sap.ui.core.format.DateFormat");

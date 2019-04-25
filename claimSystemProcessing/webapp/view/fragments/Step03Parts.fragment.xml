@@ -55,8 +55,6 @@
 						</HBox>
 					</f:content>
 				</f:SimpleForm>
-				<!--<l:Grid containerQuery="true" defaultSpan="XL12 L12 M12 S12"> -->
-				<!--wrap="Wrap" displayInline="true" alignContent="Center" visible="true" width="100%"-->
 				<VBox class="clBgColor">
 					<f:SimpleForm id="idRow01Form" class="sapUiSmallMarginBegin borderStyle" width="100%" editable="true" labelSpanL="12" title=""
 						labelSpanXL="12" layout="ResponsiveGridLayout" columnsM="7" columnsL="6" columnsXL="6">

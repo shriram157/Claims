@@ -125,20 +125,20 @@
 				<Column>
 					<Text text="{i18n>AmountClaimed}" textAlign="Center" width="100%"/>
 					<footer><Text textAlign="Center" width="100%"
-						text="${path: 'LocalDataModel>/LabourPricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnAmountLabCLaim'}"/></footer>
+						text="{path: 'LocalDataModel>/LabourPricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnAmountLabCLaim'}"/></footer>
 				</Column>
 				<Column><Text text="{i18n>TotalAfterDiscount}" textAlign="Center" width="100%"/>
 					<footer><Text textAlign="Center" width="100%"
-						text="${path: 'LocalDataModel>/LabourPricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnTotalAfDisLab'}"/></footer>
+						text="{path: 'LocalDataModel>/LabourPricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnTotalAfDisLab'}"/></footer>
 				</Column>
 				<Column><Text text="{i18n>HoursApprovedTCI}" textAlign="Center" width="100%"/></Column>
 				<Column><Text text="{i18n>TCIAmountApproved}" textAlign="Center" width="100%"/>
 					<footer><Text textAlign="Center" width="100%"
-						text="${path: 'LocalDataModel>/LabourPricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnHrApTCI'}"/></footer>
+						text="{path: 'LocalDataModel>/LabourPricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnHrApTCI'}"/></footer>
 				</Column>
 				<Column><Text text="{i18n>LabourDifference}" textAlign="Center" width="100%"/>
 					<footer><Text textAlign="Center" width="100%"
-						text="${path: 'LocalDataModel>/LabourPricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnLabDif'}"/></footer>
+						text="{path: 'LocalDataModel>/LabourPricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnLabDif'}"/></footer>
 				</Column>
 			</columns>
 			<items>
