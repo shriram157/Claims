@@ -1197,13 +1197,13 @@ sap.ui.define([
 					"WarrantyClaimType": "",
 					"Partner": "",
 					"PartnerRole": "",
-					"ReferenceDate": "",
-					"DateOfApplication": "",
-					"FinalProcdDate": "",
+					"ReferenceDate": null,
+					"DateOfApplication": null,
+					"FinalProcdDate": null,
 					"Delivery": "",
-					"DeliveryDate": "",
+					"DeliveryDate": null,
 					"TCIWaybillNumber": "",
-					"ShipmentReceivedDate": "",
+					"ShipmentReceivedDate": null,
 					"DealerContact": "",
 					"DeliveringCarrier": "",
 					"HeadText": "",
@@ -1217,11 +1217,11 @@ sap.ui.define([
 					"ZCondition": "",
 					"Cause": "",
 					"Remedy": "",
-					"PreviousROInvoiceDate": "",
+					"PreviousROInvoiceDate": null,
 					"PreviousROOdometer": "",
 					"PreviousROInvoice": "",
 					"AccessoryInstallOdometer": "",
-					"AccessoryInstallDate": "",
+					"AccessoryInstallDate": null,
 					"AgreementNumber": "",
 					"CustomerPostalCode": "",
 					"CustomerFullName": ""
@@ -1263,11 +1263,11 @@ sap.ui.define([
 					"ZCondition": "",
 					"Cause": "",
 					"Remedy": "",
-					"PreviousROInvoiceDate": "",
+					"PreviousROInvoiceDate": null,
 					"PreviousROOdometer": "",
 					"PreviousROInvoice": "",
 					"AccessoryInstallOdometer": "",
-					"AccessoryInstallDate": "",
+					"AccessoryInstallDate": null,
 					"AgreementNumber": "",
 					"CustomerPostalCode": "",
 					"CustomerFullName": ""
@@ -2061,7 +2061,7 @@ sap.ui.define([
 
 		_fnDateFormat: function (elm) {
 			if (elm) {
-				var oNumTime = new Date(elm.valueOf() + elm.getTimezoneOffset() * 60000);
+				var oNumTime = new Date(elm.valueOf() - elm.getTimezoneOffset() * 60000);
 				var oTime = "\/Date(" + oNumTime.getTime() + ")\/";
 				return oTime;
 			} else {
@@ -2078,6 +2078,7 @@ sap.ui.define([
 			var oGroupType = this.getModel("LocalDataModel").getProperty("/WarrantyClaimTypeGroup");
 			// var oValid01 = oValidator.validate(this.getView().byId("idVehicleInfo"));
 			var oValid02 = oValidator.validate(this.getView().byId("idpart01Form"));
+			oValidator.validate(!(this.getView().byId("id_Date")));
 
 			// 	if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == undefined) {
 			// 	this.getView().byId("idMainClaimMessage").setProperty("visible", true);
@@ -3627,7 +3628,7 @@ sap.ui.define([
 
 			oProssingModel.read("/zc_authorizationSet", {
 				urlParameters: {
-					"$filter": "DBOperation eq 'LINK'and AuthorizationNumber eq '" + oClaim +
+					"$filter": "DBOperation eq 'LINK'and Numberofwarrantyclaim eq '" + oClaimNum + "'and  AuthorizationNumber eq '" + oClaim +
 						"'and DealerPer eq '00'and CustomerPer eq '00'and TCIPer eq '00'"
 				},
 				success: $.proxy(function (data) {
