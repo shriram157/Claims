@@ -17,11 +17,11 @@
 					<Label text="{i18n>TCIClaim}"/>
 					<Text text="{HeadSetData>/NumberOfWarrantyClaim}"/>
 					<Label text="{i18n>VIN}">
-					<layoutData>
-						<l:GridData span="XL3 L3"/>
-					</layoutData>
+						<layoutData>
+							<l:GridData span="XL3 L3"/>
+						</layoutData>
 					</Label>
-					<Text text="{HeadSetData>/ExternalObjectNumber}"/>
+					<Text text="{HeadSetData>/ExternalObjectNumber}" wrapping="false"/>
 					<core:Title text=""/>
 					<Label text="{i18n>DlrClaim}"/>
 					<Text text="{HeadSetData>/ExternalNumberOfClaim}"/>
@@ -39,9 +39,10 @@
 					<core:Title text=""/>
 					<Label text="{i18n>RepairDate}"/>
 					<Text
-						text="{path:'HeadSetData>/RepairDate', type: 'sap.ui.model.type.Date',  formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd', strictParsing: true , UTC: true}}"/>
+						text="{path:'HeadSetData>/RepairDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd', strictParsing: true , UTC: true}}"/>
 					<Label text="{i18n>RegDate}"/>
-					<Text text="{path:'LocalDataModel>/DataVinDetails/RegDate', type: 'sap.ui.model.type.Date',  formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd'}}"/>
+					<Text
+						text="{path:'LocalDataModel>/DataVinDetails/RegDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd'}}"/>
 					<core:Title text=""/>
 					<Label text="{i18n>Odometer}"/>
 					<Text text="{HeadSetData>/Odometer}"/>
@@ -55,8 +56,9 @@
 				</f:content>
 			</f:SimpleForm>
 		</Panel>
-		<f:SimpleForm editable="true" class=" sapUiTinyMarginBottom" layout="ResponsiveGridLayout" title="" labelSpanXL="7" labelSpanL="7"
-			labelSpanM="12" labelSpanS="12" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="4" columnsL="4" columnsM="4">
+		<f:SimpleForm editable="true" class=" sapUiTinyMarginBottom" layout="ResponsiveGridLayout" title="{i18n>PaintDetails}" labelSpanXL="7"
+			labelSpanL="7" labelSpanM="12" labelSpanS="12" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="4" columnsL="4"
+			columnsM="4">
 			<f:content>
 				<core:Title text=""/>
 				<Button text="{i18n>AddPaintLine}" type="Emphasized" press="onPressAddPaint" enabled="{DateModel>/oFormEdit}">
@@ -64,7 +66,7 @@
 						<l:GridData span="XL8 L8 "/>
 					</layoutData>
 				</Button>
-				<core:Title text=""/>
+				<!--<core:Title text=""/>-->
 				<!--<Button text="Update Paint Line" press="onPressUpdatePaint">-->
 				<!--	<layoutData>-->
 				<!--		<l:GridData span="XL8 L8 "/>-->
@@ -95,7 +97,6 @@
 						<Text text=""/>
 						<core:Title text=""/>
 						<Label text="{i18n>PositionCode}" textAlign="Left"/>
-					
 						<!--<ComboBox required="true" items="{path:'LocalDataModel>/oPaintList'}" change="onSelectPositionCode"-->
 						<!--	selectedKey="{PaintDataModel>/PaintPositionCode}"-->
 						<!--	value="{path:'PaintDataModel>/PaintPositionCode'}"-->
@@ -103,28 +104,29 @@
 						<!--	<core:ListItem text="{path:'LocalDataModel>J_3GKATNRC'}"-->
 						<!--		key="{LocalDataModel>J_3GKATNRC}" additionalText="{LocalDataModel>LTEXT}"/>-->
 						<!--</ComboBox>-->
-						
 						<Input type="Text" textFormatMode="Value" placeholder="{i18n>EnterPositionCode}" showSuggestion="false" showValueHelp="true"
 							value="{PaintDataModel>/PaintPositionCode}" valueHelpRequest="handleValueHelpPaint" suggestionItems="{LocalDataModel>/oPaintList}"
-							suggestionItemSelected="onSelectPositionPaintCode" enabled="{DateModel>/paintLine}" >
+							suggestionItemSelected="onSelectPositionPaintCode" enabled="{DateModel>/paintLine}">
 							<suggestionItems>
 								<core:ListItem key="{LocalDataModel>J_3GKATNRC}" text="{LocalDataModel>J_3GKATNRC}"/>
 							</suggestionItems>
 						</Input>
 						<core:Title text=""/>
-						<Label text=" " class="clTextIndent"/>
-						<Button text="{i18n>SavePaint}" type="Emphasized" press="onPressSavePaint" enabled="{DateModel>/paintLine}">
-							<!--<layoutData>-->
-							<!--	<l:GridData span="XL10 L10 "/>-->
-							<!--</layoutData>-->
-						</Button>
-						<core:Title text=""/>
-						<Label text=" " class="clTextIndent"/>
-						<Button text="{i18n>Cancel}" type="Transparent" press="onPressSavePaint">
-							<!--<layoutData>-->
-							<!--	<l:GridData span="XL9 L9 "/>-->
-							<!--</layoutData>-->
-						</Button>
+						<VBox>
+							<Label text=" " class="clTextIndent"/>
+							<Button text="{i18n>SavePaint}" type="Emphasized" press="onPressSavePaint" enabled="{DateModel>/paintLine}">
+								<!--<layoutData>-->
+								<!--	<l:GridData span="XL10 L10 "/>-->
+								<!--</layoutData>-->
+							</Button>
+							<!--<core:Title text=""/>-->
+							<Label text=" " class="clTextIndent"/>
+							<Button text="{i18n>Cancel}" type="Transparent" press="onPressSavePaint">
+								<!--<layoutData>-->
+								<!--	<l:GridData span="XL9 L9 "/>-->
+								<!--</layoutData>-->
+							</Button>
+						</VBox>
 					</f:content>
 				</f:SimpleForm>
 			</VBox>

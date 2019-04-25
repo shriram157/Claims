@@ -21,7 +21,7 @@
 						<l:GridData span="XL3 L3"/>
 					</layoutData>
 					</Label>
-					<Text text="{HeadSetData>/ExternalObjectNumber}"/>
+					<Text text="{HeadSetData>/ExternalObjectNumber}" wrapping="false"/>
 					<core:Title text=""/>
 					<Label text="{i18n>DlrClaim}"/>
 					<Text text="{HeadSetData>/ExternalNumberOfClaim}"/>
@@ -159,7 +159,7 @@
 						<Label text="{i18n>Amount}" textAlign="Center" width="100%"/>
 					</table:multiLabels>
 					<table:template>
-						<Text text="{LocalDataModel>Amount}" wrapping="true"/>
+						<Text text="${LocalDataModel>Amount}" wrapping="true"/>
 					</table:template>
 				</table:Column>
 				<table:Column width="11rem">
@@ -167,7 +167,7 @@
 						<Label text="{i18n>Markup%}" textAlign="Center" width="100%"/>
 					</table:multiLabels>
 					<table:template>
-						<Text text="{path:'LocalDataModel>MarkupRate', formatter:'zclaimProcessing.utils.formatter.fnFormatPercent'}" wrapping="true"/>
+						<Text text="${path:'LocalDataModel>MarkupRate', formatter:'zclaimProcessing.utils.formatter.fnFormatPercent'}" wrapping="true"/>
 					</table:template>
 				</table:Column>
 				<table:Column width="11rem">
@@ -175,7 +175,7 @@
 						<Label text="{i18n>MarkupAmount}" textAlign="Center" width="100%"/>
 					</table:multiLabels>
 					<table:template>
-						<Text text="{path:'LocalDataModel>MarkupAmt'}" wrapping="true"/>
+						<Text text="${path:'LocalDataModel>MarkupAmt'}" wrapping="true"/>
 					</table:template>
 				</table:Column>
 				<table:Column width="11rem">
@@ -183,7 +183,7 @@
 						<Label text="{i18n>subtotal}" textAlign="Center" width="100%"/>
 					</table:multiLabels>
 					<table:template>
-						<Text text="{LocalDataModel>SubtotalAmt}" wrapping="true"/>
+						<Text text="${LocalDataModel>SubtotalAmt}" wrapping="true"/>
 					</table:template>
 				</table:Column>
 				<table:Column width="10rem">
@@ -191,7 +191,7 @@
 						<Label text="{i18n>Discount%}" textAlign="Center" width="100%"/>
 					</table:multiLabels>
 					<table:template>
-						<Text text="{path:'LocalDataModel>DiscountRate', formatter:'zclaimProcessing.utils.formatter.fnFormatPercent'}" wrapping="true"/>
+						<Text text="${path:'LocalDataModel>DiscountRate', formatter:'zclaimProcessing.utils.formatter.fnFormatPercent'}" wrapping="true"/>
 					</table:template>
 				</table:Column>
 				<table:Column width="11rem">
@@ -199,7 +199,7 @@
 						<Label text="{i18n>DiscountAmount}" textAlign="Center" width="100%"/>
 					</table:multiLabels>
 					<table:template>
-						<Text text="{LocalDataModel>DiscountAmt}" wrapping="true"/>
+						<Text text="${LocalDataModel>DiscountAmt}" wrapping="true"/>
 					</table:template>
 				</table:Column>
 				<table:Column width="11rem">
@@ -207,7 +207,7 @@
 						<Label text="{i18n>ClaimAmount}" textAlign="Center" width="100%"/>
 					</table:multiLabels>
 					<table:template>
-						<Text text="{LocalDataModel>ClaimAmt}" wrapping="true"/>
+						<Text text="${LocalDataModel>ClaimAmt}" wrapping="true"/>
 					</table:template>
 				</table:Column>
 				<table:Column width="11rem">
@@ -215,7 +215,7 @@
 						<Label text="{i18n>AuthorizedAmount}" textAlign="Center" width="100%"/>
 					</table:multiLabels>
 					<table:template>
-						<Text text="{LocalDataModel>AuthAmt}" wrapping="true"/>
+						<Text text="${LocalDataModel>AuthAmt}" wrapping="true"/>
 					</table:template>
 				</table:Column>
 			</table:columns>

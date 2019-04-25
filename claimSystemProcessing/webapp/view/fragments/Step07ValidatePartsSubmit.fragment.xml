@@ -1,7 +1,7 @@
 <core:FragmentDefinition xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:u="sap.ui.unified" xmlns:l="sap.ui.layout"
 	xmlns="sap.m" xmlns:table="sap.ui.table">
 	<VBox class="sapUiSmallMargin clFormTitleGap partsOnly">
-		<table:Table class="classRCPTable" selectionMode="Single" rows="{path:'LocalDataModel>/ClaimSum'}" id= "idPartsTable2" visibleRowCount="5"
+		<table:Table class="classRCPTable" selectionMode="Single" rows="{path:'LocalDataModel>/ClaimSum'}" id="idPartsTable2" visibleRowCount="5"
 			rowSelectionChange="onNavigate" selectionBehavior="Row" showNoData="true" threshold="5" enableBusyIndicator="true">
 			<table:toolbar>
 				<Toolbar>
@@ -24,7 +24,7 @@
 						<Label text="{i18n>DealerClaimedAmount}" textAlign="Center" width="100%"/>
 					</table:multiLabels>
 					<table:template>
-						<Text text="{LocalDataModel>DealerClaim}" wrapping="false"/>
+						<Text text="${LocalDataModel>DealerClaim}" wrapping="false"/>
 					</table:template>
 				</table:Column>
 				<table:Column width="11rem">
@@ -32,7 +32,7 @@
 						<Label text="{i18n>TCIApprovedAmount}" textAlign="Center" width="100%"/>
 					</table:multiLabels>
 					<table:template>
-						<Text text="{LocalDataModel>TCIAppr}" wrapping="false"/>
+						<Text text="${LocalDataModel>TCIAppr}" wrapping="false"/>
 					</table:template>
 				</table:Column>
 				<table:Column width="11rem">
@@ -40,7 +40,7 @@
 						<Label text="{LocalDataModel>DifferenceCAD}" textAlign="Center" width="100%"/>
 					</table:multiLabels>
 					<table:template>
-						<Text text="{LocalDataModel>Diff}" wrapping="false"/>
+						<Text text="${LocalDataModel>Diff}" wrapping="false"/>
 					</table:template>
 				</table:Column>
 				<table:Column width="8rem" headerSpan="{multiHeaderConfig>/multiheader2}">
@@ -49,7 +49,7 @@
 						<Label text="{i18n>Amount}" textAlign="Center" width="100%"/>
 					</table:multiLabels>
 					<table:template>
-						<Text text="{LocalDataModel>GSTHSTAmt}" wrapping="false"/>
+						<Text text="${LocalDataModel>GSTHSTAmt}" wrapping="false"/>
 					</table:template>
 				</table:Column>
 				<table:Column width="8rem">
@@ -58,7 +58,7 @@
 						<Label text="{i18n>Tax}" textAlign="Center" width="100%"/>
 					</table:multiLabels>
 					<table:template>
-						<Text text="{LocalDataModel>GSTHSTRate}" wrapping="false"/>
+						<Text text="${LocalDataModel>GSTHSTRate}" wrapping="false"/>
 					</table:template>
 				</table:Column>
 				<table:Column width="8rem" headerSpan="{multiHeaderConfig>/multiheader2}">
@@ -67,7 +67,7 @@
 						<Label text="{i18n>Amount}" textAlign="Center" width="100%"/>
 					</table:multiLabels>
 					<table:template>
-						<Text text="{LocalDataModel>PSTQSTAmt}" wrapping="false"/>
+						<Text text="${LocalDataModel>PSTQSTAmt}" wrapping="false"/>
 					</table:template>
 				</table:Column>
 				<table:Column width="8rem">
@@ -76,7 +76,7 @@
 						<Label text="{i18n>Tax}" textAlign="Center" width="100%"/>
 					</table:multiLabels>
 					<table:template>
-						<Text text="{LocalDataModel>PSTQSTRate}" wrapping="false"/>
+						<Text text="${LocalDataModel>PSTQSTRate}" wrapping="false"/>
 					</table:template>
 				</table:Column>
 				<table:Column width="17rem">
@@ -84,23 +84,27 @@
 						<Label text="{i18n>TCIApprovedAmountIncludingTax}" textAlign="Center" width="100%"/>
 					</table:multiLabels>
 					<table:template>
-						<Text text="{LocalDataModel>TCIApprInclTax}" wrapping="false"/>
+						<Text text="${LocalDataModel>TCIApprInclTax}" wrapping="false"/>
 					</table:template>
 				</table:Column>
 			</table:columns>
 		</table:Table>
 		<List headerText="{i18n>Validations}" items="{ path: 'LocalDataModel>/oErrorSet' }">
-			<ObjectListItem >
-				<attributes>
-					<ObjectAttribute text="{i18n>Error} : {LocalDataModel>NUMBER}"/>
-					<ObjectAttribute text="{i18n>ErrorType} : {LocalDataModel>TYPE}"/>
-					<ObjectAttribute text="{i18n>Page} :"/>
-					<ObjectAttribute text="{i18n>Line} : {LocalDataModel>POSNR}"/>
-					<ObjectAttribute text="{i18n>ErrorDescription}: {LocalDataModel>MESSAGE}"/>
-				</attributes>
-			</ObjectListItem>
+			<CustomListItem>
+				<HBox class="sapUiSmallMargin"><Text text="{i18n>Error} : {LocalDataModel>NUMBER}" class="sapUiTinyMarginEnd"/><Text text="{i18n>ErrorType} : {LocalDataModel>TYPE}"/></HBox>
+				<HBox class="sapUiSmallMargin"><Text text="{i18n>Page} :" class="sapUiTinyMarginEnd"/><Text text="{i18n>Line} : {LocalDataModel>POSNR}"/></HBox>
+				<HBox class="sapUiSmallMargin"><Text text="{i18n>ErrorDescription}: {LocalDataModel>MESSAGE}"/></HBox>
+			</CustomListItem>
+			<!--<ObjectListItem >-->
+			<!--	<attributes>-->
+			<!--		<ObjectAttribute text="{i18n>Error} : {LocalDataModel>NUMBER}"/>-->
+			<!--		<ObjectAttribute text="{i18n>ErrorType} : {LocalDataModel>TYPE}"/>-->
+			<!--		<ObjectAttribute text="{i18n>Page} :"/>-->
+			<!--		<ObjectAttribute text="{i18n>Line} : {LocalDataModel>POSNR}"/>-->
+			<!--		<ObjectAttribute text="{i18n>ErrorDescription}: {LocalDataModel>MESSAGE}"/>-->
+			<!--	</attributes>-->
+			<!--</ObjectListItem>-->
 		</List>
-		
 		<HBox alignContent="Center" justifyContent="Center" class="sapUiTinyMarginTop">
 			<Button class="sapUiTinyMarginBeginEnd" type="Back" press="onStep07Back" text="{i18n>Back}"/>
 			<Button class="sapUiTinyMarginBeginEnd" press="onRevalidate" text="{i18n>SaveClaim}" enabled="{DateModel>/SaveClaim07}"/>

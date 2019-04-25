@@ -21,7 +21,7 @@
 							<l:GridData span="XL3 L3"/>
 						</layoutData>
 					</Label>
-					<Text text="{HeadSetData>/ExternalObjectNumber}"/>
+					<Text text="{HeadSetData>/ExternalObjectNumber}" wrapping="false"/>
 					<core:Title text=""/>
 					<Label text="{i18n>DlrClaim}"/>
 					<Text text="{HeadSetData>/ExternalNumberOfClaim}"/>
@@ -56,7 +56,7 @@
 				</f:content>
 			</f:SimpleForm>
 		</Panel>
-		<f:SimpleForm editable="true" class=" sapUiTinyMarginBottom" layout="ResponsiveGridLayout" title="" labelSpanXL="7" labelSpanL="7"
+		<f:SimpleForm editable="true" class=" sapUiTinyMarginBottom" layout="ResponsiveGridLayout" title="{i18n>PartsDetails}" labelSpanXL="7" labelSpanL="7"
 			labelSpanM="12" labelSpanS="12" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="6" columnsL="6" columnsM="6">
 			<f:content>
 				<core:Title text=""/>
@@ -135,30 +135,30 @@
 				</Column>
 				<Column>
 					<Text text="{i18n>ExtendedValue}" textAlign="Center" width="100%"/>
-					<footer><Text text="{path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnSumExtendedVal'}" textAlign="Center"
+					<footer><Text text="${path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnSumExtendedVal'}" textAlign="Center"
 						width="100%"/></footer>
 				</Column>
 				<Column>
 					<Text text="{i18n>MarkupAmount}" textAlign="Center" width="100%"/>
-					<footer><Text text="{path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnSumMarkUpVal'}" textAlign="Center"
+					<footer><Text text="${path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnSumMarkUpVal'}" textAlign="Center"
 						width="100%"/></footer>
 				</Column>
 				<Column>
 					<Text text="{i18n>AmountClaimed}" textAlign="Center" width="100%"/>
-					<footer><Text text="{path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnAmountClaimVal'}" textAlign="Center"
+					<footer><Text text="${path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnAmountClaimVal'}" textAlign="Center"
 						width="100%"/></footer>
 				</Column>
 				<Column><Text text="{i18n>TotalAfterDiscount}" textAlign="Center" width="100%"/>
-					<footer><Text text="{path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnAfterDiscVal'}" textAlign="Center"
+					<footer><Text text="${path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnAfterDiscVal'}" textAlign="Center"
 						width="100%"/></footer>
 				</Column>
 				<Column visible="{DateModel>/oTciQtyAppr}"><Text text="{i18n>TCIQuantityApproved}" textAlign="Center" width="100%"/></Column>
 				<Column><Text text="{i18n>TCIAmountApproved}" textAlign="Center" width="100%"/>
-					<footer><Text text="{path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnTCIAmtVal'}" textAlign="Center"
+					<footer><Text text="${path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnTCIAmtVal'}" textAlign="Center"
 						width="100%"/></footer>
 				</Column>
 				<Column><Text text="{i18n>Difference}"/>
-					<footer><Text text="{path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnDiffVal'}" textAlign="Center"
+					<footer><Text text="${path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnDiffVal'}" textAlign="Center"
 						width="100%"/></footer>
 				</Column>
 			</columns>
@@ -170,17 +170,17 @@
 							textAlign="Center" width="100%"/>
 						<Text text="{LocalDataModel>matnr}" wrapping="true" textAlign="Center" width="100%"/>
 						<Text text="{LocalDataModel>PartDescription}" wrapping="true" textAlign="Center" width="100%"/>
-						<Text text="{LocalDataModel>DealerNet}" textAlign="Center" width="100%"/>
+						<Text text="${LocalDataModel>DealerNet}" textAlign="Center" width="100%"/>
 						<Text text="{LocalDataModel>QtyHrs}" wrapping="true" textAlign="Center" width="100%"/>
-						<Text text="{LocalDataModel>ExtendedValue}" wrapping="true" textAlign="Center" width="100%"/>
-						<Text text="{LocalDataModel>MarkUp}" wrapping="true" textAlign="Center" width="100%"/>
-						<Text text="{LocalDataModel>AmtClaimed}" wrapping="true" textAlign="Center" width="100%"/>
-						<Text text="{LocalDataModel>TotalAfterDisct}" wrapping="true" textAlign="Center" width="100%"/>
+						<Text text="${LocalDataModel>ExtendedValue}" wrapping="true" textAlign="Center" width="100%"/>
+						<Text text="${LocalDataModel>MarkUp}" wrapping="true" textAlign="Center" width="100%"/>
+						<Text text="${LocalDataModel>AmtClaimed}" wrapping="true" textAlign="Center" width="100%"/>
+						<Text text="${LocalDataModel>TotalAfterDisct}" wrapping="true" textAlign="Center" width="100%"/>
 						<Button visible="{DateModel>/oTciQtyAppr}" iconFirst="false" text="{LocalDataModel>TCIApprQty}" icon="sap-icon://notification"
 							type="Transparent" press="onPressTCIQty"/>
 						<!--<Text visible="{DateModel>/oTciQtyAppr}" text="{LocalDataModel>TCIApprQty}" wrapping="true" textAlign="Center" width="100%"/>-->
-						<Text text="{LocalDataModel>TCIApprovedAmount}" wrapping="true" textAlign="Center" width="100%"/>
-						<Text text="{LocalDataModel>DiffAmt}" wrapping="true" textAlign="Center" width="100%"/>
+						<Text text="${LocalDataModel>TCIApprovedAmount}" wrapping="true" textAlign="Center" width="100%"/>
+						<Text text="${LocalDataModel>DiffAmt}" wrapping="true" textAlign="Center" width="100%"/>
 					</cells>
 				</ColumnListItem>
 			</items>

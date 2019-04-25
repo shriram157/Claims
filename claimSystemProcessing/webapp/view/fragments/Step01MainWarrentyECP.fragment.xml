@@ -511,7 +511,7 @@
 								<Label text="{i18n>DealerClaimedAmount}" textAlign="Center" width="100%"/>
 							</table:multiLabels>
 							<table:template>
-								<Text text="{LocalDataModel>DealerClaim}" wrapping="false"/>
+								<Text text="${LocalDataModel>DealerClaim}" wrapping="false"/>
 							</table:template>
 						</table:Column>
 						<table:Column width="11rem">
@@ -519,7 +519,7 @@
 								<Label text="{i18n>TCIApprovedAmount}" textAlign="Center" width="100%"/>
 							</table:multiLabels>
 							<table:template>
-								<Text text="{LocalDataModel>TCIAppr}" wrapping="false"/>
+								<Text text="${LocalDataModel>TCIAppr}" wrapping="false"/>
 							</table:template>
 						</table:Column>
 						<table:Column width="11rem">
@@ -527,7 +527,7 @@
 								<Label text="{i18n>DifferenceCAD}" textAlign="Center" width="100%"/>
 							</table:multiLabels>
 							<table:template>
-								<Text text="{LocalDataModel>Diff}" wrapping="false"/>
+								<Text text="${LocalDataModel>Diff}" wrapping="false"/>
 							</table:template>
 						</table:Column>
 						<table:Column width="8rem" headerSpan="{multiHeaderConfig>/multiheader2}">
@@ -536,7 +536,7 @@
 								<Label text="{i18n>Amount}" textAlign="Center" width="100%"/>
 							</table:multiLabels>
 							<table:template>
-								<Text text="{LocalDataModel>GSTHSTAmt}" wrapping="false"/>
+								<Text text="${LocalDataModel>GSTHSTAmt}" wrapping="false"/>
 							</table:template>
 						</table:Column>
 						<table:Column width="8rem">
@@ -545,7 +545,7 @@
 								<Label text="{i18n>Tax}" textAlign="Center" width="100%"/>
 							</table:multiLabels>
 							<table:template>
-								<Text text="{LocalDataModel>GSTHSTRate}" wrapping="false"/>
+								<Text text="${LocalDataModel>GSTHSTRate}" wrapping="false"/>
 							</table:template>
 						</table:Column>
 						<table:Column width="8rem" headerSpan="{multiHeaderConfig>/multiheader2}">
@@ -554,7 +554,7 @@
 								<Label text="Amount" textAlign="Center" width="100%"/>
 							</table:multiLabels>
 							<table:template>
-								<Text text="{LocalDataModel>PSTQSTAmt}" wrapping="false"/>
+								<Text text="${LocalDataModel>PSTQSTAmt}" wrapping="false"/>
 							</table:template>
 						</table:Column>
 						<table:Column width="8rem">
@@ -563,7 +563,7 @@
 								<Label text="{i18n>Tax}" textAlign="Center" width="100%"/>
 							</table:multiLabels>
 							<table:template>
-								<Text text="{LocalDataModel>PSTQSTRate}" wrapping="false"/>
+								<Text text="${LocalDataModel>PSTQSTRate}" wrapping="false"/>
 							</table:template>
 						</table:Column>
 						<table:Column width="17rem">
@@ -571,7 +571,7 @@
 								<Label text="{i18n>TCIApprovedAmountIncludingTax}" textAlign="Center" width="100%"/>
 							</table:multiLabels>
 							<table:template>
-								<Text text="{LocalDataModel>TCIApprInclTax}" wrapping="false"/>
+								<Text text="${LocalDataModel>TCIApprInclTax}" wrapping="false"/>
 							</table:template>
 						</table:Column>
 					</table:columns>
