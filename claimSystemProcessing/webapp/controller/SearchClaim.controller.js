@@ -350,7 +350,7 @@ sap.ui.define([
 		onSelectGroup: function (oEvent) {
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var oText = oEvent.getParameters().selectedItem.getText();
-			
+
 			var oProssingModel = this.getModel("ProssingModel");
 			oProssingModel.read("/ZC_CLAIM_GROUP", {
 				urlParameters: {
