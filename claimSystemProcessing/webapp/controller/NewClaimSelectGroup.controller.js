@@ -13,14 +13,14 @@ sap.ui.define([
 		onInit: function () {
 			var oProssingModel = this.getModel("ProssingModel");
 			var oClaimGroup = [];
-			var oClaimData =[];
+			var oClaimData = [];
 			var oClaimGroupJson = [];
 			this.getOwnerComponent().getModel("LocalDataModel").setProperty("/RadioEdit", false);
 			this.getDealer();
 			//Model data set for Header Links visibility as per User login
 			console.log("HeaderLinksModel", sap.ui.getCore().getModel("HeaderLinksModel"));
 			this.getView().setModel(sap.ui.getCore().getModel("HeaderLinksModel"), "HeaderLinksModel");
-			
+
 			oProssingModel.read("/ZC_CLAIM_GROUP", {
 				success: $.proxy(function (data) {
 					var odata = data.results;
@@ -31,15 +31,16 @@ sap.ui.define([
 							);
 						}
 					}
-					
+
 					if (sap.ui.getCore().getModel("UserDataModel").getProperty("/UserScope") == "ManageAllParts") {
 						oClaimGroup = oClaimData.filter(function (val) {
 							return val == "CORE RETURN" || val == "SMART PARTS" || val == "PART WAREHOUSE";
 						});
-					} else if (sap.ui.getCore().getModel("UserDataModel").getProperty("/UserScope") == "ManageAllServices" || sap.ui.getCore().getModel("UserDataModel").getProperty("/UserScope") == "ManageAllShowAuthorization") {
+					} else if (sap.ui.getCore().getModel("UserDataModel").getProperty("/UserScope") == "ManageAllServices" || sap.ui.getCore().getModel(
+							"UserDataModel").getProperty("/UserScope") == "ManageAllShowAuthorization") {
 						oClaimGroup = oClaimData.filter(function (val) {
 							return val == "SETR" || val == "WARRANTY" || val == "CUSTOMER RELATIONS" || val == "VEHICLE LOGISTICS" || val == "ECP" ||
-								val =="FIELD ACTION";
+								val == "FIELD ACTION";
 						});
 					} else {
 						oClaimGroup = oClaimData;
@@ -67,7 +68,10 @@ sap.ui.define([
 		},
 
 		onSelectClaimType: function (oEvent) {
+			//mainSectionTitle
+			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var oSelectedKey = this.getView().byId("idClaimType").getSelectedKey();
+			
 			if (oSelectedKey === "WARRANTY") {
 				this.getOwnerComponent().getModel("LocalDataModel").setProperty("/RadioEdit", true);
 			} else {

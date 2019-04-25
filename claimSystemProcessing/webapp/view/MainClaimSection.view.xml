@@ -15,7 +15,7 @@
 		
 		</uxap:headerContent>
 		<uxap:sections>
-			<uxap:ObjectPageSection title="{i18n>MainSection}">
+			<uxap:ObjectPageSection title="{i18n>MainSection}" id="mainSectionTitle">
 				<uxap:subSections>
 					<uxap:ObjectPageSubSection title=" ">
 						<uxap:blocks >

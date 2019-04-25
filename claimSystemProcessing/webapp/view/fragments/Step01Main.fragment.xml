@@ -56,13 +56,13 @@
 				<DatePicker 
 					value="{path:'HeadSetData>/ShipmentReceivedDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd' } }"
 					required="true" id="idShipmentRDate" enabled="{DateModel>/oFormEdit}" change="onReceivedDateChange"/>
-				<Label text="{i18n>ShippingPartstoPDC}"/>
-				<Select id="idPartsShipping" enabled="{DateModel>/oFormEdit}">
-					<items>
-						<core:Item text="{i18n>Yes}" key="Yes"/>
-						<core:Item text="{i18n>No}" key="No"/>
-					</items>
-				</Select>
+				<!--<Label text="{i18n>ShippingPartstoPDC}"/>-->
+				<!--<Select id="idPartsShipping" enabled="{DateModel>/oFormEdit}">-->
+				<!--	<items>-->
+				<!--		<core:Item text="{i18n>Yes}" key="Yes"/>-->
+				<!--		<core:Item text="{i18n>No}" key="No"/>-->
+				<!--	</items>-->
+				<!--</Select>-->
 				<core:Title text=""/>
 				<Label text="{i18n>OutboundDeliveryDate}"/>
 				<DatePicker required="true" id="idOutBoundDD"
@@ -74,7 +74,7 @@
 					required="true" id="idDealerContact" enabled="{DateModel>/oFormEdit}"/>
 				<core:Title text=""/>
 				<Label text="{i18n>TCIWaybillNo}"/>
-				<Input value="{HeadSetData>/TCIWaybillNumber}" id="idTCIWayBill" required="true"  enabled="{DateModel>/oFormEdit}"/>
+				<Input value="{HeadSetData>/TCIWaybillNumber}" id="idTCIWayBill" enabled="{DateModel>/oFormEdit}"/>
 				<Label text="{i18n>CarrierName}"/>
 				<ComboBox id="idCarrierName" required="true" items="{BpDealerModel>/BpDealerList}" change="onSelectPartsDealer"
 					selectedKey="{HeadSetData>/DeliveringCarrier}" showSecondaryValues="true"  enabled="{DateModel>/oFormEdit}">
