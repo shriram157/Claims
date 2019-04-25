@@ -21,7 +21,7 @@
 						<l:GridData span="XL3 L3"/>
 					</layoutData>
 					</Label>
-					<Text text="{HeadSetData>/ExternalObjectNumber}"/>
+					<Text text="{HeadSetData>/ExternalObjectNumber}" wrapping="false"/>
 					<core:Title text=""/>
 					<Label text="{i18n>DlrClaim}"/>
 					<Text text="{HeadSetData>/ExternalNumberOfClaim}"/>
@@ -125,20 +125,20 @@
 				<Column>
 					<Text text="{i18n>AmountClaimed}" textAlign="Center" width="100%"/>
 					<footer><Text textAlign="Center" width="100%"
-						text="{path: 'LocalDataModel>/LabourPricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnAmountLabCLaim'}"/></footer>
+						text="${path: 'LocalDataModel>/LabourPricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnAmountLabCLaim'}"/></footer>
 				</Column>
 				<Column><Text text="{i18n>TotalAfterDiscount}" textAlign="Center" width="100%"/>
 					<footer><Text textAlign="Center" width="100%"
-						text="{path: 'LocalDataModel>/LabourPricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnTotalAfDisLab'}"/></footer>
+						text="${path: 'LocalDataModel>/LabourPricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnTotalAfDisLab'}"/></footer>
 				</Column>
 				<Column><Text text="{i18n>HoursApprovedTCI}" textAlign="Center" width="100%"/></Column>
 				<Column><Text text="{i18n>TCIAmountApproved}" textAlign="Center" width="100%"/>
 					<footer><Text textAlign="Center" width="100%"
-						text="{path: 'LocalDataModel>/LabourPricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnHrApTCI'}"/></footer>
+						text="${path: 'LocalDataModel>/LabourPricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnHrApTCI'}"/></footer>
 				</Column>
 				<Column><Text text="{i18n>LabourDifference}" textAlign="Center" width="100%"/>
 					<footer><Text textAlign="Center" width="100%"
-						text="{path: 'LocalDataModel>/LabourPricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnLabDif'}"/></footer>
+						text="${path: 'LocalDataModel>/LabourPricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnLabDif'}"/></footer>
 				</Column>
 			</columns>
 			<items>
@@ -150,11 +150,11 @@
 							textAlign="Center" width="100%"/>
 						<Text text="{LocalDataModel>LabourDescription}" wrapping="true" textAlign="Center" width="100%"/>
 						<Text text="{LocalDataModel>QtyHrs}" wrapping="true" textAlign="Center" width="100%"/>
-						<Text text="{LocalDataModel>AmtClaimed}" wrapping="true" textAlign="Center" width="100%"/>
-						<Text text="{LocalDataModel>TotalAfterDisct}" wrapping="true" textAlign="Center" width="100%"/>
+						<Text text="${LocalDataModel>AmtClaimed}" wrapping="true" textAlign="Center" width="100%"/>
+						<Text text="${LocalDataModel>TotalAfterDisct}" wrapping="true" textAlign="Center" width="100%"/>
 						<Text text="{LocalDataModel>TCIApprQty}" wrapping="true" textAlign="Center" width="100%"/>
-						<Text text="{LocalDataModel>TCIApprovedAmount}" wrapping="true" textAlign="Center" width="100%"/>
-						<Text text="{LocalDataModel>DiffAmt}" wrapping="true" textAlign="Center" width="100%"/>
+						<Text text="${LocalDataModel>TCIApprovedAmount}" wrapping="true" textAlign="Center" width="100%"/>
+						<Text text="${LocalDataModel>DiffAmt}" wrapping="true" textAlign="Center" width="100%"/>
 					</cells>
 				</ColumnListItem>
 			</items>

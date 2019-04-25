@@ -272,18 +272,18 @@
 							<!--<Text text="{LocalDataModel>DamageTypeCode>}"/>-->
 							<Text text="{LocalDataModel>matnr}"/>
 							<Text text="{LocalDataModel>PartDescription}"/>
-							<Text text="{LocalDataModel>DealerNet}"/>
+							<Text text="${LocalDataModel>DealerNet}"/>
 							<Text text="{LocalDataModel>quant2}"/>
 							<Text text="{LocalDataModel>quant}"/>
 							<Text text="{LocalDataModel>RetainPart}"/>
 							<Text text="{LocalDataModel>PartRepaired}"/>
-							<Text text="{LocalDataModel>RepairAmt}"/>
-							<Text text="{LocalDataModel>AmtClaimed}"/>
+							<Text text="${LocalDataModel>RepairAmt}"/>
+							<Text text="${LocalDataModel>AmtClaimed}"/>
 							<Link visible="{multiHeaderConfig>/AttachmentCol}" press="onClickURIParts" href="{LocalDataModel>URI}" text="View Attachment"
 								target="_blank" textAlign="Center" width="100%"/>
 							<!--<Text text="{LocalDataModel>URI}"/>-->
-							<Text text="{LocalDataModel>TCIApprovedAmount}"/>
-							<Text text="{LocalDataModel>DiffAmt}"/>
+							<Text text="${LocalDataModel>TCIApprovedAmount}"/>
+							<Text text="${LocalDataModel>DiffAmt}"/>
 						</cells>
 					</ColumnListItem>
 				</items>
