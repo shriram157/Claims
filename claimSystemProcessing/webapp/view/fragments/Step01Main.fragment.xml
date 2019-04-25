@@ -205,7 +205,7 @@
 							<Label text="{i18n>Tax}" textAlign="Center" width="100%"/>
 						</table:multiLabels>
 						<table:template hAlign="Center">
-							<Text text="${LocalDataModel>GSTHSTRate}" wrapping="false"/>
+							<Text text="{LocalDataModel>GSTHSTRate}" wrapping="false"/>
 						</table:template>
 					</table:Column>
 					<table:Column width="8rem" headerSpan="{multiHeaderConfig>/multiheader2}">
@@ -223,7 +223,7 @@
 							<Label text="{i18n>Tax}" textAlign="Center" width="100%"/>
 						</table:multiLabels>
 						<table:template hAlign="Center">
-							<Text text="${LocalDataModel>PSTQSTRate}" wrapping="false"/>
+							<Text text="{LocalDataModel>PSTQSTRate}" wrapping="false"/>
 						</table:template>
 					</table:Column>
 					<table:Column width="17rem">

@@ -135,30 +135,30 @@
 				</Column>
 				<Column>
 					<Text text="{i18n>ExtendedValue}" textAlign="Center" width="100%"/>
-					<footer><Text text="${path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnSumExtendedVal'}" textAlign="Center"
+					<footer><Text text="{path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnSumExtendedVal'}" textAlign="Center"
 						width="100%"/></footer>
 				</Column>
 				<Column>
 					<Text text="{i18n>MarkupAmount}" textAlign="Center" width="100%"/>
-					<footer><Text text="${path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnSumMarkUpVal'}" textAlign="Center"
+					<footer><Text text="{path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnSumMarkUpVal'}" textAlign="Center"
 						width="100%"/></footer>
 				</Column>
 				<Column>
 					<Text text="{i18n>AmountClaimed}" textAlign="Center" width="100%"/>
-					<footer><Text text="${path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnAmountClaimVal'}" textAlign="Center"
+					<footer><Text text="{path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnAmountClaimVal'}" textAlign="Center"
 						width="100%"/></footer>
 				</Column>
 				<Column><Text text="{i18n>TotalAfterDiscount}" textAlign="Center" width="100%"/>
-					<footer><Text text="${path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnAfterDiscVal'}" textAlign="Center"
+					<footer><Text text="{path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnAfterDiscVal'}" textAlign="Center"
 						width="100%"/></footer>
 				</Column>
 				<Column visible="{DateModel>/oTciQtyAppr}"><Text text="{i18n>TCIQuantityApproved}" textAlign="Center" width="100%"/></Column>
 				<Column><Text text="{i18n>TCIAmountApproved}" textAlign="Center" width="100%"/>
-					<footer><Text text="${path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnTCIAmtVal'}" textAlign="Center"
+					<footer><Text text="{path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnTCIAmtVal'}" textAlign="Center"
 						width="100%"/></footer>
 				</Column>
 				<Column><Text text="{i18n>Difference}"/>
-					<footer><Text text="${path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnDiffVal'}" textAlign="Center"
+					<footer><Text text="{path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnDiffVal'}" textAlign="Center"
 						width="100%"/></footer>
 				</Column>
 			</columns>
