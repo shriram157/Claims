@@ -824,6 +824,11 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/authRejClm", false);
 							this.getView().getModel("DateModel").setProperty("/copyClaimEnable", true);
 							this.getView().getModel("DateModel").setProperty("/oDamageLineBtn", false);
+							//if (oClaimSelectedGroup == "Authorization") {
+							//                         	this.getView().getModel("DateModel").setProperty("/copyClaimEnable", false);
+							//                     }else{
+							//                         	this.getView().getModel("DateModel").setProperty("/copyClaimEnable", true);
+							//                     }
 						} else if (data.results[0].ProcessingStatusOfWarrantyClm == "ZTMR" && sap.ui.getCore().getModel("UserDataModel").getProperty(
 								"/LoggedInUser") == "Dealer_Services_Manager") {
 							//sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") == "Dealer_Services_Manager"
@@ -873,13 +878,17 @@ sap.ui.define([
 
 							//sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") != "Zone_User" && sap.ui.getCore().getModel(
 							//	"UserDataModel").getProperty("/LoggedInUser") != "TCI_Admin"
-
+							if (oClaimSelectedGroup == "Authorization") {
+								this.getView().getModel("DateModel").setProperty("/copyClaimEnable", false);
+							} else {
+								this.getView().getModel("DateModel").setProperty("/copyClaimEnable", true);
+							}
 							this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
 							this.getView().getModel("DateModel").setProperty("/SaveClaim07", true);
 							this.getModel("LocalDataModel").setProperty("/CancelEnable", true);
 							this.getView().getModel("DateModel").setProperty("/claimEditSt", false);
 							this.getView().getModel("DateModel").setProperty("/updateEnable", true);
-							this.getView().getModel("DateModel").setProperty("/copyClaimEnable", true);
+							//this.getView().getModel("DateModel").setProperty("/copyClaimEnable", true);
 							this.getModel("LocalDataModel").setProperty("/UploadEnable", true);
 							this.getView().getModel("DateModel").setProperty("/authAcClm", false);
 							this.getView().getModel("DateModel").setProperty("/authRejClm", false);
@@ -1202,12 +1211,13 @@ sap.ui.define([
 					this.getModel("LocalDataModel").setProperty("/SaveAuthClaim", oBundle.getText("SaveAuth"));
 					this.getModel("LocalDataModel").setProperty("/copyClaimAuthText", oBundle.getText("CopytoClaim"));
 					this.getModel("LocalDataModel").setProperty("/WarrantyClaimNumber", oBundle.getText("TCIAuthNumber"));
-
+					this.getView().getModel("DateModel").setProperty("/copyClaimEnable", false);
 					this.getModel("LocalDataModel").setProperty("/linkToAuth", false);
 					this.getModel("LocalDataModel").setProperty("/reCalculate", true);
 					this.getModel("LocalDataModel").setProperty("/PercentState", true);
 				} else {
 					this.getModel("LocalDataModel").setProperty("/WarrantyClaimNumber", oBundle.getText("TCIClaimNumber"));
+					this.getView().getModel("DateModel").setProperty("/copyClaimEnable", true);
 					this.getModel("LocalDataModel").setProperty("/copyClaimAuthText", oBundle.getText("CopytoAuthorization"));
 					this.getModel("LocalDataModel").setProperty("/SaveAuthClaim", oBundle.getText("SaveClaim"));
 					this.getModel("LocalDataModel").setProperty("/linkToAuth", true);
