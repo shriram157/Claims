@@ -262,6 +262,7 @@
 				<items>
 					<ColumnListItem vAlign="Middle">
 						<cells>
+							<!--path: 'LocalDataModel>TCIApprovedAmount', formatter: 'zclaimProcessing.utils.formatter.roundedDecimals'-->
 							<Text text="{LocalDataModel>posnr}"/>
 							<Text text="{LocalDataModel>ALMDiscreDesc}"/>
 							<Text text="{LocalDataModel>ALMDiscreDesc}"/>
@@ -270,18 +271,17 @@
 							<!--<Text text="{LocalDataModel>DamageTypeCode>}"/>-->
 							<Text text="{LocalDataModel>matnr}"/>
 							<Text text="{LocalDataModel>PartDescription}"/>
-							<Text text="${LocalDataModel>DealerNet}"/>
+							<Text text="{path: 'LocalDataModel>DealerNet', formatter: 'zclaimProcessing.utils.formatter.roundedDecimals'}"/>
 							<Text text="{LocalDataModel>quant2}"/>
 							<Text text="{LocalDataModel>quant}"/>
 							<Text text="{LocalDataModel>RetainPart}"/>
 							<Text text="{LocalDataModel>PartRepaired}"/>
-							<Text text="${LocalDataModel>RepairAmt}"/>
-							<Text text="${LocalDataModel>AmtClaimed}"/>
-							<Link visible="{multiHeaderConfig>/AttachmentCol}" press="onClickURIParts" href="{LocalDataModel>URI}" text="View Attachment"
-								target="_blank" textAlign="Center" width="100%"/>
+							<Text text="{path: 'LocalDataModel>RepairAmt', formatter: 'zclaimProcessing.utils.formatter.roundedDecimals'}"/>
+							<Text text="{path: 'LocalDataModel>AmtClaimed', formatter: 'zclaimProcessing.utils.formatter.roundedDecimals'}"/>
+							<Link visible="{multiHeaderConfig>/AttachmentCol}" press="onClickURIParts" href="{LocalDataModel>URI}" text="View Attachment" target="_blank" textAlign="Center" width="100%"/>
 							<!--<Text text="{LocalDataModel>URI}"/>-->
-							<Text text="${LocalDataModel>TCIApprovedAmount}"/>
-							<Text text="${LocalDataModel>DiffAmt}"/>
+							<Text text="{path: 'LocalDataModel>TCIApprovedAmount', formatter: 'zclaimProcessing.utils.formatter.roundedDecimals'}"/>
+							<Text text="{path: 'LocalDataModel>DiffAmt', formatter: 'zclaimProcessing.utils.formatter.roundedDecimals'}"/>
 						</cells>
 					</ColumnListItem>
 				</items>

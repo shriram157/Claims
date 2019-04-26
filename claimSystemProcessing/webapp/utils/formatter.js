@@ -441,7 +441,8 @@ zclaimProcessing.utils.formatter = {
 		if (oNum == undefined) {
 
 		} else {
-			return "$" + oNum;
+			oNum = Math.round(oNum * 100) / 100;
+			return "$" + oNum.toFixed(2);
 		}
 	},
 	fnAmountClaimedPW: function (sum) {
@@ -466,7 +467,8 @@ zclaimProcessing.utils.formatter = {
 		if (oNum == undefined) {
 
 		} else {
-			return "$" + oNum;
+			oNum = Math.round(oNum * 100) / 100;
+			return "$" + oNum.toFixed(2);
 		}
 	},
 	fnDifPW: function (sum) {
@@ -491,7 +493,8 @@ zclaimProcessing.utils.formatter = {
 		if (oNum == undefined) {
 
 		} else {
-			return "$" + oNum;
+			oNum = Math.round(oNum * 100) / 100;
+			return "$" + oNum.toFixed(2);
 		}
 	},
 	fnTCIAprrovedPW: function (sum) {
@@ -516,7 +519,8 @@ zclaimProcessing.utils.formatter = {
 		if (oNum == undefined) {
 
 		} else {
-			return "$" + oNum;
+			oNum = Math.round(oNum * 100) / 100;
+			return "$" + oNum.toFixed(2);
 		}
 	},
 	fnFormatDisplayDate: function (oDate) {
@@ -571,6 +575,13 @@ zclaimProcessing.utils.formatter = {
 			oNum = parseFloat(val).toFixed(2);
 		}
 		return oNum;
+	},
+	
+	roundedDecimals: function(oNumber){
+		oNumber = parseFloat(oNumber);
+		var oNum;
+		oNum = Math.round(oNumber * 100) / 100;
+		return "$" + oNum.toFixed(2);
 	}
 
 };
