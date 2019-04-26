@@ -1,6 +1,6 @@
 <mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" controllerName="zclaimProcessing.controller.SearchClaim"
 	xmlns:html="http://www.w3.org/1999/xhtml" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:uxap="sap.uxap"
-	xmlns:table="sap.ui.table">
+	xmlns:table="sap.ui.table" xmlns:custom="zclaimProcessing.control">
 	<core:Fragment fragmentName="zclaimProcessing.view.fragments.ToolHeader" type="XML"/>
 	<uxap:ObjectPageLayout id="ObjectPageLayout" enableLazyLoading="true">
 		<uxap:sections>
@@ -24,14 +24,14 @@
 												additionalText="{LocalDataModel>BusinessPartnerName}"/>
 										</Select>
 										<Label text="{i18n>SearchBy}" textAlign="Begin"/>
-										<ComboBox id="idSearchBy" selectionChange="onSearchBy">
+										<custom:CustomCombo id="idSearchBy" selectionChange="onSearchBy">
 											<core:Item key="RepairOrderNumberExternal" text="{i18n>RepairOrderNumber}"/>
 											<core:Item key="ExternalNumberOfClaim" text="{i18n>DealerClaimNumber}"/>
 											<core:Item key="NumberOfWarrantyClaim" text="{i18n>TCIClaimNumber}"/>
 											<core:Item key="ExternalObjectNumber" text="{i18n>VIN}"/>
 											<core:Item key="AgreementNumber" text="{i18n>ECPAgreementNumber}"/>
 											<core:Item key="MainOpsCode" text="{i18n>MainOperationCode}"/>
-										</ComboBox>
+										</custom:CustomCombo>
 										<Label text="{i18n>SearchText}" textAlign="Begin"/>
 										<Input value="" id="idSearchText" change="onEnterSearchText"/>
 										<Label text="{i18n>ClaimSubDate}" textAlign="Begin" id="idCLREDate"/>
@@ -39,13 +39,13 @@
 											minDate="" maxDate="" change="handleChange"/>
 										<core:Title text=""/>
 										<Label text="{i18n>ClaimTypeGroup}" textAlign="Begin"/>
-										<ComboBox items="{path:'LocalDataModel>/ClaimStatusDataGroup'}" id="idClaimGroup" selectionChange="onSelectGroup">
+										<custom:CustomCombo items="{path:'LocalDataModel>/ClaimStatusDataGroup'}" id="idClaimGroup" selectionChange="onSelectGroup">
 											<core:Item key="{LocalDataModel>CLaimGroupDes}" text="{LocalDataModel>CLaimGroupDes}"/>
-										</ComboBox>
+										</custom:CustomCombo>
 										<Label text="{i18n>ClaimType}" textAlign="Begin"/>
-										<ComboBox items="{ path: 'LocalDataModel>/ClaimType'}" id="idClaimType">
+										<custom:CustomCombo items="{ path: 'LocalDataModel>/ClaimType'}" id="idClaimType">
 											<core:Item key="{LocalDataModel>WarrantyClaimType}" text="{LocalDataModel>WarrantyClaimType} - {LocalDataModel>ALMClaimTypeDes}"/>
-										</ComboBox>
+										</custom:CustomCombo>
 										<Label text="{i18n>ClaimStatus}" textAlign="Begin"/>
 										<MultiComboBox items="{ path: '/ZC_CLAIM_STATUS_DESC'}" selectionChange="handleSelectClaimGroup"
 											selectionFinish="handleSelectClaimGroupFinish" id="idClaimStatus">

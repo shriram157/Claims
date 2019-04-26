@@ -105,11 +105,11 @@ zclaimProcessing.utils.formatter = {
 					}
 				).toFixed(2);
 			}
-		} 
+		}
 		if (oNum == undefined) {
 
 		} else {
-			return "$"+ oNum;
+			return "$" + oNum;
 		}
 	},
 	fnAfterDiscVal: function (sum) {
@@ -130,11 +130,11 @@ zclaimProcessing.utils.formatter = {
 					}
 				).toFixed(2);
 			}
-		} 
+		}
 		if (oNum == undefined) {
 
 		} else {
-			return "$"+ oNum;
+			return "$" + oNum;
 		}
 	},
 	fnTCIAmtVal: function (sum) {
@@ -155,11 +155,11 @@ zclaimProcessing.utils.formatter = {
 					}
 				).toFixed(2);
 			}
-		} 
+		}
 		if (oNum == undefined) {
 
 		} else {
-			return "$"+ oNum;
+			return "$" + oNum;
 		}
 	},
 	fnDiffVal: function (sum) {
@@ -180,11 +180,11 @@ zclaimProcessing.utils.formatter = {
 					}
 				).toFixed(2);
 			}
-		} 
+		}
 		if (oNum == undefined) {
 
 		} else {
-			return "$"+ oNum;
+			return "$" + oNum;
 		}
 	},
 	fnClaimedHr: function (sum) {
@@ -226,11 +226,11 @@ zclaimProcessing.utils.formatter = {
 					}
 				).toFixed(2);
 			}
-		} 
+		}
 		if (oNum == undefined) {
 
 		} else {
-			return "$"+ oNum;
+			return "$" + oNum;
 		}
 	},
 	fnTotalAfDisLab: function (sum) {
@@ -251,11 +251,11 @@ zclaimProcessing.utils.formatter = {
 					}
 				).toFixed(2);
 			}
-		} 
+		}
 		if (oNum == undefined) {
 
 		} else {
-			return "$"+ oNum;
+			return "$" + oNum;
 		}
 	},
 	fnHrApTCI: function (sum) {
@@ -298,11 +298,11 @@ zclaimProcessing.utils.formatter = {
 					}
 				).toFixed(2);
 			}
-		} 
+		}
 		if (oNum == undefined) {
 
 		} else {
-			return "$"+ oNum;
+			return "$" + oNum;
 		}
 	},
 	fnAmountSublet: function (sum) {
@@ -323,11 +323,11 @@ zclaimProcessing.utils.formatter = {
 					}
 				).toFixed(2);
 			}
-		} 
+		}
 		if (oNum == undefined) {
 
 		} else {
-			return "$"+ oNum;
+			return "$" + oNum;
 		}
 	},
 	fnTotalSubletAfDisc: function (sum) {
@@ -348,11 +348,11 @@ zclaimProcessing.utils.formatter = {
 					}
 				).toFixed(2);
 			}
-		} 
+		}
 		if (oNum == undefined) {
 
 		} else {
-			return "$"+ oNum;
+			return "$" + oNum;
 		}
 	},
 	fnTCISubletApr: function (sum) {
@@ -373,11 +373,11 @@ zclaimProcessing.utils.formatter = {
 					}
 				).toFixed(2);
 			}
-		} 
+		}
 		if (oNum == undefined) {
 
 		} else {
-			return "$"+ oNum;
+			return "$" + oNum;
 		}
 	},
 	fnSubletDif: function (sum) {
@@ -398,11 +398,11 @@ zclaimProcessing.utils.formatter = {
 					}
 				).toFixed(2);
 			}
-		} 
+		}
 		if (oNum == undefined) {
 
 		} else {
-			return "$"+ oNum;
+			return "$" + oNum;
 		}
 	},
 	fnFormatText: function (val) {
@@ -437,11 +437,11 @@ zclaimProcessing.utils.formatter = {
 					}
 				).toFixed(2);
 			}
-		} 
+		}
 		if (oNum == undefined) {
 
 		} else {
-			return "$"+ oNum;
+			return "$" + oNum;
 		}
 	},
 	fnAmountClaimedPW: function (sum) {
@@ -462,11 +462,11 @@ zclaimProcessing.utils.formatter = {
 					}
 				).toFixed(2);
 			}
-		} 
+		}
 		if (oNum == undefined) {
 
 		} else {
-			return "$"+ oNum;
+			return "$" + oNum;
 		}
 	},
 	fnDifPW: function (sum) {
@@ -487,11 +487,11 @@ zclaimProcessing.utils.formatter = {
 					}
 				).toFixed(2);
 			}
-		} 
+		}
 		if (oNum == undefined) {
 
 		} else {
-			return "$"+ oNum;
+			return "$" + oNum;
 		}
 	},
 	fnTCIAprrovedPW: function (sum) {
@@ -512,11 +512,11 @@ zclaimProcessing.utils.formatter = {
 					}
 				).toFixed(2);
 			}
-		} 
+		}
 		if (oNum == undefined) {
 
 		} else {
-			return "$"+ oNum;
+			return "$" + oNum;
 		}
 	},
 	fnFormatDisplayDate: function (oDate) {
@@ -564,6 +564,13 @@ zclaimProcessing.utils.formatter = {
 		// 	finalVal = oVal;
 		// }
 		// return finalVal;
+	},
+	fnFormatDecimal: function (val) {
+		var oNum;
+		if (val) {
+			oNum = parseFloat(val).toFixed(2);
+		}
+		return oNum;
 	}
 
 };
