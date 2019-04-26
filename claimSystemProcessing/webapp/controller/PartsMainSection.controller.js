@@ -1487,8 +1487,22 @@ sap.ui.define([
 		},
 
 		onClickURIParts: function (oEvent) {
-			console.log(oEvent);
+			// if (!this._oPopover) {
+			// 	this._oPopover = sap.ui.xmlfragment("zclaimProcessing.view.fragments.partsViewAttachment", this);
+			// 	this.getView().addDependent(this._oPopover);
+			// 	this._oPopover.setModel(this.getModel("LocalDataModel"), "LocalDataModel"); 
+			// 	// this._oPopover.setModel("LocalDataModel");
+			// }
+
+			// this._oPopover.openBy(oEvent.getSource());
+			
 		},
+		// pressCloseAttachment: function (oEvent) {
+		// 	this._oPopover.close();
+		// 	// if (this._oPopover) {
+		// 	// 	this._oPopover.destroy();
+		// 	// }
+		// },
 
 		_openDialog01: function () {
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
