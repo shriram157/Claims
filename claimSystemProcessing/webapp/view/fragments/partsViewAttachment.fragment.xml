@@ -1,0 +1,17 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+	<!--partsViewAttachment.fragment.xml-->
+	<Popover title="{i18n>AttachmentsforClaim} {LocalDataModel>/WarrantyClaimNum}" class="sapUiContentPadding" contentWidth="320px" contentHeight="500px" placement="Bottom">
+		<footer>
+			<Toolbar>
+				<ToolbarSpacer/>
+				<Button text="{i18n>Close}" press="pressCloseAttachment"/>
+			</Toolbar>
+		</footer>
+		<List items="{path: 'LocalDataModel>/PricingDataModel'}" >
+		<CustomListItem>
+			<Link href="{LocalDataModel>URI}" text="{i18n>PartAttachment}" target="_blank" textAlign="Center" width="100%"/>
+		</CustomListItem>
+	</List>
+		
+	</Popover>
+</core:FragmentDefinition>

@@ -1487,8 +1487,22 @@ sap.ui.define([
 		},
 
 		onClickURIParts: function (oEvent) {
-			console.log(oEvent);
+			// if (!this._oPopover) {
+			// 	this._oPopover = sap.ui.xmlfragment("zclaimProcessing.view.fragments.partsViewAttachment", this);
+			// 	this.getView().addDependent(this._oPopover);
+			// 	this._oPopover.setModel(this.getModel("LocalDataModel"), "LocalDataModel"); 
+			// 	// this._oPopover.setModel("LocalDataModel");
+			// }
+
+			// this._oPopover.openBy(oEvent.getSource());
+			
 		},
+		// pressCloseAttachment: function (oEvent) {
+		// 	this._oPopover.close();
+		// 	// if (this._oPopover) {
+		// 	// 	this._oPopover.destroy();
+		// 	// }
+		// },
 
 		_openDialog01: function () {
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
@@ -3138,6 +3152,7 @@ sap.ui.define([
 									this.obj.zc_claim_vsrSet.results.pop(oObj);
 									if (response.data.zc_claim_vsrSet.results.length <= 0) {
 										this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
+										this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
 										MessageToast.show(oBundle.getText("ClaimNumber") + " " + oClaimNum + " " + oBundle.getText(
 											"successfullysubmittedTCI"), {
 											my: "center center",
@@ -3146,6 +3161,7 @@ sap.ui.define([
 										// MessageToast.show("Claim Number " + oClaimNum + " successfully submitted to TCI.");
 										this.getView().byId("idFilter04").setProperty("enabled", true);
 									} else {
+										this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
 										MessageToast.show(
 											oBundle.getText("ClaimNumber") + " " + oClaimNum + " " + oBundle.getText("RejectedTCIValidationResultsdetails"), {
 												my: "center center",
@@ -3160,7 +3176,7 @@ sap.ui.define([
 									dialog.close();
 									console.log("Error in submitting claim to TCI", err);
 									this.getView().byId("idFilter04").setProperty("enabled", false);
-
+									this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
 									var err = JSON.parse(err.responseText);
 									var msg = err.error.message.value;
 									MessageBox.show(msg, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);

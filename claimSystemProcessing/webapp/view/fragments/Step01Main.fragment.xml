@@ -171,7 +171,7 @@
 							<Label text="{i18n>Dealer Claimed Amount}" textAlign="Center" width="100%"/>
 						</table:multiLabels>
 						<table:template hAlign="Center">
-							<Text text="${LocalDataModel>DealerClaim}" wrapping="false"/>
+							<Text text="{path: 'LocalDataModel>DealerClaim', formatter: 'zclaimProcessing.utils.formatter.roundedDecimals'}" wrapping="false"/>
 						</table:template>
 					</table:Column>
 					<table:Column width="11rem">
@@ -179,7 +179,7 @@
 							<Label text="{i18n>TCIApprovedAmount}" textAlign="Center" width="100%"/>
 						</table:multiLabels>
 						<table:template hAlign="Center">
-							<Text text="${LocalDataModel>TCIAppr}" wrapping="false"/>
+							<Text text="{path: 'LocalDataModel>TCIAppr', formatter: 'zclaimProcessing.utils.formatter.roundedDecimals'}" wrapping="false"/>
 						</table:template>
 					</table:Column>
 					<table:Column width="11rem">
@@ -187,7 +187,7 @@
 							<Label text="{i18n>DifferenceCAD}" textAlign="Center" width="100%"/>
 						</table:multiLabels>
 						<table:template hAlign="Center">
-							<Text text="${LocalDataModel>Diff}" wrapping="false"/>
+							<Text text="{path: 'LocalDataModel>Diff', formatter: 'zclaimProcessing.utils.formatter.roundedDecimals'}" wrapping="false"/>
 						</table:template>
 					</table:Column>
 					<table:Column width="8rem" headerSpan="{multiHeaderConfig>/multiheader2}">
@@ -196,7 +196,7 @@
 							<Label text="{i18n>Amount}" textAlign="Center" width="100%"/>
 						</table:multiLabels>
 						<table:template hAlign="Center">
-							<Text text="${LocalDataModel>GSTHSTAmt}" wrapping="false"/>
+							<Text text="{path: 'LocalDataModel>GSTHSTAmt', formatter: 'zclaimProcessing.utils.formatter.roundedDecimals'}" wrapping="false"/>
 						</table:template>
 					</table:Column>
 					<table:Column width="8rem">
@@ -214,7 +214,7 @@
 							<Label text="{i18n>Amount}" textAlign="Center" width="100%"/>
 						</table:multiLabels>
 						<table:template hAlign="Center">
-							<Text text="${LocalDataModel>PSTQSTAmt}" wrapping="false"/>
+							<Text text="{path: 'LocalDataModel>PSTQSTAmt', formatter: 'zclaimProcessing.utils.formatter.roundedDecimals'}" wrapping="false"/>
 						</table:template>
 					</table:Column>
 					<table:Column width="8rem">
@@ -231,12 +231,13 @@
 							<Label text="{i18n>TCIApprovedAmountIncludingTax}" textAlign="Center" width="100%"/>
 						</table:multiLabels>
 						<table:template hAlign="Center">
-							<Text text="${LocalDataModel>TCIApprInclTax}" wrapping="false"/>
+							<Text text="{path: 'LocalDataModel>TCIApprInclTax', formatter: 'zclaimProcessing.utils.formatter.roundedDecimals'}" wrapping="false"/>
 						</table:template>
 					</table:Column>
 				</table:columns>
 			</table:Table>
 		</content>
+		<!-- {path: 'LocalDataModel>TCIApprInclTax', formatter: 'zclaimProcessing.utils.formatter.roundedDecimals'}-->
 		<HBox alignContent="Center" justifyContent="Center" class="sapUiTinyMarginTop">
 			<Button class="sapUiTinyMarginBeginEnd" press="onPressBack" text="{i18n>BackList}" type="Back"/>
 			<Button class="sapUiTinyMarginBeginEnd" press="onCancelClaim" text="{i18n>CancelClaim}" type="Reject"/>
