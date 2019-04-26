@@ -14,18 +14,19 @@
 				<f:content>
 					<core:Title text=""/>
 					<Label text="{i18n>ClaimType}"/>
-					<ComboBox showSecondaryValues="true" required="true" items="{path:'LocalDataModel>/ClaimGroupSet'}" selectionChange="onSelectClaimTpe"
-						selectedKey="{HeadSetData>/WarrantyClaimType}" enabled="{DateModel>/claimTypeEn}" valueState="{DateModel>/claimTypeState}"
+					<custom:CustomCombo showSecondaryValues="true" required="true" items="{path:'LocalDataModel>/ClaimGroupSet'}"
+						selectionChange="onSelectClaimTpe" selectedKey="{HeadSetData>/WarrantyClaimType}" enabled="{DateModel>/claimTypeEn}"
+						valueState="{DateModel>/claimTypeState}"
 						value="{path:'HeadSetData>/WarrantyClaimType', type : 'sap.ui.model.type.String', constraints : { minLength : 2, maxLength : 50 } }">
 						<core:ListItem text="{LocalDataModel>ALMClaimType}" key="{LocalDataModel>ALMClaimType}" additionalText="{LocalDataModel>ALMClaimTypeDes}"/>
-					</ComboBox>
+					</custom:CustomCombo>
 					<Label text="{i18n>SubmissionClaimType}" visible="{DateModel>/warrantySubmissionClaim}"/>
-					<ComboBox showSecondaryValues="true" required="true" visible="{DateModel>/warrantySubmissionClaim}"
+					<custom:CustomCombo showSecondaryValues="true" required="true" visible="{DateModel>/warrantySubmissionClaim}"
 						items="{path:'LocalDataModel>/DataSubmissionClaim'}" selectionChange="onSelectClaimTpe" selectedKey="{HeadSetData>/WarrantyClaimSubType}"
 						enabled="{DateModel>/claimTypeEn}" valueState="{DateModel>/claimTypeState}"
 						value="{path:'HeadSetData>/WarrantyClaimSubType', type : 'sap.ui.model.type.String', constraints : { minLength : 2, maxLength : 50 } }">
 						<core:ListItem text="{LocalDataModel>ALMClaimType}" key="{LocalDataModel>ALMClaimType}" additionalText="{LocalDataModel>ALMClaimTypeDes}"/>
-					</ComboBox>
+					</custom:CustomCombo>
 					<core:Title text=""/>
 					<Label text="{i18n>FirstSubmissionDate}"/>
 					<Text
@@ -370,18 +371,18 @@
 					<Label text="{i18n>AppliedCoverage}"/>
 					<Text text="{HeadSetData>/AppliedWarrantyCoverage}"/>
 					<Label text="{i18n>T1 Code}"/>
-					<ComboBox id="idT1Field" required="{DateModel>/enabledT1}" items="{ path: '/Zt1DescSrchhelpSet' }"
+					<custom:CustomCombo id="idT1Field" required="{DateModel>/enabledT1}" items="{ path: '/Zt1DescSrchhelpSet' }"
 						selectedKey="{path:'HeadSetData>/T1WarrantyCodes'}" enabled="{DateModel>/enabledT1}" editable="{DateModel>/oFormEdit}">
 						<core:ListItem key="{T1}" text="{path:'T1'} - {T1Text}"/>
-					</ComboBox>
+					</custom:CustomCombo>
 					<!--<Select selectedKey="{HeadSetData>/T1WarrantyCodes}" items="{ path: '/Zt1DescSrchhelpSet' }" enabled="{DateModel>/oFormEdit}">-->
 					<!--	<core:Item key="{T1}" text="{T1} - {T1Text}"/>-->
 					<!--</Select>-->
 					<Label text="{i18n>T2Code}"/>
-					<ComboBox id="idT2Field" required="{DateModel>/enabledT2}" items="{ path: '/Zt2DescSrchhelpSet' }"
+					<custom:CustomCombo id="idT2Field" required="{DateModel>/enabledT2}" items="{ path: '/Zt2DescSrchhelpSet' }"
 						selectedKey="{path:'HeadSetData>/T2WarrantyCodes'}" enabled="{DateModel>/enabledT2}" editable="{DateModel>/oFormEdit}">
 						<core:ListItem key="{path:'T2'}" text="{T2} - {T2Text}"/>
-					</ComboBox>
+					</custom:CustomCombo>
 					<!--<Select selectedKey="{HeadSetData>/T2WarrantyCodes}" items="{ path: '/Zt2DescSrchhelpSet' }" enabled="{DateModel>/oFormEdit}">-->
 					<!--	<core:Item key="{T2}" text="{T2} - {T2Text}"/>-->
 					<!--</Select>-->

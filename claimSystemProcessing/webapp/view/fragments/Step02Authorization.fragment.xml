@@ -17,9 +17,9 @@
 					<Label text="{i18n>TCIClaim}"/>
 					<Text text="{HeadSetData>/NumberOfWarrantyClaim}"/>
 					<Label text="{i18n>VIN}">
-					<layoutData>
-						<l:GridData span="XL3 L3"/>
-					</layoutData>
+						<layoutData>
+							<l:GridData span="XL3 L3"/>
+						</layoutData>
 					</Label>
 					<Text text="{HeadSetData>/ExternalObjectNumber}" wrapping="false"/>
 					<core:Title text=""/>
@@ -38,9 +38,11 @@
 					<Text text="{HeadSetData>/MainOpsCode}"/>
 					<core:Title text=""/>
 					<Label text="{i18n>RepairDate}"/>
-					<Text text="{path:'HeadSetData>/RepairDate', type: 'sap.ui.model.type.Date',  formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd', strictParsing: true , UTC: true}}"/>
+					<Text
+						text="{path:'HeadSetData>/RepairDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd', strictParsing: true , UTC: true}}"/>
 					<Label text="{i18n>RegDate}"/>
-					<Text text="{path:'LocalDataModel>/DataVinDetails/RegDate', type: 'sap.ui.model.type.Date',  formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd'}}"/>
+					<Text
+						text="{path:'LocalDataModel>/DataVinDetails/RegDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd'}}"/>
 					<core:Title text=""/>
 					<Label text="{i18n>Odometer}"/>
 					<Text text="{HeadSetData>/Odometer}"/>
@@ -54,20 +56,20 @@
 				</f:content>
 			</f:SimpleForm>
 		</Panel>
-		<f:SimpleForm  editable="true" layout="ResponsiveGridLayout" title="{i18n>AuthorizationDetails}" labelSpanXL="3"
-			labelSpanL="3" labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
-			columnsXL="2" columnsL="2" columnsM="1" singleContainerFullSize="false">
+		<f:SimpleForm editable="true" layout="ResponsiveGridLayout" title="{i18n>AuthorizationDetails}" labelSpanXL="3" labelSpanL="3"
+			labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="2"
+			columnsL="2" columnsM="1" singleContainerFullSize="false">
 			<f:content>
 				<core:Title text=""/>
 				<Label text="{i18n>AuthorizationNo}" visible="{LocalDataModel>/linkToAuth}"/>
 				<Input value="{DataPercetCalculate>/AuthorizationNumber}" enabled="{DateModel>/oFormEdit}" visible="{LocalDataModel>/linkToAuth}"/>
-				<Button text="{i18n>LinktoAuthorization}" press="onPressLinkAuthorization" enabled="{DateModel>/oFormEdit}" visible="{LocalDataModel>/linkToAuth}"/>
+				<Button text="{i18n>LinktoAuthorization}" press="onPressLinkAuthorization" enabled="{DateModel>/oFormEdit}"
+					visible="{LocalDataModel>/linkToAuth}"/>
 			</f:content>
 		</f:SimpleForm>
-		<f:SimpleForm id="idAuthorizationForm" editable="true" layout="ResponsiveGridLayout" title="" labelSpanXL="6"
-			labelSpanL="6" labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
-			columnsXL="3" columnsL="3" columnsM="2" singleContainerFullSize="false">
-			
+		<f:SimpleForm id="idAuthorizationForm" editable="true" layout="ResponsiveGridLayout" title="" labelSpanXL="6" labelSpanL="6" labelSpanM="12"
+			labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="3" columnsL="3" columnsM="2"
+			singleContainerFullSize="false">
 			<f:content>
 				<core:Title text=""/>
 				<Label text="{i18n>TCIClaim}"/>
@@ -80,7 +82,8 @@
 				<Label text="{i18n>TerritoryCode}"/>
 				<Text text="{LocalDataModel>/DataAuthDetails/TerritoryCode}"/>
 				<Label text="{i18n>AuthorizationDate}"/>
-				<Text text="{ path: 'LocalDataModel>/DataAuthDetails/AuthorizationDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium' } }"/>
+				<Text
+					text="{ path: 'LocalDataModel>/DataAuthDetails/AuthorizationDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium' } }"/>
 				<core:Title text=""/>
 				<Label text="{i18n>DealerAuthorizationLevel}"/>
 				<Text text="{LocalDataModel>/DataAuthDetails/DealerAuthorizationLevel}"/>
@@ -90,61 +93,62 @@
 			</f:content>
 		</f:SimpleForm>
 		<l:VerticalLayout width="100%" class="gridWrapper">
-		<l:Grid containerQuery="true" defaultSpan="XL6 L12 M12 S12">
-			<html:div class="exampleDiv">
-				<Table showSeparators="All">
-					<columns>
-						<Column  hAlign="Center"></Column>
-						<Column  hAlign="Center">
-							<Label text="{i18n>RepairAmount}"/>
-						</Column>
-						<Column hAlign="Center">
-							<Label text="{i18n>Customer}"/>
-						</Column>
-						<Column  hAlign="Center">
-							<Label text="{i18n>Dealer}"/>
-						</Column>
-						<Column  hAlign="Center">
-							<Label text="{i18n>TCI}"/>
-						</Column>
-					</columns>
-					<items>
-						<ColumnListItem>
-							<cells>
-								<Text text="{i18n>Participation%}"/>
-								<Text text=""/>
-								<Select items="{LocalDataModel>/DataPercent}" enabled="{LocalDataModel>/PercentState}"  selectedKey="{path:'DataPercetCalculate>/CustomerPer'}" >
-									<core:Item key="{LocalDataModel>okey}" text="{LocalDataModel>num}"/>
-								</Select>
-								<Select items="{LocalDataModel>/DataPercent}" enabled="{LocalDataModel>/PercentState}" selectedKey="{DataPercetCalculate>/DealerPer}">
-									<core:Item key="{LocalDataModel>okey}" text="{LocalDataModel>num}"/>
-								</Select>
-								<Select items="{LocalDataModel>/DataPercent}" enabled="{LocalDataModel>/PercentState}" selectedKey="{DataPercetCalculate>/TCIPer}">
-									<core:Item key="{LocalDataModel>okey}" text="{LocalDataModel>num}"/>
-								</Select>
-							</cells>
-						</ColumnListItem>
-						<ColumnListItem>
-							<cells>
-								<Text text="{i18n>Participation$}"/>
-								<Text text="{LocalDataModel>/oRepairAmt}"/>
-								<Text text="{DataPercetCalculate>/CustomerAmt}"/>
-								<Text text="{DataPercetCalculate>/DealerAmt}"/>
-								<Text text="{DataPercetCalculate>/TCIAmt}"/>
-							</cells>
-						</ColumnListItem>
-					</items>
-				</Table>
-			</html:div>
-			
-			<html:div >
-				<Button text="Re-calculate Claim Amount" visible="{LocalDataModel>/reCalculate}" enabled="{DateModel>/oFormEdit}"  press="onPressRecalculate" type="Emphasized"/>
-			</html:div>
-		</l:Grid>
+			<l:Grid containerQuery="true" defaultSpan="XL6 L12 M12 S12">
+				<html:div class="exampleDiv">
+					<Table showSeparators="All">
+						<columns>
+							<Column hAlign="Center"></Column>
+							<Column hAlign="Center">
+								<Label text="{i18n>RepairAmount}"/>
+							</Column>
+							<Column hAlign="Center">
+								<Label text="{i18n>Customer}"/>
+							</Column>
+							<Column hAlign="Center">
+								<Label text="{i18n>Dealer}"/>
+							</Column>
+							<Column hAlign="Center">
+								<Label text="{i18n>TCI}"/>
+							</Column>
+						</columns>
+						<items>
+							<ColumnListItem>
+								<cells>
+									<Text text="{i18n>Participation%}"/>
+									<Text text=""/>
+									<Select items="{LocalDataModel>/DataPercent}" enabled="{LocalDataModel>/PercentState}"
+										selectedKey="{path:'DataPercetCalculate>/CustomerPer'}">
+										<core:Item key="{LocalDataModel>okey}" text="{LocalDataModel>num}"/>
+									</Select>
+									<Select items="{LocalDataModel>/DataPercent}" enabled="{LocalDataModel>/PercentState}" selectedKey="{DataPercetCalculate>/DealerPer}">
+										<core:Item key="{LocalDataModel>okey}" text="{LocalDataModel>num}"/>
+									</Select>
+									<Select items="{LocalDataModel>/DataPercent}" enabled="{LocalDataModel>/PercentState}" selectedKey="{DataPercetCalculate>/TCIPer}">
+										<core:Item key="{LocalDataModel>okey}" text="{LocalDataModel>num}"/>
+									</Select>
+								</cells>
+							</ColumnListItem>
+							<ColumnListItem>
+								<cells>
+									<Text text="{i18n>Participation$}"/>
+									<Text text="{LocalDataModel>/oRepairAmt}"/>
+									<Text text="{DataPercetCalculate>/CustomerParticipationAmt}"/>
+									<Text text="{DataPercetCalculate>/DealerParticipationAmt}"/>
+									<Text text="{DataPercetCalculate>/TCIParticipationAmt}"/>
+								</cells>
+							</ColumnListItem>
+						</items>
+					</Table>
+				</html:div>
+				<html:div >
+					<Button text="Re-calculate Claim Amount" visible="{LocalDataModel>/reCalculate}" enabled="{DateModel>/oFormEdit}" press="onPressRecalculate"
+						type="Emphasized"/>
+				</html:div>
+			</l:Grid>
 		</l:VerticalLayout>
-		
-		<table:Table id="idPercentTable" class="classRCPTable" selectionMode="Single" rows="{path:'LocalDataModel>/ClaimSumAuth'}" visibleRowCountMode="Auto"
-			rowSelectionChange="onNavigate" selectionBehavior="Row" showNoData="true" threshold="20" enableBusyIndicator="true">
+		<table:Table id="idPercentTable" class="classRCPTable" selectionMode="Single" rows="{path:'LocalDataModel>/ClaimSumAuth'}"
+			visibleRowCountMode="Auto" rowSelectionChange="onNavigate" selectionBehavior="Row" showNoData="true" threshold="20"
+			enableBusyIndicator="true">
 			<table:columns autoResizable="true">
 				<table:Column width="9rem">
 					<table:multiLabels>
