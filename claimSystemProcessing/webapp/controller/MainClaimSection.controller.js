@@ -796,7 +796,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/updateEnable", false);
 							this.getView().getModel("DateModel").setProperty("/copyClaimEnable", false);
 							this.getModel("LocalDataModel").setProperty("/CancelEnable", false);
-
+							this.getModel("LocalDataModel").setProperty("/PercentState", false);
 							this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
 							this.getView().getModel("DateModel").setProperty("/oDamageLineBtn", false);
 
@@ -812,6 +812,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/authRejClm", false);
 							this.getView().getModel("DateModel").setProperty("/damageLine", false);
 							this.getView().getModel("DateModel").setProperty("/oDamageLineBtn", false);
+							this.getModel("LocalDataModel").setProperty("/PercentState", false);
 						} else if (data.results[0].ProcessingStatusOfWarrantyClm == "ZTAA") {
 							this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
 							this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
@@ -824,6 +825,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/authRejClm", false);
 							this.getView().getModel("DateModel").setProperty("/copyClaimEnable", true);
 							this.getView().getModel("DateModel").setProperty("/oDamageLineBtn", false);
+							this.getModel("LocalDataModel").setProperty("/PercentState", false);
 							//if (oClaimSelectedGroup == "Authorization") {
 							//                         	this.getView().getModel("DateModel").setProperty("/copyClaimEnable", false);
 							//                     }else{
@@ -843,6 +845,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/authAcClm", true);
 							this.getView().getModel("DateModel").setProperty("/authRejClm", true);
 							this.getView().getModel("DateModel").setProperty("/claimEditSt", true);
+							this.getModel("LocalDataModel").setProperty("/PercentState", false);
 
 						} else if (data.results[0].ProcessingStatusOfWarrantyClm == "ZTMR") {
 							// 	//sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") == "Dealer_Services_Manager"
@@ -857,6 +860,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/authAcClm", false);
 							this.getView().getModel("DateModel").setProperty("/authRejClm", false);
 							this.getView().getModel("DateModel").setProperty("/claimEditSt", false);
+							this.getModel("LocalDataModel").setProperty("/PercentState", false);
 						} else {
 							this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
 							this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
@@ -869,6 +873,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/authRejClm", false);
 							this.getView().getModel("DateModel").setProperty("/damageLine", false);
 							this.getView().getModel("DateModel").setProperty("/oDamageLineBtn", false);
+							this.getModel("LocalDataModel").setProperty("/PercentState", false);
 
 						}
 
@@ -894,6 +899,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/authRejClm", false);
 							this.getView().getModel("DateModel").setProperty("/damageLine", true);
 							this.getView().getModel("DateModel").setProperty("/oDamageLineBtn", true);
+							this.getModel("LocalDataModel").setProperty("/PercentState", true);
 						} else if (data.results[0].ProcessingStatusOfWarrantyClm == "ZTRC" && oClaimNav != "Inq" && sap.ui.getCore().getModel(
 								"UserDataModel").getProperty("/LoggedInUser") != "Zone_User" &&
 							sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") != "TCI_Admin") {
@@ -910,6 +916,7 @@ sap.ui.define([
 							this.getModel("LocalDataModel").setProperty("/UploadEnable", true);
 							this.getView().getModel("DateModel").setProperty("/authAcClm", false);
 							this.getView().getModel("DateModel").setProperty("/authRejClm", false);
+							this.getModel("LocalDataModel").setProperty("/PercentState", true);
 
 						}
 
