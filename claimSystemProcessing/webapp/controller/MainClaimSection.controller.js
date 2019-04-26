@@ -4556,7 +4556,7 @@ sap.ui.define([
 			// table.setSelectedIndex(-1);
 		},
 		onPressSuggestLabour: function (oEvent) {
-			//var table = this.getView().byId("idLabourTable");
+
 			var oVin = this.getModel("LocalDataModel").getProperty("/ClaimDetails/ExternalObjectNumber");
 			//var oSelectedPart = oEvent.getSource().getParent().getCells()[2].getText();
 			var oOFP = this.getView().getModel("HeadSetData").getProperty("/OFP");
