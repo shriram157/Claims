@@ -648,6 +648,8 @@ sap.ui.define([
 			this.getView().byId("idClaimGroup").setSelectedKey("");
 			this.getView().byId("idClaimType").setSelectedKey("");
 			this.getView().byId("idClaimStatus").setSelectedItems("");
+			this.getView().byId("idSearchBy").setSelectedKey("");
+
 		},
 		onPressClaim: function (oEvent) {
 			var oClaimNum = oEvent.getSource().getText();
