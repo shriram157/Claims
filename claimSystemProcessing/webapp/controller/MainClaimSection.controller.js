@@ -401,6 +401,39 @@ sap.ui.define([
 
 						var oPartner = data.results[0].Partner;
 
+						if (data.results[0].AuthorizationNumber != "") {
+							oProssingModel.read("/zc_authorization_detailsSet", {
+								urlParameters: {
+									"$filter": "AuthorizationNumber eq '" + oClaim + "'"
+								},
+								success: $.proxy(function (oAuthData) {
+									this.getModel("LocalDataModel").setProperty("/DataAuthDetails", oAuthData.results[0]);
+								}, this)
+							});
+
+							oProssingModel.read("/zc_authorizationSet", {
+								urlParameters: {
+									"$filter": "DBOperation eq 'READ'and AuthorizationNumber eq '" + oClaim +
+										"'and DealerPer eq '00'and CustomerPer eq '00'and TCIPer eq '00'"
+								},
+								success: $.proxy(function (authData) {
+									this.getView().getModel("DataPercetCalculate").setData(data.results[0]);
+									var ocust = parseInt(authData.results[0].CustomerPer).toString();
+									var odeal = parseInt(authData.results[0].DealerPer).toString();
+									var otci = parseInt(authData.results[0].TCIPer).toString();
+									this.getView().getModel("DataPercetCalculate").setProperty("/CustomerPer", ocust);
+									this.getView().getModel("DataPercetCalculate").setProperty("/DealerPer", odeal);
+									this.getView().getModel("DataPercetCalculate").setProperty("/TCIPer", otci);
+								}, this)
+							});
+						} else {
+							this.getModel("LocalDataModel").setProperty("/DataAuthDetails", "");
+							this.getView().getModel("DataPercetCalculate").setData("");
+							this.getView().getModel("DataPercetCalculate").setProperty("/CustomerPer", "");
+							this.getView().getModel("DataPercetCalculate").setProperty("/DealerPer", "");
+							this.getView().getModel("DataPercetCalculate").setProperty("/TCIPer", "");
+						}
+
 						oBusinessModel.read("/A_BusinessPartner", {
 							urlParameters: {
 								"$filter": "BusinessPartner eq '" + oPartner + "'"
