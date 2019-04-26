@@ -132,9 +132,9 @@
 								<cells>
 									<Text text="{i18n>Participation$}"/>
 									<Text text="{LocalDataModel>/oRepairAmt}"/>
-									<Text text="{DataPercetCalculate>/CustomerParticipationAmt}"/>
-									<Text text="{DataPercetCalculate>/DealerParticipationAmt}"/>
-									<Text text="{DataPercetCalculate>/TCIParticipationAmt}"/>
+									<Text text="{DataPercetCalculate>/CustomerAmt}"/>
+									<Text text="{DataPercetCalculate>/DealerAmt}"/>
+									<Text text="{DataPercetCalculate>/TCIAmt}"/>
 								</cells>
 							</ColumnListItem>
 						</items>

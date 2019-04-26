@@ -91,7 +91,7 @@
 				<Label text="{i18n>DealerClaim}"/>
 				<Input
 					value="{path:'HeadSetData>/ExternalNumberOfClaim', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 40 } }"
-					required="true" id="idDealerClaim" editable="{DateModel>/oFormEdit}"/>
+					required="true" id="idDealerClaim" editable="{DateModel>/oFormEdit}" liveChange="onEnterDealerClaim"/>
 				<core:Title text=""/>
 				<Label text="{i18n>RepairDate}"/>
 				<!--<DatePicker class="clDatePicker" required="true" value="{path:'HeadSetData>/RepairDate',type : 'sap.ui.model.type.Date'}" editable="{DateModel>/oFormEdit}"/>-->

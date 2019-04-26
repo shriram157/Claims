@@ -413,11 +413,11 @@ sap.ui.define([
 
 							oProssingModel.read("/zc_authorizationSet", {
 								urlParameters: {
-									"$filter": "DBOperation eq 'READ'and AuthorizationNumber eq '" + oClaim +
+									"$filter": "DBOperation eq 'READ'and AuthorizationNumber eq '" + data.results[0].AuthorizationNumber +
 										"'and DealerPer eq '00'and CustomerPer eq '00'and TCIPer eq '00'"
 								},
 								success: $.proxy(function (authData) {
-									this.getView().getModel("DataPercetCalculate").setData(data.results[0]);
+									this.getView().getModel("DataPercetCalculate").setData(authData.results[0]);
 									var ocust = parseInt(authData.results[0].CustomerPer).toString();
 									var odeal = parseInt(authData.results[0].DealerPer).toString();
 									var otci = parseInt(authData.results[0].TCIPer).toString();
@@ -4390,6 +4390,21 @@ sap.ui.define([
 		// 	this.PartNum = obj.matnr;
 		// 	this.PartQt = obj.quant;
 		// },
+
+		onEnterDealerClaim: function (oEvent) {
+			var ODealer = oEvent.getSource().getValue();
+			if (ODealer.length > 40) {
+				this.getView().getModel("HeadSetData").setProperty("/ExternalNumberOfClaim", "");
+			}
+
+		},
+		onEnterRepairOrder: function (oEvent) {
+			var ODealer = oEvent.getSource().getValue();
+			if (ODealer.length > 10) {
+				this.getView().getModel("HeadSetData").setProperty("/ExternalNumberOfClaim", "");
+			}
+
+		},
 
 		onPressUpdatePart: function (oEvent) {
 			var oTable = this.getView().byId("idTableParts");
