@@ -3621,6 +3621,7 @@ sap.ui.define([
 									this.getModel("LocalDataModel").setProperty("/PercentState", false);
 									this.getModel("LocalDataModel").setProperty("/copyClaimAuthText", oBundle.getText("CopytoAuthorization"));
 									this.getModel("LocalDataModel").setProperty("/SaveAuthClaim", oBundle.getText("SaveClaim"));
+									this.getView().getModel("DateModel").setProperty("/updateEnable", true);
 								}, this)
 							});
 						}, this),
@@ -4401,7 +4402,7 @@ sap.ui.define([
 		onEnterRepairOrder: function (oEvent) {
 			var ODealer = oEvent.getSource().getValue();
 			if (ODealer.length > 10) {
-				this.getView().getModel("HeadSetData").setProperty("/ExternalNumberOfClaim", "");
+				this.getView().getModel("HeadSetData").setProperty("/RepairOrderNumberExternal", "");
 			}
 
 		},
