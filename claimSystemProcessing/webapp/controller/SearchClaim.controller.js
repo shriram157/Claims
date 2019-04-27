@@ -157,8 +157,8 @@ sap.ui.define([
 						/*Uncomment for security*/
 						break;
 					default:
-						console.log("Dealer Parts");
-						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ManageAllParts");
+						//	console.log("Dealer Parts");
+						//	sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ManageAllParts");
 						/*Uncomment for security*/
 						that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", true);
 						that.getView().getModel("HeaderLinksModel").setProperty("/ViewUpdateClaims", true);
@@ -648,6 +648,8 @@ sap.ui.define([
 			this.getView().byId("idClaimGroup").setSelectedKey("");
 			this.getView().byId("idClaimType").setSelectedKey("");
 			this.getView().byId("idClaimStatus").setSelectedItems("");
+			this.getView().byId("idSearchBy").setSelectedKey("");
+
 		},
 		onPressClaim: function (oEvent) {
 			var oClaimNum = oEvent.getSource().getText();
