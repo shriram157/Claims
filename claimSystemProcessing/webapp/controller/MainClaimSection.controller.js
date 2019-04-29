@@ -3686,7 +3686,7 @@ sap.ui.define([
 									this.getView().getModel("DateModel").setProperty("/damageLine", true);
 									this.getView().getModel("DateModel").setProperty("/oDamageLineBtn", true);
 									this.getModel("LocalDataModel").setProperty("/PercentState", true);
-
+									this._fnClaimSum();
 									this.getView().getModel("DateModel").setProperty("/updateEnable", true);
 								}, this)
 							});
