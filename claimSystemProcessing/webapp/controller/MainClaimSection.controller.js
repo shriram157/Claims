@@ -439,7 +439,8 @@ sap.ui.define([
 
 						oProssingModel.read("/ZC_CLAIM_SUBLET_CODE", {
 							urlParameters: {
-								"$filter": "Clmty eq '" + data.results[0].WarrantyClaimType + "'"
+								"$filter": "Clmty eq '" + data.results[0].WarrantyClaimType + "'and LanguageKey eq '" + sSelectedLocale.toUpperCase() +
+									"'"
 							},
 							success: $.proxy(function (subData) {
 								this.getModel("LocalDataModel").setProperty("/ClaimSubletCodeModel", subData.results);
@@ -2177,6 +2178,15 @@ sap.ui.define([
 			var oValid02 = oValidator.validate(this.getView().byId("idpart01Form"));
 			oValidator.validate(!(this.getView().byId("id_Date")));
 
+			var sSelectedLocale;
+			//  get the locale to determine the language.
+			var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
+			if (isLocaleSent) {
+				sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
+			} else {
+				sSelectedLocale = "en"; // default is english
+			}
+
 			// 	if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == undefined) {
 			// 	this.getView().byId("idMainClaimMessage").setProperty("visible", true);
 			// 	this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
@@ -2539,7 +2549,8 @@ sap.ui.define([
 
 								oClaimModel.read("/ZC_CLAIM_SUBLET_CODE", {
 									urlParameters: {
-										"$filter": "Clmty eq '" + sdata.results[0].WarrantyClaimType + "'"
+										"$filter": "Clmty eq '" + sdata.results[0].WarrantyClaimType + "'and LanguageKey eq '" + sSelectedLocale.toUpperCase() +
+											"'"
 									},
 									success: $.proxy(function (subData) {
 										this.getModel("LocalDataModel").setProperty("/ClaimSubletCodeModel", subData.results);
@@ -4424,13 +4435,31 @@ sap.ui.define([
 		onEnterDealerClaim: function (oEvent) {
 			var ODealer = oEvent.getSource().getValue();
 			if (ODealer.length > 40) {
+
+				this.getView().byId("idDealerClaim").setValue("");
 				this.getView().getModel("HeadSetData").setProperty("/ExternalNumberOfClaim", "");
 			}
 
 		},
+		onEnterOFP: function (oEvent) {
+			var ODealer = oEvent.getSource().getValue();
+			if (ODealer.length > 40) {
+				this.getView().byId("idOFP").setValue("");
+				this.getView().getModel("HeadSetData").setProperty("/OFP", "");
+			}
+
+		},
+		onEnterMainOps: function (oEvent) {
+			var ODealer = oEvent.getSource().getValue();
+			if (ODealer.length > 9) {
+				this.getView().byId("idMainOps").setValue("");
+				this.getView().getModel("HeadSetData").setProperty("/MainOpsCode", "");
+			}
+		},
 		onEnterRepairOrder: function (oEvent) {
 			var ODealer = oEvent.getSource().getValue();
 			if (ODealer.length > 10) {
+				this.getView().byId("idRepairOrder").setValue("");
 				this.getView().getModel("HeadSetData").setProperty("/RepairOrderNumberExternal", "");
 			}
 

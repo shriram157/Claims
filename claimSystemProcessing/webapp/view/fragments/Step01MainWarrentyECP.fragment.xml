@@ -304,7 +304,7 @@
 					<cells>
 						<Link text="{LocalDataModel>AgreementNumber}" press="onPressAgreement"/>
 						<Text text="{LocalDataModel>PlanType}" wrapping="true"/>
-						<Text text="{LocalDataModel>bcc_agr_st_cd}" wrapping="true"/>
+						<Text text="{LocalDataModel>AgreementStatus}" wrapping="true"/>
 						<Text
 							text="{path:'LocalDataModel>StatusDate', type: 'sap.ui.model.type.Date', constraints: { displayFormat: 'Date' }, formatOptions: { style: 'medium', strictParsing: true , UTC: true}}"
 							wrapping="true"/>
@@ -345,10 +345,10 @@
 					<core:Title text=""/>
 					<Label text="{i18n>OFP}"/>
 					<Input id="idOFP" required="{DateModel>/ofpRequired}" value="{path:'HeadSetData>/OFP'}" editable="{DateModel>/oFormEdit}"
-						enabled="{DateModel>/ofpEnabled}"/>
+						enabled="{DateModel>/ofpEnabled}" liveChange="onEnterOFP"/>
 					<Label text="{i18n>MainOp}"/>
 					<Input id="idMainOps" value="{path:'HeadSetData>/MainOpsCode'}" required="{DateModel>/oMainOpsReq}" editable="{DateModel>/oFormEdit}"
-						visible="{DateModel>/oMainOps}"/>
+						visible="{DateModel>/oMainOps}" liveChange="onEnterMainOps"/>
 					<Label text="{i18n>BatteryTestCode}"/>
 					<Input value="{HeadSetData>/BatteryTestCode}" editable="{DateModel>/oFormEdit}" enabled="{DateModel>/oBatteryTestEnable}"/>
 					<Label text="{i18n>Condition}"/>

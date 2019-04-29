@@ -123,7 +123,7 @@
 											<cells>
 												<Text text="{LocalDataModel>AgreementNumber}" wrapping="true"/>
 												<Text text="{LocalDataModel>PlanType}" wrapping="true"/>
-												<Text text="{LocalDataModel>bcc_agr_st_cd}" wrapping="true"/>
+												<Text text="{LocalDataModel>AgreementStatus}" wrapping="true"/>
 												<Text
 													text="{path:'LocalDataModel>StatusDate', type: 'sap.ui.model.type.Date', constraints: { displayFormat: 'Date' }, formatOptions: { style: 'medium', strictParsing: true , UTC: true}}"
 													wrapping="true"/>
