@@ -962,9 +962,21 @@ sap.ui.define([
 					MessageBox.show(this.oBundle.getText("ShortageWarning"), MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK,
 						null, null);
 				}
+			} else if (this.getView().getModel("PartDataModel").getProperty("/ALMDiscreCode") == "PTSA") {
+				if (this.getView().getModel("PartDataModel").getProperty("/quant") <= liveQty.getParameters().newValue) {
+					this.youCanAddPartItem = false;
+					MessageBox.show(this.oBundle.getText("ShortageWarning"), MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK,
+						null, null);
+				}
 			}
 
 			if (this.getView().getModel("PartDataModel").getProperty("/DiscreCode") == "3A") {
+				if (this.getView().getModel("PartDataModel").getProperty("/quant") >= liveQty.getParameters().newValue) {
+					this.youCanAddPartItem = false;
+					MessageBox.show(this.oBundle.getText("OverageWarning"), MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK,
+						null, null);
+				}
+			} else if (this.getView().getModel("PartDataModel").getProperty("/ALMDiscreCode") == "PTOA") {
 				if (this.getView().getModel("PartDataModel").getProperty("/quant") >= liveQty.getParameters().newValue) {
 					this.youCanAddPartItem = false;
 					MessageBox.show(this.oBundle.getText("OverageWarning"), MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK,
@@ -1495,7 +1507,7 @@ sap.ui.define([
 			// }
 
 			// this._oPopover.openBy(oEvent.getSource());
-			
+
 		},
 		// pressCloseAttachment: function (oEvent) {
 		// 	this._oPopover.close();
@@ -3097,6 +3109,7 @@ sap.ui.define([
 			dialog.open();
 		},
 		onSubmitTci: function (oEvent) {
+
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var oClaimModel = this.getModel("ProssingModel");
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
@@ -3145,43 +3158,50 @@ sap.ui.define([
 					new Button({
 						text: "Yes",
 						press: $.proxy(function () {
-							oClaimModel.refreshSecurityToken();
-							oClaimModel.create("/zc_headSet", this.obj, {
-								success: $.proxy(function (data, response) {
-									this.getModel("LocalDataModel").setProperty("/oErrorSet", response.data.zc_claim_vsrSet.results);
-									this.obj.zc_claim_vsrSet.results.pop(oObj);
-									if (response.data.zc_claim_vsrSet.results.length <= 0) {
-										this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
-										this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
-										MessageToast.show(oBundle.getText("ClaimNumber") + " " + oClaimNum + " " + oBundle.getText(
-											"successfullysubmittedTCI"), {
-											my: "center center",
-											at: "center center"
-										});
-										// MessageToast.show("Claim Number " + oClaimNum + " successfully submitted to TCI.");
-										this.getView().byId("idFilter04").setProperty("enabled", true);
-									} else {
-										this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
-										MessageToast.show(
-											oBundle.getText("ClaimNumber") + " " + oClaimNum + " " + oBundle.getText("RejectedTCIValidationResultsdetails"), {
+							if (that.getView().getModel("DateModel").getProperty("/oLetterOfIntent") == true) {
+								dialog.close();
+								// var msg = oBundle.getText("LOIMandatoryBeforeTCISubmit");
+								MessageBox.show(oBundle.getText("LOIMandatoryBeforeTCISubmit"), MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
+							} else {
+								oClaimModel.refreshSecurityToken();
+								oClaimModel.create("/zc_headSet", this.obj, {
+									success: $.proxy(function (data, response) {
+										this.getModel("LocalDataModel").setProperty("/oErrorSet", response.data.zc_claim_vsrSet.results);
+										this.obj.zc_claim_vsrSet.results.pop(oObj);
+										if (response.data.zc_claim_vsrSet.results.length <= 0) {
+											this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
+											this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
+											this.getView().getModel("DateModel").setProperty("/submitTCIBtn", false);
+											MessageToast.show(oBundle.getText("ClaimNumber") + " " + oClaimNum + " " + oBundle.getText(
+												"successfullysubmittedTCI"), {
 												my: "center center",
 												at: "center center"
 											});
-										// MessageToast.show(
-										// 	"Claim Number " + oClaimNum + " was Rejected by TCI, please see Validation Results for more details.");
+											// MessageToast.show("Claim Number " + oClaimNum + " successfully submitted to TCI.");
+											this.getView().byId("idFilter04").setProperty("enabled", true);
+										} else {
+											this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
+											MessageToast.show(
+												oBundle.getText("ClaimNumber") + " " + oClaimNum + " " + oBundle.getText("RejectedTCIValidationResultsdetails"), {
+													my: "center center",
+													at: "center center"
+												});
+											// MessageToast.show(
+											// 	"Claim Number " + oClaimNum + " was Rejected by TCI, please see Validation Results for more details.");
+										}
+										dialog.close();
+									}, this),
+									error: function (err) {
+										dialog.close();
+										console.log("Error in submitting claim to TCI", err);
+										this.getView().byId("idFilter04").setProperty("enabled", false);
+										this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
+										var err = JSON.parse(err.responseText);
+										var msg = err.error.message.value;
+										MessageBox.show(msg, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
 									}
-									dialog.close();
-								}, this),
-								error: function (err) {
-									dialog.close();
-									console.log("Error in submitting claim to TCI", err);
-									this.getView().byId("idFilter04").setProperty("enabled", false);
-									this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
-									var err = JSON.parse(err.responseText);
-									var msg = err.error.message.value;
-									MessageBox.show(msg, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
-								}
-							});
+								});
+							}
 
 						}, this)
 					}),
