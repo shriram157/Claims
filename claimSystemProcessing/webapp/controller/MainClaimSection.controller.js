@@ -2100,6 +2100,20 @@ sap.ui.define([
 			}
 
 		},
+		onPressAgreement: function () {
+			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
+			var isProxy = "";
+			if (window.document.domain == "localhost") {
+				isProxy = "proxy";
+			}
+			var w = window.open(
+				"https://tci-dev-ecpsales.cfapps.us10.hana.ondemand.com/ecpsales/index.html?Division=20&Language=en#/AgreementInquiry/F100162NTC04",
+				'_blank');
+			if (w == null) {
+				console.log("Error");
+				//MessageBox.warning(oBundle.getText("Error.PopUpBloqued"));
+			}
+		},
 
 		onPressLookUpECP: function () {
 			var oAgreement = this.getView().getModel("HeadSetData").getProperty("/AgreementNumber");

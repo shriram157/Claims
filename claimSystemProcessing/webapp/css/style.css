@@ -144,16 +144,26 @@
     height: 0!important;
 }
 
+
 /*#__page0-cont {*/
+
+
 /*    height: auto!important;*/
+
+
 /*}*/
 
-/*#ObjectPageLayout h5.sapUiFormTitleH5 {*/
-/*    height: 0!important;*/
-/*}*/
+#ObjectPageLayout h5.sapUiFormTitleH5 {
+    height: 0!important;
+}
+
 
 /*div#__xmlview1 {*/
+
+
 /*    top: 3rem!important;*/
+
+
 /*}*/
 
 
