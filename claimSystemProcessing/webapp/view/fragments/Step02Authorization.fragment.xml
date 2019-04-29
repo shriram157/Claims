@@ -116,7 +116,7 @@
 								<cells>
 									<Text text="{i18n>Participation%}"/>
 									<Text text=""/>
-									<Select items="{LocalDataModel>/DataPercent}" enabled="{LocalDataModel>/PercentState}"
+									<Select change="onChangeCustomerPer" items="{LocalDataModel>/DataPercent}" enabled="{LocalDataModel>/PercentState}"
 										selectedKey="{path:'DataPercetCalculate>/CustomerPer'}">
 										<core:Item key="{LocalDataModel>okey}" text="{LocalDataModel>num}"/>
 									</Select>

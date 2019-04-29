@@ -268,7 +268,11 @@ sap.ui.define([
 			this.getModel("LocalDataModel").setProperty("/VehicleMonths", "");
 			this.getModel("LocalDataModel").setProperty("/selectedVehicle", "");
 			this.getModel("LocalDataModel").setProperty("/DataAuthDetails", "");
-			this.getView().getModel("DataPercetCalculate").setData("");
+			this.getView().getModel("DataPercetCalculate").setProperty("/CustomerAmt", "");
+			this.getView().getModel("DataPercetCalculate").setProperty("/DealerAmt", "");
+			this.getView().getModel("DataPercetCalculate").setProperty("/TCIAmt", "");
+			this.getView().getModel("DataPercetCalculate").setProperty("/AuthorizationNumber", "");
+
 			this.getView().getModel("DataPercetCalculate").setProperty("/CustomerPer", "");
 			this.getView().getModel("DataPercetCalculate").setProperty("/DealerPer", "");
 			this.getView().getModel("DataPercetCalculate").setProperty("/TCIPer", "");
@@ -2156,6 +2160,9 @@ sap.ui.define([
 			} else {
 				//this.getView().getModel("HeadSetData").setProperty("/Odometer", oOdoVal);
 			}
+		},
+		onChangeCustomerPer: function (oEvent) {
+			console.log(oEvent);
 		},
 
 		_fnDateFormat: function (elm) {
