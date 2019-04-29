@@ -101,7 +101,7 @@
 				<!--constraints: { displayFormat: 'Date' }-->
 				<Label text="{i18n>DealerContact}"/>
 				<Input required="{DateModel>/oDealerContactReq}" value="{path:'HeadSetData>/DealerContact'}" id="idDealerContact"
-					editable="{DateModel>/oFormEdit}" enabled="{DateModel>/oDealerContactReq}"/>
+					editable="{DateModel>/oFormEdit}" enabled="{DateModel>/oDealerContactReq}" liveChange="onEnterDealerContact"/>
 				<core:Title text=""/>
 				<Label text="{i18n>RepairOrder}"/>
 				<Input required="true" liveChange="onEnterRepairOrder"
@@ -350,9 +350,10 @@
 					<Input id="idMainOps" value="{path:'HeadSetData>/MainOpsCode'}" required="{DateModel>/oMainOpsReq}" editable="{DateModel>/oFormEdit}"
 						visible="{DateModel>/oMainOps}" liveChange="onEnterMainOps"/>
 					<Label text="{i18n>BatteryTestCode}"/>
-					<Input value="{HeadSetData>/BatteryTestCode}" editable="{DateModel>/oFormEdit}" enabled="{DateModel>/oBatteryTestEnable}"/>
+					<Input id="idBattTestCOde" value="{HeadSetData>/BatteryTestCode}" liveChange="onEnterBatteryTestCode" editable="{DateModel>/oFormEdit}"
+						enabled="{DateModel>/oBatteryTestEnable}"/>
 					<Label text="{i18n>Condition}"/>
-					<TextArea required="true" editable="{DateModel>/oFormEdit}"
+					<TextArea required="true" id="idCondition" editable="{DateModel>/oFormEdit}" liveChange="onEnterCondition"
 						value="{path:'HeadSetData>/ZCondition', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 100 }}"></TextArea>
 					<Label text=""/>
 					<Link text="{i18n>ViewCCRAbbreviations}" press="onPressAbbr"/>
@@ -363,9 +364,9 @@
 					<Text text="{path:'LocalDataModel>/MainOpsCodeDescription'}" visible="{DateModel>/oMainOps}"/>
 					<Label text="{i18n>FieldActionCode}"/>
 					<Input id="idFieldActionInput" required="{path:'DateModel>/oFieldActionInput'}" value="{path:'HeadSetData>/FieldActionReference'}"
-						editable="{DateModel>/oFormEdit}" enabled="{DateModel>/oFieldActionInput}" change="onFieldActionInput"/>
+						editable="{DateModel>/oFormEdit}" enabled="{DateModel>/oFieldActionInput}" liveChange="onFieldActionInput"/>
 					<Label text="{i18n>Cause}"/>
-					<TextArea required="true" editable="{DateModel>/oFormEdit}"
+					<TextArea required="true" editable="{DateModel>/oFormEdit}" liveChange="onEnterCause" id="idCause"
 						value="{path:'HeadSetData>/Cause',type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 100 }}"></TextArea>
 					<core:Title text=""/>
 					<Label text="{i18n>AppliedCoverage}"/>
@@ -387,7 +388,7 @@
 					<!--	<core:Item key="{T2}" text="{T2} - {T2Text}"/>-->
 					<!--</Select>-->
 					<Label text="{i18n>Remedy}"/>
-					<TextArea required="true" editable="{DateModel>/oFormEdit}"
+					<TextArea id="idRemedy" required="true" editable="{DateModel>/oFormEdit}" liveChange="onEnterRemedy"
 						value="{path:'HeadSetData>/Remedy', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 100 }}"></TextArea>
 				</f:content>
 			</f:SimpleForm>

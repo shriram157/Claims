@@ -268,6 +268,7 @@ sap.ui.define([
 			this.getModel("LocalDataModel").setProperty("/VehicleMonths", "");
 			this.getModel("LocalDataModel").setProperty("/selectedVehicle", "");
 			this.getModel("LocalDataModel").setProperty("/DataAuthDetails", "");
+			this.getView().getModel("DataPercetCalculate").setData("");
 			this.getView().getModel("DataPercetCalculate").setProperty("/CustomerPer", "");
 			this.getView().getModel("DataPercetCalculate").setProperty("/DealerPer", "");
 			this.getView().getModel("DataPercetCalculate").setProperty("/TCIPer", "");
@@ -3547,12 +3548,6 @@ sap.ui.define([
 		// 	return sText;
 		// },
 
-		onFieldActionInput: function (oEvent) {
-			var FieldAction = oEvent.getParameters().value.toUpperCase();
-
-			this.getView().getModel("HeadSetData").setProperty("/FieldActionReference", FieldAction);
-		},
-
 		onPressTCIQty: function () {
 			var oDialogBox = sap.ui.xmlfragment("zclaimProcessing.view.fragments.ViewRejectionCode", this);
 			this.getView().addDependent(oDialogBox);
@@ -4463,6 +4458,54 @@ sap.ui.define([
 				this.getView().getModel("HeadSetData").setProperty("/RepairOrderNumberExternal", "");
 			}
 
+		},
+		onEnterBatteryTestCode: function (oEvent) {
+			var ODealer = oEvent.getSource().getValue();
+			if (ODealer.length > 14) {
+				this.getView().byId("idBattTestCOde").setValue("");
+				this.getView().getModel("HeadSetData").setProperty("/BatteryTestCode", "");
+			}
+		},
+		onEnterDealerContact: function (oEvent) {
+			var ODealer = oEvent.getSource().getValue();
+			if (ODealer.length > 30) {
+				this.getView().byId("idDealerContact").setValue("");
+				this.getView().getModel("HeadSetData").setProperty("/DealerContact", "");
+			}
+		},
+		onFieldActionInput: function (oEvent) {
+			var FieldAction = oEvent.getParameters().value.toUpperCase();
+			var ODealer = oEvent.getSource().getValue().toUpperCase();
+
+			if (ODealer.length > 10) {
+				this.getView().byId("idFieldActionInput").setValue("");
+				this.getView().getModel("HeadSetData").setProperty("/FieldActionReference", "");
+			} else {
+				this.getView().getModel("HeadSetData").setProperty("/FieldActionReference", ODealer);
+			}
+			//this.getView().getModel("HeadSetData").setProperty("/FieldActionReference", FieldAction);
+		},
+
+		onEnterRemedy: function (oEvent) {
+			var ODealer = oEvent.getSource().getValue();
+			if (ODealer.length > 100) {
+				this.getView().byId("idRemedy").setValue("");
+				this.getView().getModel("HeadSetData").setProperty("/Remedy", "");
+			}
+		},
+		onEnterCause: function (oEvent) {
+			var ODealer = oEvent.getSource().getValue();
+			if (ODealer.length > 100) {
+				this.getView().byId("idCause").setValue("");
+				this.getView().getModel("HeadSetData").setProperty("/Cause", "");
+			}
+		},
+		onEnterCondition: function (oEvent) {
+			var ODealer = oEvent.getSource().getValue();
+			if (ODealer.length > 100) {
+				this.getView().byId("idCondition").setValue("");
+				this.getView().getModel("HeadSetData").setProperty("/ZCondition", "");
+			}
 		},
 
 		onPressUpdatePart: function (oEvent) {
