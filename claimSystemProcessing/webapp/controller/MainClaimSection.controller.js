@@ -2100,14 +2100,28 @@ sap.ui.define([
 			}
 
 		},
-		onPressAgreement: function () {
+		onPressAgreement: function (oEvent) {
+			var oECPAgr = oEvent.getSource().getText();
+			var sSelectedLocale;
+			//  get the locale to determine the language.
+			var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
+			if (isLocaleSent) {
+				sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
+			} else {
+				sSelectedLocale = "en"; // default is english
+			}
+			var sDivision = window.location.search.match(/Division=([^&]*)/i)[1];
+
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			var isProxy = "";
+			var oWindowLocation = window.location.href.substr(0, 16);
 			if (window.document.domain == "localhost") {
 				isProxy = "proxy";
 			}
 			var w = window.open(
-				"https://tci-dev-ecpsales.cfapps.us10.hana.ondemand.com/ecpsales/index.html?Division=20&Language=en#/AgreementInquiry/F100162NTC04",
+				"" + oWindowLocation + "ecpsales.cfapps.us10.hana.ondemand.com/ecpsales/index.html?Division=" + sDivision + "&Language=" +
+				sSelectedLocale +
+				"#/AgreementInquiry/" + oECPAgr + "",
 				'_blank');
 			if (w == null) {
 				console.log("Error");
