@@ -426,12 +426,6 @@ sap.ui.define([
 									this.getView().getModel("DataPercetCalculate").setProperty("/TCIPer", otci);
 								}, this)
 							});
-						} else {
-							this.getModel("LocalDataModel").setProperty("/DataAuthDetails", "");
-							this.getView().getModel("DataPercetCalculate").setData("");
-							this.getView().getModel("DataPercetCalculate").setProperty("/CustomerPer", "");
-							this.getView().getModel("DataPercetCalculate").setProperty("/DealerPer", "");
-							this.getView().getModel("DataPercetCalculate").setProperty("/TCIPer", "");
 						}
 
 						oBusinessModel.read("/A_BusinessPartner", {
