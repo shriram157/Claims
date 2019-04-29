@@ -3088,6 +3088,16 @@ sap.ui.define([
 									at: "center center"
 								});
 								this.getModel("LocalDataModel").setProperty("/CancelEnable", true);
+								oClaimModel.read("/ZC_CLAIM_HEAD_NEW", {
+									urlParameters: {
+										"$filter": "NumberOfWarrantyClaim eq '" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") +
+											"'"
+									},
+									success: $.proxy(function (sdata) {
+										this.getView().getModel("HeadSetData").setData(sdata.results[0]);
+									}, this)
+								});
+
 							}, this),
 							error: function () {
 
@@ -3660,9 +3670,23 @@ sap.ui.define([
 
 									this.getModel("LocalDataModel").setProperty("/linkToAuth", true);
 									this.getModel("LocalDataModel").setProperty("/reCalculate", false);
-									this.getModel("LocalDataModel").setProperty("/PercentState", false);
+									//this.getModel("LocalDataModel").setProperty("/PercentState", false);
 									this.getModel("LocalDataModel").setProperty("/copyClaimAuthText", oBundle.getText("CopytoAuthorization"));
 									this.getModel("LocalDataModel").setProperty("/SaveAuthClaim", oBundle.getText("SaveClaim"));
+
+									this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
+									this.getView().getModel("DateModel").setProperty("/SaveClaim07", true);
+									this.getModel("LocalDataModel").setProperty("/CancelEnable", true);
+									this.getView().getModel("DateModel").setProperty("/claimEditSt", false);
+									this.getView().getModel("DateModel").setProperty("/updateEnable", true);
+									//this.getView().getModel("DateModel").setProperty("/copyClaimEnable", true);
+									this.getModel("LocalDataModel").setProperty("/UploadEnable", true);
+									this.getView().getModel("DateModel").setProperty("/authAcClm", false);
+									this.getView().getModel("DateModel").setProperty("/authRejClm", false);
+									this.getView().getModel("DateModel").setProperty("/damageLine", true);
+									this.getView().getModel("DateModel").setProperty("/oDamageLineBtn", true);
+									this.getModel("LocalDataModel").setProperty("/PercentState", true);
+
 									this.getView().getModel("DateModel").setProperty("/updateEnable", true);
 								}, this)
 							});
@@ -3752,6 +3776,7 @@ sap.ui.define([
 					this.getView().getModel("DataPercetCalculate").setProperty("/DealerPer", odeal);
 					this.getView().getModel("DataPercetCalculate").setProperty("/TCIPer", otci);
 					this.getView().getModel("DataPercetCalculate").setProperty("/AuthorizationNumber", "");
+					this._fnClaimSum();
 
 					if (data.results[0].Message != "") {
 						MessageToast.show(data.results[0].Message, {

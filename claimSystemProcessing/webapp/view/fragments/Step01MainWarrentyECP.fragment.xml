@@ -424,8 +424,7 @@
 					editable="{DateModel>/oFormEdit}"/>
 				<core:Title text=""/>
 				<Label text="{i18n>ROOdometer}"/>
-				<custom:CustomInput visible="{DateModel>/PreroOdometerVisible}" value="{path:'HeadSetData>/PreviousROOdometer'}"
-					editable="{DateModel>/oFormEdit}"/>
+				<Input visible="{DateModel>/PreroOdometerVisible}" value="{path:'HeadSetData>/PreviousROOdometer'}" editable="{DateModel>/oFormEdit}"/>
 			</f:content>
 		</f:SimpleForm>
 		<f:SimpleForm editable="{DateModel>/oFormEdit}" title="{i18n>ClaimComments}" layout="ResponsiveGridLayout" labelSpanXL="3" labelSpanL="3"
