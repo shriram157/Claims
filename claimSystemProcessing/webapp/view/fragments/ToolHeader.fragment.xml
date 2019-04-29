@@ -1,30 +1,11 @@
-<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:l="sap.ui.layout" xmlns="sap.m" xmlns:tnt="sap.tnt">
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns:l="sap.ui.layout" xmlns="sap.m" xmlns:tnt="sap.tnt">
 	<tnt:ToolHeader>
-		<Button text="{i18n>NewClaim}" press="handleNavHeaderPress" type="Transparent" visible="{HeaderLinksModel>/NewClaim}">
-			<layoutData>
-				<OverflowToolbarLayoutData priority="High"/>
-			</layoutData>
-		</Button>
-		<Button text="{i18n>ViewUpdateClaims}" press="handleNavHeaderPress" type="Transparent" visible="{HeaderLinksModel>/ViewUpdateClaims}">
-			<layoutData>
-				<OverflowToolbarLayoutData priority="High"/>
-			</layoutData>
-		</Button>
-		<Button text="{i18n>QuickCoverageTool}" press="handleNavHeaderPress" type="Transparent" visible="{HeaderLinksModel>/QuickCoverageTool}">
-			<layoutData>
-				<OverflowToolbarLayoutData priority="High"/>
-			</layoutData>
-		</Button>
-		<Button text="{i18n>ClaimInquiry}" press="handleNavHeaderPress" type="Transparent" visible="{HeaderLinksModel>/ClaimInquiry}">
-			<layoutData>
-				<OverflowToolbarLayoutData priority="High"/>
-			</layoutData>
-		</Button>
-		<Button text="{i18n>DealerLabourRateInquiry}" press="handleNavHeaderPress" type="Transparent" visible="{HeaderLinksModel>/DealerLabourRateInquiry}">
-			<layoutData>
-				<OverflowToolbarLayoutData priority="High"/>
-			</layoutData>
-		</Button>
+		<Button text="{i18n>NewClaim}" press="handleNavHeaderPress" type="Transparent" visible="{HeaderLinksModel>/NewClaim}"></Button>
+		<Button text="{i18n>ViewUpdateClaims}" press="handleNavHeaderPress" type="Transparent" visible="{HeaderLinksModel>/ViewUpdateClaims}"></Button>
+		<Button text="{i18n>QuickCoverageTool}" press="handleNavHeaderPress" type="Transparent" visible="{HeaderLinksModel>/QuickCoverageTool}"></Button>
+		<Button text="{i18n>ClaimInquiry}" press="handleNavHeaderPress" type="Transparent" visible="{HeaderLinksModel>/ClaimInquiry}"></Button>
+		<Button text="{i18n>DealerLabourRateInquiry}" press="handleNavHeaderPress" type="Transparent"
+			visible="{HeaderLinksModel>/DealerLabourRateInquiry}"></Button>
 		<tnt:ToolHeaderUtilitySeparator/>
 	</tnt:ToolHeader>
 </core:FragmentDefinition>

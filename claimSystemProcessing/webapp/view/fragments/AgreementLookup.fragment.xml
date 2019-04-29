@@ -8,7 +8,7 @@
 				<!--		<FlexItemData growFactor="1"/>-->
 				<!--	</core:layoutData>-->
 				<!--</core:Icon>-->
-				<Button text="Close" press="onCloseLoop"/>
+				<Button text="{i18n>Close}" press="onCloseLoop"/>
 			</OverflowToolbar>
 			<f:SimpleForm editable="true" class="clShipmentInfo" title="{i18n>ShipmentInformation}" layout="ResponsiveGridLayout" labelSpanXL="3"
 				labelSpanL="3" labelSpanM="3" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"

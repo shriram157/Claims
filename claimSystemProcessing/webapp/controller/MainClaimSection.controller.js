@@ -369,9 +369,9 @@ sap.ui.define([
 					this.getModel("LocalDataModel").setProperty("/copyClaimAuthText", oBundle.getText("CopytoAuthorization"));
 					this.getModel("LocalDataModel").setProperty("/SaveAuthClaim", oBundle.getText("SaveClaim"));
 					this.getModel("LocalDataModel").setProperty("/WarrantyClaimNumber", oBundle.getText("TCIClaimNumber") + " : " + oClaim);
-					this.getView().getModel("DataPercetCalculate").setProperty("/CustomerPer", "");
-					this.getView().getModel("DataPercetCalculate").setProperty("/DealerPer", "");
-					this.getView().getModel("DataPercetCalculate").setProperty("/TCIPer", "");
+					// 	this.getView().getModel("DataPercetCalculate").setProperty("/CustomerPer", "");
+					// 	this.getView().getModel("DataPercetCalculate").setProperty("/DealerPer", "");
+					// 	this.getView().getModel("DataPercetCalculate").setProperty("/TCIPer", "");
 				}
 
 				this.getModel("LocalDataModel").setProperty("/WarrantyClaimNum", oClaim);
@@ -4330,7 +4330,7 @@ sap.ui.define([
 			}
 
 			if (oArrNew > 0) {
-				MessageToast.show("Material already exists", {
+				MessageToast.show(oBundle.getText("Materialalreadyexists"), {
 					my: "center center",
 					at: "center center"
 				});

@@ -5,8 +5,7 @@
 				<headerToolbar >
 					<OverflowToolbar>
 						<ToolbarSpacer/>
-						
-						<Button class="sapUiSmallMarginBeginEnd" type="Reject" text="Close" press="onCloseLabour"/>
+						<Button class="sapUiSmallMarginBeginEnd" type="Reject" text="{i18n>Close}" press="onCloseLabour"/>
 					</OverflowToolbar>
 				</headerToolbar>
 				<columns>
@@ -25,7 +24,6 @@
 					<cells>
 						<Text text="{ccrModel>name}"/>
 						<Text text="{ccrModel>description}"/>
-						
 					</cells>
 				</ColumnListItem>
 			</Table>
