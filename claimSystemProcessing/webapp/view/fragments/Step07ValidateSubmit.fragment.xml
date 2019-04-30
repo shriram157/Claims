@@ -136,7 +136,7 @@
 				</table:Column>
 				<table:Column width="17rem">
 					<table:multiLabels>
-						<Label text="{i18n>TCIApprovedAmountIncludingTax}" textAlign="Center" width="100%"/>
+						<Label text="{i18n>TCIApprovedAmountIncludingTax}" textAlign="Center"/>
 					</table:multiLabels>
 					<table:template>
 						<Text text="${path:'LocalDataModel>TCIApprInclTax', formatter:'zclaimProcessing.utils.formatter.fnFormatDecimal'}" wrapping="false"/>

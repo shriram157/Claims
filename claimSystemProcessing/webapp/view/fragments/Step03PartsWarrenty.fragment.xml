@@ -56,8 +56,9 @@
 				</f:content>
 			</f:SimpleForm>
 		</Panel>
-		<f:SimpleForm editable="true" class=" sapUiTinyMarginBottom" layout="ResponsiveGridLayout" title="{i18n>PartsDetails}" labelSpanXL="7" labelSpanL="7"
-			labelSpanM="12" labelSpanS="12" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="6" columnsL="6" columnsM="6">
+		<f:SimpleForm editable="true" class=" sapUiTinyMarginBottom" layout="ResponsiveGridLayout" title="{i18n>PartsDetails}" labelSpanXL="7"
+			labelSpanL="7" labelSpanM="12" labelSpanS="12" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="6" columnsL="6"
+			columnsM="6">
 			<f:content>
 				<core:Title text=""/>
 				<Button text="{i18n>AddPartLine}" visible="{DateModel>/oAddPartLine}" press="onPressAddPart" enabled="{DateModel>/oFormEdit}"/>
@@ -123,64 +124,58 @@
 		<Table id="idTableParts" mode="SingleSelectLeft" items="{path: 'LocalDataModel>/PricingDataModel'}" growing="true" growingThreshold="5"
 			noDataText="No Data" showNoData="true">
 			<columns>
-				<Column><Text text="{i18n>Line}" textAlign="Center" width="100%"/></Column>
-				<Column visible="{DateModel>/ofpEnabled}"><Text text="{i18n>OFP}" textAlign="Center" width="100%"/></Column>
-				<Column><Text text="{i18n>PartNumber}" textAlign="Center" width="100%"/></Column>
-				<Column><Text text="{i18n>Description}" textAlign="Center" width="100%"/></Column>
+				<Column><Text text="{i18n>Line}" textAlign="Center"/></Column>
+				<Column visible="{DateModel>/ofpEnabled}"><Text text="{i18n>OFP}" textAlign="Center"/></Column>
+				<Column><Text text="{i18n>PartNumber}" textAlign="Center"/></Column>
+				<Column><Text text="{i18n>Description}" textAlign="Center"/></Column>
 				<Column>
-					<Text text="{i18n>DealerNetPrice}" textAlign="Center" width="100%"/>
+					<Text text="{i18n>DealerNetPrice}" textAlign="Center"/>
 				</Column>
-				<Column><Text text="{i18n>Quantity}" textAlign="Center" width="100%"/>
-					<footer><Text text="{i18n>Subtotal}" textAlign="Center" width="100%"/></footer>
-				</Column>
-				<Column>
-					<Text text="{i18n>ExtendedValue}" textAlign="Center" width="100%"/>
-					<footer><Text text="{path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnSumExtendedVal'}" textAlign="Center"
-						width="100%"/></footer>
+				<Column><Text text="{i18n>Quantity}" textAlign="Center"/>
+					<footer><Text text="{i18n>Subtotal}" textAlign="Center"/></footer>
 				</Column>
 				<Column>
-					<Text text="{i18n>MarkupAmount}" textAlign="Center" width="100%"/>
-					<footer><Text text="{path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnSumMarkUpVal'}" textAlign="Center"
-						width="100%"/></footer>
+					<Text text="{i18n>ExtendedValue}" textAlign="Center"/>
+					<footer><Text text="{path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnSumExtendedVal'}" textAlign="Center"/></footer>
 				</Column>
 				<Column>
-					<Text text="{i18n>AmountClaimed}" textAlign="Center" width="100%"/>
-					<footer><Text text="{path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnAmountClaimVal'}" textAlign="Center"
-						width="100%"/></footer>
+					<Text text="{i18n>MarkupAmount}" textAlign="Center"/>
+					<footer><Text text="{path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnSumMarkUpVal'}" textAlign="Center"/></footer>
 				</Column>
-				<Column><Text text="{i18n>TotalAfterDiscount}" textAlign="Center" width="100%"/>
-					<footer><Text text="{path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnAfterDiscVal'}" textAlign="Center"
-						width="100%"/></footer>
+				<Column>
+					<Text text="{i18n>AmountClaimed}" textAlign="Center"/>
+					<footer><Text text="{path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnAmountClaimVal'}" textAlign="Center"/></footer>
 				</Column>
-				<Column visible="{DateModel>/oTciQtyAppr}"><Text text="{i18n>TCIQuantityApproved}" textAlign="Center" width="100%"/></Column>
-				<Column><Text text="{i18n>TCIAmountApproved}" textAlign="Center" width="100%"/>
-					<footer><Text text="{path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnTCIAmtVal'}" textAlign="Center"
-						width="100%"/></footer>
+				<Column><Text text="{i18n>TotalAfterDiscount}" textAlign="Center"/>
+					<footer><Text text="{path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnAfterDiscVal'}" textAlign="Center"/></footer>
+				</Column>
+				<Column visible="{DateModel>/oTciQtyAppr}"><Text text="{i18n>TCIQuantityApproved}" textAlign="Center"/></Column>
+				<Column><Text text="{i18n>TCIAmountApproved}" textAlign="Center"/>
+					<footer><Text text="{path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnTCIAmtVal'}" textAlign="Center"/></footer>
 				</Column>
 				<Column><Text text="{i18n>Difference}"/>
-					<footer><Text text="{path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnDiffVal'}" textAlign="Center"
-						width="100%"/></footer>
+					<footer><Text text="{path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnDiffVal'}" textAlign="Center"/></footer>
 				</Column>
 			</columns>
 			<items>
 				<ColumnListItem vAlign="Middle">
 					<cells>
-						<Text text="{LocalDataModel>posnr}" textAlign="Center" width="100%"/>
+						<Text text="{LocalDataModel>posnr}" textAlign="Center"/>
 						<RadioButton groupName="A" id="idPartRadio" visible="{DateModel>/ofpEnabled}" enabled="{DateModel>/oFormEdit}" select="onSelectOFP"
-							textAlign="Center" width="100%"/>
-						<Text text="{LocalDataModel>matnr}" wrapping="true" textAlign="Center" width="100%"/>
-						<Text text="{LocalDataModel>PartDescription}" wrapping="true" textAlign="Center" width="100%"/>
-						<Text text="${LocalDataModel>DealerNet}" textAlign="Center" width="100%"/>
-						<Text text="{LocalDataModel>QtyHrs}" wrapping="true" textAlign="Center" width="100%"/>
-						<Text text="${LocalDataModel>ExtendedValue}" wrapping="true" textAlign="Center" width="100%"/>
-						<Text text="${LocalDataModel>MarkUp}" wrapping="true" textAlign="Center" width="100%"/>
-						<Text text="${LocalDataModel>AmtClaimed}" wrapping="true" textAlign="Center" width="100%"/>
-						<Text text="${LocalDataModel>TotalAfterDisct}" wrapping="true" textAlign="Center" width="100%"/>
+							textAlign="Center"/>
+						<Text text="{LocalDataModel>matnr}" wrapping="true" textAlign="Center"/>
+						<Text text="{LocalDataModel>PartDescription}" wrapping="true" textAlign="Center"/>
+						<Text text="${LocalDataModel>DealerNet}" wrapping="true" textAlign="Center"/>
+						<Text text="{LocalDataModel>QtyHrs}" wrapping="true" textAlign="Center"/>
+						<Text text="${LocalDataModel>ExtendedValue}" wrapping="true" textAlign="Center"/>
+						<Text text="${LocalDataModel>MarkUp}" wrapping="true" textAlign="Center"/>
+						<Text text="${LocalDataModel>AmtClaimed}" wrapping="true" textAlign="Center"/>
+						<Text text="${LocalDataModel>TotalAfterDisct}" wrapping="true" textAlign="Center"/>
 						<Button visible="{DateModel>/oTciQtyAppr}" iconFirst="false" text="{LocalDataModel>TCIApprQty}" icon="sap-icon://notification"
 							type="Transparent" press="onPressTCIQty"/>
-						<!--<Text visible="{DateModel>/oTciQtyAppr}" text="{LocalDataModel>TCIApprQty}" wrapping="true" textAlign="Center" width="100%"/>-->
-						<Text text="${LocalDataModel>TCIApprovedAmount}" wrapping="true" textAlign="Center" width="100%"/>
-						<Text text="${LocalDataModel>DiffAmt}" wrapping="true" textAlign="Center" width="100%"/>
+						<!--<Text visible="{DateModel>/oTciQtyAppr}" text="{LocalDataModel>TCIApprQty}" wrapping="true" textAlign="Center"  />-->
+						<Text text="${LocalDataModel>TCIApprovedAmount}" wrapping="true" textAlign="Center"/>
+						<Text text="${LocalDataModel>DiffAmt}" wrapping="true" textAlign="Center"/>
 					</cells>
 				</ColumnListItem>
 			</items>

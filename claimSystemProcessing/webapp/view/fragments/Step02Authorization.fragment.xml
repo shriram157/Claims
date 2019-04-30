@@ -171,7 +171,7 @@
 						<Label text="{i18n>Markup%}" textAlign="Center" width="100%"/>
 					</table:multiLabels>
 					<table:template>
-						<Text text="${path:'LocalDataModel>MarkupRate', formatter:'zclaimProcessing.utils.formatter.fnFormatPercent'}" wrapping="true"/>
+						<Text text="{path:'LocalDataModel>MarkupRate', formatter:'zclaimProcessing.utils.formatter.fnFormatPercent'}" wrapping="true"/>
 					</table:template>
 				</table:Column>
 				<table:Column width="11rem">
@@ -195,7 +195,7 @@
 						<Label text="{i18n>Discount%}" textAlign="Center" width="100%"/>
 					</table:multiLabels>
 					<table:template>
-						<Text text="${path:'LocalDataModel>DiscountRate', formatter:'zclaimProcessing.utils.formatter.fnFormatPercent'}" wrapping="true"/>
+						<Text text="{path:'LocalDataModel>DiscountRate', formatter:'zclaimProcessing.utils.formatter.fnFormatPercent'}" wrapping="true"/>
 					</table:template>
 				</table:Column>
 				<table:Column width="11rem">
