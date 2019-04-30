@@ -360,6 +360,8 @@ sap.ui.define([
 							var ocust = parseInt(data.results[0].CustomerPer).toString();
 							var odeal = parseInt(data.results[0].DealerPer).toString();
 							var otci = parseInt(data.results[0].TCIPer).toString();
+							this._fnClaimSum();
+							this._fnClaimSumPercent();
 							this.getView().getModel("DataPercetCalculate").setProperty("/CustomerPer", ocust);
 							this.getView().getModel("DataPercetCalculate").setProperty("/DealerPer", odeal);
 							this.getView().getModel("DataPercetCalculate").setProperty("/TCIPer", otci);
