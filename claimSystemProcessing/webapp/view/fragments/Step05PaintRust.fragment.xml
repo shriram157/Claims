@@ -56,14 +56,14 @@
 				</f:content>
 			</f:SimpleForm>
 		</Panel>
-		<f:SimpleForm editable="true" class=" sapUiTinyMarginBottom" layout="ResponsiveGridLayout" title="{i18n>PaintDetails}" labelSpanXL="7"
-			labelSpanL="7" labelSpanM="12" labelSpanS="12" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="4" columnsL="4"
-			columnsM="4">
+		<f:SimpleForm editable="true" class=" sapUiTinyMarginBottom" layout="ResponsiveGridLayout" title="{i18n>PaintDetails}" labelSpanXL="4"
+			labelSpanL="4" labelSpanM="12" labelSpanS="12" emptySpanXL="3" emptySpanL="3" emptySpanM="0" emptySpanS="0" columnsXL="5" columnsL="5"
+			columnsM="3">
 			<f:content>
 				<core:Title text=""/>
 				<Button text="{i18n>AddPaintLine}" type="Emphasized" press="onPressAddPaint" enabled="{DateModel>/oFormEdit}">
 					<layoutData>
-						<l:GridData span="XL8 L8 "/>
+						<l:GridData span="XL12 L12 "/>
 					</layoutData>
 				</Button>
 				<!--<core:Title text=""/>-->
@@ -75,19 +75,19 @@
 				<core:Title text=""/>
 				<Button text="{i18n>DeletePaintLine}" type="Reject" press="onPressDeletePaint" enabled="{DateModel>/oFormEdit}">
 					<layoutData>
-						<l:GridData span="XL8 L8 "/>
+						<l:GridData span="XL12 L12 "/>
 					</layoutData>
 				</Button>
 				<core:Title text=""/>
 				<Button text="{i18n>SaveClaim}" type="Emphasized" press="onPressSavePaint" enabled="{DateModel>/paintLine}">
 					<layoutData>
-						<l:GridData span="XL8 L8 "/>
+						<l:GridData span="XL12 L12 "/>
 					</layoutData>
 				</Button>
 			</f:content>
 		</f:SimpleForm>
-		<l:Grid containerQuery="true" defaultSpan="XL11 L10 M12 S12">
-			<VBox class="clBgColor" wrap="Wrap" displayInline="true" alignContent="Center">
+		<l:Grid containerQuery="true" defaultSpan="XL6 L7 M12 S12">
+			<VBox class="clBgColor" wrap="Wrap" displayInline="true" alignContent="Start" width="100%">
 				<f:SimpleForm editable="true" width="100%" class="sapUiResponsiveMargin ClsubHeadingLineHeight" layout="ResponsiveGridLayout" title=""
 					labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="4"
 					columnsL="4" columnsM="4">
@@ -112,21 +112,19 @@
 							</suggestionItems>
 						</Input>
 						<core:Title text=""/>
-						<VBox>
-							<Label text=" " class="clTextIndent"/>
-							<Button text="{i18n>SavePaint}" type="Emphasized" press="onPressSavePaint" enabled="{DateModel>/paintLine}">
-								<!--<layoutData>-->
-								<!--	<l:GridData span="XL10 L10 "/>-->
-								<!--</layoutData>-->
-							</Button>
-							<!--<core:Title text=""/>-->
-							<Label text=" " class="clTextIndent"/>
-							<Button text="{i18n>Cancel}" type="Transparent" press="onPressSavePaint">
-								<!--<layoutData>-->
-								<!--	<l:GridData span="XL9 L9 "/>-->
-								<!--</layoutData>-->
-							</Button>
-						</VBox>
+						<Label text=" " class="clTextIndent"/>
+						<Button text="{i18n>SavePaint}" type="Emphasized" press="onPressSavePaint" enabled="{DateModel>/paintLine}">
+							<!--<layoutData>-->
+							<!--	<l:GridData span="XL10 L10 "/>-->
+							<!--</layoutData>-->
+						</Button>
+						<core:Title text=""/>
+						<Label text=" " class="clTextIndent"/>
+						<Button text="{i18n>Cancel}" type="Transparent" press="onPressSavePaint">
+							<!--<layoutData>-->
+							<!--	<l:GridData span="XL9 L9 "/>-->
+							<!--</layoutData>-->
+						</Button>
 					</f:content>
 				</f:SimpleForm>
 			</VBox>

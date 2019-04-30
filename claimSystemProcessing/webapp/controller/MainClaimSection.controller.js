@@ -3775,8 +3775,9 @@ sap.ui.define([
 					this.getView().getModel("DataPercetCalculate").setProperty("/CustomerPer", ocust);
 					this.getView().getModel("DataPercetCalculate").setProperty("/DealerPer", odeal);
 					this.getView().getModel("DataPercetCalculate").setProperty("/TCIPer", otci);
-					this.getView().getModel("DataPercetCalculate").setProperty("/AuthorizationNumber", "");
+					// 	this.getView().getModel("DataPercetCalculate").setProperty("/AuthorizationNumber", "");
 					this._fnClaimSum();
+					this._fnClaimSumPercent();
 
 					if (data.results[0].Message != "") {
 						MessageToast.show(data.results[0].Message, {
