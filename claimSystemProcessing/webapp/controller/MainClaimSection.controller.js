@@ -3806,19 +3806,19 @@ sap.ui.define([
 						"'and DealerPer eq '00'and CustomerPer eq '00'and TCIPer eq '00'"
 				},
 				success: $.proxy(function (data) {
-
-					this.getView().getModel("DataPercetCalculate").setData(data.results[0]);
-					var ocust = parseInt(data.results[0].CustomerPer).toString();
-					var odeal = parseInt(data.results[0].DealerPer).toString();
-					var otci = parseInt(data.results[0].TCIPer).toString();
-					this.getView().getModel("DataPercetCalculate").setProperty("/CustomerPer", ocust);
-					this.getView().getModel("DataPercetCalculate").setProperty("/DealerPer", odeal);
-					this.getView().getModel("DataPercetCalculate").setProperty("/TCIPer", otci);
-					// 	this.getView().getModel("DataPercetCalculate").setProperty("/AuthorizationNumber", "");
-					this._fnClaimSum();
-					this._fnClaimSumPercent();
-					this._fnPricingData(oClaimNum);
-					if (data.results[0].Message != "") {
+					if (data.results[0].Message == "") {
+						this.getView().getModel("DataPercetCalculate").setData(data.results[0]);
+						var ocust = parseInt(data.results[0].CustomerPer).toString();
+						var odeal = parseInt(data.results[0].DealerPer).toString();
+						var otci = parseInt(data.results[0].TCIPer).toString();
+						this.getView().getModel("DataPercetCalculate").setProperty("/CustomerPer", ocust);
+						this.getView().getModel("DataPercetCalculate").setProperty("/DealerPer", odeal);
+						this.getView().getModel("DataPercetCalculate").setProperty("/TCIPer", otci);
+						// 	this.getView().getModel("DataPercetCalculate").setProperty("/AuthorizationNumber", "");
+						this._fnClaimSum();
+						this._fnClaimSumPercent();
+						this._fnPricingData(oClaimNum);
+					} else if (data.results[0].Message != "") {
 						MessageToast.show(data.results[0].Message, {
 							my: "center center",
 							at: "center center"
