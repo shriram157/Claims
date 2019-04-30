@@ -1,0 +1,11 @@
+_schema-version: "3.1"
+ID: claimsSystemProcessing.dev
+extends: claimsSystemProcessing
+
+modules:
+ - name: claimSystemProcessing_Node
+   parameters:
+      host: tci-dev-claims-node
+ - name: claimSystemProcessing
+   parameters:
+      host: tci-dev-claims
