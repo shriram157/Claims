@@ -3605,20 +3605,59 @@ sap.ui.define([
 							"'and CustomerPer eq '" + oCustomerPer +
 							"'and TCIPer eq '" + oTciPer + "'"
 					},
-					success: $.proxy(function (data) {
-						this.getView().getModel("DataPercetCalculate").setData(data.results[0]);
-						var ocust = parseInt(data.results[0].CustomerPer).toString();
-						var odeal = parseInt(data.results[0].DealerPer).toString();
-						var otci = parseInt(data.results[0].TCIPer).toString();
+					success: $.proxy(function (sdata) {
+						this.getView().getModel("DataPercetCalculate").setData(sdata.results[0]);
+						var ocust = parseInt(sdata.results[0].CustomerPer).toString();
+						var odeal = parseInt(sdata.results[0].DealerPer).toString();
+						var otci = parseInt(sdata.results[0].TCIPer).toString();
 						this.getView().getModel("DataPercetCalculate").setProperty("/CustomerPer", ocust);
 						this.getView().getModel("DataPercetCalculate").setProperty("/DealerPer", odeal);
 						this.getView().getModel("DataPercetCalculate").setProperty("/TCIPer", otci);
 						this._fnClaimSumPercent();
+						this._fnClaimSum();
+						this._fnPricingData(oAuthNum);
 
 					}, this)
+
 				});
 			}
 
+		},
+
+		_fnPricingData: function (oAuthNum) {
+			var oClaimModel = this.getModel("ProssingModel");
+			oClaimModel.read("/zc_claim_item_price_dataSet", {
+				urlParameters: {
+					"$filter": "NumberOfWarrantyClaim eq '" + oAuthNum + "' "
+
+				},
+				success: $.proxy(function (data) {
+
+					var pricinghData = data.results;
+					var oFilteredData = pricinghData.filter(function (val) {
+						return val.ItemType === "MAT";
+					});
+
+					this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
+
+					var oFilteredDataLabour = pricinghData.filter(function (val) {
+						return val.ItemType === "FR" && val.LabourNumber[0] != "P";
+					});
+
+					this.getModel("LocalDataModel").setProperty("/LabourPricingDataModel", oFilteredDataLabour);
+
+					var oFilteredDataPaint = pricinghData.filter(function (val) {
+						return val.ItemType === "FR" && val.LabourNumber[0] == "P";
+					});
+					this.getModel("LocalDataModel").setProperty("/PaintPricingDataModel", oFilteredDataPaint);
+
+					var oFilteredDataSubl = pricinghData.filter(function (val) {
+						return val.ItemType === "SUBL";
+					});
+
+					this.getModel("LocalDataModel").setProperty("/SubletPricingDataModel", oFilteredDataSubl);
+				}, this)
+			});
 		},
 		onPressForeignVin: function () {
 			var oDialogBox = sap.ui.xmlfragment("zclaimProcessing.view.fragments.ForeignVinNotification", this);
@@ -3778,7 +3817,7 @@ sap.ui.define([
 					// 	this.getView().getModel("DataPercetCalculate").setProperty("/AuthorizationNumber", "");
 					this._fnClaimSum();
 					this._fnClaimSumPercent();
-
+					this._fnPricingData(oClaim);
 					if (data.results[0].Message != "") {
 						MessageToast.show(data.results[0].Message, {
 							my: "center center",
@@ -3819,7 +3858,8 @@ sap.ui.define([
 				sSelectedLocale = "en"; // default is english
 			}
 
-			if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZWP2" || this.getView().getModel("HeadSetData").getProperty(
+			if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZWP2" || this.getView().getModel("HeadSetData")
+				.getProperty(
 					"/WarrantyClaimSubType") == "ZWP2") {
 				this.getView().byId("idFilter07").setProperty("enabled", true);
 				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab7");
@@ -3896,12 +3936,14 @@ sap.ui.define([
 
 		onStep04Next: function () {
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
-			if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZWMS" && this.getView().getModel("HeadSetData").getProperty(
+			if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZWMS" && this.getView().getModel("HeadSetData")
+				.getProperty(
 					"/WarrantyClaimType") != "ZWA1" && this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZWA2" && this.getView()
 				.getModel(
 					"HeadSetData").getProperty("/WarrantyClaimType") != "ZWAC" && this.getView().getModel("HeadSetData").getProperty(
 					"/WarrantyClaimType") != "ZWP1" &&
-				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") != "ZWMS" && this.getView().getModel("HeadSetData").getProperty(
+				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") != "ZWMS" && this.getView().getModel("HeadSetData")
+				.getProperty(
 					"/WarrantyClaimSubType") != "ZWA1" && this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") != "ZWA2" &&
 				this.getView()
 				.getModel(
@@ -3938,11 +3980,13 @@ sap.ui.define([
 
 		onStep05Next: function () {
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
-			if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZWMS" && this.getView().getModel("HeadSetData").getProperty(
+			if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZWMS" && this.getView().getModel("HeadSetData")
+				.getProperty(
 					"/WarrantyClaimType") != "ZWA1" && this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZWA2" && this.getView()
 				.getModel(
 					"HeadSetData").getProperty("/WarrantyClaimType") != "ZWAC" &&
-				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") != "ZWMS" && this.getView().getModel("HeadSetData").getProperty(
+				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") != "ZWMS" && this.getView().getModel("HeadSetData")
+				.getProperty(
 					"/WarrantyClaimSubType") != "ZWA1" && this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") != "ZWA2" &&
 				this.getView()
 				.getModel(
@@ -3977,11 +4021,13 @@ sap.ui.define([
 			// 	this.getView().byId("idFilter07").setProperty("enabled", true);
 			// 	this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab7");
 			// }else 
-			if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZWA1" && this.getView().getModel("HeadSetData").getProperty(
+			if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZWA1" && this.getView().getModel("HeadSetData")
+				.getProperty(
 					"/WarrantyClaimType") != "ZWA2" && this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZWAC" && this.getView()
 				.getModel(
 					"HeadSetData").getProperty("/WarrantyClaimType") != "ZWMS" &&
-				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") != "ZWA1" && this.getView().getModel("HeadSetData").getProperty(
+				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") != "ZWA1" && this.getView().getModel("HeadSetData")
+				.getProperty(
 					"/WarrantyClaimSubType") != "ZWA2" && this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") != "ZWAC" &&
 				this.getView()
 				.getModel(
@@ -4008,9 +4054,11 @@ sap.ui.define([
 		},
 		onStep06Back: function () {
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
-			if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZWA1" && this.getView().getModel("HeadSetData").getProperty(
+			if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZWA1" && this.getView().getModel("HeadSetData")
+				.getProperty(
 					"/WarrantyClaimType") == "ZWA2" && this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZWAC" &&
-				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") == "ZWA1" && this.getView().getModel("HeadSetData").getProperty(
+				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") == "ZWA1" && this.getView().getModel("HeadSetData")
+				.getProperty(
 					"/WarrantyClaimSubType") == "ZWA2" && this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") == "ZWAC"
 			) {
 				this.getView().byId("idFilter04").setProperty("enabled", true);
@@ -4057,11 +4105,13 @@ sap.ui.define([
 		},
 		onStep02Next: function () {
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
-			if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZWMS" && this.getView().getModel("HeadSetData").getProperty(
+			if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZWMS" && this.getView().getModel("HeadSetData")
+				.getProperty(
 					"/WarrantyClaimType") != "ZWA1" && this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZWA2" && this.getView()
 				.getModel(
 					"HeadSetData").getProperty("/WarrantyClaimType") != "ZWAC" &&
-				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") != "ZWMS" && this.getView().getModel("HeadSetData").getProperty(
+				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") != "ZWMS" && this.getView().getModel("HeadSetData")
+				.getProperty(
 					"/WarrantyClaimSubType") != "ZWA1" && this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") != "ZWA2" &&
 				this.getView()
 				.getModel(
@@ -4390,56 +4440,56 @@ sap.ui.define([
 				this.obj.zc_itemSet.results.splice(oIndex, 1);
 			}
 
-			if (oArrNew > 0) {
-				MessageToast.show(oBundle.getText("Materialalreadyexists"), {
-					my: "center center",
-					at: "center center"
-				});
-				// this.getView().getModel("DateModel").setProperty("/partLine", false);
-				this.getView().getModel("PartDataModel").setProperty("/matnr", "");
-				this.getView().getModel("PartDataModel").setProperty("/quant", "");
-				this.getView().getModel("PartDataModel").setProperty("/PartDescription", "");
-				this.getView().getModel("LocalDataModel").setProperty("/BaseUnit", "");
-			} else {
-				this._oToken = oClaimModel.getHeaders()['x-csrf-token'];
-				$.ajaxSetup({
-					headers: {
-						'X-CSRF-Token': this._oToken
-					}
-				});
-				this.obj.zc_itemSet.results.push(itemObj);
-				oClaimModel.create("/zc_headSet", this.obj, {
-					success: $.proxy(function (data, response) {
-						var pricinghData = response.data.zc_claim_item_price_dataSet.results;
-						this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", response.data.OFPDescription);
-						this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.data.MainOpsCodeDescription);
-						var oFilteredData = pricinghData.filter(function (val) {
-							return val.ItemType === "MAT";
-						});
-						console.log(oFilteredData);
-						this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
-						MessageToast.show(oBundle.getText("Claimhasbeensavedsuccessfully"), {
-							my: "center center",
-							at: "center center"
-						});
-						this.getView().getModel("DateModel").setProperty("/partLine", false);
-						this.getView().getModel("PartDataModel").setProperty("/matnr", "");
-						this.getView().getModel("PartDataModel").setProperty("/quant", "");
-						this.getView().getModel("PartDataModel").setProperty("/PartDescription", "");
-						this.getView().getModel("LocalDataModel").setProperty("/BaseUnit", "");
-						//this.getView().byId("idPartDes").setValue("");
+			// 			if (oArrNew > 0) {
+			// 				MessageToast.show(oBundle.getText("Materialalreadyexists"), {
+			// 					my: "center center",
+			// 					at: "center center"
+			// 				});
+			// 				// this.getView().getModel("DateModel").setProperty("/partLine", false);
+			// 				this.getView().getModel("PartDataModel").setProperty("/matnr", "");
+			// 				this.getView().getModel("PartDataModel").setProperty("/quant", "");
+			// 				this.getView().getModel("PartDataModel").setProperty("/PartDescription", "");
+			// 				this.getView().getModel("LocalDataModel").setProperty("/BaseUnit", "");
+			// 			} else {
+			this._oToken = oClaimModel.getHeaders()['x-csrf-token'];
+			$.ajaxSetup({
+				headers: {
+					'X-CSRF-Token': this._oToken
+				}
+			});
+			this.obj.zc_itemSet.results.push(itemObj);
+			oClaimModel.create("/zc_headSet", this.obj, {
+				success: $.proxy(function (data, response) {
+					var pricinghData = response.data.zc_claim_item_price_dataSet.results;
+					this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", response.data.OFPDescription);
+					this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.data.MainOpsCodeDescription);
+					var oFilteredData = pricinghData.filter(function (val) {
+						return val.ItemType === "MAT";
+					});
+					console.log(oFilteredData);
+					this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
+					MessageToast.show(oBundle.getText("Claimhasbeensavedsuccessfully"), {
+						my: "center center",
+						at: "center center"
+					});
+					this.getView().getModel("DateModel").setProperty("/partLine", false);
+					this.getView().getModel("PartDataModel").setProperty("/matnr", "");
+					this.getView().getModel("PartDataModel").setProperty("/quant", "");
+					this.getView().getModel("PartDataModel").setProperty("/PartDescription", "");
+					this.getView().getModel("LocalDataModel").setProperty("/BaseUnit", "");
+					//this.getView().byId("idPartDes").setValue("");
 
-						oTable.removeSelections("true");
+					oTable.removeSelections("true");
 
-						this._fnClaimSum();
-						this._fnClaimSumPercent();
+					this._fnClaimSum();
+					this._fnClaimSumPercent();
 
-					}, this),
-					error: function (err) {
-						console.log(err);
-					}
-				});
-			}
+				}, this),
+				error: function (err) {
+					console.log(err);
+				}
+			});
+			//}
 
 			// if (this.obj.zc_itemSet.results[i].MaterialNumber !== itemObj.MaterialNumber) {
 
@@ -5863,7 +5913,8 @@ sap.ui.define([
 										});
 									} else {
 										MessageToast.show(
-											oBundle.getText("ClaimNumber") + " " + oClaimNum + " " + oBundle.getText("RejectedTCIValidationResultsdetails"), {
+											oBundle.getText("ClaimNumber") + " " + oClaimNum + " " + oBundle.getText(
+												"RejectedTCIValidationResultsdetails"), {
 												my: "center center",
 												at: "center center"
 											});
