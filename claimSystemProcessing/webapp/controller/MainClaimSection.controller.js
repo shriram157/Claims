@@ -3763,7 +3763,7 @@ sap.ui.define([
 															oClaimModel.read("/zc_authorizationSet", {
 																urlParameters: {
 																	"$filter": "DBOperation eq 'LINK'and Numberofwarrantyclaim eq '" + oClaimNum + "'and  AuthorizationNumber eq '" +
-																		oClaim +
+																		oAuthNum +
 																		"'and DealerPer eq '00'and CustomerPer eq '00'and TCIPer eq '00'"
 																},
 																success: $.proxy(function (sdata) {
