@@ -3817,7 +3817,7 @@ sap.ui.define([
 					// 	this.getView().getModel("DataPercetCalculate").setProperty("/AuthorizationNumber", "");
 					this._fnClaimSum();
 					this._fnClaimSumPercent();
-					this._fnPricingData(oClaim);
+					this._fnPricingData(oClaimNum);
 					if (data.results[0].Message != "") {
 						MessageToast.show(data.results[0].Message, {
 							my: "center center",
@@ -5889,6 +5889,7 @@ sap.ui.define([
 					new Button({
 						text: oBundle.getText("Yes"),
 						press: $.proxy(function () {
+							dialog.close();
 							// this._oToken = oClaimModel.getHeaders()['x-csrf-token'];
 							// $.ajaxSetup({
 							// 	headers: {
@@ -5896,6 +5897,7 @@ sap.ui.define([
 							// 	}
 							// });
 							oClaimModel.refreshSecurityToken();
+
 							oClaimModel.create("/zc_headSet", this.obj, {
 								success: $.proxy(function (data, response) {
 									this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", response.data.OFPDescription);
@@ -5919,8 +5921,6 @@ sap.ui.define([
 												at: "center center"
 											});
 									}
-
-									dialog.close();
 
 									oClaimModel.read("/ZC_CLAIM_HEAD_NEW", {
 										urlParameters: {
