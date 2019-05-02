@@ -17,9 +17,9 @@
 					<Label text="{i18n>TCIClaim}"/>
 					<Text text="{HeadSetData>/NumberOfWarrantyClaim}"/>
 					<Label text="{i18n>VIN}">
-					<layoutData>
-						<l:GridData span="XL3 L3"/>
-					</layoutData>
+						<layoutData>
+							<l:GridData span="XL3 L3"/>
+						</layoutData>
 					</Label>
 					<Text text="{HeadSetData>/ExternalObjectNumber}" wrapping="false"/>
 					<core:Title text=""/>
@@ -39,9 +39,10 @@
 					<core:Title text=""/>
 					<Label text="{i18n>RepairDate}"/>
 					<Text
-						text="{path:'HeadSetData>/RepairDate', type: 'sap.ui.model.type.Date',  formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd', strictParsing: true , UTC: true}}"/>
+						text="{path:'HeadSetData>/RepairDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd', strictParsing: true , UTC: true}}"/>
 					<Label text="{i18n>RegDate}"/>
-					<Text text="{path:'LocalDataModel>/DataVinDetails/RegDate', type: 'sap.ui.model.type.Date',  formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd'}}"/>
+					<Text
+						text="{path:'LocalDataModel>/DataVinDetails/RegDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd'}}"/>
 					<core:Title text=""/>
 					<Label text="{i18n>Odometer}"/>
 					<Text text="{HeadSetData>/Odometer}"/>
@@ -68,7 +69,8 @@
 				<core:Title text=""/>
 				<Button text="{i18n>UpdateLabourLine}" press="onPressUpdateLabour" enabled="{DateModel>/oFormEdit}" visible="{DateModel>/LabourBtnVsbl}"/>
 				<core:Title text=""/>
-				<Button text="{i18n>DeleteLabourLine}" type="Reject" press="onPressDeleteLabour" enabled="{DateModel>/oFormEdit}" visible="{DateModel>/LabourBtnVsbl}"/>
+				<Button text="{i18n>DeleteLabourLine}" type="Reject" press="onPressDeleteLabour" enabled="{DateModel>/oFormEdit}"
+					visible="{DateModel>/LabourBtnVsbl}"/>
 				<core:Title text=""/>
 				<Button text="{i18n>SuggestedOperations}" press="onPressSuggestLabour" enabled="{DateModel>/oFormEdit}" visible="{DateModel>/LabourBtnVsbl}"/>
 				<core:Title text=""/>
@@ -90,7 +92,7 @@
 						<core:Title text=""/>
 						<Label text="{i18n>OperationNumber}" textAlign="Left"/>
 						<Input type="Text" textFormatMode="Value" placeholder="{i18n>EnterOperationNumber}" showSuggestion="false" showValueHelp="true"
-							 id="idOperationLabour" value="{LabourDataModel>/LabourOp}" valueHelpRequest="handleValueHelpLabour"
+							id="idOperationLabour" value="{LabourDataModel>/LabourOp}" valueHelpRequest="handleValueHelpLabour"
 							suggestionItems="{LocalDataModel>/SuggetionOperationList}" suggestionItemSelected="onSelectPositionCode" enabled="{DateModel>/labourLine}">
 							<suggestionItems>
 								<core:ListItem key="{LocalDataModel>J_3GKATNRC}" text="{LocalDataModel>J_3GKATNRC}" additionalText="{LocalDataModel>LTEXT}"/>
@@ -101,7 +103,7 @@
 						<Input value="{LabourDataModel>/LabourDescription}" id="idLabourDes" editable="false"/>
 						<core:Title text=""/>
 						<Label text="{i18n>ClaimedHours}" textAlign="Left"/>
-						<custom:CustomInputDecimal  value="{LabourDataModel>/ClaimedHours}" enabled="{DateModel>/labourLine}"/>
+						<custom:CustomInputDecimal value="{LabourDataModel>/ClaimedHours}" enabled="{DateModel>/labourLine}"/>
 						<core:Title text=""/>
 						<Label text=" " class="clTextIndent"/>
 						<Button text="{i18n>SaveLabour}" type="Emphasized" press="onPressSaveClaimItemLabour" enabled="{DateModel>/labourLine}"/>
@@ -112,49 +114,43 @@
 		<Table id="idLabourTable" mode="SingleSelectLeft" items="{path: 'LocalDataModel>/LabourPricingDataModel'}" growing="true"
 			growingThreshold="5" noDataText="No Data" showNoData="true">
 			<columns>
-				<Column><Text text="{i18n>Line}" textAlign="Center" width="100%"/></Column>
-				<Column><Text text="{i18n>MainOp}" textAlign="Center" width="100%"/></Column>
-				<Column><Text text="{i18n>OperationNumber}" textAlign="Center" width="100%"/></Column>
-				<Column><Text text="{i18n>Description}" textAlign="Center" width="100%"/>
-					<footer><Text text="{i18n>Subtotal}" textAlign="Center" width="100%"/></footer>
+				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Begin"><Text text="{i18n>Line}"/></Column>
+				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Begin"><Text text="{i18n>MainOp}"/></Column>
+				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center"><Text text="{i18n>OperationNumber}"/></Column>
+				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center"><Text text="{i18n>Description}"/>
+					<footer><Text text="{i18n>Subtotal}"/></footer>
 				</Column>
-				<Column><Text text="{i18n>DealerClaimedHours}" textAlign="Center" width="100%"/>
-					<footer><Text textAlign="Center" width="100%"
-						text="{path: 'LocalDataModel>/LabourPricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnClaimedHr'}"/></footer>
+				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center"><Text text="{i18n>DealerClaimedHours}"/>
+					<footer><Text text="{path: 'LocalDataModel>/LabourPricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnClaimedHr'}"/></footer>
 				</Column>
-				<Column>
-					<Text text="{i18n>AmountClaimed}" textAlign="Center" width="100%"/>
-					<footer><Text textAlign="Center" width="100%"
-						text="{path: 'LocalDataModel>/LabourPricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnAmountLabCLaim'}"/></footer>
+				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+					<Text text="{i18n>AmountClaimed}"/>
+					<footer><Text text="{path: 'LocalDataModel>/LabourPricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnAmountLabCLaim'}"/></footer>
 				</Column>
-				<Column><Text text="{i18n>TotalAfterDiscount}" textAlign="Center" width="100%"/>
-					<footer><Text textAlign="Center" width="100%"
-						text="{path: 'LocalDataModel>/LabourPricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnTotalAfDisLab'}"/></footer>
+				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center"><Text text="{i18n>TotalAfterDiscount}"/>
+					<footer><Text text="{path: 'LocalDataModel>/LabourPricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnTotalAfDisLab'}"/></footer>
 				</Column>
-				<Column><Text text="{i18n>HoursApprovedTCI}" textAlign="Center" width="100%"/></Column>
-				<Column><Text text="{i18n>TCIAmountApproved}" textAlign="Center" width="100%"/>
-					<footer><Text textAlign="Center" width="100%"
-						text="{path: 'LocalDataModel>/LabourPricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnHrApTCI'}"/></footer>
+				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center"><Text text="{i18n>HoursApprovedTCI}"/></Column>
+				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center"><Text text="{i18n>TCIAmountApproved}"/>
+					<footer><Text text="{path: 'LocalDataModel>/LabourPricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnHrApTCI'}"/></footer>
 				</Column>
-				<Column><Text text="{i18n>LabourDifference}" textAlign="Center" width="100%"/>
-					<footer><Text textAlign="Center" width="100%"
-						text="{path: 'LocalDataModel>/LabourPricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnLabDif'}"/></footer>
+				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center"><Text text="{i18n>LabourDifference}"/>
+					<footer><Text text="{path: 'LocalDataModel>/LabourPricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnLabDif'}"/></footer>
 				</Column>
 			</columns>
 			<items>
 				<ColumnListItem vAlign="Middle">
 					<cells>
-						<Text text="{LocalDataModel>posnr}" wrapping="true" textAlign="Center" width="100%" />
-						<RadioButton groupName="GroupA" enabled="{DateModel>/oFormEdit}" select="onSelectOFPLabour" textAlign="Center" width="100%" />
-						<Text text="{path:'LocalDataModel>LabourNumber'}" wrapping="true"
-							textAlign="Center" width="100%"/>
-						<Text text="{LocalDataModel>LabourDescription}" wrapping="true" textAlign="Center" width="100%"/>
-						<Text text="{LocalDataModel>QtyHrs}" wrapping="true" textAlign="Center" width="100%"/>
-						<Text text="${LocalDataModel>AmtClaimed}" wrapping="true" textAlign="Center" width="100%"/>
-						<Text text="${LocalDataModel>TotalAfterDisct}" wrapping="true" textAlign="Center" width="100%"/>
-						<Text text="{LocalDataModel>TCIApprQty}" wrapping="true" textAlign="Center" width="100%"/>
-						<Text text="${LocalDataModel>TCIApprovedAmount}" wrapping="true" textAlign="Center" width="100%"/>
-						<Text text="${LocalDataModel>DiffAmt}" wrapping="true" textAlign="Center" width="100%"/>
+						<Text text="{LocalDataModel>posnr}" wrapping="true"/>
+						<RadioButton groupName="GroupA" enabled="{DateModel>/oFormEdit}" select="onSelectOFPLabour"/>
+						<Text text="{path:'LocalDataModel>LabourNumber'}" wrapping="true"/>
+						<Text text="{LocalDataModel>LabourDescription}" wrapping="true"/>
+						<Text text="{LocalDataModel>QtyHrs}" wrapping="true"/>
+						<Text text="${LocalDataModel>AmtClaimed}" wrapping="true"/>
+						<Text text="${LocalDataModel>TotalAfterDisct}" wrapping="true"/>
+						<Text text="{LocalDataModel>TCIApprQty}" wrapping="true"/>
+						<Text text="${LocalDataModel>TCIApprovedAmount}" wrapping="true"/>
+						<Text text="${LocalDataModel>DiffAmt}" wrapping="true"/>
 					</cells>
 				</ColumnListItem>
 			</items>

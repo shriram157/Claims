@@ -124,36 +124,36 @@
 		<Table id="idTableParts" mode="SingleSelectLeft" items="{path: 'LocalDataModel>/PricingDataModel'}" growing="true" growingThreshold="5"
 			noDataText="No Data" showNoData="true">
 			<columns>
-				<Column><Text text="{i18n>Line}" textAlign="Center"/></Column>
-				<Column visible="{DateModel>/ofpEnabled}"><Text text="{i18n>OFP}" textAlign="Center"/></Column>
-				<Column><Text text="{i18n>PartNumber}" textAlign="Center"/></Column>
-				<Column><Text text="{i18n>Description}" textAlign="Center"/></Column>
-				<Column>
+				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Begin"><Text text="{i18n>Line}"/></Column>
+				<Column visible="{DateModel>/ofpEnabled}" minScreenWidth="Tablet" demandPopin="true" hAlign="Begin"><Text text="{i18n>OFP}"/></Column>
+				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center"><Text text="{i18n>PartNumber}" textAlign="Center"/></Column>
+				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center"><Text text="{i18n>Description}" textAlign="Center"/></Column>
+				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
 					<Text text="{i18n>DealerNetPrice}" textAlign="Center"/>
 				</Column>
-				<Column><Text text="{i18n>Quantity}" textAlign="Center"/>
+				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center"><Text text="{i18n>Quantity}" textAlign="Center"/>
 					<footer><Text text="{i18n>Subtotal}" textAlign="Center"/></footer>
 				</Column>
-				<Column>
+				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
 					<Text text="{i18n>ExtendedValue}" textAlign="Center"/>
 					<footer><Text text="{path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnSumExtendedVal'}" textAlign="Center"/></footer>
 				</Column>
-				<Column>
+				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
 					<Text text="{i18n>MarkupAmount}" textAlign="Center"/>
 					<footer><Text text="{path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnSumMarkUpVal'}" textAlign="Center"/></footer>
 				</Column>
-				<Column>
+				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
 					<Text text="{i18n>AmountClaimed}" textAlign="Center"/>
 					<footer><Text text="{path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnAmountClaimVal'}" textAlign="Center"/></footer>
 				</Column>
-				<Column><Text text="{i18n>TotalAfterDiscount}" textAlign="Center"/>
+				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center"><Text text="{i18n>TotalAfterDiscount}" textAlign="Center"/>
 					<footer><Text text="{path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnAfterDiscVal'}" textAlign="Center"/></footer>
 				</Column>
-				<Column visible="{DateModel>/oTciQtyAppr}"><Text text="{i18n>TCIQuantityApproved}" textAlign="Center"/></Column>
-				<Column><Text text="{i18n>TCIAmountApproved}" textAlign="Center"/>
+				<Column visible="{DateModel>/oTciQtyAppr}" minScreenWidth="Tablet" demandPopin="true" hAlign="Center"><Text text="{i18n>TCIQuantityApproved}" textAlign="Center"/></Column>
+				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center"><Text text="{i18n>TCIAmountApproved}" textAlign="Center"/>
 					<footer><Text text="{path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnTCIAmtVal'}" textAlign="Center"/></footer>
 				</Column>
-				<Column><Text text="{i18n>Difference}"/>
+				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center"><Text text="{i18n>Difference}"/>
 					<footer><Text text="{path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnDiffVal'}" textAlign="Center"/></footer>
 				</Column>
 			</columns>

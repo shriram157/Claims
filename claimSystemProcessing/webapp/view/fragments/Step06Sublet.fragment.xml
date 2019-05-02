@@ -163,9 +163,9 @@
 						</Select>
 						<core:Title text=""/>
 						<Label text=" " class="clTextIndent"/>
-						<Button text="{i18n>Cancel}" type="Transparent" press="onPressSaveLabour" enabled="{DateModel>/subletLine}">
+						<Button text="{i18n>Cancel}" type="Default" press="onPressCancelSublet" enabled="{DateModel>/subletLine}">
 							<layoutData>
-								<l:GridData span="XL9 L9 "/>
+								<l:GridData span="XL7 L7 M10 "/>
 							</layoutData>
 						</Button>
 					</f:content>
@@ -175,27 +175,27 @@
 		<Table id="idSubletTable" mode="SingleSelectLeft" items="{path: 'LocalDataModel>/SubletPricingDataModel'}" growing="true"
 			growingThreshold="5" noDataText="No Data" showNoData="true">
 			<columns>
-				<Column><Text text="{i18n>Line}" textAlign="Center"/></Column>
-				<Column><Text text="{i18n>SubletType}" textAlign="Center"/></Column>
-				<Column><Text text="{i18n>Invoice}" textAlign="Center"/></Column>
-				<Column><Text text="{i18n>Attachment}" textAlign="Center"/></Column>
-				<Column><Text text="{i18n>Description}" textAlign="Center"/>
+				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center"><Text text="{i18n>Line}" textAlign="Center"/></Column>
+				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center"><Text text="{i18n>SubletType}" textAlign="Center"/></Column>
+				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center"><Text text="{i18n>Invoice}" textAlign="Center"/></Column>
+				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center"><Text text="{i18n>Attachment}" textAlign="Center"/></Column>
+				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center"><Text text="{i18n>Description}" textAlign="Center"/>
 					<footer><Text text="{i18n>Subtotal}" textAlign="Center"/></footer>
 				</Column>
-				<Column>
+				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
 					<Text text="{i18n>Amount}" textAlign="Center"/>
 					<footer><Text text="{path: 'LocalDataModel>/SubletPricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnAmountSublet'}"
 						textAlign="Center"/></footer>
 				</Column>
-				<Column><Text text="{i18n>TotalAfterDiscount}"/>
+				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center"><Text text="{i18n>TotalAfterDiscount}"/>
 					<footer><Text text="{path: 'LocalDataModel>/SubletPricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnTotalSubletAfDisc'}"
 						textAlign="Center"/></footer>
 				</Column>
-				<Column><Text text="{i18n>TCIAmountApproved}"/>
+				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center"><Text text="{i18n>TCIAmountApproved}"/>
 					<footer><Text text="{path: 'LocalDataModel>/SubletPricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnTCISubletApr'}"
 						textAlign="Center"/></footer>
 				</Column>
-				<Column><Text text="{i18n>Difference}"/>
+				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center"><Text text="{i18n>Difference}"/>
 					<footer><Text text="{path: 'LocalDataModel>/SubletPricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnSubletDif'}" textAlign="Center"/></footer>
 				</Column>
 			</columns>

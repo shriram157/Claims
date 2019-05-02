@@ -120,7 +120,7 @@
 						</Button>
 						<core:Title text=""/>
 						<Label text=" " class="clTextIndent"/>
-						<Button text="{i18n>Cancel}" type="Transparent" press="onPressSavePaint">
+						<Button text="{i18n>Cancel}" type="Default" press="onPressCancelPaint">
 							<!--<layoutData>-->
 							<!--	<l:GridData span="XL9 L9 "/>-->
 							<!--</layoutData>-->
@@ -132,8 +132,8 @@
 		<Table id="idPaintTable" mode="SingleSelectLeft" items="{path: 'LocalDataModel>/PaintPricingDataModel'}" growing="true" growingThreshold="5"
 			noDataText="No Data" showNoData="true">
 			<columns>
-				<Column><Text text="{i18n>Line}"/></Column>
-				<Column><Text text="{i18n>PositionCode}"/></Column>
+				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Begin"><Text text="{i18n>Line}"/></Column>
+				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center"><Text text="{i18n>PositionCode}"/></Column>
 			</columns>
 			<items>
 				<ColumnListItem vAlign="Middle">

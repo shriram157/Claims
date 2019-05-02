@@ -3377,76 +3377,85 @@ sap.ui.define([
 		},
 
 		onSubletUploadComplete: function (oEvent) {
-			// var oClaimModel = this.getModel("ProssingModel");
+
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			var oSubletType = this.getView().getModel("SubletDataModel").getProperty("/SubletCode");
-			var fileType = this.oUploadedFile.type;
-			//var oUploadedFileArr = this.oUploadedFile.name.split(".").reverse();
-			//var oFileExt = oUploadedFileArr[0].length;
-			var oFileName = this.oUploadedFile.name;
-			//oFileName = this.oUploadedFile.name.replace("." + oFileExt, "");
-
-			// if (oFileExt > 3) {
-			// 	oFileName = this.oUploadedFile.name.slice(0, -1);
-			// } else {
-			// 	oFileName = this.oUploadedFile.name;
-			// }
-			var fileNamePrior = oSubletType + "@@@" + oFileName;
-			var fileName = fileNamePrior;
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
-			var isProxy = "";
-			if (window.document.domain == "localhost") {
-				isProxy = "proxy";
-			}
-			var oURI = isProxy + "/node/ZDLR_CLAIM_SRV/zc_attachSet(NumberOfWarrantyClaim='" + oClaimNum + "',FileName='" + fileName +
-				"')/$value";
+			if (oSubletType != "") {
+				var fileType = this.oUploadedFile.type;
+				//var oUploadedFileArr = this.oUploadedFile.name.split(".").reverse();
+				//var oFileExt = oUploadedFileArr[0].length;
+				var oFileName = this.oUploadedFile.name;
+				//oFileName = this.oUploadedFile.name.replace("." + oFileExt, "");
 
-			if (oURI == null) {
-				console.log("Error");
-				//MessageBox.warning(oBundle.getText("Error.PopUpBloqued"));
-			}
-			console.log(oURI);
+				// if (oFileExt > 3) {
+				// 	oFileName = this.oUploadedFile.name.slice(0, -1);
+				// } else {
+				// 	oFileName = this.oUploadedFile.name;
+				// }
+				var fileNamePrior = oSubletType + "@@@" + oFileName;
+				var fileName = fileNamePrior;
 
-			var itemObj = {
-				"NumberOfWarrantyClaim": oClaimNum,
-				"ContentLine": this.oBase,
-				"COMP_ID": fileName,
-				"MIMEType": fileType,
-				"URI": oURI,
-				"AttachLevel": "SUBL",
-				"DBOperation": "POST"
-			};
-
-			var oClaimModel = this.getModel("ProssingModel");
-
-			oClaimModel.refreshSecurityToken();
-
-			oClaimModel.create("/zc_claim_subletattachmentSet", itemObj, {
-				success: $.proxy(function (data, response) {
-					this.getModel("LocalDataModel").setProperty("/IndicatorState", false);
-					MessageToast.show(oBundle.getText("SuccesFullyUploaded"), {
-						my: "center center",
-						at: "center center"
-					});
-					//	var oFileName = "sub" + fileName;
-					oClaimModel.read("/zc_claim_subletattachmentSet", {
-						urlParameters: {
-							"$filter": "NumberOfWarrantyClaim eq'" + oClaimNum + "'and AttachLevel eq 'SUBL' and FileName eq'" + fileName + "'"
-						},
-						success: $.proxy(function (subletData) {
-							var oAttachSet = subletData.results.map(function (item) {
-								item.FileName = item.FileName.replace(oSubletType + "@@@", "");
-								return item;
-
-							});
-							this.getModel("LocalDataModel").setProperty("/SubletAtchmentData", oAttachSet);
-						}, this)
-					});
-				}, this),
-				error: function (err) {
-					console.log(err);
+				var isProxy = "";
+				if (window.document.domain == "localhost") {
+					isProxy = "proxy";
 				}
-			});
+				var oURI = isProxy + "/node/ZDLR_CLAIM_SRV/zc_attachSet(NumberOfWarrantyClaim='" + oClaimNum + "',FileName='" + fileName +
+					"')/$value";
+
+				if (oURI == null) {
+					console.log("Error");
+					//MessageBox.warning(oBundle.getText("Error.PopUpBloqued"));
+				}
+				console.log(oURI);
+
+				var itemObj = {
+					"NumberOfWarrantyClaim": oClaimNum,
+					"ContentLine": this.oBase,
+					"COMP_ID": fileName,
+					"MIMEType": fileType,
+					"URI": oURI,
+					"AttachLevel": "SUBL",
+					"DBOperation": "POST"
+				};
+
+				var oClaimModel = this.getModel("ProssingModel");
+
+				oClaimModel.refreshSecurityToken();
+
+				oClaimModel.create("/zc_claim_subletattachmentSet", itemObj, {
+					success: $.proxy(function (data, response) {
+						this.getModel("LocalDataModel").setProperty("/IndicatorState", false);
+						MessageToast.show(oBundle.getText("SuccesFullyUploaded"), {
+							my: "center center",
+							at: "center center"
+						});
+						//	var oFileName = "sub" + fileName;
+						oClaimModel.read("/zc_claim_subletattachmentSet", {
+							urlParameters: {
+								"$filter": "NumberOfWarrantyClaim eq'" + oClaimNum + "'and AttachLevel eq 'SUBL' and FileName eq'" + fileName + "'"
+							},
+							success: $.proxy(function (subletData) {
+								var oAttachSet = subletData.results.map(function (item) {
+									item.FileName = item.FileName.replace(oSubletType + "@@@", "");
+									return item;
+
+								});
+								this.getModel("LocalDataModel").setProperty("/SubletAtchmentData", oAttachSet);
+							}, this)
+						});
+					}, this),
+					error: function (err) {
+						console.log(err);
+					}
+				});
+			} else {
+				this.getModel("LocalDataModel").setProperty("/IndicatorState", false);
+				MessageToast.show(oBundle.getText("SelectSubletTypeGoForAttachment"), {
+					my: "center center",
+					at: "center center"
+				});
+			}
 
 		},
 
@@ -3769,19 +3778,18 @@ sap.ui.define([
 												"'and DealerPer eq '00'and CustomerPer eq '00'and TCIPer eq '00'"
 										},
 										success: $.proxy(function (sdata) {
-											if (sdata.results[0].Message == "") {
-												this.getView().getModel("DataPercetCalculate").setData(sdata.results[0]);
-												var ocust = parseInt(sdata.results[0].CustomerPer).toString();
-												var odeal = parseInt(sdata.results[0].DealerPer).toString();
-												var otci = parseInt(sdata.results[0].TCIPer).toString();
-												this.getView().getModel("DataPercetCalculate").setProperty("/CustomerPer", ocust);
-												this.getView().getModel("DataPercetCalculate").setProperty("/DealerPer", odeal);
-												this.getView().getModel("DataPercetCalculate").setProperty("/TCIPer", otci);
-												// 	this.getView().getModel("DataPercetCalculate").setProperty("/AuthorizationNumber", "");
-												this._fnClaimSum();
-												this._fnClaimSumPercent();
-												this._fnPricingData(oClaimNum);
-											}
+
+											this.getView().getModel("DataPercetCalculate").setData(sdata.results[0]);
+											var ocust = parseInt(sdata.results[0].CustomerPer).toString();
+											var odeal = parseInt(sdata.results[0].DealerPer).toString();
+											var otci = parseInt(sdata.results[0].TCIPer).toString();
+											this.getView().getModel("DataPercetCalculate").setProperty("/CustomerPer", ocust);
+											this.getView().getModel("DataPercetCalculate").setProperty("/DealerPer", odeal);
+											this.getView().getModel("DataPercetCalculate").setProperty("/TCIPer", otci);
+											// 	this.getView().getModel("DataPercetCalculate").setProperty("/AuthorizationNumber", "");
+											this._fnClaimSum();
+											this._fnClaimSumPercent();
+											this._fnPricingData(oClaimNum);
 
 											this.getView().getModel("DateModel").setProperty("/updateEnable", true);
 										}, this)
@@ -3815,6 +3823,29 @@ sap.ui.define([
 									this.getModel("LocalDataModel").setProperty("/DataAuthDetails", oAuthData.results[0]);
 								}, this)
 							});
+							oClaimModel.read("/zc_authorizationSet", {
+								urlParameters: {
+									"$filter": "DBOperation eq 'LINK'and Numberofwarrantyclaim eq '" + oClaimNum + "'and  AuthorizationNumber eq '" +
+										oAuthNum +
+										"'and DealerPer eq '00'and CustomerPer eq '00'and TCIPer eq '00'"
+								},
+								success: $.proxy(function (sdata) {
+
+									this.getView().getModel("DataPercetCalculate").setData(sdata.results[0]);
+									var ocust = parseInt(sdata.results[0].CustomerPer).toString();
+									var odeal = parseInt(sdata.results[0].DealerPer).toString();
+									var otci = parseInt(sdata.results[0].TCIPer).toString();
+									this.getView().getModel("DataPercetCalculate").setProperty("/CustomerPer", ocust);
+									this.getView().getModel("DataPercetCalculate").setProperty("/DealerPer", odeal);
+									this.getView().getModel("DataPercetCalculate").setProperty("/TCIPer", otci);
+									// 	this.getView().getModel("DataPercetCalculate").setProperty("/AuthorizationNumber", "");
+									this._fnClaimSum();
+									this._fnClaimSumPercent();
+									this._fnPricingData(oClaimNum);
+
+									this.getView().getModel("DateModel").setProperty("/updateEnable", true);
+								}, this)
+							});
 							oClaimModel.read("/ZC_CLAIM_HEAD_NEW", {
 								urlParameters: {
 									"$filter": "NumberOfWarrantyClaim eq '" + oClaimNum + "'"
@@ -3824,6 +3855,7 @@ sap.ui.define([
 									this.getModel("LocalDataModel").setProperty("/WarrantyClaimNum", oClaimNum);
 									this.getModel("LocalDataModel").setProperty("/WarrantyClaimNumber", oBundle.getText("TCIAuthNumber") + " : " +
 										oClaimNum);
+
 									this.getModel("LocalDataModel").setProperty("/linkToAuth", false);
 									this.getModel("LocalDataModel").setProperty("/reCalculate", true);
 									this.getModel("LocalDataModel").setProperty("/PercentState", true);
@@ -5360,15 +5392,9 @@ sap.ui.define([
 			});
 
 		},
-		// onNavigatePaint: function (oEvent) {
-		// 	console.log(oEvent);
-		// 	this.ArrIndexPaint = [];
-		// 	var oSelectedRow = oEvent.getParameters().rowContext.sPath;
-		// 	var oIndex = oSelectedRow.split("/")[2];
-		// 	this.ArrIndexPaint.push(oIndex);
-		// 	// var obj = oEvent.getSource().getModel("LocalDataModel").getProperty(this.oAgrTable);
-		// 	// this.PartNum = obj.matnr;
-		// },
+		onPressCancelPaint: function () {
+			this.getView().getModel("PaintDataModel").setProperty("/PaintPositionCode", "");
+		},
 		onPressDeletePaint: function () {
 			var oTable = this.getView().byId("idPaintTable");
 			var oTableIndex = oTable._aSelectedPaths;
@@ -5715,6 +5741,16 @@ sap.ui.define([
 				});
 				oTable.removeSelections("true");
 			}
+		},
+		onPressCancelSublet: function () {
+
+			this.getView().getModel("SubletDataModel").setProperty("/SubletCode", "");
+			this.getView().getModel("SubletDataModel").setProperty("/InvoiceNo", "");
+			this.getView().getModel("SubletDataModel").setProperty("/Amount", "");
+			this.getView().getModel("SubletDataModel").setProperty("/description", "");
+			this.getView().getModel("SubletDataModel").setProperty("/brand", "");
+			this.getView().getModel("SubletDataModel").setProperty("/days", "");
+			this.getView().getModel("SubletDataModel").setProperty("/unitOfMeasure", "");
 		},
 
 		onRevalidate: function () {
