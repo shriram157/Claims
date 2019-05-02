@@ -148,7 +148,7 @@
 						<Text text="{LocalDataModel>QtyHrs}" wrapping="true"/>
 						<Text text="${LocalDataModel>AmtClaimed}" wrapping="true"/>
 						<Text text="${LocalDataModel>TotalAfterDisct}" wrapping="true"/>
-						<Text text="{LocalDataModel>TCIApprQty}" wrapping="true"/>
+						<Text text="{LocalDataModel>quant}" wrapping="true"/>
 						<Text text="${LocalDataModel>TCIApprovedAmount}" wrapping="true"/>
 						<Text text="${LocalDataModel>DiffAmt}" wrapping="true"/>
 					</cells>

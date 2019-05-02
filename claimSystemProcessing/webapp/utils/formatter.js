@@ -311,7 +311,7 @@ zclaimProcessing.utils.formatter = {
 		if (sum) {
 			for (var i = 0; i < sum.length; i++) {
 				oArr.push(
-					parseFloat(sum[i].Amount)
+					parseFloat(sum[i].AmtClaimed)
 				);
 
 			}
@@ -361,7 +361,7 @@ zclaimProcessing.utils.formatter = {
 		if (sum) {
 			for (var i = 0; i < sum.length; i++) {
 				oArr.push(
-					parseFloat(sum[i].TCIApprAmt)
+					parseFloat(sum[i].TCIApprovedAmount)
 				);
 
 			}
@@ -576,8 +576,8 @@ zclaimProcessing.utils.formatter = {
 		}
 		return oNum;
 	},
-	
-	roundedDecimals: function(oNumber){
+
+	roundedDecimals: function (oNumber) {
 		oNumber = parseFloat(oNumber);
 		var oNum;
 		oNum = Math.round(oNumber * 100) / 100;
