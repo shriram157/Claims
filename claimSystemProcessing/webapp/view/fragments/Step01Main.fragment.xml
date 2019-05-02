@@ -60,9 +60,9 @@
 					required="true" id="idDealerContact" enabled="{DateModel>/oFormEdit}"/>
 				<core:Title text=""/>
 				<Label text="{i18n>OutboundDeliveryDate}"/>
-				<DatePicker required="true" id="idOutBoundDD"
+				<DatePicker id="idOutBoundDD"
 					value="{path:'HeadSetData>/DeliveryDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium' , pattern: 'YYYY-MM-dd'}}"
-					enabled="{DateModel>/oFormEdit}"/>
+					enabled="{DateModel>/oFormEdit}" editable="false"/>
 				<Label text="{i18n>PDCCode}"/>
 				<Input value="" id="idPdcCode" editable="false"/>
 				<core:Title text=""/>

@@ -1212,7 +1212,7 @@ sap.ui.define([
 									urlParameters: {
 										"$filter": "NumberOfWarrantyClaim eq '" + this.getView().getModel("HeadSetData").getProperty(
 												"/NumberOfWarrantyClaim") +
-											"'and LanguageKey eq 'E'"
+											"' and LanguageKey eq 'E'"
 									},
 									success: $.proxy(function (pricedata) {
 										MessageToast.show(that.oBundle.getText("PartItemSuccessMSG"));
@@ -2781,8 +2781,8 @@ sap.ui.define([
 						"/DateOfApplication").getTime() - (10.5 * 60 * 60));
 					this.getView().getModel("HeadSetData").getProperty("/ReferenceDate", this.getView().getModel("HeadSetData").getProperty(
 						"/ReferenceDate").getTime() - (10.5 * 60 * 60));
-					this.getView().getModel("HeadSetData").getProperty("/DeliveryDate", this.getView().getModel("HeadSetData").getProperty(
-						"/DeliveryDate").getTime() - (10.5 * 60 * 60));
+					// this.getView().getModel("HeadSetData").getProperty("/DeliveryDate", this.getView().getModel("HeadSetData").getProperty(
+					// 	"/DeliveryDate").getTime() - (10.5 * 60 * 60));
 					this.getView().getModel("HeadSetData").getProperty("/ShipmentReceivedDate", this.getView().getModel("HeadSetData").getProperty(
 						"/ShipmentReceivedDate").getTime() - (10.5 * 60 * 60));
 
@@ -2865,15 +2865,14 @@ sap.ui.define([
 				this.getView().byId("idMainClaimMessage").setType("Error");
 				return false;
 			} else if (!oValid || (this.getView().getModel("HeadSetData").getProperty("/ShipmentReceivedDate") == undefined || this.getView().getModel(
-					"HeadSetData").getProperty("/ShipmentReceivedDate") == "") && (this.getView().getModel("HeadSetData").getProperty("/DeliveryDate") ==
-					undefined || this.getView().getModel("HeadSetData").getProperty("/DeliveryDate") == "")) {
+					"HeadSetData").getProperty("/ShipmentReceivedDate") == "")) {
 				this.getModel("LocalDataModel").setProperty("/step01Next", false);
 				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
 
-				if (this.getView().getModel("HeadSetData").getProperty("/DeliveryDate") == undefined || this.getView().getModel(
-						"HeadSetData").getProperty("/DeliveryDate") == "") {
-					this.getView().byId("idOutBoundDD").setValueState("Error");
-				}
+				// if (this.getView().getModel("HeadSetData").getProperty("/DeliveryDate") == undefined || this.getView().getModel(
+				// 		"HeadSetData").getProperty("/DeliveryDate") == "") {
+				// 	this.getView().byId("idOutBoundDD").setValueState("Error");
+				// }
 				if (this.getView().getModel("HeadSetData").getProperty("/ShipmentReceivedDate") == undefined || this.getView().getModel(
 						"HeadSetData").getProperty("/ShipmentReceivedDate") == "") {
 					this.getView().byId("idShipmentRDate").setValueState("Error");
@@ -2897,8 +2896,8 @@ sap.ui.define([
 				}
 				//-(10.5*60*60)
 				oCurrentDt = new Date(new Date().getTime() - (10.5 * 60 * 60));
-				this.getView().getModel("HeadSetData").getProperty("/DeliveryDate", this.getView().getModel("HeadSetData").getProperty(
-					"/DeliveryDate").getTime() - (10.5 * 60 * 60));
+				// this.getView().getModel("HeadSetData").getProperty("/DeliveryDate", this.getView().getModel("HeadSetData").getProperty(
+					// "/DeliveryDate").getTime() - (10.5 * 60 * 60));
 				this.getView().getModel("HeadSetData").getProperty("/ShipmentReceivedDate", this.getView().getModel("HeadSetData").getProperty(
 					"/ShipmentReceivedDate").getTime() - (10.5 * 60 * 60));
 				//estTime.setHours(estTime.getHours() + estTime.getTimezoneOffset()/60 - 5);
