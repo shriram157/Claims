@@ -3764,7 +3764,7 @@ sap.ui.define([
 
 									oClaimModel.read("/zc_authorization_detailsSet", {
 										urlParameters: {
-											"$filter": "AuthorizationNumber eq '" + oClaimNum + "'"
+											"$filter": "AuthorizationNumber eq '" + oAuthNum + "'"
 										},
 										success: $.proxy(function (oAuthData) {
 											this.getModel("LocalDataModel").setProperty("/DataAuthDetails", oAuthData.results[0]);
