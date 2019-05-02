@@ -927,6 +927,14 @@ sap.ui.define([
 							sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") != "TCI_Admin") {
 							//	sap.ui.getCore().getModel(	"UserDataModel").getProperty("/LoggedInUser") != "Zone_User" && sap.ui.getCore().getModel("UserDataModel").getProperty(
 							//	"/LoggedInUser") != "TCI_Admin"
+
+							if (oClaimSelectedGroup == "Authorization") {
+								this.getView().getModel("DateModel").setProperty("/copyClaimEnable", false);
+								this.getModel("LocalDataModel").setProperty("/PercentState", true);
+							} else {
+								this.getView().getModel("DateModel").setProperty("/copyClaimEnable", true);
+								this.getModel("LocalDataModel").setProperty("/PercentState", false);
+							}
 							this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
 							this.getView().getModel("DateModel").setProperty("/SaveClaim07", true);
 							this.getModel("LocalDataModel").setProperty("/CancelEnable", true);
@@ -938,8 +946,6 @@ sap.ui.define([
 							this.getModel("LocalDataModel").setProperty("/UploadEnable", true);
 							this.getView().getModel("DateModel").setProperty("/authAcClm", false);
 							this.getView().getModel("DateModel").setProperty("/authRejClm", false);
-							this.getModel("LocalDataModel").setProperty("/PercentState", true);
-
 						}
 
 						this.onP2Claim(oClaimTypeDetail);
