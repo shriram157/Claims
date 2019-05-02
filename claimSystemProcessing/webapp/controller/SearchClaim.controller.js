@@ -159,7 +159,7 @@ sap.ui.define([
 						/*Uncomment for security*/
 						break;
 					default:
-						//	console.log("Dealer Parts");
+						// console.log("Dealer_Services_Manager");
 						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ManageAllShowAuthorization");
 						/*Uncomment for security*/
 						that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", true);

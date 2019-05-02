@@ -28,6 +28,7 @@ sap.ui.define([
 				secondDateValueDRS2: new Date(2018, 2, 1),
 				partLine: false,
 				oFormEdit: false,
+				oFormShipmentEdit: false,
 				claimTypeEn: false,
 				SaveClaim07: false,
 				oLetterOfIntent: false,
@@ -256,6 +257,31 @@ sap.ui.define([
 				}
 			});
 		},
+
+		onDelNumChange: function (oDelNum) {
+			debugger;
+			var that = this;
+			this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", false);
+			var oProssingModel = this.getModel("ProssingModel");
+			var DeliNum = oDelNum.getParameters().newValue;
+			var numQuery = "(DeliNum='" + DeliNum + "')?$format=json";
+			oProssingModel.read("/zc_get_delidateSet" + numQuery, {
+				success: $.proxy(function (delNumdata) {
+					if (delNumdata.DeliDate == null) {
+						MessageBox.show(delNumdata.Message, MessageBox.Icon.INFORMATION, "Information", MessageBox.Action.OK, null, null);
+						this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", false);
+					} else {
+						that.getView().getModel("HeadSetData").setProperty("/DeliveryDate", delNumdata.DeliDate);
+						// that.getView().byId("idShipmentRDate").setProperty("enabled", true);
+						this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", true);
+					}
+				}, this),
+				error: function (err) {
+					this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", false);
+				}
+			});
+			//ZDLR_CLAIM_SRV/zc_get_delidateSet(DeliNum='80000029')?$format=json	
+		},
 		_onRoutMatched: function (oEvent) {
 			//zc_claim_groupSet?$filter=LanguageKey%20eq%20%27EN%27
 			var sSelectedLocale;
@@ -303,6 +329,7 @@ sap.ui.define([
 					secondDateValueDRS2: new Date(2018, 2, 1),
 					partLine: false,
 					oFormEdit: false,
+					oFormShipmentEdit:false,
 					claimTypeEn: false,
 					SaveClaim07: false,
 					oLetterOfIntent: false,
@@ -323,6 +350,7 @@ sap.ui.define([
 					oFormEdit: true,
 					claimTypeEn: true,
 					SaveClaim07: true,
+					oFormShipmentEdit: false,
 					oLetterOfIntent: false,
 					saveParts: false,
 					partTypeState: "None",
@@ -491,15 +519,18 @@ sap.ui.define([
 						/*Uncomment for security*/
 						if (userScope == "ReadOnlyViewAll") {
 							this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
+							this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", false);
 						} else {
 							/*Uncomment for security*/
 							if (this.ClaimStatus == "ZTRC" || this.ClaimStatus == "ZTIC") {
 								//code here
 								this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
+								this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", true);
 								this.getModel("LocalDataModel").setProperty("/UploadEnableHeader", true);
 							} else {
 								this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
 								this.getModel("LocalDataModel").setProperty("/UploadEnableHeader", false);
+								this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", false);
 							}
 							/*Uncomment for security*/
 						}
@@ -619,6 +650,7 @@ sap.ui.define([
 				this.getView().byId("idFilter04").setProperty("enabled", false);
 
 			} else {
+				this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", false);
 				this.getModel("LocalDataModel").setProperty("/UploadEnableHeader", true);
 				this.getModel("LocalDataModel").setProperty("/step01Next", false);
 				this.getModel("ProssingModel").refresh();
@@ -646,6 +678,23 @@ sap.ui.define([
 				});
 				HeadSetData.setDefaultBindingMode("TwoWay");
 				this.getView().setModel(HeadSetData, "HeadSetData");
+				var partData = new sap.ui.model.json.JSONModel({
+					"matnr": "",
+					"quant": "",
+					"quant2": "",
+					"PartDescription": "",
+					"LineNo": "",
+					"QuantityReceived": "",
+					"RetainPart": "",
+					"DiscreCode": "",
+					"LineRefnr": "",
+					"ItemKey": "",
+					"WrongPart": "",
+					"ALMDiscreDesc": ""
+				});
+				partData.setDefaultBindingMode("TwoWay");
+				this.getView().setModel(partData, "PartDataModel");
+
 				this.getModel("LocalDataModel").setProperty("/PartDetailList", "");
 				this.getModel("LocalDataModel").setProperty("/ClaimDetails", "");
 				this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
@@ -1212,7 +1261,7 @@ sap.ui.define([
 									urlParameters: {
 										"$filter": "NumberOfWarrantyClaim eq '" + this.getView().getModel("HeadSetData").getProperty(
 												"/NumberOfWarrantyClaim") +
-											"'and LanguageKey eq 'E'"
+											"' and LanguageKey eq 'E'"
 									},
 									success: $.proxy(function (pricedata) {
 										MessageToast.show(that.oBundle.getText("PartItemSuccessMSG"));
@@ -2781,8 +2830,8 @@ sap.ui.define([
 						"/DateOfApplication").getTime() - (10.5 * 60 * 60));
 					this.getView().getModel("HeadSetData").getProperty("/ReferenceDate", this.getView().getModel("HeadSetData").getProperty(
 						"/ReferenceDate").getTime() - (10.5 * 60 * 60));
-					this.getView().getModel("HeadSetData").getProperty("/DeliveryDate", this.getView().getModel("HeadSetData").getProperty(
-						"/DeliveryDate").getTime() - (10.5 * 60 * 60));
+					// this.getView().getModel("HeadSetData").getProperty("/DeliveryDate", this.getView().getModel("HeadSetData").getProperty(
+					// 	"/DeliveryDate").getTime() - (10.5 * 60 * 60));
 					this.getView().getModel("HeadSetData").getProperty("/ShipmentReceivedDate", this.getView().getModel("HeadSetData").getProperty(
 						"/ShipmentReceivedDate").getTime() - (10.5 * 60 * 60));
 
@@ -2865,15 +2914,14 @@ sap.ui.define([
 				this.getView().byId("idMainClaimMessage").setType("Error");
 				return false;
 			} else if (!oValid || (this.getView().getModel("HeadSetData").getProperty("/ShipmentReceivedDate") == undefined || this.getView().getModel(
-					"HeadSetData").getProperty("/ShipmentReceivedDate") == "") && (this.getView().getModel("HeadSetData").getProperty("/DeliveryDate") ==
-					undefined || this.getView().getModel("HeadSetData").getProperty("/DeliveryDate") == "")) {
+					"HeadSetData").getProperty("/ShipmentReceivedDate") == "")) {
 				this.getModel("LocalDataModel").setProperty("/step01Next", false);
 				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
 
-				if (this.getView().getModel("HeadSetData").getProperty("/DeliveryDate") == undefined || this.getView().getModel(
-						"HeadSetData").getProperty("/DeliveryDate") == "") {
-					this.getView().byId("idOutBoundDD").setValueState("Error");
-				}
+				// if (this.getView().getModel("HeadSetData").getProperty("/DeliveryDate") == undefined || this.getView().getModel(
+				// 		"HeadSetData").getProperty("/DeliveryDate") == "") {
+				// 	this.getView().byId("idOutBoundDD").setValueState("Error");
+				// }
 				if (this.getView().getModel("HeadSetData").getProperty("/ShipmentReceivedDate") == undefined || this.getView().getModel(
 						"HeadSetData").getProperty("/ShipmentReceivedDate") == "") {
 					this.getView().byId("idShipmentRDate").setValueState("Error");
@@ -2897,8 +2945,8 @@ sap.ui.define([
 				}
 				//-(10.5*60*60)
 				oCurrentDt = new Date(new Date().getTime() - (10.5 * 60 * 60));
-				this.getView().getModel("HeadSetData").getProperty("/DeliveryDate", this.getView().getModel("HeadSetData").getProperty(
-					"/DeliveryDate").getTime() - (10.5 * 60 * 60));
+				// this.getView().getModel("HeadSetData").getProperty("/DeliveryDate", this.getView().getModel("HeadSetData").getProperty(
+				// "/DeliveryDate").getTime() - (10.5 * 60 * 60));
 				this.getView().getModel("HeadSetData").getProperty("/ShipmentReceivedDate", this.getView().getModel("HeadSetData").getProperty(
 					"/ShipmentReceivedDate").getTime() - (10.5 * 60 * 60));
 				//estTime.setHours(estTime.getHours() + estTime.getTimezoneOffset()/60 - 5);
@@ -3161,7 +3209,8 @@ sap.ui.define([
 							if (that.getView().getModel("DateModel").getProperty("/oLetterOfIntent") == true) {
 								dialog.close();
 								// var msg = oBundle.getText("LOIMandatoryBeforeTCISubmit");
-								MessageBox.show(oBundle.getText("LOIMandatoryBeforeTCISubmit"), MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
+								MessageBox.show(oBundle.getText("LOIMandatoryBeforeTCISubmit"), MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK,
+									null, null);
 							} else {
 								oClaimModel.refreshSecurityToken();
 								oClaimModel.create("/zc_headSet", this.obj, {
@@ -3171,6 +3220,7 @@ sap.ui.define([
 										if (response.data.zc_claim_vsrSet.results.length <= 0) {
 											this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
 											this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
+											this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", false);
 											this.getView().getModel("DateModel").setProperty("/submitTCIBtn", false);
 											MessageToast.show(oBundle.getText("ClaimNumber") + " " + oClaimNum + " " + oBundle.getText(
 												"successfullysubmittedTCI"), {
@@ -3181,6 +3231,7 @@ sap.ui.define([
 											this.getView().byId("idFilter04").setProperty("enabled", true);
 										} else {
 											this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
+											this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", true);
 											MessageToast.show(
 												oBundle.getText("ClaimNumber") + " " + oClaimNum + " " + oBundle.getText("RejectedTCIValidationResultsdetails"), {
 													my: "center center",
@@ -3196,6 +3247,7 @@ sap.ui.define([
 										console.log("Error in submitting claim to TCI", err);
 										this.getView().byId("idFilter04").setProperty("enabled", false);
 										this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
+										this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", true);
 										var err = JSON.parse(err.responseText);
 										var msg = err.error.message.value;
 										MessageBox.show(msg, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
@@ -3272,7 +3324,6 @@ sap.ui.define([
 					new Button({
 						text: that.oBundle.getText("No"),
 						press: function () {
-
 							that.getRouter().navTo("SearchClaim");
 							dialog.close();
 						}
@@ -3374,6 +3425,7 @@ sap.ui.define([
 			this.getModel("LocalDataModel").setProperty("/ClaimDetails", "");
 			this.getModel("LocalDataModel").setProperty("/oErrorSet", "");
 			this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
+			this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", false);
 			this.obj = {
 				"DBOperation": "SAVE",
 				"Message": "",
