@@ -174,7 +174,7 @@
 						<Button visible="{DateModel>/oTciQtyAppr}" iconFirst="false" text="{LocalDataModel>TCIApprQty}" icon="sap-icon://notification"
 							type="Transparent" press="onPressTCIQty"/>
 						<!--<Text visible="{DateModel>/oTciQtyAppr}" text="{LocalDataModel>TCIApprQty}" wrapping="true" textAlign="Center"  />-->
-						<Text text="${LocalDataModel>TCIApprovedAmount}" wrapping="true" textAlign="Center"/>
+						<Text text="${LocalDataModel>TCIApprAmt}" wrapping="true" textAlign="Center"/>
 						<Text text="${LocalDataModel>DiffAmt}" wrapping="true" textAlign="Center"/>
 					</cells>
 				</ColumnListItem>

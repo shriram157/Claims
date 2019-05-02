@@ -264,7 +264,7 @@ zclaimProcessing.utils.formatter = {
 		if (sum) {
 			for (var i = 0; i < sum.length; i++) {
 				oArr.push(
-					parseFloat(sum[i].HoursApprovedByTCI)
+					parseFloat(sum[i].TCIApprAmt)
 				);
 
 			}
@@ -361,7 +361,7 @@ zclaimProcessing.utils.formatter = {
 		if (sum) {
 			for (var i = 0; i < sum.length; i++) {
 				oArr.push(
-					parseFloat(sum[i].TCIApprovedAmount)
+					parseFloat(sum[i].TCIApprAmt)
 				);
 
 			}

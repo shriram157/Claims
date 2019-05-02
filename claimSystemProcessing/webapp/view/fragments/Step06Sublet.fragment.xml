@@ -209,7 +209,7 @@
 						<Text text="{LocalDataModel>SubletDescription}" wrapping="true" textAlign="Center"/>
 						<Text text="${LocalDataModel>AmtClaimed}" wrapping="true" textAlign="Center"/>
 						<Text text="${LocalDataModel>TotalAfterDisct}" wrapping="true" textAlign="Center"/>
-						<Text text="${LocalDataModel>TCIApprovedAmount}" wrapping="true" textAlign="Center"/>
+						<Text text="${LocalDataModel>TCIApprAmt}" wrapping="true" textAlign="Center"/>
 						<Text text="${LocalDataModel>DiffAmt}" wrapping="true" textAlign="Center"/>
 					</cells>
 				</ColumnListItem>
