@@ -50,11 +50,11 @@
 				<core:Title text=""/>
 				<Label text="{i18n>OutboundDeliveryNumber}"/>
 				<Input value="{path:'HeadSetData>/Delivery', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 10 } }"
-					required="true" id="idOutboundDNum" enabled="{DateModel>/oFormEdit}"/>
+					required="true" id="idOutboundDNum" enabled="{DateModel>/oFormEdit}" change="onDelNumChange"/>
 				<Label text="{i18n>ReceivedDate}"/>
 				<DatePicker
 					value="{path:'HeadSetData>/ShipmentReceivedDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd' } }"
-					required="true" id="idShipmentRDate" enabled="{DateModel>/oFormEdit}" change="onReceivedDateChange"/>
+					required="true" id="idShipmentRDate" enabled="{DateModel>/oFormShipmentEdit}" change="onReceivedDateChange"/>
 				<Label text="{i18n>DealerContact}"/>
 				<Input value="{path:'HeadSetData>/DealerContact', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 10 } }"
 					required="true" id="idDealerContact" enabled="{DateModel>/oFormEdit}"/>

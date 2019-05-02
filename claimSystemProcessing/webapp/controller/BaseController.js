@@ -106,12 +106,12 @@ sap.ui.define([
 					// userScopes.forEach(function (data) {
 
 					var userType = oData.loggedUserType[0];
-					//	var userType = "ManageAllShowAuthorization";
+					// var userType = "Dealer_Parts_Admin";
 					sap.ui.getCore().getModel("UserDataModel").setProperty("/LoggedInUser", userType);
 					sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "");
 					switch (userType) {
 					case "Dealer_Parts_Admin":
-						console.log("Dealer Parts");
+						// console.log("Dealer Parts");
 						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ManageAllParts");
 						/*Uncomment for security*/
 						that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", true);
@@ -123,8 +123,7 @@ sap.ui.define([
 						/*Uncomment for security*/
 						break;
 					case "Dealer_Services_Admin":
-
-						console.log("Dealer_Services_Admin");
+						// console.log("Dealer_Services_Admin");
 						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ManageAllServices");
 						/*Uncomment for security*/
 						that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", true);
@@ -136,7 +135,7 @@ sap.ui.define([
 						/*Uncomment for security*/
 						break;
 					case "Dealer_User":
-						console.log("Dealer_User");
+						// console.log("Dealer_User");
 						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ReadOnlyCoverageClaimLabour");
 						/*Uncomment for security*/
 						that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", false);
@@ -150,7 +149,7 @@ sap.ui.define([
 						/*Uncomment for security*/
 						break;
 					case "TCI_Admin":
-						console.log("TCI_Admin");
+						// console.log("TCI_Admin");
 						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ReadOnlyViewAll");
 						/*Uncomment for security*/
 						that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", false);
@@ -163,7 +162,7 @@ sap.ui.define([
 						/*Uncomment for security*/
 						break;
 					case "TCI_User":
-						console.log("TCI_User");
+						// console.log("TCI_User");
 						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ReadOnlyCoverageClaim");
 						/*Uncomment for security*/
 						that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", false);
@@ -178,7 +177,7 @@ sap.ui.define([
 						/*Uncomment for security*/
 						break;
 					case "Zone_User":
-						console.log("Zone_User");
+						// console.log("Zone_User");
 						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ReadOnlyViewAll");
 						/*Uncomment for security*/
 						that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", false);
@@ -191,7 +190,7 @@ sap.ui.define([
 						// /*Uncomment for security*/
 						break;
 					case "Dealer_Services_Manager":
-						console.log("Dealer_Services_Manager");
+						// console.log("Dealer_Services_Manager");
 						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ManageAllShowAuthorization");
 						/*Uncomment for security*/
 						that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", true);
@@ -203,8 +202,8 @@ sap.ui.define([
 						/*Uncomment for security*/
 						break;
 					default:
-						console.log("Dealer Parts");
-						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ManageAllParts");
+						// console.log("Dealer_Services_Manager");
+						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ManageAllShowAuthorization");
 						/*Uncomment for security*/
 						that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", true);
 						that.getView().getModel("HeaderLinksModel").setProperty("/ViewUpdateClaims", true);
