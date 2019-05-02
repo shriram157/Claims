@@ -905,8 +905,10 @@ sap.ui.define([
 							//	"UserDataModel").getProperty("/LoggedInUser") != "TCI_Admin"
 							if (oClaimSelectedGroup == "Authorization") {
 								this.getView().getModel("DateModel").setProperty("/copyClaimEnable", false);
+								this.getModel("LocalDataModel").setProperty("/PercentState", true);
 							} else {
 								this.getView().getModel("DateModel").setProperty("/copyClaimEnable", true);
+								this.getModel("LocalDataModel").setProperty("/PercentState", false);
 							}
 							this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
 							this.getView().getModel("DateModel").setProperty("/SaveClaim07", true);
@@ -919,7 +921,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/authRejClm", false);
 							this.getView().getModel("DateModel").setProperty("/damageLine", true);
 							this.getView().getModel("DateModel").setProperty("/oDamageLineBtn", true);
-							this.getModel("LocalDataModel").setProperty("/PercentState", true);
+
 						} else if (data.results[0].ProcessingStatusOfWarrantyClm == "ZTRC" && oClaimNav != "Inq" && sap.ui.getCore().getModel(
 								"UserDataModel").getProperty("/LoggedInUser") != "Zone_User" &&
 							sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") != "TCI_Admin") {
@@ -3745,6 +3747,7 @@ sap.ui.define([
 
 									this.getModel("LocalDataModel").setProperty("/linkToAuth", true);
 									this.getModel("LocalDataModel").setProperty("/reCalculate", false);
+
 									//this.getModel("LocalDataModel").setProperty("/PercentState", false);
 									this.getModel("LocalDataModel").setProperty("/copyClaimAuthText", oBundle.getText("CopytoAuthorization"));
 									this.getModel("LocalDataModel").setProperty("/SaveAuthClaim", oBundle.getText("SaveClaim"));
@@ -3760,7 +3763,7 @@ sap.ui.define([
 									this.getView().getModel("DateModel").setProperty("/authRejClm", false);
 									this.getView().getModel("DateModel").setProperty("/damageLine", true);
 									this.getView().getModel("DateModel").setProperty("/oDamageLineBtn", true);
-									this.getModel("LocalDataModel").setProperty("/PercentState", true);
+									this.getModel("LocalDataModel").setProperty("/PercentState", false);
 
 									oClaimModel.read("/zc_authorization_detailsSet", {
 										urlParameters: {
