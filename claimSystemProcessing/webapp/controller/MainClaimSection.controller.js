@@ -71,7 +71,8 @@ sap.ui.define([
 				oTciQtyAppr: false,
 				oAddPartLine: true,
 				oUpdatePartLine: true,
-				authHide: true
+				authHide: true,
+				oVisibleURL: ""
 
 			});
 			this.getView().setModel(oDateModel, "DateModel");
@@ -3477,9 +3478,15 @@ sap.ui.define([
 		// onSelectUpload: function (oEvent) {
 		// 	console.log(OEvent);
 		// },
-		// onClickURISublet: function (oEvent) {
-		// 	console.log(oEvent)
-		// },
+		onClickURISublet: function (oEvent) {
+			var oBundle = this.getView().getModel("i18n").getResourceBundle();
+			if (oEvent.getSource().getHref() == "") {
+				MessageToast.show(oBundle.getText("Noattachmentsexists"), {
+					my: "center center",
+					at: "center center"
+				});
+			}
+		},
 		onFileDeleted: function (oEvent) {
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
@@ -5582,6 +5589,22 @@ sap.ui.define([
 			}
 		},
 
+		fnUrlFormat: function (oVal) {
+			var ogetVal;
+			if (oVal) {
+				//this.getView().getModel("DateModel").setProperty("/oVisibleURL", "View");
+				//ogetVal = oVal;
+				oVal.fontsize(20);
+				ogetVal = oVal;
+			} else {
+				this.getView().getModel("DateModel").setProperty("/oVisibleURL", "");
+				oVal.fontcolor("ff0");
+				ogetVal = oVal;
+			}
+			return ogetVal;
+
+		},
+
 		onPressUpdateSublet: function (oEvent) {
 			//Math.abs(
 			var oTable = this.getView().byId("idSubletTable");
@@ -5709,6 +5732,7 @@ sap.ui.define([
 										this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.data.MainOpsCodeDescription);
 
 										this.getModel("LocalDataModel").setProperty("/SubletPricingDataModel", oFilteredData);
+
 										MessageToast.show(oBundle.getText("ItemDeletedSuccessfully"), {
 											my: "center center",
 											at: "center center"
@@ -6042,6 +6066,8 @@ sap.ui.define([
 										},
 										success: $.proxy(function (sdata) {
 											this.getView().getModel("HeadSetData").setProperty("/ProcessingStatusOfWarrantyClm", sdata.results[0].ProcessingStatusOfWarrantyClm);
+											this._fnClaimSum();
+											this._fnClaimSumPercent();
 										}, this)
 									});
 

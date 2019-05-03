@@ -205,7 +205,7 @@
 						<Text text="{LocalDataModel>posnr}" wrapping="true" textAlign="Center"/>
 						<Text text="{LocalDataModel>ItemKey}" wrapping="true" textAlign="Center"/>
 						<Text text="{LocalDataModel>InvoiceNo}" wrapping="true" textAlign="Center"/>
-						<Link press="onClickURISublet" href="{LocalDataModel>URI}" text="View" target="_blank" textAlign="Center"/>
+						<Link press="onClickURISublet" href="{path:'LocalDataModel>URI'}" text="View" target="_blank" textAlign="Center"/>
 						<Text text="{LocalDataModel>SubletDescription}" wrapping="true" textAlign="Center"/>
 						<Text text="${LocalDataModel>AmtClaimed}" wrapping="true" textAlign="Center"/>
 						<Text text="${LocalDataModel>TotalAfterDisct}" wrapping="true" textAlign="Center"/>
