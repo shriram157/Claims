@@ -2713,6 +2713,8 @@ sap.ui.define([
 										my: "center center",
 										at: "center center"
 									});
+									this._fnClaimSumPercent();
+									this._fnClaimSum();
 									this.getView().getModel("LocalDataModel").setProperty("/CancelEnable", false);
 								}, this),
 								error: function () {
@@ -2769,6 +2771,8 @@ sap.ui.define([
 								my: "center center",
 								at: "center center"
 							});
+							this._fnClaimSumPercent();
+							this._fnClaimSum();
 							this.getView().getModel("HeadSetData").setProperty("/ProcessingStatusOfWarrantyClm", sdata.results[0].ProcessingStatusOfWarrantyClm);
 							this.getView().getModel("DateModel").setProperty("/authAcClm", false);
 							this.getView().getModel("DateModel").setProperty("/authRejClm", false);
@@ -2808,7 +2812,8 @@ sap.ui.define([
 								at: "center center"
 							});
 							this.getView().getModel("HeadSetData").setProperty("/ProcessingStatusOfWarrantyClm", sdata.results[0].ProcessingStatusOfWarrantyClm);
-
+							this._fnClaimSumPercent();
+							this._fnClaimSum();
 							this.getView().getModel("DateModel").setProperty("/authAcClm", false);
 							this.getView().getModel("DateModel").setProperty("/authRejClm", false);
 						}, this)
@@ -3180,6 +3185,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/SaveClaim07", true);
 							this.getView().getModel("DateModel").setProperty("/updateEnable", true);
 							this.getView().getModel("DateModel").setProperty("/copyClaimEnable", true);
+							this.getView().getModel("LocalDataModel").setProperty("/PercentState", true);
 							this.getView().getModel("DateModel").setProperty("/oztac", true);
 							this.getModel("LocalDataModel").setProperty("/UploadEnable", true);
 							var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
@@ -3197,6 +3203,8 @@ sap.ui.define([
 												"'"
 										},
 										success: $.proxy(function (sdata) {
+											this._fnClaimSumPercent();
+											this._fnClaimSum();
 											this.getView().getModel("HeadSetData").setProperty("/ProcessingStatusOfWarrantyClm", sdata.results[0].ProcessingStatusOfWarrantyClm);
 										}, this)
 									});
