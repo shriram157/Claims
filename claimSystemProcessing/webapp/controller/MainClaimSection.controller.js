@@ -874,6 +874,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/authRejClm", true);
 							this.getView().getModel("DateModel").setProperty("/claimEditSt", true);
 							this.getModel("LocalDataModel").setProperty("/PercentState", false);
+							this.getView().getModel("DateModel").setProperty("/ShipmentVisible", false);
 
 						} else if (data.results[0].ProcessingStatusOfWarrantyClm == "ZTMR") {
 							// 	//sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") == "Dealer_Services_Manager"
@@ -889,6 +890,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/authRejClm", false);
 							this.getView().getModel("DateModel").setProperty("/claimEditSt", false);
 							this.getModel("LocalDataModel").setProperty("/PercentState", false);
+							this.getView().getModel("DateModel").setProperty("/ShipmentVisible", false);
 						} else {
 							this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
 							this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
