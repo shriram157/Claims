@@ -79,11 +79,11 @@
 		<!--<Button text="Add Part Line" type="Emphasized" press="onPressAddLabour"/>-->
 		<!--	<Button text="Save Claim" type="Emphasized" press="onPressSaveClaimItem"/>-->
 		<!--</HBox>-->
-		<l:Grid containerQuery="true" defaultSpan="XL10 L10 M12 S12">
-			<VBox class="clBgColor" wrap="Wrap" displayInline="true" alignContent="Center" visible="true">
+		<l:Grid containerQuery="true" defaultSpan="XL12 L12 M12 S12">
+			<VBox class="clBgColor" wrap="Wrap" displayInline="true" alignContent="Center" visible="true" width="100%">
 				<f:SimpleForm editable="true" class="sapUiResponsiveMargin ClsubHeadingLineHeight" width="100%" layout="ResponsiveGridLayout" title=""
-					labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="5"
-					columnsL="5" columnsM="5">
+					labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="6"
+					columnsL="6" columnsM="5">
 					<f:content>
 						<core:Title text=""/>
 						<Label text="Line" textAlign="Left">
@@ -117,6 +117,9 @@
 							<!--	<l:GridData span="XL10 L10 "/>-->
 							<!--</layoutData>-->
 						</Button>
+						<core:Title text=""/>
+						<Label text=" " class="clTextIndent"/>
+						<Button text="{i18n>Clear}" type="Default" press="onPressCancelPart" enabled="{DateModel>/partLine}"></Button>
 					</f:content>
 				</f:SimpleForm>
 			</VBox>

@@ -1509,6 +1509,7 @@ sap.ui.define([
 					this.getView().getModel("DateModel").setProperty("/Authorization", false);
 					this.getView().getModel("DateModel").setProperty("/oECPfields", false);
 					this.getView().getModel("DateModel").setProperty("/RepairdDetailVisible", true);
+					this.getView().getModel("DateModel").setProperty("/ShipmentVisible", false);
 					this.getView().getModel("DateModel").setProperty("/AcA1", false);
 					this.getView().getModel("DateModel").setProperty("/P1p2", false);
 					this.getView().getModel("DateModel").setProperty("/oMainOpsReq", false);
@@ -1534,6 +1535,7 @@ sap.ui.define([
 					this.getView().getModel("DateModel").setProperty("/Authorization", false);
 					this.getView().getModel("DateModel").setProperty("/oECPfields", false);
 					this.getView().getModel("DateModel").setProperty("/RepairdDetailVisible", true);
+					this.getView().getModel("DateModel").setProperty("/ShipmentVisible", false);
 					this.getView().getModel("DateModel").setProperty("/AcA1", false);
 					this.getView().getModel("DateModel").setProperty("/P1p2", false);
 					this.getView().getModel("DateModel").setProperty("/oMainOpsReq", true);
@@ -1564,6 +1566,7 @@ sap.ui.define([
 					this.getView().getModel("DateModel").setProperty("/Authorization", false);
 					this.getView().getModel("DateModel").setProperty("/oECPfields", true);
 					this.getView().getModel("DateModel").setProperty("/RepairdDetailVisible", true);
+					this.getView().getModel("DateModel").setProperty("/ShipmentVisible", false);
 					this.getView().getModel("DateModel").setProperty("/AcA1", false);
 					this.getView().getModel("DateModel").setProperty("/P1p2", false);
 					this.getView().getModel("DateModel").setProperty("/oMainOpsReq", false);
@@ -1594,6 +1597,7 @@ sap.ui.define([
 					this.getView().getModel("DateModel").setProperty("/Authorization", false);
 					this.getView().getModel("DateModel").setProperty("/oECPfields", false);
 					this.getView().getModel("DateModel").setProperty("/RepairdDetailVisible", false);
+					this.getView().getModel("DateModel").setProperty("/ShipmentVisible", false);
 					this.getModel("LocalDataModel").setProperty("/step01Next", false);
 					this.getView().getModel("DateModel").setProperty("/AcA1", false);
 					this.getView().getModel("DateModel").setProperty("/P1p2", false);
@@ -4758,6 +4762,12 @@ sap.ui.define([
 				oTable.removeSelections("true");
 			}
 		},
+		onPressCancelPart: function () {
+			this.getView().getModel("PartDataModel").setProperty("/matnr", "");
+			this.getView().getModel("PartDataModel").setProperty("/quant", "");
+			this.getView().getModel("PartDataModel").setProperty("/PartDescription", "");
+			this.getView().getModel("LocalDataModel").setProperty("/BaseUnit", "");
+		},
 		onPressDeletePart: function () {
 			var oTable = this.getView().byId("idTableParts");
 			var oTableIndex = oTable._aSelectedPaths;
@@ -5362,6 +5372,11 @@ sap.ui.define([
 				oTable.removeSelections("true");
 			}
 		},
+		onPressCancelLabour: function () {
+			this.getView().getModel("LabourDataModel").setProperty("/LabourOp", "");
+			this.getView().getModel("LabourDataModel").setProperty("/ClaimedHours", "");
+			this.getView().getModel("LabourDataModel").setProperty("/LabourDescription", "");
+		},
 
 		onPressSavePaint: function () {
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
@@ -5632,7 +5647,7 @@ sap.ui.define([
 
 				var SubletNum = obj.matnr;
 				var SubletInv = obj.InvoiceNo;
-				var SubletAmount = obj.Amount;
+				var SubletAmount = obj.AmtClaimed;
 				this.getView().getModel("SubletDataModel").setProperty("/SubletCode", SubletNum);
 				this.getView().getModel("SubletDataModel").setProperty("/InvoiceNo", SubletInv);
 				this.getView().getModel("SubletDataModel").setProperty("/Amount", SubletAmount);

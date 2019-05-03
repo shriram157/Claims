@@ -120,7 +120,7 @@
 						</Button>
 						<core:Title text=""/>
 						<Label text=" " class="clTextIndent"/>
-						<Button text="{i18n>Cancel}" type="Default" press="onPressCancelPaint">
+						<Button text="{i18n>Clear}" type="Default" press="onPressCancelPaint" enabled="{DateModel>/paintLine}">
 							<!--<layoutData>-->
 							<!--	<l:GridData span="XL9 L9 "/>-->
 							<!--</layoutData>-->

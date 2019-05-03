@@ -163,7 +163,7 @@
 						</Select>
 						<core:Title text=""/>
 						<Label text=" " class="clTextIndent"/>
-						<Button text="{i18n>Cancel}" type="Default" press="onPressCancelSublet" enabled="{DateModel>/subletLine}">
+						<Button text="{i18n>Clear}" type="Default" press="onPressCancelSublet" enabled="{DateModel>/subletLine}">
 							<layoutData>
 								<l:GridData span="XL7 L7 M10 "/>
 							</layoutData>
