@@ -163,7 +163,7 @@
 						</Select>
 						<core:Title text=""/>
 						<Label text=" " class="clTextIndent"/>
-						<Button text="{i18n>Cancel}" type="Default" press="onPressCancelSublet" enabled="{DateModel>/subletLine}">
+						<Button text="{i18n>Clear}" type="Default" press="onPressCancelSublet" enabled="{DateModel>/subletLine}">
 							<layoutData>
 								<l:GridData span="XL7 L7 M10 "/>
 							</layoutData>
@@ -205,11 +205,11 @@
 						<Text text="{LocalDataModel>posnr}" wrapping="true" textAlign="Center"/>
 						<Text text="{LocalDataModel>ItemKey}" wrapping="true" textAlign="Center"/>
 						<Text text="{LocalDataModel>InvoiceNo}" wrapping="true" textAlign="Center"/>
-						<Link press="onClickURISublet" href="{LocalDataModel>URI}" text="View" target="_blank" textAlign="Center"/>
+						<Link press="onClickURISublet" href="{path:'LocalDataModel>URI'}" text="View" target="_blank" textAlign="Center"/>
 						<Text text="{LocalDataModel>SubletDescription}" wrapping="true" textAlign="Center"/>
 						<Text text="${LocalDataModel>AmtClaimed}" wrapping="true" textAlign="Center"/>
 						<Text text="${LocalDataModel>TotalAfterDisct}" wrapping="true" textAlign="Center"/>
-						<Text text="${LocalDataModel>TCIApprovedAmount}" wrapping="true" textAlign="Center"/>
+						<Text text="${LocalDataModel>TCIApprAmt}" wrapping="true" textAlign="Center"/>
 						<Text text="${LocalDataModel>DiffAmt}" wrapping="true" textAlign="Center"/>
 					</cells>
 				</ColumnListItem>

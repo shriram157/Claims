@@ -83,8 +83,8 @@
 		<l:Grid containerQuery="true" defaultSpan="XL12 L12 M12 S12">
 			<VBox class="clBgColor" wrap="Wrap" displayInline="true" alignContent="Center">
 				<f:SimpleForm editable="true" class="sapUiResponsiveMargin ClsubHeadingLineHeight" width="95%" layout="ResponsiveGridLayout" title=""
-					labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="5"
-					columnsL="5" columnsM="3">
+					labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="6"
+					columnsL="6" columnsM="3">
 					<f:content>
 						<core:Title text=""/>
 						<Label text="{i18n>Line}" textAlign="Left"/>
@@ -107,6 +107,9 @@
 						<core:Title text=""/>
 						<Label text=" " class="clTextIndent"/>
 						<Button text="{i18n>SaveLabour}" type="Emphasized" press="onPressSaveClaimItemLabour" enabled="{DateModel>/labourLine}"/>
+						<core:Title text=""/>
+						<Label text=" " class="clTextIndent"/>
+						<Button text="{i18n>Clear}" type="Default" press="onPressCancelLabour" enabled="{DateModel>/labourLine}"></Button>
 					</f:content>
 				</f:SimpleForm>
 			</VBox>
@@ -149,7 +152,7 @@
 						<Text text="${LocalDataModel>AmtClaimed}" wrapping="true"/>
 						<Text text="${LocalDataModel>TotalAfterDisct}" wrapping="true"/>
 						<Text text="{LocalDataModel>quant}" wrapping="true"/>
-						<Text text="${LocalDataModel>TCIApprovedAmount}" wrapping="true"/>
+						<Text text="${LocalDataModel>TCIApprAmt}" wrapping="true"/>
 						<Text text="${LocalDataModel>DiffAmt}" wrapping="true"/>
 					</cells>
 				</ColumnListItem>

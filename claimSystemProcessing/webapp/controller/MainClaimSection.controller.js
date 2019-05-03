@@ -71,7 +71,8 @@ sap.ui.define([
 				oTciQtyAppr: false,
 				oAddPartLine: true,
 				oUpdatePartLine: true,
-				authHide: true
+				authHide: true,
+				oVisibleURL: ""
 
 			});
 			this.getView().setModel(oDateModel, "DateModel");
@@ -409,33 +410,39 @@ sap.ui.define([
 
 						var oPartner = data.results[0].Partner;
 
-						// 		if (data.results[0].AuthorizationNumber != "") {
-						// 			oProssingModel.read("/zc_authorization_detailsSet", {
-						// 				urlParameters: {
-						// 					"$filter": "AuthorizationNumber eq '" + oClaim + "'"
-						// 				},
-						// 				success: $.proxy(function (oAuthData) {
-						// 					this.getModel("LocalDataModel").setProperty("/DataAuthDetails", oAuthData.results[0]);
-						// 				}, this)
-						// 			});
+						if (oClaimSelectedGroup == "Claim") {
 
-						// 			oProssingModel.read("/zc_authorizationSet", {
-						// 				urlParameters: {
-						// 					"$filter": "DBOperation eq 'READ'and AuthorizationNumber eq '" + data.results[0].AuthorizationNumber +
-						// 						"'and DealerPer eq '00'and CustomerPer eq '00'and TCIPer eq '00'"
-						// 				},
-						// 				success: $.proxy(function (authData) {
-						// 					this.getView().getModel("DataPercetCalculate").setData(authData.results[0]);
-						// 					var ocust = parseInt(authData.results[0].CustomerPer).toString();
-						// 					var odeal = parseInt(authData.results[0].DealerPer).toString();
-						// 					var otci = parseInt(authData.results[0].TCIPer).toString();
-						// 					this.getView().getModel("DataPercetCalculate").setProperty("/CustomerPer", ocust);
-						// 					this.getView().getModel("DataPercetCalculate").setProperty("/DealerPer", odeal);
-						// 					this.getView().getModel("DataPercetCalculate").setProperty("/TCIPer", otci);
-						// 				}, this)
-						// 			});
-						// 		}
+							if (data.results[0].AuthorizationNumber != "") {
+								oProssingModel.read("/zc_authorization_detailsSet", {
+									urlParameters: {
+										"$filter": "AuthorizationNumber eq '" + data.results[0].AuthorizationNumber + "'"
+									},
+									success: $.proxy(function (oAuthData) {
+										this.getModel("LocalDataModel").setProperty("/DataAuthDetails", oAuthData.results[0]);
+									}, this)
+								});
 
+								oProssingModel.read("/zc_authorizationSet", {
+									urlParameters: {
+										"$filter": "DBOperation eq 'READ'and AuthorizationNumber eq '" + data.results[0].AuthorizationNumber +
+											"'and DealerPer eq '00'and CustomerPer eq '00'and TCIPer eq '00'"
+									},
+									success: $.proxy(function (authData) {
+										this.getView().getModel("DataPercetCalculate").setData(authData.results[0]);
+										var ocust = parseInt(authData.results[0].CustomerPer).toString();
+										var odeal = parseInt(authData.results[0].DealerPer).toString();
+										var otci = parseInt(authData.results[0].TCIPer).toString();
+										this.getView().getModel("DataPercetCalculate").setProperty("/CustomerPer", ocust);
+										this.getView().getModel("DataPercetCalculate").setProperty("/DealerPer", odeal);
+										this.getView().getModel("DataPercetCalculate").setProperty("/TCIPer", otci);
+										this._fnClaimSumPercent();
+										this._fnClaimSum();
+										this._fnPricingData(data.results[0].AuthorizationNumber);
+
+									}, this)
+								});
+							}
+						}
 						oBusinessModel.read("/A_BusinessPartner", {
 							urlParameters: {
 								"$filter": "BusinessPartner eq '" + oPartner + "'"
@@ -867,6 +874,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/authRejClm", true);
 							this.getView().getModel("DateModel").setProperty("/claimEditSt", true);
 							this.getModel("LocalDataModel").setProperty("/PercentState", false);
+							this.getView().getModel("DateModel").setProperty("/ShipmentVisible", false);
 
 						} else if (data.results[0].ProcessingStatusOfWarrantyClm == "ZTMR") {
 							// 	//sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") == "Dealer_Services_Manager"
@@ -882,6 +890,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/authRejClm", false);
 							this.getView().getModel("DateModel").setProperty("/claimEditSt", false);
 							this.getModel("LocalDataModel").setProperty("/PercentState", false);
+							this.getView().getModel("DateModel").setProperty("/ShipmentVisible", false);
 						} else {
 							this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
 							this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
@@ -1502,6 +1511,7 @@ sap.ui.define([
 					this.getView().getModel("DateModel").setProperty("/Authorization", false);
 					this.getView().getModel("DateModel").setProperty("/oECPfields", false);
 					this.getView().getModel("DateModel").setProperty("/RepairdDetailVisible", true);
+					this.getView().getModel("DateModel").setProperty("/ShipmentVisible", false);
 					this.getView().getModel("DateModel").setProperty("/AcA1", false);
 					this.getView().getModel("DateModel").setProperty("/P1p2", false);
 					this.getView().getModel("DateModel").setProperty("/oMainOpsReq", false);
@@ -1527,6 +1537,7 @@ sap.ui.define([
 					this.getView().getModel("DateModel").setProperty("/Authorization", false);
 					this.getView().getModel("DateModel").setProperty("/oECPfields", false);
 					this.getView().getModel("DateModel").setProperty("/RepairdDetailVisible", true);
+					this.getView().getModel("DateModel").setProperty("/ShipmentVisible", false);
 					this.getView().getModel("DateModel").setProperty("/AcA1", false);
 					this.getView().getModel("DateModel").setProperty("/P1p2", false);
 					this.getView().getModel("DateModel").setProperty("/oMainOpsReq", true);
@@ -1557,6 +1568,7 @@ sap.ui.define([
 					this.getView().getModel("DateModel").setProperty("/Authorization", false);
 					this.getView().getModel("DateModel").setProperty("/oECPfields", true);
 					this.getView().getModel("DateModel").setProperty("/RepairdDetailVisible", true);
+					this.getView().getModel("DateModel").setProperty("/ShipmentVisible", false);
 					this.getView().getModel("DateModel").setProperty("/AcA1", false);
 					this.getView().getModel("DateModel").setProperty("/P1p2", false);
 					this.getView().getModel("DateModel").setProperty("/oMainOpsReq", false);
@@ -1587,6 +1599,7 @@ sap.ui.define([
 					this.getView().getModel("DateModel").setProperty("/Authorization", false);
 					this.getView().getModel("DateModel").setProperty("/oECPfields", false);
 					this.getView().getModel("DateModel").setProperty("/RepairdDetailVisible", false);
+					this.getView().getModel("DateModel").setProperty("/ShipmentVisible", false);
 					this.getModel("LocalDataModel").setProperty("/step01Next", false);
 					this.getView().getModel("DateModel").setProperty("/AcA1", false);
 					this.getView().getModel("DateModel").setProperty("/P1p2", false);
@@ -3471,9 +3484,15 @@ sap.ui.define([
 		// onSelectUpload: function (oEvent) {
 		// 	console.log(OEvent);
 		// },
-		// onClickURISublet: function (oEvent) {
-		// 	console.log(oEvent)
-		// },
+		onClickURISublet: function (oEvent) {
+			var oBundle = this.getView().getModel("i18n").getResourceBundle();
+			if (oEvent.getSource().getHref() == "") {
+				MessageToast.show(oBundle.getText("Noattachmentsexists"), {
+					my: "center center",
+					at: "center center"
+				});
+			}
+		},
 		onFileDeleted: function (oEvent) {
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
@@ -4745,6 +4764,12 @@ sap.ui.define([
 				oTable.removeSelections("true");
 			}
 		},
+		onPressCancelPart: function () {
+			this.getView().getModel("PartDataModel").setProperty("/matnr", "");
+			this.getView().getModel("PartDataModel").setProperty("/quant", "");
+			this.getView().getModel("PartDataModel").setProperty("/PartDescription", "");
+			this.getView().getModel("LocalDataModel").setProperty("/BaseUnit", "");
+		},
 		onPressDeletePart: function () {
 			var oTable = this.getView().byId("idTableParts");
 			var oTableIndex = oTable._aSelectedPaths;
@@ -5349,6 +5374,11 @@ sap.ui.define([
 				oTable.removeSelections("true");
 			}
 		},
+		onPressCancelLabour: function () {
+			this.getView().getModel("LabourDataModel").setProperty("/LabourOp", "");
+			this.getView().getModel("LabourDataModel").setProperty("/ClaimedHours", "");
+			this.getView().getModel("LabourDataModel").setProperty("/LabourDescription", "");
+		},
 
 		onPressSavePaint: function () {
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
@@ -5576,6 +5606,22 @@ sap.ui.define([
 			}
 		},
 
+		fnUrlFormat: function (oVal) {
+			var ogetVal;
+			if (oVal) {
+				//this.getView().getModel("DateModel").setProperty("/oVisibleURL", "View");
+				//ogetVal = oVal;
+				oVal.fontsize(20);
+				ogetVal = oVal;
+			} else {
+				this.getView().getModel("DateModel").setProperty("/oVisibleURL", "");
+				oVal.fontcolor("ff0");
+				ogetVal = oVal;
+			}
+			return ogetVal;
+
+		},
+
 		onPressUpdateSublet: function (oEvent) {
 			//Math.abs(
 			var oTable = this.getView().byId("idSubletTable");
@@ -5603,7 +5649,7 @@ sap.ui.define([
 
 				var SubletNum = obj.matnr;
 				var SubletInv = obj.InvoiceNo;
-				var SubletAmount = obj.Amount;
+				var SubletAmount = obj.AmtClaimed;
 				this.getView().getModel("SubletDataModel").setProperty("/SubletCode", SubletNum);
 				this.getView().getModel("SubletDataModel").setProperty("/InvoiceNo", SubletInv);
 				this.getView().getModel("SubletDataModel").setProperty("/Amount", SubletAmount);
@@ -5703,6 +5749,7 @@ sap.ui.define([
 										this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.data.MainOpsCodeDescription);
 
 										this.getModel("LocalDataModel").setProperty("/SubletPricingDataModel", oFilteredData);
+
 										MessageToast.show(oBundle.getText("ItemDeletedSuccessfully"), {
 											my: "center center",
 											at: "center center"
@@ -6036,6 +6083,8 @@ sap.ui.define([
 										},
 										success: $.proxy(function (sdata) {
 											this.getView().getModel("HeadSetData").setProperty("/ProcessingStatusOfWarrantyClm", sdata.results[0].ProcessingStatusOfWarrantyClm);
+											this._fnClaimSum();
+											this._fnClaimSumPercent();
 										}, this)
 									});
 
