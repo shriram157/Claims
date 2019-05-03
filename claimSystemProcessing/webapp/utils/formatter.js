@@ -424,16 +424,16 @@ zclaimProcessing.utils.formatter = {
 		var oArr = [];
 		if (sum) {
 			for (var i = 0; i < sum.length; i++) {
-				oArr.push(
-					parseFloat(sum[i].RepairAmt)
-				);
-
+				if (sum[i].RepairAmt.length > 10) { //sum[i].RepairAmt.split("Received:")[1]
+					oArr.push(parseFloat(sum[i].RepairAmt.split("Received:")[1]));
+				} else {
+					oArr.push(parseFloat(sum[i].RepairAmt));
+				}
 			}
 			if (oArr.length > 0) {
 				oNum = oArr.reduce(
 					function (a, b) {
 						return a + b;
-
 					}
 				).toFixed(2);
 			}
@@ -450,16 +450,16 @@ zclaimProcessing.utils.formatter = {
 		var oArr = [];
 		if (sum) {
 			for (var i = 0; i < sum.length; i++) {
-				oArr.push(
-					parseFloat(sum[i].AmtClaimed)
-				);
-
+				if (sum[i].AmtClaimed.length > 10) { //sum[i].RepairAmt.split("Received:")[1]
+					oArr.push(parseFloat(sum[i].AmtClaimed.split("Received:")[1]));
+				} else {
+					oArr.push(parseFloat(sum[i].AmtClaimed));
+				}
 			}
 			if (oArr.length > 0) {
 				oNum = oArr.reduce(
 					function (a, b) {
 						return a + b;
-
 					}
 				).toFixed(2);
 			}
@@ -476,16 +476,16 @@ zclaimProcessing.utils.formatter = {
 		var oArr = [];
 		if (sum) {
 			for (var i = 0; i < sum.length; i++) {
-				oArr.push(
-					parseFloat(sum[i].DiffAmt)
-				);
-
+				if (sum[i].DiffAmt.length > 10) { //sum[i].RepairAmt.split("Received:")[1]
+					oArr.push(parseFloat(sum[i].DiffAmt.split("Received:")[1]));
+				} else {
+					oArr.push(parseFloat(sum[i].DiffAmt));
+				}
 			}
 			if (oArr.length > 0) {
 				oNum = oArr.reduce(
 					function (a, b) {
 						return a + b;
-
 					}
 				).toFixed(2);
 			}
@@ -502,16 +502,19 @@ zclaimProcessing.utils.formatter = {
 		var oArr = [];
 		if (sum) {
 			for (var i = 0; i < sum.length; i++) {
-				oArr.push(
-					parseFloat(sum[i].TCIApprovedAmount)
-				);
-
+				if (sum[i].TCIApprovedAmount.length > 10) { //sum[i].RepairAmt.split("Received:")[1]
+					oArr.push(parseFloat(sum[i].TCIApprovedAmount.split("Received:")[1]));
+				} else {
+					oArr.push(parseFloat(sum[i].TCIApprovedAmount));
+				}
+				// oArr.push(
+				// 	parseFloat(sum[i].TCIApprovedAmount)
+				// );
 			}
 			if (oArr.length > 0) {
 				oNum = oArr.reduce(
 					function (a, b) {
 						return a + b;
-
 					}
 				).toFixed(2);
 			}
@@ -578,10 +581,25 @@ zclaimProcessing.utils.formatter = {
 	},
 
 	roundedDecimals: function (oNumber) {
-		oNumber = parseFloat(oNumber);
-		var oNum;
-		oNum = Math.round(oNumber * 100) / 100;
-		return "$" + oNum.toFixed(2);
+		if (oNumber !== null && oNumber != undefined && oNumber != "") {
+			var oNumber1, oNumber2, oNum1, oNum2;
+			if (oNumber.length > 10) {
+				oNumber1 = parseFloat(oNumber.split("Received:")[1]);
+				oNumber2 = parseFloat(oNumber.split("Received:")[1].split("Ordered:"));
+				// var oNum;
+				oNum1 = Math.round(oNumber1 * 100) / 100;
+				oNum2 = Math.round(oNumber2 * 100) / 100;
+				var finalNum = "Ordered: $" + oNum1.toFixed(2) + "\nReceived: $" + oNum2.toFixed(2);
+				return finalNum;
+			} else {
+				oNumber = parseFloat(oNumber);
+				var oNum;
+				oNum = Math.round(oNumber * 100) / 100;
+				return "$" + oNum.toFixed(2);
+			}
+		}
+		// oNumber = parseFloat(oNumber);
+
 	}
 
 };
