@@ -2944,7 +2944,7 @@ sap.ui.define([
 							ItemType: "SUBL",
 							InvoiceNo: item.InvoiceNo,
 							UnitOfMeasure: item.Meinh,
-							Amount: item.Amount,
+							Amount: item.AmtClaimed,
 							SubletDescription: item.SubletDescription,
 							URI: item.URI,
 							SubletType: item.ItemKey,
