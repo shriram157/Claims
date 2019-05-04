@@ -2792,36 +2792,68 @@ sap.ui.define([
 				DBOperation: "ZTCM"
 
 			};
-			oClaimModel.update("/zc_headSet(NumberOfWarrantyClaim='" + oClaimNum + "')", obj, {
-				method: "PUT",
-				success: $.proxy(function (response) {
-					this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
-					this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
-					this.getView().getModel("DateModel").setProperty("/claimEditSt", false);
-					this.getView().getModel("DateModel").setProperty("/updateEnable", false);
-					this.getModel("LocalDataModel").setProperty("/CancelEnable", false);
-					this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
-					this.getView().getModel("DateModel").setProperty("/copyClaimEnable", false);
-					oClaimModel.read("/ZC_CLAIM_HEAD_NEW", {
-						urlParameters: {
-							"$filter": "NumberOfWarrantyClaim eq '" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") +
-								"'"
-						},
-						success: $.proxy(function (sdata) {
-							MessageToast.show(oBundle.getText("AuthorizationRejected"), {
-								my: "center center",
-								at: "center center"
+
+			var dialog = new Dialog({
+				title: oBundle.getText("RejectClaim"),
+				type: "Message",
+				content: new Text({
+					text: oBundle.getText("DoyouwantCancelAuthorization")
+				}),
+
+				buttons: [
+					new Button({
+						text: oBundle.getText("Yes"),
+						press: $.proxy(function () {
+							oClaimModel.update("/zc_headSet(NumberOfWarrantyClaim='" + oClaimNum + "')", obj, {
+								method: "PUT",
+								success: $.proxy(function (response) {
+									this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
+									this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
+									this.getView().getModel("DateModel").setProperty("/claimEditSt", false);
+									this.getView().getModel("DateModel").setProperty("/updateEnable", false);
+									this.getModel("LocalDataModel").setProperty("/CancelEnable", false);
+									this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
+									this.getView().getModel("DateModel").setProperty("/copyClaimEnable", false);
+									oClaimModel.read("/ZC_CLAIM_HEAD_NEW", {
+										urlParameters: {
+											"$filter": "NumberOfWarrantyClaim eq '" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") +
+												"'"
+										},
+										success: $.proxy(function (sdata) {
+											MessageToast.show(oBundle.getText("AuthorizationRejected"), {
+												my: "center center",
+												at: "center center"
+											});
+											this.getView().getModel("HeadSetData").setProperty("/ProcessingStatusOfWarrantyClm", sdata.results[0].ProcessingStatusOfWarrantyClm);
+											this._fnClaimSumPercent();
+											this._fnClaimSum();
+											this._fnPricingData(oClaimNum);
+											this.getView().getModel("DateModel").setProperty("/authAcClm", false);
+											this.getView().getModel("DateModel").setProperty("/authRejClm", false);
+										}, this)
+									});
+								}, this)
 							});
-							this.getView().getModel("HeadSetData").setProperty("/ProcessingStatusOfWarrantyClm", sdata.results[0].ProcessingStatusOfWarrantyClm);
-							this._fnClaimSumPercent();
-							this._fnClaimSum();
-							this._fnPricingData(oClaimNum);
-							this.getView().getModel("DateModel").setProperty("/authAcClm", false);
-							this.getView().getModel("DateModel").setProperty("/authRejClm", false);
+
+							dialog.close();
 						}, this)
-					});
-				}, this)
+					}),
+					new Button({
+						text: "No",
+						press: function () {
+							dialog.close();
+						}
+					})
+
+				],
+
+				afterClose: function () {
+					dialog.destroy();
+				}
 			});
+
+			dialog.open();
+
 		},
 
 		_fnUpdateClaim: function () {
