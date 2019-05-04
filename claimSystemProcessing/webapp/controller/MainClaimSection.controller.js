@@ -3256,7 +3256,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
 							this.getView().getModel("DateModel").setProperty("/SaveClaim07", true);
 							this.getView().getModel("DateModel").setProperty("/updateEnable", true);
-							this.getView().getModel("DateModel").setProperty("/copyClaimEnable", true);
+
 							this.getView().getModel("LocalDataModel").setProperty("/PercentState", true);
 							this.getView().getModel("DateModel").setProperty("/oztac", true);
 							this.getModel("LocalDataModel").setProperty("/UploadEnable", true);
@@ -3279,6 +3279,11 @@ sap.ui.define([
 											this._fnClaimSum();
 											this._fnPricingData(oClaimNum);
 											this.getView().getModel("HeadSetData").setProperty("/ProcessingStatusOfWarrantyClm", sdata.results[0].ProcessingStatusOfWarrantyClm);
+											if (sdata.results[0].ProcessingStatusOfWarrantyClm == "ZTAA") {
+												this.getView().getModel("DateModel").setProperty("/copyClaimEnable", true);
+											} else {
+												this.getView().getModel("DateModel").setProperty("/copyClaimEnable", false);
+											}
 										}, this)
 									});
 								}, this)
