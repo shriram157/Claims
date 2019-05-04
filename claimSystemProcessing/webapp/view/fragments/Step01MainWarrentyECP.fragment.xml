@@ -317,7 +317,7 @@
 			</items>
 		</Table>
 		<f:SimpleForm editable="" title="" layout="ResponsiveGridLayout" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12"
-			adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="5" columnsL="5" columnsM="3"
+			adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="4" columnsL="4" columnsM="3"
 			singleContainerFullSize="false" visible="{DateModel>/oECPfields}">
 			<f:content>
 				<core:Title text=""/>
@@ -326,12 +326,16 @@
 				<core:Title text=""/>
 				<Label text="{i18n>PostalCode}"/>
 				<Input value="{HeadSetData>/CustomerPostalCode}" required="true"/>
+				<!--<core:Title text=""/>-->
+				<!--<Label text=" "/>-->
+				<!--<Button press="onPressLookUpECP" text="{i18n>LookupECPAgreements}"/>-->
 				<core:Title text=""/>
-				<Label text=" "/>
-				<Button press="onPressLookUpECP" text="{i18n>LookupECPAgreements}"/>
-				<core:Title text=""/>
-				<Label text=" "/>
-				<Button text="{i18n>PerformCIC}"/>
+				<Label text=" " class="clTextIndent"/>
+				<Button text="{i18n>PerformCIC}">
+					<layoutData>
+						<l:GridData span="XL8 L8 M12 S12"/>
+					</layoutData>
+				</Button>
 				<core:Title text=""/>
 				<Label text="{i18n>AgreementNumber}"/>
 				<Text text="{HeadSetData>/AgreementNumber}"/>

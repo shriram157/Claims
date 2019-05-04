@@ -62,7 +62,8 @@
 			<f:content>
 				<core:Title text=""/>
 				<Label text="{i18n>AuthorizationNo}" visible="{LocalDataModel>/linkToAuth}"/>
-				<Input value="{DataPercetCalculate>/AuthorizationNumber}" enabled="{DateModel>/oFormEdit}" visible="{LocalDataModel>/linkToAuth}"/>
+				<Input id="idAuthNum" value="{DataPercetCalculate>/AuthorizationNumber}" enabled="{DateModel>/oFormEdit}"
+					visible="{LocalDataModel>/linkToAuth}"/>
 				<Button text="{i18n>LinktoAuthorization}" press="onPressLinkAuthorization" enabled="{DateModel>/oFormEdit}"
 					visible="{LocalDataModel>/linkToAuth}"/>
 			</f:content>

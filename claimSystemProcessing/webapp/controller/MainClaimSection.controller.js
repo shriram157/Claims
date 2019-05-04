@@ -2773,6 +2773,7 @@ sap.ui.define([
 							});
 							this._fnClaimSumPercent();
 							this._fnClaimSum();
+							this._fnPricingData(oClaimNum);
 							this.getView().getModel("HeadSetData").setProperty("/ProcessingStatusOfWarrantyClm", sdata.results[0].ProcessingStatusOfWarrantyClm);
 							this.getView().getModel("DateModel").setProperty("/authAcClm", false);
 							this.getView().getModel("DateModel").setProperty("/authRejClm", false);
@@ -2814,6 +2815,7 @@ sap.ui.define([
 							this.getView().getModel("HeadSetData").setProperty("/ProcessingStatusOfWarrantyClm", sdata.results[0].ProcessingStatusOfWarrantyClm);
 							this._fnClaimSumPercent();
 							this._fnClaimSum();
+							this._fnPricingData(oClaimNum);
 							this.getView().getModel("DateModel").setProperty("/authAcClm", false);
 							this.getView().getModel("DateModel").setProperty("/authRejClm", false);
 						}, this)
@@ -3205,6 +3207,7 @@ sap.ui.define([
 										success: $.proxy(function (sdata) {
 											this._fnClaimSumPercent();
 											this._fnClaimSum();
+											this._fnPricingData(oClaimNum);
 											this.getView().getModel("HeadSetData").setProperty("/ProcessingStatusOfWarrantyClm", sdata.results[0].ProcessingStatusOfWarrantyClm);
 										}, this)
 									});
@@ -3966,10 +3969,12 @@ sap.ui.define([
 				this.getView().byId("idFilter06").setProperty("enabled", true);
 				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab6");
 				this.getView().byId("mainSectionTitle").setTitle(this.oBundle.getText("ClaimSubletSection"));
+				this.getView().byId("idSubletCode").focus();
 			} else {
 				this.getView().byId("idFilter03").setProperty("enabled", true);
 				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab3");
 				this.getView().byId("mainSectionTitle").setTitle(this.oBundle.getText("ClaimPartsSection"));
+				this.getView().byId("idPartNumber").focus();
 			}
 
 		},
@@ -4004,6 +4009,7 @@ sap.ui.define([
 				this.getView().byId("idFilter04").setProperty("enabled", true);
 				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab4");
 				this.getView().byId("mainSectionTitle").setTitle(this.oBundle.getText("ClaimLabourSection"));
+				this.getView().byId("idOperationLabour").focus();
 			}
 
 			oProssingModel.read("/zc_get_operation_numberSet", {
@@ -6093,6 +6099,7 @@ sap.ui.define([
 											this.getView().getModel("HeadSetData").setProperty("/ProcessingStatusOfWarrantyClm", sdata.results[0].ProcessingStatusOfWarrantyClm);
 											this._fnClaimSum();
 											this._fnClaimSumPercent();
+											this._fnPricingData(oClaimNum);
 										}, this)
 									});
 
