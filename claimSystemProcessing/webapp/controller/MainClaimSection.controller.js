@@ -3256,7 +3256,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
 							this.getView().getModel("DateModel").setProperty("/SaveClaim07", true);
 							this.getView().getModel("DateModel").setProperty("/updateEnable", true);
-
+							this.getModel("LocalDataModel").setProperty("/CancelEnable", true);
 							this.getView().getModel("LocalDataModel").setProperty("/PercentState", true);
 							this.getView().getModel("DateModel").setProperty("/oztac", true);
 							this.getModel("LocalDataModel").setProperty("/UploadEnable", true);
