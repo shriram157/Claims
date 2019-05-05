@@ -273,6 +273,7 @@ sap.ui.define([
 			this.getView().getModel("DataPercetCalculate").setProperty("/CustomerAmt", "");
 			this.getView().getModel("DataPercetCalculate").setProperty("/DealerAmt", "");
 			this.getView().getModel("DataPercetCalculate").setProperty("/TCIAmt", "");
+			this.getModel("LocalDataModel").setProperty("/oErrorSet", "");
 			this.getView().getModel("DataPercetCalculate").setProperty("/AuthorizationNumber", "");
 
 			this.getView().getModel("DataPercetCalculate").setProperty("/CustomerPer", "");
