@@ -123,7 +123,7 @@
 					editable="{DateModel>/oFormEdit}">
 					<buttons>
 						<RadioButton groupName="E" text="{i18n>VIN}"/>
-						<RadioButton visible="{DateModel>/authHide}" groupName="E" text="{i18n>NonVehicle}"/>
+						<RadioButton visible="{DateModel>/nonVinHide}" groupName="E" text="{i18n>NonVehicle}"/>
 					</buttons>
 				</RadioButtonGroup>
 				<Input required="{DateModel>/OdometerReq}"

@@ -72,7 +72,8 @@ sap.ui.define([
 				oAddPartLine: true,
 				oUpdatePartLine: true,
 				authHide: true,
-				oVisibleURL: ""
+				oVisibleURL: "",
+				nonVinHide: true
 
 			});
 			this.getView().setModel(oDateModel, "DateModel");
@@ -589,6 +590,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/oMainOpsReq", false);
 							this.getView().getModel("DateModel").setProperty("/oPrevInvNumReq", true);
 							this.getView().getModel("DateModel").setProperty("/oPrevInvDateReq", true);
+
 							this.getView().getModel("DateModel").setProperty("/PreroOdometerVisible", false);
 							this.getView().getModel("DateModel").setProperty("/RepairdDetailVisible", true);
 							this.getView().getModel("DateModel").setProperty("/P1p2", true);
@@ -1660,6 +1662,7 @@ sap.ui.define([
 					this.getView().getModel("DateModel").setProperty("/P1p2", false);
 					this.getView().getModel("DateModel").setProperty("/oMainOpsReq", false);
 					this.getView().getModel("DateModel").setProperty("/authHide", false);
+
 				} else {
 					this.getView().getModel("DateModel").setProperty("/ShipmentVisible", false);
 					this.getView().getModel("DateModel").setProperty("/LabourBtnVsbl", true);
@@ -2049,7 +2052,12 @@ sap.ui.define([
 		},
 
 		onP2Claim: function (elm) {
-			if (elm == "ZWP2") {
+			if (elm == "ZLDC") {
+				this.getView().getModel("DateModel").setProperty("/nonVinHide", false);
+			} else {
+				this.getView().getModel("DateModel").setProperty("/nonVinHide", true);
+			}
+			if (elm == "ZWP2" || elm == "ZWMS" || elm == "ZWA2") {
 				this.getView().getModel("DateModel").setProperty("/DisableRadio", false);
 				this.getView().getModel("DateModel").setProperty("/OdometerReq", false);
 				this.getView().byId("idRequestType").setSelectedIndex(1);
@@ -2737,6 +2745,9 @@ sap.ui.define([
 									this.getModel("LocalDataModel").setProperty("/CancelEnable", false);
 									this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
 									this.getView().getModel("DateModel").setProperty("/copyClaimEnable", false);
+									this.getView().getModel("DateModel").setProperty("/authRejClm", false);
+									this.getView().getModel("DateModel").setProperty("/authAcClm", false);
+									this.getModel("LocalDataModel").setProperty("/PercentState", false);
 
 									oClaimModel.read("/ZC_CLAIM_HEAD_NEW", {
 										urlParameters: {
@@ -3242,30 +3253,35 @@ sap.ui.define([
 
 		onEditClaim: function (e) {
 			//var that = this;
+			var oBundle = this.getView().getModel("i18n").getResourceBundle();
+			var GroupType = this.getModel("LocalDataModel").getProperty("/WarrantyClaimTypeGroup");
+			if (GroupType == "Authorization") {
+				this.getView().getModel("LocalDataModel").setProperty("/EditClaimAuthText", oBundle.getText("EditAuth"));
+				this.getView().getModel("LocalDataModel").setProperty("/ClaimContentEditMessageText", oBundle.getText(
+					"AuthAcceptedAcceptedStillEdit"));
+			} else if (GroupType == "Claim") {
+				this.getView().getModel("LocalDataModel").setProperty("/EditClaimAuthText", oBundle.getText("EditClaim"));
+				this.getView().getModel("LocalDataModel").setProperty("/ClaimContentEditMessageText", oBundle.getText(
+					"ClaimAcceptedAcceptedStillEdit"));
+			}
+			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
+			var oClaimModel = this.getModel("ProssingModel");
+			var obj = {
+				NumberOfWarrantyClaim: oClaimNum,
+				DBOperation: "ZTEA"
+			};
 			var dialog = new Dialog({
-				title: "Edit Claim",
+				title: this.getView().getModel("LocalDataModel").getProperty("/EditClaimAuthText"),
 				type: "Message",
 				content: new Text({
-					text: "Claim is ACCEPTED, Do you still want to EDIT the ACCEPTED claim?"
+					text: this.getView().getModel("LocalDataModel").getProperty("/ClaimContentEditMessageText")
 				}),
 
 				buttons: [
 					new Button({
 						text: "Yes",
 						press: $.proxy(function () {
-							this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
-							this.getView().getModel("DateModel").setProperty("/SaveClaim07", true);
-							this.getView().getModel("DateModel").setProperty("/updateEnable", true);
-							this.getModel("LocalDataModel").setProperty("/CancelEnable", true);
-							this.getView().getModel("LocalDataModel").setProperty("/PercentState", true);
-							this.getView().getModel("DateModel").setProperty("/oztac", true);
-							this.getModel("LocalDataModel").setProperty("/UploadEnable", true);
-							var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
-							var oClaimModel = this.getModel("ProssingModel");
-							var obj = {
-								NumberOfWarrantyClaim: oClaimNum,
-								DBOperation: "ZTEA"
-							};
+
 							oClaimModel.update("/zc_headSet(NumberOfWarrantyClaim='" + oClaimNum + "')", obj, {
 								method: "PUT",
 								success: $.proxy(function (response) {
@@ -3275,6 +3291,13 @@ sap.ui.define([
 												"'"
 										},
 										success: $.proxy(function (sdata) {
+											this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
+											this.getView().getModel("DateModel").setProperty("/SaveClaim07", true);
+											this.getView().getModel("DateModel").setProperty("/updateEnable", true);
+											this.getModel("LocalDataModel").setProperty("/CancelEnable", true);
+											this.getView().getModel("LocalDataModel").setProperty("/PercentState", true);
+											this.getView().getModel("DateModel").setProperty("/oztac", true);
+											this.getModel("LocalDataModel").setProperty("/UploadEnable", true);
 											this._fnClaimSumPercent();
 											this._fnClaimSum();
 											this._fnPricingData(oClaimNum);
