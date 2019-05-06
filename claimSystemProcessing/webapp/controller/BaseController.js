@@ -293,9 +293,9 @@ sap.ui.define([
 					success: function (zdata, textStatus, jqXHR) {
 						var oModel = new sap.ui.model.json.JSONModel();
 						zdata.d.Name = data.BusinessPartnerName;
-						var zd1 = parseInt(zdata.d.ECPEffectiveDate.replace(/[^0-9]+/g, ''));
-						zdata.d.ECPEffectiveDate = new Date(zd1);
-						zdata.d.WTYEffectiveDate = new Date(zd1);
+						//var zd1 = parseInt(zdata.d.ECPEffectiveDate.replace(/[^0-9]+/g, ''));
+						//zdata.d.ECPEffectiveDate = new Date(zd1);
+						//zdata.d.WTYEffectiveDate = new Date(zd1);
 						oModel.setData(zdata.d);
 						that.getView().setModel(oModel, 'DealerLabour');
 					},

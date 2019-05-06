@@ -144,6 +144,10 @@
     height: 0!important;
 }
 
+.clMinHeight {
+    min-height: 35rem;
+}
+
 
 /*#__page0-cont {*/
 

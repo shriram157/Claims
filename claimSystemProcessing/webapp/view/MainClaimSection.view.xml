@@ -4,15 +4,12 @@
 	<uxap:ObjectPageLayout id="ObjectPageLayout">
 		<uxap:headerContent>
 			<VBox width="100%" class="sapUiSmallMarginTop">
-			<HBox width="100%" justifyContent="End" displayInline="true">
-				<Link text="CVSH" class="clFont01"/>
-				<Text   text="Labour Rate (CAD) : ${LocalDataModel>/LabourPricingDataModel/0/LabourPer}" class="sapUiMediumMarginBeginEnd clFont01" />
-				<Text text="{i18n>Status} : {HeadSetData>/ProcessingStatusOfWarrantyClm}" class="sapUiSmallMarginEnd clFont01" />
-				
-			</HBox>
+				<HBox width="100%" justifyContent="End" displayInline="true">
+					<Link text="CVSH" class="clFont01"/>
+					<Text text="Labour Rate (CAD) : ${LocalDataModel>/LabourPricingDataModel/0/LabourPer}" class="sapUiMediumMarginBeginEnd clFont01"/>
+					<Text text="{i18n>Status} : {HeadSetData>/ProcessingStatusOfWarrantyClm}" class="sapUiSmallMarginEnd clFont01"/>
+				</HBox>
 			</VBox>
-			
-		
 		</uxap:headerContent>
 		<uxap:sections>
 			<uxap:ObjectPageSection title="{i18n>MainSection}" id="mainSectionTitle">
@@ -27,7 +24,6 @@
 										<IconTabFilter icon="sap-icon://home" text="{i18n>Main}" key="Tab1" id="idFilter01">
 											<core:Fragment fragmentName="zclaimProcessing.view.fragments.Step01MainWarrentyECP" type="XML"/>
 										</IconTabFilter>
-										
 										<IconTabSeparator icon="sap-icon://open-command-field" visible="{DateModel>/Parts}"/>
 										<IconTabFilter icon="sap-icon://shelf" text="{i18n>Parts}" enabled="false" visible="{DateModel>/Parts}" id="idFilter03" key="Tab3">
 											<core:Fragment fragmentName="zclaimProcessing.view.fragments.Step03PartsWarrenty" type="XML"/>
