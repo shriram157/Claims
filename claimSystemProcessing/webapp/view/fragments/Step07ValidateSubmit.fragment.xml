@@ -144,7 +144,7 @@
 				</table:Column>
 			</table:columns>
 		</table:Table>
-		<VBox class="clMinHeight">
+		<VBox>
 			<List headerText="{i18n>Validations}" items="{ path: 'LocalDataModel>/oErrorSet' }">
 				<CustomListItem>
 					<HBox class="sapUiSmallMargin"><Text text="{i18n>Error} : {LocalDataModel>NUMBER}" class="sapUiTinyMarginEnd"/><Text text="{i18n>ErrorType} : {LocalDataModel>TYPE}"/></HBox>
@@ -152,11 +152,11 @@
 					<HBox class="sapUiSmallMargin"><Text text="{i18n>ErrorDescription}: {LocalDataModel>MESSAGE}"/></HBox>
 				</CustomListItem>
 			</List>
+			<HBox alignContent="Center" justifyContent="Center" class="sapUiTinyMarginTop">
+				<Button class="sapUiTinyMarginBeginEnd" type="Back" press="onStep07Back" text="{i18n>Back}"/>
+				<Button class="sapUiTinyMarginBeginEnd" press="onRevalidate" text="{i18n>SaveClaim}" enabled="{DateModel>/SaveClaim07}"/>
+				<Button class="sapUiTinyMarginBeginEnd" press="onSubmitTci" text="{i18n>SubmitToTCI}" type="Emphasized" enabled="{DateModel>/oFormEdit}"/>
+			</HBox>
 		</VBox>
-		<HBox alignContent="Center" justifyContent="Center" class="sapUiTinyMarginTop">
-			<Button class="sapUiTinyMarginBeginEnd" type="Back" press="onStep07Back" text="{i18n>Back}"/>
-			<Button class="sapUiTinyMarginBeginEnd" press="onRevalidate" text="{i18n>SaveClaim}" enabled="{DateModel>/SaveClaim07}"/>
-			<Button class="sapUiTinyMarginBeginEnd" press="onSubmitTci" text="{i18n>SubmitToTCI}" type="Emphasized" enabled="{DateModel>/oFormEdit}"/>
-		</HBox>
 	</VBox>
 </core:FragmentDefinition>

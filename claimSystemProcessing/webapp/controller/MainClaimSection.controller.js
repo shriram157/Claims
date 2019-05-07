@@ -4748,86 +4748,86 @@ sap.ui.define([
 		// 	this.PartQt = obj.quant;
 		// },
 
-		onEnterDealerClaim: function (oEvent) {
-			var ODealer = oEvent.getSource().getValue();
-			if (ODealer.length > 40) {
+		// 		onEnterDealerClaim: function (oEvent) {
+		// 			var ODealer = oEvent.getSource().getValue();
+		// 			if (ODealer.length > 40) {
 
-				this.getView().byId("idDealerClaim").setValue("");
-				this.getView().getModel("HeadSetData").setProperty("/ExternalNumberOfClaim", "");
-			}
+		// 				this.getView().byId("idDealerClaim").setValue("");
+		// 				this.getView().getModel("HeadSetData").setProperty("/ExternalNumberOfClaim", "");
+		// 			}
 
-		},
-		onEnterOFP: function (oEvent) {
-			var ODealer = oEvent.getSource().getValue();
-			if (ODealer.length > 40) {
-				this.getView().byId("idOFP").setValue("");
-				this.getView().getModel("HeadSetData").setProperty("/OFP", "");
-			}
+		// 		},
+		// 		onEnterOFP: function (oEvent) {
+		// 			var ODealer = oEvent.getSource().getValue();
+		// 			if (ODealer.length > 40) {
+		// 				this.getView().byId("idOFP").setValue("");
+		// 				this.getView().getModel("HeadSetData").setProperty("/OFP", "");
+		// 			}
 
-		},
-		onEnterMainOps: function (oEvent) {
-			var ODealer = oEvent.getSource().getValue();
-			if (ODealer.length > 9) {
-				this.getView().byId("idMainOps").setValue("");
-				this.getView().getModel("HeadSetData").setProperty("/MainOpsCode", "");
-			}
-		},
-		onEnterRepairOrder: function (oEvent) {
-			var ODealer = oEvent.getSource().getValue();
-			if (ODealer.length > 10) {
-				this.getView().byId("idRepairOrder").setValue("");
-				this.getView().getModel("HeadSetData").setProperty("/RepairOrderNumberExternal", "");
-			}
+		// 		},
+		// 		onEnterMainOps: function (oEvent) {
+		// 			var ODealer = oEvent.getSource().getValue();
+		// 			if (ODealer.length > 9) {
+		// 				this.getView().byId("idMainOps").setValue("");
+		// 				this.getView().getModel("HeadSetData").setProperty("/MainOpsCode", "");
+		// 			}
+		// 		},
+		// 		onEnterRepairOrder: function (oEvent) {
+		// 			var ODealer = oEvent.getSource().getValue();
+		// 			// 			if (ODealer.length > 10) {
+		// 			// 				this.getView().byId("idRepairOrder").setValue("");
+		// 			// 				this.getView().getModel("HeadSetData").setProperty("/RepairOrderNumberExternal", "");
+		// 			// 			}
 
-		},
-		onEnterBatteryTestCode: function (oEvent) {
-			var ODealer = oEvent.getSource().getValue();
-			if (ODealer.length > 14) {
-				this.getView().byId("idBattTestCOde").setValue("");
-				this.getView().getModel("HeadSetData").setProperty("/BatteryTestCode", "");
-			}
-		},
-		onEnterDealerContact: function (oEvent) {
-			var ODealer = oEvent.getSource().getValue();
-			if (ODealer.length > 30) {
-				this.getView().byId("idDealerContact").setValue("");
-				this.getView().getModel("HeadSetData").setProperty("/DealerContact", "");
-			}
-		},
+		// 		},
+		// 		onEnterBatteryTestCode: function (oEvent) {
+		// 			var ODealer = oEvent.getSource().getValue();
+		// 			if (ODealer.length > 14) {
+		// 				this.getView().byId("idBattTestCOde").setValue("");
+		// 				this.getView().getModel("HeadSetData").setProperty("/BatteryTestCode", "");
+		// 			}
+		// 		},
+		// 		onEnterDealerContact: function (oEvent) {
+		// 			var ODealer = oEvent.getSource().getValue();
+		// 			if (ODealer.length > 30) {
+		// 				this.getView().byId("idDealerContact").setValue("");
+		// 				this.getView().getModel("HeadSetData").setProperty("/DealerContact", "");
+		// 			}
+		// 		},
 		onFieldActionInput: function (oEvent) {
 			var FieldAction = oEvent.getParameters().value.toUpperCase();
 			var ODealer = oEvent.getSource().getValue().toUpperCase();
+			this.getView().getModel("HeadSetData").setProperty("/FieldActionReference", ODealer);
+			// 			if (ODealer.length > 10) {
+			// 				this.getView().byId("idFieldActionInput").setValue("");
+			// 				this.getView().getModel("HeadSetData").setProperty("/FieldActionReference", "");
+			// 			} else {
 
-			if (ODealer.length > 10) {
-				this.getView().byId("idFieldActionInput").setValue("");
-				this.getView().getModel("HeadSetData").setProperty("/FieldActionReference", "");
-			} else {
-				this.getView().getModel("HeadSetData").setProperty("/FieldActionReference", ODealer);
-			}
+			// 			}
 			//this.getView().getModel("HeadSetData").setProperty("/FieldActionReference", FieldAction);
 		},
 
-		onEnterRemedy: function (oEvent) {
-			var ODealer = oEvent.getSource().getValue();
-			if (ODealer.length > 100) {
-				this.getView().byId("idRemedy").setValue("");
-				this.getView().getModel("HeadSetData").setProperty("/Remedy", "");
-			}
-		},
-		onEnterCause: function (oEvent) {
-			var ODealer = oEvent.getSource().getValue();
-			if (ODealer.length > 100) {
-				this.getView().byId("idCause").setValue("");
-				this.getView().getModel("HeadSetData").setProperty("/Cause", "");
-			}
-		},
-		onEnterCondition: function (oEvent) {
-			var ODealer = oEvent.getSource().getValue();
-			if (ODealer.length > 100) {
-				this.getView().byId("idCondition").setValue("");
-				this.getView().getModel("HeadSetData").setProperty("/ZCondition", "");
-			}
-		},
+		// 		onEnterRemedy: function (oEvent) {
+		// 			var ODealer = oEvent.getSource().getValue();
+		// 			if (ODealer.length > 100) {
+		// 				this.getView().byId("idRemedy").setValue("");
+		// 				this.getView().getModel("HeadSetData").setProperty("/Remedy", "");
+		// 			}
+		// 		},
+		// 		onEnterCause: function (oEvent) {
+		// 			var ODealer = oEvent.getSource().getValue();
+		// 			if (ODealer.length > 100) {
+		// 				this.getView().byId("idCause").setValue("");
+		// 				this.getView().getModel("HeadSetData").setProperty("/Cause", "");
+		// 			}
+		// 		},
+		// 		onEnterCondition: function (oEvent) {
+		// 			var ODealer = oEvent.getSource().getValue();
+		// 			if (ODealer.length > 100) {
+		// 				this.getView().byId("idCondition").setValue("");
+		// 				this.getView().getModel("HeadSetData").setProperty("/ZCondition", "");
+		// 			}
+		// 		},
 
 		onPressUpdatePart: function (oEvent) {
 			var oTable = this.getView().byId("idTableParts");
@@ -6080,7 +6080,7 @@ sap.ui.define([
 				});
 			}
 		},
-		onSubmitTci: function () {
+		onSubmitTci: function (oEvent) {
 			var oClaimModel = this.getModel("ProssingModel");
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			this.obj.WarrantyClaimType = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType");
@@ -6140,7 +6140,7 @@ sap.ui.define([
 
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var GroupType = this.getModel("LocalDataModel").getProperty("/WarrantyClaimTypeGroup");
-
+			oEvent.getSource().getParent().getParent().addStyleClass("clMinHeight");
 			// if (ogetKey > 1 && ogetKey <= 8) {
 			// 	var oSelectedNum = ogetKey - 1;
 			// 	this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab" + oSelectedNum + "");
@@ -6161,6 +6161,7 @@ sap.ui.define([
 						text: oBundle.getText("Yes"),
 						press: $.proxy(function () {
 							dialog.close();
+
 							// this._oToken = oClaimModel.getHeaders()['x-csrf-token'];
 							// $.ajaxSetup({
 							// 	headers: {
@@ -6191,6 +6192,7 @@ sap.ui.define([
 												my: "center center",
 												at: "center center"
 											});
+
 									}
 
 									oClaimModel.read("/ZC_CLAIM_HEAD_NEW", {
