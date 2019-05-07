@@ -2199,6 +2199,8 @@ sap.ui.define([
 				this.getModel("LocalDataModel").setProperty("/DataVinDetails", "");
 
 				this.getModel("LocalDataModel").setProperty("/VehicleMonths", "");
+				this.getView().getModel("DateModel").setProperty("/writtenOffInd", false);
+				this.getView().getModel("DateModel").setProperty("/specialVinInd", false);
 			}
 
 		},
