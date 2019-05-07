@@ -89,9 +89,9 @@
 				<Label text="{i18n>DealerName}"/>
 				<Text text="{LocalDataModel>/BPOrgName}"/>
 				<Label text="{i18n>DealerClaim}"/>
-				<Input
+				<Input maxLength="40"
 					value="{path:'HeadSetData>/ExternalNumberOfClaim', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 40 } }"
-					required="true" id="idDealerClaim" editable="{DateModel>/oFormEdit}" liveChange="onEnterDealerClaim"/>
+					required="true" id="idDealerClaim" editable="{DateModel>/oFormEdit}"/>
 				<core:Title text=""/>
 				<Label text="{i18n>RepairDate}"/>
 				<!--<DatePicker class="clDatePicker" required="true" value="{path:'HeadSetData>/RepairDate',type : 'sap.ui.model.type.Date'}" editable="{DateModel>/oFormEdit}"/>-->
@@ -100,15 +100,15 @@
 					editable="{DateModel>/oFormEdit}"/>
 				<!--constraints: { displayFormat: 'Date' }-->
 				<Label text="{i18n>DealerContact}"/>
-				<Input required="{DateModel>/oDealerContactReq}" value="{path:'HeadSetData>/DealerContact'}" id="idDealerContact"
-					editable="{DateModel>/oFormEdit}" enabled="{DateModel>/oDealerContactReq}" liveChange="onEnterDealerContact"/>
+				<Input required="{DateModel>/oDealerContactReq}" maxLength="30" value="{path:'HeadSetData>/DealerContact'}" id="idDealerContact"
+					editable="{DateModel>/oFormEdit}" enabled="{DateModel>/oDealerContactReq}"/>
 				<core:Title text=""/>
 				<Label text="{i18n>RepairOrder}"/>
-				<Input required="true" liveChange="onEnterRepairOrder"
+				<Input required="true" maxLength="10"
 					value="{path:'HeadSetData>/RepairOrderNumberExternal', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 10 }}"
 					id="idRepairOrder" editable="{DateModel>/oFormEdit}"/>
 				<Label text="{i18n>ROOdometer}"/>
-				<custom:CustomInput
+				<custom:CustomInput maxLength="6"
 					value="{path:'HeadSetData>/Odometer', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 6 }}"
 					required="{DateModel>/OdometerReq}" visible="{DateModel>/OdometerReq}" id="idOdometer" editable="{DateModel>/oFormEdit}"/>
 				<Text text="{LocalDataModel>/MsrUnit}" visible="{DateModel>/OdometerReq}"/>
@@ -126,7 +126,7 @@
 						<RadioButton visible="{DateModel>/nonVinHide}" groupName="E" text="{i18n>NonVehicle}"/>
 					</buttons>
 				</RadioButtonGroup>
-				<Input required="{DateModel>/OdometerReq}"
+				<Input required="{DateModel>/OdometerReq}" maxLength="17"
 					value="{path:'HeadSetData>/ExternalObjectNumber', type : 'sap.ui.model.type.String', constraints : { minLength : 16, maxLength : 17 }}"
 					visible="{DateModel>/OdometerReq}" id="idVinNum" change="onEnterVIN" editable="{DateModel>/oFormEdit}"/>
 				<core:Title text=""/>
@@ -279,28 +279,28 @@
 		<Table id="idECPAGR" headerText="{i18n>ActiveAgreeement}" mode="SingleSelectLeft" items="{path:'LocalDataModel>/AgreementDataECP'}"
 			class="sapUiMediumMarginTop" selectionChange="onSelectECP" visible="{DateModel>/oECPfields}">
 			<columns>
-				<Column>
-					<Label text="{i18n>ECPAgreement}" textAlign="Center" width="100%"/>
+				<Column hAlign="Center">
+					<Label text="{i18n>ECPAgreement}"/>
+				</Column >
+				<Column hAlign="Center">
+					<Label text="{i18n>PlanCode}"/>
 				</Column>
-				<Column>
-					<Label text="{i18n>PlanCode}" textAlign="Center" width="100%"/>
+				<Column hAlign="Center">
+					<Label text="{i18n>Status}"/>
 				</Column>
-				<Column>
-					<Label text="{i18n>Status}" textAlign="Center" width="100%"/>
+				<Column hAlign="Center">
+					<Label text="{i18n>StatusDate}"/>
 				</Column>
-				<Column>
-					<Label text="{i18n>StatusDate}" textAlign="Center" width="100%"/>
+				<Column hAlign="Center">
+					<Label text="{i18n>ExpiryDate}"/>
 				</Column>
-				<Column>
-					<Label text="{i18n>ExpiryDate}" textAlign="Center" width="100%"/>
+				<Column hAlign="Center">
+					<Label text="{i18n>ExpiryKM}"/>
 				</Column>
-				<Column>
-					<Label text="{i18n>ExpiryKM}" textAlign="Center" width="100%"/>
-				</Column>
-				<Column></Column>
+				<Column hAlign="Center"></Column>
 			</columns>
 			<items>
-				<ColumnListItem>
+				<ColumnListItem vAlign="Middle">
 					<cells>
 						<Link text="{LocalDataModel>AgreementNumber}" press="onPressAgreement"/>
 						<Text text="{LocalDataModel>PlanType}" wrapping="true"/>
@@ -349,15 +349,15 @@
 					<core:Title text=""/>
 					<Label text="{i18n>OFP}"/>
 					<Input id="idOFP" required="{DateModel>/ofpRequired}" value="{path:'HeadSetData>/OFP'}" editable="{DateModel>/oFormEdit}"
-						enabled="{DateModel>/ofpEnabled}" liveChange="onEnterOFP"/>
+						enabled="{DateModel>/ofpEnabled}" maxLength="40"/>
 					<Label text="{i18n>MainOp}"/>
-					<Input id="idMainOps" value="{path:'HeadSetData>/MainOpsCode'}" required="{DateModel>/oMainOpsReq}" editable="{DateModel>/oFormEdit}"
-						visible="{DateModel>/oMainOps}" liveChange="onEnterMainOps"/>
+					<Input id="idMainOps" maxLength="9" value="{path:'HeadSetData>/MainOpsCode'}" required="{DateModel>/oMainOpsReq}"
+						editable="{DateModel>/oFormEdit}" visible="{DateModel>/oMainOps}"/>
 					<Label text="{i18n>BatteryTestCode}"/>
-					<Input id="idBattTestCOde" value="{HeadSetData>/BatteryTestCode}" liveChange="onEnterBatteryTestCode" editable="{DateModel>/oFormEdit}"
+					<Input id="idBattTestCOde" maxLength="14" value="{HeadSetData>/BatteryTestCode}" editable="{DateModel>/oFormEdit}"
 						enabled="{DateModel>/oBatteryTestEnable}"/>
 					<Label text="{i18n>Condition}"/>
-					<TextArea required="true" id="idCondition" editable="{DateModel>/oFormEdit}" liveChange="onEnterCondition"
+					<TextArea maxLength="100" required="true" id="idCondition" editable="{DateModel>/oFormEdit}"
 						value="{path:'HeadSetData>/ZCondition', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 100 }}"></TextArea>
 					<Label text=""/>
 					<Link text="{i18n>ViewCCRAbbreviations}" press="onPressAbbr"/>
@@ -367,32 +367,32 @@
 					<Label text="{i18n>MainOpDescription}"/>
 					<Text text="{path:'LocalDataModel>/MainOpsCodeDescription'}" visible="{DateModel>/oMainOps}"/>
 					<Label text="{i18n>FieldActionCode}"/>
-					<Input id="idFieldActionInput" required="{path:'DateModel>/oFieldActionInput'}" value="{path:'HeadSetData>/FieldActionReference'}"
-						editable="{DateModel>/oFormEdit}" enabled="{DateModel>/oFieldActionInput}" liveChange="onFieldActionInput"/>
+					<Input id="idFieldActionInput" maxLength="10" required="{path:'DateModel>/oFieldActionInput'}"
+						value="{path:'HeadSetData>/FieldActionReference'}" editable="{DateModel>/oFormEdit}" enabled="{DateModel>/oFieldActionInput}"/>
 					<Label text="{i18n>Cause}"/>
-					<TextArea required="true" editable="{DateModel>/oFormEdit}" liveChange="onEnterCause" id="idCause"
+					<TextArea maxLength="100" required="true" editable="{DateModel>/oFormEdit}" id="idCause"
 						value="{path:'HeadSetData>/Cause',type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 100 }}"></TextArea>
 					<core:Title text=""/>
 					<Label text="{i18n>AppliedCoverage}"/>
 					<Text text="{HeadSetData>/AppliedWarrantyCoverage}"/>
 					<Label text="{i18n>T1 Code}"/>
-					<custom:CustomCombo id="idT1Field" required="{DateModel>/enabledT1}" items="{ path: '/Zt1DescSrchhelpSet' }"
+					<ComboBox id="idT1Field" required="{DateModel>/enabledT1}" items="{ path: '/Zt1DescSrchhelpSet' }"
 						selectedKey="{path:'HeadSetData>/T1WarrantyCodes'}" enabled="{DateModel>/enabledT1}" editable="{DateModel>/oFormEdit}">
 						<core:ListItem key="{T1}" text="{path:'T1'} - {T1Text}"/>
-					</custom:CustomCombo>
+					</ComboBox>
 					<!--<Select selectedKey="{HeadSetData>/T1WarrantyCodes}" items="{ path: '/Zt1DescSrchhelpSet' }" enabled="{DateModel>/oFormEdit}">-->
 					<!--	<core:Item key="{T1}" text="{T1} - {T1Text}"/>-->
 					<!--</Select>-->
 					<Label text="{i18n>T2Code}"/>
-					<custom:CustomCombo id="idT2Field" required="{DateModel>/enabledT2}" items="{ path: '/Zt2DescSrchhelpSet' }"
+					<ComboBox id="idT2Field" required="{DateModel>/enabledT2}" items="{ path: '/Zt2DescSrchhelpSet' }"
 						selectedKey="{path:'HeadSetData>/T2WarrantyCodes'}" enabled="{DateModel>/enabledT2}" editable="{DateModel>/oFormEdit}">
 						<core:ListItem key="{path:'T2'}" text="{T2} - {T2Text}"/>
-					</custom:CustomCombo>
+					</ComboBox>
 					<!--<Select selectedKey="{HeadSetData>/T2WarrantyCodes}" items="{ path: '/Zt2DescSrchhelpSet' }" enabled="{DateModel>/oFormEdit}">-->
 					<!--	<core:Item key="{T2}" text="{T2} - {T2Text}"/>-->
 					<!--</Select>-->
 					<Label text="{i18n>Remedy}"/>
-					<TextArea id="idRemedy" required="true" editable="{DateModel>/oFormEdit}" liveChange="onEnterRemedy"
+					<TextArea id="idRemedy" required="true" editable="{DateModel>/oFormEdit}" maxLength="100"
 						value="{path:'HeadSetData>/Remedy', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 100 }}"></TextArea>
 				</f:content>
 			</f:SimpleForm>

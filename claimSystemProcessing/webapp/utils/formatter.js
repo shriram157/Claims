@@ -442,7 +442,7 @@ zclaimProcessing.utils.formatter = {
 
 		} else {
 			oNum = Math.round(oNum * 100) / 100;
-			return oNum.toFixed(2) +"$";
+			return oNum.toFixed(2) + "$";
 		}
 	},
 	fnAmountClaimedPW: function (sum) {
@@ -468,7 +468,7 @@ zclaimProcessing.utils.formatter = {
 
 		} else {
 			oNum = Math.round(oNum * 100) / 100;
-			return oNum.toFixed(2)+"$";
+			return oNum.toFixed(2) + "$";
 		}
 	},
 	fnDifPW: function (sum) {
@@ -494,7 +494,7 @@ zclaimProcessing.utils.formatter = {
 
 		} else {
 			oNum = Math.round(oNum * 100) / 100;
-			return oNum.toFixed(2)+"$";
+			return oNum.toFixed(2) + "$";
 		}
 	},
 	fnTCIAprrovedPW: function (sum) {
@@ -523,7 +523,7 @@ zclaimProcessing.utils.formatter = {
 
 		} else {
 			oNum = Math.round(oNum * 100) / 100;
-			return oNum.toFixed(2)+"$";
+			return oNum.toFixed(2) + "$";
 		}
 	},
 	fnFormatDisplayDate: function (oDate) {
@@ -581,31 +581,63 @@ zclaimProcessing.utils.formatter = {
 	},
 
 	roundedDecimals: function (oNumber) {
+		console.log("oNumber", oNumber);
 		if (oNumber !== null && oNumber != undefined && oNumber != "") {
 			var oNumber1, oNumber2, oNum1, oNum2;
 			if (oNumber.length > 10) {
-				oNumber1 = parseFloat(oNumber.split("Received:")[1]);
+				if (oNumber == 0) {
+					oNumber1 = -(oNumber.split("Received:")[1]);
+					oNumber2 = oNumber.split("Received:")[1].split("Ordered:");
+				} else {
+					oNumber1 = parseFloat(-oNumber.split("Received:")[1]);
+					oNumber2 = parseFloat(oNumber.split("Received:")[1].split("Ordered:"));
+				}
+				oNum1 = Math.round(oNumber1 * 100) / 100;
+				oNum2 = Math.round(oNumber2 * 100) / 100;
+				var finalNum = "Ordered:" + oNum1.toFixed(2) + "$\nReceived:" + oNum2.toFixed(2) + " $";
+
+				return finalNum;
+			} else {
+				var oNum3;
+				if (oNumber == -0) {
+					oNum3 = oNumber;
+					return oNum3 + "$";
+				} else {
+					oNumber = parseFloat(oNumber);
+					oNum3 = Math.round(oNumber * 100) / 100;
+					return oNum3.toFixed(2) + "$";
+				}
+
+			}
+		}
+		// oNumber = parseFloat(oNumber);
+
+	},
+	roundedDecimalsCAD: function (oNumber) {
+		if (oNumber !== null && oNumber != undefined && oNumber != "") {
+			var oNumber1, oNumber2, oNum1, oNum2;
+			if (oNumber.length > 10) {
+				oNumber1 = parseFloat(-oNumber.split("Received:")[1]);
 				oNumber2 = parseFloat(oNumber.split("Received:")[1].split("Ordered:"));
 				// var oNum;
 				oNum1 = Math.round(oNumber1 * 100) / 100;
 				oNum2 = Math.round(oNumber2 * 100) / 100;
-				var finalNum = "Ordered:" + oNum1.toFixed(2) + "$\nReceived:" + oNum2.toFixed(2)+" $";
+				var finalNum = "Ordered:" + oNum1.toFixed(2) + "CAD$\nReceived:" + oNum2.toFixed(2) + " CAD$";
 				return finalNum;
 			} else {
 				var oNum;
 				if (oNumber == -0) {
 					oNum = oNumber;
-					return  oNum+"$";
+					return oNum + "CAD$";
 				} else {
+					var oNum;
 					oNumber = parseFloat(oNumber);
 					oNum = Math.round(oNumber * 100) / 100;
-					return oNum.toFixed(2)+"$";
+					return oNum.toFixed(2) + "CAD$";
 				}
-				
+
 			}
 		}
-		// oNumber = parseFloat(oNumber);
-
 	}
 
 };

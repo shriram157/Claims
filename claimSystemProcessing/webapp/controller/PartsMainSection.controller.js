@@ -1786,12 +1786,19 @@ sap.ui.define([
 
 											for (var m = 0; m < oFilteredData.length; m++) {
 												oFilteredData[m].ALMDiscreDesc = oFilteredData[m].ALMDiscreDesc.split("-")[1];
-												if (filteredPriceData[0].DiscreCode == "3A" || filteredPriceData[0].DiscreCode == "4A") {
-													filteredPriceData[m].DealerNet = -(filteredPriceData[m].DealerNet);
-													filteredPriceData[m].DiffAmt = -(filteredPriceData[m].DiffAmt);
-													filteredPriceData[m].AmtClaimed = -(filteredPriceData[m].AmtClaimed);
-													filteredPriceData[m].RepairAmt = -(filteredPriceData[m].RepairAmt);
-													filteredPriceData[m].TCIApprovedAmount = -(filteredPriceData[m].TCIApprovedAmount);
+												if (filteredPriceData[0].DiscreCode == "3A"){
+													filteredPriceData[m].DealerNet = -(parseFloat(filteredPriceData[m].DealerNet));
+													filteredPriceData[m].DiffAmt = -(parseFloat(filteredPriceData[m].DiffAmt));
+													filteredPriceData[m].AmtClaimed = -(parseFloat(filteredPriceData[m].AmtClaimed));
+													filteredPriceData[m].RepairAmt = -(parseFloat(filteredPriceData[m].RepairAmt));
+													filteredPriceData[m].TCIApprovedAmount = -(parseFloat(filteredPriceData[m].TCIApprovedAmount));
+												}
+												else if(filteredPriceData[0].DiscreCode == "4A") {
+													filteredPriceData[m].DealerNet = -(parseFloat(filteredPriceData[m].DealerNet.split("Received:")[1]));
+													filteredPriceData[m].DiffAmt = -(parseFloat(filteredPriceData[m].DiffAmt.split("Received:")[1]));
+													filteredPriceData[m].AmtClaimed = -(parseFloat(filteredPriceData[m].AmtClaimed.split("Received:")[1]));
+													filteredPriceData[m].RepairAmt = -(parseFloat(filteredPriceData[m].RepairAmt.split("Received:")[1]));
+													filteredPriceData[m].TCIApprovedAmount = -(parseFloat(filteredPriceData[m].TCIApprovedAmount.split("Received:")[1]));
 												}
 											}
 											this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
@@ -3306,6 +3313,8 @@ sap.ui.define([
 						this.getModel("LocalDataModel").setProperty("/WarrantyClaimNum", response.data.NumberOfWarrantyClaim);
 						this.getView().getModel("HeadSetData").setProperty("/DeliveryDate", response.data.DeliveryDate);
 						this.getView().getModel("HeadSetData").setProperty("/ShipmentReceivedDate", response.data.ShipmentReceivedDate);
+						this.getView().getModel("HeadSetData").setProperty("/ReferenceDate", response.data.ReferenceDate);
+						this.getView().getModel("HeadSetData").setProperty("/DateOfApplication", response.data.DateOfApplication);
 						// this.getModel("LOIDataModel").setProperty("/claimNumber", response.data.NumberOfWarrantyClaim);
 						this._fnClaimSum();
 						oClaimModel.read("/ZC_CLAIM_HEAD_NEW", {

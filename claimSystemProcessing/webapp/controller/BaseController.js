@@ -107,6 +107,7 @@ sap.ui.define([
 
 					// var userType = oData.loggedUserType[0];
 					var userType = "ManageAllParts";
+
 					sap.ui.getCore().getModel("UserDataModel").setProperty("/LoggedInUser", userType);
 					sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "");
 					switch (userType) {
