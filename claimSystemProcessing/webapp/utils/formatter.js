@@ -442,7 +442,7 @@ zclaimProcessing.utils.formatter = {
 
 		} else {
 			oNum = Math.round(oNum * 100) / 100;
-			return "$" + oNum.toFixed(2);
+			return oNum.toFixed(2) +"$";
 		}
 	},
 	fnAmountClaimedPW: function (sum) {
@@ -468,7 +468,7 @@ zclaimProcessing.utils.formatter = {
 
 		} else {
 			oNum = Math.round(oNum * 100) / 100;
-			return "$" + oNum.toFixed(2);
+			return oNum.toFixed(2)+"$";
 		}
 	},
 	fnDifPW: function (sum) {
@@ -494,7 +494,7 @@ zclaimProcessing.utils.formatter = {
 
 		} else {
 			oNum = Math.round(oNum * 100) / 100;
-			return "$" + oNum.toFixed(2);
+			return oNum.toFixed(2)+"$";
 		}
 	},
 	fnTCIAprrovedPW: function (sum) {
@@ -523,7 +523,7 @@ zclaimProcessing.utils.formatter = {
 
 		} else {
 			oNum = Math.round(oNum * 100) / 100;
-			return "$" + oNum.toFixed(2);
+			return oNum.toFixed(2)+"$";
 		}
 	},
 	fnFormatDisplayDate: function (oDate) {
@@ -589,17 +589,17 @@ zclaimProcessing.utils.formatter = {
 				// var oNum;
 				oNum1 = Math.round(oNumber1 * 100) / 100;
 				oNum2 = Math.round(oNumber2 * 100) / 100;
-				var finalNum = "Ordered: $" + oNum1.toFixed(2) + "\nReceived: $" + oNum2.toFixed(2);
+				var finalNum = "Ordered:" + oNum1.toFixed(2) + "$\nReceived:" + oNum2.toFixed(2)+" $";
 				return finalNum;
 			} else {
 				var oNum;
 				if (oNumber == -0) {
 					oNum = oNumber;
-					return "$" + oNum;
+					return  oNum+"$";
 				} else {
 					oNumber = parseFloat(oNumber);
 					oNum = Math.round(oNumber * 100) / 100;
-					return "$" + oNum.toFixed(2);
+					return oNum.toFixed(2)+"$";
 				}
 				
 			}
