@@ -109,29 +109,6 @@
 										visibleDelete="{settings>/visibleDelete}" visibleEdit="{settings>/visibleEdit}"></UploadCollectionItem>
 								</items>
 							</UploadCollection>
-							<!--<UploadCollection id="UploadCollection" class="uploadContainer" change="onUploadChange02Parts" uploadComplete="onUploadComplete02Parts"-->
-							<!--	fileDeleted="onFileDeleted02" visible="{multiHeaderConfig>/uploader}"-->
-							<!--	items="{ path: 'LocalDataModel>/partItemAttachments', templateShareable: false }">-->
-							<!--	<toolbar>-->
-							<!--		<OverflowToolbar>-->
-							<!--			<Breadcrumbs id="breadcrumbs" currentLocationText="{LocalDataModel>/currentLocationText}" links="{LocalDataModel>/partsHistory}">-->
-							<!--				<Link press="onBreadcrumbPress" text="{LocalDataModel>fileName}"/>-->
-							<!--			</Breadcrumbs>-->
-							<!--			<ToolbarSpacer/>-->
-							<!--			<UploadCollectionToolbarPlaceholder/>-->
-							<!--		</OverflowToolbar>-->
-							<!--	</toolbar>-->
-							<!--	<items>-->
-							<!--		<UploadCollectionItem selected="onSelectUpload" documentId="{LocalDataModel>DOC_ID}" fileName="{LocalDataModel>FileName}"-->
-							<!--			mimeType="{LocalDataModel>MIMETYPE}" thumbnailUrl="{LocalDataModel>url}" url="{LocalDataModel>URI}" enableEdit="{settings>/enableEdit}"-->
-							<!--			enableDelete="{settings>/enableDelete}" visibleDelete="{settings>/visibleDelete}" visibleEdit="{settings>/visibleEdit}">-->
-							<!--			<layoutData>-->
-							<!--				<l:GridData span="XL8 L8"/>-->
-							<!--			</layoutData>-->
-							<!--		</UploadCollectionItem>-->
-							<!--	</items>-->
-							<!--</UploadCollection>-->
-							<!--<core:Title text=""/>-->
 							<Label text="{i18n>RetainPart}" visible="{multiHeaderConfig>/RetainPartV}" required="true"/>
 							<Select valueState="{DateModel>/RetainPartType}" change="onRetainChange" selectedKey="{PartDataModel>/RetainPart}" visible="{multiHeaderConfig>/RetainPartV}" enabled="{DateModel>/partLine}">
 								<items>

@@ -149,7 +149,7 @@ sap.ui.define([
 				"quant2": "",
 				"PartDescription": "",
 				"LineNo": "",
-				"QuantityReceived": "",
+				"QuantityReceived": "0",
 				"RetainPart": "",
 				"DiscreCode": "",
 				"LineRefnr": "",
@@ -566,18 +566,16 @@ sap.ui.define([
 							var PartItem = oFilteredData.map(function (item) {
 								if (item.RepairOrRetrunPart == "Yes") {
 									var RepairPart = "Y";
-								} else if(item.RepairOrRetrunPart == "No"){
+								} else if (item.RepairOrRetrunPart == "No") {
 									RepairPart = "N";
-								}
-								else{
+								} else {
 									RepairPart = "";
 								}
 								if (item.RetainPart == "Yes") {
 									var RetainPart = "Y";
-								} else if(item.RetainPart == "No"){
+								} else if (item.RetainPart == "No") {
 									RetainPart = "N";
-								}
-								else{
+								} else {
 									RetainPart = "";
 								}
 								return {
@@ -739,18 +737,16 @@ sap.ui.define([
 							var PartItem = oFilteredData.map(function (item) {
 								if (item.RepairOrRetrunPart == "Yes") {
 									var RepairPart = "Y";
-								} else if(item.RepairOrRetrunPart == "No"){
+								} else if (item.RepairOrRetrunPart == "No") {
 									RepairPart = "N";
-								}
-								else{
+								} else {
 									RepairPart = "";
 								}
 								if (item.RetainPart == "Yes") {
 									var RetainPart = "Y";
-								} else if(item.RetainPart == "No"){
+								} else if (item.RetainPart == "No") {
 									RetainPart = "N";
-								}
-								else{
+								} else {
 									RetainPart = "";
 								}
 								return {
@@ -952,7 +948,7 @@ sap.ui.define([
 					"quant2": "",
 					"PartDescription": "",
 					"LineNo": "",
-					"QuantityReceived": "",
+					"QuantityReceived": "0",
 					"RetainPart": "",
 					"DiscreCode": "",
 					"LineRefnr": "",
@@ -1273,31 +1269,46 @@ sap.ui.define([
 
 		ValidQty: function (liveQty) {
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
-			if (this.getView().getModel("PartDataModel").getProperty("/DiscreCode") == "2A") {
-				if (this.getView().getModel("PartDataModel").getProperty("/quant") <= liveQty.getParameters().newValue) {
-					this.youCanAddPartItem = false;
-					MessageBox.show(this.oBundle.getText("ShortageWarning"), MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK,
-						null, null);
+			if ((this.getView().getModel("PartDataModel").getProperty("/DiscreCode") !== "PTSA" || this.getView().getModel("PartDataModel").getProperty(
+					"/DiscreCode") !== "3A") && liveQty.getParameters().newValue < 1) {
+				MessageBox.show(this.oBundle.getText("PleaseEnterValidQTY"), MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK,
+					null, null);
+			} else {
+				this.getView().getModel("DateModel").setProperty("/partTypeState", "None");
+				if (this.getView().getModel("PartDataModel").getProperty("/DiscreCode") == "2A") {
+					if (this.getView().getModel("PartDataModel").getProperty("/quant") <= liveQty.getParameters().newValue) {
+						this.youCanAddPartItem = false;
+						MessageBox.show(this.oBundle.getText("ShortageWarning"), MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK,
+							null, null);
+					} else {
+						this.getView().getModel("DateModel").setProperty("/partTypeState", "None");
+					}
+				} else if (this.getView().getModel("PartDataModel").getProperty("/ALMDiscreCode") == "PTSA") {
+					if (this.getView().getModel("PartDataModel").getProperty("/quant") <= liveQty.getParameters().newValue) {
+						this.youCanAddPartItem = false;
+						MessageBox.show(this.oBundle.getText("ShortageWarning"), MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK,
+							null, null);
+					} else {
+						this.getView().getModel("DateModel").setProperty("/partTypeState", "None");
+					}
 				}
-			} else if (this.getView().getModel("PartDataModel").getProperty("/ALMDiscreCode") == "PTSA") {
-				if (this.getView().getModel("PartDataModel").getProperty("/quant") <= liveQty.getParameters().newValue) {
-					this.youCanAddPartItem = false;
-					MessageBox.show(this.oBundle.getText("ShortageWarning"), MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK,
-						null, null);
-				}
-			}
 
-			if (this.getView().getModel("PartDataModel").getProperty("/DiscreCode") == "3A") {
-				if (this.getView().getModel("PartDataModel").getProperty("/quant") >= liveQty.getParameters().newValue) {
-					this.youCanAddPartItem = false;
-					MessageBox.show(this.oBundle.getText("OverageWarning"), MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK,
-						null, null);
-				}
-			} else if (this.getView().getModel("PartDataModel").getProperty("/ALMDiscreCode") == "PTOA") {
-				if (this.getView().getModel("PartDataModel").getProperty("/quant") >= liveQty.getParameters().newValue) {
-					this.youCanAddPartItem = false;
-					MessageBox.show(this.oBundle.getText("OverageWarning"), MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK,
-						null, null);
+				if (this.getView().getModel("PartDataModel").getProperty("/DiscreCode") == "3A") {
+					if (this.getView().getModel("PartDataModel").getProperty("/quant") >= liveQty.getParameters().newValue) {
+						this.youCanAddPartItem = false;
+						MessageBox.show(this.oBundle.getText("OverageWarning"), MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK,
+							null, null);
+					} else {
+						this.getView().getModel("DateModel").setProperty("/partTypeState", "None");
+					}
+				} else if (this.getView().getModel("PartDataModel").getProperty("/ALMDiscreCode") == "PTOA") {
+					if (this.getView().getModel("PartDataModel").getProperty("/quant") >= liveQty.getParameters().newValue) {
+						this.youCanAddPartItem = false;
+						MessageBox.show(this.oBundle.getText("OverageWarning"), MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK,
+							null, null);
+					} else {
+						this.getView().getModel("DateModel").setProperty("/partTypeState", "None");
+					}
 				}
 			}
 
@@ -1365,21 +1376,21 @@ sap.ui.define([
 				var Qty;
 				if (this.getView().getModel("PartDataModel").getProperty("/quant") == "" || this.getView().getModel("PartDataModel").getProperty(
 						"/quant") == "0") {
-					// this.getView().getModel("DateModel").setProperty("/partTypeState", "Error");
+					this.getView().getModel("DateModel").setProperty("/partTypeState", "None");
 					// this.inValid = false;
 					Qty = "0.000";
 				} else {
 					// this.inValid = true;
-					// this.getView().getModel("DateModel").setProperty("/partTypeState", "None");
+					this.getView().getModel("DateModel").setProperty("/partTypeState", "None");
 					Qty = this.getView().getModel("PartDataModel").getProperty("/quant");
 				}
 				if (this.getView().getModel("PartDataModel").getProperty("/QuantityReceived") == "" || this.getView().getModel("PartDataModel")
 					.getProperty(
 						"/QuantityReceived") == "0") {
-					// this.getView().getModel("DateModel").setProperty("/partTypeState", "Error");
+					this.getView().getModel("DateModel").setProperty("/partTypeState", "None");
 					// this.inValid2 = false;
 				} else {
-					// this.getView().getModel("DateModel").setProperty("/partTypeState", "None");
+					this.getView().getModel("DateModel").setProperty("/partTypeState", "None");
 					// this.inValid2 = true;
 				}
 				var oValid01 = oValidator.validate(this.getView().byId("idRow01Form"));
@@ -1392,18 +1403,24 @@ sap.ui.define([
 				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
 				this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
 				this.getView().byId("idMainClaimMessage").setType("Error");
+				if ((this.getView().getModel("PartDataModel").getProperty("/DiscreCode") == "PTSA" || this.getView().getModel("PartDataModel").getProperty(
+						"/DiscreCode") == "3A") && this.getView().getModel("PartDataModel").getProperty("/QuantityReceived") < 1) {
+					this.getView().getModel("DateModel").setProperty("/partTypeState", "None");
+				}
 				return false;
 			} else if (this.getView().getModel("PartDataModel").getProperty("/DiscreCode") == "") {
 				this.getView().getModel("DateModel").setProperty("/ddType", "Error");
 				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
 				this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
 				this.getView().byId("idMainClaimMessage").setType("Error");
+				this.getView().getModel("DateModel").setProperty("/partTypeState", "None");
 			} else if (this.getView().getModel("PartDataModel").getProperty("/RetainPart") == "" && this.claimType == "ZPPD" && this.getView().getModel(
 					"PartDataModel").getProperty("/DiscreCode") !== "2A") {
 				this.getView().getModel("DateModel").setProperty("/RetainPartType", "Error");
 				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
 				this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
 				this.getView().byId("idMainClaimMessage").setType("Error");
+				this.getView().getModel("DateModel").setProperty("/partTypeState", "None");
 			} else {
 				this.getView().getModel("DateModel").setProperty("/RetainPartType", "None");
 				this.getView().getModel("DateModel").setProperty("/ddType", "None");
@@ -1564,7 +1581,7 @@ sap.ui.define([
 										this.getView().getModel("HeadSetData").setProperty("/PartRepaired", "");
 										this.getView().getModel("HeadSetData").setProperty("/RepairOrRetrunPart", "");
 										this.getView().getModel("HeadSetData").setProperty("/RepairAmount", "");
-										this.getView().getModel("PartDataModel").setProperty("/QuantityReceived", "");
+										this.getView().getModel("PartDataModel").setProperty("/QuantityReceived", "0");
 										this.getModel("LocalDataModel").setProperty("/partItemAttachments", "");
 										this.getView().getModel("AttachmentModel").setProperty("/" + "/items", "");
 										this.getView().getModel("HeadSetData").setProperty("/PartNumberRc", "");
@@ -1761,15 +1778,24 @@ sap.ui.define([
 												console.log("correct data updated", filteredPriceData);
 											}
 
+											console.log("filteredPriceData", filteredPriceData);
+
 											var oFilteredData = filteredPriceData;
+
 											console.log("filteredPriceData", oFilteredData);
 
 											for (var m = 0; m < oFilteredData.length; m++) {
 												oFilteredData[m].ALMDiscreDesc = oFilteredData[m].ALMDiscreDesc.split("-")[1];
+												if (filteredPriceData[0].DiscreCode == "3A" || filteredPriceData[0].DiscreCode == "4A") {
+													filteredPriceData[m].DealerNet = -(filteredPriceData[m].DealerNet);
+													filteredPriceData[m].DiffAmt = -(filteredPriceData[m].DiffAmt);
+													filteredPriceData[m].AmtClaimed = -(filteredPriceData[m].AmtClaimed);
+													filteredPriceData[m].RepairAmt = -(filteredPriceData[m].RepairAmt);
+													filteredPriceData[m].TCIApprovedAmount = -(filteredPriceData[m].TCIApprovedAmount);
+												}
 											}
 											this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
-											console.log("Part Items stored",
-												this.getModel("LocalDataModel").getData());
+											console.log("Part Items stored", this.getModel("LocalDataModel").getData().PricingDataModel);
 											// this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
 											MessageToast.show(that.oBundle.getText("PartItemSuccessMSG"));
 
@@ -1782,7 +1808,7 @@ sap.ui.define([
 											this.getView().getModel("PartDataModel").setProperty("/PartDescription", "");
 											this.getView().getModel("PartDataModel").setProperty("/DiscreCode", "");
 											this.getView().getModel("PartDataModel").setProperty("/RetainPart", "");
-											this.getView().getModel("PartDataModel").setProperty("/QuantityReceived", "");
+											this.getView().getModel("PartDataModel").setProperty("/QuantityReceived", "0");
 											this.getView().getModel("HeadSetData").setProperty("/PartNumberRc", "");
 											this.getView().getModel("HeadSetData").setProperty("/PartNumberRcDesc", "");
 											this.getView().getModel("multiHeaderConfig").setProperty("/flagIncorrectPart", false);
@@ -1970,7 +1996,7 @@ sap.ui.define([
 										console.log("LOI set data", data);
 										console.log("response", response);
 										MessageToast.show(_that.oBundle.getText("LOISuccessMSG"));
-										this.getView().getModel("DateModel").setProperty("/oLetterOfIntent", false);
+										_that.getView().getModel("DateModel").setProperty("/oLetterOfIntent", false);
 										var LOIData = new sap.ui.model.json.JSONModel({
 											"claimNumber": "",
 											"CarrierName": "",
@@ -2000,6 +2026,23 @@ sap.ui.define([
 										});
 										LOIData.setDefaultBindingMode("TwoWay");
 										_that.getView().setModel(LOIData, "LOIDataModel");
+										var oProssingModel = _that.getModel("ProssingModel");
+										oProssingModel.read("/zc_claim_attachmentsSet", {
+											urlParameters: {
+												"$filter": "NumberOfWarrantyClaim eq '" + _that.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") +
+													"'"
+											},
+											success: $.proxy(function (odata) {
+												console.log("zc_claim_attachmentsSet processing data", odata);
+												var oArr = odata.results;
+												var oAttachSet = oArr.map(function (item) {
+													item.FileName = item.FileName.replace("HEAD@@@", "");
+													return item;
+
+												});
+												_that.getModel("LocalDataModel").setProperty("/PartHeadAttachData", oAttachSet);
+											}, _that)
+										});
 									}, _that),
 									error: function (err) {
 										var LOIData = new sap.ui.model.json.JSONModel({
@@ -2034,7 +2077,7 @@ sap.ui.define([
 										console.log(err);
 										var errMsg = (JSON.parse(err.responseText)).error.message.value;
 										// MessageBox.error(errMsg);
-										this.getView().getModel("DateModel").setProperty("/oLetterOfIntent", false);
+										_that.getView().getModel("DateModel").setProperty("/oLetterOfIntent", false);
 										MessageBox.show(errMsg, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
 									}
 								});

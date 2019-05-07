@@ -592,10 +592,16 @@ zclaimProcessing.utils.formatter = {
 				var finalNum = "Ordered: $" + oNum1.toFixed(2) + "\nReceived: $" + oNum2.toFixed(2);
 				return finalNum;
 			} else {
-				oNumber = parseFloat(oNumber);
 				var oNum;
-				oNum = Math.round(oNumber * 100) / 100;
-				return "$" + oNum.toFixed(2);
+				if (oNumber == -0) {
+					oNum = oNumber;
+					return "$" + oNum;
+				} else {
+					oNumber = parseFloat(oNumber);
+					oNum = Math.round(oNumber * 100) / 100;
+					return "$" + oNum.toFixed(2);
+				}
+				
 			}
 		}
 		// oNumber = parseFloat(oNumber);
