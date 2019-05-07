@@ -6178,22 +6178,6 @@ sap.ui.define([
 									// var oErrorSet = response.data.zc_claim_vsrSet.results;
 									this.getModel("LocalDataModel").setProperty("/oErrorSet", response.data.zc_claim_vsrSet.results);
 									this.obj.zc_claim_vsrSet.results.pop(oObj);
-									if (response.data.zc_claim_vsrSet.results.length <= 0) {
-										this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
-										MessageToast.show(oBundle.getText("ClaimNumber") + " " + oClaimNum + " " + oBundle.getText(
-											"successfullysubmittedTCI"), {
-											my: "center center",
-											at: "center center"
-										});
-									} else {
-										MessageToast.show(
-											oBundle.getText("ClaimNumber") + " " + oClaimNum + " " + oBundle.getText(
-												"RejectedTCIValidationResultsdetails"), {
-												my: "center center",
-												at: "center center"
-											});
-
-									}
 
 									oClaimModel.read("/ZC_CLAIM_HEAD_NEW", {
 										urlParameters: {
@@ -6201,10 +6185,28 @@ sap.ui.define([
 												"'"
 										},
 										success: $.proxy(function (sdata) {
-											this.getView().getModel("HeadSetData").setProperty("/ProcessingStatusOfWarrantyClm", sdata.results[0].ProcessingStatusOfWarrantyClm);
+											this.getView().getModel("HeadSetData").setProperty("/ProcessingStatusOfWarrantyClm", );
+											if (sdata.results[0].ProcessingStatusOfWarrantyClm == "ZTIC") {
+												MessageToast.show(
+													oBundle.getText("ClaimNumber") + " " + oClaimNum + " " + oBundle.getText(
+														"RejectedTCIValidationResultsdetails"), {
+														my: "center center",
+														at: "center center"
+													});
+
+											} else {
+												this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
+												MessageToast.show(oBundle.getText("ClaimNumber") + " " + oClaimNum + " " + oBundle.getText(
+													"successfullysubmittedTCI"), {
+													my: "center center",
+													at: "center center"
+												});
+
+											}
 
 											if (sdata.results[0].ProcessingStatusOfWarrantyClm == "ZTIC" || sdata.results[0].ProcessingStatusOfWarrantyClm ==
 												"ZTRC") {
+
 												if (GroupType == "Authorization") {
 													this.getView().getModel("DateModel").setProperty("/copyClaimEnable", false);
 													this.getModel("LocalDataModel").setProperty("/PercentState", true);

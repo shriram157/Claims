@@ -126,7 +126,7 @@
 						<RadioButton visible="{DateModel>/nonVinHide}" groupName="E" text="{i18n>NonVehicle}"/>
 					</buttons>
 				</RadioButtonGroup>
-				<Input required="{DateModel>/OdometerReq}"
+				<Input required="{DateModel>/OdometerReq}" maxLength="17"
 					value="{path:'HeadSetData>/ExternalObjectNumber', type : 'sap.ui.model.type.String', constraints : { minLength : 16, maxLength : 17 }}"
 					visible="{DateModel>/OdometerReq}" id="idVinNum" change="onEnterVIN" editable="{DateModel>/oFormEdit}"/>
 				<core:Title text=""/>
@@ -279,28 +279,28 @@
 		<Table id="idECPAGR" headerText="{i18n>ActiveAgreeement}" mode="SingleSelectLeft" items="{path:'LocalDataModel>/AgreementDataECP'}"
 			class="sapUiMediumMarginTop" selectionChange="onSelectECP" visible="{DateModel>/oECPfields}">
 			<columns>
-				<Column>
-					<Label text="{i18n>ECPAgreement}" textAlign="Center" width="100%"/>
+				<Column hAlign="Center">
+					<Label text="{i18n>ECPAgreement}"/>
+				</Column >
+				<Column hAlign="Center">
+					<Label text="{i18n>PlanCode}"/>
 				</Column>
-				<Column>
-					<Label text="{i18n>PlanCode}" textAlign="Center" width="100%"/>
+				<Column hAlign="Center">
+					<Label text="{i18n>Status}"/>
 				</Column>
-				<Column>
-					<Label text="{i18n>Status}" textAlign="Center" width="100%"/>
+				<Column hAlign="Center">
+					<Label text="{i18n>StatusDate}"/>
 				</Column>
-				<Column>
-					<Label text="{i18n>StatusDate}" textAlign="Center" width="100%"/>
+				<Column hAlign="Center">
+					<Label text="{i18n>ExpiryDate}"/>
 				</Column>
-				<Column>
-					<Label text="{i18n>ExpiryDate}" textAlign="Center" width="100%"/>
+				<Column hAlign="Center">
+					<Label text="{i18n>ExpiryKM}"/>
 				</Column>
-				<Column>
-					<Label text="{i18n>ExpiryKM}" textAlign="Center" width="100%"/>
-				</Column>
-				<Column></Column>
+				<Column hAlign="Center"></Column>
 			</columns>
 			<items>
-				<ColumnListItem>
+				<ColumnListItem vAlign="Middle">
 					<cells>
 						<Link text="{LocalDataModel>AgreementNumber}" press="onPressAgreement"/>
 						<Text text="{LocalDataModel>PlanType}" wrapping="true"/>
