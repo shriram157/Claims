@@ -2708,6 +2708,9 @@ sap.ui.define([
 		onSaveClaim: function (oEvent) {
 			this._fnSaveClaim();
 		},
+		onValidateContact: function (oEvent) {
+			console.log(oEvent);
+		},
 		onCancelClaim: function () {
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var oClaimModel = this.getModel("ProssingModel");
@@ -6187,7 +6190,7 @@ sap.ui.define([
 												"'"
 										},
 										success: $.proxy(function (sdata) {
-											this.getView().getModel("HeadSetData").setProperty("/ProcessingStatusOfWarrantyClm", );
+											this.getView().getModel("HeadSetData").setProperty("/ProcessingStatusOfWarrantyClm", sdata.results[0].ProcessingStatusOfWarrantyClm);
 											if (sdata.results[0].ProcessingStatusOfWarrantyClm == "ZTIC") {
 												MessageToast.show(
 													oBundle.getText("ClaimNumber") + " " + oClaimNum + " " + oBundle.getText(
