@@ -14,71 +14,7 @@ sap.ui.define([
 
 	return BaseController.extend("zclaimProcessing.controller.MainClaimSection", {
 		onInit: function () {
-			var oDateModel = new sap.ui.model.json.JSONModel();
-			oDateModel.setData({
-				minDate: new Date(1999, 1, 1),
-				dateValueDRS2: new Date(2018, 1, 1),
-				secondDateValueDRS2: new Date(2018, 2, 1),
-				dateCurrent: new Date(),
-				Authorization: true,
-				Parts: true,
-				Labour: true,
-				Paint: true,
-				Sublet: true,
-				partLine: false,
-				labourLine: false,
-				paintLine: false,
-				subletLine: false,
-				oDamageLineBtn: false,
-				damageLine: false,
-				SuggestBtn: false,
-				saveClaimSt: true,
-				updateClaimSt: false,
-				SaveClaim07: true,
-				claimTypeEn: true,
-				AcA1: false,
-				P1p2: false,
-				oFormEdit: true,
-				claimEditSt: false,
-				oztac: false,
-				oFieldActionInput: false,
-				updateEnable: true,
-				OdometerReq: true,
-				enableTab: false,
-				RepairdDetailVisible: true,
-				claimTypeState: "None",
-				warrantySubmissionClaim: false,
-				LabourBtnVsbl: true,
-				copyClaimEnable: true,
-				authAcClm: false,
-				authRejClm: false,
-				ofpEnabled: true,
-				enabledT2: true,
-				enabledT1: true,
-				oPrevInvNumReq: false,
-				oPrevInvDateReq: false,
-				DisableRadio: true,
-				oBatteryTestEnable: true,
-				commentEditable: false,
-				ofpRequired: false,
-				oDealerContactReq: false,
-				oMainOps: true,
-				foreignVinInd: false,
-				writtenOffInd: false,
-				specialVinInd: false,
-				oMainOpsReq: false,
-				oSlipVisible: false,
-				oTciQtyAppr: false,
-				oAddPartLine: true,
-				oUpdatePartLine: true,
-				authHide: true,
-				oVisibleURL: "",
-				nonVinHide: true,
-				errorBusyIndicator: false,
-				VisiblePageLine: false
 
-			});
-			this.getView().setModel(oDateModel, "DateModel");
 			var oNodeModel = new sap.ui.model.json.JSONModel();
 			oNodeModel.loadData(jQuery.sap.getModulePath("zclaimProcessing.utils", "/Nodes.json"));
 			this.oUploadCollection = this.byId("UploadSupportingDoc");
@@ -189,8 +125,6 @@ sap.ui.define([
 			this.getModel("LocalDataModel").setProperty("/CancelEnable", false);
 			this.getModel("LocalDataModel").setProperty("/PrintEnable", false);
 
-			this.getView().getModel("DateModel").setProperty("/OdometerReq", true);
-
 			var HeadSetData = new sap.ui.model.json.JSONModel();
 			HeadSetData.setDefaultBindingMode("TwoWay");
 			this.getView().setModel(HeadSetData, "HeadSetData");
@@ -265,6 +199,72 @@ sap.ui.define([
 		},
 
 		_onRoutMatched: function (oEvent) {
+			var oDateModel = new sap.ui.model.json.JSONModel();
+			oDateModel.setData({
+				minDate: new Date(1999, 1, 1),
+				dateValueDRS2: new Date(2018, 1, 1),
+				secondDateValueDRS2: new Date(2018, 2, 1),
+				dateCurrent: new Date(),
+				Authorization: true,
+				Parts: true,
+				Labour: true,
+				Paint: true,
+				Sublet: true,
+				partLine: false,
+				labourLine: false,
+				paintLine: false,
+				subletLine: false,
+				oDamageLineBtn: false,
+				damageLine: false,
+				SuggestBtn: false,
+				saveClaimSt: true,
+				updateClaimSt: false,
+				SaveClaim07: true,
+				claimTypeEn: true,
+				AcA1: false,
+				P1p2: false,
+				oFormEdit: true,
+				claimEditSt: false,
+				oztac: false,
+				oFieldActionInput: false,
+				updateEnable: true,
+				OdometerReq: true,
+				enableTab: false,
+				RepairdDetailVisible: true,
+				claimTypeState: "None",
+				warrantySubmissionClaim: false,
+				LabourBtnVsbl: true,
+				copyClaimEnable: true,
+				authAcClm: false,
+				authRejClm: false,
+				ofpEnabled: true,
+				enabledT2: true,
+				enabledT1: true,
+				oPrevInvNumReq: false,
+				oPrevInvDateReq: false,
+				DisableRadio: true,
+				oBatteryTestEnable: true,
+				commentEditable: false,
+				ofpRequired: false,
+				oDealerContactReq: false,
+				oMainOps: true,
+				foreignVinInd: false,
+				writtenOffInd: false,
+				specialVinInd: false,
+				oMainOpsReq: false,
+				oSlipVisible: false,
+				oTciQtyAppr: false,
+				oAddPartLine: true,
+				oUpdatePartLine: true,
+				authHide: true,
+				oVisibleURL: "",
+				nonVinHide: true,
+				errorBusyIndicator: false,
+				VisiblePageLine: false
+
+			});
+			this.getView().setModel(oDateModel, "DateModel");
+			this.getView().getModel("DateModel").setProperty("/OdometerReq", true);
 			var oValidator = new Validator();
 			oValidator.validate("");
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
@@ -293,6 +293,9 @@ sap.ui.define([
 			this.getView().getModel("DateModel").setProperty("/foreignVinInd", false);
 			this.getView().getModel("DateModel").setProperty("/writtenOffInd", false);
 			this.getView().getModel("DateModel").setProperty("/specialVinInd", false);
+			// 			this.getView().getModel("DateModel").setProperty("/authAcClm", false);
+			// 			this.getView().getModel("DateModel").setProperty("/authRejClm", false);
+
 			this.getDealer();
 			var oProssingModel = this.getModel("ProssingModel");
 			this.getView().byId("idMainClaimMessage").setProperty("visible", false);
@@ -6422,7 +6425,17 @@ sap.ui.define([
 			oDialogBox.open();
 		},
 		onChangeT1: function (oEvent) {
-			var oVal = oEvent.getSource().getValue();
+			var oVal = oEvent.getSource().getSelectedKey();
+			if (oVal.length > 0) {
+
+				this.getView().byId("idT1Field").setValueState("None");
+			}
+		},
+		onChangeT2: function (oEvent) {
+			var oVal = oEvent.getSource().getSelectedKey();
+			if (oVal.length > 0) {
+				this.getView().byId("idT2Field").setValueState("None");
+			}
 		},
 
 		onExit: function () {
