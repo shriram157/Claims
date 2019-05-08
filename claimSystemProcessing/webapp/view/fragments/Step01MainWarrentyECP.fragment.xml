@@ -376,7 +376,7 @@
 					<Label text="{i18n>AppliedCoverage}"/>
 					<Text text="{HeadSetData>/AppliedWarrantyCoverage}"/>
 					<Label text="{i18n>T1 Code}"/>
-					<ComboBox id="idT1Field" required="{DateModel>/enabledT1}" items="{ path: '/Zt1DescSrchhelpSet' }"
+					<ComboBox id="idT1Field" required="{DateModel>/enabledT1}" items="{ path: '/Zt1DescSrchhelpSet' }" change="onChangeT1"
 						selectedKey="{path:'HeadSetData>/T1WarrantyCodes'}" enabled="{DateModel>/enabledT1}" editable="{DateModel>/oFormEdit}">
 						<core:ListItem key="{T1}" text="{path:'T1'} - {T1Text}"/>
 					</ComboBox>

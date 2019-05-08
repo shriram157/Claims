@@ -2818,6 +2818,8 @@ sap.ui.define([
 					this.getModel("LocalDataModel").setProperty("/CancelEnable", false);
 					this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
 					this.getView().getModel("DateModel").setProperty("/copyClaimEnable", true);
+					this.getModel("LocalDataModel").setProperty("/PercentState", false);
+
 					oClaimModel.read("/ZC_CLAIM_HEAD_NEW", {
 						urlParameters: {
 							"$filter": "NumberOfWarrantyClaim eq '" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") +
@@ -2871,6 +2873,7 @@ sap.ui.define([
 									this.getModel("LocalDataModel").setProperty("/CancelEnable", false);
 									this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
 									this.getView().getModel("DateModel").setProperty("/copyClaimEnable", false);
+									this.getModel("LocalDataModel").setProperty("/PercentState", false);
 									oClaimModel.read("/ZC_CLAIM_HEAD_NEW", {
 										urlParameters: {
 											"$filter": "NumberOfWarrantyClaim eq '" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") +
@@ -5253,6 +5256,7 @@ sap.ui.define([
 		// 		evt.getSource().getBinding("items").filter([]);
 		// 	}
 		// },
+
 		onSelectOperation: function (oEvent) {
 			var oPath = oEvent.getSource().getSelectedContexts()[0].sPath;
 			var obj = this.getModel("LocalDataModel").getProperty(oPath);
@@ -6248,7 +6252,7 @@ sap.ui.define([
 												this.getModel("LocalDataModel").setProperty("/CancelEnable", false);
 												this.getView().getModel("DateModel").setProperty("/claimEditSt", true);
 												this.getView().getModel("DateModel").setProperty("/updateEnable", false);
-												//this.getView().getModel("DateModel").setProperty("/copyClaimEnable", true);
+												this.getView().getModel("DateModel").setProperty("/copyClaimEnable", false);
 												this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
 												this.getView().getModel("DateModel").setProperty("/authAcClm", false);
 												this.getView().getModel("DateModel").setProperty("/authRejClm", false);
@@ -6260,10 +6264,22 @@ sap.ui.define([
 												this.getModel("LocalDataModel").setProperty("/CancelEnable", false);
 												this.getView().getModel("DateModel").setProperty("/claimEditSt", true);
 												this.getView().getModel("DateModel").setProperty("/updateEnable", false);
-												//this.getView().getModel("DateModel").setProperty("/copyClaimEnable", true);
+												this.getView().getModel("DateModel").setProperty("/copyClaimEnable", false);
 												this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
 												this.getView().getModel("DateModel").setProperty("/authAcClm", true);
 												this.getView().getModel("DateModel").setProperty("/authRejClm", true);
+												this.getView().getModel("DateModel").setProperty("/damageLine", true);
+												this.getView().getModel("DateModel").setProperty("/oDamageLineBtn", false);
+											} else if (sdata.results[0].ProcessingStatusOfWarrantyClm == "ZTAA") {
+												this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
+												this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
+												this.getModel("LocalDataModel").setProperty("/CancelEnable", false);
+												this.getView().getModel("DateModel").setProperty("/claimEditSt", false);
+												this.getView().getModel("DateModel").setProperty("/updateEnable", false);
+												this.getView().getModel("DateModel").setProperty("/copyClaimEnable", true);
+												this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
+												this.getView().getModel("DateModel").setProperty("/authAcClm", false);
+												this.getView().getModel("DateModel").setProperty("/authRejClm", false);
 												this.getView().getModel("DateModel").setProperty("/damageLine", true);
 												this.getView().getModel("DateModel").setProperty("/oDamageLineBtn", false);
 											} else {
@@ -6272,7 +6288,7 @@ sap.ui.define([
 												this.getModel("LocalDataModel").setProperty("/CancelEnable", false);
 												this.getView().getModel("DateModel").setProperty("/claimEditSt", false);
 												this.getView().getModel("DateModel").setProperty("/updateEnable", false);
-												//this.getView().getModel("DateModel").setProperty("/copyClaimEnable", true);
+												this.getView().getModel("DateModel").setProperty("/copyClaimEnable", false);
 												this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
 												this.getView().getModel("DateModel").setProperty("/authAcClm", false);
 												this.getView().getModel("DateModel").setProperty("/authRejClm", false);
@@ -6405,11 +6421,10 @@ sap.ui.define([
 			this.getView().addDependent(oDialogBox);
 			oDialogBox.open();
 		},
+		onChangeT1: function (oEvent) {
+			var oVal = oEvent.getSource().getValue();
+		},
 
-		/**
-		 * Called when the Controller is destroyed. Use this one to free resources and finalize activities.
-		 * @memberOf zclaimProcessing.view.MainClaimSection
-		 */
 		onExit: function () {
 			alert("Hello");
 		}
