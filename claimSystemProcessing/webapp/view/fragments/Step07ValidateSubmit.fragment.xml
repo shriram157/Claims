@@ -145,10 +145,14 @@
 			</table:columns>
 		</table:Table>
 		<VBox>
-			<List headerText="{i18n>Validations}" items="{ path: 'LocalDataModel>/oErrorSet' }">
+			<List headerText="{i18n>Validations}" items="{ path: 'LocalDataModel>/oErrorSet' }" busy="{DateModel>/errorBusyIndicator}">
 				<CustomListItem>
-					<HBox class="sapUiSmallMargin"><Text text="{i18n>Error} : {LocalDataModel>NUMBER}" class="sapUiTinyMarginEnd"/><Text text="{i18n>ErrorType} : {LocalDataModel>TYPE}"/></HBox>
-					<HBox class="sapUiSmallMargin"><Text text="{i18n>Page} : {LocalDataModel>ItemType}" class="sapUiTinyMarginEnd"/><Text text="{i18n>Line} : {LocalDataModel>POSNR}"/></HBox>
+					<HBox class="sapUiSmallMargin">
+						<Text text="{i18n>Error} : {LocalDataModel>NUMBER}" class="sapUiTinyMarginEnd"/>
+						<Text text="{i18n>ErrorType} : {LocalDataModel>TYPE}" class="sapUiTinyMarginEnd"/>
+						<Text text="{path:'LocalDataModel>ItemType', formatter : 'zclaimProcessing.utils.formatter.fnItemFormat'}" class="sapUiTinyMarginEnd"/>
+						<Text text="{path : 'LocalDataModel>POSNR', formatter : 'zclaimProcessing.utils.formatter.fnPosnrFormat'}"/>
+					</HBox>
 					<HBox class="sapUiSmallMargin"><Text text="{i18n>ErrorDescription}: {LocalDataModel>MESSAGE}"/></HBox>
 				</CustomListItem>
 			</List>

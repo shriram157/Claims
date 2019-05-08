@@ -73,7 +73,9 @@ sap.ui.define([
 				oUpdatePartLine: true,
 				authHide: true,
 				oVisibleURL: "",
-				nonVinHide: true
+				nonVinHide: true,
+				errorBusyIndicator: false,
+				VisiblePageLine: false
 
 			});
 			this.getView().setModel(oDateModel, "DateModel");
@@ -6086,6 +6088,7 @@ sap.ui.define([
 			}
 		},
 		onSubmitTci: function (oEvent) {
+			this.getView().getModel("DateModel").setProperty("/errorBusyIndicator", true);
 			var oClaimModel = this.getModel("ProssingModel");
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			this.obj.WarrantyClaimType = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType");
@@ -6182,6 +6185,15 @@ sap.ui.define([
 
 									// var oErrorSet = response.data.zc_claim_vsrSet.results;
 									this.getModel("LocalDataModel").setProperty("/oErrorSet", response.data.zc_claim_vsrSet.results);
+									// 	response.data.zc_claim_vsrSet.results.map($.proxy(function (item) {
+									// 		if (item.ItemType == "" && item.POSNR == "") {
+									// 			this.getView().getModel("DateModel").setProperty("/VisiblePageLine", false);
+									// 		} else {
+									// 			this.getView().getModel("DateModel").setProperty("/VisiblePageLine", true);
+									// 		}
+									// 	}), this);
+
+									this.getView().getModel("DateModel").setProperty("/errorBusyIndicator", false);
 									this.obj.zc_claim_vsrSet.results.pop(oObj);
 
 									oClaimModel.read("/ZC_CLAIM_HEAD_NEW", {

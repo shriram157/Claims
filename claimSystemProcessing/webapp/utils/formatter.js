@@ -601,11 +601,31 @@ zclaimProcessing.utils.formatter = {
 					oNum = Math.round(oNumber * 100) / 100;
 					return "$" + oNum.toFixed(2);
 				}
-				
+
 			}
 		}
 		// oNumber = parseFloat(oNumber);
 
-	}
+	},
+	fnItemFormat: function (oVal) {
+		console.log(oVal);
+		var oText = "";
+		if (oVal == "") {
+			oText = "";
+		} else {
+			oText = " Page : " + oVal;
+		}
+		return oText;
+	},
+	fnPosnrFormat: function (oVal) {
+		console.log(oVal);
+		var oText = "";
+		if (oVal == "") {
+			oText = "";
+		} else {
+			oText = " Line : " + oVal;
+		}
+		return oText;
+	},
 
 };
