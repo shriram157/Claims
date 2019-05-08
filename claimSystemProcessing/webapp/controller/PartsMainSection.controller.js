@@ -1555,10 +1555,6 @@ sap.ui.define([
 										var oFilteredData = pricingData.filter(function (val) {
 											return val.ItemType === "MAT"
 										});
-
-										// var DiscreCode = oFilteredData[0].DiscreCode;
-										// console.log("claim type", that.claimType);
-										// console.log("DiscreCode", DiscreCode);
 										for (var m = 0; m < oFilteredData.length; m++) {
 											if (oFilteredData[m].ALMDiscreDesc != undefined || oFilteredData[m].ALMDiscreDesc != "") {
 												oFilteredData[m].ALMDiscreDesc = oFilteredData[m].ALMDiscreDesc.split("-")[1];
@@ -1701,6 +1697,7 @@ sap.ui.define([
 											var IncorrectPartData = pricingData.filter(function (val) {
 												return val.DiscreCode === "4A";
 											});
+											console.log("IncorrectPartData initial", IncorrectPartData);
 											// }
 
 											if (IncorrectPartData != undefined && IncorrectPartData.length > 1) {
@@ -1709,7 +1706,7 @@ sap.ui.define([
 												});
 
 												for (var i = 0; i < filteredPriceData.length; i++) {
-													if (filteredPriceData[i].LineRefnr == IncorrectLineRef[0]) {
+													if (filteredPriceData[i].LineRefnr == IncorrectLineRef[0] || filteredPriceData[i].DiscreCode === "4A") {
 														filteredPriceData.splice(i, 1);
 														i--;
 													}
@@ -1720,39 +1717,73 @@ sap.ui.define([
 												console.log("Updated filteredPriceData", filteredPriceData);
 												for (var m = 0; m < IncorrectPartData.length - 1; m++) {
 													if (IncorrectPartData[m].LineRefnr == IncorrectPartData[m + 1].LineRefnr) {
-														IncorrectPartData[m].matnr = [
-															"Ordered: " + IncorrectPartData[m].matnr,
-															"Received: " + IncorrectPartData[m + 1].matnr
-														].join("\n");
-														IncorrectPartData[m].PartDescription = [
-															"Ordered: " + IncorrectPartData[m].PartDescription,
-															"Received: " + IncorrectPartData[m + 1].PartDescription
-														].join("\n");
-														IncorrectPartData[m].DealerNet = [
-															"Ordered: " + IncorrectPartData[m].DealerNet,
-															"Received: " + IncorrectPartData[m + 1].DealerNet
-														].join("\n");
-														IncorrectPartData[m].quant2 = [
-															"Ordered: " + IncorrectPartData[m].QuantityOrdered,
-															"Received: " + IncorrectPartData[m + 1].QuantityReceived
-														].join("\n");
-														IncorrectPartData[m].AmtClaimed = [
-															"Ordered: " + IncorrectPartData[m].AmtClaimed,
-															"Received: " + IncorrectPartData[m + 1].AmtClaimed
-														].join("\n");
-														IncorrectPartData[m].TCIApprovedAmount = [
-															"Ordered: " + IncorrectPartData[m].TCIApprAmt,
-															"Received: " + IncorrectPartData[m + 1].TCIApprAmt
-														].join("\n");
-														IncorrectPartData[m].DiffAmt = [
-															"Ordered: " + IncorrectPartData[m].DiffAmt,
-															"Received: " + IncorrectPartData[m + 1].DiffAmt
-														].join("\n");
-														filteredPriceData.push(IncorrectPartData[m]);
-													}
-												}
+														if (IncorrectPartData[m].DiscreCode == "4A" && IncorrectPartData[m].RetainPart == "Y") {
+															IncorrectPartData[m].matnr = [
+																"Ordered: " + IncorrectPartData[m].matnr,
+																"Received: " + IncorrectPartData[m + 1].matnr
+															].join("\n");
+															IncorrectPartData[m].PartDescription = [
+																"Ordered: " + IncorrectPartData[m].PartDescription,
+																"Received: " + IncorrectPartData[m + 1].PartDescription
+															].join("\n");
+															IncorrectPartData[m].DealerNet = [
+																"Ordered: " + IncorrectPartData[m].DealerNet,
+																"Received: " + (-IncorrectPartData[m + 1].DealerNet)
+															].join("\n");
+															IncorrectPartData[m].quant2 = [
+																"Ordered: " + IncorrectPartData[m].QuantityOrdered,
+																"Received: " + IncorrectPartData[m + 1].QuantityReceived
+															].join("\n");
+															IncorrectPartData[m].AmtClaimed = [
+																"Ordered: " + IncorrectPartData[m].AmtClaimed,
+																"Received: " + (-IncorrectPartData[m + 1].AmtClaimed)
+															].join("\n");
+															IncorrectPartData[m].TCIApprovedAmount = [
+																"Ordered: " + IncorrectPartData[m].TCIApprAmt,
+																"Received: " + (-IncorrectPartData[m + 1].TCIApprAmt)
+															].join("\n");
+															IncorrectPartData[m].DiffAmt = [
+																"Ordered: " + IncorrectPartData[m].DiffAmt,
+																"Received: " + (-IncorrectPartData[m + 1].DiffAmt)
+															].join("\n");
+															filteredPriceData.push(IncorrectPartData[m]);
 
-												console.log("incorrect data updated", filteredPriceData);
+														} else {
+															// if (IncorrectPartData[m].LineRefnr == IncorrectPartData[m + 1].LineRefnr) {
+															IncorrectPartData[m].matnr = [
+																"Ordered: " + IncorrectPartData[m].matnr,
+																"Received: " + IncorrectPartData[m + 1].matnr
+															].join("\n");
+															IncorrectPartData[m].PartDescription = [
+																"Ordered: " + IncorrectPartData[m].PartDescription,
+																"Received: " + IncorrectPartData[m + 1].PartDescription
+															].join("\n");
+															IncorrectPartData[m].DealerNet = [
+																"Ordered: " + IncorrectPartData[m].DealerNet,
+																"Received: " + IncorrectPartData[m + 1].DealerNet
+															].join("\n");
+															IncorrectPartData[m].quant2 = [
+																"Ordered: " + IncorrectPartData[m].QuantityOrdered,
+																"Received: " + IncorrectPartData[m + 1].QuantityReceived
+															].join("\n");
+															IncorrectPartData[m].AmtClaimed = [
+																"Ordered: " + IncorrectPartData[m].AmtClaimed,
+																"Received: " + IncorrectPartData[m + 1].AmtClaimed
+															].join("\n");
+															IncorrectPartData[m].TCIApprovedAmount = [
+																"Ordered: " + IncorrectPartData[m].TCIApprAmt,
+																"Received: " + IncorrectPartData[m + 1].TCIApprAmt
+															].join("\n");
+															IncorrectPartData[m].DiffAmt = [
+																"Ordered: " + IncorrectPartData[m].DiffAmt,
+																"Received: " + IncorrectPartData[m + 1].DiffAmt
+															].join("\n");
+															filteredPriceData.push(IncorrectPartData[m]);
+														}
+													}
+													console.log("incorrect data updated", filteredPriceData);
+												}
+												
 											} else {
 												console.log("oFilteredData ZPPD", filteredPriceData);
 												for (var m = 0; m < filteredPriceData.length; m++) {
@@ -1786,19 +1817,12 @@ sap.ui.define([
 
 											for (var m = 0; m < oFilteredData.length; m++) {
 												oFilteredData[m].ALMDiscreDesc = oFilteredData[m].ALMDiscreDesc.split("-")[1];
-												if (filteredPriceData[0].DiscreCode == "3A"){
+												if (filteredPriceData[m].DiscreCode == "3A" && filteredPriceData[m].RetainPart == "Y") {
 													filteredPriceData[m].DealerNet = -(parseFloat(filteredPriceData[m].DealerNet));
 													filteredPriceData[m].DiffAmt = -(parseFloat(filteredPriceData[m].DiffAmt));
 													filteredPriceData[m].AmtClaimed = -(parseFloat(filteredPriceData[m].AmtClaimed));
 													filteredPriceData[m].RepairAmt = -(parseFloat(filteredPriceData[m].RepairAmt));
 													filteredPriceData[m].TCIApprovedAmount = -(parseFloat(filteredPriceData[m].TCIApprovedAmount));
-												}
-												else if(filteredPriceData[0].DiscreCode == "4A") {
-													filteredPriceData[m].DealerNet = -(parseFloat(filteredPriceData[m].DealerNet.split("Received:")[1]));
-													filteredPriceData[m].DiffAmt = -(parseFloat(filteredPriceData[m].DiffAmt.split("Received:")[1]));
-													filteredPriceData[m].AmtClaimed = -(parseFloat(filteredPriceData[m].AmtClaimed.split("Received:")[1]));
-													filteredPriceData[m].RepairAmt = -(parseFloat(filteredPriceData[m].RepairAmt.split("Received:")[1]));
-													filteredPriceData[m].TCIApprovedAmount = -(parseFloat(filteredPriceData[m].TCIApprovedAmount.split("Received:")[1]));
 												}
 											}
 											this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
@@ -2567,16 +2591,175 @@ sap.ui.define([
 									"'and LanguageKey eq 'E'"
 							},
 							success: $.proxy(function (pricedata) {
-								var pricingData = pricedata.results;
-								var oFilteredData = pricingData.filter(function (val) {
-									return val.ItemType === "MAT";
+								if (this.claimType != "ZPPD") {
+									console.log("pricedata", pricedata);
+									var pricingData = pricedata.results;
+									var oFilteredData = pricingData.filter(function (val) {
+										return val.ItemType === "MAT"
+									});
+									for (var m = 0; m < oFilteredData.length; m++) {
+										if (oFilteredData[m].ALMDiscreDesc != undefined || oFilteredData[m].ALMDiscreDesc != "") {
+											oFilteredData[m].ALMDiscreDesc = oFilteredData[m].ALMDiscreDesc.split("-")[1];
+										}
+										oFilteredData[m].quant2 = oFilteredData[m].quant;
+									}
+									this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
+								} else {
+									console.log("pricedata", pricedata);
+									var pricingData = pricedata.results;
+									var filteredPriceData = pricingData.filter(function (val) {
+										return val.ItemType === "MAT";
+									});
 
-								});
-								console.log(oFilteredData);
-								for (var m = 0; m < oFilteredData.length; m++) {
-									oFilteredData[m].ALMDiscreDesc = oFilteredData[m].ALMDiscreDesc.split("-")[1];
+									var IncorrectPartData = pricingData.filter(function (val) {
+										return val.DiscreCode === "4A";
+									});
+									// }
+
+									if (IncorrectPartData != undefined && IncorrectPartData.length > 1) {
+										var IncorrectLineRef = IncorrectPartData.map(function (item) {
+											return item.LineRefnr;
+										});
+
+										for (var i = 0; i < filteredPriceData.length; i++) {
+											if (filteredPriceData[i].LineRefnr == IncorrectLineRef[0]) {
+												filteredPriceData.splice(i, 1);
+												i--;
+											}
+										}
+									}
+
+									if (IncorrectPartData.length > 1) {
+										console.log("Updated filteredPriceData", filteredPriceData);
+										for (var m = 0; m < IncorrectPartData.length - 1; m++) {
+											if (IncorrectPartData[m].DiscreCode == "4A" && IncorrectPartData[m].RetainPart == "Y") {
+												if (IncorrectPartData[m].LineRefnr == IncorrectPartData[m + 1].LineRefnr) {
+													IncorrectPartData[m].matnr = [
+														"Ordered: " + IncorrectPartData[m].matnr,
+														"Received: " + IncorrectPartData[m + 1].matnr
+													].join("\n");
+													IncorrectPartData[m].PartDescription = [
+														"Ordered: " + IncorrectPartData[m].PartDescription,
+														"Received: " + IncorrectPartData[m + 1].PartDescription
+													].join("\n");
+													IncorrectPartData[m].DealerNet = [
+														"Ordered: " + IncorrectPartData[m].DealerNet,
+														"Received: " + (-IncorrectPartData[m + 1].DealerNet)
+													].join("\n");
+													IncorrectPartData[m].quant2 = [
+														"Ordered: " + IncorrectPartData[m].QuantityOrdered,
+														"Received: " + IncorrectPartData[m + 1].QuantityReceived
+													].join("\n");
+													IncorrectPartData[m].AmtClaimed = [
+														"Ordered: " + IncorrectPartData[m].AmtClaimed,
+														"Received: " + (-IncorrectPartData[m + 1].AmtClaimed)
+													].join("\n");
+													IncorrectPartData[m].TCIApprovedAmount = [
+														"Ordered: " + IncorrectPartData[m].TCIApprAmt,
+														"Received: " + (-IncorrectPartData[m + 1].TCIApprAmt)
+													].join("\n");
+													IncorrectPartData[m].DiffAmt = [
+														"Ordered: " + IncorrectPartData[m].DiffAmt,
+														"Received: " + (-IncorrectPartData[m + 1].DiffAmt)
+													].join("\n");
+												}
+											} else {
+												if (IncorrectPartData[m].LineRefnr == IncorrectPartData[m + 1].LineRefnr) {
+													IncorrectPartData[m].matnr = [
+														"Ordered: " + IncorrectPartData[m].matnr,
+														"Received: " + IncorrectPartData[m + 1].matnr
+													].join("\n");
+													IncorrectPartData[m].PartDescription = [
+														"Ordered: " + IncorrectPartData[m].PartDescription,
+														"Received: " + IncorrectPartData[m + 1].PartDescription
+													].join("\n");
+													IncorrectPartData[m].DealerNet = [
+														"Ordered: " + IncorrectPartData[m].DealerNet,
+														"Received: " + IncorrectPartData[m + 1].DealerNet
+													].join("\n");
+													IncorrectPartData[m].quant2 = [
+														"Ordered: " + IncorrectPartData[m].QuantityOrdered,
+														"Received: " + IncorrectPartData[m + 1].QuantityReceived
+													].join("\n");
+													IncorrectPartData[m].AmtClaimed = [
+														"Ordered: " + IncorrectPartData[m].AmtClaimed,
+														"Received: " + IncorrectPartData[m + 1].AmtClaimed
+													].join("\n");
+													IncorrectPartData[m].TCIApprovedAmount = [
+														"Ordered: " + IncorrectPartData[m].TCIApprAmt,
+														"Received: " + IncorrectPartData[m + 1].TCIApprAmt
+													].join("\n");
+													IncorrectPartData[m].DiffAmt = [
+														"Ordered: " + IncorrectPartData[m].DiffAmt,
+														"Received: " + IncorrectPartData[m + 1].DiffAmt
+													].join("\n");
+												}
+											}
+											filteredPriceData.push(IncorrectPartData[m]);
+											console.log("incorrect data updated", filteredPriceData);
+										}
+									} else {
+										console.log("oFilteredData ZPPD", filteredPriceData);
+										for (var m = 0; m < filteredPriceData.length; m++) {
+											filteredPriceData[m].matnr = [
+												"Ordered: " + filteredPriceData[m].matnr,
+												"Received: " + filteredPriceData[m].matnr
+											].join("\n");
+											filteredPriceData[m].PartDescription = [
+												"Ordered: " + filteredPriceData[m].PartDescription,
+												"Received: " + filteredPriceData[m].PartDescription
+											].join("\n");
+											filteredPriceData[m].DealerNet = filteredPriceData[m].DealerNet;
+
+											filteredPriceData[m].quant2 = [
+												"Ordered: " + filteredPriceData[m].QuantityOrdered,
+												"Received: " + filteredPriceData[m].QuantityReceived
+											].join("\n");
+											filteredPriceData[m].AmtClaimed = filteredPriceData[m].AmtClaimed;
+											filteredPriceData[m].TCIApprovedAmount = filteredPriceData[m].TCIApprAmt;
+											filteredPriceData[m].DiffAmt = filteredPriceData[m].DiffAmt;
+										}
+										// this.getView().getModel("multiHeaderConfig").setProperty("/flagIncorrectPart", false);
+										console.log("correct data updated", filteredPriceData);
+									}
+
+									console.log("filteredPriceData", filteredPriceData);
+
+									var oFilteredData = filteredPriceData;
+
+									console.log("filteredPriceData", oFilteredData);
+
+									for (var m = 0; m < oFilteredData.length; m++) {
+										oFilteredData[m].ALMDiscreDesc = oFilteredData[m].ALMDiscreDesc.split("-")[1];
+										if (filteredPriceData[m].DiscreCode == "3A" && filteredPriceData[m].RetainPart == "Y") {
+											filteredPriceData[m].DealerNet = -(parseFloat(filteredPriceData[m].DealerNet));
+											filteredPriceData[m].DiffAmt = -(parseFloat(filteredPriceData[m].DiffAmt));
+											filteredPriceData[m].AmtClaimed = -(parseFloat(filteredPriceData[m].AmtClaimed));
+											filteredPriceData[m].RepairAmt = -(parseFloat(filteredPriceData[m].RepairAmt));
+											filteredPriceData[m].TCIApprovedAmount = -(parseFloat(filteredPriceData[m].TCIApprovedAmount));
+										}
+										// else if(filteredPriceData[0].DiscreCode == "4A") {
+										// 	filteredPriceData[m].DealerNet = -(parseFloat(filteredPriceData[m].DealerNet.split("Received:")[1]));
+										// 	filteredPriceData[m].DiffAmt = -(parseFloat(filteredPriceData[m].DiffAmt.split("Received:")[1]));
+										// 	filteredPriceData[m].AmtClaimed = -(parseFloat(filteredPriceData[m].AmtClaimed.split("Received:")[1]));
+										// 	filteredPriceData[m].RepairAmt = -(parseFloat(filteredPriceData[m].RepairAmt.split("Received:")[1]));
+										// 	filteredPriceData[m].TCIApprovedAmount = -(parseFloat(filteredPriceData[m].TCIApprovedAmount.split("Received:")[1]));
+										// }
+									}
+									this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
+									console.log("Part Items stored", this.getModel("LocalDataModel").getData().PricingDataModel);
+
 								}
-								this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
+								// var pricingData = pricedata.results;
+								// var oFilteredData = pricingData.filter(function (val) {
+								// 	return val.ItemType === "MAT";
+
+								// });
+								// console.log(oFilteredData);
+								// for (var m = 0; m < oFilteredData.length; m++) {
+								// 	oFilteredData[m].ALMDiscreDesc = oFilteredData[m].ALMDiscreDesc.split("-")[1];
+								// }
+								// this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
 								oTable.removeSelections("true");
 								MessageToast.show(that.oBundle.getText("ClaimDeleteMSG"));
 								this._fnClaimSum();
@@ -2638,25 +2821,6 @@ sap.ui.define([
 			});
 		},
 
-		// getCurrentLocationText: function () {
-		// 	// Remove the previously added number of items from the currentLocationText in order to not show the number twice after rendering.
-		// 	var sText = this.oBreadcrumbs.getCurrentLocationText().replace(/\s\([0-9]*\)/, "");
-		// 	return sText;
-		// },
-
-		// getCurrentLocationText01: function () {
-		// 	// Remove the previously added number of items from the currentLocationText in order to not show the number twice after rendering.
-		// 	var sText = this.oBreadcrumbs01.getCurrentLocationText().replace(/\s\([0-9]*\)/, "");
-		// 	return sText;
-		// },
-
-		// getCurrentFolderPath: function () {
-		// 	var aHistory = this.getView().getModel("ClaimModel").getProperty("/partsHistory");
-		// 	// get the current folder path
-		// 	var sPath = aHistory.length > 0 ? aHistory[aHistory.length - 1].path : "/";
-		// 	return sPath;
-		// },
-
 		_getDropDownData: function (oClaimType) {
 			//  get the locale to determine the language.
 			var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
@@ -2685,14 +2849,6 @@ sap.ui.define([
 						"LanguageKey": ""
 					});
 					this.getView().getModel("DropDownModel").setProperty("/" + "/items", odata.results);
-					// this.getView().getModel("DropDownModel").getData().items[0].unshift({
-					// 	"ALMDiscreCode": "",
-					// 	"ALMDiscreDesc": "",
-					// 	"ClaimType": "",
-					// 	"DiscreCode": "",
-					// 	"DiscreDesc": "",
-					// 	"LanguageKey": ""
-					// });
 					this.getView().getModel("DropDownModel").updateBindings(true);
 				}, this)
 			});
@@ -3231,8 +3387,9 @@ sap.ui.define([
 				this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
 				this.getView().byId("idMainClaimMessage").setType("Error");
 				return false;
-			} else if (!oValid || (this.getView().getModel("HeadSetData").getProperty("/ShipmentReceivedDate") == undefined || this.getView().getModel(
-					"HeadSetData").getProperty("/ShipmentReceivedDate") == "")) {
+			} else if (!oValid || (this.getView().getModel("HeadSetData").getProperty("/ShipmentReceivedDate") == undefined || this.getView()
+					.getModel(
+						"HeadSetData").getProperty("/ShipmentReceivedDate") == "")) {
 				this.getModel("LocalDataModel").setProperty("/step01Next", false);
 				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
 
@@ -3553,7 +3710,8 @@ sap.ui.define([
 											this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
 											this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", true);
 											MessageToast.show(
-												oBundle.getText("ClaimNumber") + " " + oClaimNum + " " + oBundle.getText("RejectedTCIValidationResultsdetails"), {
+												oBundle.getText("ClaimNumber") + " " + oClaimNum + " " + oBundle.getText(
+													"RejectedTCIValidationResultsdetails"), {
 													my: "center center",
 													at: "center center"
 												});
