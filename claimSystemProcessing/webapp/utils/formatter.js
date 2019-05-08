@@ -649,6 +649,28 @@ zclaimProcessing.utils.formatter = {
 
 			}
 		}
-	}
+		// oNumber = parseFloat(oNumber);
+
+	},
+	fnItemFormat: function (oVal) {
+		console.log(oVal);
+		var oText = "";
+		if (oVal == "") {
+			oText = "";
+		} else {
+			oText = " Page : " + oVal;
+		}
+		return oText;
+	},
+	fnPosnrFormat: function (oVal) {
+		console.log(oVal);
+		var oText = "";
+		if (oVal == "") {
+			oText = "";
+		} else {
+			oText = " Line : " + oVal;
+		}
+		return oText;
+	},
 
 };
