@@ -425,7 +425,7 @@ zclaimProcessing.utils.formatter = {
 		if (sum) {
 			for (var i = 0; i < sum.length; i++) {
 				if (sum[i].RepairAmt.length > 10) { //sum[i].RepairAmt.split("Received:")[1]
-					var num1 = parseFloat(sum[i].RepairAmt.split("Received:")[1].split("Ordered:"));
+					var num1 = parseFloat(sum[i].RepairAmt.split("Received:")[0].split("Ordered:")[1]);
 					var num2 = parseFloat(sum[i].RepairAmt.split("Received:")[1]);
 					oArr.push(num1 + num2);
 					// oArr.push(parseFloat(sum[i].RepairAmt.split("Received:")[1]));
@@ -454,7 +454,7 @@ zclaimProcessing.utils.formatter = {
 		if (sum) {
 			for (var i = 0; i < sum.length; i++) {
 				if (sum[i].AmtClaimed.length > 10) { //sum[i].RepairAmt.split("Received:")[1]
-					var num1 = parseFloat(sum[i].AmtClaimed.split("Received:")[1].split("Ordered:"));
+					var num1 = parseFloat(sum[i].AmtClaimed.split("Received:")[0].split("Ordered:")[1]);
 					var num2 = parseFloat(sum[i].AmtClaimed.split("Received:")[1]);
 					oArr.push(num1 + num2);
 					// oArr.push(parseFloat(sum[i].AmtClaimed.split("Received:")[1]));
@@ -483,7 +483,7 @@ zclaimProcessing.utils.formatter = {
 		if (sum) {
 			for (var i = 0; i < sum.length; i++) {
 				if (sum[i].DiffAmt.length > 10) {
-					var num1 = parseFloat(sum[i].DiffAmt.split("Received:")[1].split("Ordered:"));
+					var num1 = parseFloat(sum[i].DiffAmt.split("Received:")[0].split("Ordered:")[1]);
 					var num2 = parseFloat(sum[i].DiffAmt.split("Received:")[1]);
 					oArr.push(num1 + num2);
 					// oArr.push(parseFloat(sum[i].DiffAmt.split("Received:")[1]));
@@ -512,7 +512,7 @@ zclaimProcessing.utils.formatter = {
 		if (sum) {
 			for (var i = 0; i < sum.length; i++) {
 				if (sum[i].TCIApprovedAmount.length > 10) { //sum[i].RepairAmt.split("Received:")[1]
-					var num1 = parseFloat(sum[i].TCIApprovedAmount.split("Received:")[1].split("Ordered:"));
+					var num1 = parseFloat(sum[i].TCIApprovedAmount.split("Received:")[0].split("Ordered:")[1]);
 					var num2 = parseFloat(sum[i].TCIApprovedAmount.split("Received:")[1]);
 					oArr.push(num1 + num2);
 				} else {
@@ -598,11 +598,12 @@ zclaimProcessing.utils.formatter = {
 			if (oNumber.length > 10) {
 				if (oNumber == 0) {
 					oNumber1 = (oNumber.split("Received:")[1]);
-					oNumber2 = oNumber.split("Received:")[1].split("Ordered:");
+					oNumber2 = oNumber.split("Received:")[0].split("Ordered:")[1];
 				} else {
 					oNumber1 = parseFloat(oNumber.split("Received:")[1]);
-					oNumber2 = parseFloat(oNumber.split("Received:")[1].split("Ordered:"));
+					oNumber2 = parseFloat(oNumber.split("Received:")[0].split("Ordered:")[1]);
 				}
+				
 				oNum1 = Math.round(oNumber1 * 100) / 100;
 				oNum2 = Math.round(oNumber2 * 100) / 100;
 				var finalNum = "Ordered:" + oNum2.toFixed(2) + "$\nReceived:" + oNum1.toFixed(2) + " $";
@@ -612,7 +613,7 @@ zclaimProcessing.utils.formatter = {
 				var oNum3;
 				if (oNumber == -0) {
 					oNum3 = oNumber;
-					return oNum3 + "$";
+					return "0.00$";
 				} else {
 					oNumber = parseFloat(oNumber);
 					oNum3 = Math.round(oNumber * 100) / 100;
@@ -629,7 +630,7 @@ zclaimProcessing.utils.formatter = {
 			var oNumber1, oNumber2, oNum1, oNum2;
 			if (oNumber.length > 10) {
 				oNumber1 = parseFloat(oNumber.split("Received:")[1]);
-				oNumber2 = parseFloat(oNumber.split("Received:")[1].split("Ordered:"));
+				oNumber2 = parseFloat(oNumber.split("Received:")[0].split("Ordered:")[1]);
 				// var oNum;
 				oNum1 = Math.round(oNumber1 * 100) / 100;
 				oNum2 = Math.round(oNumber2 * 100) / 100;
@@ -639,7 +640,7 @@ zclaimProcessing.utils.formatter = {
 				var oNum;
 				if (oNumber == -0) {
 					oNum = oNumber;
-					return oNum + "CAD$";
+					return "0.00CAD$";
 				} else {
 					var oNum;
 					oNumber = parseFloat(oNumber);
