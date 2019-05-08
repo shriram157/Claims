@@ -1783,7 +1783,7 @@ sap.ui.define([
 													}
 													console.log("incorrect data updated", filteredPriceData);
 												}
-												
+
 											} else {
 												console.log("oFilteredData ZPPD", filteredPriceData);
 												for (var m = 0; m < filteredPriceData.length; m++) {
@@ -3487,6 +3487,8 @@ sap.ui.define([
 								this.getView().getModel("HeadSetData").setData(sdata.results[0]);
 								this.getView().getModel("HeadSetData").setProperty("/DeliveryDate", that.DataRes1.DeliveryDate);
 								this.getView().getModel("HeadSetData").setProperty("/ShipmentReceivedDate", that.DataRes1.ShipmentReceivedDate);
+								this.getView().getModel("HeadSetData").setProperty("/ReferenceDate", that.DataRes1.ReferenceDate);
+								this.getView().getModel("HeadSetData").setProperty("/DateOfApplication", that.DataRes1.DateOfApplication);
 								// var oCLaim = this.getModel("LocalDataModel").getProperty("/ClaimDetails/NumberOfWarrantyClaim");
 								this.getView().getModel("HeadSetData").setProperty("/NumberOfWarrantyClaim", this.getModel("LocalDataModel").getProperty(
 									"/WarrantyClaimNum"));
