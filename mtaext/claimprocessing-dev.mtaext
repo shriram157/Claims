@@ -6,6 +6,9 @@ modules:
  - name: claimSystemProcessing_Node
    parameters:
       host: tci-dev-claims-node
+   properties:
+      MOCK_USER_MODE: true
+      MOCK_USER_ORIGIN: d36z7bqhz1-GSR-Neo-to-CF
  - name: claimSystemProcessing
    parameters:
       host: tci-dev-claims
