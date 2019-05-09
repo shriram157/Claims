@@ -199,6 +199,7 @@ sap.ui.define([
 		},
 
 		_onRoutMatched: function (oEvent) {
+			this._ValidateOnLoad();
 			var oDateModel = new sap.ui.model.json.JSONModel();
 			oDateModel.setData({
 				minDate: new Date(1999, 1, 1),
@@ -260,11 +261,12 @@ sap.ui.define([
 				oVisibleURL: "",
 				nonVinHide: true,
 				errorBusyIndicator: false,
-				VisiblePageLine: false
+				VisiblePageLine: false,
+				oRadioVinIndex: 0
 
 			});
 			this.getView().setModel(oDateModel, "DateModel");
-			this.getView().getModel("DateModel").setProperty("/OdometerReq", true);
+			//this.getView().getModel("DateModel").setProperty("/OdometerReq", true);
 			var oValidator = new Validator();
 			oValidator.validate("");
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
@@ -417,6 +419,12 @@ sap.ui.define([
 
 						var oPartner = data.results[0].Partner;
 
+						if (data.results[0].ExternalObjectNumber == "") {
+							this.getView().getModel("DateModel").setProperty("/OdometerReq", false);
+							this.getView().getModel("DateModel").setProperty("/oRadioVinIndex", 1);
+							//this.getView().byId("idRequestType").setSelectedIndex(1);
+						}
+
 						if (oClaimSelectedGroup == "Claim") {
 
 							if (data.results[0].AuthorizationNumber != "") {
@@ -499,7 +507,8 @@ sap.ui.define([
 							}
 						});
 						if (data.results[0].ExternalObjectNumber != "") {
-							this.getView().byId("idRequestType").setSelectedIndex(0);
+							//	this.getView().byId("idRequestType").setSelectedIndex(0);
+							this.getView().getModel("DateModel").setProperty("/oRadioVinIndex", 0);
 							oProssingModel.read("/zc_vehicle_informationSet", {
 								urlParameters: {
 									"$filter": "LanguageKey eq '" + sSelectedLocale.toUpperCase() + "'and Vin eq '" + data.results[0].ExternalObjectNumber +
@@ -548,7 +557,8 @@ sap.ui.define([
 							});
 
 						} else {
-							this.getView().byId("idRequestType").setSelectedIndex(1);
+							//this.getView().byId("idRequestType").setSelectedIndex(1);
+							this.getView().getModel("DateModel").setProperty("/oRadioVinIndex", 1);
 							this.getView().getModel("DateModel").setProperty("/foreignVinInd", false);
 							this.getView().getModel("DateModel").setProperty("/writtenOffInd", false);
 							this.getView().getModel("DateModel").setProperty("/specialVinInd", false);
@@ -596,7 +606,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/oMainOpsReq", false);
 							this.getView().getModel("DateModel").setProperty("/oPrevInvNumReq", true);
 							this.getView().getModel("DateModel").setProperty("/oPrevInvDateReq", true);
-
+							this.getView().getModel("DateModel").setProperty("/DisableRadio", false);
 							this.getView().getModel("DateModel").setProperty("/PreroOdometerVisible", false);
 							this.getView().getModel("DateModel").setProperty("/RepairdDetailVisible", true);
 							this.getView().getModel("DateModel").setProperty("/P1p2", true);
@@ -639,6 +649,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/PreroOdometerVisible", false);
 							this.getView().getModel("DateModel").setProperty("/RepairdDetailVisible", true);
 							this.getView().getModel("DateModel").setProperty("/oMainOpsReq", false);
+							this.getView().getModel("DateModel").setProperty("/DisableRadio", false);
 							this.getView().getModel("DateModel").setProperty("/authHide", false);
 						} else if (oClaimTypeDetail == "ZWA1" || submissionType == "ZWA1" || oClaimTypeDetail == "ZWA2" || submissionType == "ZWA2") {
 							this.getView().getModel("DateModel").setProperty("/oMainOps", true);
@@ -658,6 +669,8 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/RepairdDetailVisible", true);
 							this.getView().getModel("DateModel").setProperty("/oMainOpsReq", false);
 							this.getView().getModel("DateModel").setProperty("/authHide", false);
+						} else if (oClaimTypeDetail == "ZWA2" || submissionType == "ZWA2") {
+							this.getView().getModel("DateModel").setProperty("/DisableRadio", false);
 						} else if (oClaimTypeDetail == "ZWAC" || submissionType == "ZWAC") {
 							this.getView().getModel("DateModel").setProperty("/oMainOps", true);
 							this.getView().getModel("DateModel").setProperty("/Paint", false);
@@ -988,7 +1001,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/authRejClm", false);
 						}
 
-						this.onP2Claim(oClaimTypeDetail);
+						//this.onP2Claim(oClaimTypeDetail);
 						this._fnOFPenabled();
 						this._fnDealerContact();
 
@@ -1358,7 +1371,7 @@ sap.ui.define([
 				this.getModel("LocalDataModel").setProperty("/ClaimDetails", "");
 				this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
 				this.getView().getModel("DateModel").setProperty("/SaveClaim07", true);
-				this.getView().getModel("DateModel").setProperty("/OdometerReq", true);
+				//this.getView().getModel("DateModel").setProperty("/OdometerReq", true);
 				this.obj = {
 					"DBOperation": "SAVE",
 					"Message": "",
@@ -2066,7 +2079,8 @@ sap.ui.define([
 			if (elm == "ZWP2" || elm == "ZWMS" || elm == "ZWA2") {
 				this.getView().getModel("DateModel").setProperty("/DisableRadio", false);
 				this.getView().getModel("DateModel").setProperty("/OdometerReq", false);
-				this.getView().byId("idRequestType").setSelectedIndex(1);
+				//this.getView().byId("idRequestType").setSelectedIndex(1);
+				this.getView().getModel("DateModel").setProperty("/oRadioVinIndex", 1);
 			} else {
 				this.getView().getModel("DateModel").setProperty("/DisableRadio", true);
 				this.getView().getModel("DateModel").setProperty("/OdometerReq", true);
@@ -2082,6 +2096,10 @@ sap.ui.define([
 				this.getView().getModel("HeadSetData").setProperty("/ExternalObjectNumber", "");
 				this.getView().byId("idVinNum").setValue("");
 			}
+		},
+		onChangeLabourOp: function (oEvent) {
+			var oLabourOp = oEvent.getParameters().value;
+			this.getView().getModel("LabourDataModel").setProperty("/LabourOp", oLabourOp.toUpperCase());
 		},
 
 		onEnterVIN: function (oEvent) {
@@ -2206,6 +2224,7 @@ sap.ui.define([
 				this.getModel("LocalDataModel").setProperty("/VehicleMonths", "");
 				this.getView().getModel("DateModel").setProperty("/writtenOffInd", false);
 				this.getView().getModel("DateModel").setProperty("/specialVinInd", false);
+				this.getView().getModel("DateModel").setProperty("/foreignVinInd", false);
 			}
 
 		},
@@ -2277,14 +2296,59 @@ sap.ui.define([
 				return null;
 			}
 		},
+		_ValidateOnLoad: function () {
+			var oView = this.getView();
+			var InputArr = [
+				oView.byId("idClaimType"),
+				oView.byId("idDealerClaim"),
+				oView.byId("idOdometer"),
+				oView.byId("idRepairOrder"),
+				oView.byId("idVinNum"),
+				oView.byId("idT1Field"),
+				oView.byId("idT2Field"),
+				oView.byId("idRemedy"),
+				oView.byId("idCause"),
+				oView.byId("idCondition"),
+				oView.byId("idAccDate"),
+				oView.byId("idInsOdo"),
+				oView.byId("idPreInvNum"),
+				oView.byId("idPrInvDate"),
+				oView.byId("idFieldActionInput"),
+				oView.byId("idOFP"),
+				oView.byId("idClientLastName"),
+				oView.byId("idPostalCode"),
+				oView.byId("iDdelivCarrier"),
+				oView.byId("idProbill"),
+				oView.byId("idDelivery"),
+				oView.byId("idMainOps")
+			];
+			jQuery.each(InputArr, $.proxy(function (i, oInput) {
+				oInput.setValueState("None");
+			}), this);
+		},
+
+		_validateInput: function (oInput) {
+			var oBinding = oInput.getBinding("value");
+			var sValueState = "None";
+			var bValidationError = false;
+
+			try {
+				oBinding.getType().validateValue(oInput.getValue());
+			} catch (oException) {
+				sValueState = "Error";
+				bValidationError = true;
+			}
+
+			oInput.setValueState(sValueState);
+
+			return bValidationError;
+		},
 
 		_fnSaveClaim: function () {
-			var oBundle = this.getView().getModel("i18n").getResourceBundle();
-			var oClaimModel = this.getModel("ProssingModel");
-			var oCurrentDt = new Date();
+
 			var oValidator = new Validator();
-			var oValid = oValidator.validate(this.getView().byId("idClaimMainForm"));
-			var oGroupType = this.getModel("LocalDataModel").getProperty("/WarrantyClaimTypeGroup");
+			//var oValid = oValidator.validate(this.getView().byId("idClaimMainForm"));
+
 			// var oValid01 = oValidator.validate(this.getView().byId("idVehicleInfo"));
 			var oValid02 = oValidator.validate(this.getView().byId("idpart01Form"));
 			oValidator.validate(!(this.getView().byId("id_Date")));
@@ -2297,188 +2361,178 @@ sap.ui.define([
 			} else {
 				sSelectedLocale = "en"; // default is english
 			}
+			var oBundle = this.getView().getModel("i18n").getResourceBundle();
+			var oClaimModel = this.getModel("ProssingModel");
+			var oCurrentDt = new Date();
+			var oClaimtype = this.getModel("LocalDataModel").getProperty("/GroupDescriptionName");
+			var oClmType = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType");
+			var oClmSubType = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType");
+			var oGroupType = this.getModel("LocalDataModel").getProperty("/WarrantyClaimTypeGroup");
+			var that = this;
+			var oView = this.getView();
+			var aInputs;
+			var aInputsArr = [
+				oView.byId("idClaimType"),
+				oView.byId("idDealerClaim"),
 
-			// 	if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == undefined) {
-			// 	this.getView().byId("idMainClaimMessage").setProperty("visible", true);
-			// 	this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
-			// 	this.getView().byId("idMainClaimMessage").setType("Error");
-			// 	this.getView().getModel("DateModel").setProperty("/claimTypeState", "Error");
-			// } 
+				oView.byId("idOdometer"),
+				oView.byId("idRepairOrder"),
+				oView.byId("idVinNum"),
+				oView.byId("idT1Field"),
+				oView.byId("idT2Field"),
+				oView.byId("idRemedy"),
+				oView.byId("idCause"),
+				oView.byId("idCondition")
+			];
 
-			if (!oValid02 && this.getView().getModel("DateModel").getProperty("/oMainOpsReq") == true &&
-				this.getView().getModel("DateModel").getProperty("/oMainOps") == true &&
-				this.getView().getModel("HeadSetData").getProperty("/MainOpsCode") == "" &&
-				this.getView().getModel("DateModel").getProperty("/oFieldActionInput") == true &&
-				this.getView().getModel("HeadSetData").getProperty("/FieldActionReference") == "" &&
-				this.getView().getModel("HeadSetData").getProperty("/RepairDate") == undefined || this.getView().getModel("HeadSetData")
-				.getProperty("/RepairDate") == ""
-			) {
-				this.getModel("LocalDataModel").setProperty("/step01Next", false);
-				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
-				this.getView().byId("idMainOps").setValueState("Error");
-				this.getView().byId("id_Date").setValueState("Error");
-				this.getView().byId("idFieldActionInput").setValueState("Error");
+			var aInputsArrZWAC = [
+				oView.byId("idClaimType"),
+				oView.byId("idDealerClaim"),
+				oView.byId("idAccDate"),
+				oView.byId("idInsOdo"),
+				oView.byId("idOdometer"),
+				oView.byId("idRepairOrder"),
+				oView.byId("idVinNum"),
+				oView.byId("idT1Field"),
+				oView.byId("idT2Field"),
+				oView.byId("idRemedy"),
+				oView.byId("idCause"),
+				oView.byId("idCondition")
+			];
+
+			var aInputsArrZWP2 = [
+				oView.byId("idClaimType"),
+				oView.byId("idDealerClaim"),
+				oView.byId("idPreInvNum"),
+				oView.byId("idPrInvDate"),
+
+				oView.byId("idRepairOrder"),
+
+				oView.byId("idT1Field"),
+				oView.byId("idT2Field"),
+				oView.byId("idRemedy"),
+				oView.byId("idCause"),
+				oView.byId("idCondition")
+			];
+
+			var aInputsArrZWMS = [
+				oView.byId("idClaimType"),
+				oView.byId("idDealerClaim"),
+
+				oView.byId("idRepairOrder"),
+
+				oView.byId("idT1Field"),
+				oView.byId("idT2Field"),
+				oView.byId("idRemedy"),
+				oView.byId("idCause"),
+				oView.byId("idCondition")
+			];
+
+			var aInputsFieldAct = [
+				oView.byId("idClaimType"),
+				oView.byId("idDealerClaim"),
+
+				oView.byId("idOdometer"),
+				oView.byId("idRepairOrder"),
+				oView.byId("idVinNum"),
+				oView.byId("idFieldActionInput"),
+				oView.byId("idRemedy"),
+				oView.byId("idCause"),
+				oView.byId("idCondition")
+			];
+
+			var aInputsFieldActZCWE = [
+				oView.byId("idClaimType"),
+				oView.byId("idDealerClaim"),
+				oView.byId("idOFP"),
+				oView.byId("idOdometer"),
+				oView.byId("idRepairOrder"),
+				oView.byId("idVinNum"),
+				oView.byId("idFieldActionInput"),
+				oView.byId("idRemedy"),
+				oView.byId("idCause"),
+				oView.byId("idCondition")
+			];
+
+			var aInputsOECP = [
+				oView.byId("idClaimType"),
+				oView.byId("idDealerClaim"),
+				oView.byId("idClientLastName"),
+				oView.byId("idPostalCode"),
+				oView.byId("idOdometer"),
+				oView.byId("idRepairOrder"),
+				oView.byId("idVinNum"),
+				oView.byId("idT1Field"),
+				oView.byId("idT2Field"),
+				oView.byId("idRemedy"),
+				oView.byId("idCause"),
+				oView.byId("idCondition")
+			];
+
+			var aInputVehiclLog = [
+				oView.byId("idClaimType"),
+				oView.byId("idDealerClaim"),
+
+				oView.byId("idOdometer"),
+				oView.byId("idRepairOrder"),
+				oView.byId("idVinNum")
+
+				// oView.byId("iDdelivCarrier"),
+				// oView.byId("idProbill"),
+				// oView.byId("idDelivery"),
+
+			];
+
+			var aInputsSETR = [
+				oView.byId("idClaimType"),
+				oView.byId("idDealerClaim"),
+
+				oView.byId("idOdometer"),
+				oView.byId("idRepairOrder"),
+				oView.byId("idVinNum"),
+				oView.byId("idFieldActionInput"),
+				oView.byId("idMainOps"),
+				oView.byId("idRemedy"),
+				oView.byId("idCause"),
+				oView.byId("idCondition")
+			];
+
+			var bValidationError = false;
+
+			if (oClmSubType == "ZCER" || oClmSubType == "ZCLS" || oClmSubType == "ZCSR") {
+				aInputs = aInputsFieldAct;
+			} else if (oClaimtype == "FIELD ACTION" && oClmType == "ZCWE") {
+				aInputs = aInputsFieldActZCWE;
+			} else if (oClmSubType == "ZCWE") {
+				aInputs = aInputsFieldActZCWE;
+			} else if (oClaimtype == "FIELD ACTION") {
+				aInputs = aInputsFieldAct;
+			} else if (oClaimtype == "ECP") {
+				aInputs = aInputsOECP;
+			} else if (oClaimtype == "SETR") {
+				aInputs = aInputsSETR;
+			} else if (oClaimtype == "VEHICLE LOGISTICS") {
+				aInputs = aInputVehiclLog;
+			} else if (oClmType == "ZWAC" || oClmSubType == "ZWAC") {
+				aInputs = aInputsArrZWAC;
+			} else if (oClmType == "ZWP2" || oClmSubType == "ZWP2") {
+				aInputs = aInputsArrZWP2;
+			} else if (oClmType == "ZWMS" || oClmSubType == "ZWMS") {
+				aInputs = aInputsArrZWMS;
+			} else if (oClaimtype == "WARRANTY") {
+				aInputs = aInputsArr;
+			} else if (oClaimtype == "CUSTOMER RELATIONS") {
+				aInputs = aInputsArr;
+			}
+
+			jQuery.each(aInputs, function (i, oInput) {
+				if (oInput.getVisible() == true) {
+					bValidationError = that._validateInput(oInput) || bValidationError;
+				}
+			});
+
+			if (bValidationError) {
 				this.getView().byId("idMainClaimMessage").setText(oBundle.getText("FillUpMandatoryField"));
-				this.getView().byId("idMainClaimMessage").setType("Error");
-
-				//this.getView().getModel("DateModel").setProperty("/claimTypeState", "None");
-				return false;
-			} else if (this.getView().getModel("DateModel").getProperty("/oMainOpsReq") == true &&
-				this.getView().getModel("DateModel").getProperty("/oMainOps") == true &&
-				this.getView().getModel("HeadSetData").getProperty("/MainOpsCode") == ""
-			) {
-				this.getModel("LocalDataModel").setProperty("/step01Next", false);
-				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
-				this.getView().byId("idMainOps").setValueState("Error");
-				this.getView().byId("idFieldActionInput").setValueState("None");
-				this.getView().byId("idMainClaimMessage").setText(oBundle.getText("FillUpMandatoryField"));
-				this.getView().byId("idMainClaimMessage").setType("Error");
-
-				//this.getView().getModel("DateModel").setProperty("/claimTypeState", "None");
-				return false;
-			} else if (!oValid02 &&
-				this.getView().getModel("DateModel").getProperty("/oFieldActionInput") == true &&
-				this.getView().getModel("HeadSetData").getProperty("/FieldActionReference") == "" &&
-				this.getView().getModel("HeadSetData").getProperty("/RepairDate") == undefined || this.getView().getModel("HeadSetData")
-				.getProperty("/RepairDate") == "") {
-				this.getModel("LocalDataModel").setProperty("/step01Next", false);
-				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
-				this.getView().byId("id_Date").setValueState("Error");
-				this.getView().byId("idFieldActionInput").setValueState("Error");
-				this.getView().byId("idMainClaimMessage").setText(oBundle.getText("FillUpMandatoryField"));
-				this.getView().byId("idMainClaimMessage").setType("Error");
-
-				//this.getView().getModel("DateModel").setProperty("/claimTypeState", "None");
-				return false;
-
-			} else if (!oValid02 &&
-				this.getView().getModel("DateModel").getProperty("/oFieldActionInput") == true &&
-				this.getView().getModel("HeadSetData").getProperty("/FieldActionReference") == "" &&
-				this.getView().getModel("DateModel").getProperty("/ofpRequired") == true &&
-				this.getView().getModel("HeadSetData").getProperty("/OFP") == "" &&
-				this.getView().getModel("HeadSetData").getProperty("/RepairDate") == undefined || this.getView().getModel("HeadSetData")
-				.getProperty("/RepairDate") == "") {
-				this.getModel("LocalDataModel").setProperty("/step01Next", false);
-				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
-				this.getView().byId("id_Date").setValueState("Error");
-				this.getView().byId("idMainClaimMessage").setText(oBundle.getText("FillUpMandatoryField"));
-				this.getView().byId("idMainClaimMessage").setType("Error");
-				this.getView().byId("idFieldActionInput").setValueState("Error");
-				this.getView().byId("idOFP").setValueState("Error");
-				//this.getView().getModel("DateModel").setProperty("/claimTypeState", "None");
-				return false;
-
-			} else if (!oValid02 && this.getView().getModel("DateModel").getProperty("/enabledT1") == true &&
-				this.getView().getModel("HeadSetData").getProperty("/T1WarrantyCodes") == "" &&
-				this.getView().getModel("DateModel").getProperty("/enabledT2") == true &&
-				this.getView().getModel("HeadSetData").getProperty("/T2WarrantyCodes") == "" &&
-				this.getView().getModel("HeadSetData").getProperty("/PreviousROInvoice") == "" && this.getView().getModel(
-					"HeadSetData").getProperty("/WarrantyClaimType") == "ZWP2" &&
-				this.getView().getModel("HeadSetData").getProperty("/PreviousROInvoiceDate") == ""
-			) {
-				this.getModel("LocalDataModel").setProperty("/step01Next", false);
-				//do something additional to drawing red borders? message box?
-				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
-				this.getView().byId("idT2Field").setValueState("Error");
-				this.getView().byId("idT1Field").setValueState("Error");
-				this.getView().byId("id_Date").setValueState("Error");
-				this.getView().byId("idMainClaimMessage").setText(oBundle.getText("FillUpMandatoryField"));
-				this.getView().byId("idMainClaimMessage").setType("Error");
-				this.getView().byId("idPrInvDate").setValueState("Error");
-				this.getView().byId("idPreInvNum").setValueState("Error");
-				//this.getView().getModel("DateModel").setProperty("/claimTypeState", "None");
-				return false;
-			} else if (!oValid02 && this.getView().getModel("DateModel").getProperty("/enabledT1") == true &&
-				this.getView().getModel("HeadSetData").getProperty("/T1WarrantyCodes") == "" &&
-				this.getView().getModel("DateModel").getProperty("/enabledT2") == true &&
-				this.getView().getModel("HeadSetData").getProperty("/T2WarrantyCodes") == "" &&
-				this.getView().getModel("DateModel").getProperty("/AcA1") == true &&
-				this.getView().getModel("HeadSetData").getProperty("/AccessoryInstallDate") == ""
-			) {
-				this.getModel("LocalDataModel").setProperty("/step01Next", false);
-
-				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
-				this.getView().byId("idT2Field").setValueState("Error");
-				this.getView().byId("idT1Field").setValueState("Error");
-				this.getView().byId("id_Date").setValueState("Error");
-				this.getView().byId("idAccDate").setValueState("Error");
-				this.getView().byId("idMainClaimMessage").setText(oBundle.getText("FillUpMandatoryField"));
-				this.getView().byId("idMainClaimMessage").setType("Error");
-
-				//this.getView().getModel("DateModel").setProperty("/claimTypeState", "None");
-				return false;
-			} else if (!oValid02 && this.getView().getModel("DateModel").getProperty("/enabledT1") == true &&
-				this.getView().getModel("HeadSetData").getProperty("/T1WarrantyCodes") == "" &&
-				this.getView().getModel("DateModel").getProperty("/enabledT2") == true &&
-				this.getView().getModel("HeadSetData").getProperty("/T2WarrantyCodes") == ""
-			) {
-				this.getModel("LocalDataModel").setProperty("/step01Next", false);
-
-				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
-				this.getView().byId("idT2Field").setValueState("Error");
-				this.getView().byId("idT1Field").setValueState("Error");
-				this.getView().byId("id_Date").setValueState("Error");
-				this.getView().byId("idMainClaimMessage").setText(oBundle.getText("FillUpMandatoryField"));
-				this.getView().byId("idMainClaimMessage").setType("Error");
-
-				//this.getView().getModel("DateModel").setProperty("/claimTypeState", "None");
-				return false;
-			} else if (!oValid02) {
-				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
-				this.getView().byId("idMainClaimMessage").setText(oBundle.getText("FillUpMandatoryField"));
-				this.getView().byId("idMainClaimMessage").setType("Error");
-				return false;
-			} else if (this.getView().getModel("HeadSetData").getProperty("/RepairDate") == undefined || this.getView().getModel("HeadSetData")
-				.getProperty("/RepairDate") == "") {
-				this.getView().byId("id_Date").setValueState("Error");
-			} else if (this.getView().getModel("HeadSetData").getProperty("/PreviousROInvoice") == "" && this.getView().getModel(
-					"HeadSetData").getProperty("/WarrantyClaimType") == "ZWP2") {
-				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
-				this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
-				this.getView().byId("idMainClaimMessage").setType("Error");
-				this.getView().byId("idPreInvNum").setValueState("Error");
-			} else if (this.getView().getModel("HeadSetData").getProperty("/PreviousROInvoiceDate") == "" && this.getView().getModel(
-					"HeadSetData").getProperty("/WarrantyClaimType") == "ZWP2") {
-				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
-				this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
-				this.getView().byId("idMainClaimMessage").setType("Error");
-				this.getView().byId("idPrInvDate").setValueState("Error");
-			} else if (this.getView().getModel("DateModel").getProperty("/enabledT1") == true &&
-				this.getView().getModel("HeadSetData").getProperty("/T1WarrantyCodes") == "" &&
-				this.getView().getModel("DateModel").getProperty("/RepairdDetailVisible") == true
-			) {
-				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
-				this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
-				this.getView().byId("idMainClaimMessage").setType("Error");
-				this.getView().byId("idT1Field").setValueState("Error");
-			} else if (this.getView().getModel("DateModel").getProperty("/oDealerContactReq") == true &&
-				this.getView().getModel("HeadSetData").getProperty("/DealerContact") == "") {
-				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
-				this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
-				this.getView().byId("idMainClaimMessage").setType("Error");
-				this.getView().byId("idDealerContact").setValueState("Error");
-			} else if (this.getView().getModel("DateModel").getProperty("/enabledT2") == true &&
-				this.getView().getModel("HeadSetData").getProperty("/T2WarrantyCodes") == "" &&
-				this.getView().getModel("DateModel").getProperty("/RepairdDetailVisible") == true) {
-				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
-				this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
-				this.getView().byId("idMainClaimMessage").setType("Error");
-				this.getView().byId("idT2Field").setValueState("Error");
-			} else if (this.getView().getModel("DateModel").getProperty("/oFieldActionInput") == true &&
-				this.getView().getModel("HeadSetData").getProperty("/FieldActionReference") == "") {
-				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
-				this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
-				this.getView().byId("idMainClaimMessage").setType("Error");
-				this.getView().byId("idFieldActionInput").setValueState("Error");
-			} else if (this.getView().getModel("DateModel").getProperty("/ofpRequired") == true &&
-				this.getView().getModel("HeadSetData").getProperty("/OFP") == "") {
-				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
-				this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
-				this.getView().byId("idMainClaimMessage").setType("Error");
-				this.getView().byId("idOFP").setValueState("Error");
-			} else if (this.oText == "false") {
-				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
-				this.getView().byId("idMainClaimMessage").setText(oBundle.getText("PleaseEnterValidVIN"));
 				this.getView().byId("idMainClaimMessage").setType("Error");
 			} else {
 				this.getView().byId("id_Date").setValueState("None");
@@ -2928,7 +2982,175 @@ sap.ui.define([
 			var oGroupType = this.getModel("LocalDataModel").getProperty("/WarrantyClaimTypeGroup");
 			// var oValid01 = oValidator.validate(this.getView().byId("idVehicleInfo"));
 			var oValid02 = oValidator.validate(this.getView().byId("idpart01Form"));
-			// var oCurrentDt = new Date();
+
+			// 	var oCurrentDt = new Date();
+			var oClaimtype = this.getModel("LocalDataModel").getProperty("/GroupDescriptionName");
+			var oClmType = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType");
+			var oClmSubType = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType");
+			//var oGroupType = this.getModel("LocalDataModel").getProperty("/WarrantyClaimTypeGroup");
+			var that = this;
+			var oView = this.getView();
+			var aInputs;
+
+			var aInputsArr = [
+				oView.byId("idClaimType"),
+				oView.byId("idDealerClaim"),
+
+				oView.byId("idOdometer"),
+				oView.byId("idRepairOrder"),
+				oView.byId("idVinNum"),
+				oView.byId("idT1Field"),
+				oView.byId("idT2Field"),
+				oView.byId("idRemedy"),
+				oView.byId("idCause"),
+				oView.byId("idCondition")
+			];
+
+			var aInputsArrZWAC = [
+				oView.byId("idClaimType"),
+				oView.byId("idDealerClaim"),
+				oView.byId("idAccDate"),
+				oView.byId("idInsOdo"),
+				oView.byId("idOdometer"),
+				oView.byId("idRepairOrder"),
+				oView.byId("idVinNum"),
+				oView.byId("idT1Field"),
+				oView.byId("idT2Field"),
+				oView.byId("idRemedy"),
+				oView.byId("idCause"),
+				oView.byId("idCondition")
+			];
+
+			var aInputsArrZWP2 = [
+				oView.byId("idClaimType"),
+				oView.byId("idDealerClaim"),
+				oView.byId("idPreInvNum"),
+				oView.byId("idPrInvDate"),
+
+				oView.byId("idRepairOrder"),
+
+				oView.byId("idT1Field"),
+				oView.byId("idT2Field"),
+				oView.byId("idRemedy"),
+				oView.byId("idCause"),
+				oView.byId("idCondition")
+			];
+
+			var aInputsArrZWMS = [
+				oView.byId("idClaimType"),
+				oView.byId("idDealerClaim"),
+
+				oView.byId("idRepairOrder"),
+
+				oView.byId("idT1Field"),
+				oView.byId("idT2Field"),
+				oView.byId("idRemedy"),
+				oView.byId("idCause"),
+				oView.byId("idCondition")
+			];
+
+			var aInputsFieldAct = [
+				oView.byId("idClaimType"),
+				oView.byId("idDealerClaim"),
+
+				oView.byId("idOdometer"),
+				oView.byId("idRepairOrder"),
+				oView.byId("idVinNum"),
+				oView.byId("idFieldActionInput"),
+				oView.byId("idRemedy"),
+				oView.byId("idCause"),
+				oView.byId("idCondition")
+			];
+
+			var aInputsFieldActZCWE = [
+				oView.byId("idClaimType"),
+				oView.byId("idDealerClaim"),
+				oView.byId("idOFP"),
+				oView.byId("idOdometer"),
+				oView.byId("idRepairOrder"),
+				oView.byId("idVinNum"),
+				oView.byId("idFieldActionInput"),
+				oView.byId("idRemedy"),
+				oView.byId("idCause"),
+				oView.byId("idCondition")
+			];
+
+			var aInputsOECP = [
+				oView.byId("idClaimType"),
+				oView.byId("idDealerClaim"),
+				oView.byId("idClientLastName"),
+				oView.byId("idPostalCode"),
+				oView.byId("idOdometer"),
+				oView.byId("idRepairOrder"),
+				oView.byId("idVinNum"),
+				oView.byId("idT1Field"),
+				oView.byId("idT2Field"),
+				oView.byId("idRemedy"),
+				oView.byId("idCause"),
+				oView.byId("idCondition")
+			];
+
+			var aInputVehiclLog = [
+				oView.byId("idClaimType"),
+				oView.byId("idDealerClaim"),
+				// 		oView.byId("idClientLastName"),
+				// 		oView.byId("idPostalCode"),
+				oView.byId("idOdometer"),
+				oView.byId("idRepairOrder"),
+				oView.byId("idVinNum")
+
+				// 		oView.byId("iDdelivCarrier"),
+				// 		oView.byId("idProbill"),
+				// 		oView.byId("idDelivery"),
+
+			];
+
+			var aInputsSETR = [
+				oView.byId("idClaimType"),
+				oView.byId("idDealerClaim"),
+
+				oView.byId("idOdometer"),
+				oView.byId("idRepairOrder"),
+				oView.byId("idVinNum"),
+				oView.byId("idFieldActionInput"),
+				oView.byId("idMainOps"),
+				oView.byId("idRemedy"),
+				oView.byId("idCause"),
+				oView.byId("idCondition")
+			];
+
+			var bValidationError = false;
+
+			if (oClmSubType == "ZCER" || oClmSubType == "ZCLS" || oClmSubType == "ZCSR") {
+				aInputs = aInputsFieldAct;
+			} else if (oClaimtype == "ZCWE" && oClmType == "ZCWE") {
+				aInputs = aInputsFieldActZCWE;
+			} else if (oClmSubType == "ZCWE" || oClmType == "ZCWE") {
+				aInputs = aInputsFieldActZCWE;
+			} else if (oClaimtype == "ZCER" || oClaimtype == "ZCLS" || oClaimtype == "ZCSR") {
+				aInputs = aInputsFieldAct;
+			} else if (oClaimtype == "ECP" || oClmType == "ZECP") {
+				aInputs = aInputsOECP;
+			} else if (oClaimtype == "SETR" || oClmType == "ZSSE") {
+				aInputs = aInputsSETR;
+			} else if (oClaimtype == "ZLDC" || oClmType == "ZLDC") {
+				aInputs = aInputVehiclLog;
+			} else if (oClmType == "ZWAC" || oClmSubType == "ZWAC") {
+				aInputs = aInputsArrZWAC;
+			} else if (oClmType == "ZWP2" || oClmSubType == "ZWP2") {
+				aInputs = aInputsArrZWP2;
+			} else if (oClmType == "ZWMS" || oClmSubType == "ZWMS") {
+				aInputs = aInputsArrZWMS;
+			} else if (oClaimtype == "ZWVE" || oClaimtype == "ZGGW" || oClaimtype == "ZWP1" || oClaimtype == "ZWA1" || oClaimtype ==
+				"ZWA2") {
+				aInputs = aInputsArr;
+			} else if (oClaimtype == "ZRCR" || oClmType == "ZRCR") {
+				aInputs = aInputsArr;
+			}
+
+			jQuery.each(aInputs, function (i, oInput) {
+				bValidationError = that._validateInput(oInput) || bValidationError;
+			});
 
 			var oPartner = this.getModel("LocalDataModel").getProperty("/BpDealerModel/0/BusinessPartnerKey");
 
@@ -3121,102 +3343,10 @@ sap.ui.define([
 							"results": pricinghData
 						}
 					};
-					if (this.oText == "false") {
-						this.getView().byId("idMainClaimMessage").setProperty("visible", true);
-						this.getView().byId("idMainClaimMessage").setText("Please Enter a Valid VIN.");
-						this.getView().byId("idMainClaimMessage").setType("Error");
-					} else if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == undefined) {
-						this.getView().byId("idMainClaimMessage").setProperty("visible", true);
-						this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
-						this.getView().byId("idMainClaimMessage").setType("Error");
-						this.getView().getModel("DateModel").setProperty("/claimTypeState", "Error");
-					} else if (this.getView().getModel("HeadSetData").getProperty("/RepairDate") == undefined || this.getView().getModel(
-							"HeadSetData")
-						.getProperty("/RepairDate") == "") {
-						this.getView().byId("id_Date").setValueState("Error");
-					} else if (this.getView().getModel("HeadSetData").getProperty("/PreviousROInvoice") == "" && this.getView().getModel(
-							"HeadSetData").getProperty("/WarrantyClaimType") == "ZWP2") {
-						this.getView().byId("idMainClaimMessage").setProperty("visible", true);
-						this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
-						this.getView().byId("idMainClaimMessage").setType("Error");
-						this.getView().byId("idPreInvNum").setValueState("Error");
-					} else if (this.getView().getModel("HeadSetData").getProperty("/PreviousROInvoiceDate") == "" && this.getView().getModel(
-							"HeadSetData").getProperty("/WarrantyClaimType") == "ZWP2") {
-						this.getView().byId("idMainClaimMessage").setProperty("visible", true);
-						this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
-						this.getView().byId("idMainClaimMessage").setType("Error");
-						this.getView().byId("idPrInvDate").setValueState("Error");
-					} else if (this.getView().getModel("DateModel").getProperty("/enabledT1") == true &&
-						this.getView().getModel("HeadSetData").getProperty("/T1WarrantyCodes") == "" &&
-						this.getView().getModel("DateModel").getProperty("/RepairdDetailVisible") == true) {
-						this.getView().byId("idMainClaimMessage").setProperty("visible", true);
-						this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
-						this.getView().byId("idMainClaimMessage").setType("Error");
-						this.getView().byId("idT1Field").setValueState("Error");
-					} else if (this.getView().getModel("DateModel").getProperty("/oDealerContactReq") == true &&
-						this.getView().getModel("HeadSetData").getProperty("/DealerContact") == "") {
-						this.getView().byId("idMainClaimMessage").setProperty("visible", true);
-						this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
-						this.getView().byId("idMainClaimMessage").setType("Error");
-						this.getView().byId("idDealerContact").setValueState("Error");
-					} else if (this.getView().getModel("DateModel").getProperty("/enabledT2") == true &&
-						this.getView().getModel("HeadSetData").getProperty("/T2WarrantyCodes") == "" &&
-						this.getView().getModel("DateModel").getProperty("/RepairdDetailVisible") == true) {
-						this.getView().byId("idMainClaimMessage").setProperty("visible", true);
-						this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
-						this.getView().byId("idMainClaimMessage").setType("Error");
-						this.getView().byId("idT2Field").setValueState("Error");
-					} else if (this.getView().getModel("DateModel").getProperty("/oFieldActionInput") == true &&
-						this.getView().getModel("HeadSetData").getProperty("/FieldActionReference") == "") {
-						this.getView().byId("idMainClaimMessage").setProperty("visible", true);
-						this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
-						this.getView().byId("idMainClaimMessage").setType("Error");
-						this.getView().byId("idFieldActionInput").setValueState("Error");
-					} else if (this.getView().getModel("DateModel").getProperty("/ofpRequired") == true &&
-						this.getView().getModel("HeadSetData").getProperty("/OFP") == "") {
-						this.getView().byId("idMainClaimMessage").setProperty("visible", true);
-						this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
-						this.getView().byId("idMainClaimMessage").setType("Error");
-						this.getView().byId("idOFP").setValueState("Error");
-					} else if (!oValid02 && this.getView().getModel("DateModel").getProperty("/oMainOpsReq") == true &&
-						this.getView().getModel("DateModel").getProperty("/oMainOps") == true &&
-						this.getView().getModel("HeadSetData").getProperty("/MainOpsCode") == "" &&
-						this.getView().getModel("DateModel").getProperty("/oFieldActionInput") == true &&
-						this.getView().getModel("HeadSetData").getProperty("/FieldActionReference") == "" &&
-						this.getView().getModel("HeadSetData").getProperty("/RepairDate") == undefined || this.getView().getModel("HeadSetData")
-						.getProperty("/RepairDate") == ""
-					) {
-						this.getModel("LocalDataModel").setProperty("/step01Next", false);
-						this.getView().byId("idMainClaimMessage").setProperty("visible", true);
-						this.getView().byId("idMainOps").setValueState("Error");
-						this.getView().byId("id_Date").setValueState("Error");
-						this.getView().byId("idFieldActionInput").setValueState("Error");
-						this.getView().byId("idMainClaimMessage").setText(oBundle.getText("FillUpMandatoryField"));
-						this.getView().byId("idMainClaimMessage").setType("Error");
 
-						//this.getView().getModel("DateModel").setProperty("/claimTypeState", "None");
-						return false;
-					} else if (this.getView().getModel("DateModel").getProperty("/oMainOpsReq") == true &&
-						this.getView().getModel("DateModel").getProperty("/oMainOps") == true &&
-						this.getView().getModel("HeadSetData").getProperty("/MainOpsCode") == ""
-					) {
-						this.getModel("LocalDataModel").setProperty("/step01Next", false);
-						this.getView().byId("idMainClaimMessage").setProperty("visible", true);
-						this.getView().byId("idMainOps").setValueState("Error");
-						this.getView().byId("idFieldActionInput").setValueState("None");
+					if (bValidationError) {
 						this.getView().byId("idMainClaimMessage").setText(oBundle.getText("FillUpMandatoryField"));
 						this.getView().byId("idMainClaimMessage").setType("Error");
-
-						//this.getView().getModel("DateModel").setProperty("/claimTypeState", "None");
-						return false;
-					} else if (!oValid02) {
-						this.getModel("LocalDataModel").setProperty("/step01Next", false);
-						//do something additional to drawing red borders? message box?
-						this.getView().byId("idMainClaimMessage").setProperty("visible", true);
-						this.getView().byId("idMainClaimMessage").setText(oBundle.getText("FillUpMandatoryField"));
-						this.getView().byId("idMainClaimMessage").setType("Error");
-						this.getView().getModel("DateModel").setProperty("/claimTypeState", "None");
-						return false;
 					} else {
 						this.getView().byId("idMainClaimMessage").setProperty("visible", false);
 						this.getView().byId("idMainClaimMessage").setText("");
@@ -4441,6 +4571,29 @@ sap.ui.define([
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 
 			var that = this;
+
+			if (that.getModel("LocalDataModel").getProperty("/NavList") == "Inq") {
+				that.getRouter().navTo("ClaimInquiry");
+			} else {
+				if (oClaimNum == "nun") {
+					that.fnOpenDialogOnBack();
+				} else if (that.getView().getModel("HeadSetData").getProperty("/ProcessingStatusOfWarrantyClm") == "ZTIC" ||
+					that.getView().getModel("HeadSetData").getProperty("/ProcessingStatusOfWarrantyClm") == "ZTRC") {
+					that.fnOpenDialogOnBack();
+				} else {
+					that.getRouter().navTo("SearchClaim");
+				}
+			}
+
+		},
+
+		fnOpenDialogOnBack: function () {
+			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
+			this.ogetSelectedKey = this.getView().byId("idIconTabMainClaim").getSelectedKey();
+			var ogetKey = this.ogetSelectedKey.split("Tab")[1];
+			var oBundle = this.getView().getModel("i18n").getResourceBundle();
+
+			var that = this;
 			var dialog = new Dialog({
 				title: oBundle.getText("SaveChanges"),
 				type: "Message",
@@ -4454,13 +4607,11 @@ sap.ui.define([
 						press: function () {
 							if (oClaimNum == "nun") {
 								that._fnSaveClaim();
-							} else {
+							} else if (that.getView().getModel("HeadSetData").getProperty("/ProcessingStatusOfWarrantyClm") == "ZTIC" || that.getView()
+								.getModel("HeadSetData").getProperty("/ProcessingStatusOfWarrantyClm") == "ZTRC") {
+
 								that._fnUpdateClaim();
-							}
-							if (that.getModel("LocalDataModel").getProperty("/NavList") == "Inq") {
-								that.getRouter().navTo("ClaimInquiry");
-							} else {
-								that.getRouter().navTo("SearchClaim");
+
 							}
 
 							dialog.close();
@@ -4471,11 +4622,9 @@ sap.ui.define([
 					new Button({
 						text: oBundle.getText("No"),
 						press: function () {
-							if (that.getModel("LocalDataModel").getProperty("/NavList") == "Inq") {
-								that.getRouter().navTo("ClaimInquiry");
-							} else {
-								that.getRouter().navTo("SearchClaim");
-							}
+
+							that.getRouter().navTo("SearchClaim");
+
 							dialog.close();
 						}
 					})
@@ -4488,7 +4637,6 @@ sap.ui.define([
 			});
 
 			dialog.open();
-
 		},
 		handleValueHelp: function (oController) {
 			//debugger;
