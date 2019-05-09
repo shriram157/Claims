@@ -1370,7 +1370,7 @@ sap.ui.define([
 		},
 
 		onPressSavePart: function () {
-			arrPartLOI=[];
+			arrPartLOI = [];
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var oValidator = new Validator();
 			if (this.getView().getModel("DateModel").getProperty("/partLine") == true) {
@@ -1520,11 +1520,13 @@ sap.ui.define([
 									// "URI": this.getModel("LocalDataModel").getProperty("/partItemAttachments")[0].URI
 							};
 							console.log("Newly added part obj", itemObj);
-							this.getView().getModel("PartDataModel").setProperty("/arrPartLOI", arrPartLOI);
-							arrPartLOI.push(itemObj.MaterialNumber, " ", itemObj.PartDescription);
 
 							this.obj.zc_itemSet.results.push(itemObj);
-							this.obj.zc_claim_item_price_dataSet.results=[];
+							for (var n = 0; n < this.obj.zc_itemSet.results.length; n++) {
+								arrPartLOI.push(this.obj.zc_itemSet.results[n].MaterialNumber, " ", this.obj.zc_itemSet.results[n].PartDescription);
+								this.getView().getModel("PartDataModel").setProperty("/arrPartLOI", arrPartLOI);
+							}
+							this.obj.zc_claim_item_price_dataSet.results = [];
 						}
 						// this.obj.zc_itemSet.results[0].ItemKey;
 						var oClaimModel = this.getModel("ProssingModel");
@@ -1634,11 +1636,15 @@ sap.ui.define([
 						};
 
 						console.log("Newly added part obj", itemObj);
-						this.getView().getModel("PartDataModel").setProperty("/arrPartLOI", arrPartLOI);
-						arrPartLOI.push(itemObj.MaterialNumber, " ", itemObj.PartDescription);
+						// this.getView().getModel("PartDataModel").setProperty("/arrPartLOI", arrPartLOI);
+						// arrPartLOI.push(itemObj.MaterialNumber, " ", itemObj.PartDescription);
 
 						this.obj.zc_itemSet.results.push(itemObj);
-						this.obj.zc_claim_item_price_dataSet.results=[];
+						for (var n = 0; n < this.obj.zc_itemSet.results.length; n++) {
+							arrPartLOI.push(this.obj.zc_itemSet.results[n].MaterialNumber, " ", this.obj.zc_itemSet.results[n].PartDescription);
+							this.getView().getModel("PartDataModel").setProperty("/arrPartLOI", arrPartLOI);
+						}
+						this.obj.zc_claim_item_price_dataSet.results = [];
 
 						var arr = this.obj.zc_itemSet.results;
 
@@ -2578,7 +2584,7 @@ sap.ui.define([
 			if (oTableIndex.length == 1) {
 				var oIndex = oTable._aSelectedPaths.toString().split("/")[2];
 				this.obj.zc_itemSet.results.splice(oIndex, 1);
-				this.obj.zc_claim_item_price_dataSet.results=[];
+				this.obj.zc_claim_item_price_dataSet.results = [];
 
 				var oClaimModel = this.getModel("ProssingModel");
 
