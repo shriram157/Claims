@@ -1370,6 +1370,7 @@ sap.ui.define([
 		},
 
 		onPressSavePart: function () {
+			arrPartLOI = [];
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var oValidator = new Validator();
 			if (this.getView().getModel("DateModel").getProperty("/partLine") == true) {
@@ -1497,11 +1498,6 @@ sap.ui.define([
 								RepairAmt = this.getView().getModel("HeadSetData").getProperty("/RepairAmount");
 							}
 							var finalQTY;
-							// if (this.getView().getModel("PartDataModel").getProperty("/quant") !== "0.000" || this.getView().getModel("PartDataModel").getProperty(	"/quant") !== "") {
-							// 	finalQTY = this.getView().getModel("PartDataModel").getProperty("/quant").toString();
-							// } else {
-							// 	finalQTY = "0.000";
-							// }
 							var itemObj = {
 								"Type": "PART",
 								"ItemType": "MAT",
@@ -1524,10 +1520,13 @@ sap.ui.define([
 									// "URI": this.getModel("LocalDataModel").getProperty("/partItemAttachments")[0].URI
 							};
 							console.log("Newly added part obj", itemObj);
-							this.getView().getModel("PartDataModel").setProperty("/arrPartLOI", arrPartLOI);
-							arrPartLOI.push(itemObj.MaterialNumber, " ", itemObj.PartDescription);
 
 							this.obj.zc_itemSet.results.push(itemObj);
+							for (var n = 0; n < this.obj.zc_itemSet.results.length; n++) {
+								arrPartLOI.push(this.obj.zc_itemSet.results[n].MaterialNumber, " ", this.obj.zc_itemSet.results[n].PartDescription);
+								this.getView().getModel("PartDataModel").setProperty("/arrPartLOI", arrPartLOI);
+							}
+							this.obj.zc_claim_item_price_dataSet.results = [];
 						}
 						// this.obj.zc_itemSet.results[0].ItemKey;
 						var oClaimModel = this.getModel("ProssingModel");
@@ -1637,10 +1636,15 @@ sap.ui.define([
 						};
 
 						console.log("Newly added part obj", itemObj);
-						this.getView().getModel("PartDataModel").setProperty("/arrPartLOI", arrPartLOI);
-						arrPartLOI.push(itemObj.MaterialNumber, " ", itemObj.PartDescription);
+						// this.getView().getModel("PartDataModel").setProperty("/arrPartLOI", arrPartLOI);
+						// arrPartLOI.push(itemObj.MaterialNumber, " ", itemObj.PartDescription);
 
 						this.obj.zc_itemSet.results.push(itemObj);
+						for (var n = 0; n < this.obj.zc_itemSet.results.length; n++) {
+							arrPartLOI.push(this.obj.zc_itemSet.results[n].MaterialNumber, " ", this.obj.zc_itemSet.results[n].PartDescription);
+							this.getView().getModel("PartDataModel").setProperty("/arrPartLOI", arrPartLOI);
+						}
+						this.obj.zc_claim_item_price_dataSet.results = [];
 
 						var arr = this.obj.zc_itemSet.results;
 
@@ -1730,6 +1734,7 @@ sap.ui.define([
 																"Ordered: " + IncorrectPartData[m].DealerNet,
 																"Received: " + (-IncorrectPartData[m + 1].DealerNet)
 															].join("\n");
+															IncorrectPartData[m].quant = IncorrectPartData[m].quant;
 															IncorrectPartData[m].quant2 = [
 																"Ordered: " + IncorrectPartData[m].QuantityOrdered,
 																"Received: " + IncorrectPartData[m + 1].QuantityReceived
@@ -1762,6 +1767,7 @@ sap.ui.define([
 																"Ordered: " + IncorrectPartData[m].DealerNet,
 																"Received: " + IncorrectPartData[m + 1].DealerNet
 															].join("\n");
+															IncorrectPartData[m].quant = IncorrectPartData[m].quant;
 															IncorrectPartData[m].quant2 = [
 																"Ordered: " + IncorrectPartData[m].QuantityOrdered,
 																"Received: " + IncorrectPartData[m + 1].QuantityReceived
@@ -2578,6 +2584,7 @@ sap.ui.define([
 			if (oTableIndex.length == 1) {
 				var oIndex = oTable._aSelectedPaths.toString().split("/")[2];
 				this.obj.zc_itemSet.results.splice(oIndex, 1);
+				this.obj.zc_claim_item_price_dataSet.results = [];
 
 				var oClaimModel = this.getModel("ProssingModel");
 
@@ -2646,6 +2653,7 @@ sap.ui.define([
 														"Ordered: " + IncorrectPartData[m].DealerNet,
 														"Received: " + (-IncorrectPartData[m + 1].DealerNet)
 													].join("\n");
+													IncorrectPartData[m].quant = IncorrectPartData[m].quant;
 													IncorrectPartData[m].quant2 = [
 														"Ordered: " + IncorrectPartData[m].QuantityOrdered,
 														"Received: " + IncorrectPartData[m + 1].QuantityReceived
@@ -2677,6 +2685,7 @@ sap.ui.define([
 														"Ordered: " + IncorrectPartData[m].DealerNet,
 														"Received: " + IncorrectPartData[m + 1].DealerNet
 													].join("\n");
+													IncorrectPartData[m].quant = IncorrectPartData[m].quant;
 													IncorrectPartData[m].quant2 = [
 														"Ordered: " + IncorrectPartData[m].QuantityOrdered,
 														"Received: " + IncorrectPartData[m + 1].QuantityReceived
@@ -2718,6 +2727,7 @@ sap.ui.define([
 											filteredPriceData[m].AmtClaimed = filteredPriceData[m].AmtClaimed;
 											filteredPriceData[m].TCIApprovedAmount = filteredPriceData[m].TCIApprAmt;
 											filteredPriceData[m].DiffAmt = filteredPriceData[m].DiffAmt;
+											filteredPriceData[m].quant = filteredPriceData[m].quant;
 										}
 										// this.getView().getModel("multiHeaderConfig").setProperty("/flagIncorrectPart", false);
 										console.log("correct data updated", filteredPriceData);
@@ -2738,28 +2748,10 @@ sap.ui.define([
 											filteredPriceData[m].RepairAmt = -(parseFloat(filteredPriceData[m].RepairAmt));
 											filteredPriceData[m].TCIApprovedAmount = -(parseFloat(filteredPriceData[m].TCIApprovedAmount));
 										}
-										// else if(filteredPriceData[0].DiscreCode == "4A") {
-										// 	filteredPriceData[m].DealerNet = -(parseFloat(filteredPriceData[m].DealerNet.split("Received:")[1]));
-										// 	filteredPriceData[m].DiffAmt = -(parseFloat(filteredPriceData[m].DiffAmt.split("Received:")[1]));
-										// 	filteredPriceData[m].AmtClaimed = -(parseFloat(filteredPriceData[m].AmtClaimed.split("Received:")[1]));
-										// 	filteredPriceData[m].RepairAmt = -(parseFloat(filteredPriceData[m].RepairAmt.split("Received:")[1]));
-										// 	filteredPriceData[m].TCIApprovedAmount = -(parseFloat(filteredPriceData[m].TCIApprovedAmount.split("Received:")[1]));
-										// }
 									}
 									this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
 									console.log("Part Items stored", this.getModel("LocalDataModel").getData().PricingDataModel);
-
 								}
-								// var pricingData = pricedata.results;
-								// var oFilteredData = pricingData.filter(function (val) {
-								// 	return val.ItemType === "MAT";
-
-								// });
-								// console.log(oFilteredData);
-								// for (var m = 0; m < oFilteredData.length; m++) {
-								// 	oFilteredData[m].ALMDiscreDesc = oFilteredData[m].ALMDiscreDesc.split("-")[1];
-								// }
-								// this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
 								oTable.removeSelections("true");
 								MessageToast.show(that.oBundle.getText("ClaimDeleteMSG"));
 								this._fnClaimSum();
