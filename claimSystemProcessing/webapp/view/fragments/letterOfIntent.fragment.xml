@@ -35,7 +35,7 @@
 				</f:SimpleForm>
 			</VBox>
 			<VBox>
-				<f:SimpleForm minWidth="1024" id="id_LOIForm02" editable="true" layout="ResponsiveGridLayout" title="SHIPMENT DETAILS" labelSpanXL="2"
+				<f:SimpleForm minWidth="1024" id="id_LOIForm02" editable="true" layout="ResponsiveGridLayout" title="{i18n>shipmentDetails}" labelSpanXL="2"
 					labelSpanL="2" labelSpanM="2" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" columnsXL="1" columnsL="1" columnsM="1"
 					singleContainerFullSize="false">
 					<f:content>
@@ -71,7 +71,7 @@
 				</f:SimpleForm>
 			</VBox>
 			<VBox>
-				<f:SimpleForm minWidth="1024" id="id_LOIForm03" editable="true" layout="ResponsiveGridLayout" title="ACTION TAKEN TO RESOLVE CLAIM"
+				<f:SimpleForm minWidth="1024" id="id_LOIForm03" editable="true" layout="ResponsiveGridLayout" title="{i18n>ActionTakenCareToResolveClaim}"
 					labelSpanXL="2" labelSpanL="2" labelSpanM="2" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" columnsXL="1"
 					columnsL="1" columnsM="1" singleContainerFullSize="false">
 					<f:content>
