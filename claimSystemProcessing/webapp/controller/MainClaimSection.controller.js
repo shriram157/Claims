@@ -4999,7 +4999,7 @@ sap.ui.define([
 				var oSelectedRow = oTableIndex.toString();
 				var obj = this.getView().getModel("LocalDataModel").getProperty(oSelectedRow);
 				var PartNum = obj.matnr;
-				var PartQt = obj.quant;
+				var PartQt = obj.QtyHrs;
 				//var PartUnit = obj.Meins;
 
 				this.getView().getModel("PartDataModel").setProperty("/matnr", PartNum);
@@ -6445,6 +6445,17 @@ sap.ui.define([
 												this.getView().getModel("DateModel").setProperty("/authRejClm", false);
 												this.getView().getModel("DateModel").setProperty("/damageLine", true);
 												this.getView().getModel("DateModel").setProperty("/oDamageLineBtn", false);
+											}
+
+											if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZSCR" &&
+												sdata.results[0].ProcessingStatusOfWarrantyClm != "ZTIC") {
+												this.getView().getModel("DateModel").setProperty("/oSlipVisible", true);
+											} else if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZSCR" &&
+												sdata.results[0].ProcessingStatusOfWarrantyClm == "ZTIC") {
+												this.getView().getModel("DateModel").setProperty("/oSlipVisible", false);
+											} else if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZSCR" &&
+												sdata.results[0].ProcessingStatusOfWarrantyClm == "ZTRC") {
+												this.getView().getModel("DateModel").setProperty("/oSlipVisible", false);
 											}
 
 											this._fnClaimSum();
