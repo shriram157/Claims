@@ -324,10 +324,14 @@
 			<f:content>
 				<core:Title text=""/>
 				<Label text="{i18n>ClientLastName}"/>
-				<Input id="idClientLastName" value="{HeadSetData>/CustomerFullName}" required="true"/>
+				<Input id="idClientLastName"
+					value="{path:'HeadSetData>/CustomerFullName', type : 'sap.ui.model.type.String', constraints : { minLength : 2, maxLength : 40 }}"
+					required="true"/>
 				<core:Title text=""/>
 				<Label text="{i18n>PostalCode}"/>
-				<Input id="idPostalCode" value="{HeadSetData>/CustomerPostalCode}" required="true"/>
+				<Input id="idPostalCode"
+					value="{path:'HeadSetData>/CustomerPostalCode', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 10 }}"
+					required="true"/>
 				<!--<core:Title text=""/>-->
 				<!--<Label text=" "/>-->
 				<!--<Button press="onPressLookUpECP" text="{i18n>LookupECPAgreements}"/>-->
@@ -354,8 +358,9 @@
 						value="{path:'HeadSetData>/OFP', type : 'sap.ui.model.type.String', constraints : { minLength : 2, maxLength : 40 }}"
 						editable="{DateModel>/oFormEdit}" enabled="{DateModel>/ofpEnabled}" maxLength="40"/>
 					<Label text="{i18n>MainOp}"/>
-					<Input id="idMainOps" maxLength="9" value="{path:'HeadSetData>/MainOpsCode'}" required="{DateModel>/oMainOpsReq}"
-						editable="{DateModel>/oFormEdit}" visible="{DateModel>/oMainOps}"/>
+					<Input id="idMainOps" maxLength="9"
+						value="{path:'HeadSetData>/MainOpsCode', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 9 }}"
+						required="{DateModel>/oMainOpsReq}" editable="{DateModel>/oFormEdit}" visible="{DateModel>/oMainOps}"/>
 					<Label text="{i18n>BatteryTestCode}"/>
 					<Input id="idBattTestCOde" maxLength="14" value="{HeadSetData>/BatteryTestCode}" editable="{DateModel>/oFormEdit}"
 						enabled="{DateModel>/oBatteryTestEnable}"/>
@@ -380,7 +385,7 @@
 					<Label text="{i18n>AppliedCoverage}"/>
 					<Text text="{HeadSetData>/AppliedWarrantyCoverage}"/>
 					<Label text="{i18n>T1 Code}"/>
-					<ComboBox id="idT1Field" required="{DateModel>/enabledT1}" change="onChangeT1" showSecondaryValues="true"
+					<ComboBox id="idT1Field" required="{DateModel>/enabledT1}" selectionChange="onChangeT1" showSecondaryValues="true"
 						items="{ path: '/Zt1DescSrchhelpSet' }"
 						value="{path:'HeadSetData>/T1WarrantyCodes', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 100 } }"
 						selectedKey="{path:'HeadSetData>/T1WarrantyCodes'}" enabled="{DateModel>/enabledT1}" editable="{DateModel>/oFormEdit}">
@@ -390,7 +395,7 @@
 					<!--	<core:Item key="{T1}" text="{T1} - {T1Text}"/>-->
 					<!--</Select>-->
 					<Label text="{i18n>T2Code}"/>
-					<ComboBox id="idT2Field" required="{DateModel>/enabledT2}" change="onChangeT2" showSecondaryValues="true"
+					<ComboBox id="idT2Field" required="{DateModel>/enabledT2}" selectionChange="onChangeT2" showSecondaryValues="true"
 						items="{ path: '/Zt2DescSrchhelpSet' }"
 						value="{path:'HeadSetData>/T2WarrantyCodes', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 100 } }"
 						selectedKey="{path:'HeadSetData>/T2WarrantyCodes'}" enabled="{DateModel>/enabledT2}" editable="{DateModel>/oFormEdit}">
