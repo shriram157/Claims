@@ -4829,7 +4829,11 @@ sap.ui.define([
 			var oClaimModel = this.getModel("ProssingModel");
 
 			if (oTableIndex.length == 1) {
-				var oIndex = parseInt(oTableIndex.toString().split("/")[2]);
+				// var oIndex = parseInt(oTableIndex.toString().split("/")[2]);
+				// this.obj.zc_itemSet.results.splice(oIndex, 1);
+				var oIndex = this.obj.zc_itemSet.results.findIndex(({
+					MaterialNumber
+				}) => MaterialNumber == this.getView().getModel("PartDataModel").getProperty("/matnr"));
 				this.obj.zc_itemSet.results.splice(oIndex, 1);
 			}
 
@@ -4996,8 +5000,8 @@ sap.ui.define([
 				var PartQt = obj.QtyHrs;
 				//var PartUnit = obj.Meins;
 
-				this.getView().getModel("PartDataModel").setProperty("/matnr", PartNum);
-				this.getView().getModel("PartDataModel").setProperty("/quant", PartQt);
+				this.getView().getModel("PartDataModel").setProperty("/matnr", obj.matnr);
+				this.getView().getModel("PartDataModel").setProperty("/quant", obj.QtyHrs);
 				this.getView().getModel("PartDataModel").setProperty("/PartDescription", obj.PartDescription);
 				this.getView().getModel("LocalDataModel").setProperty("/BaseUnit", obj.Meins);
 				//this.getView().getModel("LocalDataModel").setProperty("/BaseUnit"
@@ -5439,11 +5443,6 @@ sap.ui.define([
 			var oTable = this.getView().byId("idLabourTable");
 			var oTableIndex = oTable._aSelectedPaths;
 
-			if (oTableIndex.length == 1) {
-				var oIndex = parseInt(oTableIndex.toString().split("/")[2]);
-				this.obj.zc_claim_item_labourSet.results.splice(oIndex, 1);
-			}
-
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			// this.obj.Message = "";
 			this.obj.NumberOfWarrantyClaim = oClaimNum;
@@ -5453,6 +5452,14 @@ sap.ui.define([
 			var oClaimHr = this.getView().getModel("LabourDataModel").getProperty("/ClaimedHours");
 			if (oClaimHr == "") {
 				oClaimHr = "0.0";
+			}
+
+			if (oTableIndex.length == 1) {
+				//var oIndex = parseInt(oTableIndex.toString().split("/")[2]);
+				var oIndex = this.obj.zc_claim_item_labourSet.results.findIndex(({
+					LabourNumber
+				}) => LabourNumber == this.getView().getModel("LabourDataModel").getProperty("/LabourOp"));
+				this.obj.zc_claim_item_labourSet.results.splice(oIndex, 1);
 			}
 
 			var itemObj = {
@@ -5809,7 +5816,12 @@ sap.ui.define([
 			var oDays;
 			var oTableIndex = oTable._aSelectedPaths;
 			if (oTableIndex.length == 1) {
-				var oIndex = parseInt(oTable._aSelectedPaths.toString().split("/")[2]);
+				// var oIndex = parseInt(oTable._aSelectedPaths.toString().split("/")[2]);
+				// this.obj.zc_item_subletSet.results.splice(oIndex, 1);
+
+				var oIndex = this.obj.zc_item_subletSet.results.findIndex(({
+					SubletType
+				}) => SubletType == this.getView().getModel("SubletDataModel").getProperty("/SubletCode"));
 				this.obj.zc_item_subletSet.results.splice(oIndex, 1);
 			}
 
@@ -6244,7 +6256,7 @@ sap.ui.define([
 			}
 		},
 		onSubmitTci: function (oEvent) {
-			this.getView().getModel("DateModel").setProperty("/errorBusyIndicator", true);
+
 			var oClaimModel = this.getModel("ProssingModel");
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			this.obj.WarrantyClaimType = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType");
@@ -6325,7 +6337,7 @@ sap.ui.define([
 						text: oBundle.getText("Yes"),
 						press: $.proxy(function () {
 							dialog.close();
-
+							this.getView().getModel("DateModel").setProperty("/errorBusyIndicator", true);
 							// this._oToken = oClaimModel.getHeaders()['x-csrf-token'];
 							// $.ajaxSetup({
 							// 	headers: {
@@ -6475,9 +6487,10 @@ sap.ui.define([
 					}),
 					new Button({
 						text: oBundle.getText("Cancel"),
-						press: function () {
+						press: $.proxy(function () {
+							this.getView().getModel("DateModel").setProperty("/errorBusyIndicator", false);
 							dialog.close();
-						}
+						}, this)
 					})
 
 				],
