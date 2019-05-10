@@ -283,6 +283,7 @@ sap.ui.define([
 			//ZDLR_CLAIM_SRV/zc_get_delidateSet(DeliNum='80000029')?$format=json	
 		},
 		_onRoutMatched: function (oEvent) {
+			//ZDLR_CLAIM_SRV/zc_claim_groupSet?$filter=LanguageKey%20eq%20%27EN%27
 			//zc_claim_groupSet?$filter=LanguageKey%20eq%20%27EN%27
 			var sSelectedLocale;
 			var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
@@ -292,7 +293,8 @@ sap.ui.define([
 				sSelectedLocale = "EN"; // default is english
 			}
 			var oProssingModel = this.getModel("ProssingModel");
-
+			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
+			var that=this;
 			oProssingModel.read("/zc_claim_groupSet", {
 				urlParameters: {
 					"$filter": "LanguageKey eq '" + sSelectedLocale + "'"
@@ -300,21 +302,22 @@ sap.ui.define([
 				success: $.proxy(function (groupData) {
 					var oClaimGroupsData;
 					console.log("groupData", groupData);
-					if (sSelectedLocale == "EN") {
-						oClaimGroupsData = groupData.results.filter(function (item) {
-							item.ALMClaimTypeDes = item.ALMClaimTypeDesEn;
-							item.ALMClaimType = item.WarrantyClaimType;
-							return item.ClaimGroupDesEn == "PART WAREHOUSE";
-						});
-						console.log("oClaimGroupsData", oClaimGroupsData);
-					} else if (sSelectedLocale == "FR") {
-						oClaimGroupsData = groupData.results.filter(function (item) {
-							item.ALMClaimTypeDes = item.ALMClaimTypeDesFr;
-							item.ALMClaimType = item.WarrantyClaimType;
-							return item.ClaimGroupDesFr == "PART WAREHOUSE"; // "ENTREPÔT PARTIE";
-						});
-						console.log("oClaimGroupsData", oClaimGroupsData);
-					}
+					// if (sSelectedLocale == "EN") {
+					console.log(that.oBundle.getText("partwarehouse"));
+					oClaimGroupsData = groupData.results.filter(function (item) {
+						item.ALMClaimTypeDes = item.ALMClaimTypeDes;
+						item.ALMClaimType = item.WarrantyClaimType;
+						return item.ClaimGroupDes == that.oBundle.getText("partwarehouse").toUpperCase();//partwarehouse
+					});
+					// 	console.log("oClaimGroupsData", oClaimGroupsData);
+					// } else if (sSelectedLocale == "FR") {
+					// 	oClaimGroupsData = groupData.results.filter(function (item) {
+					// 		item.ALMClaimTypeDes = item.ALMClaimTypeDesFr;
+					// 		item.ALMClaimType = item.WarrantyClaimType;
+					// 		return item.ClaimGroupDesFr == "PART WAREHOUSE"; // "ENTREPÔT PARTIE";
+					// 	});
+					// 	console.log("oClaimGroupsData", oClaimGroupsData);
+					// }
 					this.getModel("LocalDataModel").setProperty("/oClaimPartsGroupsData", oClaimGroupsData);
 				}, this)
 			});
