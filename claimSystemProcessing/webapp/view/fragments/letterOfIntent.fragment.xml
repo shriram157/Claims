@@ -62,7 +62,7 @@
 						<!--</HBox>-->
 						<!--<HBox>-->
 						<Label text="{i18n>EstimatedValueofClaim}" class="sapUiTinyMarginBeginEnd"/>
-						<Input valueState="{DateModel>/partTypeState}" value="{path:'LOIDataModel>/estClaimValueLOI'}" required="true" id="estClaimValueLOI"/>
+						<Input valueState="{DateModel>/partTypeState}" value="{path:'LOIDataModel>/estClaimValueLOI', formatter: 'zclaimProcessing.utils.formatter.roundedDecimals'}" id="estClaimValueLOI" editable="false"/>
 						<Text text="{i18n>ActualDeclaredVal}" class="sapUiTinyMarginBeginEnd"/>
 						<!--</HBox>-->
 						<Label text="{i18n>DescriptionIncludingPartNumbers}" class="sapUiTinyMarginBeginEnd"/>
