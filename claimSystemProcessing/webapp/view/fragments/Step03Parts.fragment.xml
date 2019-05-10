@@ -24,7 +24,7 @@
 					emptySpanL="0" columnsM="4" columnsL="4" columnsXL="4">
 					<f:content>
 						<HBox>
-							<Label text="{i18n>DamageCondition } " class="sapUiSmallMargin" textAlign="Begin" visible="{multiHeaderConfig>/partDamage}"/>
+							<Label text="{i18n>DamageCondition} " class="sapUiSmallMargin" textAlign="Begin" visible="{multiHeaderConfig>/partDamage}"/>
 							<Select valueState="{DateModel>/ddType}" width="15rem" id="DmgCodes" enabled="{DateModel>/partLine}" change="onDDChange" showSecondaryValues="false"
 								items="{DropDownModel>/items}" visible="{multiHeaderConfig>/partDamage}" selectedKey="{HeadSetData>/DamageCondition}">
 								<core:ListItem key="{DropDownModel>DiscreCode}" text="{path:'DropDownModel>ALMDiscreDesc'}" additionalText="{DropDownModel>ALMDiscreCode}"/>
