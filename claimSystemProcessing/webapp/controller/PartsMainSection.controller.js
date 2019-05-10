@@ -2348,7 +2348,7 @@ sap.ui.define([
 				"AtLOI": "",
 				"WaybillNoLOI": this.getView().getModel("HeadSetData").getProperty("/TCIWaybillNumber"),
 				"RadioException": "Damage",
-				"estClaimValueLOI": "",
+				"estClaimValueLOI": this.getModel("LocalDataModel").getData().ClaimSum[1].DealerClaim,
 				"LOIDescp": this.getView().getModel("PartDataModel").getProperty("/arrPartLOI"),
 				"RadioCCPhoneEmail": "Y",
 				"DateLOI": "",
