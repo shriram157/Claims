@@ -169,7 +169,7 @@
 						<Text text="{LocalDataModel>matnr}" wrapping="true" textAlign="Center"/>
 						<Text text="{LocalDataModel>PartDescription}" wrapping="true" textAlign="Center"/>
 						<Text text="${LocalDataModel>DealerNet}" wrapping="true" textAlign="Center"/>
-						<Text text="{LocalDataModel>QtyHrs}" wrapping="true" textAlign="Center"/>
+						<Text text="{path:'LocalDataModel>QtyHrs', formatter:'zclaimProcessing.utils.formatter.fnFormatDecimal'}" wrapping="true" textAlign="Center"/>
 						<Text text="${LocalDataModel>ExtendedValue}" wrapping="true" textAlign="Center"/>
 						<Text text="${LocalDataModel>MarkUp}" wrapping="true" textAlign="Center"/>
 						<Text text="${LocalDataModel>AmtClaimed}" wrapping="true" textAlign="Center"/>

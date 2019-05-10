@@ -5000,8 +5000,8 @@ sap.ui.define([
 				var PartQt = obj.QtyHrs;
 				//var PartUnit = obj.Meins;
 
-				this.getView().getModel("PartDataModel").setProperty("/matnr", PartNum);
-				this.getView().getModel("PartDataModel").setProperty("/quant", PartQt);
+				this.getView().getModel("PartDataModel").setProperty("/matnr", obj.matnr);
+				this.getView().getModel("PartDataModel").setProperty("/quant", obj.QtyHrs);
 				this.getView().getModel("PartDataModel").setProperty("/PartDescription", obj.PartDescription);
 				this.getView().getModel("LocalDataModel").setProperty("/BaseUnit", obj.Meins);
 				//this.getView().getModel("LocalDataModel").setProperty("/BaseUnit"
@@ -6256,7 +6256,7 @@ sap.ui.define([
 			}
 		},
 		onSubmitTci: function (oEvent) {
-			this.getView().getModel("DateModel").setProperty("/errorBusyIndicator", true);
+
 			var oClaimModel = this.getModel("ProssingModel");
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			this.obj.WarrantyClaimType = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType");
@@ -6337,7 +6337,7 @@ sap.ui.define([
 						text: oBundle.getText("Yes"),
 						press: $.proxy(function () {
 							dialog.close();
-
+							this.getView().getModel("DateModel").setProperty("/errorBusyIndicator", true);
 							// this._oToken = oClaimModel.getHeaders()['x-csrf-token'];
 							// $.ajaxSetup({
 							// 	headers: {
@@ -6487,9 +6487,10 @@ sap.ui.define([
 					}),
 					new Button({
 						text: oBundle.getText("Cancel"),
-						press: function () {
+						press: $.proxy(function () {
+							this.getView().getModel("DateModel").setProperty("/errorBusyIndicator", false);
 							dialog.close();
-						}
+						}, this)
 					})
 
 				],
