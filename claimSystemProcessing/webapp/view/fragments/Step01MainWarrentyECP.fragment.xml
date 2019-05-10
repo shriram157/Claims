@@ -97,7 +97,7 @@
 				<!--<DatePicker class="clDatePicker" required="true" value="{path:'HeadSetData>/RepairDate',type : 'sap.ui.model.type.Date'}" editable="{DateModel>/oFormEdit}"/>-->
 				<DatePicker class="clDatePicker" id="id_Date" required="true" change="onChangeDate"
 					value="{path:'HeadSetData>/RepairDate', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'yyyy-MM-dd', strictParsing: true , UTC: true}}"
-					editable="{DateModel>/oFormEdit}"/>
+					editable="{DateModel>/oFormEdit}" visible="{DateModel>/oVisibleRepDate}"/>
 				<!--constraints: { displayFormat: 'Date' }-->
 				<Label text="{i18n>DealerContact}"/>
 				<Input required="{DateModel>/oDealerContactReq}" maxLength="30" value="{path:'HeadSetData>/DealerContact'}" id="idDealerContact"
@@ -106,12 +106,12 @@
 				<Label text="{i18n>RepairOrder}"/>
 				<Input required="true" maxLength="10"
 					value="{path:'HeadSetData>/RepairOrderNumberExternal', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 10 }}"
-					id="idRepairOrder" editable="{DateModel>/oFormEdit}"/>
+					id="idRepairOrder" editable="{DateModel>/oFormEdit}" visible="{DateModel>/oVisibleReOrder}"/>
 				<Label text="{i18n>ROOdometer}"/>
-				<custom:CustomInput maxLength="6"
+				<custom:CustomInput maxLength="6" enabled="{DateModel>/oOdoEnabled}"
 					value="{path:'HeadSetData>/Odometer', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 6 }}"
-					required="{DateModel>/OdometerReq}" visible="{DateModel>/OdometerReq}" id="idOdometer" editable="{DateModel>/oFormEdit}"/>
-				<Text text="{LocalDataModel>/MsrUnit}" visible="{DateModel>/OdometerReq}"/>
+					required="{DateModel>/OdometerReqMan}" visible="{DateModel>/OdometerReqMan}" id="idOdometer" editable="{DateModel>/oFormEdit}"/>
+				<Text text="{LocalDataModel>/MsrUnit}" visible="{DateModel>/OdometerReqMan}"/>
 			</f:content>
 		</f:SimpleForm>
 		<f:SimpleForm editable="" id="idVehicleInfo" title="{i18n>VehicleInformation} - {path:'LocalDataModel>/DataVinDetails/VehicleDescription'}"

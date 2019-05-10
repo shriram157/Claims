@@ -12,7 +12,14 @@ sap.ui.define([
 		 * @memberOf zclaimProcessing.view.SearchClaim
 		 */
 		onInit: function () {
-
+			var sSelectedLocale;
+			//  get the locale to determine the language.
+			var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
+			if (isLocaleSent) {
+				sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
+			} else {
+				sSelectedLocale = "en"; // default is english
+			}
 			var sLocation = window.location.host;
 			var sLocation_conf = sLocation.search("webide");
 			this.counter = 0;
@@ -62,7 +69,7 @@ sap.ui.define([
 					// userScopes.forEach(function (data) {
 
 					var userType = oData.loggedUserType[0];
-					//var userType = "ManageAllShowAuthorization";
+					//var userType = "Dealer_Services_Manager";
 					sap.ui.getCore().getModel("UserDataModel").setProperty("/LoggedInUser", userType);
 					sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "");
 					switch (userType) {
@@ -331,6 +338,16 @@ sap.ui.define([
 			};
 
 			this.getView().setModel(new sap.ui.model.json.JSONModel(oRowCount), "RowCountModel");
+
+			oClaimModel.read("/ZC_CLAIM_STATUS_DESC", {
+				urlParameters: {
+					"$filter": "LanguageKey eq '" + sSelectedLocale.toUpperCase() + "' "
+				},
+				success: $.proxy(function (data) {
+					this.getModel("LocalDataModel").setProperty("/OModelClaimGroupStatus", data.results);
+				}, this)
+			});
+
 		},
 
 		_onObjectMatched: function (oEvent) {

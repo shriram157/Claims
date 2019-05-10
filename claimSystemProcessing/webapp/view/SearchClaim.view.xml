@@ -47,9 +47,9 @@
 											<core:Item key="{LocalDataModel>WarrantyClaimType}" text="{LocalDataModel>WarrantyClaimType} - {LocalDataModel>ALMClaimTypeDes}"/>
 										</custom:CustomCombo>
 										<Label text="{i18n>ClaimStatus}" textAlign="Begin"/>
-										<MultiComboBox items="{ path: '/ZC_CLAIM_STATUS_DESC'}" selectionChange="handleSelectClaimGroup"
+										<MultiComboBox items="{ path: 'LocalDataModel>/OModelClaimGroupStatus'}" selectionChange="handleSelectClaimGroup"
 											selectionFinish="handleSelectClaimGroupFinish" id="idClaimStatus">
-											<core:Item key="{Status}" text="{Description}"/>
+											<core:Item key="{LocalDataModel>Status}" text="{LocalDataModel>Description}"/>
 										</MultiComboBox>
 										<core:Title text=""/>
 										<Button text="{i18n>Search}" press="onPressSearch" type="Emphasized"/>
@@ -138,7 +138,7 @@
 										<table:Column width="11rem">
 											<Label text="{i18n>ClaimAmount}" textAlign="Center" width="100%"/>
 											<table:template>
-												<Text text="{AmountClaimedByClaimant}"/>
+												<Text text="{ClaimAmountSum}"/>
 											</table:template>
 										</table:Column>
 										<table:Column width="11rem">
