@@ -3970,14 +3970,7 @@ sap.ui.define([
 			var oAuthNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 
-			if ((oCustomerPer + oDealerPer + oTciPer) > 100) {
-				//console.log("The Sum of percent should be within 100%");
-				MessageToast.show(oBundle.getText("TheSumpercentwithin100"), {
-					my: "center center",
-					at: "center center"
-				});
-			} else {
-
+			if ((oCustomerPer + oDealerPer + oTciPer) == 100) {
 				var oClaimModel = this.getModel("ProssingModel");
 				oClaimModel.read("/zc_authorizationSet", {
 					urlParameters: {
@@ -4000,6 +3993,15 @@ sap.ui.define([
 					}, this)
 
 				});
+
+				//console.log("The Sum of percent should be within 100%");
+
+			} else {
+				MessageToast.show(oBundle.getText("TheSumpercentwithin100"), {
+					my: "center center",
+					at: "center center"
+				});
+
 			}
 
 		},
@@ -6492,7 +6494,8 @@ sap.ui.define([
 												this.getView().getModel("DateModel").setProperty("/authRejClm", false);
 												this.getView().getModel("DateModel").setProperty("/damageLine", true);
 												this.getView().getModel("DateModel").setProperty("/oDamageLineBtn", false);
-											} else if (sdata.results[0].ProcessingStatusOfWarrantyClm == "ZTMR") {
+											} else if (sdata.results[0].ProcessingStatusOfWarrantyClm == "ZTMR" && && sap.ui.getCore().getModel(
+													"UserDataModel").getProperty("/LoggedInUser") == "Dealer_Services_Manager") {
 												this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
 												this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
 												this.getModel("LocalDataModel").setProperty("/CancelEnable", false);

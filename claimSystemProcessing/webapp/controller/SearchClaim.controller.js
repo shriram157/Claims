@@ -69,7 +69,7 @@ sap.ui.define([
 					// userScopes.forEach(function (data) {
 
 					var userType = oData.loggedUserType[0];
-					//var userType = "Dealer_Services_Manager";
+					//var userType = "Dealer_Services_Admin";
 					sap.ui.getCore().getModel("UserDataModel").setProperty("/LoggedInUser", userType);
 					sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "");
 					switch (userType) {
@@ -294,10 +294,9 @@ sap.ui.define([
 			// 				success: $.proxy(function (data) {
 			// 					var oClaimData = data.results;
 			// 					for (var i = 0; i < oClaimData.length; i++) {
-			// 						if (oClaimGroup.indexOf(oClaimData[i].ClaimGroupDes) < 0) {
+			// 						if (oClaimGroup.indexOf(oClaimData[i].ClaimGroupDes) == -1) {
 			// 							oClaimGroup.push({
-			// 								CLaimGroupDes: oClaimData[i].ClaimGroupDes
-			// 							}, {
+			// 								ClaimGroupDes: oClaimData[i].ClaimGroupDes,
 			// 								ClaimGroup: oClaimData[i].ClaimGroup
 			// 							});
 			// 						}
