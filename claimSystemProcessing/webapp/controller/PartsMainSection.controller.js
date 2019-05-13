@@ -307,7 +307,7 @@ sap.ui.define([
 					oClaimGroupsData = groupData.results.filter(function (item) {
 						item.ALMClaimTypeDes = item.ALMClaimTypeDes;
 						item.ALMClaimType = item.WarrantyClaimType;
-						return item.ClaimGroupDes == that.oBundle.getText("partwarehouse").toUpperCase();//partwarehouse
+						return item.ClaimGroupDesEn == that.oBundle.getText("partwarehouse").toUpperCase();//partwarehouse
 					});
 					// 	console.log("oClaimGroupsData", oClaimGroupsData);
 					// } else if (sSelectedLocale == "FR") {
