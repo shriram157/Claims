@@ -6494,7 +6494,7 @@ sap.ui.define([
 												this.getView().getModel("DateModel").setProperty("/authRejClm", false);
 												this.getView().getModel("DateModel").setProperty("/damageLine", true);
 												this.getView().getModel("DateModel").setProperty("/oDamageLineBtn", false);
-											} else if (sdata.results[0].ProcessingStatusOfWarrantyClm == "ZTMR" && && sap.ui.getCore().getModel(
+											} else if (sdata.results[0].ProcessingStatusOfWarrantyClm == "ZTMR" && sap.ui.getCore().getModel(
 													"UserDataModel").getProperty("/LoggedInUser") == "Dealer_Services_Manager") {
 												this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
 												this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
