@@ -1943,7 +1943,7 @@ sap.ui.define([
 				"CarrierAddress": "",
 				"TextAttentionLOI": this.oBundle.getText("ClaimsDepartment"),
 				"TextStripLOI": "",
-				"TopTextLOI": this.oBundle.getText("WithoutPrejudice",
+				"TopTextLOI": this.oBundle.getText("WithoutPrejudice"),
 				"LOIDate": new Date(),
 				"DeliveryDateLOI": "",
 				"AtLOI": "",
