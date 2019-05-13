@@ -287,6 +287,26 @@ sap.ui.define([
 				}, this)
 			});
 
+			// 			oClaimModel.read("/zc_claim_groupSet", {
+			// 				urlParameters: {
+			// 					"$filter": "LanguageKey eq 'EN'"
+			// 				},
+			// 				success: $.proxy(function (data) {
+			// 					var oClaimData = data.results;
+			// 					for (var i = 0; i < oClaimData.length; i++) {
+			// 						if (oClaimGroup.indexOf(oClaimData[i].ClaimGroupDes) < 0) {
+			// 							oClaimGroup.push({
+			// 								CLaimGroupDes: oClaimData[i].ClaimGroupDes
+			// 							}, {
+			// 								ClaimGroup: oClaimData[i].ClaimGroup
+			// 							});
+			// 						}
+			// 					}
+			// 					this.getModel("LocalDataModel").setProperty("/ClaimStatusDataGroup", oClaimGroup);
+			// 				}, this)
+
+			// 			});
+
 			if (sap.ui.getCore().getConfiguration().getLanguage() === "fr") {
 				//	this.getModel("LocalDataModel").setProperty("/lang", "FR");
 				oClaimModel.read("/ZC_CLAIM_STATUS_DESC", {

@@ -1079,13 +1079,13 @@ sap.ui.define([
 
 				oProssingModel.read("/zc_claim_item_price_dataSet", {
 					urlParameters: {
-						"$filter": "NumberOfWarrantyClaim eq '" + oClaim + "' "
+						"$filter": "NumberOfWarrantyClaim eq '" + oClaim + "'and LanguageKey eq '" + sSelectedLocale.toUpperCase() + "' "
 
 					},
 					success: $.proxy(function (data) {
 						oProssingModel.read("/zc_claim_item_damageSet", {
 							urlParameters: {
-								"$filter": "NumberOfWarrantyClaim eq '" + oClaim + "'and LanguageKey eq 'E' "
+								"$filter": "NumberOfWarrantyClaim eq '" + oClaim + "' "
 							},
 							success: $.proxy(function (sddata) {
 
@@ -3264,7 +3264,7 @@ sap.ui.define([
 
 			oClaimModel.read("/zc_claim_item_price_dataSet", {
 				urlParameters: {
-					"$filter": "NumberOfWarrantyClaim eq '" + oClaimNum + "' "
+					"$filter": "NumberOfWarrantyClaim eq '" + oClaimNum + "'and LanguageKey eq 'EN' "
 
 				},
 				success: $.proxy(function (data) {
@@ -4639,7 +4639,52 @@ sap.ui.define([
 					that.fnOpenDialogOnBack();
 				} else if (that.getView().getModel("HeadSetData").getProperty("/ProcessingStatusOfWarrantyClm") == "ZTIC" ||
 					that.getView().getModel("HeadSetData").getProperty("/ProcessingStatusOfWarrantyClm") == "ZTRC") {
-					that.fnOpenDialogOnBack();
+					var dialog = new Dialog({
+						title: oBundle.getText("SaveChanges"),
+						type: "Message",
+						content: new Text({
+							text: oBundle.getText("WillYouLikeSaveChanges")
+						}),
+
+						buttons: [
+							new Button({
+								text: oBundle.getText("Yes"),
+								press: function () {
+
+									var oFun = new Promise(function (resolve, reject) {
+										resolve(that._fnUpdateClaim());
+									});
+
+									oFun.then(function (val) {
+										that.getRouter().navTo("SearchClaim");
+									});
+
+									//that._fnUpdateClaim();
+									//that.getRouter().navTo("SearchClaim");
+
+									dialog.close();
+
+								}
+							}),
+
+							new Button({
+								text: oBundle.getText("No"),
+								press: function () {
+
+									that.getRouter().navTo("SearchClaim");
+
+									dialog.close();
+								}
+							})
+
+						],
+
+						afterClose: function () {
+							dialog.destroy();
+						}
+					});
+
+					dialog.open();
 				} else {
 					that.getRouter().navTo("SearchClaim");
 				}
@@ -4654,61 +4699,7 @@ sap.ui.define([
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 
 			var that = this;
-			var dialog = new Dialog({
-				title: oBundle.getText("SaveChanges"),
-				type: "Message",
-				content: new Text({
-					text: oBundle.getText("WillYouLikeSaveChanges")
-				}),
 
-				buttons: [
-					new Button({
-						text: oBundle.getText("Yes"),
-						press: function () {
-							if (oClaimNum == undefined) {
-								that._fnSaveClaim();
-							} else if (that.getView().getModel("HeadSetData").getProperty("/ProcessingStatusOfWarrantyClm") == "ZTIC" || that.getView()
-								.getModel("HeadSetData").getProperty("/ProcessingStatusOfWarrantyClm") == "ZTRC") {
-
-								setTimeout(function () {
-									that._fnUpdateClaim();
-
-								}, function () {
-									that.getRouter().navTo("SearchClaim");
-								})
-
-								// oFun.then(function (val) {
-								// 	that.getRouter().navTo("SearchClaim");
-								// });
-
-								//that._fnUpdateClaim();
-								//that.getRouter().navTo("SearchClaim");
-
-							}
-
-							dialog.close();
-
-						}
-					}),
-
-					new Button({
-						text: oBundle.getText("No"),
-						press: function () {
-
-							that.getRouter().navTo("SearchClaim");
-
-							dialog.close();
-						}
-					})
-
-				],
-
-				afterClose: function () {
-					dialog.destroy();
-				}
-			});
-
-			dialog.open();
 		},
 		handleValueHelp: function (oController) {
 			//debugger;
