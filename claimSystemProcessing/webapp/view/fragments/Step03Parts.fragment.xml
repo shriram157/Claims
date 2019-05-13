@@ -39,7 +39,7 @@
 								items="{DropDownModel>/items}" visible="{multiHeaderConfig>/partMiscellanious}" selectedKey="{HeadSetData>/MiscellaneousCode}">
 								<core:ListItem key="{DropDownModel>DiscreCode}" text="{path:'DropDownModel>ALMDiscreDesc'}" additionalText="{DropDownModel>ALMDiscreCode}"/>
 							</Select>
-							<Label text="{i18n>TranportShortageType} " class="sapUiSmallMargin" textAlign="Begin" visible="{multiHeaderConfig>/partTransportation}"/>
+							<Label text="{i18n>TransportShortageType} " class="sapUiSmallMargin" textAlign="Begin" visible="{multiHeaderConfig>/partTransportation}"/>
 							<Select valueState="{DateModel>/ddType}" width="15rem" id="TransportCodes" enabled="{DateModel>/partLine}" change="onDDChange" showSecondaryValues="false"
 								items="{DropDownModel>/items}" visible="{multiHeaderConfig>/partTransportation}" selectedKey="{HeadSetData>/TranportShortageType}">
 								<core:ListItem key="{DropDownModel>DiscreCode}" text="{path:'DropDownModel>ALMDiscreDesc'}" additionalText="{DropDownModel>ALMDiscreCode}"/>
