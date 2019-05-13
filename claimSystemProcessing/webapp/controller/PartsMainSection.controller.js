@@ -1093,14 +1093,14 @@ sap.ui.define([
 					"claimNumber": "",
 					"CarrierName": "",
 					"CarrierAddress": "",
-					"TextAttentionLOI": "Claims Department",
+					"TextAttentionLOI": this.oBundle.getText("ClaimsDepartment"),
 					"TextStripLOI": "",
-					"TopTextLOI": "Without Prejudice",
+					"TopTextLOI": this.oBundle.getText("WithoutPrejudice"),
 					"LOIDate": new Date(),
 					"DeliveryDateLOI": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/ShipmentReceivedDate")),
 					"AtLOI": "",
 					"WaybillNoLOI": this.getView().getModel("HeadSetData").getProperty("/TCIWaybillNumber"),
-					"RadioException": "Damage",
+					"RadioException": this.oBundle.getText("Damage"),
 					"estClaimValueLOI": "",
 					"LOIDescp": "",
 					"RadioCCPhoneEmail": "Y",
@@ -1941,14 +1941,14 @@ sap.ui.define([
 				"claimNumber": "",
 				"CarrierName": "",
 				"CarrierAddress": "",
-				"TextAttentionLOI": "Claims Department",
+				"TextAttentionLOI": this.oBundle.getText("ClaimsDepartment"),
 				"TextStripLOI": "",
-				"TopTextLOI": "Without Prejudice",
+				"TopTextLOI": this.oBundle.getText("WithoutPrejudice"),
 				"LOIDate": new Date(),
 				"DeliveryDateLOI": "",
 				"AtLOI": "",
 				"WaybillNoLOI": "",
-				"RadioException": "Damage",
+				"RadioException": this.oBundle.getText("Damage"),
 				"estClaimValueLOI": "",
 				"LOIDescp": "",
 				"RadioCCPhoneEmail": "Y",
@@ -2041,14 +2041,14 @@ sap.ui.define([
 											"claimNumber": "",
 											"CarrierName": "",
 											"CarrierAddress": "",
-											"TextAttentionLOI": "Claims Department",
+											"TextAttentionLOI": this.oBundle.getText("ClaimsDepartment"),
 											"TextStripLOI": "",
-											"TopTextLOI": "Without Prejudice",
+											"TopTextLOI": this.oBundle.getText("WithoutPrejudice"),
 											"LOIDate": new Date(),
 											"DeliveryDateLOI": "",
 											"AtLOI": "",
 											"WaybillNoLOI": "",
-											"RadioException": "Damage",
+											"RadioException": this.oBundle.getText("Damage"),
 											"estClaimValueLOI": "",
 											"LOIDescp": "",
 											"RadioCCPhoneEmail": "Y",
@@ -2089,14 +2089,14 @@ sap.ui.define([
 											"claimNumber": "",
 											"CarrierName": "",
 											"CarrierAddress": "",
-											"TextAttentionLOI": "Claims Department",
+											"TextAttentionLOI": this.oBundle.getText("ClaimsDepartment"),
 											"TextStripLOI": "",
-											"TopTextLOI": "Without Prejudice",
+											"TopTextLOI": this.oBundle.getText("WithoutPrejudice"),
 											"LOIDate": new Date(),
 											"DeliveryDateLOI": "",
 											"AtLOI": "",
 											"WaybillNoLOI": "",
-											"RadioException": "Damage",
+											"RadioException": this.oBundle.getText("Damage"),
 											"estClaimValueLOI": "",
 											"LOIDescp": "",
 											"RadioCCPhoneEmail": "Y",
@@ -2202,25 +2202,25 @@ sap.ui.define([
 
 		onRadioChangeEN: function (oEN) {
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
-			// this.oBundle.getText("Damage")
+			// this.oBundle.getText(this.oBundle.getText("Damage"))
 			console.log("oEN", oEN);
 			var oVal;
 			// var oVal = oEN.getSource().getSelectedButton().getText();
-			if (oEN.getSource().getSelectedButton().getText() == "Damage") {
-				oVal = "Damage";
-			} else if (oEN.getSource().getSelectedButton().getText() == "Missing Pieces(s)") {
-				oVal = "Missing";
+			if (oEN.getSource().getSelectedButton().getText() == this.oBundle.getText("Damage")) {
+				oVal = this.oBundle.getText("Damage");
+			} else if (oEN.getSource().getSelectedButton().getText() == this.oBundle.getText("MissingPieces")) {
+				oVal = this.oBundle.getText("Missing");
 			} else {
-				oVal = "Both";
+				oVal = this.oBundle.getText("OptionBoth");
 			}
 			this.getView().getModel("LOIDataModel").setProperty("/RadioException", oVal);
 		},
 		onRadioChangeCPhone: function (oCPhone) {
 			var oVal2;
 			console.log("oCPhone", oCPhone);
-			if (oCPhone.getSource().getSelectedButton().getText() == "YES") {
+			if (oCPhone.getSource().getSelectedButton().getText() == this.oBundle.getText("Yes")) {
 				oVal2 = "Y";
-			} else if (oCPhone.getSource().getSelectedButton().getText() == "YES") {
+			} else if (oCPhone.getSource().getSelectedButton().getText() == this.oBundle.getText("No")) {
 				oVal2 = "N";
 			}
 			this.getView().getModel("LOIDataModel").setProperty("/RadioCCPhoneEmail", oVal2);
@@ -2230,9 +2230,9 @@ sap.ui.define([
 			oTR.getSource().getSelectedButton().getText();
 			var oVal3;
 			console.log("oTR", oTR);
-			if (oTR.getSource().getSelectedButton().getText() == "YES") {
+			if (oTR.getSource().getSelectedButton().getText() == this.oBundle.getText("Yes")) {
 				oVal3 = "Y";
-			} else if (oTR.getSource().getSelectedButton().getText() == "YES") {
+			} else if (oTR.getSource().getSelectedButton().getText() == this.oBundle.getText("No")) {
 				oVal3 = "N";
 			} else {
 				oVal3 = "";
@@ -2244,9 +2244,9 @@ sap.ui.define([
 			oCR.getSource().getSelectedButton().getText();
 			var oVal4;
 			console.log("oCR", oCR);
-			if (oCR.getSource().getSelectedButton().getText() == "YES") {
+			if (oCR.getSource().getSelectedButton().getText() == this.oBundle.getText("Yes")) {
 				oVal4 = "Y";
-			} else if (oCR.getSource().getSelectedButton().getText() == "YES") {
+			} else if (oCR.getSource().getSelectedButton().getText() == this.oBundle.getText("No")) {
 				oVal4 = "N";
 			}
 			this.getView().getModel("LOIDataModel").setProperty("/RadioCR", oVal4);
@@ -2340,14 +2340,14 @@ sap.ui.define([
 				"Address3": oFilteredDealerData[0].PostalCode,
 				"Address4": oFilteredDealerData[0].Country + " " + oFilteredDealerData[0].Region,
 				"CarrierAddress": "",
-				"TextAttentionLOI": "Claims Department",
+				"TextAttentionLOI": this.oBundle.getText("ClaimsDepartment"),
 				"TextStripLOI": "",
-				"TopTextLOI": "Without Prejudice",
+				"TopTextLOI": this.oBundle.getText("WithoutPrejudice"),
 				"LOIDate": new Date(),
 				"DeliveryDateLOI": this.getView().getModel("HeadSetData").getProperty("/ShipmentReceivedDate"),
 				"AtLOI": "",
 				"WaybillNoLOI": this.getView().getModel("HeadSetData").getProperty("/TCIWaybillNumber"),
-				"RadioException": "Damage",
+				"RadioException": this.oBundle.getText("Damage"),
 				"estClaimValueLOI": this.getModel("LocalDataModel").getData().ClaimSum[1].DealerClaim,
 				"LOIDescp": this.getView().getModel("PartDataModel").getProperty("/arrPartLOI"),
 				"RadioCCPhoneEmail": "Y",
@@ -4027,14 +4027,14 @@ sap.ui.define([
 				"claimNumber": "",
 				"CarrierName": "",
 				"CarrierAddress": "",
-				"TextAttentionLOI": "Claims Department",
+				"TextAttentionLOI": this.oBundle.getText("ClaimsDepartment"),
 				"TextStripLOI": "",
-				"TopTextLOI": "Without Prejudice",
+				"TopTextLOI": this.oBundle.getText("WithoutPrejudice"),
 				"LOIDate": new Date(),
 				"DeliveryDateLOI": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/ShipmentReceivedDate")),
 				"AtLOI": "",
 				"WaybillNoLOI": this.getView().getModel("HeadSetData").getProperty("/TCIWaybillNumber"),
-				"RadioException": "Damage",
+				"RadioException": this.oBundle.getText("Damage"),
 				"estClaimValueLOI": "",
 				"LOIDescp": "",
 				"RadioCCPhoneEmail": "Y",
