@@ -248,109 +248,133 @@ sap.ui.define([
 			//console.log(sap.ui.getCore().getConfiguration().getLanguage());
 			this.getView().setModel(this.getModel("ProssingModel"));
 			var oClaimModel = this.getModel("ProssingModel");
-			var oClaimGroup = [];
-			var oClaimGroupdata = [];
+			var oClaimGroup;
+			//var oClaimGroupdata;
 			var oClaimGroupObj = [];
-			oClaimModel.read("/ZC_CLAIM_GROUP", {
+			// 			oClaimModel.read("/ZC_CLAIM_GROUP", {
 
-				success: $.proxy(function (data) {
-					var oClaimData = data.results;
-					for (var i = 0; i < oClaimData.length; i++) {
-						if (oClaimGroup.indexOf(oClaimData[i].ClaimGroupDes) < 0) {
-							oClaimGroup.push(
-								oClaimData[i].ClaimGroupDes
-							);
-						}
-					}
-
-					// debugger;
-					if (sap.ui.getCore().getModel("UserDataModel").getProperty("/UserScope") == "ManageAllParts") {
-						oClaimGroupdata = oClaimGroup.filter(function (val) {
-							return val == "CORE RETURN" || val == "SMART PARTS" || val == "PART WAREHOUSE";
-						});
-					} else if (sap.ui.getCore().getModel("UserDataModel").getProperty("/UserScope") == "ManageAllServices" || sap.ui.getCore().getModel(
-							"UserDataModel").getProperty("/UserScope") == "ManageAllShowAuthorization") {
-						oClaimGroupdata = oClaimGroup.filter(function (val) {
-							return val == "SETR" || val == "WARRANTY" || val == "CUSTOMER RELATIONS" || val == "VEHICLE LOGISTICS" || val == "ECP" ||
-								val == "FIELD ACTION";
-						});
-					} else {
-						oClaimGroupdata = oClaimGroup;
-					}
-					oClaimGroupdata.forEach(function (item) {
-						oClaimGroupObj.push({
-							CLaimGroupDes: item
-						});
-					});
-					console.log(oClaimGroupdata);
-					this.getModel("LocalDataModel").setProperty("/ClaimStatusDataGroup", oClaimGroupObj);
-				}, this)
-			});
-
-			// 			oClaimModel.read("/zc_claim_groupSet", {
-			// 				urlParameters: {
-			// 					"$filter": "LanguageKey eq 'EN'"
-			// 				},
 			// 				success: $.proxy(function (data) {
 			// 					var oClaimData = data.results;
 			// 					for (var i = 0; i < oClaimData.length; i++) {
-			// 						if (oClaimGroup.indexOf(oClaimData[i].ClaimGroupDes) == -1) {
-			// 							oClaimGroup.push({
-			// 								ClaimGroupDes: oClaimData[i].ClaimGroupDes,
-			// 								ClaimGroup: oClaimData[i].ClaimGroup
-			// 							});
+			// 						if (oClaimGroup.indexOf(oClaimData[i].ClaimGroupDes) < 0) {
+			// 							oClaimGroup.push(
+			// 								oClaimData[i].ClaimGroupDes
+			// 							);
 			// 						}
 			// 					}
-			// 					this.getModel("LocalDataModel").setProperty("/ClaimStatusDataGroup", oClaimGroup);
-			// 				}, this)
 
+			// 					// debugger;
+			// 					if (sap.ui.getCore().getModel("UserDataModel").getProperty("/UserScope") == "ManageAllParts") {
+			// 						oClaimGroupdata = oClaimGroup.filter(function (val) {
+			// 							return val == "CORE RETURN" || val == "SMART PARTS" || val == "PART WAREHOUSE";
+			// 						});
+			// 					} else if (sap.ui.getCore().getModel("UserDataModel").getProperty("/UserScope") == "ManageAllServices" || sap.ui.getCore().getModel(
+			// 							"UserDataModel").getProperty("/UserScope") == "ManageAllShowAuthorization") {
+			// 						oClaimGroupdata = oClaimGroup.filter(function (val) {
+			// 							return val == "SETR" || val == "WARRANTY" || val == "CUSTOMER RELATIONS" || val == "VEHICLE LOGISTICS" || val == "ECP" ||
+			// 								val == "FIELD ACTION";
+			// 						});
+			// 					} else {
+			// 						oClaimGroupdata = oClaimGroup;
+			// 					}
+			// 					oClaimGroupdata.forEach(function (item) {
+			// 						oClaimGroupObj.push({
+			// 							CLaimGroupDes: item
+			// 						});
+			// 					});
+			// 					console.log(oClaimGroupdata);
+			// 					this.getModel("LocalDataModel").setProperty("/ClaimStatusDataGroup", oClaimGroupObj);
+			// 				}, this)
 			// 			});
 
-			if (sap.ui.getCore().getConfiguration().getLanguage() === "fr") {
-				//	this.getModel("LocalDataModel").setProperty("/lang", "FR");
-				oClaimModel.read("/ZC_CLAIM_STATUS_DESC", {
-					urlParameters: {
-						"$filter": "LanguageKey eq 'FR'"
-					},
-					success: function (data) {
-						console.log(data);
-						//this.getModel("LocalDataModel").setProperty("/ClaimStatus", data.results);
-					}
-				});
-			} else {
-				oClaimModel.read("/ZC_CLAIM_STATUS_DESC", {
-					urlParameters: {
-						"$filter": "LanguageKey eq 'EN'"
-					},
-					success: $.proxy(function (data) {
-						console.log(data);
-						this.getModel("LocalDataModel").setProperty("/ClaimStatus", data.results);
-					}, this)
-				});
-			}
-			var oArrClaimGroup = [];
-			var oClaimGroup = [];
-			oClaimModel.read("/ZC_CLAIM_GROUP", {
+			oClaimModel.read("/zc_claim_groupSet", {
 				urlParameters: {
-					"$select": "ClaimGroupDes"
-
+					"$filter": "LanguageKey eq '" + sSelectedLocale.toUpperCase() + "'"
 				},
 				success: $.proxy(function (data) {
-					for (var i = 0; i < data.results.length; i++) {
-						if (data.results[i].ClaimGroupDes !== "" && oArrClaimGroup.indexOf(data.results[i].ClaimGroupDes) < 0) {
-							oArrClaimGroup.push(data.results[i].ClaimGroupDes);
-						}
-					}
-					for (var j = 0; j < oArrClaimGroup.length; j++) {
-						oClaimGroup.push({
-							"ClaimGroupDes": oArrClaimGroup[0]
-						});
-					}
-					console.log(oClaimGroup);
+					var oClaimData = data.results;
+					// 	for (var i = 0; i < oClaimData.length; i++) {
+					// 		if (oClaimGroup.indexOf(oClaimData[i].ClaimGroupDes) == -1) {
+					// 			oClaimGroup.push(oClaimData[i]);
+					// 		}
+					// 	}
 
-					this.getModel("LocalDataModel").setProperty("/WarrantyClaimGroups", oClaimGroup);
+					var elements = oClaimData.reduce(function (previous, current) {
+
+						var object = previous.filter(object => object.ClaimGroupDes === current.ClaimGroupDes);
+						if (object.length == 0) {
+							previous.push(current);
+						}
+						return previous;
+					}, []);
+
+					if (sap.ui.getCore().getModel("UserDataModel").getProperty("/UserScope") == "ManageAllParts") {
+						oClaimGroup = elements.filter(function (val) {
+							return val.ClaimGroup == "SCR" || val.ClaimGroup == "SSM" || val.ClaimGroup == "PWD";
+						});
+					} else if (sap.ui.getCore().getModel("UserDataModel").getProperty("/UserScope") == "ManageAllServices" || sap.ui.getCore().getModel(
+							"UserDataModel").getProperty("/UserScope") == "ManageAllShowAuthorization") {
+						oClaimGroup = elements.filter(function (val) {
+							return val.ClaimGroup == "STR" || val.ClaimGroup == "WTY" || val.ClaimGroup == "CRC" || val.ClaimGroup == "VLC" || val.ClaimGroup ==
+								"ECP" ||
+								val.ClaimGroup == "FAC";
+						});
+					} else {
+						oClaimGroup = elements;
+					}
+					this.getModel("LocalDataModel").setProperty("/oClaimGroupsDataResult", oClaimGroup);
+
+					//this.getModel("LocalDataModel").setProperty("/oClaimGroupData", elements);
+
 				}, this)
+
 			});
+
+			// 			if (sap.ui.getCore().getConfiguration().getLanguage() === "fr") {
+			// 				//	this.getModel("LocalDataModel").setProperty("/lang", "FR");
+			// 				oClaimModel.read("/ZC_CLAIM_STATUS_DESC", {
+			// 					urlParameters: {
+			// 						"$filter": "LanguageKey eq 'FR'"
+			// 					},
+			// 					success: function (data) {
+			// 						console.log(data);
+			// 						//this.getModel("LocalDataModel").setProperty("/ClaimStatus", data.results);
+			// 					}
+			// 				});
+			// 			} else {
+			// 				oClaimModel.read("/ZC_CLAIM_STATUS_DESC", {
+			// 					urlParameters: {
+			// 						"$filter": "LanguageKey eq 'EN'"
+			// 					},
+			// 					success: $.proxy(function (data) {
+			// 						console.log(data);
+			// 						this.getModel("LocalDataModel").setProperty("/ClaimStatus", data.results);
+			// 					}, this)
+			// 				});
+			// 			}
+			// 			var oArrClaimGroup = [];
+			// 			var oClaimGroup = [];
+			// 			oClaimModel.read("/ZC_CLAIM_GROUP", {
+			// 				urlParameters: {
+			// 					"$select": "ClaimGroupDes"
+
+			// 				},
+			// 				success: $.proxy(function (data) {
+			// 					for (var i = 0; i < data.results.length; i++) {
+			// 						if (data.results[i].ClaimGroupDes !== "" && oArrClaimGroup.indexOf(data.results[i].ClaimGroupDes) < 0) {
+			// 							oArrClaimGroup.push(data.results[i].ClaimGroupDes);
+			// 						}
+			// 					}
+			// 					for (var j = 0; j < oArrClaimGroup.length; j++) {
+			// 						oClaimGroup.push({
+			// 							"ClaimGroupDes": oArrClaimGroup[0]
+			// 						});
+			// 					}
+			// 					console.log(oClaimGroup);
+
+			// 					this.getModel("LocalDataModel").setProperty("/WarrantyClaimGroups", oClaimGroup);
+			// 				}, this)
+			// 			});
 
 			var oRowCount = {
 				rowCount: 0
@@ -390,15 +414,15 @@ sap.ui.define([
 		},
 		onSelectGroup: function (oEvent) {
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
-			var oText = oEvent.getParameters().selectedItem.getText();
+			var oText = oEvent.getParameters().selectedItem.getKey();
 
 			var oProssingModel = this.getModel("ProssingModel");
-			oProssingModel.read("/ZC_CLAIM_GROUP", {
+			oProssingModel.read("/zc_claim_groupSet", {
 				urlParameters: {
-					"$filter": "ClaimGroupDes eq '" + oText + "'"
+					"$filter": "ClaimGroup eq '" + oText + "'and LanguageKey eq 'EN'"
 				},
 				success: $.proxy(function (data) {
-					this.getModel("LocalDataModel").setProperty("/ClaimType", data.results);
+					this.getModel("LocalDataModel").setProperty("/oClaimTypeData", data.results);
 
 				}, this)
 			});

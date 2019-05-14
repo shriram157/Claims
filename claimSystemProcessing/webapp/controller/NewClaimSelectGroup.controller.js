@@ -12,58 +12,113 @@ sap.ui.define([
 		 */
 		onInit: function () {
 			var oProssingModel = this.getModel("ProssingModel");
-			var oClaimGroup = [];
+			var oClaimGroup;
 			var oClaimData = [];
 			var oClaimGroupJson = [];
+			var sSelectedLocale;
+			//  get the locale to determine the language.
+			var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
+			if (isLocaleSent) {
+				sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
+			} else {
+				sSelectedLocale = "en"; // default is english
+			}
 			this.getOwnerComponent().getModel("LocalDataModel").setProperty("/RadioEdit", false);
 			this.getDealer();
 			//Model data set for Header Links visibility as per User login
 			console.log("HeaderLinksModel", sap.ui.getCore().getModel("HeaderLinksModel"));
 			this.getView().setModel(sap.ui.getCore().getModel("HeaderLinksModel"), "HeaderLinksModel");
 
-			oProssingModel.read("/ZC_CLAIM_GROUP", {
+			// 			oProssingModel.read("/ZC_CLAIM_GROUP", {
+			// 				success: $.proxy(function (data) {
+			// 					var odata = data.results;
+			// 					for (var i = 0; i < odata.length; i++) {
+			// 						if (oClaimData.indexOf(odata[i].ClaimGroupDes) < 0 && !$.isEmptyObject(odata[i].ClaimGroupDes)) {
+			// 							oClaimData.push(
+			// 								odata[i].ClaimGroupDes
+			// 							);
+			// 						}
+			// 					}
+
+			// 					if (sap.ui.getCore().getModel("UserDataModel").getProperty("/UserScope") == "ManageAllParts") {
+			// 						oClaimGroup = oClaimData.filter(function (val) {
+			// 							return val == "CORE RETURN" || val == "SMART PARTS" || val == "PART WAREHOUSE";
+			// 						});
+			// 					} else if (sap.ui.getCore().getModel("UserDataModel").getProperty("/UserScope") == "ManageAllServices" || sap.ui.getCore().getModel(
+			// 							"UserDataModel").getProperty("/UserScope") == "ManageAllShowAuthorization") {
+			// 						oClaimGroup = oClaimData.filter(function (val) {
+			// 							return val == "SETR" || val == "WARRANTY" || val == "CUSTOMER RELATIONS" || val == "VEHICLE LOGISTICS" || val == "ECP" ||
+			// 								val == "FIELD ACTION";
+			// 						});
+			// 					} else {
+			// 						oClaimGroup = oClaimData;
+			// 					}
+
+			// 					for (var j = 0; j < oClaimGroup.length; j++) {
+			// 						oClaimGroupJson.push({
+			// 							ClaimGroupDes: oClaimGroup[j]
+			// 						});
+			// 					}
+			// 					this.getOwnerComponent().getModel("LocalDataModel").setProperty("/ClaimGroupData", oClaimGroupJson);
+			// 					var oKey = oClaimGroupJson[0].ClaimGroupDes;
+			// 					if (oKey === "WARRANTY") {
+			// 						this.getOwnerComponent().getModel("LocalDataModel").setProperty("/RadioEdit", true);
+			// 					} else {
+			// 						this.getOwnerComponent().getModel("LocalDataModel").setProperty("/RadioEdit", false);
+			// 					}
+
+			// 				}, this),
+			// 				error: function () {}
+			// 			});
+
+			oProssingModel.read("/zc_claim_groupSet", {
+				urlParameters: {
+					"$filter": "LanguageKey eq '" + sSelectedLocale.toUpperCase() + "'"
+				},
 				success: $.proxy(function (data) {
-					var odata = data.results;
-					for (var i = 0; i < odata.length; i++) {
-						if (oClaimData.indexOf(odata[i].ClaimGroupDes) < 0 && !$.isEmptyObject(odata[i].ClaimGroupDes)) {
-							oClaimData.push(
-								odata[i].ClaimGroupDes
-							);
+					var oClaimData = data.results;
+					// 	for (var i = 0; i < oClaimData.length; i++) {
+					// 		if (oClaimGroup.indexOf(oClaimData[i].ClaimGroupDes) == -1) {
+					// 			oClaimGroup.push(oClaimData[i]);
+					// 		}
+					// 	}
+
+					var elements = oClaimData.reduce(function (previous, current) {
+
+						var object = previous.filter(object => object.ClaimGroupDes === current.ClaimGroupDes);
+						if (object.length == 0) {
+							previous.push(current);
 						}
-					}
+						return previous;
+					}, []);
 
 					if (sap.ui.getCore().getModel("UserDataModel").getProperty("/UserScope") == "ManageAllParts") {
-						oClaimGroup = oClaimData.filter(function (val) {
-							return val == "CORE RETURN" || val == "SMART PARTS" || val == "PART WAREHOUSE";
+						oClaimGroup = elements.filter(function (val) {
+							return val.ClaimGroup == "SCR" || val.ClaimGroup == "SSM" || val.ClaimGroup == "PWD";
 						});
 					} else if (sap.ui.getCore().getModel("UserDataModel").getProperty("/UserScope") == "ManageAllServices" || sap.ui.getCore().getModel(
 							"UserDataModel").getProperty("/UserScope") == "ManageAllShowAuthorization") {
-						oClaimGroup = oClaimData.filter(function (val) {
-							return val == "SETR" || val == "WARRANTY" || val == "CUSTOMER RELATIONS" || val == "VEHICLE LOGISTICS" || val == "ECP" ||
-								val == "FIELD ACTION";
+						oClaimGroup = elements.filter(function (val) {
+							return val.ClaimGroup == "STR" || val.ClaimGroup == "WTY" || val.ClaimGroup == "CRC" || val.ClaimGroup == "VLC" || val.ClaimGroup ==
+								"ECP" ||
+								val.ClaimGroup == "FAC";
 						});
 					} else {
-						oClaimGroup = oClaimData;
+						oClaimGroup = elements;
 					}
+					this.getModel("LocalDataModel").setProperty("/oClaimGroupData", oClaimGroup);
 
-					for (var j = 0; j < oClaimGroup.length; j++) {
-						oClaimGroupJson.push({
-							ClaimGroupDes: oClaimGroup[j]
-						});
-					}
-					this.getOwnerComponent().getModel("LocalDataModel").setProperty("/ClaimGroupData", oClaimGroupJson);
-					var oKey = oClaimGroupJson[0].ClaimGroupDes;
-					if (oKey === "WARRANTY") {
+					//this.getOwnerComponent().getModel("LocalDataModel").setProperty("/ClaimGroupData", oClaimGroupJson);
+					var oKey = oClaimGroup[0].ClaimGroup;
+					if (oKey === "WTY") {
 						this.getOwnerComponent().getModel("LocalDataModel").setProperty("/RadioEdit", true);
 					} else {
 						this.getOwnerComponent().getModel("LocalDataModel").setProperty("/RadioEdit", false);
 					}
 
-				}, this),
-				error: function () {}
-			});
+				}, this)
 
-			//sap.ui.getCore().getEventBus().subscribe("App", "oType", this.onSelectRequestType01, this);
+			});
 
 		},
 
@@ -71,8 +126,8 @@ sap.ui.define([
 			//mainSectionTitle
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var oSelectedKey = this.getView().byId("idClaimType").getSelectedKey();
-			
-			if (oSelectedKey === "WARRANTY") {
+
+			if (oSelectedKey === "WTY") {
 				this.getOwnerComponent().getModel("LocalDataModel").setProperty("/RadioEdit", true);
 			} else {
 				this.getOwnerComponent().getModel("LocalDataModel").setProperty("/RadioEdit", false);
@@ -92,28 +147,28 @@ sap.ui.define([
 				this.oSelectedClaimGroup = "Claim";
 			}
 
-			if (oSelectedKey === "WARRANTY") {
+			if (oSelectedKey === "WTY") {
 
 				this.getRouter().navTo("MainClaimSection", {
 					claimNum: oClaimNum,
-					oKey: "WARRANTY",
+					oKey: "WTY",
 					oClaimGroup: this.oSelectedClaimGroup,
 					oClaimNav: "New"
 
 				});
 
-			} else if (oSelectedKey === "PART WAREHOUSE") {
+			} else if (oSelectedKey === "PWD") {
 				this.getRouter().navTo("PartsMainSection", {
 					claimNum: oClaimNum,
-					oKey: "PART WAREHOUSE",
+					oKey: "PWD",
 					oClaimGroup: this.oSelectedClaimGroup,
 					oClaimNav: "New"
 				});
 				this.getView().byId("idRequestType").setSelectedIndex(0);
-			} else if (oSelectedKey === "FIELD ACTION") {
+			} else if (oSelectedKey === "FAC") {
 				this.getRouter().navTo("MainClaimSection", {
 					claimNum: oClaimNum,
-					oKey: "FIELD ACTION",
+					oKey: "FAC",
 					oClaimGroup: this.oSelectedClaimGroup,
 					oClaimNav: "New"
 
@@ -128,36 +183,36 @@ sap.ui.define([
 
 				});
 				this.getView().byId("idRequestType").setSelectedIndex(0);
-			} else if (oSelectedKey === "SETR") {
+			} else if (oSelectedKey === "STR") {
 				this.getRouter().navTo("MainClaimSection", {
 					claimNum: oClaimNum,
-					oKey: "SETR",
+					oKey: "STR",
 					oClaimGroup: this.oSelectedClaimGroup,
 					oClaimNav: "New"
 
 				});
 				this.getView().byId("idRequestType").setSelectedIndex(0);
-			} else if (oSelectedKey === "CORE RETURN") {
+			} else if (oSelectedKey === "SCR") {
 				this.getRouter().navTo("MainClaimSection", {
 					claimNum: oClaimNum,
-					oKey: "CORE RETURN",
+					oKey: "SCR",
 					oClaimGroup: this.oSelectedClaimGroup,
 					oClaimNav: "New"
 				});
 				this.getView().byId("idRequestType").setSelectedIndex(0);
-			} else if (oSelectedKey === "VEHICLE LOGISTICS") {
+			} else if (oSelectedKey === "VLC") {
 				this.getRouter().navTo("MainClaimSection", {
 					claimNum: oClaimNum,
-					oKey: "VEHICLE LOGISTICS",
+					oKey: "VLC",
 					oClaimGroup: this.oSelectedClaimGroup,
 					oClaimNav: "New"
 
 				});
 				this.getView().byId("idRequestType").setSelectedIndex(0);
-			} else if (oSelectedKey === "CUSTOMER RELATIONS") {
+			} else if (oSelectedKey === "CRC") {
 				this.getRouter().navTo("MainClaimSection", {
 					claimNum: oClaimNum,
-					oKey: "CUSTOMER RELATIONS",
+					oKey: "CRC",
 					oClaimGroup: this.oSelectedClaimGroup,
 					oClaimNav: "New"
 

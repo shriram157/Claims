@@ -39,12 +39,12 @@
 											minDate="" maxDate="" change="handleChange"/>
 										<core:Title text=""/>
 										<Label text="{i18n>ClaimTypeGroup}" textAlign="Begin"/>
-										<custom:CustomCombo items="{path:'LocalDataModel>/ClaimStatusDataGroup'}" id="idClaimGroup" selectionChange="onSelectGroup">
-											<core:Item key="{LocalDataModel>CLaimGroupDes}" text="{LocalDataModel>CLaimGroupDes}"/>
+										<custom:CustomCombo items="{path:'LocalDataModel>/oClaimGroupsDataResult'}" id="idClaimGroup" selectionChange="onSelectGroup">
+											<core:Item key="{LocalDataModel>ClaimGroup}" text="{LocalDataModel>ClaimGroupDes}"/>
 										</custom:CustomCombo>
 										<Label text="{i18n>ClaimType}" textAlign="Begin"/>
-										<custom:CustomCombo items="{ path: 'LocalDataModel>/ClaimType'}" id="idClaimType">
-											<core:Item key="{LocalDataModel>WarrantyClaimType}" text="{LocalDataModel>WarrantyClaimType} - {LocalDataModel>ALMClaimTypeDes}"/>
+										<custom:CustomCombo items="{ path: 'LocalDataModel>/oClaimTypeData'}" id="idClaimType">
+											<core:Item key="{LocalDataModel>TMCClaimType}" text="{LocalDataModel>TMCClaimType} - {LocalDataModel>ALMClaimTypeDes}"/>
 										</custom:CustomCombo>
 										<Label text="{i18n>ClaimStatus}" textAlign="Begin"/>
 										<MultiComboBox items="{ path: 'LocalDataModel>/OModelClaimGroupStatus'}" selectionChange="handleSelectClaimGroup"

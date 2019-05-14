@@ -16,10 +16,10 @@
 									<f:content>
 										<core:Title text="{i18n>SelectClaimGroupType}"/>
 										<Label text="{i18n>ClaimTypeGroup}" textAlign="Begin" textDirection="LTR"/>
-										<Select id="idClaimType"  items="{LocalDataModel>/ClaimGroupData}" change="onSelectClaimType">
+										<Select id="idClaimType" items="{LocalDataModel>/oClaimGroupData}" change="onSelectClaimType">
 											<items>
-												<core:Item text="{LocalDataModel>ClaimGroupDes}" key="{LocalDataModel>ClaimGroupDes}"/>
-											
+												<!--<core:Item text="{LocalDataModel>ClaimGroupDes}" key="{LocalDataModel>ClaimGroupDes}"/>-->
+												<core:Item key="{LocalDataModel>ClaimGroup}" text="{LocalDataModel>ClaimGroupDes}"/>
 											</items>
 										</Select>
 										<Label text="{i18n>RequestType}" textAlign="Begin"/>
