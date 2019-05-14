@@ -1811,7 +1811,7 @@ sap.ui.define([
 				this.getView().getModel("DateModel").setProperty("/ofpRequired", false);
 				this.getView().getModel("DateModel").setProperty("/authHide", true);
 
-			} else if (this.getModel("LocalDataModel").getProperty("/oFieldAction") == "SETR" ||
+			} else if (this.getModel("LocalDataModel").getProperty("/oFieldAction") == "STR" ||
 				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZSSE") {
 				this.getView().getModel("DateModel").setProperty("/ofpEnabled", false);
 				this.getView().getModel("DateModel").setProperty("/enabledT1", false);
@@ -2585,7 +2585,7 @@ sap.ui.define([
 				aInputs = aInputsFieldAct;
 			} else if (oClaimtype == "ECP") {
 				aInputs = aInputsOECP;
-			} else if (oClaimtype == "SETR") {
+			} else if (oClaimtype == "STR") {
 				aInputs = aInputsSETR;
 			} else if (oClaimtype == "VLC") {
 				aInputs = aInputVehiclLog;
@@ -2595,7 +2595,7 @@ sap.ui.define([
 				aInputs = aInputsArrZWP2;
 			} else if (oClmType == "ZWMS" || oClmSubType == "ZWMS") {
 				aInputs = aInputsArrZWMS;
-			} else if (oClaimtype == "WARRANTY") {
+			} else if (oClaimtype == "WTY") {
 				aInputs = aInputsArr;
 			} else if (oClaimtype == "CRC") {
 				aInputs = aInputsArr;
@@ -3220,7 +3220,7 @@ sap.ui.define([
 				aInputs = aInputsFieldAct;
 			} else if (oClaimtype == "ECP" || oClmType == "ZECP") {
 				aInputs = aInputsOECP;
-			} else if (oClaimtype == "SETR" || oClmType == "ZSSE") {
+			} else if (oClaimtype == "STR" || oClmType == "ZSSE") {
 				aInputs = aInputsSETR;
 			} else if (oClaimtype == "ZLDC" || oClmType == "ZLDC") {
 				aInputs = aInputVehiclLog;
@@ -6650,9 +6650,9 @@ sap.ui.define([
 			if (window.document.domain == "localhost") {
 				isProxy = "proxy";
 			}
-			if (oClaimtype == "FAC" || oClaimtype == "ECP" || oClaimtype == "SETR" || oClaimtype == "CUSTOMER RELATION" ||
+			if (oClaimtype == "FAC" || oClaimtype == "ECP" || oClaimtype == "STR" || oClaimtype == "CRC" ||
 				oClaimtype ==
-				"WARRANTY" ||
+				"WTY" ||
 				oClaimtype == "ZCSR" || oClaimtype == "ZCLS" || oClaimtype == "ZCWE" || oClaimtype == "ZCER" ||
 				oClaimtype == "ZECP" || oClaimtype == "ZSSE" || oClaimtype == "ZRCR" || oClaimtype == "ZWVE" ||
 				oClaimtype == "ZWP1" || oClaimtype == "ZWP2" || oClaimtype == "ZWMS" || oClaimtype == "ZWAC" ||

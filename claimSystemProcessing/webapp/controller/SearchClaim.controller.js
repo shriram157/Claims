@@ -67,7 +67,7 @@ sap.ui.define([
 				success: function (oData) {
 
 					var userType = oData.loggedUserType[0];
-					//	var userType = "Dealer_Services_Admin";
+					//var userType = "Dealer_Services_Admin";
 					sap.ui.getCore().getModel("UserDataModel").setProperty("/LoggedInUser", userType);
 					sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "");
 					switch (userType) {
@@ -1101,7 +1101,7 @@ sap.ui.define([
 					} else {
 						this.oSelectedClaimGroup = "Claim";
 					}
-					if (oClaimGroup == "PART WAREHOUSE") {
+					if (oClaimGroup == "PWD") {
 						this.getOwnerComponent().getRouter().navTo("PartsMainSection", {
 							claimNum: oClaimNum,
 							oKey: oClaimType,
