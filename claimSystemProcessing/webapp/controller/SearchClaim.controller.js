@@ -67,7 +67,7 @@ sap.ui.define([
 				success: function (oData) {
 
 					var userType = oData.loggedUserType[0];
-					//var userType = "Dealer_Services_Admin";
+					//	var userType = "Dealer_Services_Admin";
 					sap.ui.getCore().getModel("UserDataModel").setProperty("/LoggedInUser", userType);
 					sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "");
 					switch (userType) {
@@ -411,13 +411,21 @@ sap.ui.define([
 			this.getOwnerComponent().getModel("LocalDataModel").setProperty("/AdditionalText", ogetAdditionalText);
 		},
 		onSelectGroup: function (oEvent) {
+			var sSelectedLocale;
+			//  get the locale to determine the language.
+			var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
+			if (isLocaleSent) {
+				sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
+			} else {
+				sSelectedLocale = "en"; // default is english
+			}
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var oText = oEvent.getParameters().selectedItem.getKey();
 
 			var oProssingModel = this.getModel("ProssingModel");
 			oProssingModel.read("/zc_claim_groupSet", {
 				urlParameters: {
-					"$filter": "ClaimGroup eq '" + oText + "'and LanguageKey eq 'EN'"
+					"$filter": "ClaimGroup eq '" + oText + "'and LanguageKey eq '" + sSelectedLocale.toUpperCase() + "'"
 				},
 				success: $.proxy(function (data) {
 					this.getModel("LocalDataModel").setProperty("/oClaimTypeData", data.results);
