@@ -2353,13 +2353,23 @@ sap.ui.define([
 		},
 
 		_fnDateFormat: function (elm) {
-			if (elm) {
-				var oNumTime = new Date(elm.getTime() - new Date(0).getTimezoneOffset() * 60 * 1000);
-				var oTime = "\/Date(" + oNumTime.getTime() + ")\/";
+			if (elm != "" && elm != null && elm != NaN) {
+				var oNumTime = Date.UTC(elm.getFullYear(), elm.getMonth(), elm.getDate(),
+					elm.getHours(), elm.getMinutes(), elm.getSeconds(), elm.getMilliseconds());
+				//var oNumTime = elm.getTime();
+				var oTime = "\/Date(" + oNumTime + ")\/";
 				return oTime;
 			} else {
 				return null;
 			}
+			// 			if (elm) {
+			// 				//elm.setUTCDate(elm.getDate());
+			// 				var oNumTime = new Date(elm.getTime() - new Date(0).getTimezoneOffset() * 60 * 1000);
+			// 				var oTime = "\/Date(" + oNumTime.getTime() + ")\/";
+			// 				return oTime;
+			// 			} else {
+			// 				return null;
+			// 			}
 		},
 		_ValidateOnLoad: function () {
 			var oView = this.getView();
@@ -3976,19 +3986,35 @@ sap.ui.define([
 		// 	return sText;
 		// },
 
-		onPressTCIQty: function () {
+		onPressTCIQty: function (oEvent) {
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var oClaimModel = this.getModel("ProssingModel");
+			var oPartNumber = oEvent.getSource().getParent().getCells()[2].getText();
 			oClaimModel.read("/zc_claim_item_price_dataSet", {
 				urlParameters: {
 					"$filter": "NumberOfWarrantyClaim eq'" + oClaimNum + "'"
 				},
 				success: $.proxy(function (data) {
-					this.getView().getModel("LocalDataModel").setProperty("/RejectionCodeData", data.results[0]);
-					// 	var oFinalText = oBundle.getText("RejectionCode") + data.results[0].CoreRej1 + "\n" + data.results[0].CoreRej2 + "/n" + data.results[
-					// 		0].CoreRej3 + "/n" + data.results[
-					// 		0].CoreRej4 + "/n" + data.results[0].CoreRej5 + "/n" + data.results[0].CoreRej6;
+					var oFilterText = data.results.filter(function (item) {
+						return item.ItemKey == oPartNumber
+					})
+
+					var oFinalText = oBundle.getText("QTY") + " : " + "1 " +
+						oBundle.getText("RejectionCode") + " : " + oFilterText[0].CoreRej1 + "\n" +
+						oBundle.getText("QTY") + " : " + "2 " +
+						oBundle.getText("RejectionCode") + " : " + oFilterText[0].CoreRej2 + "\n" +
+						oBundle.getText("QTY") + " : " + "3 " +
+						oBundle.getText("RejectionCode") + " : " + oFilterText[0].CoreRej3 + "\n" +
+						oBundle.getText("QTY") + " : " + "4 " +
+						oBundle.getText("RejectionCode") + " : " + oFilterText[0].CoreRej4 + "\n" +
+						oBundle.getText("QTY") + " : " + "5 " +
+						oBundle.getText("RejectionCode") + " : " + oFilterText[0].CoreRej5 + "\n" +
+						oBundle.getText("QTY") + " : " + "6 " +
+						oBundle.getText("RejectionCode") + " : " + oFilterText[0].CoreRej6;
+
+					this.getView().getModel("LocalDataModel").setProperty("/RejectionCodeData", oFinalText);
+
 				}, this)
 			});
 			var oDialogBox = sap.ui.xmlfragment("zclaimProcessing.view.fragments.ViewRejectionCode", this);
@@ -5330,6 +5356,9 @@ sap.ui.define([
 		},
 		onCloseLabour: function (oEvent) {
 			oEvent.getSource().getParent().getParent().getParent().close();
+		},
+		onCloseRejectionCode: function (oEvent) {
+			oEvent.getSource().getParent().getParent().close();
 		},
 		onCloseLoop: function (oEvent) {
 			oEvent.getSource().getParent().getParent().close();

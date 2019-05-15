@@ -67,7 +67,7 @@ sap.ui.define([
 				success: function (oData) {
 
 					var userType = oData.loggedUserType[0];
-					//	var userType = "Dealer_Services_Admin";
+					//var userType = "Dealer_Parts_Admin";
 					sap.ui.getCore().getModel("UserDataModel").setProperty("/LoggedInUser", userType);
 					sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "");
 					switch (userType) {
@@ -651,7 +651,7 @@ sap.ui.define([
 					filters: [
 						new sap.ui.model.Filter("Partner", sap.ui.model.FilterOperator.EQ, sQueryDealer),
 						new sap.ui.model.Filter(sDate, sap.ui.model.FilterOperator.BT, FromDateFormat, ToDateFormat),
-						new sap.ui.model.Filter("WarrantyClaimGroupDes", sap.ui.model.FilterOperator.EQ, sQueryClaimGroup),
+						new sap.ui.model.Filter("ClaimGroup", sap.ui.model.FilterOperator.EQ, sQueryClaimGroup),
 						new sap.ui.model.Filter(oResult)
 					],
 					and: true
@@ -692,7 +692,7 @@ sap.ui.define([
 					filters: [
 						new sap.ui.model.Filter(sDate, sap.ui.model.FilterOperator.BT, FromDateFormat, ToDateFormat),
 						new sap.ui.model.Filter("Partner", sap.ui.model.FilterOperator.EQ, sQueryDealer),
-						new sap.ui.model.Filter("WarrantyClaimGroupDes", sap.ui.model.FilterOperator.EQ, sQueryClaimGroup)
+						new sap.ui.model.Filter("ClaimGroup", sap.ui.model.FilterOperator.EQ, sQueryClaimGroup)
 					],
 					and: true
 				});
