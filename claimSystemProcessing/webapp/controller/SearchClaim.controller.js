@@ -67,7 +67,7 @@ sap.ui.define([
 				success: function (oData) {
 
 					var userType = oData.loggedUserType[0];
-					//var userType = "Dealer_Parts_Admin";
+					//	var userType = "Dealer_Services_Admin";
 					sap.ui.getCore().getModel("UserDataModel").setProperty("/LoggedInUser", userType);
 					sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "");
 					switch (userType) {
@@ -568,7 +568,7 @@ sap.ui.define([
 
 				for (var j = 0; j < sQueryStat.length; j++) {
 
-					oResult.push(new sap.ui.model.Filter("ProcessingStatusOfWarrantyClm", sap.ui.model.FilterOperator.EQ, sQueryStat[j]));
+					oResult.push(new sap.ui.model.Filter("DecisionCode", sap.ui.model.FilterOperator.EQ, sQueryStat[j]));
 
 				}
 				this.getView().getModel("RowCountModel").setProperty("/rowCount", 10);

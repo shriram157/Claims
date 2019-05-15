@@ -3977,6 +3977,20 @@ sap.ui.define([
 		// },
 
 		onPressTCIQty: function () {
+			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
+			var oBundle = this.getView().getModel("i18n").getResourceBundle();
+			var oClaimModel = this.getModel("ProssingModel");
+			oClaimModel.read("/zc_claim_item_price_dataSet", {
+				urlParameters: {
+					"$filter": "NumberOfWarrantyClaim eq'" + oClaimNum + "'"
+				},
+				success: $.proxy(function (data) {
+					this.getView().getModel("LocalDataModel").setProperty("/RejectionCodeData", data.results[0]);
+					// 	var oFinalText = oBundle.getText("RejectionCode") + data.results[0].CoreRej1 + "\n" + data.results[0].CoreRej2 + "/n" + data.results[
+					// 		0].CoreRej3 + "/n" + data.results[
+					// 		0].CoreRej4 + "/n" + data.results[0].CoreRej5 + "/n" + data.results[0].CoreRej6;
+				}, this)
+			});
 			var oDialogBox = sap.ui.xmlfragment("zclaimProcessing.view.fragments.ViewRejectionCode", this);
 			this.getView().addDependent(oDialogBox);
 			oDialogBox.open();
