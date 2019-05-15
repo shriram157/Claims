@@ -114,7 +114,7 @@
 										<table:Column width="9rem">
 											<Label text="{i18n>ClaimStatus}" textAlign="Center" width="100%"/>
 											<table:template>
-												<Text text="{ProcessingStatusOfWarrantyClm}"/>
+												<Text text="{DecisionCode}"/>
 											</table:template>
 										</table:Column>
 										<table:Column width="8rem">
