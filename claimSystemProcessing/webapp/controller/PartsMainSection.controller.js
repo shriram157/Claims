@@ -2530,7 +2530,7 @@ sap.ui.define([
 				}
 
 				var oIndex = oTableIndex.toString().split("/")[2];
-
+				this.obj.zc_claim_item_price_dataSet.results = [];
 				this.obj.zc_itemSet.results.splice(oIndex, 1);
 
 				oClaimModel.create("/zc_headSet", this.obj, {
