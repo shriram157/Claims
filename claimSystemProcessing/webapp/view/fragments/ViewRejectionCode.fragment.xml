@@ -2,6 +2,7 @@
 	<Dialog title="{i18n>RejectionCode}">
 		<content>
 			<!--<Textarea/>-->
+			<TextArea/>
 			<Table showSeparators="All" class="sapUiSmallMarginBottom">
 				<headerToolbar >
 					<OverflowToolbar>
