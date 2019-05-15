@@ -66,8 +66,8 @@ sap.ui.define([
 				dataType: "json",
 				success: function (oData) {
 
-					var userType = oData.loggedUserType[0];
-					//	var userType = "Dealer_Services_Admin";
+					// var userType = oData.loggedUserType[0];
+						var userType = "ManageAllParts";
 					sap.ui.getCore().getModel("UserDataModel").setProperty("/LoggedInUser", userType);
 					sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "");
 					switch (userType) {
@@ -164,8 +164,8 @@ sap.ui.define([
 						/*Uncomment for security*/
 						break;
 					default:
-						// console.log("Dealer_Services_Manager");
-						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ManageAllShowAuthorization");
+						// console.log("Dealer Parts");
+						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ManageAllParts");
 						/*Uncomment for security*/
 						that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", true);
 						that.getView().getModel("HeaderLinksModel").setProperty("/ViewUpdateClaims", true);
