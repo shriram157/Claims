@@ -2354,9 +2354,9 @@ sap.ui.define([
 
 		_fnDateFormat: function (elm) {
 			if (elm != "" && elm != null && elm != NaN) {
-				var oNumTime = Date.UTC(elm.getFullYear(), elm.getMonth(), elm.getDate(),
-					elm.getHours(), elm.getMinutes(), elm.getSeconds(), elm.getMilliseconds());
-				//var oNumTime = elm.getTime();
+				// var oNumTime = Date.UTC(elm.getFullYear(), elm.getMonth(), elm.getDate(),
+				// 	elm.getHours(), elm.getMinutes(), elm.getSeconds(), elm.getMilliseconds());
+				var oNumTime = new Date(elm).getTime();
 				var oTime = "\/Date(" + oNumTime + ")\/";
 				return oTime;
 			} else {
@@ -2777,6 +2777,10 @@ sap.ui.define([
 								this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", sdata.results[0].OfpDescription);
 								this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", sdata.results[0].Main_opsDescription);
 								this.getView().getModel("HeadSetData").setData(sdata.results[0]);
+
+								this.getView().getModel("HeadSetData").setProperty("/RepairDate", response.data.RepairDate);
+								this.getView().getModel("HeadSetData").setProperty("/ReferenceDate", response.data.ReferenceDate);
+								this.getView().getModel("HeadSetData").setProperty("/DateOfApplication", response.data.DateOfApplication);
 								var oCLaim = this.getModel("LocalDataModel").getProperty("/ClaimDetails/NumberOfWarrantyClaim");
 								this.getView().getModel("HeadSetData").setProperty("/NumberOfWarrantyClaim", oCLaim);
 								if (oGroupType == "Authorization") {
@@ -3477,6 +3481,9 @@ sap.ui.define([
 									},
 									success: $.proxy(function (sdata) {
 										this.getView().getModel("HeadSetData").setData(sdata.results[0]);
+										this.getView().getModel("HeadSetData").setProperty("/RepairDate", response.RepairDate);
+										this.getView().getModel("HeadSetData").setProperty("/ReferenceDate", response.ReferenceDate);
+										this.getView().getModel("HeadSetData").setProperty("/DateOfApplication", response.DateOfApplication);
 									}, this)
 								});
 
@@ -4000,17 +4007,17 @@ sap.ui.define([
 						return item.ItemKey == oPartNumber
 					})
 
-					var oFinalText = oBundle.getText("QTY") + " : " + "1 " +
+					var oFinalText = oBundle.getText("QTY") + " : " + "1 " + " " +
 						oBundle.getText("RejectionCode") + " : " + oFilterText[0].CoreRej1 + "\n" +
-						oBundle.getText("QTY") + " : " + "2 " +
+						oBundle.getText("QTY") + " : " + "2 " + " " +
 						oBundle.getText("RejectionCode") + " : " + oFilterText[0].CoreRej2 + "\n" +
-						oBundle.getText("QTY") + " : " + "3 " +
+						oBundle.getText("QTY") + " : " + "3 " + " " +
 						oBundle.getText("RejectionCode") + " : " + oFilterText[0].CoreRej3 + "\n" +
-						oBundle.getText("QTY") + " : " + "4 " +
+						oBundle.getText("QTY") + " : " + "4 " + " " +
 						oBundle.getText("RejectionCode") + " : " + oFilterText[0].CoreRej4 + "\n" +
-						oBundle.getText("QTY") + " : " + "5 " +
+						oBundle.getText("QTY") + " : " + "5 " + " " +
 						oBundle.getText("RejectionCode") + " : " + oFilterText[0].CoreRej5 + "\n" +
-						oBundle.getText("QTY") + " : " + "6 " +
+						oBundle.getText("QTY") + " : " + "6 " + " " +
 						oBundle.getText("RejectionCode") + " : " + oFilterText[0].CoreRej6;
 
 					this.getView().getModel("LocalDataModel").setProperty("/RejectionCodeData", oFinalText);
@@ -6517,6 +6524,9 @@ sap.ui.define([
 										},
 										success: $.proxy(function (sdata) {
 											this.getView().getModel("HeadSetData").setProperty("/ProcessingStatusOfWarrantyClm", sdata.results[0].ProcessingStatusOfWarrantyClm);
+											this.getView().getModel("HeadSetData").setProperty("/RepairDate", response.data.RepairDate);
+											this.getView().getModel("HeadSetData").setProperty("/ReferenceDate", response.data.ReferenceDate);
+											this.getView().getModel("HeadSetData").setProperty("/DateOfApplication", response.data.DateOfApplication);
 											if (sdata.results[0].ProcessingStatusOfWarrantyClm == "ZTIC") {
 												MessageToast.show(
 													oBundle.getText("ClaimNumber") + " " + oClaimNum + " " + oBundle.getText(
