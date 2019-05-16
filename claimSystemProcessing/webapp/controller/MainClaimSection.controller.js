@@ -2097,6 +2097,12 @@ sap.ui.define([
 				this.getView().getModel("DateModel").setProperty("/oFieldActionInput", true);
 			}
 
+			if (oKey == "ZSCR") {
+				this.getView().getModel("DateModel").setProperty("/oTciQtyAppr", true);
+			} else {
+				this.getView().getModel("DateModel").setProperty("/oTciQtyAppr", false);
+			}
+
 		},
 
 		onSelectRequestType: function (oEvent) {
@@ -2107,7 +2113,7 @@ sap.ui.define([
 				this.getModel("LocalDataModel").setProperty("/VehicleMonths", "");
 
 				this.getView().byId("idVinNum").setProperty("enabled", false);
-				this.getView().byId("idVinNum").STRequired(false);
+				//this.getView().byId("idVinNum").STRequired(false);
 				this.getView().getModel("DateModel").setProperty("/OdometerReq", false);
 				this.getView().getModel("DateModel").setProperty("/OdometerReqMan", false);
 				this.getView().getModel("HeadSetData").setProperty("/Odometer", "");
@@ -2127,11 +2133,6 @@ sap.ui.define([
 				}
 			}
 
-			if (oKey == "ZSCR") {
-				this.getView().getModel("DateModel").setProperty("/oTciQtyAppr", true);
-			} else {
-				this.getView().getModel("DateModel").setProperty("/oTciQtyAppr", false);
-			}
 		},
 
 		onP2Claim: function (elm) {
