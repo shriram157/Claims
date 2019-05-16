@@ -2126,6 +2126,12 @@ sap.ui.define([
 					this.getView().getModel("DateModel").setProperty("/OdometerReqMan", true);
 				}
 			}
+
+			if (oKey == "ZSCR") {
+				this.getView().getModel("DateModel").setProperty("/oTciQtyAppr", true);
+			} else {
+				this.getView().getModel("DateModel").setProperty("/oTciQtyAppr", false);
+			}
 		},
 
 		onP2Claim: function (elm) {
