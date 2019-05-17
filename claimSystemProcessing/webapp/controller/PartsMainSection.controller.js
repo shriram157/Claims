@@ -504,9 +504,7 @@ sap.ui.define([
 				//	//ZDLR_CLAIM_SRV/ZC_CLAIM_HEAD_NEW(p_langu='EN')/Set?$skip=10&$top=20 ZC_CLAIM_HEAD_NEW(p_langu='" + sSelectedLocale + "')/Set"
 				oProssingModel.read("/ZC_CLAIM_HEAD_NEW", {
 					urlParameters: {
-						"$filter": "NumberOfWarrantyClaim eq '" + oClaim + "' ",
-								"$top": 20,
-								"$skip": 10
+						"$filter": "NumberOfWarrantyClaim eq '" + oClaim + "' "
 					},
 					success: $.proxy(function (data) {
 						this.getModel("LocalDataModel").setProperty("/ClaimDetails", data.results[0]);
@@ -3492,9 +3490,7 @@ sap.ui.define([
 						oClaimModel.read("/ZC_CLAIM_HEAD_NEW", {
 							urlParameters: {
 								"$filter": "NumberOfWarrantyClaim eq '" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") +
-									"'",
-								"$top": 20,
-								"$skip": 10
+									"'"
 							},
 							success: $.proxy(function (sdata) {
 								//-(10.5*60*60)
