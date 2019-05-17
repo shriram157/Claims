@@ -1,8 +1,9 @@
 sap.ui.define([
 	"zclaimProcessing/controller/BaseController",
 	"zclaimProcessing/utils/formatter",
-	'sap/m/MessageBox'
-], function (BaseController, formatter, MessageBox) {
+	'sap/m/MessageBox',
+	'sap/m/MessageToast',
+], function (BaseController, formatter, MessageBox, MessageToast) {
 	"use strict";
 	var agreementno = '',
 		dometerunit, that;
@@ -33,7 +34,11 @@ sap.ui.define([
 
 			HeadSetData.setDefaultBindingMode("TwoWay");
 			this.getView().setModel(HeadSetData, "HeadSetData");
+			this.getOwnerComponent().getRouter().attachRoutePatternMatched(this._onRoutMatched, this);
 
+		},
+		_onRoutMatched: function (oEvent) {
+			//MessageBox.Action.CLOSE();
 		},
 		onPressForeignVin: function () {
 			var oDialogBox = sap.ui.xmlfragment("zclaimProcessing.view.fragments.ForeignVinNotification", this);
@@ -240,6 +245,8 @@ sap.ui.define([
 			var mainop = this.getView().byId('mainop').getValue();
 			var agreementselected = agreementno || '';
 
+			var oXMLMsg;
+
 			if (oVin != '' && odmeter != '' && partofp != '' && mainop != '') {
 				var filters = [];
 				filters = [
@@ -258,14 +265,21 @@ sap.ui.define([
 					if (e.getParameters().response) {
 						if (e.getParameters().response.responseText && that.getView().byId('partofp').getValue() != '') {
 							var x = jQuery.parseXML(e.getParameters().response.responseText);
-							var oXMLMsg = x.querySelector("message");
-							MessageBox.show(oXMLMsg.textContent, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
+							oXMLMsg = x.querySelector("message");
+							// 			MessageBox.show(oXMLMsg.textContent, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
+							MessageToast.show(oXMLMsg.textContent, {
+								my: "center center",
+								at: "center center"
+							});
+						} else {
+							// 			oXMLMsg = "";
+							// 			MessageBox.Action.CLOSE();
 						}
 					}
 				});
 
 			} else {
-				MessageBox.show(Messagevalidf, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
+				//	MessageBox.show(Messagevalidf, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
 			}
 
 		},

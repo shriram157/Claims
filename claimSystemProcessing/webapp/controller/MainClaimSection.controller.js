@@ -1673,7 +1673,7 @@ sap.ui.define([
 					this.getView().getModel("DateModel").setProperty("/ShipmentVisible", false);
 					this.getView().getModel("DateModel").setProperty("/AcA1", false);
 					this.getView().getModel("DateModel").setProperty("/P1p2", false);
-					this.getView().getModel("DateModel").setProperty("/oMainOpsReq", false);
+					this.getView().getModel("DateModel").setProperty("/oMainOpsReq", true);
 					this.getView().getModel("DateModel").setProperty("/authHide", false);
 
 				} else {
@@ -1927,6 +1927,7 @@ sap.ui.define([
 				this.getView().getModel("DateModel").setProperty("/oBatteryTestEnable", true);
 				this.getView().getModel("DateModel").setProperty("/ShipmentVisible", false);
 				this.getView().getModel("DateModel").setProperty("/authHide", true);
+				this.getView().getModel("DateModel").setProperty("/oMainOpsReq", false);
 			} else if (oKey == "ZWA1") {
 				this.getView().getModel("DateModel").setProperty("/oMainOps", true);
 				this.getView().getModel("DateModel").setProperty("/Paint", false);
@@ -1945,6 +1946,7 @@ sap.ui.define([
 				this.getView().getModel("DateModel").setProperty("/oBatteryTestEnable", true);
 				this.getView().getModel("DateModel").setProperty("/ShipmentVisible", false);
 				this.getView().getModel("DateModel").setProperty("/authHide", false);
+				this.getView().getModel("DateModel").setProperty("/oMainOpsReq", false);
 			} else if (oKey == "ZWA2") {
 				this.getView().getModel("DateModel").setProperty("/oMainOps", true);
 				this.getView().getModel("DateModel").setProperty("/Paint", false);
@@ -1963,6 +1965,7 @@ sap.ui.define([
 				this.getView().getModel("DateModel").setProperty("/oBatteryTestEnable", true);
 				this.getView().getModel("DateModel").setProperty("/ShipmentVisible", false);
 				this.getView().getModel("DateModel").setProperty("/authHide", false);
+				this.getView().getModel("DateModel").setProperty("/oMainOpsReq", false);
 			} else if (oKey == "ZWAC") {
 				this.getView().getModel("DateModel").setProperty("/oMainOps", true);
 				this.getView().getModel("DateModel").setProperty("/Authorization", false);
@@ -1981,6 +1984,7 @@ sap.ui.define([
 				this.getView().getModel("DateModel").setProperty("/oBatteryTestEnable", true);
 				this.getView().getModel("DateModel").setProperty("/ShipmentVisible", false);
 				this.getView().getModel("DateModel").setProperty("/authHide", false);
+				this.getView().getModel("DateModel").setProperty("/oMainOpsReq", false);
 			} else if (oKey == "ZWMS") {
 				this.getView().getModel("DateModel").setProperty("/oMainOps", false);
 				this.getView().getModel("DateModel").setProperty("/Paint", false);
@@ -1999,6 +2003,7 @@ sap.ui.define([
 				this.getView().getModel("DateModel").setProperty("/oBatteryTestEnable", true);
 				this.getView().getModel("DateModel").setProperty("/ShipmentVisible", false);
 				this.getView().getModel("DateModel").setProperty("/authHide", false);
+				this.getView().getModel("DateModel").setProperty("/oMainOpsReq", false);
 			} else if (oKey == "ZWP1") {
 				this.getView().getModel("DateModel").setProperty("/oMainOps", true);
 				this.getView().getModel("DateModel").setProperty("/Paint", false);
@@ -2016,6 +2021,7 @@ sap.ui.define([
 				this.getView().getModel("DateModel").setProperty("/ofpRequired", false);
 				this.getView().getModel("DateModel").setProperty("/oBatteryTestEnable", true);
 				this.getView().getModel("DateModel").setProperty("/authHide", true);
+				this.getView().getModel("DateModel").setProperty("/oMainOpsReq", true);
 			} else if (oKey == "ZWP2") {
 				this.getView().getModel("DateModel").setProperty("/Paint", false);
 				this.getView().getModel("DateModel").setProperty("/oMainOps", false);
@@ -2033,6 +2039,7 @@ sap.ui.define([
 				this.getView().getModel("DateModel").setProperty("/ofpRequired", false);
 				this.getView().getModel("DateModel").setProperty("/oBatteryTestEnable", true);
 				this.getView().getModel("DateModel").setProperty("/authHide", true);
+				this.getView().getModel("DateModel").setProperty("/oMainOpsReq", false);
 			} else if (oKey == "ZWVE") {
 				this.getView().getModel("DateModel").setProperty("/oMainOps", true);
 				this.getView().getModel("DateModel").setProperty("/Paint", true);
@@ -2050,6 +2057,8 @@ sap.ui.define([
 				this.getView().getModel("DateModel").setProperty("/ofpRequired", false);
 				this.getView().getModel("DateModel").setProperty("/oBatteryTestEnable", true);
 				this.getView().getModel("DateModel").setProperty("/authHide", true);
+				this.getView().getModel("DateModel").setProperty("/oMainOpsReq", true);
+
 			} else if (oKey == "ZCER" || oKey == "ZCLS" || oKey == "ZCSR") {
 				this.getView().getModel("DateModel").setProperty("/oMainOps", true);
 				this.getView().getModel("DateModel").setProperty("/Paint", false);
@@ -2069,6 +2078,7 @@ sap.ui.define([
 				this.getView().getModel("DateModel").setProperty("/ofpRequired", false);
 				this.getView().getModel("DateModel").setProperty("/oBatteryTestEnable", true);
 				this.getView().getModel("DateModel").setProperty("/authHide", true);
+				this.getView().getModel("DateModel").setProperty("/oMainOpsReq", false);
 			} else if (oKey == "ZCWE") {
 				this.getView().getModel("DateModel").setProperty("/oMainOps", true);
 				this.getView().getModel("DateModel").setProperty("/Paint", false);
@@ -2088,6 +2098,7 @@ sap.ui.define([
 				this.getView().getModel("DateModel").setProperty("/ofpRequired", true);
 				this.getView().getModel("DateModel").setProperty("/oBatteryTestEnable", false);
 				this.getView().getModel("DateModel").setProperty("/authHide", true);
+				this.getView().getModel("DateModel").setProperty("/oMainOpsReq", false);
 			} else {
 				this.getView().getModel("DateModel").setProperty("/authHide", false);
 			}
@@ -2320,7 +2331,7 @@ sap.ui.define([
 			}
 			var w = window.open(
 				"" + oWindowLocation + "ecpsales.cfapps.us10.hana.ondemand.com/ecpsales/index.html?Division=" + sDivision + "&Language=" +
-				sSelectedLocale +
+				sSelectedLocale.toUpperCase() +
 				"#/AgreementInquiry/" + oECPAgr + "",
 				'_blank');
 			if (w == null) {
@@ -2555,6 +2566,7 @@ sap.ui.define([
 				oView.byId("idOdometer"),
 				oView.byId("idRepairOrder"),
 				oView.byId("idVinNum"),
+				oView.byId("idMainOps"),
 				oView.byId("idT1Field"),
 				oView.byId("idT2Field"),
 				oView.byId("idRemedy"),
@@ -2590,6 +2602,20 @@ sap.ui.define([
 				oView.byId("idCondition")
 			];
 
+			var aInputsZWVE = [
+				oView.byId("idClaimType"),
+				oView.byId("idDealerClaim"),
+				oView.byId("idOdometer"),
+				oView.byId("idRepairOrder"),
+				oView.byId("idMainOps"),
+				oView.byId("idVinNum"),
+				oView.byId("idT1Field"),
+				oView.byId("idT2Field"),
+				oView.byId("idRemedy"),
+				oView.byId("idCause"),
+				oView.byId("idCondition")
+			];
+
 			var bValidationError = false;
 
 			if (oClmSubType == "ZCER" || oClmSubType == "ZCLS" || oClmSubType == "ZCSR") {
@@ -2612,6 +2638,10 @@ sap.ui.define([
 				aInputs = aInputsArrZWP2;
 			} else if (oClmType == "ZWMS" || oClmSubType == "ZWMS") {
 				aInputs = aInputsArrZWMS;
+			} else if (oClmType == "ZWVE") {
+				aInputs = aInputsZWVE;
+			} else if (oClmType == "ZWP1") {
+				aInputs = aInputsZWVE;
 			} else if (oClaimtype == "WTY") {
 				aInputs = aInputsArr;
 			} else if (oClaimtype == "CRC") {
@@ -2870,6 +2900,15 @@ sap.ui.define([
 			console.log(oEvent);
 		},
 		onCancelClaim: function () {
+			var sSelectedLocale;
+			this.getModel("LocalDataModel").setProperty("/PrintEnable", true);
+			//  get the locale to determine the language.
+			var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
+			if (isLocaleSent) {
+				sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
+			} else {
+				sSelectedLocale = "en"; // default is english
+			}
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var oClaimModel = this.getModel("ProssingModel");
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
@@ -2956,6 +2995,15 @@ sap.ui.define([
 		},
 
 		onApproveClaim: function () {
+			var sSelectedLocale;
+			this.getModel("LocalDataModel").setProperty("/PrintEnable", true);
+			//  get the locale to determine the language.
+			var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
+			if (isLocaleSent) {
+				sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
+			} else {
+				sSelectedLocale = "en"; // default is english
+			}
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			var oClaimModel = this.getModel("ProssingModel");
@@ -2999,6 +3047,15 @@ sap.ui.define([
 			});
 		},
 		onRejectClaim: function () {
+			var sSelectedLocale;
+			this.getModel("LocalDataModel").setProperty("/PrintEnable", true);
+			//  get the locale to determine the language.
+			var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
+			if (isLocaleSent) {
+				sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
+			} else {
+				sSelectedLocale = "en"; // default is english
+			}
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			var oClaimModel = this.getModel("ProssingModel");
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
@@ -3073,6 +3130,15 @@ sap.ui.define([
 		},
 
 		_fnUpdateClaim: function () {
+			var sSelectedLocale;
+			this.getModel("LocalDataModel").setProperty("/PrintEnable", true);
+			//  get the locale to determine the language.
+			var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
+			if (isLocaleSent) {
+				sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
+			} else {
+				sSelectedLocale = "en"; // default is english
+			}
 			var oClaimModel = this.getModel("ProssingModel");
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
@@ -3316,7 +3382,7 @@ sap.ui.define([
 
 			oClaimModel.read("/zc_claim_item_price_dataSet", {
 				urlParameters: {
-					"$filter": "NumberOfWarrantyClaim eq '" + oClaimNum + "'and LanguageKey eq 'EN' "
+					"$filter": "NumberOfWarrantyClaim eq '" + oClaimNum + "'and LanguageKey eq '" + sSelectedLocale.toUpperCase() + "' "
 
 				},
 				success: $.proxy(function (data) {
@@ -3512,6 +3578,14 @@ sap.ui.define([
 
 		onEditClaim: function (e) {
 			//var that = this;
+			var sSelectedLocale;
+			//  get the locale to determine the language.
+			var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
+			if (isLocaleSent) {
+				sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
+			} else {
+				sSelectedLocale = "en"; // default is english
+			}
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var GroupType = this.getModel("LocalDataModel").getProperty("/WarrantyClaimTypeGroup");
 			if (GroupType == "Authorization") {
@@ -4014,18 +4088,18 @@ sap.ui.define([
 						return item.ItemKey == oPartNumber
 					})
 
-					var oFinalText = oBundle.getText("QTY") + " : " + "1 " + " " +
-						oBundle.getText("RejectionCode") + " : " + oFilterText[0].CoreRej1 + "\n" +
-						oBundle.getText("QTY") + " : " + "2 " + " " +
-						oBundle.getText("RejectionCode") + " : " + oFilterText[0].CoreRej2 + "\n" +
-						oBundle.getText("QTY") + " : " + "3 " + " " +
-						oBundle.getText("RejectionCode") + " : " + oFilterText[0].CoreRej3 + "\n" +
-						oBundle.getText("QTY") + " : " + "4 " + " " +
-						oBundle.getText("RejectionCode") + " : " + oFilterText[0].CoreRej4 + "\n" +
-						oBundle.getText("QTY") + " : " + "5 " + " " +
-						oBundle.getText("RejectionCode") + " : " + oFilterText[0].CoreRej5 + "\n" +
-						oBundle.getText("QTY") + " : " + "6 " + " " +
-						oBundle.getText("RejectionCode") + " : " + oFilterText[0].CoreRej6;
+					var oFinalText = oBundle.getText("QTY") + " : " + oFilterText[0].CoreRej1 + " " + " " +
+						oBundle.getText("RejectionCode") + " : " + "1" + "\n" +
+						oBundle.getText("QTY") + " : " + oFilterText[0].CoreRej2 + " " + " " +
+						oBundle.getText("RejectionCode") + " : " + "2" + "\n" +
+						oBundle.getText("QTY") + " : " + oFilterText[0].CoreRej3 + " " + " " +
+						oBundle.getText("RejectionCode") + " : " + "3" + "\n" +
+						oBundle.getText("QTY") + " : " + oFilterText[0].CoreRej4 + " " + " " +
+						oBundle.getText("RejectionCode") + " : " + "4" + "\n" +
+						oBundle.getText("QTY") + " : " + oFilterText[0].CoreRej5 + " " + " " +
+						oBundle.getText("RejectionCode") + " : " + "5" + "\n" +
+						oBundle.getText("QTY") + " : " + oFilterText[0].CoreRej6 + " " + " " +
+						oBundle.getText("RejectionCode") + " : " + "6";
 
 					this.getView().getModel("LocalDataModel").setProperty("/RejectionCodeData", oFinalText);
 
@@ -4149,7 +4223,14 @@ sap.ui.define([
 			this.getView().getModel("HeadSetData").setProperty("/SpecialVINReview", "Yes");
 		},
 		onCopyClaim: function () {
-
+			var sSelectedLocale;
+			//  get the locale to determine the language.
+			var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
+			if (isLocaleSent) {
+				sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
+			} else {
+				sSelectedLocale = "en"; // default is english
+			}
 			//HeadSetData>/NumberOfWarrantyClaim
 			var oClaimType = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType");
 			var oClaimModel = this.getModel("ProssingModel");
@@ -5005,44 +5086,64 @@ sap.ui.define([
 			// 				this.getView().getModel("PartDataModel").setProperty("/PartDescription", "");
 			// 				this.getView().getModel("LocalDataModel").setProperty("/BaseUnit", "");
 			// 			} else {
+
+			var oGetIndex = this.obj.zc_itemSet.results.findIndex(({
+				MaterialNumber
+			}) => MaterialNumber == this.getView().getModel("PartDataModel").getProperty("/matnr"));
+
 			this._oToken = oClaimModel.getHeaders()['x-csrf-token'];
 			$.ajaxSetup({
 				headers: {
 					'X-CSRF-Token': this._oToken
 				}
 			});
-			this.obj.zc_itemSet.results.push(itemObj);
-			oClaimModel.create("/zc_headSet", this.obj, {
-				success: $.proxy(function (data, response) {
-					var pricinghData = response.data.zc_claim_item_price_dataSet.results;
-					this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", response.data.OFPDescription);
-					this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.data.MainOpsCodeDescription);
-					var oFilteredData = pricinghData.filter(function (val) {
-						return val.ItemType === "MAT";
-					});
-					console.log(oFilteredData);
-					this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
-					MessageToast.show(oBundle.getText("Claimhasbeensavedsuccessfully"), {
-						my: "center center",
-						at: "center center"
-					});
-					this.getView().getModel("DateModel").setProperty("/partLine", false);
-					this.getView().getModel("PartDataModel").setProperty("/matnr", "");
-					this.getView().getModel("PartDataModel").setProperty("/quant", "");
-					this.getView().getModel("PartDataModel").setProperty("/PartDescription", "");
-					this.getView().getModel("LocalDataModel").setProperty("/BaseUnit", "");
-					//this.getView().byId("idPartDes").setValue("");
 
-					oTable.removeSelections("true");
+			if (this.getView().getModel("PartDataModel").getProperty("/quant") == "") {
+				this.getView().byId("idPartQty").setValueState("Error");
+			} else if (oGetIndex > -1) {
+				this.getView().getModel("PartDataModel").setProperty("/matnr", "");
+				this.getView().getModel("PartDataModel").setProperty("/quant", "");
+				this.getView().getModel("PartDataModel").setProperty("/PartDescription", "");
+				this.getView().getModel("LocalDataModel").setProperty("/BaseUnit", "");
+				MessageToast.show(oBundle.getText("PartNumExists"), {
+					my: "center center",
+					at: "center center"
+				});
+			} else {
+				this.obj.zc_itemSet.results.push(itemObj);
+				this.getView().byId("idPartQty").setValueState("None");
+				oClaimModel.create("/zc_headSet", this.obj, {
+					success: $.proxy(function (data, response) {
+						var pricinghData = response.data.zc_claim_item_price_dataSet.results;
+						this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", response.data.OFPDescription);
+						this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.data.MainOpsCodeDescription);
+						var oFilteredData = pricinghData.filter(function (val) {
+							return val.ItemType === "MAT";
+						});
+						console.log(oFilteredData);
+						this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
+						MessageToast.show(oBundle.getText("Claimhasbeensavedsuccessfully"), {
+							my: "center center",
+							at: "center center"
+						});
+						this.getView().getModel("DateModel").setProperty("/partLine", false);
+						this.getView().getModel("PartDataModel").setProperty("/matnr", "");
+						this.getView().getModel("PartDataModel").setProperty("/quant", "");
+						this.getView().getModel("PartDataModel").setProperty("/PartDescription", "");
+						this.getView().getModel("LocalDataModel").setProperty("/BaseUnit", "");
+						//this.getView().byId("idPartDes").setValue("");
 
-					this._fnClaimSum();
-					this._fnClaimSumPercent();
+						oTable.removeSelections("true");
 
-				}, this),
-				error: function (err) {
-					console.log(err);
-				}
-			});
+						this._fnClaimSum();
+						this._fnClaimSumPercent();
+
+					}, this),
+					error: function (err) {
+						console.log(err);
+					}
+				});
+			}
 			//}
 
 			// if (this.obj.zc_itemSet.results[i].MaterialNumber !== itemObj.MaterialNumber) {
@@ -6416,6 +6517,15 @@ sap.ui.define([
 			}
 		},
 		onSubmitTci: function (oEvent) {
+
+			var sSelectedLocale;
+			//  get the locale to determine the language.
+			var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
+			if (isLocaleSent) {
+				sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
+			} else {
+				sSelectedLocale = "en"; // default is english
+			}
 
 			var oClaimModel = this.getModel("ProssingModel");
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");

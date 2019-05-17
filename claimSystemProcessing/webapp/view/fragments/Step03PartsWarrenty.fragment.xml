@@ -108,7 +108,7 @@
 						<!--<Input value="" editable="false"/>-->
 						<core:Title text=""/>
 						<Label text="{i18n>Quantity}" textAlign="Left"/>
-						<customPart:CustomInput value="{PartDataModel>/quant}" enabled="{DateModel>/partLine}"/>
+						<customPart:CustomInput id="idPartQty" value="{PartDataModel>/quant}" enabled="{DateModel>/partLine}"/>
 						<Text text="{LocalDataModel>/BaseUnit}"/>
 						<core:Title text=""/>
 						<Label text=" " class="clTextIndent"/>

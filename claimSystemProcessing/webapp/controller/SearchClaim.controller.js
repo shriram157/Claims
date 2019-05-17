@@ -397,12 +397,27 @@ sap.ui.define([
 		},
 
 		onAfterRendering: function () {
-			// this.getView().byId("idDealerCode").setSelectedKey("2400042350");
-			// this.getView().byId("idDealerCode").setValue("42350");
+			var sSelectedLocale;
+			//  get the locale to determine the language.
+			var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
+			if (isLocaleSent) {
+				sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
+			} else {
+				sSelectedLocale = "en"; // default is english
+			}
 
-			// this.getOwnerComponent().getModel("LocalDataModel").setProperty("/DealerText", "42350");
-			// this.getOwnerComponent().getModel("LocalDataModel").setProperty("/AdditionalText", "Bolton Toyota 2033664 ONTARIO LTD.");
-			//var ogetAdditionalText = this.getView().byId("idDealerCode").getValue();
+			// 			var oProssingModel = this.getModel("ProssingModel");
+			// 			oProssingModel.read("/ZC_CLAIM_HEAD_NEW(p_langu='" + sSelectedLocale.toUpperCase() + "')/Set", {
+			// 				urlParameters: {
+			// 					"$top": 10,
+			// 					"$skip": 10
+			// 				},
+			// 				success: $.proxy(function (data) {
+			// 					this.getView().getModel("LocalDataModel").setProperty("/OClaimSearchData", data.results);
+			// 				}, this)
+
+			// 			});
+
 		},
 		fnOnSelectDealer: function (oEvent) {
 			var ogetAdditionalText = oEvent.getParameters().selectedItem.getAdditionalText();
@@ -500,7 +515,7 @@ sap.ui.define([
 			}
 		},
 		onPressSearch: function () {
-
+			this.getView().getModel("ProssingModel").setSizeLimit(1000);
 			var sQueryDealer = this.getView().byId("idDealerCode").getSelectedKey();
 			// console.log(sQueryDealer, this.oStatusKey);
 			var sQuerySearchBy = this.getView().byId("idSearchBy").getSelectedKey();
@@ -656,7 +671,7 @@ sap.ui.define([
 					],
 					and: true
 				});
-				this.getView().getModel("RowCountModel").setProperty("/rowCount", 10);
+				//this.getView().getModel("RowCountModel").setProperty("/rowCount", 10);
 			} else if (sQueryStat != "" && sQueryDate != "" && sQueryDealer != "" && sQueryClaimType == "" && sQuerySearchText == "") {
 
 				andFilter = new sap.ui.model.Filter({
@@ -667,7 +682,7 @@ sap.ui.define([
 					],
 					and: true
 				});
-				this.getView().getModel("RowCountModel").setProperty("/rowCount", 10);
+				//this.getView().getModel("RowCountModel").setProperty("/rowCount", 10);
 
 			} else if (sQueryDate != "" && sQueryDealer != "" && sQuerySearchText != "" && sQueryClaimType != "" && sQueryStat != "") {
 
@@ -682,7 +697,7 @@ sap.ui.define([
 					],
 					and: true
 				});
-				this.getView().getModel("RowCountModel").setProperty("/rowCount", 10);
+				//this.getView().getModel("RowCountModel").setProperty("/rowCount", 10);
 			}
 
 			if (sQueryDate != "" && sQueryDealer != "" && sQueryClaimGroup != "" && sQuerySearchText == "" && sQueryClaimType == "" &&
@@ -696,7 +711,7 @@ sap.ui.define([
 					],
 					and: true
 				});
-				this.getView().getModel("RowCountModel").setProperty("/rowCount", 10);
+				//	this.getView().getModel("RowCountModel").setProperty("/rowCount", 10);
 			}
 
 			var oTable = this.getView().byId("idClaimTable");
