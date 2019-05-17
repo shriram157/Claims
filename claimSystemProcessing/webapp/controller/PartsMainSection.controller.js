@@ -501,6 +501,7 @@ sap.ui.define([
 				this._getDropDownData(oEvent.getParameters().arguments.oKey);
 				this.getView().getModel("DateModel").setProperty("/claimTypeEn", false);
 				var oProssingModel = this.getModel("ProssingModel");
+				//	//ZDLR_CLAIM_SRV/ZC_CLAIM_HEAD_NEW(p_langu='EN')/Set?$skip=10&$top=20 ZC_CLAIM_HEAD_NEW(p_langu='" + sSelectedLocale + "')/Set"
 				oProssingModel.read("/ZC_CLAIM_HEAD_NEW", {
 					urlParameters: {
 						"$filter": "NumberOfWarrantyClaim eq '" + oClaim + "' "
@@ -561,7 +562,7 @@ sap.ui.define([
 								if (oFilteredData[m].ALMDiscreDesc != undefined || oFilteredData[m].ALMDiscreDesc != "") {
 									oFilteredData[m].ALMDiscreDesc = oFilteredData[m].ALMDiscreDesc.split("-")[1];
 								}
-								oFilteredData[m].quant2 = oFilteredData[m].quant;
+								oFilteredData[m].quant2 = oFilteredData[m].PartQty;
 							}
 							this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
 
@@ -957,7 +958,8 @@ sap.ui.define([
 					"LineRefnr": "",
 					"ItemKey": "",
 					"WrongPart": "",
-					"ALMDiscreDesc": ""
+					"ALMDiscreDesc": "",
+					"PartQty":""
 				});
 				partData.setDefaultBindingMode("TwoWay");
 				this.getView().setModel(partData, "PartDataModel");
@@ -1561,7 +1563,7 @@ sap.ui.define([
 											if (oFilteredData[m].ALMDiscreDesc != undefined || oFilteredData[m].ALMDiscreDesc != "") {
 												oFilteredData[m].ALMDiscreDesc = oFilteredData[m].ALMDiscreDesc.split("-")[1];
 											}
-											oFilteredData[m].quant2 = oFilteredData[m].quant;
+											oFilteredData[m].quant2 = oFilteredData[m].PartQty;
 										}
 										this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
 
@@ -1737,7 +1739,11 @@ sap.ui.define([
 																"Ordered: " + IncorrectPartData[m].DealerNet,
 																"Received: " + (-IncorrectPartData[m + 1].DealerNet)
 															].join("\n");
-															IncorrectPartData[m].quant = IncorrectPartData[m].quant;
+															// IncorrectPartData[m].quant= IncorrectPartData[m].PartQty;
+															IncorrectPartData[m].quant = [
+																"Ordered: " + IncorrectPartData[m].PartQty,
+																"Received: " + IncorrectPartData[m + 1].PartQty
+															].join("\n");
 															IncorrectPartData[m].quant2 = [
 																"Ordered: " + IncorrectPartData[m].QuantityOrdered,
 																"Received: " + IncorrectPartData[m + 1].QuantityReceived
@@ -1770,7 +1776,11 @@ sap.ui.define([
 																"Ordered: " + IncorrectPartData[m].DealerNet,
 																"Received: " + IncorrectPartData[m + 1].DealerNet
 															].join("\n");
-															IncorrectPartData[m].quant = IncorrectPartData[m].quant;
+															// IncorrectPartData[m].quant= IncorrectPartData[m].PartQty;
+															IncorrectPartData[m].quant = [
+																"Ordered: " + IncorrectPartData[m].PartQty,
+																"Received: " + IncorrectPartData[m + 1].PartQty
+															].join("\n");
 															IncorrectPartData[m].quant2 = [
 																"Ordered: " + IncorrectPartData[m].QuantityOrdered,
 																"Received: " + IncorrectPartData[m + 1].QuantityReceived
@@ -2611,7 +2621,7 @@ sap.ui.define([
 										if (oFilteredData[m].ALMDiscreDesc != undefined || oFilteredData[m].ALMDiscreDesc != "") {
 											oFilteredData[m].ALMDiscreDesc = oFilteredData[m].ALMDiscreDesc.split("-")[1];
 										}
-										oFilteredData[m].quant2 = oFilteredData[m].quant;
+										oFilteredData[m].quant2 = oFilteredData[m].PartQty;
 									}
 									this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
 								} else {
@@ -2656,7 +2666,11 @@ sap.ui.define([
 														"Ordered: " + IncorrectPartData[m].DealerNet,
 														"Received: " + (-IncorrectPartData[m + 1].DealerNet)
 													].join("\n");
-													IncorrectPartData[m].quant = IncorrectPartData[m].quant;
+													// IncorrectPartData[m].quant= IncorrectPartData[m].PartQty;
+													IncorrectPartData[m].quant = [
+														"Ordered: " + IncorrectPartData[m].PartQty,
+														"Received: " + IncorrectPartData[m + 1].PartQty
+													].join("\n");
 													IncorrectPartData[m].quant2 = [
 														"Ordered: " + IncorrectPartData[m].QuantityOrdered,
 														"Received: " + IncorrectPartData[m + 1].QuantityReceived
@@ -2688,7 +2702,11 @@ sap.ui.define([
 														"Ordered: " + IncorrectPartData[m].DealerNet,
 														"Received: " + IncorrectPartData[m + 1].DealerNet
 													].join("\n");
-													IncorrectPartData[m].quant = IncorrectPartData[m].quant;
+													// IncorrectPartData[m].quant= IncorrectPartData[m].PartQty;
+													IncorrectPartData[m].quant = [
+														"Ordered: " + IncorrectPartData[m].PartQty,
+														"Received: " + IncorrectPartData[m + 1].PartQty
+													].join("\n");
 													IncorrectPartData[m].quant2 = [
 														"Ordered: " + IncorrectPartData[m].QuantityOrdered,
 														"Received: " + IncorrectPartData[m + 1].QuantityReceived
@@ -2730,7 +2748,7 @@ sap.ui.define([
 											filteredPriceData[m].AmtClaimed = filteredPriceData[m].AmtClaimed;
 											filteredPriceData[m].TCIApprovedAmount = filteredPriceData[m].TCIApprAmt;
 											filteredPriceData[m].DiffAmt = filteredPriceData[m].DiffAmt;
-											filteredPriceData[m].quant = filteredPriceData[m].quant;
+											filteredPriceData[m].quant= filteredPriceData[m].PartQty;
 										}
 										// this.getView().getModel("multiHeaderConfig").setProperty("/flagIncorrectPart", false);
 										console.log("correct data updated", filteredPriceData);
