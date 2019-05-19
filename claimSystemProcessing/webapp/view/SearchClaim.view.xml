@@ -163,7 +163,8 @@
 								<!--</table:footer>-->
 								<!--</table:Table>-->
 								<Table id="idClaimTable" popinLayout="GridSmall" fixedLayout="false" class="classRCPTable sapUiLargeMarginBottom" mode="None"
-									items="{/ZC_CLAIM_HEAD_NEW}" growing="true" growingThreshold="30" growingScrollToLoad="false" growingTriggerText="Load more">
+									items="{/ZC_CLAIM_HEAD_NEW}" growing="true" growingThreshold="{LocalDataModel>/oVisibleRowTR}" growingScrollToLoad="false"
+									growingTriggerText="Load more">
 									<headerToolbar>
 										<Toolbar>
 											<Title text="{i18n>ClaimList}" level="H2"/>

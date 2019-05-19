@@ -64,6 +64,7 @@ sap.ui.define([
 			sap.ui.getCore().setModel(oModel, "UserDataModel");
 			var that = this;
 			//this.oBundle = this.getView().getModel("i18n").getResourceBundle();
+			this.getView().getModel("LocalDataModel").setProperty("/oVisibleRowTR", 0);
 			$.ajax({
 				url: this.sPrefix + "/userDetails/currentScopesForUser",
 				type: "GET",
@@ -322,6 +323,7 @@ sap.ui.define([
 		},
 
 		onAfterRendering: function () {
+
 			var sSelectedLocale;
 			//  get the locale to determine the language.
 			var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
@@ -471,7 +473,8 @@ sap.ui.define([
 			}
 		},
 		onPressSearch: function () {
-			this.getView().getModel("ProssingModel").setSizeLimit(1000);
+			this.getView().getModel("LocalDataModel").setProperty("/oVisibleRowTR", 30);
+			//this.getView().getModel("ProssingModel").setSizeLimit(1000);
 			var sQueryDealer = this.getView().byId("idDealerCode").getSelectedKey();
 			// console.log(sQueryDealer, this.oStatusKey);
 			var sQuerySearchBy = this.getView().byId("idSearchBy").getSelectedKey();
