@@ -1,7 +1,10 @@
 sap.ui.define([
 	"zclaimProcessing/controller/BaseController",
-	"sap/ui/core/ValueState"
-], function (BaseController, ValueState) {
+	"sap/ui/core/ValueState",
+	"sap/ui/model/Sorter",
+	"sap/m/ViewSettingsDialog",
+	"sap/m/ViewSettingsItem"
+], function (BaseController, ValueState, Sorter, ViewSettingsDialog, ViewSettingsItem) {
 	"use strict";
 
 	return BaseController.extend("zclaimProcessing.controller.SearchClaim", {
@@ -60,6 +63,7 @@ sap.ui.define([
 			var oModel = new sap.ui.model.json.JSONModel();
 			sap.ui.getCore().setModel(oModel, "UserDataModel");
 			var that = this;
+			//this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			$.ajax({
 				url: this.sPrefix + "/userDetails/currentScopesForUser",
 				type: "GET",
@@ -249,41 +253,6 @@ sap.ui.define([
 			var oClaimGroup;
 			//var oClaimGroupdata;
 			var oClaimGroupObj = [];
-			// 			oClaimModel.read("/ZC_CLAIM_GROUP", {
-
-			// 				success: $.proxy(function (data) {
-			// 					var oClaimData = data.results;
-			// 					for (var i = 0; i < oClaimData.length; i++) {
-			// 						if (oClaimGroup.indexOf(oClaimData[i].ClaimGroupDes) < 0) {
-			// 							oClaimGroup.push(
-			// 								oClaimData[i].ClaimGroupDes
-			// 							);
-			// 						}
-			// 					}
-
-			// 					// debugger;
-			// 					if (sap.ui.getCore().getModel("UserDataModel").getProperty("/UserScope") == "ManageAllParts") {
-			// 						oClaimGroupdata = oClaimGroup.filter(function (val) {
-			// 							return val == "CORE RETURN" || val == "SMART PARTS" || val == "PART WAREHOUSE";
-			// 						});
-			// 					} else if (sap.ui.getCore().getModel("UserDataModel").getProperty("/UserScope") == "ManageAllServices" || sap.ui.getCore().getModel(
-			// 							"UserDataModel").getProperty("/UserScope") == "ManageAllShowAuthorization") {
-			// 						oClaimGroupdata = oClaimGroup.filter(function (val) {
-			// 							return val == "SETR" || val == "WARRANTY" || val == "CUSTOMER RELATIONS" || val == "VEHICLE LOGISTICS" || val == "ECP" ||
-			// 								val == "FIELD ACTION";
-			// 						});
-			// 					} else {
-			// 						oClaimGroupdata = oClaimGroup;
-			// 					}
-			// 					oClaimGroupdata.forEach(function (item) {
-			// 						oClaimGroupObj.push({
-			// 							CLaimGroupDes: item
-			// 						});
-			// 					});
-			// 					console.log(oClaimGroupdata);
-			// 					this.getModel("LocalDataModel").setProperty("/ClaimStatusDataGroup", oClaimGroupObj);
-			// 				}, this)
-			// 			});
 
 			oClaimModel.read("/zc_claim_groupSet", {
 				urlParameters: {
@@ -328,52 +297,6 @@ sap.ui.define([
 
 			});
 
-			// 			if (sap.ui.getCore().getConfiguration().getLanguage() === "fr") {
-			// 				//	this.getModel("LocalDataModel").setProperty("/lang", "FR");
-			// 				oClaimModel.read("/ZC_CLAIM_STATUS_DESC", {
-			// 					urlParameters: {
-			// 						"$filter": "LanguageKey eq 'FR'"
-			// 					},
-			// 					success: function (data) {
-			// 						console.log(data);
-			// 						//this.getModel("LocalDataModel").setProperty("/ClaimStatus", data.results);
-			// 					}
-			// 				});
-			// 			} else {
-			// 				oClaimModel.read("/ZC_CLAIM_STATUS_DESC", {
-			// 					urlParameters: {
-			// 						"$filter": "LanguageKey eq 'EN'"
-			// 					},
-			// 					success: $.proxy(function (data) {
-			// 						console.log(data);
-			// 						this.getModel("LocalDataModel").setProperty("/ClaimStatus", data.results);
-			// 					}, this)
-			// 				});
-			// 			}
-			// 			var oArrClaimGroup = [];
-			// 			var oClaimGroup = [];
-			// 			oClaimModel.read("/ZC_CLAIM_GROUP", {
-			// 				urlParameters: {
-			// 					"$select": "ClaimGroupDes"
-
-			// 				},
-			// 				success: $.proxy(function (data) {
-			// 					for (var i = 0; i < data.results.length; i++) {
-			// 						if (data.results[i].ClaimGroupDes !== "" && oArrClaimGroup.indexOf(data.results[i].ClaimGroupDes) < 0) {
-			// 							oArrClaimGroup.push(data.results[i].ClaimGroupDes);
-			// 						}
-			// 					}
-			// 					for (var j = 0; j < oArrClaimGroup.length; j++) {
-			// 						oClaimGroup.push({
-			// 							"ClaimGroupDes": oArrClaimGroup[0]
-			// 						});
-			// 					}
-			// 					console.log(oClaimGroup);
-
-			// 					this.getModel("LocalDataModel").setProperty("/WarrantyClaimGroups", oClaimGroup);
-			// 				}, this)
-			// 			});
-
 			var oRowCount = {
 				rowCount: 0
 			};
@@ -388,6 +311,8 @@ sap.ui.define([
 					this.getModel("LocalDataModel").setProperty("/OModelClaimGroupStatus", data.results);
 				}, this)
 			});
+			// for sorting table
+			this._mViewSettingsDialogs = {};
 
 		},
 
@@ -419,6 +344,37 @@ sap.ui.define([
 			// 			});
 
 		},
+		createViewSettingsDialog: function (sDialogFragmentName) {
+			var oDialog = this._mViewSettingsDialogs[sDialogFragmentName];
+
+			if (!oDialog) {
+				oDialog = sap.ui.xmlfragment(sDialogFragmentName, this);
+				this._mViewSettingsDialogs[sDialogFragmentName] = oDialog;
+				this.getView().addDependent(oDialog);
+			}
+
+			return oDialog;
+		},
+
+		handleSortButtonPressed: function () {
+			this.createViewSettingsDialog("zclaimProcessing.view.fragments.SortOrder").open();
+		},
+		handleSortDialogConfirm: function (oEvent) {
+			var oTable = this.byId("idClaimTable"),
+				mParams = oEvent.getParameters(),
+				oBinding = oTable.getBinding("items"),
+				sPath,
+				bDescending,
+				aSorters = [];
+
+			sPath = mParams.sortItem.getKey();
+			bDescending = mParams.sortDescending;
+			aSorters.push(new Sorter(sPath, bDescending));
+
+			// apply the selected sort and group settings
+			oBinding.sort(aSorters);
+		},
+
 		fnOnSelectDealer: function (oEvent) {
 			var ogetAdditionalText = oEvent.getParameters().selectedItem.getAdditionalText();
 			var ogetDealer = this.getView().byId("idDealerCode").getValue();
@@ -715,7 +671,7 @@ sap.ui.define([
 			}
 
 			var oTable = this.getView().byId("idClaimTable");
-			var oBindItems = oTable.getBinding("rows");
+			var oBindItems = oTable.getBinding("items");
 			oBindItems.filter(andFilter);
 
 		},
@@ -1085,7 +1041,7 @@ sap.ui.define([
 			var andFilter = [];
 
 			var oTable = this.getView().byId("idClaimTable");
-			var oBindItems = oTable.getBinding("rows");
+			var oBindItems = oTable.getBinding("items");
 			oBindItems.filter(andFilter);
 
 			this.getView().getModel("RowCountModel").setProperty("/rowCount", 0);

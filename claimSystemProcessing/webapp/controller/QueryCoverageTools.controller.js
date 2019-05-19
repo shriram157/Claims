@@ -232,6 +232,15 @@ sap.ui.define([
 
 		},
 		onPressLookUp: function (oEvent) {
+			var sSelectedLocale;
+			//  get the locale to determine the language.
+			var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
+			if (isLocaleSent) {
+				sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
+			} else {
+				sSelectedLocale = "en"; // default is english
+			}
+
 			var zdateFormat = sap.ui.core.format.DateFormat.getDateInstance({
 				pattern: "yyyy-MM-ddTHH:mm:ss"
 			});
@@ -247,36 +256,56 @@ sap.ui.define([
 
 			var oXMLMsg;
 
-			if (oVin != '' && odmeter != '' && partofp != '' && mainop != '') {
-				var filters = [];
-				filters = [
-					new sap.ui.model.Filter("VIN", sap.ui.model.FilterOperator.EQ, oVin),
-					new sap.ui.model.Filter("OdometerReading", sap.ui.model.FilterOperator.EQ, odmeter),
-					new sap.ui.model.Filter("OFP", sap.ui.model.FilterOperator.EQ, partofp),
-					new sap.ui.model.Filter("LanguageKey", sap.ui.model.FilterOperator.EQ, 'EN'),
-					new sap.ui.model.Filter("MainOpsCode", sap.ui.model.FilterOperator.EQ, mainop),
-					new sap.ui.model.Filter("RepairDate", sap.ui.model.FilterOperator.EQ, currentdate),
-					new sap.ui.model.Filter("AgreementNumber", sap.ui.model.FilterOperator.EQ, agreementselected),
-					new sap.ui.model.Filter("OdometerUOM", sap.ui.model.FilterOperator.EQ, dometerunit) //till iget the odmeter km
-				];
+			var oProssingModel = this.getModel("ProssingModel");
 
-				this.getView().byId('ofptable').getBinding('rows').filter(new sap.ui.model.Filter(filters, true));
-				this.getView().byId('ofptable').getModel('ProssingModel').attachRequestFailed(function (e) {
-					if (e.getParameters().response) {
-						if (e.getParameters().response.responseText && that.getView().byId('partofp').getValue() != '') {
-							var x = jQuery.parseXML(e.getParameters().response.responseText);
-							oXMLMsg = x.querySelector("message");
-							// 			MessageBox.show(oXMLMsg.textContent, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
-							MessageToast.show(oXMLMsg.textContent, {
-								my: "center center",
-								at: "center center"
-							});
-						} else {
-							// 			oXMLMsg = "";
-							// 			MessageBox.Action.CLOSE();
-						}
+			if (oVin != '' && odmeter != '' && partofp != '' && mainop != '') {
+				oProssingModel.read("/zc_coverageSet", {
+					urlParameters: {
+						"$filter": "VIN eq '" + oVin + "'and OdometerReading eq '" + odmeter + "'and OFP eq '" + partofp + "'and MainOpsCode eq '" +
+							mainop + "'and RepairDate eq datetime'" + currentdate + "'and LanguageKey eq '" +
+							sSelectedLocale.toUpperCase() + "'"
+					},
+					success: $.proxy(function (data) {
+						this.getModel("LocalDataModel").setProperty("/CoverageSet", data.results);
+					}, this),
+					error: function (error) {
+						var oError = error.responseText.split("{")[3].split(":")[2].split("}")[0];
+						MessageToast.show(oError, {
+							my: "center center",
+							at: "center center"
+						});
+
 					}
 				});
+				// var filters = [];
+				// filters = [
+				// 	new sap.ui.model.Filter("VIN", sap.ui.model.FilterOperator.EQ, oVin),
+				// 	new sap.ui.model.Filter("OdometerReading", sap.ui.model.FilterOperator.EQ, odmeter),
+				// 	new sap.ui.model.Filter("OFP", sap.ui.model.FilterOperator.EQ, partofp),
+				// 	new sap.ui.model.Filter("LanguageKey", sap.ui.model.FilterOperator.EQ, 'EN'),
+				// 	new sap.ui.model.Filter("MainOpsCode", sap.ui.model.FilterOperator.EQ, mainop),
+				// 	new sap.ui.model.Filter("RepairDate", sap.ui.model.FilterOperator.EQ, currentdate),
+				// 	new sap.ui.model.Filter("AgreementNumber", sap.ui.model.FilterOperator.EQ, agreementselected),
+				// 	new sap.ui.model.Filter("OdometerUOM", sap.ui.model.FilterOperator.EQ, dometerunit) //till iget the odmeter km
+				// ];
+
+				// this.getView().byId('ofptable').getBinding('rows').filter(new sap.ui.model.Filter(filters, true));
+				// this.getView().byId('ofptable').getModel('ProssingModel').attachRequestFailed(function (e) {
+				// 	if (e.getParameters().response) {
+				// 		if (e.getParameters().response.responseText && that.getView().byId('partofp').getValue() != '') {
+				// 			var x = jQuery.parseXML(e.getParameters().response.responseText);
+				// 			oXMLMsg = x.querySelector("message");
+				// 			// 			MessageBox.show(oXMLMsg.textContent, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
+				// 			MessageToast.show(oXMLMsg.textContent, {
+				// 				my: "center center",
+				// 				at: "center center"
+				// 			});
+				// 		} else {
+				// 			// 			oXMLMsg = "";
+				// 			// 			MessageBox.Action.CLOSE();
+				// 		}
+				// 	}
+				// });
 
 			} else {
 				//	MessageBox.show(Messagevalidf, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);

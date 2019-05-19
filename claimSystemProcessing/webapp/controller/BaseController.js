@@ -78,14 +78,7 @@ sap.ui.define([
 				ClaimInquiry: false,
 				DealerLabourRateInquiry: false
 			});
-			/*Uncomment for security*/
-			// HeaderLinksModel.setData({
-			// 	NewClaim: true,
-			// 	ViewUpdateClaims: true,
-			// 	QuickCoverageTool: true,
-			// 	ClaimInquiry: true,
-			// 	DealerLabourRateInquiry: true
-			// });
+
 			this.getView().setModel(HeaderLinksModel, "HeaderLinksModel");
 			sap.ui.getCore().setModel(HeaderLinksModel, "HeaderLinksModel");
 
@@ -103,8 +96,7 @@ sap.ui.define([
 				dataType: "json",
 				success: function (oData) {
 					var userType = oData.loggedUserType[0];
-					//var userType = "Dealer_Services_Admin";
-
+					//	var userType = "Dealer_Services_Admin";
 					sap.ui.getCore().getModel("UserDataModel").setProperty("/LoggedInUser", userType);
 					sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "");
 					switch (userType) {

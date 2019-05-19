@@ -2394,6 +2394,7 @@ sap.ui.define([
 			var InputArr = [
 				oView.byId("idClaimType"),
 				oView.byId("idDealerClaim"),
+				oView.byId("id_Date"),
 				oView.byId("idOdometer"),
 				oView.byId("idRepairOrder"),
 				oView.byId("idVinNum"),
@@ -2431,7 +2432,10 @@ sap.ui.define([
 				sValueState = "Error";
 				bValidationError = true;
 			}
-
+			if (oInput.getValue() == "") {
+				sValueState = "Error";
+				bValidationError = true;
+			}
 			oInput.setValueState(sValueState);
 
 			return bValidationError;
@@ -2467,7 +2471,7 @@ sap.ui.define([
 			var aInputsArr = [
 				oView.byId("idClaimType"),
 				oView.byId("idDealerClaim"),
-
+				oView.byId("id_Date"),
 				oView.byId("idOdometer"),
 				oView.byId("idRepairOrder"),
 				oView.byId("idVinNum"),
@@ -2494,6 +2498,7 @@ sap.ui.define([
 				oView.byId("idDealerClaim"),
 				oView.byId("idAccDate"),
 				oView.byId("idInsOdo"),
+				oView.byId("id_Date"),
 				oView.byId("idOdometer"),
 				oView.byId("idRepairOrder"),
 				oView.byId("idVinNum"),
@@ -2509,7 +2514,7 @@ sap.ui.define([
 				oView.byId("idDealerClaim"),
 				oView.byId("idPreInvNum"),
 				oView.byId("idPrInvDate"),
-
+				oView.byId("id_Date"),
 				oView.byId("idRepairOrder"),
 
 				oView.byId("idT1Field"),
@@ -2522,7 +2527,7 @@ sap.ui.define([
 			var aInputsArrZWMS = [
 				oView.byId("idClaimType"),
 				oView.byId("idDealerClaim"),
-
+				oView.byId("id_Date"),
 				oView.byId("idRepairOrder"),
 
 				oView.byId("idT1Field"),
@@ -2535,7 +2540,7 @@ sap.ui.define([
 			var aInputsFieldAct = [
 				oView.byId("idClaimType"),
 				oView.byId("idDealerClaim"),
-
+				oView.byId("id_Date"),
 				oView.byId("idOdometer"),
 				oView.byId("idRepairOrder"),
 				oView.byId("idVinNum"),
@@ -2548,6 +2553,7 @@ sap.ui.define([
 			var aInputsFieldActZCWE = [
 				oView.byId("idClaimType"),
 				oView.byId("idDealerClaim"),
+				oView.byId("id_Date"),
 				oView.byId("idOFP"),
 				oView.byId("idOdometer"),
 				oView.byId("idRepairOrder"),
@@ -2560,6 +2566,7 @@ sap.ui.define([
 
 			var aInputsOECP = [
 				oView.byId("idClaimType"),
+				oView.byId("id_Date"),
 				oView.byId("idDealerClaim"),
 				oView.byId("idClientLastName"),
 				oView.byId("idPostalCode"),
@@ -2577,7 +2584,7 @@ sap.ui.define([
 			var aInputVehiclLog = [
 				oView.byId("idClaimType"),
 				oView.byId("idDealerClaim"),
-
+				oView.byId("id_Date"),
 				oView.byId("idOdometer"),
 				oView.byId("idRepairOrder"),
 				oView.byId("idVinNum")
@@ -2591,7 +2598,7 @@ sap.ui.define([
 			var aInputsSETR = [
 				oView.byId("idClaimType"),
 				oView.byId("idDealerClaim"),
-
+				oView.byId("id_Date"),
 				oView.byId("idOdometer"),
 				oView.byId("idRepairOrder"),
 				oView.byId("idVinNum"),
@@ -2605,6 +2612,7 @@ sap.ui.define([
 			var aInputsZWVE = [
 				oView.byId("idClaimType"),
 				oView.byId("idDealerClaim"),
+				oView.byId("id_Date"),
 				oView.byId("idOdometer"),
 				oView.byId("idRepairOrder"),
 				oView.byId("idMainOps"),
@@ -3160,7 +3168,7 @@ sap.ui.define([
 			var aInputsArr = [
 				oView.byId("idClaimType"),
 				oView.byId("idDealerClaim"),
-
+				oView.byId("id_Date"),
 				oView.byId("idOdometer"),
 				oView.byId("idRepairOrder"),
 				oView.byId("idVinNum"),
@@ -3173,6 +3181,7 @@ sap.ui.define([
 
 			var aInputsArrZWAC = [
 				oView.byId("idClaimType"),
+				oView.byId("id_Date"),
 				oView.byId("idDealerClaim"),
 				oView.byId("idAccDate"),
 				oView.byId("idInsOdo"),
@@ -3191,7 +3200,7 @@ sap.ui.define([
 				oView.byId("idDealerClaim"),
 				oView.byId("idPreInvNum"),
 				oView.byId("idPrInvDate"),
-
+				oView.byId("id_Date"),
 				oView.byId("idRepairOrder"),
 
 				oView.byId("idT1Field"),
@@ -3204,7 +3213,7 @@ sap.ui.define([
 			var aInputsArrZWMS = [
 				oView.byId("idClaimType"),
 				oView.byId("idDealerClaim"),
-
+				oView.byId("id_Date"),
 				oView.byId("idRepairOrder"),
 
 				oView.byId("idT1Field"),
@@ -3217,7 +3226,7 @@ sap.ui.define([
 			var aInputsFieldAct = [
 				oView.byId("idClaimType"),
 				oView.byId("idDealerClaim"),
-
+				oView.byId("id_Date"),
 				oView.byId("idOdometer"),
 				oView.byId("idRepairOrder"),
 				oView.byId("idVinNum"),
@@ -3229,6 +3238,7 @@ sap.ui.define([
 
 			var aInputsFieldActZCWE = [
 				oView.byId("idClaimType"),
+				oView.byId("id_Date"),
 				oView.byId("idDealerClaim"),
 				oView.byId("idOFP"),
 				oView.byId("idOdometer"),
@@ -3242,6 +3252,7 @@ sap.ui.define([
 
 			var aInputsOECP = [
 				oView.byId("idClaimType"),
+				oView.byId("id_Date"),
 				oView.byId("idDealerClaim"),
 				oView.byId("idClientLastName"),
 				oView.byId("idPostalCode"),
@@ -3258,6 +3269,7 @@ sap.ui.define([
 			var aInputVehiclLog = [
 				oView.byId("idClaimType"),
 				oView.byId("idDealerClaim"),
+				oView.byId("id_Date"),
 				// 		oView.byId("idClientLastName"),
 				// 		oView.byId("idPostalCode"),
 				oView.byId("idOdometer"),
@@ -3273,7 +3285,7 @@ sap.ui.define([
 			var aInputsSETR = [
 				oView.byId("idClaimType"),
 				oView.byId("idDealerClaim"),
-
+				oView.byId("id_Date"),
 				oView.byId("idOdometer"),
 				oView.byId("idRepairOrder"),
 				oView.byId("idVinNum"),
@@ -3286,6 +3298,7 @@ sap.ui.define([
 
 			var aInputsArrCoreRet = [
 				oView.byId("idClaimType"),
+				oView.byId("id_Date"),
 				oView.byId("idDealerClaim"),
 				oView.byId("idVinNum"),
 				oView.byId("idT1Field"),

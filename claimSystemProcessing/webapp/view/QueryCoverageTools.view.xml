@@ -200,7 +200,7 @@
 								<!--		</table:Column>-->
 								<!--	</table:columns>-->
 								<!--</table:Table>-->
-								<table:Table class="classRCPTable" selectionMode="Single" rows="{ProssingModel>/zc_coverageSet}" visibleRowCountMode="Auto" id='ofptable'
+								<table:Table class="classRCPTable" selectionMode="Single" rows="{LocalDataModel>/CoverageSet}" visibleRowCountMode="Auto" id='ofptable'
 									selectionBehavior="Row" showNoData="true" threshold="20" enableBusyIndicator="true">
 									<table:toolbar>
 										<f:SimpleForm editable="true" layout="ResponsiveGridLayout" title="" labelSpanXL="6" labelSpanL="6" labelSpanM="12" labelSpanS="12"
