@@ -15,6 +15,7 @@ sap.ui.define([
 		 * @memberOf zclaimProcessing.view.SearchClaim
 		 */
 		onInit: function () {
+			this.getModel("LocalDataModel").setProperty("/oVisibleRowTR", 0);
 			var sSelectedLocale;
 			//  get the locale to determine the language.
 			var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
@@ -64,7 +65,7 @@ sap.ui.define([
 			sap.ui.getCore().setModel(oModel, "UserDataModel");
 			var that = this;
 			//this.oBundle = this.getView().getModel("i18n").getResourceBundle();
-			this.getView().getModel("LocalDataModel").setProperty("/oVisibleRowTR", 0);
+
 			$.ajax({
 				url: this.sPrefix + "/userDetails/currentScopesForUser",
 				type: "GET",
@@ -333,17 +334,37 @@ sap.ui.define([
 				sSelectedLocale = "en"; // default is english
 			}
 
-			// 			var oProssingModel = this.getModel("ProssingModel");
-			// 			oProssingModel.read("/ZC_CLAIM_HEAD_NEW(p_langu='" + sSelectedLocale.toUpperCase() + "')/Set", {
-			// 				urlParameters: {
-			// 					"$top": 10,
-			// 					"$skip": 10
-			// 				},
-			// 				success: $.proxy(function (data) {
-			// 					this.getView().getModel("LocalDataModel").setProperty("/OClaimSearchData", data.results);
-			// 				}, this)
+			var sQueryDealer = this.getView().byId("idDealerCode").getSelectedKey();
+			// console.log(sQueryDealer, this.oStatusKey);
+			var sQuerySearchBy = this.getView().byId("idSearchBy").getSelectedKey();
+			var sQuerySearchText = this.getView().byId("idSearchText").getValue();
+			var sQueryClaimGroup = this.getView().byId("idClaimGroup").getSelectedKey();
+			var sQueryClaimType = this.getView().byId("idClaimType").getSelectedKey();
 
-			// 			});
+			var sQueryStat = this.byId("idClaimStatus").getSelectedKeys();
+			var oDateFormat = sap.ui.core.format.DateFormat.getDateInstance({
+				pattern: "yyyy-MM-ddTHH:mm:ss"
+			});
+			var andFilter = [];
+			var sQueryDate = this.getView().byId("DRS2").getValue();
+			var FromDate = this.getView().getModel("DateModel").getProperty("/dateValueDRS2");
+			var ToDate = this.getView().getModel("DateModel").getProperty("/secondDateValueDRS2");
+			var FromDateFormat = oDateFormat.format(FromDate);
+			var ToDateFormat = oDateFormat.format(ToDate);
+			// console.log(FromDateFormat, ToDateFormat);
+			var sDate = "";
+			var oResult = [];
+
+			var oProssingModel = this.getModel("ProssingModel");
+			oProssingModel.read("/ZC_CLAIM_HEAD_NEW", {
+				urlParameters: {
+					"$filter": ""
+				},
+				success: $.proxy(function (data) {
+					this.getView().getModel("LocalDataModel").setProperty("/OClaimSearchData", data.results);
+				}, this)
+
+			});
 
 		},
 		createViewSettingsDialog: function (sDialogFragmentName) {
