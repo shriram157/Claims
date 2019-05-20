@@ -6666,10 +6666,9 @@ sap.ui.define([
 										success: $.proxy(function (errorData) {
 											this.getModel("LocalDataModel").setProperty("/oErrorSet", errorData.results[0].zc_claim_vsrSet.results);
 											this.getView().getModel("DateModel").setProperty("/errorBusyIndicator", false);
+											this.obj.zc_claim_vsrSet.results.pop(oObj);
 										}, this)
 									});
-
-									this.obj.zc_claim_vsrSet.results.pop(oObj);
 
 									oClaimModel.read("/ZC_CLAIM_HEAD_NEW", {
 										urlParameters: {
