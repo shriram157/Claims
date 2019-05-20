@@ -6635,7 +6635,7 @@ sap.ui.define([
 									this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.data.MainOpsCodeDescription);
 
 									// var oErrorSet = response.data.zc_claim_vsrSet.results;
-									this.getModel("LocalDataModel").setProperty("/oErrorSet", response.data.zc_claim_vsrSet.results);
+									//	this.getModel("LocalDataModel").setProperty("/oErrorSet", response.data.zc_claim_vsrSet.results);
 									// 	response.data.zc_claim_vsrSet.results.map($.proxy(function (item) {
 									// 		if (item.ItemType == "" && item.POSNR == "") {
 									// 			this.getView().getModel("DateModel").setProperty("/VisiblePageLine", false);
@@ -6643,6 +6643,19 @@ sap.ui.define([
 									// 			this.getView().getModel("DateModel").setProperty("/VisiblePageLine", true);
 									// 		}
 									// 	}), this);
+
+									//zc_headSet?$filter=NumberOfWarrantyClaim%20eq%20%27000010009206%27%20and%20LanguageKey%20eq%20%27EN%27&$expand=ZC_CLAIM_VSRSET
+
+									oClaimModel.read("/zc_headSet", {
+										urlParameters: {
+											"$filter": "NumberOfWarrantyClaim eq '" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") +
+												"'and LanguageKey eq '" + sSelectedLocale.toUpperCase() + "'",
+											"$expand": "ZC_CLAIM_VSRSET"
+										},
+										success: $.proxy(function (errorData) {
+											this.getModel("LocalDataModel").setProperty("/oErrorSet", errorData.results);
+										}, this)
+									});
 
 									this.getView().getModel("DateModel").setProperty("/errorBusyIndicator", false);
 									this.obj.zc_claim_vsrSet.results.pop(oObj);
