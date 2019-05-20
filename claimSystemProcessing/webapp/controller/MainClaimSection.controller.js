@@ -208,6 +208,7 @@ sap.ui.define([
 			} else {
 				sSelectedLocale = "en"; // default is english
 			}
+			this.getModel("LocalDataModel").setProperty("/oErrorSet", "");
 			var oDateModel = new sap.ui.model.json.JSONModel();
 			oDateModel.setData({
 				minDate: new Date(1999, 1, 1),
@@ -418,10 +419,22 @@ sap.ui.define([
 				this.getView().getModel("DateModel").setProperty("/updateClaimSt", true);
 
 				this.getView().byId("idFilter01").setProperty("enabled", true);
-				this.getModel("LocalDataModel").setProperty("/oErrorSet", "");
+
 				//this.getView().getModel("DateModel").setProperty("/oECPfields", false);
 				var oECPModel = this.getOwnerComponent().getModel("EcpSalesModel");
 				var oBusinessModel = this.getModel("ApiBusinessModel");
+
+				oProssingModel.read("/zc_headSet", {
+					urlParameters: {
+						"$filter": "NumberOfWarrantyClaim eq '" + oClaim +
+							"'and LanguageKey eq '" + sSelectedLocale.toUpperCase() + "'",
+						"$expand": "zc_claim_vsrSet"
+					},
+					success: $.proxy(function (errorData) {
+						this.getModel("LocalDataModel").setProperty("/oErrorSet", errorData.results[0].zc_claim_vsrSet.results);
+					}, this)
+				});
+
 				oProssingModel.read("/ZC_CLAIM_HEAD_NEW", {
 					urlParameters: {
 						"$filter": "NumberOfWarrantyClaim eq '" + oClaim + "' "
@@ -6644,20 +6657,18 @@ sap.ui.define([
 									// 		}
 									// 	}), this);
 
-									//zc_headSet?$filter=NumberOfWarrantyClaim%20eq%20%27000010009206%27%20and%20LanguageKey%20eq%20%27EN%27&$expand=ZC_CLAIM_VSRSET
-
 									oClaimModel.read("/zc_headSet", {
 										urlParameters: {
 											"$filter": "NumberOfWarrantyClaim eq '" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") +
 												"'and LanguageKey eq '" + sSelectedLocale.toUpperCase() + "'",
-											"$expand": "ZC_CLAIM_VSRSET"
+											"$expand": "zc_claim_vsrSet"
 										},
 										success: $.proxy(function (errorData) {
-											this.getModel("LocalDataModel").setProperty("/oErrorSet", errorData.results);
+											this.getModel("LocalDataModel").setProperty("/oErrorSet", errorData.results[0].zc_claim_vsrSet.results);
+											this.getView().getModel("DateModel").setProperty("/errorBusyIndicator", false);
 										}, this)
 									});
 
-									this.getView().getModel("DateModel").setProperty("/errorBusyIndicator", false);
 									this.obj.zc_claim_vsrSet.results.pop(oObj);
 
 									oClaimModel.read("/ZC_CLAIM_HEAD_NEW", {
