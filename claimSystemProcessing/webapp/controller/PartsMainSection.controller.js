@@ -819,6 +819,16 @@ sap.ui.define([
 						}
 					});
 				}
+				oProssingModel.read("/zc_headSet", {
+					urlParameters: {
+						"$filter": "NumberOfWarrantyClaim eq '" + oClaim +
+							"'and LanguageKey eq '" + sSelectedLocale + "'",
+						"$expand": "zc_claim_vsrSet"
+					},
+					success: $.proxy(function (errorData) {
+						this.getModel("LocalDataModel").setProperty("/oErrorSet", errorData.results[0].zc_claim_vsrSet.results);
+					}, this)
+				});
 				oProssingModel.read("/zc_claim_item_price_dataSet", {
 					urlParameters: {
 						"$filter": "NumberOfWarrantyClaim eq '" + oClaim + "' "
@@ -1097,19 +1107,19 @@ sap.ui.define([
 				this.getView().getModel("DateModel").setProperty("/claimTypeEn", true);
 				this.getModel("LocalDataModel").setProperty("/ClaimSum", "");
 				this.getDealer();
-
+				var that=this;
 				var LOIData = new sap.ui.model.json.JSONModel({
 					"claimNumber": "",
 					"CarrierName": "",
 					"CarrierAddress": "",
-					"TextAttentionLOI": this.oBundle.getText("ClaimsDepartment"),
+					"TextAttentionLOI": that.oBundle.getText("ClaimsDepartment"),
 					"TextStripLOI": "",
-					"TopTextLOI": this.oBundle.getText("WithoutPrejudice"),
+					"TopTextLOI": that.oBundle.getText("WithoutPrejudice"),
 					"LOIDate": new Date(),
-					"DeliveryDateLOI": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/ShipmentReceivedDate")),
+					"DeliveryDateLOI": that._fnDateFormat(that.getView().getModel("HeadSetData").getProperty("/ShipmentReceivedDate")),
 					"AtLOI": "",
-					"WaybillNoLOI": this.getView().getModel("HeadSetData").getProperty("/TCIWaybillNumber"),
-					"RadioException": this.oBundle.getText("Damage"),
+					"WaybillNoLOI": that.getView().getModel("HeadSetData").getProperty("/TCIWaybillNumber"),
+					"RadioException": that.oBundle.getText("Damage"),
 					"estClaimValueLOI": "",
 					"LOIDescp": "",
 					"RadioCCPhoneEmail": "Y",
@@ -1954,18 +1964,19 @@ sap.ui.define([
 
 		onCloseLetterOfIntent: function (oEvent) {
 			this._openDialog01();
+			var that=this;
 			var LOIData = new sap.ui.model.json.JSONModel({
 				"claimNumber": "",
 				"CarrierName": "",
 				"CarrierAddress": "",
-				"TextAttentionLOI": this.oBundle.getText("ClaimsDepartment"),
+				"TextAttentionLOI": that.oBundle.getText("ClaimsDepartment"),
 				"TextStripLOI": "",
-				"TopTextLOI": this.oBundle.getText("WithoutPrejudice"),
+				"TopTextLOI": that.oBundle.getText("WithoutPrejudice"),
 				"LOIDate": new Date(),
 				"DeliveryDateLOI": "",
 				"AtLOI": "",
 				"WaybillNoLOI": "",
-				"RadioException": this.oBundle.getText("Damage"),
+				"RadioException": that.oBundle.getText("Damage"),
 				"estClaimValueLOI": "",
 				"LOIDescp": "",
 				"RadioCCPhoneEmail": "Y",
@@ -2048,6 +2059,7 @@ sap.ui.define([
 									"Address3": this.getView().getModel("LOIDataModel").getProperty("/Address3"),
 									"Address4": this.getView().getModel("LOIDataModel").getProperty("/Address4")
 								};
+								var that=this;
 								oClaimModel.create("/zc_LOISet", obj, {
 									success: $.proxy(function (data, response) {
 										console.log("LOI set data", data);
@@ -2058,14 +2070,14 @@ sap.ui.define([
 											"claimNumber": "",
 											"CarrierName": "",
 											"CarrierAddress": "",
-											"TextAttentionLOI": this.oBundle.getText("ClaimsDepartment"),
+											"TextAttentionLOI": that.oBundle.getText("ClaimsDepartment"),
 											"TextStripLOI": "",
-											"TopTextLOI": this.oBundle.getText("WithoutPrejudice"),
+											"TopTextLOI": that.oBundle.getText("WithoutPrejudice"),
 											"LOIDate": new Date(),
 											"DeliveryDateLOI": "",
 											"AtLOI": "",
 											"WaybillNoLOI": "",
-											"RadioException": this.oBundle.getText("Damage"),
+											"RadioException": that.oBundle.getText("Damage"),
 											"estClaimValueLOI": "",
 											"LOIDescp": "",
 											"RadioCCPhoneEmail": "Y",
@@ -2106,14 +2118,14 @@ sap.ui.define([
 											"claimNumber": "",
 											"CarrierName": "",
 											"CarrierAddress": "",
-											"TextAttentionLOI": this.oBundle.getText("ClaimsDepartment"),
+											"TextAttentionLOI": that.oBundle.getText("ClaimsDepartment"),
 											"TextStripLOI": "",
-											"TopTextLOI": this.oBundle.getText("WithoutPrejudice"),
+											"TopTextLOI": that.oBundle.getText("WithoutPrejudice"),
 											"LOIDate": new Date(),
 											"DeliveryDateLOI": "",
 											"AtLOI": "",
 											"WaybillNoLOI": "",
-											"RadioException": this.oBundle.getText("Damage"),
+											"RadioException": that.oBundle.getText("Damage"),
 											"estClaimValueLOI": "",
 											"LOIDescp": "",
 											"RadioCCPhoneEmail": "Y",
@@ -3718,32 +3730,43 @@ sap.ui.define([
 								oClaimModel.refreshSecurityToken();
 								oClaimModel.create("/zc_headSet", this.obj, {
 									success: $.proxy(function (data, response) {
-										this.getModel("LocalDataModel").setProperty("/oErrorSet", response.data.zc_claim_vsrSet.results);
-										this.obj.zc_claim_vsrSet.results.pop(oObj);
-										if (response.data.zc_claim_vsrSet.results.length <= 0) {
-											this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
-											this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
-											this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", false);
-											this.getView().getModel("DateModel").setProperty("/submitTCIBtn", false);
-											MessageToast.show(oBundle.getText("ClaimNumber") + " " + oClaimNum + " " + oBundle.getText(
-												"successfullysubmittedTCI"), {
-												my: "center center",
-												at: "center center"
-											});
-											// MessageToast.show("Claim Number " + oClaimNum + " successfully submitted to TCI.");
-											this.getView().byId("idFilter04").setProperty("enabled", true);
-										} else {
-											this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
-											this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", true);
-											MessageToast.show(
-												oBundle.getText("ClaimNumber") + " " + oClaimNum + " " + oBundle.getText(
-													"RejectedTCIValidationResultsdetails"), {
-													my: "center center",
-													at: "center center"
-												});
-											// MessageToast.show(
-											// 	"Claim Number " + oClaimNum + " was Rejected by TCI, please see Validation Results for more details.");
-										}
+										oClaimModel.read("/zc_headSet", {
+											urlParameters: {
+												"$filter": "NumberOfWarrantyClaim eq '" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") +
+													"'and LanguageKey eq '" + sSelectedLocale.toUpperCase() + "'",
+												"$expand": "zc_claim_vsrSet"
+											},
+											success: $.proxy(function (errorData) {
+												this.getModel("LocalDataModel").setProperty("/oErrorSet", errorData.results[0].zc_claim_vsrSet.results);
+												this.obj.zc_claim_vsrSet.results.pop(oObj);
+												if (response.data.zc_claim_vsrSet.results.length <= 0) {
+													this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
+													this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
+													this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", false);
+													this.getView().getModel("DateModel").setProperty("/submitTCIBtn", false);
+													MessageToast.show(oBundle.getText("ClaimNumber") + " " + oClaimNum + " " + oBundle.getText(
+														"successfullysubmittedTCI"), {
+														my: "center center",
+														at: "center center"
+													});
+													// MessageToast.show("Claim Number " + oClaimNum + " successfully submitted to TCI.");
+													this.getView().byId("idFilter04").setProperty("enabled", true);
+												} else {
+													this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
+													this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", true);
+													MessageToast.show(
+														oBundle.getText("ClaimNumber") + " " + oClaimNum + " " + oBundle.getText(
+															"RejectedTCIValidationResultsdetails"), {
+															my: "center center",
+															at: "center center"
+														});
+													// MessageToast.show(
+													// 	"Claim Number " + oClaimNum + " was Rejected by TCI, please see Validation Results for more details.");
+												}
+												// this.getView().getModel("DateModel").setProperty("/errorBusyIndicator", false);
+											}, this)
+										});
+
 										dialog.close();
 									}, this),
 									error: function (err) {
