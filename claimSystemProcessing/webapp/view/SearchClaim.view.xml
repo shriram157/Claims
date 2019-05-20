@@ -162,9 +162,8 @@
 								<!--	</Toolbar>-->
 								<!--</table:footer>-->
 								<!--</table:Table>-->
-								<Table id="idClaimTable" popinLayout="GridSmall" fixedLayout="false" class="classRCPTable sapUiLargeMarginBottom" mode="None"
-									items="{/ZC_CLAIM_HEAD_NEW}" growing="true" growingThreshold="{LocalDataModel>/oVisibleRowTR}" growingScrollToLoad="false"
-									growingTriggerText="Load more">
+								<Table id="idClaimTable" inset="false" class="classRCPTable sapUiSizeCompact sapUiLargeMarginBottom" mode="None"
+									items="{LocalDataModel>/ZcClaimHeadNewData}" growing="true" growingThreshold="30" growingScrollToLoad="false" growingTriggerText="Load more">
 									<headerToolbar>
 										<Toolbar>
 											<Title text="{i18n>ClaimList}" level="H2"/>
@@ -174,25 +173,25 @@
 									</headerToolbar>
 									<columns>
 										<Column width="9em"><Label text="{i18n>TCIClaim}" textAlign="Center" width="100%"/></Column>
-										<Column width="10em" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+										<Column width="8em" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
 											<Label text="{i18n>DealerClaim}" wrapping="true" textAlign="Center" width="100%"/>
 										</Column>
-										<Column width="10em" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+										<Column width="8em" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
 											<Label text="{i18n>RepairOrder}" wrapping="true" textAlign="Center" width="100%"/>
 										</Column>
-										<Column width="10em" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+										<Column width="9em" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
 											<Label text="{i18n>RepairOrderDate}" wrapping="true" textAlign="Center" width="100%"/>
 										</Column>
-										<Column width="10em" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+										<Column width="9em" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
 											<Label text="{i18n>ClaimSubmissionDate}" wrapping="true" textAlign="Center" width="100%"/>
 										</Column>
-										<Column width="10em" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+										<Column width="6em" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
 											<Label text="{i18n>ClaimType}" wrapping="true" textAlign="Center" width="100%"/>
 										</Column>
 										<Column width="12em" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
 											<Label text="{i18n>VIN}" wrapping="true" textAlign="Center" width="100%"/>
 										</Column>
-										<Column width="10em" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+										<Column width="6em" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
 											<Label text="{i18n>ClaimStatus}" wrapping="true" textAlign="Center" width="100%"/>
 										</Column>
 										<Column width="10em" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
@@ -201,36 +200,36 @@
 										<Column width="8em" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
 											<Label text="{i18n>MainOpCode}" wrapping="true" textAlign="Center" width="100%"/>
 										</Column>
-										<Column width="7em" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+										<Column width="6em" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
 											<Label text="{i18n>ClaimAge}" wrapping="true" textAlign="Center" width="100%"/>
 										</Column>
-										<Column width="10em" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+										<Column width="8em" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
 											<Label text="{i18n>ClaimAmount}" wrapping="true" textAlign="Center" width="100%"/>
 										</Column>
-										<Column width="10em" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+										<Column width="8em" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
 											<Label text="{i18n>AuthorizationNumber}" wrapping="true" textAlign="Center" width="100%"/>
 										</Column>
-										<Column width="4em" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+										<Column width="2em" visible="false" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
 											<Label text="{i18n>ClaimTypeGroup}" wrapping="true" textAlign="Center" width="100%"/>
 										</Column>
 									</columns>
 									<items>
 										<ColumnListItem>
 											<cells>
-												<Link text="{NumberOfWarrantyClaim}" press="onPressClaim"/>
-												<Text text="{ExternalNumberOfClaim}"/>
-												<Text text="{RepairOrderNumberExternal}"/>
-												<Text text="{path:'RepairDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd'}}"/>
-												<Text text="{path:'ReferenceDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd'}}"/>
-												<Text text="{WarrantyClaimType}"/>
-												<Text text="{ExternalObjectNumber}"/>
-												<Text text="{ProcessingStatusOfWarrantyClm}"/>
-												<Text text="{OFP}"/>
-												<Text text="{MainOpsCode}"/>
-												<Text text="{ClaimAge}"/>
-												<Text text="{ClaimAmountSum}"/>
-												<Text text="{AuthorizationNumber}"/>
-												<Text text="{ClaimGroup}"/>
+												<Link text="{LocalDataModel>NumberOfWarrantyClaim}" press="onPressClaim"/>
+												<Text text="{LocalDataModel>ExternalNumberOfClaim}"/>
+												<Text text="{LocalDataModel>RepairOrderNumberExternal}"/>
+												<Text text="{path:'LocalDataModel>RepairDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd'}}"/>
+												<Text text="{path:'LocalDataModel>ReferenceDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd'}}"/>
+												<Text text="{LocalDataModel>WarrantyClaimType}"/>
+												<Text text="{LocalDataModel>ExternalObjectNumber}"/>
+												<Text text="{LocalDataModel>ProcessingStatusOfWarrantyClm}"/>
+												<Text text="{LocalDataModel>OFP}"/>
+												<Text text="{LocalDataModel>MainOpsCode}"/>
+												<Text text="{LocalDataModel>ClaimAge}"/>
+												<Text text="{LocalDataModel>ClaimAmountSum}"/>
+												<Text text="{LocalDataModel>AuthorizationNumber}"/>
+												<Text text="{LocalDataModel>ClaimGroup}"/>
 											</cells>
 										</ColumnListItem>
 									</items>

@@ -212,17 +212,17 @@ sap.ui.define([
 					that.getModel("LocalDataModel").setProperty("/BpDealerKey", BpDealer[0].BusinessPartnerKey);
 					//that.getView().setModel(new sap.ui.model.json.JSONModel(BpDealer), "BpDealerModel");
 					// read the saml attachments the same way 
-					$.each(oData.samlAttributes, function (i, item) {
-						userAttributes.push({
-							"UserType": item.UserType[0],
-							"DealerCode": item.DealerCode[0],
-							"Language": item.Language[0]
-								// "Zone": item.Zone[0]   ---    Not yet available
-						});
+					// 	$.each(oData.samlAttributes, function (i, item) {
+					// 		userAttributes.push({
+					// 			"UserType": item.UserType[0],
+					// 			"DealerCode": item.DealerCode[0],
+					// 			"Language": item.Language[0]
+					// 				// "Zone": item.Zone[0]   ---    Not yet available
+					// 		});
 
-					});
+					// 	});
 
-					that.getView().setModel(new sap.ui.model.json.JSONModel(userAttributes), "userAttributesModel");
+					// 	that.getView().setModel(new sap.ui.model.json.JSONModel(userAttributes), "userAttributesModel");
 
 					//	that._getTheUserAttributes();
 
@@ -231,6 +231,42 @@ sap.ui.define([
 					sap.ui.core.BusyIndicator.hide();
 				}
 			}).done(function (data, textStatus, jqXHR) {
+				that.getModel("LocalDataModel").setProperty("/currentIssueDealer", data.attributes[0].BusinessPartnerKey);
+				var issueDealer = that.getModel("LocalDataModel").getProperty("/currentIssueDealer");
+				var sSelectedLocale;
+				//  get the locale to determine the language.
+				var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
+				if (isLocaleSent) {
+					sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
+				} else {
+					sSelectedLocale = "en"; // default is english
+				}
+
+				var oDateFormat = sap.ui.core.format.DateFormat.getDateInstance({
+					pattern: "yyyy-MM-ddTHH:mm:ss"
+				});
+				var andFilter = [];
+				//var sQueryDate = this.getView().byId("DRS2").getValue();
+				var FromDate = that.getView().getModel("DateModel").getProperty("/dateValueDRS2");
+				var ToDate = that.getView().getModel("DateModel").getProperty("/secondDateValueDRS2");
+				var FromDateFormat = oDateFormat.format(FromDate);
+				var ToDateFormat = oDateFormat.format(ToDate);
+				// console.log(FromDateFormat, ToDateFormat);
+				var sDate = "";
+				var oResult = [];
+
+				var oProssingModel = that.getModel("ProssingModel");
+				oProssingModel.read("/ZC_CLAIM_HEAD_NEW", {
+					urlParameters: {
+						"$filter": "Partner eq '" + issueDealer + "'and ReferenceDate ge datetime'" + FromDateFormat +
+							"'and ReferenceDate le datetime'" + ToDateFormat +
+							"'"
+					},
+					success: $.proxy(function (data) {
+						that.getModel("LocalDataModel").setProperty("/ZcClaimHeadNewData", data.results);
+					}, that)
+
+				});
 
 				var oRouter = sap.ui.core.UIComponent.getRouterFor(that);
 				oRouter.attachRouteMatched(that._onObjectMatched, that);
@@ -319,11 +355,6 @@ sap.ui.define([
 		},
 
 		_onObjectMatched: function (oEvent) {
-			var oProssingModel = this.getModel("ProssingModel");
-
-		},
-
-		onAfterRendering: function () {
 
 			var sSelectedLocale;
 			//  get the locale to determine the language.
@@ -354,17 +385,23 @@ sap.ui.define([
 			// console.log(FromDateFormat, ToDateFormat);
 			var sDate = "";
 			var oResult = [];
-
+			var issueDealer = this.getModel("LocalDataModel").getProperty("/currentIssueDealer");
 			var oProssingModel = this.getModel("ProssingModel");
 			oProssingModel.read("/ZC_CLAIM_HEAD_NEW", {
 				urlParameters: {
-					"$filter": ""
+					"$filter": "Partner eq '" + issueDealer + "'and ReferenceDate ge datetime'" + FromDateFormat +
+						"'and ReferenceDate le datetime'" + ToDateFormat +
+						"'"
 				},
 				success: $.proxy(function (data) {
-					this.getView().getModel("LocalDataModel").setProperty("/OClaimSearchData", data.results);
+					this.getView().getModel("LocalDataModel").setProperty("/ZcClaimHeadNewData", data.results);
 				}, this)
 
 			});
+
+		},
+
+		onAfterRendering: function () {
 
 		},
 		createViewSettingsDialog: function (sDialogFragmentName) {
@@ -515,7 +552,8 @@ sap.ui.define([
 			var ToDateFormat = oDateFormat.format(ToDate);
 			// console.log(FromDateFormat, ToDateFormat);
 			var sDate = "";
-			var oResult = [];
+			var oResult;
+			var sResults = [];
 
 			var oProssingModel = this.getModel("ProssingModel");
 			if (sQuerySearchBy == "ExternalObjectNumber") {
@@ -562,141 +600,350 @@ sap.ui.define([
 			if (!$.isEmptyObject(sQueryStat)) {
 
 				for (var j = 0; j < sQueryStat.length; j++) {
-
-					oResult.push(new sap.ui.model.Filter("DecisionCode", sap.ui.model.FilterOperator.EQ, sQueryStat[j]));
+					//oResult.push(sQueryStat[j]);
+					sResults.push("DecisionCode eq '" + sQueryStat[j] + "'");
 
 				}
-				this.getView().getModel("RowCountModel").setProperty("/rowCount", 10);
+				oResult = sResults.join(" or ");
 			}
 
 			if (sQueryDate != "" && sQueryDealer != "" && sQuerySearchText == "" && sQueryClaimType == "" && sQueryStat == "") {
-
-				andFilter = new sap.ui.model.Filter({
-					filters: [
-						new sap.ui.model.Filter("Partner", sap.ui.model.FilterOperator.EQ, sQueryDealer),
-						new sap.ui.model.Filter(sDate, sap.ui.model.FilterOperator.BT, FromDateFormat, ToDateFormat)
-					],
-					and: true
+				oProssingModel.read("/ZC_CLAIM_HEAD_NEW", {
+					urlParameters: {
+						"$filter": "Partner eq '" + sQueryDealer + "' and " + sDate + " ge datetime'" + FromDateFormat +
+							"'and " + sDate + " le datetime'" + ToDateFormat +
+							"'"
+					},
+					success: $.proxy(function (data) {
+						this.getModel("LocalDataModel").setProperty("/ZcClaimHeadNewData", data.results);
+						//var oUrlParams = "$top=5";
+						//this.getModel("LocalDataModel").setProperty("/HeadSetCount", data);
+						//this.getModel("LocalDataModel").loadData("/HeadSet", oUrlParams);
+					}, this)
 				});
-				this.getView().getModel("RowCountModel").setProperty("/rowCount", 50);
+
+				// andFilter = new sap.ui.model.Filter({
+				//     filters: [
+				//         new sap.ui.model.Filter("Partner", sap.ui.model.FilterOperator.EQ, sQueryDealer),
+				//         new sap.ui.model.Filter(sDate, sap.ui.model.FilterOperator.BT, FromDateFormat, ToDateFormat)
+				//     ],
+				//     and: true
+				// });
+				// this.getView().getModel("RowCountModel").setProperty("/rowCount", 50);
 			} else if (sQueryDate != "" && sQueryDealer != "" && sQuerySearchText != "" && sQueryClaimType == "" && sQueryStat == "") {
-
-				andFilter = new sap.ui.model.Filter({
-					filters: [
-						new sap.ui.model.Filter(sDate, sap.ui.model.FilterOperator.BT, FromDateFormat, ToDateFormat),
-						new sap.ui.model.Filter("Partner", sap.ui.model.FilterOperator.EQ, sQueryDealer),
-						new sap.ui.model.Filter(sQuerySearchBy, sap.ui.model.FilterOperator.EQ, sQuerySearchText)
-
-					],
-					and: true
+				oProssingModel.read("/ZC_CLAIM_HEAD_NEW", {
+					urlParameters: {
+						"$filter": "Partner eq '" + sQueryDealer + "' and " + sDate + " ge datetime'" + FromDateFormat +
+							"'and " + sDate + " le datetime'" + ToDateFormat +
+							"' and " + sQuerySearchBy + " eq '" + sQuerySearchText + "'"
+					},
+					success: $.proxy(function (data) {
+						this.getModel("LocalDataModel").setProperty("/ZcClaimHeadNewData", data.results);
+						//	this.getView().getModel("DateModel").setProperty("/tableBusyIndicator", false);
+						//	this.getModel("LocalDataModel").setProperty("/HeadSet", data.results);
+					}, this)
 				});
-				this.getView().getModel("RowCountModel").setProperty("/rowCount", 10);
+				// andFilter = new sap.ui.model.Filter({
+				//     filters: [
+				//         new sap.ui.model.Filter(sDate, sap.ui.model.FilterOperator.BT, FromDateFormat, ToDateFormat),
+				//         new sap.ui.model.Filter("Partner", sap.ui.model.FilterOperator.EQ, sQueryDealer),
+				//         new sap.ui.model.Filter(sQuerySearchBy, sap.ui.model.FilterOperator.EQ, sQuerySearchText)
+				//     ],
+				//     and: true
+				// });
+				// this.getView().getModel("RowCountModel").setProperty("/rowCount", 10);
 			} else if (sQuerySearchText != "" && sQueryClaimType != "" && sQueryDate != "" && sQueryDealer != "" && sQueryStat == "") {
-				andFilter = new sap.ui.model.Filter({
-					filters: [
-						new sap.ui.model.Filter(sDate, sap.ui.model.FilterOperator.BT, FromDateFormat, ToDateFormat),
-						new sap.ui.model.Filter("Partner", sap.ui.model.FilterOperator.EQ, sQueryDealer),
-						new sap.ui.model.Filter(sQuerySearchBy, sap.ui.model.FilterOperator.EQ, sQuerySearchText),
-						new sap.ui.model.Filter("WarrantyClaimType", sap.ui.model.FilterOperator.EQ, sQueryClaimType)
-					],
-					and: true
+				// andFilter = new sap.ui.model.Filter({
+				//     filters: [
+				//         new sap.ui.model.Filter(sDate, sap.ui.model.FilterOperator.BT, FromDateFormat, ToDateFormat),
+				//         new sap.ui.model.Filter("Partner", sap.ui.model.FilterOperator.EQ, sQueryDealer),
+				//         new sap.ui.model.Filter(sQuerySearchBy, sap.ui.model.FilterOperator.EQ, sQuerySearchText),
+				//         new sap.ui.model.Filter("WarrantyClaimType", sap.ui.model.FilterOperator.EQ, sQueryClaimType)
+				//     ],
+				//     and: true
+				// });
+				// this.getView().getModel("RowCountModel").setProperty("/rowCount", 10);
+				oProssingModel.read("/ZC_CLAIM_HEAD_NEW", {
+					urlParameters: {
+						"$filter": "Partner eq '" + sQueryDealer + "' and " + sDate + " ge datetime'" + FromDateFormat +
+							"'and " + sDate + " le datetime'" + ToDateFormat +
+							"'and WarrantyClaimType eq '" + sQueryClaimType + "'and " + sQuerySearchBy + " eq '" + sQuerySearchText + "'"
+					},
+					success: $.proxy(function (data) {
+						//	this.getView().getModel("DateModel").setProperty("/tableBusyIndicator", false);
+						this.getModel("LocalDataModel").setProperty("/ZcClaimHeadNewData", data.results);
+					}, this)
 				});
-				this.getView().getModel("RowCountModel").setProperty("/rowCount", 10);
 			} else if (sQueryClaimType != "" && sQueryDate != "" && sQueryDealer != "" && sQueryStat == "" && sQuerySearchText == "") {
-				andFilter = new sap.ui.model.Filter({
-					filters: [
-						new sap.ui.model.Filter("WarrantyClaimType", sap.ui.model.FilterOperator.EQ, sQueryClaimType),
-						new sap.ui.model.Filter(sDate, sap.ui.model.FilterOperator.BT, FromDateFormat, ToDateFormat),
-						new sap.ui.model.Filter("Partner", sap.ui.model.FilterOperator.EQ, sQueryDealer)
-
-					],
-					and: true
+				// andFilter = new sap.ui.model.Filter({
+				//     filters: [
+				//         new sap.ui.model.Filter("WarrantyClaimType", sap.ui.model.FilterOperator.EQ, sQueryClaimType),
+				//         new sap.ui.model.Filter(sDate, sap.ui.model.FilterOperator.BT, FromDateFormat, ToDateFormat),
+				//         new sap.ui.model.Filter("Partner", sap.ui.model.FilterOperator.EQ, sQueryDealer)
+				//     ],
+				//     and: true
+				// });
+				// this.getView().getModel("RowCountModel").setProperty("/rowCount", 10);
+				oProssingModel.read("/ZC_CLAIM_HEAD_NEW", {
+					urlParameters: {
+						"$filter": "Partner eq '" + sQueryDealer + "' and " + sDate + " ge datetime'" + FromDateFormat +
+							"'and " + sDate + " le datetime'" + ToDateFormat +
+							"'and WarrantyClaimType eq '" + sQueryClaimType + "'"
+					},
+					success: $.proxy(function (data) {
+						this.getModel("LocalDataModel").setProperty("/ZcClaimHeadNewData", data.results);
+					}, this)
 				});
-				this.getView().getModel("RowCountModel").setProperty("/rowCount", 10);
 			} else if (sQueryStat != "" && sQueryClaimType != "" && sQueryDate != "" && sQueryDealer != "" && sQuerySearchText == "") {
-
-				andFilter = new sap.ui.model.Filter({
-					filters: [
-						new sap.ui.model.Filter("Partner", sap.ui.model.FilterOperator.EQ, sQueryDealer),
-						new sap.ui.model.Filter("WarrantyClaimType", sap.ui.model.FilterOperator.EQ, sQueryClaimType),
-						new sap.ui.model.Filter(sDate, sap.ui.model.FilterOperator.BT, FromDateFormat, ToDateFormat),
-						new sap.ui.model.Filter(oResult)
-
-					],
-					and: true
+				// andFilter = new sap.ui.model.Filter({
+				//     filters: [
+				//         new sap.ui.model.Filter("Partner", sap.ui.model.FilterOperator.EQ, sQueryDealer),
+				//         new sap.ui.model.Filter("WarrantyClaimType", sap.ui.model.FilterOperator.EQ, sQueryClaimType),
+				//         new sap.ui.model.Filter(sDate, sap.ui.model.FilterOperator.BT, FromDateFormat, ToDateFormat),
+				//         new sap.ui.model.Filter(oResult)
+				//     ],
+				//     and: true
+				// });
+				// this.getView().getModel("RowCountModel").setProperty("/rowCount", 10);
+				oProssingModel.read("/ZC_CLAIM_HEAD_NEW", {
+					urlParameters: {
+						"$filter": "Partner eq '" + sQueryDealer + "' and " + sDate + " ge datetime'" + FromDateFormat +
+							"'and " + sDate + " le datetime'" + ToDateFormat +
+							"'and WarrantyClaimType eq '" + sQueryClaimType + "'and (" + oResult + ")"
+					},
+					success: $.proxy(function (data) {
+						this.getModel("LocalDataModel").setProperty("/ZcClaimHeadNewData", data.results);
+					}, this)
 				});
-
-				this.getView().getModel("RowCountModel").setProperty("/rowCount", 10);
-
 			} else if (sQueryStat != "" && sQuerySearchText != "" && sQueryDate != "" && sQueryDealer != "" && sQueryClaimType == "") {
-				andFilter = new sap.ui.model.Filter({
-					filters: [
-						new sap.ui.model.Filter("Partner", sap.ui.model.FilterOperator.EQ, sQueryDealer),
-						new sap.ui.model.Filter(sQuerySearchBy, sap.ui.model.FilterOperator.EQ, sQuerySearchText),
-						new sap.ui.model.Filter(sDate, sap.ui.model.FilterOperator.BT, FromDateFormat, ToDateFormat),
-						new sap.ui.model.Filter(oResult)
 
-					],
-					and: true
+				oProssingModel.read("/ZC_CLAIM_HEAD_NEW", {
+					urlParameters: {
+						"$filter": "Partner eq '" + sQueryDealer + "' and " + sDate + " ge datetime'" + FromDateFormat +
+							"'and " + sDate + " le datetime'" + ToDateFormat +
+							"'and " + sQuerySearchBy + " eq '" + sQuerySearchText + "'and (" + oResult + ")"
+					},
+					success: $.proxy(function (data) {
+						this.getModel("LocalDataModel").setProperty("/ZcClaimHeadNewData", data.results);
+					}, this)
 				});
-				this.getView().getModel("RowCountModel").setProperty("/rowCount", 10);
 			} else if (sQueryStat != "" && sQuerySearchText == "" && sQueryDate != "" && sQueryClaimGroup != "" && sQueryDealer != "" &&
 				sQueryClaimType == "") {
-				andFilter = new sap.ui.model.Filter({
-					filters: [
-						new sap.ui.model.Filter("Partner", sap.ui.model.FilterOperator.EQ, sQueryDealer),
-						new sap.ui.model.Filter(sDate, sap.ui.model.FilterOperator.BT, FromDateFormat, ToDateFormat),
-						new sap.ui.model.Filter("ClaimGroup", sap.ui.model.FilterOperator.EQ, sQueryClaimGroup),
-						new sap.ui.model.Filter(oResult)
-					],
-					and: true
+				// andFilter = new sap.ui.model.Filter({
+				//     filters: [
+				//         new sap.ui.model.Filter("Partner", sap.ui.model.FilterOperator.EQ, sQueryDealer),
+				//         new sap.ui.model.Filter(sDate, sap.ui.model.FilterOperator.BT, FromDateFormat, ToDateFormat),
+				//         new sap.ui.model.Filter("WarrantyClaimGroupDes", sap.ui.model.FilterOperator.EQ, sQueryClaimGroup),
+				//         new sap.ui.model.Filter(oResult)
+				//     ],
+				//     and: true
+				// });
+				// this.getView().getModel("RowCountModel").setProperty("/rowCount", 10);
+				oProssingModel.read("/ZC_CLAIM_HEAD_NEW", {
+					urlParameters: {
+						"$filter": "Partner eq '" + sQueryDealer + "' and " + sDate + " ge datetime'" + FromDateFormat +
+							"'and " + sDate + " le datetime'" + ToDateFormat +
+							"'and WarrantyClaimGroupDes eq '" + sQueryClaimGroup + "'and (" + oResult + ")"
+					},
+					success: $.proxy(function (data) {
+						this.getModel("LocalDataModel").setProperty("/ZcClaimHeadNewData", data.results);
+					}, this)
 				});
-				//this.getView().getModel("RowCountModel").setProperty("/rowCount", 10);
 			} else if (sQueryStat != "" && sQueryDate != "" && sQueryDealer != "" && sQueryClaimType == "" && sQuerySearchText == "") {
-
-				andFilter = new sap.ui.model.Filter({
-					filters: [
-						new sap.ui.model.Filter("Partner", sap.ui.model.FilterOperator.EQ, sQueryDealer),
-						new sap.ui.model.Filter(sDate, sap.ui.model.FilterOperator.BT, FromDateFormat, ToDateFormat),
-						new sap.ui.model.Filter(oResult)
-					],
-					and: true
+				// andFilter = new sap.ui.model.Filter({
+				//     filters: [
+				//         new sap.ui.model.Filter("Partner", sap.ui.model.FilterOperator.EQ, sQueryDealer),
+				//         new sap.ui.model.Filter(sDate, sap.ui.model.FilterOperator.BT, FromDateFormat, ToDateFormat),
+				//         new sap.ui.model.Filter(oResult)
+				//     ],
+				//     and: true
+				// });
+				// this.getView().getModel("RowCountModel").setProperty("/rowCount", 10);
+				oProssingModel.read("/ZC_CLAIM_HEAD_NEW", {
+					urlParameters: {
+						"$filter": "Partner eq '" + sQueryDealer + "' and " + sDate + " ge datetime'" + FromDateFormat +
+							"'and " + sDate + " le datetime'" + ToDateFormat +
+							"'and (" + oResult + ")"
+					},
+					success: $.proxy(function (data) {
+						this.getModel("LocalDataModel").setProperty("/ZcClaimHeadNewData", data.results);
+					}, this)
 				});
-				//this.getView().getModel("RowCountModel").setProperty("/rowCount", 10);
-
 			} else if (sQueryDate != "" && sQueryDealer != "" && sQuerySearchText != "" && sQueryClaimType != "" && sQueryStat != "") {
-
-				andFilter = new sap.ui.model.Filter({
-					filters: [
-
-						new sap.ui.model.Filter("Partner", sap.ui.model.FilterOperator.EQ, sQueryDealer),
-						new sap.ui.model.Filter(sQuerySearchBy, sap.ui.model.FilterOperator.EQ, sQuerySearchText),
-						new sap.ui.model.Filter("WarrantyClaimType", sap.ui.model.FilterOperator.EQ, sQueryClaimType),
-						new sap.ui.model.Filter(sDate, sap.ui.model.FilterOperator.BT, FromDateFormat, ToDateFormat),
-						new sap.ui.model.Filter(oResult)
-					],
-					and: true
+				// andFilter = new sap.ui.model.Filter({
+				//     filters: [
+				//         new sap.ui.model.Filter("Partner", sap.ui.model.FilterOperator.EQ, sQueryDealer),
+				//         new sap.ui.model.Filter(sQuerySearchBy, sap.ui.model.FilterOperator.EQ, sQuerySearchText),
+				//         new sap.ui.model.Filter("WarrantyClaimType", sap.ui.model.FilterOperator.EQ, sQueryClaimType),
+				//         new sap.ui.model.Filter(sDate, sap.ui.model.FilterOperator.BT, FromDateFormat, ToDateFormat),
+				//         new sap.ui.model.Filter(oResult)
+				//     ],
+				//     and: true
+				// });
+				// this.getView().getModel("RowCountModel").setProperty("/rowCount", 10);
+				oProssingModel.read("/ZC_CLAIM_HEAD_NEW", {
+					urlParameters: {
+						"$filter": "Partner eq '" + sQueryDealer + "' and " + sDate + " ge datetime'" + FromDateFormat +
+							"'and WarrantyClaimType eq '" + sQueryClaimType + "'and " + sDate + " le datetime'" + ToDateFormat +
+							"'and " + sQuerySearchBy + " eq '" + sQuerySearchText + "'and (" + oResult + ")"
+					},
+					success: $.proxy(function (data) {
+						this.getModel("LocalDataModel").setProperty("/ZcClaimHeadNewData", data.results);
+					}, this)
 				});
-				//this.getView().getModel("RowCountModel").setProperty("/rowCount", 10);
 			}
-
 			if (sQueryDate != "" && sQueryDealer != "" && sQueryClaimGroup != "" && sQuerySearchText == "" && sQueryClaimType == "" &&
 				sQueryStat == "") {
-
-				andFilter = new sap.ui.model.Filter({
-					filters: [
-						new sap.ui.model.Filter(sDate, sap.ui.model.FilterOperator.BT, FromDateFormat, ToDateFormat),
-						new sap.ui.model.Filter("Partner", sap.ui.model.FilterOperator.EQ, sQueryDealer),
-						new sap.ui.model.Filter("ClaimGroup", sap.ui.model.FilterOperator.EQ, sQueryClaimGroup)
-					],
-					and: true
+				// andFilter = new sap.ui.model.Filter({
+				//     filters: [
+				//         new sap.ui.model.Filter(sDate, sap.ui.model.FilterOperator.BT, FromDateFormat, ToDateFormat),
+				//         new sap.ui.model.Filter("Partner", sap.ui.model.FilterOperator.EQ, sQueryDealer),
+				//         new sap.ui.model.Filter("WarrantyClaimGroupDes", sap.ui.model.FilterOperator.EQ, sQueryClaimGroup)
+				//     ],
+				//     and: true
+				// });
+				// this.getView().getModel("RowCountModel").setProperty("/rowCount", 10);
+				oProssingModel.read("/ZC_CLAIM_HEAD_NEW", {
+					urlParameters: {
+						"$filter": "Partner eq '" + sQueryDealer + "' and " + sDate + " ge datetime'" + FromDateFormat +
+							"'and " + sDate + " le datetime'" + ToDateFormat +
+							"'and WarrantyClaimGroupDes eq '" + sQueryClaimGroup + "'"
+					},
+					success: $.proxy(function (data) {
+						this.getModel("LocalDataModel").setProperty("/ZcClaimHeadNewData", data.results);
+					}, this)
 				});
-				//	this.getView().getModel("RowCountModel").setProperty("/rowCount", 10);
+
 			}
 
-			var oTable = this.getView().byId("idClaimTable");
-			var oBindItems = oTable.getBinding("items");
-			oBindItems.filter(andFilter);
+			// 			if (sQueryDate != "" && sQueryDealer != "" && sQuerySearchText == "" && sQueryClaimType == "" && sQueryStat == "") {
+
+			// 				andFilter = new sap.ui.model.Filter({
+			// 					filters: [
+			// 						new sap.ui.model.Filter("Partner", sap.ui.model.FilterOperator.EQ, sQueryDealer),
+			// 						new sap.ui.model.Filter(sDate, sap.ui.model.FilterOperator.BT, FromDateFormat, ToDateFormat)
+			// 					],
+			// 					and: true
+			// 				});
+			// 				this.getView().getModel("RowCountModel").setProperty("/rowCount", 50);
+			// 			} else if (sQueryDate != "" && sQueryDealer != "" && sQuerySearchText != "" && sQueryClaimType == "" && sQueryStat == "") {
+
+			// 				andFilter = new sap.ui.model.Filter({
+			// 					filters: [
+			// 						new sap.ui.model.Filter(sDate, sap.ui.model.FilterOperator.BT, FromDateFormat, ToDateFormat),
+			// 						new sap.ui.model.Filter("Partner", sap.ui.model.FilterOperator.EQ, sQueryDealer),
+			// 						new sap.ui.model.Filter(sQuerySearchBy, sap.ui.model.FilterOperator.EQ, sQuerySearchText)
+
+			// 					],
+			// 					and: true
+			// 				});
+			// 				this.getView().getModel("RowCountModel").setProperty("/rowCount", 10);
+			// 			} else if (sQuerySearchText != "" && sQueryClaimType != "" && sQueryDate != "" && sQueryDealer != "" && sQueryStat == "") {
+			// 				andFilter = new sap.ui.model.Filter({
+			// 					filters: [
+			// 						new sap.ui.model.Filter(sDate, sap.ui.model.FilterOperator.BT, FromDateFormat, ToDateFormat),
+			// 						new sap.ui.model.Filter("Partner", sap.ui.model.FilterOperator.EQ, sQueryDealer),
+			// 						new sap.ui.model.Filter(sQuerySearchBy, sap.ui.model.FilterOperator.EQ, sQuerySearchText),
+			// 						new sap.ui.model.Filter("WarrantyClaimType", sap.ui.model.FilterOperator.EQ, sQueryClaimType)
+			// 					],
+			// 					and: true
+			// 				});
+			// 				this.getView().getModel("RowCountModel").setProperty("/rowCount", 10);
+			// 			} else if (sQueryClaimType != "" && sQueryDate != "" && sQueryDealer != "" && sQueryStat == "" && sQuerySearchText == "") {
+			// 				andFilter = new sap.ui.model.Filter({
+			// 					filters: [
+			// 						new sap.ui.model.Filter("WarrantyClaimType", sap.ui.model.FilterOperator.EQ, sQueryClaimType),
+			// 						new sap.ui.model.Filter(sDate, sap.ui.model.FilterOperator.BT, FromDateFormat, ToDateFormat),
+			// 						new sap.ui.model.Filter("Partner", sap.ui.model.FilterOperator.EQ, sQueryDealer)
+
+			// 					],
+			// 					and: true
+			// 				});
+			// 				this.getView().getModel("RowCountModel").setProperty("/rowCount", 10);
+			// 			} else if (sQueryStat != "" && sQueryClaimType != "" && sQueryDate != "" && sQueryDealer != "" && sQuerySearchText == "") {
+
+			// 				andFilter = new sap.ui.model.Filter({
+			// 					filters: [
+			// 						new sap.ui.model.Filter("Partner", sap.ui.model.FilterOperator.EQ, sQueryDealer),
+			// 						new sap.ui.model.Filter("WarrantyClaimType", sap.ui.model.FilterOperator.EQ, sQueryClaimType),
+			// 						new sap.ui.model.Filter(sDate, sap.ui.model.FilterOperator.BT, FromDateFormat, ToDateFormat),
+			// 						new sap.ui.model.Filter(oResult)
+
+			// 					],
+			// 					and: true
+			// 				});
+
+			// 				this.getView().getModel("RowCountModel").setProperty("/rowCount", 10);
+
+			// 			} else if (sQueryStat != "" && sQuerySearchText != "" && sQueryDate != "" && sQueryDealer != "" && sQueryClaimType == "") {
+			// 				andFilter = new sap.ui.model.Filter({
+			// 					filters: [
+			// 						new sap.ui.model.Filter("Partner", sap.ui.model.FilterOperator.EQ, sQueryDealer),
+			// 						new sap.ui.model.Filter(sQuerySearchBy, sap.ui.model.FilterOperator.EQ, sQuerySearchText),
+			// 						new sap.ui.model.Filter(sDate, sap.ui.model.FilterOperator.BT, FromDateFormat, ToDateFormat),
+			// 						new sap.ui.model.Filter(oResult)
+
+			// 					],
+			// 					and: true
+			// 				});
+			// 				this.getView().getModel("RowCountModel").setProperty("/rowCount", 10);
+			// 			} else if (sQueryStat != "" && sQuerySearchText == "" && sQueryDate != "" && sQueryClaimGroup != "" && sQueryDealer != "" &&
+			// 				sQueryClaimType == "") {
+			// 				andFilter = new sap.ui.model.Filter({
+			// 					filters: [
+			// 						new sap.ui.model.Filter("Partner", sap.ui.model.FilterOperator.EQ, sQueryDealer),
+			// 						new sap.ui.model.Filter(sDate, sap.ui.model.FilterOperator.BT, FromDateFormat, ToDateFormat),
+			// 						new sap.ui.model.Filter("ClaimGroup", sap.ui.model.FilterOperator.EQ, sQueryClaimGroup),
+			// 						new sap.ui.model.Filter(oResult)
+			// 					],
+			// 					and: true
+			// 				});
+			// 				//this.getView().getModel("RowCountModel").setProperty("/rowCount", 10);
+			// 			} else if (sQueryStat != "" && sQueryDate != "" && sQueryDealer != "" && sQueryClaimType == "" && sQuerySearchText == "") {
+
+			// 				andFilter = new sap.ui.model.Filter({
+			// 					filters: [
+			// 						new sap.ui.model.Filter("Partner", sap.ui.model.FilterOperator.EQ, sQueryDealer),
+			// 						new sap.ui.model.Filter(sDate, sap.ui.model.FilterOperator.BT, FromDateFormat, ToDateFormat),
+			// 						new sap.ui.model.Filter(oResult)
+			// 					],
+			// 					and: true
+			// 				});
+			// 				//this.getView().getModel("RowCountModel").setProperty("/rowCount", 10);
+
+			// 			} else if (sQueryDate != "" && sQueryDealer != "" && sQuerySearchText != "" && sQueryClaimType != "" && sQueryStat != "") {
+
+			// 				andFilter = new sap.ui.model.Filter({
+			// 					filters: [
+
+			// 						new sap.ui.model.Filter("Partner", sap.ui.model.FilterOperator.EQ, sQueryDealer),
+			// 						new sap.ui.model.Filter(sQuerySearchBy, sap.ui.model.FilterOperator.EQ, sQuerySearchText),
+			// 						new sap.ui.model.Filter("WarrantyClaimType", sap.ui.model.FilterOperator.EQ, sQueryClaimType),
+			// 						new sap.ui.model.Filter(sDate, sap.ui.model.FilterOperator.BT, FromDateFormat, ToDateFormat),
+			// 						new sap.ui.model.Filter(oResult)
+			// 					],
+			// 					and: true
+			// 				});
+			// 				//this.getView().getModel("RowCountModel").setProperty("/rowCount", 10);
+			// 			}
+
+			// 			if (sQueryDate != "" && sQueryDealer != "" && sQueryClaimGroup != "" && sQuerySearchText == "" && sQueryClaimType == "" &&
+			// 				sQueryStat == "") {
+
+			// 				andFilter = new sap.ui.model.Filter({
+			// 					filters: [
+			// 						new sap.ui.model.Filter(sDate, sap.ui.model.FilterOperator.BT, FromDateFormat, ToDateFormat),
+			// 						new sap.ui.model.Filter("Partner", sap.ui.model.FilterOperator.EQ, sQueryDealer),
+			// 						new sap.ui.model.Filter("ClaimGroup", sap.ui.model.FilterOperator.EQ, sQueryClaimGroup)
+			// 					],
+			// 					and: true
+			// 				});
+			// 				//	this.getView().getModel("RowCountModel").setProperty("/rowCount", 10);
+			// 			}
+
+			// 			var oTable = this.getView().byId("idClaimTable");
+			// 			var oBindItems = oTable.getBinding("items");
+			// 			oBindItems.filter(andFilter);
 
 		},
 
