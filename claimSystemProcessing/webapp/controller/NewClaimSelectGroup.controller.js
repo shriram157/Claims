@@ -109,6 +109,7 @@ sap.ui.define([
 						oClaimGroup = elements;
 					}
 					this.getModel("LocalDataModel").setProperty("/oClaimGroupData", oClaimGroup);
+					console.log(oClaimGroup);
 
 					//this.getOwnerComponent().getModel("LocalDataModel").setProperty("/ClaimGroupData", oClaimGroupJson);
 					var oKey = oClaimGroup[0].ClaimGroup;
