@@ -60,7 +60,7 @@
 		<!--<Button text="Add Part Line" type="Emphasized" press="onPressAddLabour"/>-->
 		<!--	<Button text="Save Claim" type="Emphasized" press="onPressSaveClaimItemLabour"/>-->
 		<!--</HBox>-->
-		<f:SimpleForm editable="true" class=" sapUiTinyMarginBottom" layout="ResponsiveGridLayout" title="Labour Details" labelSpanXL="7"
+		<f:SimpleForm editable="true" class=" sapUiTinyMarginBottom" layout="ResponsiveGridLayout" title="{i18n>LabourDetails}" labelSpanXL="7"
 			labelSpanL="7" labelSpanM="12" labelSpanS="12" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="6" columnsL="6"
 			columnsM="6">
 			<f:content>

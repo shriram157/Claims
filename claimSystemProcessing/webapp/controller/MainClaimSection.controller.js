@@ -275,8 +275,8 @@ sap.ui.define([
 				oVisibleRepDate: true,
 				oVisibleReOrder: true,
 				oOdoEnabled: true,
-				OdometerReqMan: true
-
+				OdometerReqMan: true,
+				RadioSelectedOFP: false
 			});
 			this.getView().setModel(oDateModel, "DateModel");
 			//this.getView().getModel("DateModel").setProperty("/OdometerReq", true);
@@ -4689,12 +4689,15 @@ sap.ui.define([
 		},
 		onStep06Back: function () {
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
-			if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZWA1" && this.getView().getModel("HeadSetData")
+			if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZWA1" || this.getView().getModel("HeadSetData")
 				.getProperty(
-					"/WarrantyClaimType") == "ZWA2" && this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZWAC" &&
-				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") == "ZWA1" && this.getView().getModel("HeadSetData")
+					"/WarrantyClaimType") == "ZWA2" || this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZWAC" ||
+				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") == "ZWA1" || this.getView().getModel("HeadSetData")
 				.getProperty(
-					"/WarrantyClaimSubType") == "ZWA2" && this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") == "ZWAC"
+					"/WarrantyClaimSubType") == "ZWA2" || this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") == "ZWAC" ||
+				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZWP1" ||
+				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") == "ZWP1"
+
 			) {
 				this.getView().byId("idFilter04").setProperty("enabled", true);
 				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab4");
@@ -5333,6 +5336,7 @@ sap.ui.define([
 			var oTable = this.getView().byId("idTableParts");
 			var oTableIndex = oTable._aSelectedPaths;
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
+			var oValOFP = this.getView().getModel("HeadSetData").getProperty("/OFP");
 			if (oTableIndex.length == 1) {
 
 				var dialog = new Dialog({
@@ -5348,7 +5352,11 @@ sap.ui.define([
 							press: $.proxy(function () {
 								var oIndex = parseInt(oTable._aSelectedPaths.toString().split("/")[2]);
 								this.obj.zc_itemSet.results.splice(oIndex, 1);
+								//                         this.obj.zc_itemSet.results.forEach(function(val){
+								// 		   if(val.OFP == oValOFP){
 
+								// 		   } 
+								// });
 								var oClaimModel = this.getModel("ProssingModel");
 
 								oClaimModel.refreshSecurityToken();
@@ -5359,6 +5367,7 @@ sap.ui.define([
 											return val.ItemType === "MAT";
 
 										});
+
 										this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", response.data.OFPDescription);
 										this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.data.MainOpsCodeDescription);
 										console.log(oFilteredData);
@@ -5403,6 +5412,7 @@ sap.ui.define([
 			}
 		},
 		onSelectOFP: function (oEvent) {
+			this.getView().getModel("DateModel").setProperty("/RadioSelectedOFP", true);
 			var table = this.getView().byId("idTableParts");
 
 			var oSelectedPart = oEvent.getSource().getParent().getCells()[2].getText();
@@ -6666,10 +6676,9 @@ sap.ui.define([
 										success: $.proxy(function (errorData) {
 											this.getModel("LocalDataModel").setProperty("/oErrorSet", errorData.results[0].zc_claim_vsrSet.results);
 											this.getView().getModel("DateModel").setProperty("/errorBusyIndicator", false);
+											this.obj.zc_claim_vsrSet.results.pop(oObj);
 										}, this)
 									});
-
-									this.obj.zc_claim_vsrSet.results.pop(oObj);
 
 									oClaimModel.read("/ZC_CLAIM_HEAD_NEW", {
 										urlParameters: {

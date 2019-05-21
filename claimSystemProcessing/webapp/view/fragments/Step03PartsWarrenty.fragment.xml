@@ -164,8 +164,8 @@
 				<ColumnListItem vAlign="Middle">
 					<cells>
 						<Text text="{LocalDataModel>posnr}" textAlign="Center"/>
-						<RadioButton groupName="A" id="idPartRadio" visible="{DateModel>/ofpEnabled}" enabled="{DateModel>/oFormEdit}" select="onSelectOFP"
-							textAlign="Center"/>
+						<RadioButton selected="{DateModel>/RadioSelectedOFP}" groupName="A" id="idPartRadio" visible="{DateModel>/ofpEnabled}"
+							enabled="{DateModel>/oFormEdit}" select="onSelectOFP" textAlign="Center"/>
 						<Text text="{LocalDataModel>matnr}" wrapping="true" textAlign="Center"/>
 						<Text text="{LocalDataModel>PartDescription}" wrapping="true" textAlign="Center"/>
 						<Text text="${LocalDataModel>DealerNet}" wrapping="true" textAlign="Center"/>

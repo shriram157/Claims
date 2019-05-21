@@ -85,7 +85,9 @@ sap.ui.define([
 
 					var elements = oClaimData.reduce(function (previous, current) {
 
-						var object = previous.filter(object => object.ClaimGroupDes === current.ClaimGroupDes);
+						var object = previous.filter(function (sobj) {
+							return sobj.ClaimGroupDes === current.ClaimGroupDes;
+						});
 						if (object.length == 0) {
 							previous.push(current);
 						}
@@ -107,6 +109,7 @@ sap.ui.define([
 						oClaimGroup = elements;
 					}
 					this.getModel("LocalDataModel").setProperty("/oClaimGroupData", oClaimGroup);
+					console.log(sap.ui.getCore().getModel("UserDataModel").getProperty("/UserScope"), oClaimGroup);
 
 					//this.getOwnerComponent().getModel("LocalDataModel").setProperty("/ClaimGroupData", oClaimGroupJson);
 					var oKey = oClaimGroup[0].ClaimGroup;
