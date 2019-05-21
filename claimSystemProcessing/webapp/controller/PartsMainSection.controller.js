@@ -1107,7 +1107,7 @@ sap.ui.define([
 				this.getView().getModel("DateModel").setProperty("/claimTypeEn", true);
 				this.getModel("LocalDataModel").setProperty("/ClaimSum", "");
 				this.getDealer();
-				var that=this;
+				var that = this;
 				var LOIData = new sap.ui.model.json.JSONModel({
 					"claimNumber": "",
 					"CarrierName": "",
@@ -1580,6 +1580,7 @@ sap.ui.define([
 											if (oFilteredData[m].ALMDiscreDesc != undefined || oFilteredData[m].ALMDiscreDesc != "") {
 												oFilteredData[m].ALMDiscreDesc = oFilteredData[m].ALMDiscreDesc.split("-")[1];
 											}
+											// oFilteredData[m].quant = oFilteredData[m].PartQty;
 											oFilteredData[m].quant2 = oFilteredData[m].PartQty;
 										}
 										this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
@@ -1832,6 +1833,7 @@ sap.ui.define([
 														"Received: " + filteredPriceData[m].PartDescription
 													].join("\n");
 													filteredPriceData[m].DealerNet = filteredPriceData[m].DealerNet;
+													filteredPriceData[m].quant = filteredPriceData[m].PartQty;
 
 													filteredPriceData[m].quant2 = [
 														"Ordered: " + filteredPriceData[m].QuantityOrdered,
@@ -1964,7 +1966,7 @@ sap.ui.define([
 
 		onCloseLetterOfIntent: function (oEvent) {
 			this._openDialog01();
-			var that=this;
+			var that = this;
 			var LOIData = new sap.ui.model.json.JSONModel({
 				"claimNumber": "",
 				"CarrierName": "",
@@ -2059,7 +2061,7 @@ sap.ui.define([
 									"Address3": this.getView().getModel("LOIDataModel").getProperty("/Address3"),
 									"Address4": this.getView().getModel("LOIDataModel").getProperty("/Address4")
 								};
-								var that=this;
+								var that = this;
 								oClaimModel.create("/zc_LOISet", obj, {
 									success: $.proxy(function (data, response) {
 										console.log("LOI set data", data);
@@ -2759,6 +2761,7 @@ sap.ui.define([
 												"Received: " + filteredPriceData[m].PartDescription
 											].join("\n");
 											filteredPriceData[m].DealerNet = filteredPriceData[m].DealerNet;
+											filteredPriceData[m].quant = filteredPriceData[m].PartQty;
 
 											filteredPriceData[m].quant2 = [
 												"Ordered: " + filteredPriceData[m].QuantityOrdered,
