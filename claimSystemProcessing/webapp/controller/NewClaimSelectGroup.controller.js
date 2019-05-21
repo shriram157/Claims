@@ -85,7 +85,9 @@ sap.ui.define([
 
 					var elements = oClaimData.reduce(function (previous, current) {
 
-						var object = previous.filter(object => object.ClaimGroupDes === current.ClaimGroupDes);
+						var object = previous.filter(function (sobj) {
+							return sobj.ClaimGroupDes === current.ClaimGroupDes;
+						});
 						if (object.length == 0) {
 							previous.push(current);
 						}

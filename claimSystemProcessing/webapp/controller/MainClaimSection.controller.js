@@ -4689,12 +4689,15 @@ sap.ui.define([
 		},
 		onStep06Back: function () {
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
-			if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZWA1" && this.getView().getModel("HeadSetData")
+			if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZWA1" || this.getView().getModel("HeadSetData")
 				.getProperty(
-					"/WarrantyClaimType") == "ZWA2" && this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZWAC" &&
-				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") == "ZWA1" && this.getView().getModel("HeadSetData")
+					"/WarrantyClaimType") == "ZWA2" || this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZWAC" ||
+				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") == "ZWA1" || this.getView().getModel("HeadSetData")
 				.getProperty(
-					"/WarrantyClaimSubType") == "ZWA2" && this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") == "ZWAC"
+					"/WarrantyClaimSubType") == "ZWA2" || this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") == "ZWAC" ||
+				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZWP1" ||
+				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") == "ZWP1"
+
 			) {
 				this.getView().byId("idFilter04").setProperty("enabled", true);
 				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab4");
