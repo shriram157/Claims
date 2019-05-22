@@ -345,6 +345,14 @@ sap.ui.define([
 			//this.byId('idActiveAgreement').getBinding('rows').filter([new sap.ui.model.Filter("VIN", sap.ui.model.FilterOperator.EQ, '0')]);
 			this.getView().byId('ofptable').getBinding('rows').filter();
 			this.getView().byId('idMainClaimMessage').setVisible(false);
+			this.getModel("LocalDataModel").setProperty("/AgreementDataECP", "");
+			this.getModel("LocalDataModel").setProperty("/DataVinDetails", "");
+			this.getModel("LocalDataModel").setProperty("/DataSpecialHandlingSet", "");
+			this.getModel("LocalDataModel").setProperty("/DataWrittenOffSet", "");
+			this.getModel("LocalDataModel").setProperty("/VehicleMonths", "");
+			this.getView().getModel("DateModel").setProperty("/foreignVinInd", false);
+			this.getView().getModel("DateModel").setProperty("/writtenOffInd", false);
+			this.getView().getModel("DateModel").setProperty("/specialVinInd", false);
 		}
 	});
 

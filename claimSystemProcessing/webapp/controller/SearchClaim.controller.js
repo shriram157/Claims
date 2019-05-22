@@ -73,7 +73,7 @@ sap.ui.define([
 				success: function (oData) {
 
 					var userType = oData.loggedUserType[0];
-					//var userType = "Dealer_Services_Admin";
+					//	var userType = "Dealer_Services_Admin";
 					sap.ui.getCore().getModel("UserDataModel").setProperty("/LoggedInUser", userType);
 					sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "");
 					switch (userType) {
@@ -694,7 +694,7 @@ sap.ui.define([
 					urlParameters: {
 						"$filter": "Partner eq '" + sQueryDealer + "' and " + sDate + " ge datetime'" + FromDateFormat +
 							"'and " + sDate + " le datetime'" + ToDateFormat +
-							"'and WarrantyClaimGroupDes eq '" + sQueryClaimGroup + "'and (" + oResult + ")"
+							"'and ClaimGroup eq '" + sQueryClaimGroup + "'and (" + oResult + ")"
 					},
 					success: $.proxy(function (data) {
 						this.getView().getModel("DateModel").setProperty("/tableBusyIndicator", false);
@@ -735,7 +735,7 @@ sap.ui.define([
 					urlParameters: {
 						"$filter": "Partner eq '" + sQueryDealer + "' and " + sDate + " ge datetime'" + FromDateFormat +
 							"'and " + sDate + " le datetime'" + ToDateFormat +
-							"'and WarrantyClaimGroupDes eq '" + sQueryClaimGroup + "'"
+							"'and ClaimGroup eq '" + sQueryClaimGroup + "'"
 					},
 					success: $.proxy(function (data) {
 						this.getView().getModel("DateModel").setProperty("/tableBusyIndicator", false);
