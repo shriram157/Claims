@@ -438,6 +438,7 @@ sap.ui.define([
 							0].OFPDescription);
 						this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", errorData.results[0].zc_claim_read_descriptionSet
 							.results[0].MainOpsCodeDescription);
+						console.log(errorData.results[0].zc_claim_read_descriptionSet.results[0].OFPDescription);
 					}, this)
 				});
 
@@ -1105,8 +1106,6 @@ sap.ui.define([
 						//console.log(sdata);
 						this.getModel("LocalDataModel").setProperty("/ClaimDetails", sdata.results[0]);
 						this.getView().getModel("HeadSetData").setData(sdata.results[0]);
-						this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", sdata.results[0].OfpDescription);
-						this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", sdata.results[0].Main_opsDescription);
 
 					}, this)
 				});

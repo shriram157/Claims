@@ -73,7 +73,7 @@ sap.ui.define([
 				success: function (oData) {
 
 					var userType = oData.loggedUserType[0];
-					//	var userType = "Dealer_Services_Admin";
+					//var userType = "Dealer_Services_Admin";
 					sap.ui.getCore().getModel("UserDataModel").setProperty("/LoggedInUser", userType);
 					sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "");
 					switch (userType) {
@@ -608,7 +608,8 @@ sap.ui.define([
 				oResult = sResults.join(" or ");
 			}
 
-			if (sQueryDate != "" && sQueryDealer != "" && sQuerySearchText == "" && sQueryClaimType == "" && sQueryStat == "") {
+			if (sQueryDate != "" && sQueryDealer != "" && sQueryClaimGroup == "" && sQuerySearchText == "" && sQueryClaimType == "" &&
+				sQueryStat == "") {
 				oProssingModel.read("/ZC_CLAIM_HEAD_NEW", {
 					urlParameters: {
 						"$filter": "Partner eq '" + sQueryDealer + "' and " + sDate + " ge datetime'" + FromDateFormat +
@@ -621,7 +622,8 @@ sap.ui.define([
 					}, this)
 				});
 
-			} else if (sQueryDate != "" && sQueryDealer != "" && sQuerySearchText != "" && sQueryClaimType == "" && sQueryStat == "") {
+			} else if (sQueryDate != "" && sQueryDealer != "" && sQueryClaimGroup == "" && sQuerySearchText != "" && sQueryClaimType == "" &&
+				sQueryStat == "") {
 				oProssingModel.read("/ZC_CLAIM_HEAD_NEW", {
 					urlParameters: {
 						"$filter": "Partner eq '" + sQueryDealer + "' and " + sDate + " ge datetime'" + FromDateFormat +
@@ -635,7 +637,8 @@ sap.ui.define([
 					}, this)
 				});
 
-			} else if (sQuerySearchText != "" && sQueryClaimType != "" && sQueryDate != "" && sQueryDealer != "" && sQueryStat == "") {
+			} else if (sQuerySearchText != "" && sQueryClaimType != "" && sQueryClaimGroup == "" && sQueryDate != "" && sQueryDealer != "" &&
+				sQueryStat == "") {
 
 				oProssingModel.read("/ZC_CLAIM_HEAD_NEW", {
 					urlParameters: {
@@ -648,7 +651,8 @@ sap.ui.define([
 						this.getModel("LocalDataModel").setProperty("/ZcClaimHeadNewData", data.results);
 					}, this)
 				});
-			} else if (sQueryClaimType != "" && sQueryDate != "" && sQueryDealer != "" && sQueryStat == "" && sQuerySearchText == "") {
+			} else if (sQueryClaimType != "" && sQueryDate != "" && sQueryClaimGroup == "" && sQueryDealer != "" && sQueryStat == "" &&
+				sQuerySearchText == "") {
 
 				oProssingModel.read("/ZC_CLAIM_HEAD_NEW", {
 					urlParameters: {
@@ -661,7 +665,8 @@ sap.ui.define([
 						this.getModel("LocalDataModel").setProperty("/ZcClaimHeadNewData", data.results);
 					}, this)
 				});
-			} else if (sQueryStat != "" && sQueryClaimType != "" && sQueryDate != "" && sQueryDealer != "" && sQuerySearchText == "") {
+			} else if (sQueryStat != "" && sQueryClaimType != "" && sQueryClaimGroup == "" && sQueryDate != "" && sQueryDealer != "" &&
+				sQuerySearchText == "") {
 
 				oProssingModel.read("/ZC_CLAIM_HEAD_NEW", {
 					urlParameters: {
@@ -674,7 +679,8 @@ sap.ui.define([
 						this.getModel("LocalDataModel").setProperty("/ZcClaimHeadNewData", data.results);
 					}, this)
 				});
-			} else if (sQueryStat != "" && sQuerySearchText != "" && sQueryDate != "" && sQueryDealer != "" && sQueryClaimType == "") {
+			} else if (sQueryStat != "" && sQuerySearchText != "" && sQueryDate != "" && sQueryClaimGroup == "" && sQueryDealer != "" &&
+				sQueryClaimType == "") {
 
 				oProssingModel.read("/ZC_CLAIM_HEAD_NEW", {
 					urlParameters: {
@@ -701,7 +707,8 @@ sap.ui.define([
 						this.getModel("LocalDataModel").setProperty("/ZcClaimHeadNewData", data.results);
 					}, this)
 				});
-			} else if (sQueryStat != "" && sQueryDate != "" && sQueryDealer != "" && sQueryClaimType == "" && sQuerySearchText == "") {
+			} else if (sQueryStat != "" && sQueryDate != "" && sQueryDealer != "" && sQueryClaimGroup == "" && sQueryClaimType == "" &&
+				sQuerySearchText == "") {
 
 				oProssingModel.read("/ZC_CLAIM_HEAD_NEW", {
 					urlParameters: {
@@ -714,7 +721,8 @@ sap.ui.define([
 						this.getModel("LocalDataModel").setProperty("/ZcClaimHeadNewData", data.results);
 					}, this)
 				});
-			} else if (sQueryDate != "" && sQueryDealer != "" && sQuerySearchText != "" && sQueryClaimType != "" && sQueryStat != "") {
+			} else if (sQueryDate != "" && sQueryDealer != "" && sQuerySearchText != "" && sQueryClaimGroup == "" && sQueryClaimType != "" &&
+				sQueryStat != "") {
 
 				oProssingModel.read("/ZC_CLAIM_HEAD_NEW", {
 					urlParameters: {
@@ -727,8 +735,7 @@ sap.ui.define([
 						this.getModel("LocalDataModel").setProperty("/ZcClaimHeadNewData", data.results);
 					}, this)
 				});
-			}
-			if (sQueryDate != "" && sQueryDealer != "" && sQueryClaimGroup != "" && sQuerySearchText == "" && sQueryClaimType == "" &&
+			} else if (sQueryDate != "" && sQueryDealer != "" && sQueryClaimGroup != "" && sQuerySearchText == "" && sQueryClaimType == "" &&
 				sQueryStat == "") {
 
 				oProssingModel.read("/ZC_CLAIM_HEAD_NEW", {
