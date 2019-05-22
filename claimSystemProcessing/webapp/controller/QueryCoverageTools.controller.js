@@ -87,6 +87,8 @@ sap.ui.define([
 							this.getView().byId("idMainClaimMessage").setType("Error");
 						} else {
 							this.getView().getModel("HeadSetData").setProperty("/ForeignVINIndicator", "No");
+							this.getView().getModel("DateModel").setProperty("/specialVinInd", false);
+							this.getView().getModel("DateModel").setProperty("/writtenOffInd", false);
 							this.oText = "true";
 							this.getView().byId("idMainClaimMessage").setProperty("visible", false);
 							this.getView().byId("idMainClaimMessage").setText("");
@@ -158,71 +160,83 @@ sap.ui.define([
 			var that = this;
 
 			var oProssingModel = this.getModel("ProssingModel");
-			oProssingModel.read("/zc_cliam_agreement", {
-				urlParameters: {
-					"$filter": "VIN eq '" + oVin + "'"
-				},
-				success: $.proxy(function (agrData) {
-					this.getModel("LocalDataModel").setProperty("/AgreementDataECP", agrData.results);
-					if (agrData.results.length > 0) {
-						this.getView().getModel("DateModel").setProperty("/oAgrTable", true);
-					} else {
-						this.getView().getModel("DateModel").setProperty("/oAgrTable", false);
-					}
+			if (oVin != "") {
+				oProssingModel.read("/zc_cliam_agreement", {
+					urlParameters: {
+						"$filter": "VIN eq '" + oVin + "'"
+					},
+					success: $.proxy(function (agrData) {
+						this.getModel("LocalDataModel").setProperty("/AgreementDataECP", agrData.results);
+						if (agrData.results.length > 0) {
+							this.getView().getModel("DateModel").setProperty("/oAgrTable", true);
+						} else {
+							this.getView().getModel("DateModel").setProperty("/oAgrTable", false);
+						}
 
-				}, this),
-				error: function () {}
-			});
+					}, this),
+					error: function () {}
+				});
 
-			var oBundle = this.getView().getModel("i18n").getResourceBundle();
+				var oBundle = this.getView().getModel("i18n").getResourceBundle();
 
-			oProssingModel.read("/zc_vehicle_informationSet", {
-				urlParameters: {
-					"$filter": "LanguageKey eq '" + sSelectedLocale.toUpperCase() + "'and Vin eq '" + oVin + "'",
-					"$expand": "ZC_SPECIAL_HANDLINGVEHICLESET,ZC_WRITTENOFFVEHICLESET"
+				oProssingModel.read("/zc_vehicle_informationSet", {
+					urlParameters: {
+						"$filter": "LanguageKey eq '" + sSelectedLocale.toUpperCase() + "'and Vin eq '" + oVin + "'",
+						"$expand": "ZC_SPECIAL_HANDLINGVEHICLESET,ZC_WRITTENOFFVEHICLESET"
 
-				},
-				//	"$expand": "ZC_SPECIAL_HANDLINGVEHICLESET, ZC_WRITTENOFFVEHICLESET"
-				success: $.proxy(function (vehData) {
-					this.getModel("LocalDataModel").setProperty("/DataVinDetails", vehData.results[0]);
-					//var oRepDate = this.getView().getModel("HeadSetData").getProperty("/RepairDate");
-					var regTime = new Date(vehData.results[0].RegDate).getTime();
-					var repTime = new Date().getTime();
-					var oMonth = (regTime - repTime) / (1000 * 60 * 60 * 24 * 30);
-					//parseFloat(oMonth).toFixed(2);
-					this.getModel("LocalDataModel").setProperty("/VehicleMonths", Math.abs(oMonth.toFixed(1)));
+					},
+					//	"$expand": "ZC_SPECIAL_HANDLINGVEHICLESET, ZC_WRITTENOFFVEHICLESET"
+					success: $.proxy(function (vehData) {
+						this.getModel("LocalDataModel").setProperty("/DataVinDetails", vehData.results[0]);
+						//var oRepDate = this.getView().getModel("HeadSetData").getProperty("/RepairDate");
+						var regTime = new Date(vehData.results[0].RegDate).getTime();
+						var repTime = new Date().getTime();
+						var oMonth = (regTime - repTime) / (1000 * 60 * 60 * 24 * 30);
+						//parseFloat(oMonth).toFixed(2);
+						this.getModel("LocalDataModel").setProperty("/VehicleMonths", Math.abs(oMonth.toFixed(1)));
 
-					if (vehData.results[0].ForeignVIN == "YES") {
-						dometerunit = 'MI';
-						this.getView().getModel("DateModel").setProperty("/foreignVinInd", true);
-						this.getModel("LocalDataModel").setProperty("/MsrUnit", oBundle.getText("distancemiles"));
-					} else {
-						dometerunit = 'KM';
-						this.getView().getModel("DateModel").setProperty("/foreignVinInd", false);
-						this.getModel("LocalDataModel").setProperty("/MsrUnit", oBundle.getText("distancekm"));
-					}
+						if (vehData.results[0].ForeignVIN == "YES") {
+							dometerunit = 'MI';
+							this.getView().getModel("DateModel").setProperty("/foreignVinInd", true);
+							this.getModel("LocalDataModel").setProperty("/MsrUnit", oBundle.getText("distancemiles"));
+						} else {
+							dometerunit = 'KM';
+							this.getView().getModel("DateModel").setProperty("/foreignVinInd", false);
+							this.getModel("LocalDataModel").setProperty("/MsrUnit", oBundle.getText("distancekm"));
+						}
 
-					if (vehData.results[0].WrittenOff == "YES") {
-						this.getView().getModel("DateModel").setProperty("/writtenOffInd", true);
-					} else {
-						this.getView().getModel("DateModel").setProperty("/writtenOffInd", false);
-					}
+						if (vehData.results[0].WrittenOff == "YES") {
+							this.getView().getModel("DateModel").setProperty("/writtenOffInd", true);
+						} else {
+							this.getView().getModel("DateModel").setProperty("/writtenOffInd", false);
+						}
 
-					if (vehData.results[0].SpecialVINReview == "YES") {
+						if (vehData.results[0].SpecialVINReview == "YES") {
 
-						this.getView().getModel("DateModel").setProperty("/specialVinInd", true);
-					} else {
+							this.getView().getModel("DateModel").setProperty("/specialVinInd", true);
+						} else {
 
-						this.getView().getModel("DateModel").setProperty("/specialVinInd", false);
+							this.getView().getModel("DateModel").setProperty("/specialVinInd", false);
 
-					}
+						}
 
-					this.getModel("LocalDataModel").setProperty("/DataSpecialHandlingSet", vehData.results[0].ZC_SPECIAL_HANDLINGVEHICLESET
-						.results);
-					this.getModel("LocalDataModel").setProperty("/DataWrittenOffSet", vehData.results[0].ZC_WRITTENOFFVEHICLESET.results);
-				}, this),
-				error: function () {}
-			});
+						this.getModel("LocalDataModel").setProperty("/DataSpecialHandlingSet", vehData.results[0].ZC_SPECIAL_HANDLINGVEHICLESET
+							.results);
+						this.getModel("LocalDataModel").setProperty("/DataWrittenOffSet", vehData.results[0].ZC_WRITTENOFFVEHICLESET.results);
+					}, this),
+					error: function () {}
+				});
+
+			} else {
+				this.getModel("LocalDataModel").setProperty("/AgreementDataECP", "");
+				this.getModel("LocalDataModel").setProperty("/DataVinDetails", "");
+				this.getModel("LocalDataModel").setProperty("/DataSpecialHandlingSet", "");
+				this.getModel("LocalDataModel").setProperty("/DataWrittenOffSet", "");
+				this.getModel("LocalDataModel").setProperty("/VehicleMonths", "");
+				this.getView().getModel("DateModel").setProperty("/foreignVinInd", false);
+				this.getView().getModel("DateModel").setProperty("/writtenOffInd", false);
+				this.getView().getModel("DateModel").setProperty("/specialVinInd", false);
+			}
 
 			//----------------------------------------------
 			//-------Get Aggrements--------------------------
@@ -328,7 +342,7 @@ sap.ui.define([
 			this.getView().byId('mainop').setValue('');
 			this.getView().getModel('LocalDataModel').setProperty('/DataVinDetails', '');
 			this.getView().getModel('LocalDataModel').setProperty('/VehicleMonths', '');
-			this.byId('idActiveAgreement').getBinding('rows').filter([new sap.ui.model.Filter("VIN", sap.ui.model.FilterOperator.EQ, '0')]);
+			//this.byId('idActiveAgreement').getBinding('rows').filter([new sap.ui.model.Filter("VIN", sap.ui.model.FilterOperator.EQ, '0')]);
 			this.getView().byId('ofptable').getBinding('rows').filter();
 			this.getView().byId('idMainClaimMessage').setVisible(false);
 		}

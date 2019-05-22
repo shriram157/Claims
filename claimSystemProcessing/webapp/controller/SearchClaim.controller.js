@@ -1251,6 +1251,7 @@ sap.ui.define([
 			this.getView().byId("idClaimType").setSelectedKey("");
 			this.getView().byId("idClaimStatus").setSelectedItems("");
 			this.getView().byId("idSearchBy").setSelectedKey("");
+			this.getView().getModel("LocalDataModel").setProperty("/ZcClaimHeadNewData", "");
 
 		},
 		onPressClaim: function (oEvent) {
