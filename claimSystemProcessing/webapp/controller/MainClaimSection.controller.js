@@ -22,10 +22,7 @@ sap.ui.define([
 			//Model data set for Header Links visibility as per User login
 			console.log("HeaderLinksModel", sap.ui.getCore().getModel("HeaderLinksModel"));
 			this.getView().setModel(sap.ui.getCore().getModel("HeaderLinksModel"), "HeaderLinksModel");
-			//  this.oBreadcrumbs = this.byId("breadcrumbsSupportingDoc");
-
-			// this.getView().setModel(oNodeModel, "ClaimModel");
-			// this.bindUploadCollectionItems("ClaimModel>/items");
+			
 			this.setModel(this.getModel("ProductMaster"), "ProductMasterModel");
 			this.setModel(this.getModel("ZVehicleMasterModel"), "ZVehicleMasterModel");
 			this.setModel(this.getModel("ProssingModel"));
