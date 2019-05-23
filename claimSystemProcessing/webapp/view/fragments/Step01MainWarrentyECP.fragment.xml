@@ -595,7 +595,7 @@
 					</table:columns>
 				</table:Table>
 			</content>
-			<HBox alignContent="Center" justifyContent="Center" class="sapUiTinyMarginTop">
+			<HBox alignContent="Center" justifyContent="Center" class="sapUiTinyMarginTop sapUiTinyMarginBottom">
 				<Button class="sapUiTinyMarginBeginEnd" press="onPressBack" text="{i18n>BackList}" type="Back"/>
 				<Button class="sapUiTinyMarginBeginEnd" press="onCancelClaim" enabled="{LocalDataModel>/CancelEnable}" text="{i18n>CancelClaim}"
 					type="Reject"/>

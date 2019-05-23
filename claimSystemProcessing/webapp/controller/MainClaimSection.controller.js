@@ -278,6 +278,10 @@ sap.ui.define([
 				ShipmentVisible: false
 			});
 			this.getView().setModel(oDateModel, "DateModel");
+			this.getModel("LocalDataModel").setProperty("/SubletAtchmentData", "");
+			this.getView().getModel("SubletDataModel").setProperty("/InvoiceNo", "");
+			this.getView().getModel("SubletDataModel").setProperty("/description", "");
+			this.getView().getModel("SubletDataModel").setProperty("/Amount", "");
 			//this.getView().getModel("DateModel").setProperty("/OdometerReq", true);
 			var oValidator = new Validator();
 			oValidator.validate("");
@@ -631,7 +635,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/PreroOdometerVisible", false);
 							this.getView().getModel("DateModel").setProperty("/RepairdDetailVisible", true);
 							this.getView().getModel("DateModel").setProperty("/oMainOps", true);
-							this.getView().getModel("DateModel").setProperty("/oMainOpsReq", false);
+							this.getView().getModel("DateModel").setProperty("/oMainOpsReq", true);
 						} else if (oClaimTypeDetail == "ZWP2" || submissionType == "ZWP2") {
 							this.getView().getModel("DateModel").setProperty("/oMainOps", false);
 							this.getView().getModel("DateModel").setProperty("/Paint", false);
@@ -743,7 +747,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/PreroOdometerVisible", false);
 							this.getView().getModel("DateModel").setProperty("/RepairdDetailVisible", true);
 							this.getView().getModel("DateModel").setProperty("/oFieldActionInput", false);
-							this.getView().getModel("DateModel").setProperty("/oMainOpsReq", false);
+							this.getView().getModel("DateModel").setProperty("/oMainOpsReq", true);
 							this.getView().getModel("DateModel").setProperty("/authHide", true);
 							this._fnClaimSumPercent();
 						} else if (oClaimTypeDetail == "ZGGW" || submissionType == "ZGGW") {
@@ -859,7 +863,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/oPrevInvDateReq", false);
 							this.getView().getModel("DateModel").setProperty("/PreroOdometerVisible", false);
 							this.getView().getModel("DateModel").setProperty("/RepairdDetailVisible", true);
-							this.getView().getModel("DateModel").setProperty("/oMainOpsReq", false);
+							this.getView().getModel("DateModel").setProperty("/oMainOpsReq", true);
 							this.getView().getModel("DateModel").setProperty("/authHide", false);
 						} else if (oClaimTypeDetail == "ZRCR") {
 							this.getView().getModel("DateModel").setProperty("/oMainOps", true);
@@ -3401,7 +3405,7 @@ sap.ui.define([
 			}
 
 			jQuery.each(aInputs, function (i, oInput) {
-				if (oInput.getVisible() == true) {
+				if (oInput.getVisible() == true && oInput.mProperties.enabled == true) {
 					bValidationError = that._validateInput(oInput) || bValidationError;
 				}
 			});

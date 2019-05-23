@@ -144,7 +144,7 @@
 				</table:Column>
 			</table:columns>
 		</table:Table>
-		<VBox>
+		<VBox class="clMinHeight">
 			<List headerText="{i18n>Validations}" items="{ path: 'LocalDataModel>/oErrorSet' }" busy="{DateModel>/errorBusyIndicator}">
 				<CustomListItem>
 					<HBox class="sapUiSmallMargin">
