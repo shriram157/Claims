@@ -307,7 +307,7 @@
 						<Text text="{LocalDataModel>PlanType}" wrapping="true"/>
 						<Text text="{LocalDataModel>AgreementStatus}" wrapping="true"/>
 						<Text
-							text="{path:'LocalDataModel>StatusDate', type: 'sap.ui.model.type.Date', constraints: { displayFormat: 'Date' }, formatOptions: { style: 'medium', strictParsing: true , UTC: true}}"
+							text="{path:'LocalDataModel>StatusDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd'}}"
 							wrapping="true"/>
 						<Text
 							text="{path:'LocalDataModel>AgreementthruDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd'}}"

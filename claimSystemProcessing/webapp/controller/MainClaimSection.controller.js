@@ -2218,6 +2218,8 @@ sap.ui.define([
 		},
 
 		onEnterVIN: function (oEvent) {
+		    this.getView().byId("idECPAGR").removeSelections();
+		    this.getView().getModel("HeadSetData").setProperty("/AgreementNumber", "");
 			var sSelectedLocale;
 			//  get the locale to determine the language.
 			var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
@@ -2233,16 +2235,23 @@ sap.ui.define([
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var oRepDate;
 			//var oECPModel = this.getOwnerComponent().getModel("EcpSalesModel");
-			oProssingModel.read("/zc_cliam_agreement", {
-				urlParameters: {
-					"$filter": "VIN eq '" + oVin + "'"
-				},
-				success: $.proxy(function (data) {
-					this.getModel("LocalDataModel").setProperty("/AgreementDataECP", data.results);
-				}, this),
-				error: function () {}
-			});
+			
+		
 			if (oVin != "") {
+			    
+			    if(this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZECP"){
+					    	oProssingModel.read("/zc_cliam_agreement", {
+                				urlParameters: {
+                					"$filter": "VIN eq '" + oVin + "'"
+                				},
+                				success: $.proxy(function (data) {
+                					this.getModel("LocalDataModel").setProperty("/AgreementDataECP", data.results);
+                				}, this),
+                				error: function () {}
+			                });
+				}
+			    
+			    
 				oProssingModel.read("/ZC_GET_FORE_VIN(p_vhvin='" + oVin + "')/Set", {
 					success: $.proxy(function (data) {
 						if (data.results.length > 0) {
@@ -2335,11 +2344,11 @@ sap.ui.define([
 
 			} else {
 				this.getModel("LocalDataModel").setProperty("/DataVinDetails", "");
-
 				this.getModel("LocalDataModel").setProperty("/VehicleMonths", "");
 				this.getView().getModel("DateModel").setProperty("/writtenOffInd", false);
 				this.getView().getModel("DateModel").setProperty("/specialVinInd", false);
 				this.getView().getModel("DateModel").setProperty("/foreignVinInd", false);
+				this.getModel("LocalDataModel").setProperty("/AgreementDataECP", "");
 			}
 
 		},
@@ -3204,7 +3213,6 @@ sap.ui.define([
 			var that = this;
 			var oView = this.getView();
 			var aInputs;
-
 			var aInputsArr = [
 				oView.byId("idClaimType"),
 				oView.byId("idDealerClaim"),
@@ -3219,12 +3227,23 @@ sap.ui.define([
 				oView.byId("idCondition")
 			];
 
+			var aInputsArrCoreRet = [
+				oView.byId("idClaimType"),
+				oView.byId("idDealerClaim"),
+				oView.byId("idVinNum"),
+				oView.byId("idT1Field"),
+				oView.byId("idT2Field"),
+				oView.byId("idRemedy"),
+				oView.byId("idCause"),
+				oView.byId("idCondition")
+			];
+
 			var aInputsArrZWAC = [
 				oView.byId("idClaimType"),
-				oView.byId("id_Date"),
 				oView.byId("idDealerClaim"),
 				oView.byId("idAccDate"),
 				oView.byId("idInsOdo"),
+				oView.byId("id_Date"),
 				oView.byId("idOdometer"),
 				oView.byId("idRepairOrder"),
 				oView.byId("idVinNum"),
@@ -3278,8 +3297,8 @@ sap.ui.define([
 
 			var aInputsFieldActZCWE = [
 				oView.byId("idClaimType"),
-				oView.byId("id_Date"),
 				oView.byId("idDealerClaim"),
+				oView.byId("id_Date"),
 				oView.byId("idOFP"),
 				oView.byId("idOdometer"),
 				oView.byId("idRepairOrder"),
@@ -3299,6 +3318,7 @@ sap.ui.define([
 				oView.byId("idOdometer"),
 				oView.byId("idRepairOrder"),
 				oView.byId("idVinNum"),
+				oView.byId("idMainOps"),
 				oView.byId("idT1Field"),
 				oView.byId("idT2Field"),
 				oView.byId("idRemedy"),
@@ -3310,15 +3330,13 @@ sap.ui.define([
 				oView.byId("idClaimType"),
 				oView.byId("idDealerClaim"),
 				oView.byId("id_Date"),
-				// 		oView.byId("idClientLastName"),
-				// 		oView.byId("idPostalCode"),
 				oView.byId("idOdometer"),
 				oView.byId("idRepairOrder"),
 				oView.byId("idVinNum")
 
-				// 		oView.byId("iDdelivCarrier"),
-				// 		oView.byId("idProbill"),
-				// 		oView.byId("idDelivery"),
+				// oView.byId("iDdelivCarrier"),
+				// oView.byId("idProbill"),
+				// oView.byId("idDelivery"),
 
 			];
 
@@ -3336,10 +3354,13 @@ sap.ui.define([
 				oView.byId("idCondition")
 			];
 
-			var aInputsArrCoreRet = [
+			var aInputsZWVE = [
 				oView.byId("idClaimType"),
-				oView.byId("id_Date"),
 				oView.byId("idDealerClaim"),
+				oView.byId("id_Date"),
+				oView.byId("idOdometer"),
+				oView.byId("idRepairOrder"),
+				oView.byId("idMainOps"),
 				oView.byId("idVinNum"),
 				oView.byId("idT1Field"),
 				oView.byId("idT2Field"),
@@ -3352,17 +3373,17 @@ sap.ui.define([
 
 			if (oClmSubType == "ZCER" || oClmSubType == "ZCLS" || oClmSubType == "ZCSR") {
 				aInputs = aInputsFieldAct;
-			} else if (oClaimtype == "ZCWE" && oClmType == "ZCWE") {
+			} else if (oClaimtype == "FAC" && oClmType == "ZCWE") {
 				aInputs = aInputsFieldActZCWE;
-			} else if (oClmSubType == "ZCWE" || oClmType == "ZCWE") {
+			} else if (oClmSubType == "ZCWE") {
 				aInputs = aInputsFieldActZCWE;
-			} else if (oClaimtype == "ZCER" || oClaimtype == "ZCLS" || oClaimtype == "ZCSR") {
+			} else if (oClaimtype == "FAC") {
 				aInputs = aInputsFieldAct;
-			} else if (oClaimtype == "ECP" || oClmType == "ZECP") {
+			} else if (oClaimtype == "ECP") {
 				aInputs = aInputsOECP;
-			} else if (oClaimtype == "STR" || oClmType == "ZSSE") {
+			} else if (oClaimtype == "STR") {
 				aInputs = aInputsSETR;
-			} else if (oClaimtype == "ZLDC" || oClmType == "ZLDC") {
+			} else if (oClaimtype == "VLC") {
 				aInputs = aInputVehiclLog;
 			} else if (oClmType == "ZWAC" || oClmSubType == "ZWAC") {
 				aInputs = aInputsArrZWAC;
@@ -3370,17 +3391,22 @@ sap.ui.define([
 				aInputs = aInputsArrZWP2;
 			} else if (oClmType == "ZWMS" || oClmSubType == "ZWMS") {
 				aInputs = aInputsArrZWMS;
-			} else if (oClaimtype == "ZWVE" || oClaimtype == "ZGGW" || oClaimtype == "ZWP1" || oClaimtype == "ZWA1" || oClaimtype ==
-				"ZWA2") {
+			} else if (oClmType == "ZWVE") {
+				aInputs = aInputsZWVE;
+			} else if (oClmType == "ZWP1") {
+				aInputs = aInputsZWVE;
+			} else if (oClaimtype == "WTY") {
 				aInputs = aInputsArr;
-			} else if (oClaimtype == "ZRCR" || oClmType == "ZRCR") {
+			} else if (oClaimtype == "CRC") {
 				aInputs = aInputsArr;
 			} else if (oClmType == "ZSCR") {
 				aInputs = aInputsArrCoreRet;
 			}
 
 			jQuery.each(aInputs, function (i, oInput) {
-				bValidationError = that._validateInput(oInput) || bValidationError;
+				if (oInput.getVisible() == true) {
+					bValidationError = that._validateInput(oInput) || bValidationError;
+				}
 			});
 
 			var oPartner = this.getModel("LocalDataModel").getProperty("/BpDealerModel/0/BusinessPartnerKey");
@@ -3771,6 +3797,32 @@ sap.ui.define([
 					this.getModel("LocalDataModel").setProperty("/ClaimSumAuth/3/MarkupRate", "");
 				}, this)
 			});
+		},
+
+		onChangeOFP: function (oEvent) {
+            if(this.getView().getModel("DateModel").getProperty("/ofpRequired") == false && oEvent.getParameters().value == ""){
+                this.getView().byId("idOFP").setValueState("None");
+            }
+			var oItems = this.getView().byId("idTableParts").getItems();
+			var partPricingModel = this.getModel("LocalDataModel").getProperty("/PricingDataModel");
+			
+			var oIndexMat = partPricingModel.findIndex($.proxy(function (item) {
+				return item.ItemKey == oEvent.getParameters().value
+			}), this);
+			console.log(oIndexMat);
+			
+
+				for (var i = 0; i < partPricingModel.length; i++) {
+				    if (oEvent.getParameters().value == "" || partPricingModel[i].ItemKey != oEvent.getParameters().value) {
+					this.getView().byId("idTableParts").getItems()[i].getCells()[1].setProperty("selected", false);
+					this.getView().getModel("HeadSetData").setProperty("/OFP", oEvent.getParameters().value);
+				}
+
+			}
+
+			if (oIndexMat > -1) {
+				this.getView().byId("idTableParts").getItems()[oIndexMat].getCells()[1].setProperty("selected", true);
+			}
 		},
 
 		onBeforeUpload: function () {
