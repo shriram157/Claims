@@ -44,6 +44,9 @@ sap.ui.define([
 				useBatch: false,
 				json: true,
 				defaultUpdateMethod: 'PUT',
+				headers: {
+					"X-Requested-With": "XMLHttpRequest"
+				}
 			});
 			this.setModel(oDataModel, "ProssingModel");
 			var mConfig01 = this.getMetadata().getManifestEntry("/sap.app/dataSources/API_BUSINESS_PARTNER");
@@ -56,7 +59,10 @@ sap.ui.define([
 
 			var oDataModel01 = new ODataModel(mConfig01.uri, {
 				useBatch: false,
-				json: true
+				json: true,
+				headers: {
+					"X-Requested-With": "XMLHttpRequest"
+				}
 			});
 			this.setModel(oDataModel01, "ApiBusinessModel");
 
@@ -69,7 +75,10 @@ sap.ui.define([
 
 			var oDataModel02 = new ODataModel(mConfig02.uri, {
 				useBatch: false,
-				json: true
+				json: true,
+				headers: {
+					"X-Requested-With": "XMLHttpRequest"
+				}
 			});
 			this.setModel(oDataModel02, "ProductMaster");
 
@@ -79,7 +88,10 @@ sap.ui.define([
 			}
 			var oDataModel04 = new ODataModel(mConfig04.uri, {
 				useBatch: false,
-				json: true
+				json: true,
+				headers: {
+					"X-Requested-With": "XMLHttpRequest"
+				}
 			});
 
 			this.setModel(oDataModel04, "ZVehicleMasterModel");
@@ -96,7 +108,10 @@ sap.ui.define([
 				useBatch: false,
 				// disableHeadRequestForToken: false,
 				defaultUpdateMethod: 'PATCH',
-				json: true
+				json: true,
+				headers: {
+					"X-Requested-With": "XMLHttpRequest"
+				}
 			});
 
 			this.setModel(oDataModel05, "EcpSalesModel");
