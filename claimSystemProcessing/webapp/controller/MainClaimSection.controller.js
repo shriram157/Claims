@@ -427,22 +427,6 @@ sap.ui.define([
 				var oECPModel = this.getOwnerComponent().getModel("EcpSalesModel");
 				var oBusinessModel = this.getModel("ApiBusinessModel");
 
-				oProssingModel.read("/zc_headSet", {
-					urlParameters: {
-						"$filter": "NumberOfWarrantyClaim eq '" + oClaim +
-							"'and LanguageKey eq '" + sSelectedLocale.toUpperCase() + "'",
-						"$expand": "zc_claim_vsrSet,zc_claim_read_descriptionSet"
-					},
-					success: $.proxy(function (errorData) {
-						this.getModel("LocalDataModel").setProperty("/oErrorSet", errorData.results[0].zc_claim_vsrSet.results);
-						this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", errorData.results[0].zc_claim_read_descriptionSet.results[
-							0].OFPDescription);
-						this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", errorData.results[0].zc_claim_read_descriptionSet
-							.results[0].MainOpsCodeDescription);
-						console.log(errorData.results[0].zc_claim_read_descriptionSet.results[0].OFPDescription);
-					}, this)
-				});
-
 				oProssingModel.read("/ZC_CLAIM_HEAD_NEW", {
 					urlParameters: {
 						"$filter": "NumberOfWarrantyClaim eq '" + oClaim + "' "
@@ -1107,6 +1091,32 @@ sap.ui.define([
 						//console.log(sdata);
 						this.getModel("LocalDataModel").setProperty("/ClaimDetails", sdata.results[0]);
 						this.getView().getModel("HeadSetData").setData(sdata.results[0]);
+						oProssingModel.read("/zc_headSet", {
+							urlParameters: {
+								"$filter": "NumberOfWarrantyClaim eq '" + oClaim +
+									"'and LanguageKey eq '" + sSelectedLocale.toUpperCase() + "'",
+								"$expand": "zc_claim_vsrSet,zc_claim_read_descriptionSet"
+							},
+							success: $.proxy(function (errorData) {
+								this.getModel("LocalDataModel").setProperty("/oErrorSet", errorData.results[0].zc_claim_vsrSet.results);
+								this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", errorData.results[0].zc_claim_read_descriptionSet
+									.results[
+										0].OFPDescription);
+								this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", errorData.results[0].zc_claim_read_descriptionSet
+									.results[0].MainOpsCodeDescription);
+
+								this.getView().getModel("HeadSetData").setProperty("/ReferenceDate", errorData.results[0].zc_claim_read_descriptionSet
+									.results[0].ReferenceDate);
+
+								this.getView().getModel("HeadSetData").setProperty("/DateOfApplication", errorData.results[0].zc_claim_read_descriptionSet
+									.results[0].DateOfApplication);
+
+								this.getView().getModel("HeadSetData").setProperty("/RepairDate", errorData.results[0].zc_claim_read_descriptionSet
+									.results[0].RepairDate);
+
+								//console.log(errorData.results[0].zc_claim_read_descriptionSet.results[0].OFPDescription);
+							}, this)
+						});
 
 					}, this)
 				});
@@ -2478,7 +2488,7 @@ sap.ui.define([
 				sValueState = "Error";
 				bValidationError = true;
 			}
-			if (oInput.getValue() == "") {
+			if (oInput.getValue() == "" && oInput.mProperties.required == true) {
 				sValueState = "Error";
 				bValidationError = true;
 			}
@@ -3808,49 +3818,53 @@ sap.ui.define([
 			if (this.getView().getModel("DateModel").getProperty("/oMainOpsReq") == false && oEvent.getParameters().value == "") {
 				this.getView().byId("idMainOps").setValueState("None");
 			}
-			var oItems = this.getView().byId("idLabourTable").getItems();
 			var partPricingModel = this.getModel("LocalDataModel").getProperty("/LabourPricingDataModel");
+			if (partPricingModel != "") {
+				var oItems = this.getView().byId("idLabourTable").getItems();
 
-			var oIndexMat = partPricingModel.findIndex($.proxy(function (item) {
-				return item.ItemKey == oEvent.getParameters().value
-			}), this);
-			console.log(oIndexMat);
+				var oIndexMat = partPricingModel.findIndex($.proxy(function (item) {
+					return item.ItemKey == oEvent.getParameters().value
+				}), this);
+				console.log(oIndexMat);
 
-			for (var i = 0; i < partPricingModel.length; i++) {
-				if (oEvent.getParameters().value == "" || partPricingModel[i].ItemKey != oEvent.getParameters().value) {
-					this.getView().byId("idLabourTable").getItems()[i].getCells()[1].setProperty("selected", false);
-					this.getView().getModel("HeadSetData").setProperty("/MainOpsCode", oEvent.getParameters().value);
+				for (var i = 0; i < partPricingModel.length; i++) {
+					if (oEvent.getParameters().value == "" || partPricingModel[i].ItemKey != oEvent.getParameters().value) {
+						this.getView().byId("idLabourTable").getItems()[i].getCells()[1].setProperty("selected", false);
+						this.getView().getModel("HeadSetData").setProperty("/MainOpsCode", oEvent.getParameters().value);
+					}
+
 				}
 
+				if (oIndexMat > -1) {
+					this.getView().byId("idLabourTable").getItems()[oIndexMat].getCells()[1].setProperty("selected", true);
+				}
 			}
 
-			if (oIndexMat > -1) {
-				this.getView().byId("idLabourTable").getItems()[oIndexMat].getCells()[1].setProperty("selected", true);
-			}
 		},
 
 		onChangeOFP: function (oEvent) {
 			if (this.getView().getModel("DateModel").getProperty("/ofpRequired") == false && oEvent.getParameters().value == "") {
 				this.getView().byId("idOFP").setValueState("None");
 			}
-			var oItems = this.getView().byId("idTableParts").getItems();
 			var partPricingModel = this.getModel("LocalDataModel").getProperty("/PricingDataModel");
+			if (partPricingModel != "") {
+				var oItems = this.getView().byId("idTableParts").getItems();
+				var oIndexMat = partPricingModel.findIndex($.proxy(function (item) {
+					return item.ItemKey == oEvent.getParameters().value
+				}), this);
+				console.log(oIndexMat);
 
-			var oIndexMat = partPricingModel.findIndex($.proxy(function (item) {
-				return item.ItemKey == oEvent.getParameters().value
-			}), this);
-			console.log(oIndexMat);
+				for (var i = 0; i < partPricingModel.length; i++) {
+					if (oEvent.getParameters().value == "" || partPricingModel[i].ItemKey != oEvent.getParameters().value) {
+						this.getView().byId("idTableParts").getItems()[i].getCells()[1].setProperty("selected", false);
+						this.getView().getModel("HeadSetData").setProperty("/OFP", oEvent.getParameters().value);
+					}
 
-			for (var i = 0; i < partPricingModel.length; i++) {
-				if (oEvent.getParameters().value == "" || partPricingModel[i].ItemKey != oEvent.getParameters().value) {
-					this.getView().byId("idTableParts").getItems()[i].getCells()[1].setProperty("selected", false);
-					this.getView().getModel("HeadSetData").setProperty("/OFP", oEvent.getParameters().value);
 				}
 
-			}
-
-			if (oIndexMat > -1) {
-				this.getView().byId("idTableParts").getItems()[oIndexMat].getCells()[1].setProperty("selected", true);
+				if (oIndexMat > -1) {
+					this.getView().byId("idTableParts").getItems()[oIndexMat].getCells()[1].setProperty("selected", true);
+				}
 			}
 		},
 
@@ -6775,6 +6789,13 @@ sap.ui.define([
 			};
 
 			this.obj.zc_claim_vsrSet.results.push(oObj);
+
+			var oIndexLabour = this.obj.zc_claim_item_labourSet.results.findIndex($.proxy(function (item) {
+				return item.LabourNumber == this.getView().getModel("HeadSetData").getProperty("/MainOpsCode")
+			}), this);
+			if (oIndexLabour > -1) {
+				this.obj.zc_claim_item_labourSet.results[oIndexLabour].MainOpIndicator = "X";
+			}
 
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var GroupType = this.getModel("LocalDataModel").getProperty("/WarrantyClaimTypeGroup");

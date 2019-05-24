@@ -4,7 +4,7 @@
 		<Button text="{i18n>ViewUpdateClaims}" press="handleNavHeaderPress" type="Transparent" visible="{HeaderLinksModel>/ViewUpdateClaims}"></Button>
 		<Button text="{i18n>QuickCoverageTool}" press="handleNavHeaderPress" type="Transparent" visible="{HeaderLinksModel>/QuickCoverageTool}"></Button>
 		<Button text="{i18n>ClaimInquiry}" press="handleNavHeaderPress" type="Transparent" visible="{HeaderLinksModel>/ClaimInquiry}"></Button>
-		<Button text="{i18n>DealerLabourRateInquiry}" press="handleNavHeaderPress" type="Transparent"
+		<Button text="{i18n>DealerLabourRateInquiry}" press="handleDealerLabourInq" type="Transparent"
 			visible="{HeaderLinksModel>/DealerLabourRateInquiry}"></Button>
 		<tnt:ToolHeaderUtilitySeparator/>
 	</tnt:ToolHeader>

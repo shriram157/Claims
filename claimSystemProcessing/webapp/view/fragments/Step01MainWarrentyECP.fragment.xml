@@ -80,7 +80,7 @@
 				</f:content>
 			</f:SimpleForm>
 		</Panel>
-		<f:SimpleForm id="idClaimMainForm" editable="{DateModel>/oFormEdit}" title="Repair Order Information" layout="ResponsiveGridLayout"
+		<f:SimpleForm id="idClaimMainForm" editable="{DateModel>/oFormEdit}" title="{i18n>RepairOrderInformation}" layout="ResponsiveGridLayout"
 			labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0"
 			emptySpanS="0" columnsXL="3" columnsL="3" columnsM="3" singleContainerFullSize="false">
 			<f:content>
@@ -335,11 +335,12 @@
 				<!--<Button press="onPressLookUpECP" text="{i18n>LookupECPAgreements}"/>-->
 				<core:Title text=""/>
 				<Label text=" " class="clTextIndent"/>
-				<Button text="{i18n>PerformCIC}">
-					<layoutData>
-						<l:GridData span="XL8 L8 M12 S12"/>
-					</layoutData>
-				</Button>
+				<!--<Button text="{i18n>PerformCIC}">-->
+				<!--	<layoutData>-->
+				<!--		<l:GridData span="XL8 L8 M12 S12"/>-->
+				<!--	</layoutData>-->
+				<!--</Button>-->
+				<Link emphasized="true" href="https://b2b.acpt.toyota.ca/CICWeb/" target="_blank"/>
 				<core:Title text=""/>
 				<Label text="{i18n>AgreementNumber}"/>
 				<Text text="{HeadSetData>/AgreementNumber}"/>

@@ -33,16 +33,22 @@ sap.ui.define([
 			} else if (oGetText === oBundle.getText("ClaimInquiry")) {
 				this.getOwnerComponent().getRouter().navTo("ClaimInquiry");
 				this.getModel("ProssingModel").refresh();
-			} else if (oGetText === oBundle.getText("DealerLabourRateInquiry")) {
-
-				this.getDealer();
-				if (!this.a_Dialog) {
-					this.a_Dialog = sap.ui.xmlfragment("zclaimProcessing.view.fragments.DealerLabour",
-						this);
-					this.getView().addDependent(this.a_Dialog);
-				}
-				this.a_Dialog.open();
 			}
+
+			// 			else if (oGetText === oBundle.getText("DealerLabourRateInquiry")) {
+
+			// 			}
+		},
+
+		handleDealerLabourInq: function (oEvent) {
+			this.getDealer();
+			var oDialog;
+			if (!oDialog) {
+				oDialog = sap.ui.xmlfragment("zclaimProcessing.view.fragments.DealerLabour",
+					this);
+				this.getView().addDependent(oDialog);
+			}
+			oDialog.open();
 		},
 
 		setModel: function (oModel, sName) {
