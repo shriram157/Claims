@@ -1,9 +1,11 @@
 sap.ui.define([
+	"sap/m/Dialog",
+	"sap/m/Text",
 	"sap/ui/core/UIComponent",
 	"sap/ui/Device",
 	"zclaimProcessing/model/models",
 	"sap/ui/model/odata/v2/ODataModel"
-], function (UIComponent, Device, models, ODataModel) {
+], function (Dialog, Text, UIComponent, Device, models, ODataModel) {
 	"use strict";
 
 	return UIComponent.extend("zclaimProcessing.Component", {
@@ -26,6 +28,32 @@ sap.ui.define([
 
 			// set the device model
 			this.setModel(models.createDeviceModel(), "device");
+
+			// Get resource bundle
+			var bundle = this.getModel('i18n').getResourceBundle();
+
+			// Attach XHR event handler to detect 401 error responses for handling as timeout
+			var sessionExpDialog = new Dialog({
+				title: bundle.getText('SESSION_EXP_TITLE'),
+				type: 'Message',
+				state: 'Warning',
+				content: new Text({
+					text: bundle.getText('SESSION_EXP_TEXT')
+				})
+			});
+			var origOpen = XMLHttpRequest.prototype.open;
+			XMLHttpRequest.prototype.open = function () {
+				this.addEventListener('load', function (event) {
+					// TODO Compare host name in URLs to ensure only app resources are checked
+					if (event.target.status === 401) {
+						if (!sessionExpDialog.isOpen()) {
+							sessionExpDialog.open();
+						}
+					}
+				});
+				origOpen.apply(this, arguments);
+			};
+
 			this.setModel(models.createLocalDataModel(), "LocalDataModel");
 
 			var mConfig = this.getMetadata().getManifestEntry("/sap.app/dataSources/ZDLR_CLAIM_SRV");
