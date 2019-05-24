@@ -22,7 +22,7 @@ sap.ui.define([
 			//Model data set for Header Links visibility as per User login
 			console.log("HeaderLinksModel", sap.ui.getCore().getModel("HeaderLinksModel"));
 			this.getView().setModel(sap.ui.getCore().getModel("HeaderLinksModel"), "HeaderLinksModel");
-			
+
 			this.setModel(this.getModel("ProductMaster"), "ProductMasterModel");
 			this.setModel(this.getModel("ZVehicleMasterModel"), "ZVehicleMasterModel");
 			this.setModel(this.getModel("ProssingModel"));
@@ -1175,6 +1175,12 @@ sap.ui.define([
 								});
 
 								this.getModel("LocalDataModel").setProperty("/LabourPricingDataModel", oFilteredDataLabour);
+								var oIndexLab = LabourItem.findIndex($.proxy(function (item) {
+									return item.LabourNumber == this.getView().getModel("HeadSetData").getProperty("/MainOpsCode")
+								}), this);
+								if (oIndexLab > -1) {
+									this.getView().byId("idLabourTable").getItems()[oIndexLab].getCells()[1].setProperty("selected", true);
+								}
 
 								var oFilteredDataPaint = pricinghData.filter(function (val) {
 									return val.ItemType === "FR" && val.LabourNumber[0] == "P";
@@ -2219,8 +2225,8 @@ sap.ui.define([
 		},
 
 		onEnterVIN: function (oEvent) {
-		    this.getView().byId("idECPAGR").removeSelections();
-		    this.getView().getModel("HeadSetData").setProperty("/AgreementNumber", "");
+			this.getView().byId("idECPAGR").removeSelections();
+			this.getView().getModel("HeadSetData").setProperty("/AgreementNumber", "");
 			var sSelectedLocale;
 			//  get the locale to determine the language.
 			var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
@@ -2236,23 +2242,21 @@ sap.ui.define([
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var oRepDate;
 			//var oECPModel = this.getOwnerComponent().getModel("EcpSalesModel");
-			
-		
+
 			if (oVin != "") {
-			    
-			    if(this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZECP"){
-					    	oProssingModel.read("/zc_cliam_agreement", {
-                				urlParameters: {
-                					"$filter": "VIN eq '" + oVin + "'"
-                				},
-                				success: $.proxy(function (data) {
-                					this.getModel("LocalDataModel").setProperty("/AgreementDataECP", data.results);
-                				}, this),
-                				error: function () {}
-			                });
+
+				if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZECP") {
+					oProssingModel.read("/zc_cliam_agreement", {
+						urlParameters: {
+							"$filter": "VIN eq '" + oVin + "'"
+						},
+						success: $.proxy(function (data) {
+							this.getModel("LocalDataModel").setProperty("/AgreementDataECP", data.results);
+						}, this),
+						error: function () {}
+					});
 				}
-			    
-			    
+
 				oProssingModel.read("/ZC_GET_FORE_VIN(p_vhvin='" + oVin + "')/Set", {
 					success: $.proxy(function (data) {
 						if (data.results.length > 0) {
@@ -3800,21 +3804,45 @@ sap.ui.define([
 			});
 		},
 
-		onChangeOFP: function (oEvent) {
-            if(this.getView().getModel("DateModel").getProperty("/ofpRequired") == false && oEvent.getParameters().value == ""){
-                this.getView().byId("idOFP").setValueState("None");
-            }
-			var oItems = this.getView().byId("idTableParts").getItems();
-			var partPricingModel = this.getModel("LocalDataModel").getProperty("/PricingDataModel");
-			
+		onChangeMainOp: function (oEvent) {
+			if (this.getView().getModel("DateModel").getProperty("/oMainOpsReq") == false && oEvent.getParameters().value == "") {
+				this.getView().byId("idMainOps").setValueState("None");
+			}
+			var oItems = this.getView().byId("idLabourTable").getItems();
+			var partPricingModel = this.getModel("LocalDataModel").getProperty("/LabourPricingDataModel");
+
 			var oIndexMat = partPricingModel.findIndex($.proxy(function (item) {
 				return item.ItemKey == oEvent.getParameters().value
 			}), this);
 			console.log(oIndexMat);
-			
 
-				for (var i = 0; i < partPricingModel.length; i++) {
-				    if (oEvent.getParameters().value == "" || partPricingModel[i].ItemKey != oEvent.getParameters().value) {
+			for (var i = 0; i < partPricingModel.length; i++) {
+				if (oEvent.getParameters().value == "" || partPricingModel[i].ItemKey != oEvent.getParameters().value) {
+					this.getView().byId("idLabourTable").getItems()[i].getCells()[1].setProperty("selected", false);
+					this.getView().getModel("HeadSetData").setProperty("/MainOpsCode", oEvent.getParameters().value);
+				}
+
+			}
+
+			if (oIndexMat > -1) {
+				this.getView().byId("idLabourTable").getItems()[oIndexMat].getCells()[1].setProperty("selected", true);
+			}
+		},
+
+		onChangeOFP: function (oEvent) {
+			if (this.getView().getModel("DateModel").getProperty("/ofpRequired") == false && oEvent.getParameters().value == "") {
+				this.getView().byId("idOFP").setValueState("None");
+			}
+			var oItems = this.getView().byId("idTableParts").getItems();
+			var partPricingModel = this.getModel("LocalDataModel").getProperty("/PricingDataModel");
+
+			var oIndexMat = partPricingModel.findIndex($.proxy(function (item) {
+				return item.ItemKey == oEvent.getParameters().value
+			}), this);
+			console.log(oIndexMat);
+
+			for (var i = 0; i < partPricingModel.length; i++) {
+				if (oEvent.getParameters().value == "" || partPricingModel[i].ItemKey != oEvent.getParameters().value) {
 					this.getView().byId("idTableParts").getItems()[i].getCells()[1].setProperty("selected", false);
 					this.getView().getModel("HeadSetData").setProperty("/OFP", oEvent.getParameters().value);
 				}
@@ -5908,6 +5936,13 @@ sap.ui.define([
 
 					console.log(oFilteredData);
 					this.getModel("LocalDataModel").setProperty("/LabourPricingDataModel", oFilteredData);
+					var oIndexMat = oFilteredData.findIndex($.proxy(function (item) {
+						return item.ItemKey == this.getView().getModel("HeadSetData").getProperty("/MainOpsCode")
+					}), this);
+					if (oIndexMat > -1) {
+						this.getView().byId("idLabourTable").getItems()[oIndexMat].getCells()[1].setProperty("selected", true);
+					}
+
 					//this.getModel("LocalDataModel").setProperty("/WarrantyClaimNum", response.data.NumberOfWarrantyClaim);
 					MessageToast.show(oBundle.getText("Claimhasbeensavedsuccessfully"), {
 						my: "center center",
