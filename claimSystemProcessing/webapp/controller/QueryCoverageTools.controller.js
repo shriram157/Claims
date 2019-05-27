@@ -72,6 +72,7 @@ sap.ui.define([
 
 			oProssingModel.read("/ZC_GET_FORE_VIN(p_vhvin='" + oVin + "')/Set", {
 				success: $.proxy(function (data) {
+					this.getView().getModel("LocalDataModel").setProperty("/oVinDetisl", data.results);
 					if (data.results.length > 0) {
 						var oVinModel = data.results[0].Model;
 						if (oVinModel == "I_VEH_US") {
@@ -160,7 +161,8 @@ sap.ui.define([
 			var that = this;
 
 			var oProssingModel = this.getModel("ProssingModel");
-			if (oVin != "") {
+			if (oVin != "" && this.getView().getModel("LocalDataModel").getProperty("/oVinDetisl/0/Message") != "Invalid VIN Number" &&
+				this.getView().byId('Odometer').getValue() != "") {
 				oProssingModel.read("/zc_cliam_agreement", {
 					urlParameters: {
 						"$filter": "VIN eq '" + oVin + "'"

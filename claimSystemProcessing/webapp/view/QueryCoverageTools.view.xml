@@ -16,10 +16,10 @@
 									<f:content>
 										<core:Title text=""/>
 										<Label text="{i18n>VIN}" textAlign="Begin" required="true"/>
-										<Input value="" id='vin' change="onEnterVIN" liveChange="onLiveVINEnter"/>
+										<Input maxLength="17" value="" id='vin' change="onEnterVIN" liveChange="onLiveVINEnter"/>
 										<core:Title text=""/>
 										<Label text="{i18n>Odometer}" textAlign="Begin" required="true"/>
-										<custom:CustomInput value="" id='Odometer'/>
+										<custom:CustomInput maxLength="6" value="" id='Odometer'/>
 										<core:Title text=""/>
 										<Button text="{i18n>Search}" press="onPressSearch" type="Emphasized"/>
 										<Button text="{i18n>Reset}" press="onPressClear"/>
@@ -200,8 +200,8 @@
 								<!--		</table:Column>-->
 								<!--	</table:columns>-->
 								<!--</table:Table>-->
-								<table:Table class="classRCPTable" selectionMode="Single" rows="{LocalDataModel>/CoverageSet}" visibleRowCountMode="Auto" id='ofptable'
-									selectionBehavior="Row" showNoData="true" threshold="20" enableBusyIndicator="true">
+								<table:Table class="classRCPTable sapUiSmallMarginBottom" selectionMode="Single" rows="{LocalDataModel>/CoverageSet}"
+									visibleRowCountMode="Auto" id='ofptable' selectionBehavior="Row" showNoData="true" threshold="20" enableBusyIndicator="true">
 									<table:toolbar>
 										<f:SimpleForm editable="true" layout="ResponsiveGridLayout" title="" labelSpanXL="6" labelSpanL="6" labelSpanM="12" labelSpanS="12"
 											emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="3" columnsL="3" columnsM="3">
@@ -267,11 +267,10 @@
 								<!--<List headerText="{i18n>ImportantNotes}">-->
 								<!--<DisplayListItem>-->
 								<Title text="{i18n>ImportantNotes}"/>
-								<Text
-									text="This Coverage Inquiry is based on the date that the search is being performed and assumed to be the Repair Date on Repair Order. If the Repair Date on the Repair Order is different, the Coverage Inquiry results could differ especially if the vehicle is close to coverage expiry. Always perform the inquiry on the actual Repair Date to ensure accuracy."/>
+								<Text text="{i18n>CoverageInquiryDetailText}"/>
 								<!--<DisplayListItem-->
-								<Text
-									text="This Coverage Inquiry is provided for the purpose of easily determining the claim coverage of a vehicle component/repair. Claim coverage is limited to an actual customer complaint as a result of a defect in material or workmanship. The inquiry and resultant coverage results does not constitute the approval or authorization of a claim. All policies and procedures as outlined in the Warranty and ECP Policies and Procedures Manual still apply. "/>
+								<!--<Text-->
+								<!--	text=" "/>-->
 								<!--</DisplayListItem>-->
 								<!--</List>-->
 							</VBox>

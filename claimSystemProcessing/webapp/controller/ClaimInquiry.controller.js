@@ -19,13 +19,15 @@ sap.ui.define([
 				dateValueDRS2: new Date(new Date().setDate(PriorDate.getDate() - (365 * 5))),
 				secondDateValueDRS2: PriorDate,
 				dateCurrent: new Date(),
-				vinState: "None"
+				vinState: "None",
+				tableBusyIndicator: false
 			});
 			this.getView().setModel(oDateModel, "DateModel");
 			this.getModel("LocalDataModel").setProperty("/LinkEnable", true);
 		},
 
 		onPressSearch: function () {
+			this.getView().getModel("DateModel").setProperty("/tableBusyIndicator", true);
 			var oClaimModel = this.getModel("ProssingModel");
 			var oDealer = this.getModel("LocalDataModel").getProperty("/BpDealerModel/0/BusinessPartnerKey");
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
@@ -49,6 +51,7 @@ sap.ui.define([
 					success: $.proxy(function (data) {
 						//var oArr = data.results;
 						this.getModel("LocalDataModel").setProperty("/DataResultEnquiry", data.results);
+						this.getView().getModel("DateModel").setProperty("/tableBusyIndicator", false);
 						// var oArr = this.getModel("LocalDataModel").getProperty("/DataResultEnquiry");
 						// oArr.forEach($.proxy(function(item){
 						// 	if(item.Partner == oDealer){
