@@ -195,6 +195,8 @@ sap.ui.define([
 					var BpDealer = [];
 					var userAttributes = [];
 
+					that.getModel("LocalDataModel").setProperty("/LoginId", oData.userProfile.id);
+
 					$.each(oData.attributes, function (i, item) {
 						var BpLength = item.BusinessPartner.length;
 
@@ -210,21 +212,6 @@ sap.ui.define([
 					});
 					that.getModel("LocalDataModel").setProperty("/BpDealerModel", BpDealer);
 					that.getModel("LocalDataModel").setProperty("/BpDealerKey", BpDealer[0].BusinessPartnerKey);
-					//that.getView().setModel(new sap.ui.model.json.JSONModel(BpDealer), "BpDealerModel");
-					// read the saml attachments the same way 
-					// 	$.each(oData.samlAttributes, function (i, item) {
-					// 		userAttributes.push({
-					// 			"UserType": item.UserType[0],
-					// 			"DealerCode": item.DealerCode[0],
-					// 			"Language": item.Language[0]
-					// 				// "Zone": item.Zone[0]   ---    Not yet available
-					// 		});
-
-					// 	});
-
-					// 	that.getView().setModel(new sap.ui.model.json.JSONModel(userAttributes), "userAttributesModel");
-
-					//	that._getTheUserAttributes();
 
 				}.bind(this),
 				error: function (response) {
@@ -602,7 +589,7 @@ sap.ui.define([
 
 				for (var j = 0; j < sQueryStat.length; j++) {
 					//oResult.push(sQueryStat[j]);
-					sResults.push("DecisionCode eq '" + sQueryStat[j] + "'");
+					sResults.push("ProcessingStatusOfWarrantyClm eq '" + sQueryStat[j] + "'");
 
 				}
 				oResult = sResults.join(" or ");

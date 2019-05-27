@@ -232,7 +232,7 @@ sap.ui.define([
 				success: function (oData) {
 					var BpDealer = [];
 					var userAttributes = [];
-
+					that.getModel("LocalDataModel").setProperty("/LoginId", oData.userProfile.id);
 					$.each(oData.attributes, function (i, item) {
 						var BpLength = item.BusinessPartner.length;
 
@@ -258,6 +258,7 @@ sap.ui.define([
 			}).done(function (data, textStatus, jqXHR) {
 
 				that.getModel("LocalDataModel").setProperty("/BPDealerDetails", data.attributes[0]);
+				that.getModel("LocalDataModel").setProperty("/LoginId", data.userProfile.id);
 				//----------------------------------
 				//Code of Dealer Labour--------------
 				//------------------------------------

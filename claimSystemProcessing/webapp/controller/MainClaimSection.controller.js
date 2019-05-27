@@ -14,7 +14,7 @@ sap.ui.define([
 
 	return BaseController.extend("zclaimProcessing.controller.MainClaimSection", {
 		onInit: function () {
-
+			this.getDealer();
 			var oNodeModel = new sap.ui.model.json.JSONModel();
 			oNodeModel.loadData(jQuery.sap.getModulePath("zclaimProcessing.utils", "/Nodes.json"));
 			this.oUploadCollection = this.byId("UploadSupportingDoc");
