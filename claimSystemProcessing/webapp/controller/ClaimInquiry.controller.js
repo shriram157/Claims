@@ -16,7 +16,7 @@ sap.ui.define([
 			var PriorDate = new Date();
 			var oDateModel = new sap.ui.model.json.JSONModel();
 			oDateModel.setData({
-				dateValueDRS2: new Date(new Date().setDate(PriorDate.getDate() - 30)),
+				dateValueDRS2: new Date(new Date().setDate(PriorDate.getDate() - (365 * 5))),
 				secondDateValueDRS2: PriorDate,
 				dateCurrent: new Date(),
 				vinState: "None"
@@ -24,7 +24,7 @@ sap.ui.define([
 			this.getView().setModel(oDateModel, "DateModel");
 			this.getModel("LocalDataModel").setProperty("/LinkEnable", true);
 		},
-		
+
 		onPressSearch: function () {
 			var oClaimModel = this.getModel("ProssingModel");
 			var oDealer = this.getModel("LocalDataModel").getProperty("/BpDealerModel/0/BusinessPartnerKey");
@@ -40,29 +40,29 @@ sap.ui.define([
 			var ToDateFormat = oDateFormat.format(ToDate);
 			if (sQuery != "") {
 				oClaimModel.read("/ZC_CLAIM_HEAD_NEW", {
-						urlParameters: {
-							"$filter": "ReferenceDate ge datetime'" + FromDateFormat +
-								"'and ReferenceDate le datetime'" + ToDateFormat +
-								"'and ExternalObjectNumber eq '" + sQuery + "'"
+					urlParameters: {
+						"$filter": "ReferenceDate ge datetime'" + FromDateFormat +
+							"'and ReferenceDate le datetime'" + ToDateFormat +
+							"'and ExternalObjectNumber eq '" + sQuery + "'"
 
-						},
-						success : $.proxy(function(data){
-							//var oArr = data.results;
-							this.getModel("LocalDataModel").setProperty("/DataResultEnquiry", data.results);
-							// var oArr = this.getModel("LocalDataModel").getProperty("/DataResultEnquiry");
-							// oArr.forEach($.proxy(function(item){
-							// 	if(item.Partner == oDealer){
-							// 		this.getModel("LocalDataModel").setProperty("/LinkEnable", true);	
-							// 	}else {
-							// 		this.getModel("LocalDataModel").setProperty("/LinkEnable", false);
-							// 	}
-							// }),this);
-							
-						}, this)
+					},
+					success: $.proxy(function (data) {
+						//var oArr = data.results;
+						this.getModel("LocalDataModel").setProperty("/DataResultEnquiry", data.results);
+						// var oArr = this.getModel("LocalDataModel").getProperty("/DataResultEnquiry");
+						// oArr.forEach($.proxy(function(item){
+						// 	if(item.Partner == oDealer){
+						// 		this.getModel("LocalDataModel").setProperty("/LinkEnable", true);	
+						// 	}else {
+						// 		this.getModel("LocalDataModel").setProperty("/LinkEnable", false);
+						// 	}
+						// }),this);
+
+					}, this)
 				});
-				
+
 				this.getView().getModel("DateModel").setProperty("/vinState", "None");
-				
+
 			} else {
 				this.getView().getModel("DateModel").setProperty("/vinState", "Error");
 				this.getView().byId("idNewClaimMsgStrp").setProperty("visible", true);
@@ -74,38 +74,36 @@ sap.ui.define([
 			var oClaimNum = oEvent.getSource().getParent().getCells()[2].getText();
 			var oClaimType = oEvent.getSource().getParent().getCells()[6].getText();
 			if (oClaimType == "ZACD" || oClaimType == "ZAUT") {
-						this.oSelectedClaimGroup = "Authorization";
-					} else {
-						this.oSelectedClaimGroup = "Claim";
-					}
+				this.oSelectedClaimGroup = "Authorization";
+			} else {
+				this.oSelectedClaimGroup = "Claim";
+			}
 			// var oSelectedClaimGroup = oEvent.getSource().getParent().getCells()[15].getText();
 			var oDealer = this.getModel("LocalDataModel").getProperty("/BpDealerModel/0/BusinessPartnerKey");
-			if(oCustomer === oDealer){
+			if (oCustomer === oDealer) {
 				this.getOwnerComponent().getRouter().navTo("MainClaimSection", {
-						claimNum: oClaimNum,
-						oKey: oClaimType,
-						oClaimGroup: this.oSelectedClaimGroup,
-						oClaimNav : "Inq"
+					claimNum: oClaimNum,
+					oKey: oClaimType,
+					oClaimGroup: this.oSelectedClaimGroup,
+					oClaimNav: "Inq"
 
-					});
-			}else{
+				});
+			} else {
 				MessageToast.show("No Authorization to View this claim.");
 			}
 		},
-		fnFormatDealer : function(val){
+		fnFormatDealer: function (val) {
 			var oDealer = this.getModel("LocalDataModel").getProperty("/BpDealerModel/0/BusinessPartnerKey");
-			var oAccessedDealer ;
-			if(val === oDealer){
+			var oAccessedDealer;
+			if (val === oDealer) {
 				this.getModel("LocalDataModel").setProperty("/LinkEnable", true);
 				oAccessedDealer = val;
-			}else{
+			} else {
 				this.getModel("LocalDataModel").setProperty("/LinkEnable", false);
 				oAccessedDealer = val;
 			}
 			return val;
 		}
-
-		
 
 	});
 

@@ -287,6 +287,13 @@ sap.ui.define([
 		onCloseDialogDealer: function (Oevent) {
 			Oevent.getSource().getParent().close();
 		},
+		// 		getDealerlabour : function(data){
+		// 		    var oModel = this.getModel("ProssingModel");
+		// 		    oModel.read("/zc_labour_rateSet(Partner='" + data.BusinessPartnerKey + "',Division='" + data.Division +"')", {
+		// 		        success : function
+		// 		    });
+		// 		},
+
 		getDealerlabour: function (data) {
 				var that = this;
 				var oUrl = this.sPrefix + "/node/ZDLR_CLAIM_SRV/zc_labour_rateSet(Partner='" + data.BusinessPartnerKey + "',Division='" + data.Division +
@@ -299,9 +306,11 @@ sap.ui.define([
 					success: function (zdata, textStatus, jqXHR) {
 						var oModel = new sap.ui.model.json.JSONModel();
 						zdata.d.Name = data.BusinessPartnerName;
-						//var zd1 = parseInt(zdata.d.ECPEffectiveDate.replace(/[^0-9]+/g, ''));
-						//zdata.d.ECPEffectiveDate = new Date(zd1);
-						//zdata.d.WTYEffectiveDate = new Date(zd1);
+						if (zdata.d.ECPEffectiveDate != null || zdata.d.ECPEffectiveDate != "") {
+							var zd1 = parseInt(zdata.d.ECPEffectiveDate.replace(/[^0-9]+/g, ''));
+							zdata.d.ECPEffectiveDate = new Date(zd1);
+							zdata.d.WTYEffectiveDate = new Date(zd1);
+						}
 						oModel.setData(zdata.d);
 						that.getView().setModel(oModel, 'DealerLabour');
 					},

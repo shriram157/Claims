@@ -340,7 +340,7 @@
 				<!--		<l:GridData span="XL8 L8 M12 S12"/>-->
 				<!--	</layoutData>-->
 				<!--</Button>-->
-				<Link emphasized="true" href="https://b2b.acpt.toyota.ca/CICWeb/" target="_blank"/>
+				<Link emphasized="true" text="{i18n>PerformCIC}" href="https://b2b.acpt.toyota.ca/CICWeb/" target="_blank"/>
 				<core:Title text=""/>
 				<Label text="{i18n>AgreementNumber}"/>
 				<Text text="{HeadSetData>/AgreementNumber}"/>

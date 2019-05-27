@@ -1,19 +1,7 @@
-<core:FragmentDefinition
-	xmlns="sap.m"
-	xmlns:core="sap.ui.core">
-	<SelectDialog
-		title="{i18n>OperationCode}" 
-		class="sapUiPopupWithPadding"
-		items="{LocalDataModel>/SuggetionOperationList}"
-		search="_handleValueHelpSearchLabour"
-		confirm="_handleValueHelpCloseLabour"
-		liveChange="_handleLiveChangeLabour"
-		cancel="_handleValueHelpCloseLabour"
-		growing="true"
-		growingThreshold="500">
-		<StandardListItem
-		
-			title="{LocalDataModel>J_3GKATNRC}"
-			description="{LocalDataModel>LTEXT}" info="{LocalDataModel>TIME}"/>
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+	<SelectDialog title="{i18n>OperationCode}" class="sapUiPopupWithPadding" items="{LocalDataModel>/SuggetionOperationList}"
+		search="_handleValueHelpSearchLabour" confirm="_handleValueHelpCloseLabour" liveChange="_handleLiveChangeLabour"
+		cancel="_handleValueHelpCloseLabour" growingThreshold="500">
+		<StandardListItem title="{LocalDataModel>J_3GKATNRC}" description="{LocalDataModel>LTEXT}" info="{LocalDataModel>TIME}"/>
 	</SelectDialog>
 </core:FragmentDefinition>

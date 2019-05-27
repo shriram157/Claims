@@ -272,12 +272,21 @@ sap.ui.define([
 
 			var oProssingModel = this.getModel("ProssingModel");
 
+			// 			/sap/opu / odata / sap / ZDLR_CLAIM_SRV / zc_coverageSet ? $filter = VIN eq '2T1BU4EE3AC213900'
+			// 			and OdometerReading eq '55000'
+			// 			and OdometerUOM eq 'KM'
+			// 			and OFP eq '423110C010'
+			// 			and MainOpsCode eq '160011'
+			// 			and RepairDate eq datetime '2018-12-18T00:00:00'
+			// 			and LanguageKey eq 'EN'
+			// 			and AgreementNumber eq 'A0000000000000520' & $format = json
+
 			if (oVin != '' && odmeter != '' && partofp != '' && mainop != '') {
 				oProssingModel.read("/zc_coverageSet", {
 					urlParameters: {
 						"$filter": "VIN eq '" + oVin + "'and OdometerReading eq '" + odmeter + "'and OFP eq '" + partofp + "'and MainOpsCode eq '" +
 							mainop + "'and RepairDate eq datetime'" + currentdate + "'and LanguageKey eq '" +
-							sSelectedLocale.toUpperCase() + "'"
+							sSelectedLocale.toUpperCase() + "'and OdometerUOM eq '" + dometerunit + "'and AgreementNumber eq '" + agreementselected + "'"
 					},
 					success: $.proxy(function (data) {
 						this.getModel("LocalDataModel").setProperty("/CoverageSet", data.results);

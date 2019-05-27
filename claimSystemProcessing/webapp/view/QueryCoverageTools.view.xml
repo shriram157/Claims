@@ -227,7 +227,7 @@
 												<Label text="{i18n>PartOFP}" textAlign="Center" width="100%"/>
 											</table:multiLabels>
 											<table:template>
-												<Text text="{ProssingModel>Part}" wrapping="false"/>
+												<Text text="{LocalDataModel>Part}" wrapping="false"/>
 											</table:template>
 										</table:Column>
 										<table:Column width="17rem">
@@ -235,7 +235,7 @@
 												<Label text="{i18n>PartDescription}" textAlign="Center" width="100%"/>
 											</table:multiLabels>
 											<table:template>
-												<Text text="{ProssingModel>PartDes}" wrapping="false"/>
+												<Text text="{LocalDataModel>PartDes}" wrapping="false"/>
 											</table:template>
 										</table:Column>
 										<table:Column width="17rem">
@@ -243,7 +243,7 @@
 												<Label text="{i18n>MainOp}" textAlign="Center" width="100%"/>
 											</table:multiLabels>
 											<table:template>
-												<Text text="{ProssingModel>MainOp}" wrapping="false"/>
+												<Text text="{LocalDataModel>MainOp}" wrapping="false"/>
 											</table:template>
 										</table:Column>
 										<table:Column width="17rem">
@@ -251,7 +251,7 @@
 												<Label text="{i18n>OperationDescription}" textAlign="Center" width="100%"/>
 											</table:multiLabels>
 											<table:template>
-												<Text text="{ProssingModel>MainOpDes}" wrapping="false"/>
+												<Text text="{LocalDataModel>MainOpDes}" wrapping="false"/>
 											</table:template>
 										</table:Column>
 										<table:Column width="19rem">
@@ -259,7 +259,7 @@
 												<Label text="{i18n>Coverage}" textAlign="Center" width="100%"/>
 											</table:multiLabels>
 											<table:template>
-												<Text text="{ProssingModel>Coverage}" wrapping="false"/>
+												<Text text="{LocalDataModel>Coverage}" wrapping="false"/>
 											</table:template>
 										</table:Column>
 									</table:columns>
