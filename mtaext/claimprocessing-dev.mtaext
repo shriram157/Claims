@@ -5,10 +5,20 @@ extends: claimsSystemProcessing
 modules:
  - name: claimSystemProcessing_Node
    parameters:
-      host: tci-dev-claims-node
+      host: dev-claims-node
+      domain: scp.toyota.ca
    properties:
       MOCK_USER_MODE: true
       MOCK_USER_ORIGIN: d36z7bqhz1-GSR-Neo-to-CF
  - name: claimSystemProcessing
    parameters:
-      host: tci-dev-claims
+      host: dev-claims
+      domain: scp.toyota.ca
+
+resources:
+ - name: uaa_claimsSystemProcessing
+   parameters:
+      config:
+         oauth2-configuration:
+            redirect-uris:
+               - https://dev-claims.scp.toyota.ca/login/callback
