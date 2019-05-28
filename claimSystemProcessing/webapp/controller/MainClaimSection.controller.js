@@ -3229,7 +3229,7 @@ sap.ui.define([
 			var oView = this.getView();
 			var aInputs;
 			var aInputsArr = [
-				oView.byId("idClaimType"),
+
 				oView.byId("idDealerClaim"),
 				oView.byId("id_Date"),
 				oView.byId("idOdometer"),
@@ -3243,7 +3243,7 @@ sap.ui.define([
 			];
 
 			var aInputsArrCoreRet = [
-				oView.byId("idClaimType"),
+
 				oView.byId("idDealerClaim"),
 				oView.byId("idVinNum"),
 				oView.byId("idT1Field"),
@@ -3254,7 +3254,7 @@ sap.ui.define([
 			];
 
 			var aInputsArrZWAC = [
-				oView.byId("idClaimType"),
+
 				oView.byId("idDealerClaim"),
 				oView.byId("idAccDate"),
 				oView.byId("idInsOdo"),
@@ -3270,7 +3270,7 @@ sap.ui.define([
 			];
 
 			var aInputsArrZWP2 = [
-				oView.byId("idClaimType"),
+
 				oView.byId("idDealerClaim"),
 				oView.byId("idPreInvNum"),
 				oView.byId("idPrInvDate"),
@@ -3285,7 +3285,7 @@ sap.ui.define([
 			];
 
 			var aInputsArrZWMS = [
-				oView.byId("idClaimType"),
+
 				oView.byId("idDealerClaim"),
 				oView.byId("id_Date"),
 				oView.byId("idRepairOrder"),
@@ -3298,7 +3298,7 @@ sap.ui.define([
 			];
 
 			var aInputsFieldAct = [
-				oView.byId("idClaimType"),
+
 				oView.byId("idDealerClaim"),
 				oView.byId("id_Date"),
 				oView.byId("idOdometer"),
@@ -3311,7 +3311,7 @@ sap.ui.define([
 			];
 
 			var aInputsFieldActZCWE = [
-				oView.byId("idClaimType"),
+
 				oView.byId("idDealerClaim"),
 				oView.byId("id_Date"),
 				oView.byId("idOFP"),
@@ -3325,7 +3325,7 @@ sap.ui.define([
 			];
 
 			var aInputsOECP = [
-				oView.byId("idClaimType"),
+
 				oView.byId("id_Date"),
 				oView.byId("idDealerClaim"),
 				oView.byId("idClientLastName"),
@@ -3342,7 +3342,7 @@ sap.ui.define([
 			];
 
 			var aInputVehiclLog = [
-				oView.byId("idClaimType"),
+
 				oView.byId("idDealerClaim"),
 				oView.byId("id_Date"),
 				oView.byId("idOdometer"),
@@ -3356,7 +3356,7 @@ sap.ui.define([
 			];
 
 			var aInputsSETR = [
-				oView.byId("idClaimType"),
+
 				oView.byId("idDealerClaim"),
 				oView.byId("id_Date"),
 				oView.byId("idOdometer"),
@@ -3370,7 +3370,7 @@ sap.ui.define([
 			];
 
 			var aInputsZWVE = [
-				oView.byId("idClaimType"),
+
 				oView.byId("idDealerClaim"),
 				oView.byId("id_Date"),
 				oView.byId("idOdometer"),
@@ -3408,6 +3408,8 @@ sap.ui.define([
 				aInputs = aInputsArrZWMS;
 			} else if (oClmType == "ZWVE") {
 				aInputs = aInputsZWVE;
+			} else if (oClmType == "ZGGW") {
+				aInputs = aInputsArr;
 			} else if (oClmType == "ZWP1") {
 				aInputs = aInputsZWVE;
 			} else if (oClaimtype == "WTY") {
@@ -4997,11 +4999,11 @@ sap.ui.define([
 								text: oBundle.getText("Yes"),
 								press: function () {
 
-									var oFun = new Promise(function (resolve, reject) {
-										resolve(that._fnUpdateClaim());
+									var oFun = new Promise((resolve, reject) => {
+										that._fnUpdateClaim();
 									});
 
-									oFun.then(function (val) {
+									oFun.then((val) => {
 										that.getRouter().navTo("SearchClaim");
 									});
 
@@ -6735,7 +6737,7 @@ sap.ui.define([
 
 			var oClaimModel = this.getModel("ProssingModel");
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
-			this.obj.WarrantyClaimType = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType");
+			//this.obj.WarrantyClaimType = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType");
 			this.obj.Partner = this.getModel("LocalDataModel").getProperty("/BpDealerModel/0/BusinessPartnerKey");
 			this.obj.ActionCode = "";
 			this.obj.NumberOfWarrantyClaim = this.getView().getModel("HeadSetData").getProperty("/NumberOfWarrantyClaim");
