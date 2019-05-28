@@ -3755,6 +3755,7 @@ sap.ui.define([
 											this.getView().getModel("DateModel").setProperty("/oztac", true);
 											this.getView().getModel("DateModel").setProperty("/authAcClm", false);
 											this.getView().getModel("DateModel").setProperty("/authRejClm", false);
+											this.getView().getModel("DateModel").setProperty("/claimEditSt", false);
 											this.getModel("LocalDataModel").setProperty("/UploadEnable", true);
 
 											this._fnClaimSumPercent();
