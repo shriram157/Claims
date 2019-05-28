@@ -403,14 +403,10 @@ sap.ui.define([
 					this.getModel("LocalDataModel").setProperty("/copyClaimAuthText", oBundle.getText("CopytoAuthorization"));
 					this.getModel("LocalDataModel").setProperty("/SaveAuthClaim", oBundle.getText("SaveClaim"));
 					this.getModel("LocalDataModel").setProperty("/WarrantyClaimNumber", oBundle.getText("TCIClaimNumber") + " : " + oClaim);
-					// 	this.getView().getModel("DataPercetCalculate").setProperty("/CustomerPer", "");
-					// 	this.getView().getModel("DataPercetCalculate").setProperty("/DealerPer", "");
-					// 	this.getView().getModel("DataPercetCalculate").setProperty("/TCIPer", "");
 				}
 
 				this.getModel("LocalDataModel").setProperty("/WarrantyClaimNum", oClaim);
 				this.getView().getModel("DateModel").setProperty("/claimTypeEn", false);
-				//this.getView().getModel("DateModel").setProperty("/enableTab", true);
 				this.getView().byId("idFilter02").setProperty("enabled", true);
 				this.getView().byId("idFilter03").setProperty("enabled", true);
 				this.getView().byId("idFilter04").setProperty("enabled", true);
@@ -422,8 +418,6 @@ sap.ui.define([
 				this.getView().getModel("DateModel").setProperty("/updateClaimSt", true);
 
 				this.getView().byId("idFilter01").setProperty("enabled", true);
-
-				//this.getView().getModel("DateModel").setProperty("/oECPfields", false);
 				var oECPModel = this.getOwnerComponent().getModel("EcpSalesModel");
 				var oBusinessModel = this.getModel("ApiBusinessModel");
 
@@ -941,14 +935,10 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/copyClaimEnable", true);
 							this.getView().getModel("DateModel").setProperty("/oDamageLineBtn", false);
 							this.getModel("LocalDataModel").setProperty("/PercentState", false);
-							//if (oClaimSelectedGroup == "Authorization") {
-							//                         	this.getView().getModel("DateModel").setProperty("/copyClaimEnable", false);
-							//                     }else{
-							//                         	this.getView().getModel("DateModel").setProperty("/copyClaimEnable", true);
-							//                     }
+
 						} else if (data.results[0].ProcessingStatusOfWarrantyClm == "ZTMR" && sap.ui.getCore().getModel("UserDataModel").getProperty(
 								"/LoggedInUser") == "Dealer_Services_Manager") {
-							//sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") == "Dealer_Services_Manager"
+
 							this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
 							this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
 							this.getView().getModel("DateModel").setProperty("/damageLine", false);
@@ -965,7 +955,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/ShipmentVisible", false);
 
 						} else if (data.results[0].ProcessingStatusOfWarrantyClm == "ZTMR") {
-							// 	//sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") == "Dealer_Services_Manager"
+
 							this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
 							this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
 							this.getView().getModel("DateModel").setProperty("/damageLine", false);
@@ -5522,11 +5512,6 @@ sap.ui.define([
 								var oIndex = parseInt(oTable._aSelectedPaths.toString().split("/")[2]);
 								this.obj.zc_itemSet.results.splice(oIndex, 1);
 
-								//                         this.obj.zc_itemSet.results.forEach(function(val){
-								// 		   if(val.OFP == oValOFP){
-
-								// 		   } 
-								// });
 								var oClaimModel = this.getModel("ProssingModel");
 								this.obj.OFP = this.getView().getModel("HeadSetData").getProperty("/OFP");
 
@@ -5991,6 +5976,14 @@ sap.ui.define([
 			var oTable = this.getView().byId("idLabourTable");
 			var oTableIndex = oTable._aSelectedPaths;
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
+
+			//var oValOFP = this.getView().getModel("HeadSetData").getProperty("/OFP");
+			var oSelectedRow = oTableIndex.toString();
+			var obj = this.getView().getModel("LocalDataModel").getProperty(oSelectedRow);
+			var LabourNum = obj.ItemKey;
+			//	var PartQt = obj.QtyHrs;
+
+			//	this.obj.MainOpsCode = this.getView().getModel("HeadSetData").getProperty("/MainOpsCode");
 			if (oTableIndex.length == 1) {
 				// var oTableStringSplit = oTableIndex.toString().split(",");
 				// Array.prototype.splice.apply(this.obj.zc_itemSet.results, oTableStringSplit);
@@ -6005,6 +5998,10 @@ sap.ui.define([
 						new Button({
 							text: oBundle.getText("Yes"),
 							press: $.proxy(function () {
+								if (LabourNum == this.getView().getModel("HeadSetData").getProperty("/MainOpsCode")) {
+									this.getView().getModel("HeadSetData").setProperty("/MainOpsCode", "");
+								}
+
 								var oIndex = parseInt(oTable._aSelectedPaths.toString().split("/")[2]);
 								this.obj.zc_claim_item_labourSet.results.splice(oIndex, 1);
 								var oClaimModel = this.getModel("ProssingModel");
@@ -6824,12 +6821,7 @@ sap.ui.define([
 						press: $.proxy(function () {
 							dialog.close();
 							this.getView().getModel("DateModel").setProperty("/errorBusyIndicator", true);
-							// this._oToken = oClaimModel.getHeaders()['x-csrf-token'];
-							// $.ajaxSetup({
-							// 	headers: {
-							// 		'X-CSRF-Token': this._oToken
-							// 	}
-							// });
+
 							oClaimModel.refreshSecurityToken();
 
 							oClaimModel.create("/zc_headSet", this.obj, {

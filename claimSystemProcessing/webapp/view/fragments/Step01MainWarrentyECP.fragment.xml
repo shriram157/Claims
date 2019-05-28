@@ -383,10 +383,10 @@
 					<core:Title text=""/>
 					<Label text="{i18n>AppliedCoverage}"/>
 					<Text text="{HeadSetData>/AppliedWarrantyCoverage}"/>
-					<Label text="{i18n>T1 Code}"/>
+					<Label text="{i18n>T1Code}"/>
 					<ComboBox id="idT1Field" required="{DateModel>/enabledT1}" selectionChange="onChangeT1" showSecondaryValues="true"
 						items="{ path: '/Zt1DescSrchhelpSet' }" filterSecondaryValues="true"
-						value="{path:'HeadSetData>/T1WarrantyCodes', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 100 } }"
+						value="{path:'HeadSetData>/T1WarrantyCodes', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 140 } }"
 						selectedKey="{path:'HeadSetData>/T1WarrantyCodes'}" visible="{DateModel>/enabledT1}" editable="{DateModel>/oFormEdit}">
 						<core:ListItem key="{T1}" text="{path:'T1'}" additionalText="{T1Text}"/>
 					</ComboBox>
@@ -396,7 +396,7 @@
 					<Label text="{i18n>T2Code}"/>
 					<ComboBox id="idT2Field" required="{DateModel>/enabledT2}" selectionChange="onChangeT2" showSecondaryValues="true"
 						items="{ path: '/Zt2DescSrchhelpSet' }" filterSecondaryValues="true"
-						value="{path:'HeadSetData>/T2WarrantyCodes', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 100 } }"
+						value="{path:'HeadSetData>/T2WarrantyCodes', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 140 } }"
 						selectedKey="{path:'HeadSetData>/T2WarrantyCodes'}" visible="{DateModel>/enabledT2}" editable="{DateModel>/oFormEdit}">
 						<core:ListItem key="{path:'T2'}" text="{T2}" additionalText="{T2Text}"/>
 					</ComboBox>

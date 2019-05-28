@@ -30,7 +30,7 @@
 					<cells>
 						<Text text="{LocalDataModel>J_3GKATNRC}"/>
 						<Text text="{LocalDataModel>LTEXT}"/>
-						<Text text="{LocalDataModel>TIME}"/>
+						<Text text="{path:'LocalDataModel>TIME', formatter : 'zclaimProcessing.utils.formatter.fnFormatDecimal01'}"/>
 					</cells>
 				</ColumnListItem>
 			</Table>
