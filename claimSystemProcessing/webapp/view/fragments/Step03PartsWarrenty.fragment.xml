@@ -44,8 +44,21 @@
 					<Text
 						text="{path:'LocalDataModel>/DataVinDetails/RegDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd'}}"/>
 					<core:Title text=""/>
-					<Label text="{i18n>Odometer}"/>
-					<Text text="{HeadSetData>/Odometer}"/>
+					<Label text="{i18n>Odometer}" textAlign="End">
+						<layoutData>
+							<l:GridData span="XL5 L5 M6 "/>
+						</layoutData>
+					</Label>
+					<Text text="{HeadSetData>/Odometer}" textAlign="End">
+						<layoutData>
+							<l:GridData span="XL4 L4 M6 "/>
+						</layoutData>
+					</Text>
+					<Text text="{LocalDataModel>/MsrUnit}" visible="{DateModel>/OdometerReqMan}">
+						<layoutData>
+							<l:GridData span="XL3 L3 M3 "/>
+						</layoutData>
+					</Text>
 					<Label text="{i18n>Elapse}"/>
 					<Text text="{LocalDataModel>/VehicleMonths} {i18n>Months}"/>
 					<core:Title text=""/>

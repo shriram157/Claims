@@ -590,6 +590,13 @@ zclaimProcessing.utils.formatter = {
 		}
 		return oNum;
 	},
+	fnFormatDecimal01: function (val) {
+		var oNum;
+		if (val) {
+			oNum = parseFloat(val).toFixed(1);
+		}
+		return oNum;
+	},
 
 	roundedDecimals: function (oNumber) {
 		console.log("oNumber", oNumber);
@@ -603,7 +610,7 @@ zclaimProcessing.utils.formatter = {
 					oNumber1 = parseFloat(oNumber.split("Received:")[1]);
 					oNumber2 = parseFloat(oNumber.split("Received:")[0].split("Ordered:")[1]);
 				}
-				
+
 				oNum1 = Math.round(oNumber1 * 100) / 100;
 				oNum2 = Math.round(oNumber2 * 100) / 100;
 				var finalNum = "Ordered:" + oNum2.toFixed(2) + "$\nReceived:" + oNum1.toFixed(2) + " $";
