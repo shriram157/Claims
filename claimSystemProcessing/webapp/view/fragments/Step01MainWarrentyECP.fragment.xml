@@ -55,8 +55,8 @@
 							<l:GridData span="XL8 L8 M12 S12"/>
 						</layoutData>
 					</Button>
-					<Button text="{LocalDataModel>/SaveAuthClaim}" class="sapUiSmallMarginEnd" enabled="{DateModel>/updateEnable}" type="Emphasized"
-						press="onUpdateClaim" visible="{DateModel>/updateClaimSt}">
+					<Button text="{LocalDataModel>/SaveAuthClaim}" id="idUpdateBtn" class="sapUiSmallMarginEnd" enabled="{DateModel>/updateEnable}"
+						type="Emphasized" press="onUpdateClaim" visible="{DateModel>/updateClaimSt}">
 						<layoutData>
 							<l:GridData span="XL8 L8 M12 S12"/>
 						</layoutData>

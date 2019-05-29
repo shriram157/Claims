@@ -49,7 +49,7 @@
 							<l:GridData span="XL5 L5 M6 "/>
 						</layoutData>
 					</Label>
-					<Text text="{HeadSetData>/Odometer}" textAlign="End">
+					<Text text="{path:'HeadSetData>/Odometer', formatter:'zclaimProcessing.utils.formatter.fnFormatNum'}" textAlign="End">
 						<layoutData>
 							<l:GridData span="XL4 L4 M6 "/>
 						</layoutData>
