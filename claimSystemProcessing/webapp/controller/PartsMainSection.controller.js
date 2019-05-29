@@ -621,7 +621,7 @@ sap.ui.define([
 								"ReferenceDate": this._fnDateFormat(this.getModel("LocalDataModel").getProperty("/ClaimDetails/ReferenceDate")),
 								"DateOfApplication": this._fnDateFormat(this.getModel("LocalDataModel").getProperty("/ClaimDetails/DateOfApplication")),
 								"RepairDate": this._fnDateFormat(this.getModel("LocalDataModel").getProperty("/ClaimDetails/RepairDate")),
-								"Delivery": "",
+								"Delivery":   this.getView().getModel("HeadSetData").getProperty("/Delivery"),
 								"DeliveryDate": this._fnDateFormat(this.getModel("LocalDataModel").getProperty("/ClaimDetails/DeliveryDate")),
 								"TCIWaybillNumber": "",
 								"ShipmentReceivedDate": null,
@@ -853,7 +853,7 @@ sap.ui.define([
 								"ReferenceDate": this._fnDateFormat(this.getModel("LocalDataModel").getProperty("/ClaimDetails/ReferenceDate")),
 								"DateOfApplication": this._fnDateFormat(this.getModel("LocalDataModel").getProperty("/ClaimDetails/DateOfApplication")),
 								"RepairDate": this._fnDateFormat(this.getModel("LocalDataModel").getProperty("/ClaimDetails/RepairDate")),
-								"Delivery": "",
+								"Delivery":  this.getView().getModel("HeadSetData").getProperty("/Delivery"),
 								"DeliveryDate": this._fnDateFormat(this.getModel("LocalDataModel").getProperty("/ClaimDetails/DeliveryDate")),
 								"TCIWaybillNumber": "",
 								"ShipmentReceivedDate": null,
@@ -891,6 +891,25 @@ sap.ui.define([
 						this.getModel("LocalDataModel").setProperty("/oErrorSet", errorData.results[0].zc_claim_vsrSet.results);
 					}, this)
 				});
+			this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", false);
+			var oProssingModel = this.getModel("ProssingModel");
+			var DeliNum =  this.getView().getModel("HeadSetData").getProperty("/Delivery");
+			var numQuery = "(DeliNum='" + DeliNum + "')?$format=json";
+			oProssingModel.read("/zc_get_delidateSet" + numQuery, {
+				success: $.proxy(function (delNumdata) {
+					if (delNumdata.DeliDate === null) {
+						// MessageBox.show(delNumdata.Message, MessageBox.Icon.INFORMATION, "Information", MessageBox.Action.OK, null, null);
+						this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", false);
+					} else {
+						that.getView().getModel("HeadSetData").setProperty("/DeliveryDate", delNumdata.DeliDate);
+						// that.getView().byId("idShipmentRDate").setProperty("enabled", true);
+						this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", true);
+					}
+				}, this),
+				error: function (err) {
+					this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", false);
+				}
+			});
 				// oProssingModel.read("/zc_claim_item_price_dataSet", {
 				// 	urlParameters: {
 				// 		"$filter": "NumberOfWarrantyClaim eq '" + oClaim + "' "
