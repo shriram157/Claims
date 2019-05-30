@@ -110,13 +110,8 @@ sap.ui.define([
 				success: function (oData) {
 					// var userType = oData.loggedUserType[0];
 
-<<<<<<< HEAD
-					//var userType = "Dealer_Services_Manager";
-					var userType = "ManageAllParts";
-=======
 					//	var userType = "Dealer_Services_Manager";
-					// var userType = "ManageAllParts";
->>>>>>> refs/heads/master
+					var userType = "ManageAllParts";
 
 					sap.ui.getCore().getModel("UserDataModel").setProperty("/LoggedInUser", userType);
 					sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "");
