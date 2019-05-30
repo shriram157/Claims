@@ -129,11 +129,11 @@
 }
 
 .clDatePicker .sapMInputBaseInner {
-    pointer-events: none;
+    /*pointer-events: none;*/
 }
 
 .clShipmentInfo .sapMInputBaseHasEndIcons .sapMInputBaseInner {
-    pointer-events: none;
+    /*pointer-events: none;*/
 }
 
 .clFont01 {

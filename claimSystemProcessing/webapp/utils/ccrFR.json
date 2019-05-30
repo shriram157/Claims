@@ -1,0 +1,66 @@
+{
+
+	"abbrList": [{
+			"name": "CUST",
+			"description": "Client"
+		}, {
+			"name": "DIAG",
+			"description": "Diagnostic"
+		}, {
+			"name": "DLR",
+			"description": "Concessionnaire"
+		}, {
+			"name": "EN",
+			"description": "Anglais"
+		}, {
+			"name": "EX",
+			"description": "Échappement"
+		}, {
+			"name": "INSP",
+			"description": "Inspection"
+		}, {
+			"name": "LF",
+			"description": "Avant gauche"
+		}, {
+			"name": "LHS",
+			"description": "Côté gauche"
+		}, {
+			"name": "LR",
+			"description": "Arrière gauche"
+		}, {
+			"name": "ML",
+			"description": "Témoin d’anomalie allumé"
+		}, {
+			"name": "MNF",
+			"description": "Tubulure"
+		}, {
+			"name": "RBLD",
+			"description": "Remettre en état"
+		}, {
+			"name": "RE/RE",
+			"description": "Retirer et remplacer"
+		}, {
+			"name": "RECON",
+			"description": "Remettre à neuf"
+		}, {
+			"name": "RF",
+			"description": "Avant droit"
+		}, {
+			"name": "RHS",
+			"description": "Côté droit"
+		}, {
+			"name": "RR",
+			"description": "Arrière droit"
+		}, {
+			"name": "TRANS",
+			"description": "Boîte de vitesses"
+		}, {
+			"name": "VLV GRD",
+			"description": "Rectifier les soupapes"
+		}, {
+			"name": "VLVS",
+			"description": "Soupapes"
+		}
+
+	]
+}

@@ -5119,9 +5119,7 @@ sap.ui.define([
 
 				}, this)
 			});
-			//this.getView().getModel("PartDataModel").setProperty("/PartDescription", this.oSelectedItem.getDescription());
-			//this.getView().getModel("LocalDataModel").setProperty("/BaseUnit", this.oSelectedItem.getInfo());
-			//this.getView().byId("idPartDes").setValue(this.oSelectedItem.getDescription());
+
 			this.getView().getModel("PartDataModel").setProperty("/PartDescription", oDescription);
 			if (oSelectedItem) {
 				var productInput = this.byId(this.inputId);
@@ -7094,9 +7092,23 @@ sap.ui.define([
 			//var oCCR = new sap.ui.model.json.JSONModel();
 			//oCCR.loadData(jQuery.sap.getModulePath("zclaimProcessing.utils", "/ccr.json"));
 
-			var sPath = sap.ui.require.toUrl("zclaimProcessing/utils") + "/ccr.json";
-			this.getView().setModel(new sap.ui.model.json.JSONModel(sPath), "ccrModel");
+			var sSelectedLocale;
+			//  get the locale to determine the language.
+			var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
+			if (isLocaleSent) {
+				sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
+			} else {
+				sSelectedLocale = "en"; // default is english
+			}
 
+			var sPath = sap.ui.require.toUrl("zclaimProcessing/utils") + "/ccr.json";
+			var sPathFR = sap.ui.require.toUrl("zclaimProcessing/utils") + "/ccrFR.json";
+
+			if (sSelectedLocale == "en") {
+				this.getView().setModel(new sap.ui.model.json.JSONModel(sPath), "ccrModel");
+			} else {
+				this.getView().setModel(new sap.ui.model.json.JSONModel(sPathFR), "ccrModel");
+			}
 			var oDialogBox = sap.ui.xmlfragment("zclaimProcessing.view.fragments.CCRAbbr", this);
 			this.getView().addDependent(oDialogBox);
 			oDialogBox.open();

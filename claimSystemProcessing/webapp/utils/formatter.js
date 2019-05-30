@@ -687,5 +687,15 @@ zclaimProcessing.utils.formatter = {
 		}
 		return oText;
 	},
+	fnDateFormat: function (val) {
+		var Oval;
+		if (val) {
+			Oval = val.toISOString().split("T")[0];
+		} else {
+			Oval = null;
+		}
+		return Oval;
+
+	}
 
 };
