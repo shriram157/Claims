@@ -650,8 +650,9 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/oPrevInvDateReq", false);
 							this.getView().getModel("DateModel").setProperty("/PreroOdometerVisible", true);
 							this.getView().getModel("DateModel").setProperty("/RepairdDetailVisible", true);
-							this.getView().getModel("DateModel").setProperty("/oMainOpsReq", false);
+
 							this.getView().getModel("DateModel").setProperty("/authHide", true);
+							this.getView().getModel("DateModel").setProperty("/oMainOpsReq", true);
 						} else if (oClaimTypeDetail == "ZWMS" || submissionType == "ZWMS") {
 							this.getView().getModel("DateModel").setProperty("/oMainOps", false);
 							this.getView().getModel("DateModel").setProperty("/Paint", false);
@@ -5095,8 +5096,10 @@ sap.ui.define([
 		},
 
 		_handleValueHelpClose: function (evt) {
-			this.oSelectedItem = evt.getParameter("selectedItem");
-			this.oSelectedTitle = this.oSelectedItem.getTitle();
+			var oSelectedItem = evt.getParameter("selectedItem");
+			this.oSelectedTitle = evt.mParameters.selectedItems[0].getCells()[0].getText();
+			var oBaseUint = evt.mParameters.selectedItems[0].getCells()[2].getText();
+			var oDescription = evt.mParameters.selectedItems[0].getCells()[1].getText();
 			var oProductModel = this.getModel("ProductMaster");
 			oProductModel.read("/ZC_Characteristic_InfoSet", {
 				urlParameters: {
@@ -5107,11 +5110,11 @@ sap.ui.define([
 						if (data.results[0].VALUE != "?") {
 							this.getView().getModel("LocalDataModel").setProperty("/BaseUnit", data.results[0].VALUE);
 						} else {
-							this.getView().getModel("LocalDataModel").setProperty("/BaseUnit", this.oSelectedItem.getInfo());
+							this.getView().getModel("LocalDataModel").setProperty("/BaseUnit", oBaseUint);
 						}
 
 					} else {
-						this.getView().getModel("LocalDataModel").setProperty("/BaseUnit", this.oSelectedItem.getInfo());
+						this.getView().getModel("LocalDataModel").setProperty("/BaseUnit", oBaseUint);
 					}
 
 				}, this)
@@ -5119,10 +5122,10 @@ sap.ui.define([
 			//this.getView().getModel("PartDataModel").setProperty("/PartDescription", this.oSelectedItem.getDescription());
 			//this.getView().getModel("LocalDataModel").setProperty("/BaseUnit", this.oSelectedItem.getInfo());
 			//this.getView().byId("idPartDes").setValue(this.oSelectedItem.getDescription());
-			this.getView().getModel("PartDataModel").setProperty("/PartDescription", this.oSelectedItem.getDescription());
-			if (this.oSelectedItem) {
+			this.getView().getModel("PartDataModel").setProperty("/PartDescription", oDescription);
+			if (oSelectedItem) {
 				var productInput = this.byId(this.inputId);
-				productInput.setValue(this.oSelectedItem.getTitle());
+				productInput.setValue(this.oSelectedTitle);
 			}
 			evt.getSource().getBinding("items").filter([]);
 		},

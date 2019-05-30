@@ -1,6 +1,34 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
-	<SelectDialog title="{i18n>SelectPartNumber}" class="sapUiPopupWithPadding" items="{ProductMasterModel>/C_Product_Fs}"
-		search="_handleValueHelpSearch" liveChange="_handleLiveSearch" confirm="_handleValueHelpClose" cancel="_handleValueHelpClose">
-		<StandardListItem title="{ProductMasterModel>Material}"  description="{ProductMasterModel>Material_Text}" info="{ProductMasterModel>BaseUnit}"/>
-	</SelectDialog>
+	<!--<SelectDialog title="{i18n>SelectPartNumber}" class="sapUiPopupWithPadding" items="{ProductMasterModel>/C_Product_Fs}"-->
+	<!--	search="_handleValueHelpSearch" liveChange="_handleLiveSearch" confirm="_handleValueHelpClose" cancel="_handleValueHelpClose">-->
+	<!--	<StandardListItem title="{ProductMasterModel>Material}" description="{ProductMasterModel>Material_Text}"-->
+	<!--		info="{ProductMasterModel>BaseUnit}"/>-->
+	<!--</SelectDialog>-->
+	<TableSelectDialog noDataText="No data Found" title="{i18n>SelectPartNumber}" search="_handleValueHelpSearch" liveChange="_handleLiveSearch"
+		confirm="_handleValueHelpClose" cancel="_handleValueHelpClose" items="{ProductMasterModel>/C_Product_Fs}">
+		<ColumnListItem>
+			<cells>
+				<Text text="{ProductMasterModel>Material}"/>
+				<Text text="{ProductMasterModel>Material_Text}"/>
+				<Text text="{ProductMasterModel>BaseUnit}"/>
+			</cells>
+		</ColumnListItem>
+		<columns>
+			<Column width="12em">
+				<header>
+					<Text text="Material"/>
+				</header>
+			</Column>
+			<Column minScreenWidth="Tablet" demandPopin="true">
+				<header>
+					<Text text="Description"/>
+				</header>
+			</Column>
+			<Column minScreenWidth="Desktop" demandPopin="true" hAlign="End">
+				<header>
+					<Text text="Unit"/>
+				</header>
+			</Column>
+		</columns>
+	</TableSelectDialog>
 </core:FragmentDefinition>

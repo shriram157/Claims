@@ -604,4 +604,5 @@
 			</HBox>
 		</Panel>
 	</VBox>
+	<!--<VBox width="100%" class="classCheck"></VBox>-->
 </core:FragmentDefinition>
