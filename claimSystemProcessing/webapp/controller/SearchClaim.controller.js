@@ -521,6 +521,7 @@ sap.ui.define([
 		onPressSearch: function () {
 			this.getView().getModel("LocalDataModel").setProperty("/oVisibleRowTR", 30);
 			this.getView().getModel("DateModel").setProperty("/tableBusyIndicator", true);
+			var oResultArray = [];
 			//this.getView().getModel("ProssingModel").setSizeLimit(1000);
 			var sQueryDealer = this.getView().byId("idDealerCode").getSelectedKey();
 			// console.log(sQueryDealer, this.oStatusKey);
@@ -590,7 +591,7 @@ sap.ui.define([
 
 				for (var j = 0; j < sQueryStat.length; j++) {
 					//oResult.push(sQueryStat[j]);
-					sResults.push("ProcessingStatusOfWarrantyClm eq '" + sQueryStat[j] + "'");
+					sResults.push("DecisionCode eq '" + sQueryStat[j] + "'");
 
 				}
 				oResult = sResults.join(" or ");
@@ -619,6 +620,9 @@ sap.ui.define([
 							"' and " + sQuerySearchBy + " eq '" + sQuerySearchText + "'"
 					},
 					success: $.proxy(function (data) {
+						// 		data.results.map(function(item){
+						// 		    item.RepairDate = item.RepairDate.toISOString();
+						// 		});
 						this.getModel("LocalDataModel").setProperty("/ZcClaimHeadNewData", data.results);
 						this.getView().getModel("DateModel").setProperty("/tableBusyIndicator", false);
 						//	this.getModel("LocalDataModel").setProperty("/HeadSet", data.results);

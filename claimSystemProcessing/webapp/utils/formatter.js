@@ -597,6 +597,13 @@ zclaimProcessing.utils.formatter = {
 		}
 		return oNum;
 	},
+	fnFormatNum: function (val) {
+		var oVal;
+		if (val) {
+			oVal = parseInt(val).toLocaleString();
+		}
+		return oVal;
+	},
 
 	roundedDecimals: function (oNumber) {
 		console.log("oNumber", oNumber);
@@ -680,5 +687,15 @@ zclaimProcessing.utils.formatter = {
 		}
 		return oText;
 	},
+	fnDateFormat: function (val) {
+		var Oval;
+		if (val) {
+			Oval = val.toISOString().split("T")[0];
+		} else {
+			Oval = null;
+		}
+		return Oval;
+
+	}
 
 };

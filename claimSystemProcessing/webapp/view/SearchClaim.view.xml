@@ -220,11 +220,11 @@
 												<Link text="{LocalDataModel>NumberOfWarrantyClaim}" press="onPressClaim"/>
 												<Text text="{LocalDataModel>ExternalNumberOfClaim}"/>
 												<Text text="{LocalDataModel>RepairOrderNumberExternal}"/>
-												<Text text="{path:'LocalDataModel>RepairDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd'}}"/>
-												<Text text="{path:'LocalDataModel>ReferenceDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd'}}"/>
+												<Text text="{path:'LocalDataModel>RepairDate', formatter:'zclaimProcessing.utils.formatter.fnDateFormat'}"/>
+												<Text text="{path:'LocalDataModel>ReferenceDate', formatter:'zclaimProcessing.utils.formatter.fnDateFormat'}"/>
 												<Text text="{LocalDataModel>WarrantyClaimType}"/>
 												<Text text="{LocalDataModel>ExternalObjectNumber}"/>
-												<Text text="{LocalDataModel>ProcessingStatusOfWarrantyClm}"/>
+												<Text text="{LocalDataModel>DecisionCode}"/>
 												<Text text="{LocalDataModel>OFP}"/>
 												<Text text="{LocalDataModel>MainOpsCode}"/>
 												<Text text="{LocalDataModel>ClaimAge}"/>

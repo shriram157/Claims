@@ -36,11 +36,9 @@
 					<Text text="{LocalDataModel>/LoginId}"/>
 					<core:Title text=""/>
 					<Label text="{i18n>LastSubmissionDate}"/>
-					<Text
-						text="{ path: 'HeadSetData>/DateOfApplication', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd'}}"/>
+					<Text text="{ path: 'HeadSetData>/DateOfApplication', formatter:'zclaimProcessing.utils.formatter.fnDateFormat'}"/>
 					<Label text="{i18n>FinalProcessedDate}"/>
-					<Text
-						text="{ path: 'HeadSetData>/FinalProcdDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd'} }"/>
+					<Text text="{ path: 'HeadSetData>/FinalProcdDate', formatter:'zclaimProcessing.utils.formatter.fnDateFormat' }"/>
 					<!--<Label text="{i18n>Status}"/>-->
 					<!--<Text text="{HeadSetData>/ProcessingStatusOfWarrantyClm}"/>-->
 					<core:Title text=""/>
@@ -55,8 +53,8 @@
 							<l:GridData span="XL8 L8 M12 S12"/>
 						</layoutData>
 					</Button>
-					<Button text="{LocalDataModel>/SaveAuthClaim}" class="sapUiSmallMarginEnd" enabled="{DateModel>/updateEnable}" type="Emphasized"
-						press="onUpdateClaim" visible="{DateModel>/updateClaimSt}">
+					<Button text="{LocalDataModel>/SaveAuthClaim}" id="idUpdateBtn" class="sapUiSmallMarginEnd" enabled="{DateModel>/updateEnable}"
+						type="Emphasized" press="onUpdateClaim" visible="{DateModel>/updateClaimSt}">
 						<layoutData>
 							<l:GridData span="XL8 L8 M12 S12"/>
 						</layoutData>
@@ -130,8 +128,7 @@
 					visible="{DateModel>/OdometerReq}" enabled="{DateModel>/OdometerReq}" id="idVinNum" change="onEnterVIN" editable="{DateModel>/oFormEdit}"/>
 				<core:Title text=""/>
 				<Label text="{i18n>RegDate}"/>
-				<Text
-					text="{path:'LocalDataModel>/DataVinDetails/RegDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd'}}"/>
+				<Text text="{path:'LocalDataModel>/DataVinDetails/RegDate', formatter:'zclaimProcessing.utils.formatter.fnDateFormat'}"/>
 				<Label text="{i18n>VehicleAge}"/>
 				<Text text="{LocalDataModel>/VehicleMonths} {i18n>Months}" id="idVehicleAge"/>
 				<core:Title text=""/>
@@ -191,8 +188,7 @@
 					<core:Title text=""/>
 					<Label text="{i18n>DeliveryDate}"/>
 					<DatePicker class="clDatePicker" required="true"
-						value="{path:'HeadSetData>/DeliveryDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd'}}"
-						editable="{DateModel>/oFormEdit}"/>
+						value="{path:'HeadSetData>/DeliveryDate', formatter:'zclaimProcessing.utils.formatter.fnDateFormat'}" editable="{DateModel>/oFormEdit}"/>
 					<core:Title text=""/>
 					<Label text="{i18n>Delivery}"/>
 					<custom:CustomCombo id="idDelivery" required="true" editable="{DateModel>/oFormEdit}" items="" selectedKey=""
@@ -604,4 +600,5 @@
 			</HBox>
 		</Panel>
 	</VBox>
+	<!--<VBox width="100%" class="classCheck"></VBox>-->
 </core:FragmentDefinition>
