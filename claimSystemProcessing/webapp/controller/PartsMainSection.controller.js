@@ -3756,7 +3756,6 @@ sap.ui.define([
 			dialog.open();
 		},
 		onSubmitTci: function (oEvent) {
-
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var oClaimModel = this.getModel("ProssingModel");
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
@@ -3769,7 +3768,7 @@ sap.ui.define([
 			this.obj.ReferenceDate = this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/ReferenceDate"));
 			this.obj.DateOfApplication = this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/DateOfApplication"));
 			this.obj.RepairDate = this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairDate"));
-			this.obj.Delivery = "";
+			this.obj.Delivery =  this.getView().getModel("HeadSetData").getProperty("/Delivery");
 			this.obj.DeliveryDate = this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/DeliveryDate"));
 			this.obj.TCIWaybillNumber = "";
 			this.obj.ShipmentReceivedDate = null;
@@ -3786,9 +3785,7 @@ sap.ui.define([
 				"TYPE": "",
 				"MESSAGE": ""
 			};
-
 			var that = this;
-
 			// this.obj.zc_claim_vsrSet.results.push(oObj);
 			this.obj.zc_claim_vsrSet.results.push(oObj);
 			// 
