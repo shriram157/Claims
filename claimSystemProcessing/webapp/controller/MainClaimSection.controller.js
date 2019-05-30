@@ -6834,9 +6834,9 @@ sap.ui.define([
 							oClaimModel.create("/zc_headSet", this.obj, {
 								success: $.proxy(function (data, response) {
 
-									this.getView().getModel("HeadSetData").setProperty("/RepairDate", response.data.RepairDate);
-									this.getView().getModel("HeadSetData").setProperty("/ReferenceDate", response.data.ReferenceDate);
-									this.getView().getModel("HeadSetData").setProperty("/DateOfApplication", response.data.DateOfApplication);
+									// 	this.getView().getModel("HeadSetData").setProperty("/RepairDate", response.data.RepairDate);
+									// 	this.getView().getModel("HeadSetData").setProperty("/ReferenceDate", response.data.ReferenceDate);
+									// 	this.getView().getModel("HeadSetData").setProperty("/DateOfApplication", response.data.DateOfApplication);
 
 									// var oErrorSet = response.data.zc_claim_vsrSet.results;
 									//	this.getModel("LocalDataModel").setProperty("/oErrorSet", response.data.zc_claim_vsrSet.results);
@@ -6860,6 +6860,16 @@ sap.ui.define([
 												.results[0].OFPDescription);
 											this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", errorData.results[0].zc_claim_read_descriptionSet
 												.results[0].MainOpsCodeDescription);
+
+											this.getView().getModel("HeadSetData").setProperty("/ReferenceDate", errorData.results[0].zc_claim_read_descriptionSet
+												.results[0].ReferenceDate);
+
+											this.getView().getModel("HeadSetData").setProperty("/DateOfApplication", errorData.results[0].zc_claim_read_descriptionSet
+												.results[0].DateOfApplication);
+
+											this.getView().getModel("HeadSetData").setProperty("/RepairDate", errorData.results[0].zc_claim_read_descriptionSet
+												.results[0].RepairDate);
+
 											this.getView().getModel("DateModel").setProperty("/errorBusyIndicator", false);
 											this.obj.zc_claim_vsrSet.results.pop(oObj);
 										}, this)

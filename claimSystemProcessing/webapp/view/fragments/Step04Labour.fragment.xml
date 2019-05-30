@@ -38,11 +38,9 @@
 					<Text text="{HeadSetData>/MainOpsCode}" id="idOFPLabour"/>
 					<core:Title text=""/>
 					<Label text="{i18n>RepairDate}"/>
-					<Text
-						text="{path:'HeadSetData>/RepairDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd', strictParsing: true , UTC: true}}"/>
+					<Text text="{path:'HeadSetData>/RepairDate', formatter:'zclaimProcessing.utils.formatter.fnDateFormat'}"/>
 					<Label text="{i18n>RegDate}"/>
-					<Text
-						text="{path:'LocalDataModel>/DataVinDetails/RegDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd'}}"/>
+					<Text text="{path:'LocalDataModel>/DataVinDetails/RegDate', formatter:'zclaimProcessing.utils.formatter.fnDateFormat'}"/>
 					<core:Title text=""/>
 					<Label text="{i18n>Odometer}" textAlign="End">
 						<layoutData>

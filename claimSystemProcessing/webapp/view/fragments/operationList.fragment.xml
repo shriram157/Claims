@@ -10,17 +10,17 @@
 					</OverflowToolbar>
 				</headerToolbar>
 				<columns>
-					<Column width="12em">
+					<Column width="8em" vAlign="Middle" hAlign="Begin">
 						<header>
 							<Text text="{i18n>OperationNumber}"/>
 						</header>
 					</Column>
-					<Column width="12em">
+					<Column width="18em" vAlign="Middle" hAlign="Begin">
 						<header>
 							<Text text="{i18n>OperationDescription}"/>
 						</header>
 					</Column>
-					<Column width="12em">
+					<Column width="5em" vAlign="Middle" hAlign="Begin">
 						<header>
 							<Text text="{i18n>LabourHours}"/>
 						</header>
