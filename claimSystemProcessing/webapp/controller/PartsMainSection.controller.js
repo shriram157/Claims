@@ -1285,7 +1285,7 @@ sap.ui.define([
 			// create value help dialog
 			if (!this._valueHelpDialog) {
 				this._valueHelpDialog = sap.ui.xmlfragment(
-					"zclaimProcessing.view.fragments.partList",
+					"zclaimProcessing.view.fragments.partListforPW",
 					this
 				);
 				this.getView().addDependent(this._valueHelpDialog);
@@ -1301,7 +1301,7 @@ sap.ui.define([
 			// create value help dialog
 			if (!this._valueHelpDialog) {
 				this._valueHelpDialog = sap.ui.xmlfragment(
-					"zclaimProcessing.view.fragments.partList",
+					"zclaimProcessing.view.fragments.partListforPW",
 					this
 				);
 				this.getView().addDependent(this._valueHelpDialog);
@@ -1310,6 +1310,38 @@ sap.ui.define([
 			this._valueHelpDialog.open();
 		},
 		_handleValueHelpClose: function (evt) {
+			// var oSelectedItem = evt.getParameter("selectedItem");
+			// this.oSelectedTitle = evt.mParameters.selectedItems[0].getCells()[0].getText();
+			// var oBaseUint = evt.mParameters.selectedItems[0].getCells()[2].getText();
+			// var oDescription = evt.mParameters.selectedItems[0].getCells()[1].getText();
+			// var oProductModel = this.getModel("ProductMaster");
+			// oProductModel.read("/ZC_Characteristic_InfoSet", {
+			// 	urlParameters: {
+			// 		"$filter": "MATERIAL eq '" + this.oSelectedTitle + "' and CLASS eq 'WARRANTY_INFO' and CHARAC eq 'Warranty Alternate Unit'"
+			// 	},
+			// 	success: $.proxy(function (data) {
+			// 		if (data.results.length > 0) {
+			// 			if (data.results[0].VALUE != "?") {
+			// 				this.getView().getModel("LocalDataModel").setProperty("/BaseUnit", data.results[0].VALUE);
+			// 			} else {
+			// 				this.getView().getModel("LocalDataModel").setProperty("/BaseUnit", oBaseUint);
+			// 			}
+
+			// 		} else {
+			// 			this.getView().getModel("LocalDataModel").setProperty("/BaseUnit", oBaseUint);
+			// 		}
+
+			// 	}, this)
+			// });
+
+			// this.getView().getModel("PartDataModel").setProperty("/PartDescription", oDescription);
+			// if (oSelectedItem) {
+			// 	var productInput = this.byId(this.inputId);
+			// 	productInput.setValue(this.oSelectedTitle);
+			// }
+			// evt.getSource().getBinding("items").filter([]);
+			
+			/////
 			if (this.partsInput02 == true) {
 				this.oSelectedItem02 = evt.getParameter("selectedItem");
 				// this.oSelectedTitle = this.oSelectedItem02.getTitle();
@@ -3756,7 +3788,6 @@ sap.ui.define([
 			dialog.open();
 		},
 		onSubmitTci: function (oEvent) {
-
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var oClaimModel = this.getModel("ProssingModel");
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
@@ -3769,7 +3800,7 @@ sap.ui.define([
 			this.obj.ReferenceDate = this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/ReferenceDate"));
 			this.obj.DateOfApplication = this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/DateOfApplication"));
 			this.obj.RepairDate = this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairDate"));
-			this.obj.Delivery = "";
+			this.obj.Delivery =  this.getView().getModel("HeadSetData").getProperty("/Delivery");
 			this.obj.DeliveryDate = this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/DeliveryDate"));
 			this.obj.TCIWaybillNumber = "";
 			this.obj.ShipmentReceivedDate = null;
@@ -3786,9 +3817,7 @@ sap.ui.define([
 				"TYPE": "",
 				"MESSAGE": ""
 			};
-
 			var that = this;
-
 			// this.obj.zc_claim_vsrSet.results.push(oObj);
 			this.obj.zc_claim_vsrSet.results.push(oObj);
 			// 
