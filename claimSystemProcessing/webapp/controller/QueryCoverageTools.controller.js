@@ -164,7 +164,7 @@ sap.ui.define([
 			var oProssingModel = this.getModel("ProssingModel");
 			if (oVin != "" && this.getView().getModel("LocalDataModel").getProperty("/oVinDetisl/0/Message") != "Invalid VIN Number" &&
 				this.getView().byId('Odometer').getValue() != "") {
-				oECPModel.read("/zc_ecp_agreement", {
+				oProssingModel.read("/zc_cliam_agreement", {
 					urlParameters: {
 						"$filter": "VIN eq '" + oVin + "'"
 					},
