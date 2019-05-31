@@ -248,6 +248,18 @@ sap.ui.define([
 			// 				oVin)]);
 
 		},
+		onNavigate: function (oEvent) {
+			var oPath = oEvent.getSource().getSelectedContextPaths()[0];
+			var obj = this.getModel("LocalDataModel").getProperty(oPath);
+			agreementno = obj.AgreementNumber;
+
+			// 			if (agreementno !== '' && agreementno == newvalue) {
+			// 				agreementno = '';
+			// 			} else {
+			// 				agreementno = newvalue;
+			// 			}
+
+		},
 		onPressLookUp: function (oEvent) {
 			var sSelectedLocale;
 			//  get the locale to determine the language.
@@ -269,7 +281,14 @@ sap.ui.define([
 			var odmeter = this.getView().byId('Odometer').getValue();
 			var partofp = this.getView().byId('partofp').getValue();
 			var mainop = this.getView().byId('mainop').getValue();
-			var agreementselected = agreementno || '';
+			//var agreementselected = agreementno || '';
+			var agreementselected;
+
+			if (agreementno != "") {
+				agreementselected = agreementno;
+			} else {
+				agreementselected = "";
+			}
 
 			var oXMLMsg;
 
@@ -338,17 +357,11 @@ sap.ui.define([
 			}
 
 		},
-		onNavigate: function (oEvent) {
-			var newvalue = oEvent.getParameter("rowContext").getObject().AgreementNumber;
-			if (agreementno !== '' && agreementno == newvalue) {
-				agreementno = '';
-			} else {
-				agreementno = newvalue;
-			}
 
-		},
 		onPressClear: function (oEvent) {
 			this.getView().byId('vin').setValue('');
+			this.getView().byId("idECPAGR").removeSelections(true);
+			this.getModel("LocalDataModel").setProperty("/CoverageSet", "");
 			this.getView().byId('Odometer').setValue('');
 			this.getView().byId('partofp').setValue('');
 			this.getView().byId('mainop').setValue('');
