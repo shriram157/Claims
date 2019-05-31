@@ -137,6 +137,7 @@ sap.ui.define([
 		//
 		//	}
 		onPressSearch: function (oEvent) {
+			var oECPModel = this.getModel("EcpSalesModel");
 			var sSelectedLocale;
 			var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
 			if (isLocaleSent) {
@@ -163,7 +164,7 @@ sap.ui.define([
 			var oProssingModel = this.getModel("ProssingModel");
 			if (oVin != "" && this.getView().getModel("LocalDataModel").getProperty("/oVinDetisl/0/Message") != "Invalid VIN Number" &&
 				this.getView().byId('Odometer').getValue() != "") {
-				oProssingModel.read("/zc_cliam_agreement", {
+				oECPModel.read("/zc_ecp_agreement", {
 					urlParameters: {
 						"$filter": "VIN eq '" + oVin + "'"
 					},
