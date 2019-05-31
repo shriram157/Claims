@@ -163,7 +163,7 @@
 								<!--</table:footer>-->
 								<!--</table:Table>-->
 								<Table id="idClaimTable" inset="false" class="classRCPTable sapUiSizeCompact sapUiLargeMarginBottom" mode="None"
-									busy="{DateModel>/tableBusyIndicator}" items="{LocalDataModel>/ZcClaimHeadNewData}" growing="true" growingThreshold="30"
+									busy="{DateModel>/tableBusyIndicator}" items="{LocalDataModel>/ZcClaimHeadNewData}" growing="true" growingThreshold="25"
 									growingScrollToLoad="false" growingTriggerText="Load more">
 									<headerToolbar>
 										<Toolbar>
