@@ -1,12 +1,13 @@
 sap.ui.define([
-	"sap/base/i18n/ResourceBundle",
+	"sap/ui/model/resource/ResourceModel",
+	"sap/m/Button",
 	"sap/m/Dialog",
 	"sap/m/Text",
 	"sap/ui/core/UIComponent",
 	"sap/ui/Device",
 	"zclaimProcessing/model/models",
 	"sap/ui/model/odata/v2/ODataModel"
-], function (ResourceBundle, Dialog, Text, UIComponent, Device, models, ODataModel) {
+], function (ResourceModel, Button, Dialog, Text, UIComponent, Device, models, ODataModel) {
 	"use strict";
 
 	return UIComponent.extend("zclaimProcessing.Component", {
@@ -30,36 +31,8 @@ sap.ui.define([
 			// set the device model
 			this.setModel(models.createDeviceModel(), "device");
 
-			// Get resource bundle
-			var locale = jQuery.sap.getUriParameters().get('Language');
-			var bundle = !locale ? ResourceBundle.create({
-				url: './i18n/i18n.properties'
-			}): ResourceBundle.create({
-				url: './i18n/i18n.properties',
-				locale: locale
-			});
+			this._initSessionDialogs();
 
-			// Attach XHR event handler to detect 401 error responses for handling as timeout
-			var sessionExpDialog = new Dialog({
-				title: bundle.getText('SESSION_EXP_TITLE'),
-				type: 'Message',
-				state: 'Warning',
-				content: new Text({
-					text: bundle.getText('SESSION_EXP_TEXT')
-				})
-			});
-			var origOpen = XMLHttpRequest.prototype.open;
-			XMLHttpRequest.prototype.open = function () {
-				this.addEventListener('load', function (event) {
-					// TODO Compare host name in URLs to ensure only app resources are checked
-					if (event.target.status === 401) {
-						if (!sessionExpDialog.isOpen()) {
-							sessionExpDialog.open();
-						}
-					}
-				});
-				origOpen.apply(this, arguments);
-			};
 
 			this.setModel(models.createLocalDataModel(), "LocalDataModel");
 
@@ -150,7 +123,102 @@ sap.ui.define([
 			});
 
 			this.setModel(oDataModel05, "EcpSalesModel");
+		},
 
+		_initSessionDialogs: function () {
+			var locale = jQuery.sap.getUriParameters().get('Language');
+			var bundle = !locale ? new ResourceModel({
+				bundleUrl: './i18n/i18n.properties'
+			}).getResourceBundle() : new ResourceModel({
+				bundleUrl: './i18n/i18n.properties',
+				bundleLocale: locale
+			}).getResourceBundle();
+
+			var sessionExpiringDialog = new Dialog({
+				title: bundle.getText('SESSION_EXPIRING_DIALOG_TITLE'),
+				type: 'Message',
+				state: 'Warning',
+				content: new Text({
+					text: bundle.getText('SESSION_EXPIRING_DIALOG_TEXT')
+				}),
+				beginButton: new Button({
+					text: bundle.getText('SESSION_EXPIRING_DIALOG_OK_BTN_TEXT'),
+					press: function () {
+						sessionExpiringDialog.close();
+					}
+				}),
+			});
+
+			var sessionExpiredDialog = new Dialog({
+				title: bundle.getText('SESSION_EXPIRED_DIALOG_TITLE'),
+				type: 'Message',
+				state: 'Warning',
+				content: new Text({
+					text: bundle.getText('SESSION_EXPIRED_DIALOG_TEXT')
+				})
+			});
+
+			var sessionExpired = false;
+			var sessionExpiringTimeoutId = null;
+			var sessionExpiredTimeoutId = null;
+
+			var resetTimeouts = function () {
+				if (sessionExpiringTimeoutId) {
+					clearTimeout(sessionExpiringTimeoutId);
+				}
+				if (sessionExpiredTimeoutId) {
+					clearTimeout(sessionExpiredTimeoutId);
+				}
+
+				// Don't create more timeouts if session is already expired
+				if (!sessionExpired) {
+					sessionExpiringTimeoutId = setTimeout(function () {
+						if (sessionExpiringDialog) {
+							sessionExpiringDialog.open();
+						}
+					}, 3300000); // 55 minutes
+					sessionExpiredTimeoutId = setTimeout(function () {
+						sessionExpired = true;
+						if (sessionExpiringDialog) {
+							sessionExpiringDialog.close();
+						}
+						if (sessionExpiredDialog) {
+							sessionExpiredDialog.open();
+						}
+					}, 3600000); // 60 minutes
+				}
+			}
+
+			// Attach XHR event handler to detect or reset timeouts on AJAX calls
+			var origOpen = XMLHttpRequest.prototype.open;
+			XMLHttpRequest.prototype.open = function () {
+				this.addEventListener('load', function (event) {
+					if (event.target.responseURL && event.target.responseURL.startsWith(window.location.protocol + '//' + window.location.hostname)) {
+						// 401 unauthorized error response implies session timeout
+						if (event.target.status === 401) {
+							sessionExpired = true;
+							sessionExpiredDialog.open();
+						}
+
+						// 2xx or 3xx response implies successful call to approuter
+						else if (event.target.status >= 200 && event.target.status < 400) {
+							resetTimeouts();
+						}
+					}
+				});
+				origOpen.apply(this, arguments);
+			};
+
+			// Attach route match handler to reset timeouts on view transition
+			this.getRouter().attachRouteMatched(function (event) {
+				if (sessionExpired) {
+					sessionExpiredDialog.open();
+				}
+				resetTimeouts();
+			});
+
+			resetTimeouts();
 		}
+
 	});
 });
