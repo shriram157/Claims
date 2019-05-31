@@ -67,7 +67,7 @@
 				<Input value="" id="idPdcCode" editable="false"/>
 				<core:Title text=""/>
 				<Label text="{i18n>TCIWaybillNo}"/>
-				<Input value="{HeadSetData>/TCIWaybillNumber}" id="idTCIWayBill" enabled="{DateModel>/oFormEdit}" required="{DateModel>/required}" />
+				<Input value="{HeadSetData>/TCIWaybillNumber}" id="idTCIWayBill" enabled="{DateModel>/oFormEdit}" required="{DateModel>/required}" valueState="{DateModel>/waybilltype}"/>
 				<Label text="{i18n>CarrierName}"/>
 				<ComboBox id="idCarrierName" required="true" items="{BpDealerModel>/BpDealerList}" change="onSelectPartsDealer"
 					selectedKey="{HeadSetData>/DeliveringCarrier}" showSecondaryValues="true" enabled="{DateModel>/oFormEdit}">

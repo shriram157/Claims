@@ -39,7 +39,8 @@ sap.ui.define([
 				oFormEdit2: false,
 				ddType: "None",
 				RetainPartType: "None",
-				required: false
+				required: false,
+				waybilltype: "None"
 			});
 			this.getView().setModel(oDateModel, "DateModel");
 			var oNodeModel = new sap.ui.model.json.JSONModel();
@@ -344,7 +345,8 @@ sap.ui.define([
 					oFormEdit2: false,
 					ddType: "None",
 					RetainPartType: "None",
-					required: false
+					required: true,
+					waybilltype: "None"
 				});
 			} else {
 				/*Uncomment for security*/
@@ -364,7 +366,8 @@ sap.ui.define([
 					oFormEdit2: false,
 					ddType: "None",
 					RetainPartType: "None",
-					required: false
+					required: true,
+					waybilltype: "None"
 				});
 				/*Uncomment for security*/
 			}
@@ -621,7 +624,7 @@ sap.ui.define([
 								"ReferenceDate": this._fnDateFormat(this.getModel("LocalDataModel").getProperty("/ClaimDetails/ReferenceDate")),
 								"DateOfApplication": this._fnDateFormat(this.getModel("LocalDataModel").getProperty("/ClaimDetails/DateOfApplication")),
 								"RepairDate": this._fnDateFormat(this.getModel("LocalDataModel").getProperty("/ClaimDetails/RepairDate")),
-								"Delivery":   this.getView().getModel("HeadSetData").getProperty("/Delivery"),
+								"Delivery": this.getView().getModel("HeadSetData").getProperty("/Delivery"),
 								"DeliveryDate": this._fnDateFormat(this.getModel("LocalDataModel").getProperty("/ClaimDetails/DeliveryDate")),
 								"TCIWaybillNumber": "",
 								"ShipmentReceivedDate": null,
@@ -853,7 +856,7 @@ sap.ui.define([
 								"ReferenceDate": this._fnDateFormat(this.getModel("LocalDataModel").getProperty("/ClaimDetails/ReferenceDate")),
 								"DateOfApplication": this._fnDateFormat(this.getModel("LocalDataModel").getProperty("/ClaimDetails/DateOfApplication")),
 								"RepairDate": this._fnDateFormat(this.getModel("LocalDataModel").getProperty("/ClaimDetails/RepairDate")),
-								"Delivery":  this.getView().getModel("HeadSetData").getProperty("/Delivery"),
+								"Delivery": this.getView().getModel("HeadSetData").getProperty("/Delivery"),
 								"DeliveryDate": this._fnDateFormat(this.getModel("LocalDataModel").getProperty("/ClaimDetails/DeliveryDate")),
 								"TCIWaybillNumber": "",
 								"ShipmentReceivedDate": null,
@@ -891,25 +894,25 @@ sap.ui.define([
 						this.getModel("LocalDataModel").setProperty("/oErrorSet", errorData.results[0].zc_claim_vsrSet.results);
 					}, this)
 				});
-			this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", false);
-			var oProssingModel = this.getModel("ProssingModel");
-			var DeliNum =  this.getView().getModel("HeadSetData").getProperty("/Delivery");
-			var numQuery = "(DeliNum='" + DeliNum + "')?$format=json";
-			oProssingModel.read("/zc_get_delidateSet" + numQuery, {
-				success: $.proxy(function (delNumdata) {
-					if (delNumdata.DeliDate === null) {
-						// MessageBox.show(delNumdata.Message, MessageBox.Icon.INFORMATION, "Information", MessageBox.Action.OK, null, null);
+				this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", false);
+				var oProssingModel = this.getModel("ProssingModel");
+				var DeliNum = this.getView().getModel("HeadSetData").getProperty("/Delivery");
+				var numQuery = "(DeliNum='" + DeliNum + "')?$format=json";
+				oProssingModel.read("/zc_get_delidateSet" + numQuery, {
+					success: $.proxy(function (delNumdata) {
+						if (delNumdata.DeliDate === null) {
+							// MessageBox.show(delNumdata.Message, MessageBox.Icon.INFORMATION, "Information", MessageBox.Action.OK, null, null);
+							this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", false);
+						} else {
+							that.getView().getModel("HeadSetData").setProperty("/DeliveryDate", delNumdata.DeliDate);
+							// that.getView().byId("idShipmentRDate").setProperty("enabled", true);
+							this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", true);
+						}
+					}, this),
+					error: function (err) {
 						this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", false);
-					} else {
-						that.getView().getModel("HeadSetData").setProperty("/DeliveryDate", delNumdata.DeliDate);
-						// that.getView().byId("idShipmentRDate").setProperty("enabled", true);
-						this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", true);
 					}
-				}, this),
-				error: function (err) {
-					this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", false);
-				}
-			});
+				});
 				// oProssingModel.read("/zc_claim_item_price_dataSet", {
 				// 	urlParameters: {
 				// 		"$filter": "NumberOfWarrantyClaim eq '" + oClaim + "' "
@@ -1340,7 +1343,7 @@ sap.ui.define([
 			// 	productInput.setValue(this.oSelectedTitle);
 			// }
 			// evt.getSource().getBinding("items").filter([]);
-			
+
 			/////
 			if (this.partsInput02 == true) {
 				this.oSelectedItem02 = evt.getParameter("selectedItem");
@@ -3405,106 +3408,112 @@ sap.ui.define([
 		},
 
 		_fnUpdateClaimParts: function () {
-			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
-			var that = this;
-			var oClaimModel = this.getModel("ProssingModel");
-			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
+			if ((this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZPDC" || this.getView().getModel("HeadSetData").getProperty(
+					"/WarrantyClaimType") == "ZPTS") && this.getView().getModel("HeadSetData").getProperty("/TCIWaybillNumber") == "") {
+				this.getView().getModel("DateModel").setProperty("/waybilltype", "Error");
+			} else {
+				this.getView().getModel("DateModel").setProperty("/waybilltype", "None");
+				this.oBundle = this.getView().getModel("i18n").getResourceBundle();
+				var that = this;
+				var oClaimModel = this.getModel("ProssingModel");
+				var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 
-			var oActionCode = "";
-			oClaimModel.read("/zc_claim_item_price_dataSet", {
-				urlParameters: {
-					"$filter": "NumberOfWarrantyClaim eq '" + oClaimNum + "' "
-				},
-				success: $.proxy(function (data) {
-					var pricingData = data.results;
-					var oFilteredData = pricingData.filter(function (val) {
-						return val.ItemType === "MAT";
-					});
+				var oActionCode = "";
+				oClaimModel.read("/zc_claim_item_price_dataSet", {
+					urlParameters: {
+						"$filter": "NumberOfWarrantyClaim eq '" + oClaimNum + "' "
+					},
+					success: $.proxy(function (data) {
+						var pricingData = data.results;
+						var oFilteredData = pricingData.filter(function (val) {
+							return val.ItemType === "MAT";
+						});
 
-					this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
-					var PartItem = oFilteredData.map(function (item) {
-						// if (item.RepairOrRetrunPart == "Yes") {
-						// 	var RepairPart = "Y";
-						// } else {
-						// 	RepairPart = "N";
-						// }
-						if (item.RetainPart == "Yes") {
-							var RetainPart = "Y";
-						} else if (item.RetainPart == "No") {
-							RetainPart = "N";
-						}
-						return {
-							Type: "PART",
-							ItemType: "",
-							ControllingItemType: "MAT",
-							UnitOfMeasure: item.UnitOfMeasure,
-							MaterialNumber: item.matnr,
-							PartDescription: item.PartDescription,
-							PartQty: item.PartQty,
-							LineRefnr: item.LineRefnr,
-							ItemKey: item.ItemKey,
-							RetainPart: RetainPart,
-							QuantityOrdered: item.QuantityOrdered,
-							QuantityReceived: item.QuantityReceived,
-							DiscreCode: item.DiscreCode,
-							ALMDiscreDesc: item.ALMDiscreDesc,
-							WrongPart: item.WrongPart,
-							RepairAmount: item.RepairAmt
+						this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
+						var PartItem = oFilteredData.map(function (item) {
+							// if (item.RepairOrRetrunPart == "Yes") {
+							// 	var RepairPart = "Y";
+							// } else {
+							// 	RepairPart = "N";
+							// }
+							if (item.RetainPart == "Yes") {
+								var RetainPart = "Y";
+							} else if (item.RetainPart == "No") {
+								RetainPart = "N";
+							}
+							return {
+								Type: "PART",
+								ItemType: "",
+								ControllingItemType: "MAT",
+								UnitOfMeasure: item.UnitOfMeasure,
+								MaterialNumber: item.matnr,
+								PartDescription: item.PartDescription,
+								PartQty: item.PartQty,
+								LineRefnr: item.LineRefnr,
+								ItemKey: item.ItemKey,
+								RetainPart: RetainPart,
+								QuantityOrdered: item.QuantityOrdered,
+								QuantityReceived: item.QuantityReceived,
+								DiscreCode: item.DiscreCode,
+								ALMDiscreDesc: item.ALMDiscreDesc,
+								WrongPart: item.WrongPart,
+								RepairAmount: item.RepairAmt
+							};
+						});
+						this.getView().getModel("HeadSetData").getProperty("/DateOfApplication", this.getView().getModel("HeadSetData").getProperty(
+							"/DateOfApplication").getTime() - (10.5 * 60 * 60));
+						this.getView().getModel("HeadSetData").getProperty("/ReferenceDate", this.getView().getModel("HeadSetData").getProperty(
+							"/ReferenceDate").getTime() - (10.5 * 60 * 60));
+						// this.getView().getModel("HeadSetData").getProperty("/DeliveryDate", this.getView().getModel("HeadSetData").getProperty(
+						// 	"/DeliveryDate").getTime() - (10.5 * 60 * 60));
+						this.getView().getModel("HeadSetData").getProperty("/ShipmentReceivedDate", this.getView().getModel("HeadSetData").getProperty(
+							"/ShipmentReceivedDate").getTime() - (10.5 * 60 * 60));
+
+						this.obj = {
+							"DBOperation": "SAVE",
+							"Message": "",
+							"WarrantyClaimType": this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType"),
+							"Partner": this.getModel("LocalDataModel").getProperty("/BpDealerModel/0/BusinessPartnerKey"),
+							"ActionCode": oActionCode,
+							"NumberOfWarrantyClaim": this.getView().getModel("HeadSetData").getProperty("/NumberOfWarrantyClaim"),
+							"PartnerRole": "AS",
+							"ReferenceDate": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/ReferenceDate")),
+							"DateOfApplication": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/DateOfApplication")),
+							"TCIWaybillNumber": this.getView().getModel("HeadSetData").getProperty("/TCIWaybillNumber"),
+							"ShipmentReceivedDate": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/ShipmentReceivedDate")),
+							"DealerContact": this.getView().getModel("HeadSetData").getProperty("/DealerContact"),
+							"HeadText": this.getView().getModel("HeadSetData").getProperty("/HeadText"),
+							"Delivery": this.getView().getModel("HeadSetData").getProperty("/Delivery"),
+							"DeliveryDate": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/DeliveryDate")),
+							"DeliveringCarrier": this.getView().getModel("HeadSetData").getProperty("/DeliveringCarrier"),
+							"zc_itemSet": {
+								"results": PartItem
+							},
+							"zc_claim_attachmentsSet": {
+								"results": []
+							},
+							"zc_claim_vsrSet": {
+								"results": []
+							},
+							"zc_claim_item_price_dataSet": {
+								"results": pricingData
+							}
 						};
-					});
-					this.getView().getModel("HeadSetData").getProperty("/DateOfApplication", this.getView().getModel("HeadSetData").getProperty(
-						"/DateOfApplication").getTime() - (10.5 * 60 * 60));
-					this.getView().getModel("HeadSetData").getProperty("/ReferenceDate", this.getView().getModel("HeadSetData").getProperty(
-						"/ReferenceDate").getTime() - (10.5 * 60 * 60));
-					// this.getView().getModel("HeadSetData").getProperty("/DeliveryDate", this.getView().getModel("HeadSetData").getProperty(
-					// 	"/DeliveryDate").getTime() - (10.5 * 60 * 60));
-					this.getView().getModel("HeadSetData").getProperty("/ShipmentReceivedDate", this.getView().getModel("HeadSetData").getProperty(
-						"/ShipmentReceivedDate").getTime() - (10.5 * 60 * 60));
+						oClaimModel.refreshSecurityToken();
+						oClaimModel.create("/zc_headSet", this.obj, {
+							success: $.proxy(function (response) {
+								MessageToast.show(that.oBundle.getText("ClaimUpdateMSG"));
+								this.getModel("LocalDataModel").setProperty("/step01Next", true);
+							}, this),
+							error: function () {
+								this.getModel("LocalDataModel").setProperty("/step01Next", false);
+							}
+						});
 
-					this.obj = {
-						"DBOperation": "SAVE",
-						"Message": "",
-						"WarrantyClaimType": this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType"),
-						"Partner": this.getModel("LocalDataModel").getProperty("/BpDealerModel/0/BusinessPartnerKey"),
-						"ActionCode": oActionCode,
-						"NumberOfWarrantyClaim": this.getView().getModel("HeadSetData").getProperty("/NumberOfWarrantyClaim"),
-						"PartnerRole": "AS",
-						"ReferenceDate": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/ReferenceDate")),
-						"DateOfApplication": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/DateOfApplication")),
-						"TCIWaybillNumber": this.getView().getModel("HeadSetData").getProperty("/TCIWaybillNumber"),
-						"ShipmentReceivedDate": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/ShipmentReceivedDate")),
-						"DealerContact": this.getView().getModel("HeadSetData").getProperty("/DealerContact"),
-						"HeadText": this.getView().getModel("HeadSetData").getProperty("/HeadText"),
-						"Delivery": this.getView().getModel("HeadSetData").getProperty("/Delivery"),
-						"DeliveryDate": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/DeliveryDate")),
-						"DeliveringCarrier": this.getView().getModel("HeadSetData").getProperty("/DeliveringCarrier"),
-						"zc_itemSet": {
-							"results": PartItem
-						},
-						"zc_claim_attachmentsSet": {
-							"results": []
-						},
-						"zc_claim_vsrSet": {
-							"results": []
-						},
-						"zc_claim_item_price_dataSet": {
-							"results": pricingData
-						}
-					};
-					oClaimModel.refreshSecurityToken();
-					oClaimModel.create("/zc_headSet", this.obj, {
-						success: $.proxy(function (response) {
-							MessageToast.show(that.oBundle.getText("ClaimUpdateMSG"));
-							this.getModel("LocalDataModel").setProperty("/step01Next", true);
-						}, this),
-						error: function () {
-							this.getModel("LocalDataModel").setProperty("/step01Next", false);
-						}
-					});
-
-				}, this),
-				error: function () {}
-			});
+					}, this),
+					error: function () {}
+				});
+			}
 		},
 
 		_fnSaveClaimParts: function (oEvent) {
@@ -3516,39 +3525,27 @@ sap.ui.define([
 			// var WarrantyClaimType = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType");
 			var oValid = oValidator.validate(this.getView().byId("idClaimForm"));
 
-			if (((this.getView().getModel("HeadSetData").getProperty("/DeliveringCarrier") == "") || (this.getView().getModel("HeadSetData").getProperty(
+			if ((this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZPDC" || this.getView().getModel("HeadSetData").getProperty(
+					"/WarrantyClaimType") == "ZPTS") && this.getView().getModel("HeadSetData").getProperty("/TCIWaybillNumber") == "") {
+				this.getView().getModel("DateModel").setProperty("/waybilltype", "Error");
+			} else if (((this.getView().getModel("HeadSetData").getProperty("/DeliveringCarrier") == "") || (this.getView().getModel(
+					"HeadSetData").getProperty(
 					"/DeliveringCarrier") == undefined)) && (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZPDC" ||
 					this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZPTS")) {
-				// if (!oValid) {
-				// if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZPDC" || this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZPTS") {
-				// if (this.getView().getModel("HeadSetData").getProperty("/DeliveringCarrier") == undefined || this.getView().getModel("HeadSetData").getProperty("/DeliveringCarrier") == "") {
 				this.getView().byId("idCarrierName").setValueState("Error");
-				// }
 
 				this.getModel("LocalDataModel").setProperty("/step01Next", false);
 				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
 
-				// if (this.getView().getModel("HeadSetData").getProperty("/DeliveryDate") == undefined || this.getView().getModel(
-				// 		"HeadSetData").getProperty("/DeliveryDate") == "") {
-				// 	this.getView().byId("idOutBoundDD").setValueState("Error");
-				// }
-				// if (this.getView().getModel("HeadSetData").getProperty("/ShipmentReceivedDate") == undefined || this.getView().getModel(
-				// 		"HeadSetData").getProperty("/ShipmentReceivedDate") == "") {
-				// 	this.getView().byId("idShipmentRDate").setValueState("Error");
-				// }
 				this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
 				this.getView().byId("idMainClaimMessage").setType("Error");
+				this.getView().getModel("DateModel").setProperty("/waybilltype", "None");
 				return false;
-			} else if (!oValid || (this.getView().getModel("HeadSetData").getProperty("/ShipmentReceivedDate") == undefined || this.getView()
-					.getModel(
-						"HeadSetData").getProperty("/ShipmentReceivedDate") == "")) {
+			} else if (!oValid || (this.getView().getModel("HeadSetData").getProperty("/ShipmentReceivedDate") == undefined || this.getView().getModel(
+					"HeadSetData").getProperty("/ShipmentReceivedDate") == "")) {
 				this.getModel("LocalDataModel").setProperty("/step01Next", false);
 				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
 
-				// if (this.getView().getModel("HeadSetData").getProperty("/DeliveryDate") == undefined || this.getView().getModel(
-				// 		"HeadSetData").getProperty("/DeliveryDate") == "") {
-				// 	this.getView().byId("idOutBoundDD").setValueState("Error");
-				// }
 				if (this.getView().getModel("HeadSetData").getProperty("/ShipmentReceivedDate") == undefined || this.getView().getModel(
 						"HeadSetData").getProperty("/ShipmentReceivedDate") == "") {
 					this.getView().byId("idShipmentRDate").setValueState("Error");
@@ -3556,6 +3553,7 @@ sap.ui.define([
 				this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
 				this.getView().byId("idMainClaimMessage").setType("Error");
 				this.getView().byId("idCarrierName").setValueState("None");
+				this.getView().getModel("DateModel").setProperty("/waybilltype", "None");
 				return false;
 			} else if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == undefined && this.getView().getModel(
 					"HeadSetData").getProperty("/WarrantyClaimType") != "") {
@@ -3570,6 +3568,8 @@ sap.ui.define([
 				if (this.getView().getModel("HeadSetData").getProperty("/NumberOfWarrantyClaim") == undefined) {
 					this.getView().getModel("HeadSetData").setProperty("/NumberOfWarrantyClaim", "");
 				}
+
+				this.getView().getModel("DateModel").setProperty("/waybilltype", "None");
 				//-(10.5*60*60)
 				oCurrentDt = new Date(new Date().getTime() - (10.5 * 60 * 60));
 				// this.getView().getModel("HeadSetData").getProperty("/DeliveryDate", this.getView().getModel("HeadSetData").getProperty(
@@ -3672,6 +3672,7 @@ sap.ui.define([
 
 		onStep01Next: function (oEvent) {
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
+
 			var oValidator = new Validator();
 			oValidator.validate(this.byId("idClaimForm"));
 			this.getView().byId("mainSectionTitle").setTitle(this.oBundle.getText("ClaimPartsSection"));
@@ -3700,14 +3701,18 @@ sap.ui.define([
 				/*Uncomment for security*/
 				this.getView().byId("idMainClaimMessage").setProperty("visible", false);
 				this.getView().byId("idMainClaimMessage").setType("None");
-			}
 
+			}
 		},
 
 		onStep03Next: function () {
 			var validator = new Validator();
 			validator.validate(this.byId("partTable"));
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
+			if (this.getView().getModel("DateModel").getProperty("/oLetterOfIntent") == true) {
+				MessageBox.show(this.oBundle.getText("LOIMandatoryBeforeTCISubmit"), MessageBox.Icon.INFORMATION, "Reminder", MessageBox.Action.OK,
+					null, null);
+			}
 			if (!validator.isValid()) {
 				//do something additional to drawing red borders? message box?
 				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
@@ -3800,7 +3805,7 @@ sap.ui.define([
 			this.obj.ReferenceDate = this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/ReferenceDate"));
 			this.obj.DateOfApplication = this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/DateOfApplication"));
 			this.obj.RepairDate = this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairDate"));
-			this.obj.Delivery =  this.getView().getModel("HeadSetData").getProperty("/Delivery");
+			this.obj.Delivery = this.getView().getModel("HeadSetData").getProperty("/Delivery");
 			this.obj.DeliveryDate = this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/DeliveryDate"));
 			this.obj.TCIWaybillNumber = "";
 			this.obj.ShipmentReceivedDate = null;
