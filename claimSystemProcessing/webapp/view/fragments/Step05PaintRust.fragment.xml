@@ -115,9 +115,9 @@
 						<core:Title text=""/>
 						<Label text=" " class="clTextIndent"/>
 						<Button text="{i18n>Clear}" type="Default" press="onPressCancelPaint" enabled="{DateModel>/paintLine}">
-							<!--<layoutData>-->
-							<!--	<l:GridData span="XL9 L9 "/>-->
-							<!--</layoutData>-->
+							<layoutData>
+								<l:GridData span="XL7 L8"/>
+							</layoutData>
 						</Button>
 					</f:content>
 				</f:SimpleForm>

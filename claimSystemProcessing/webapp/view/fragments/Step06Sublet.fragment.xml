@@ -176,7 +176,7 @@
 						<Label text=" " class="clTextIndent"/>
 						<Button text="{i18n>Clear}" type="Default" press="onPressCancelSublet" enabled="{DateModel>/subletLine}">
 							<layoutData>
-								<l:GridData span="XL7 L7 M10 "/>
+								<l:GridData span="XL7 L8 M10 "/>
 							</layoutData>
 						</Button>
 					</f:content>
