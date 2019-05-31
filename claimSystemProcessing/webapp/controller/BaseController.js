@@ -314,7 +314,7 @@ sap.ui.define([
 						}
 						oModel.setData(zdata.d);
 						that.getView().setModel(oModel, 'DealerLabour');
-						that.getModel("LocalDataModel").setProperty("oDealerLabour", zdata.d);
+						that.getModel("LocalDataModel").setProperty("/oDealerLabour", zdata.d);
 					},
 					error: function (jqXHR, textStatus, errorThrown) {}
 				});

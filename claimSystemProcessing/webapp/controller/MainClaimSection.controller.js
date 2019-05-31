@@ -35,9 +35,18 @@ sap.ui.define([
 				error: function () {}
 			});
 
+			var sSelectedLocale;
+
+			var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
+			if (isLocaleSent) {
+				sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
+			} else {
+				sSelectedLocale = "en"; // default is english
+			}
+
 			oProssingModel.read("/zc_dmg_type_codesSet", {
 				urlParameters: {
-					"$filter": "LanguageKey eq 'E' "
+					"$filter": "LanguageKey eq '" + sSelectedLocale.toUpperCase() + "' "
 				},
 				success: $.proxy(function (data) {
 					this.getModel("LocalDataModel").setProperty("/DataTypeCode", data.results);
@@ -49,7 +58,7 @@ sap.ui.define([
 
 			oProssingModel.read("/zc_dmg_area_codesSet", {
 				urlParameters: {
-					"$filter": "LanguageKey eq 'E' "
+					"$filter": "LanguageKey eq '" + sSelectedLocale.toUpperCase() + "' "
 				},
 				success: $.proxy(function (data) {
 					this.getModel("LocalDataModel").setProperty("/DataAreaCode", data.results);
@@ -61,7 +70,7 @@ sap.ui.define([
 
 			oProssingModel.read("/zc_dmg_sevr_codesSet", {
 				urlParameters: {
-					"$filter": "LanguageKey eq 'E' "
+					"$filter": "LanguageKey eq '" + sSelectedLocale.toUpperCase() + "' "
 				},
 				success: $.proxy(function (data) {
 					this.getModel("LocalDataModel").setProperty("/DataSeverety", data.results);
@@ -196,6 +205,7 @@ sap.ui.define([
 		},
 
 		_onRoutMatched: function (oEvent) {
+			this.getModel("LocalDataModel").setProperty("/oCurrentDealerLabour", "");
 			this._ValidateOnLoad();
 			var sSelectedLocale;
 			//  get the locale to determine the language.
@@ -434,6 +444,14 @@ sap.ui.define([
 						//oTextUser.replace("Dealer"/g, "");
 
 						//	this.getView().getModel("DateModel").setProperty("/NameOfPersonRespWhoChangedObj", this.getModel("LocalDataModel").getProperty("/LoginId"));
+
+						if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZECP") {
+							this.getModel("LocalDataModel").setProperty("/oCurrentDealerLabour", this.getModel("LocalDataModel").getProperty(
+								"/oDealerLabour/ECPNewLabourRate"));
+						} else {
+							this.getModel("LocalDataModel").setProperty("/oCurrentDealerLabour", this.getModel("LocalDataModel").getProperty(
+								"/oDealerLabour/WTYNewLabourRate"));
+						}
 
 						if (data.results[0].ExternalObjectNumber == "") {
 							this.getView().getModel("DateModel").setProperty("/OdometerReq", false);
@@ -1118,7 +1136,8 @@ sap.ui.define([
 					success: $.proxy(function (data) {
 						oProssingModel.read("/zc_claim_item_damageSet", {
 							urlParameters: {
-								"$filter": "NumberOfWarrantyClaim eq '" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") + "' "
+								"$filter": "NumberOfWarrantyClaim eq '" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") +
+									"'and LanguageKey eq '" + sSelectedLocale.toUpperCase() + "' "
 							},
 							success: $.proxy(function (sddata) {
 
@@ -1974,7 +1993,7 @@ sap.ui.define([
 				this.getView().getModel("DateModel").setProperty("/Sublet", true);
 				this.getView().getModel("DateModel").setProperty("/Parts", true);
 				this.getView().getModel("DateModel").setProperty("/Labour", true);
-				this.getView().getModel("DateModel").setProperty("/AcA1", false);
+				this.getView().getModel("DateModel").setProperty("/AcA1", true);
 				this.getView().getModel("DateModel").setProperty("/P1p2", false);
 				this.getView().getModel("DateModel").setProperty("/oFieldActionInput", false);
 				this.getView().getModel("DateModel").setProperty("/oPrevInvNumReq", false);
@@ -1993,7 +2012,7 @@ sap.ui.define([
 				this.getView().getModel("DateModel").setProperty("/Sublet", true);
 				this.getView().getModel("DateModel").setProperty("/Parts", true);
 				this.getView().getModel("DateModel").setProperty("/Labour", true);
-				this.getView().getModel("DateModel").setProperty("/AcA1", false);
+				this.getView().getModel("DateModel").setProperty("/AcA1", true);
 				this.getView().getModel("DateModel").setProperty("/P1p2", false);
 				this.getView().getModel("DateModel").setProperty("/oFieldActionInput", false);
 				this.getView().getModel("DateModel").setProperty("/oPrevInvNumReq", false);
@@ -2882,6 +2901,14 @@ sap.ui.define([
 								this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", sdata.results[0].OfpDescription);
 								this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", sdata.results[0].Main_opsDescription);
 								this.getView().getModel("HeadSetData").setData(sdata.results[0]);
+								if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZECP") {
+									this.getModel("LocalDataModel").setProperty("/oCurrentDealerLabour", this.getModel("LocalDataModel").getProperty(
+										"/oDealerLabour/ECPNewLabourRate"));
+								} else {
+									this.getModel("LocalDataModel").setProperty("/oCurrentDealerLabour", this.getModel("LocalDataModel").getProperty(
+										"/oDealerLabour/WTYNewLabourRate"));
+								}
+								//this.getModel("LocalDataModel").getProperty("/oDealerLabour/WTYNewLabourRate");
 
 								this.getView().getModel("HeadSetData").setProperty("/RepairDate", response.data.RepairDate);
 								this.getView().getModel("HeadSetData").setProperty("/ReferenceDate", response.data.ReferenceDate);
@@ -6611,6 +6638,15 @@ sap.ui.define([
 		},
 
 		onSaveDamage: function (oEvent) {
+			var sSelectedLocale;
+			//  get the locale to determine the language.
+			var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
+			if (isLocaleSent) {
+				sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
+			} else {
+				sSelectedLocale = "en"; // default is english
+			}
+
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			this.obj.Message = "";
 			this.obj.NumberOfWarrantyClaim = oClaimNum;
@@ -6632,7 +6668,7 @@ sap.ui.define([
 					// console.log(response);
 					oClaimModel.read("/zc_claim_item_damageSet", {
 						urlParameters: {
-							"$filter": "NumberOfWarrantyClaim eq '" + oClaimNum + "'and LanguageKey eq 'E' "
+							"$filter": "NumberOfWarrantyClaim eq '" + oClaimNum + "'and LanguageKey eq '" + sSelectedLocale.toUpperCase() + "' "
 						},
 						success: $.proxy(function (sdata) {
 							this.getModel("LocalDataModel").setProperty("/DataItemDamageSet", sdata.results);
@@ -6674,12 +6710,21 @@ sap.ui.define([
 
 				var oClaimModel = this.getModel("ProssingModel");
 
+				var sSelectedLocale;
+				//  get the locale to determine the language.
+				var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
+				if (isLocaleSent) {
+					sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
+				} else {
+					sSelectedLocale = "en"; // default is english
+				}
+
 				oClaimModel.refreshSecurityToken();
 				oClaimModel.create("/zc_headSet", this.obj, {
 					success: $.proxy(function (data, response) {
 						oClaimModel.read("/zc_claim_item_damageSet", {
 							urlParameters: {
-								"$filter": "NumberOfWarrantyClaim eq '" + oClaimNum + "'and LanguageKey eq 'E' "
+								"$filter": "NumberOfWarrantyClaim eq '" + oClaimNum + "'and LanguageKey eq '" + sSelectedLocale.toUpperCase() + "' "
 							},
 							success: $.proxy(function (sdata) {
 								this.getModel("LocalDataModel").setProperty("/DataItemDamageSet", sdata.results);
@@ -6700,6 +6745,16 @@ sap.ui.define([
 			var oTableIndex = oTable._aSelectedPaths;
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
+
+			var sSelectedLocale;
+			//  get the locale to determine the language.
+			var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
+			if (isLocaleSent) {
+				sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
+			} else {
+				sSelectedLocale = "en"; // default is english
+			}
+
 			if (oTableIndex.length == 1) {
 
 				var oIndex = parseInt(oTableIndex.toString().split("/")[2]);
@@ -6712,7 +6767,8 @@ sap.ui.define([
 					success: $.proxy(function (data, response) {
 						oClaimModel.read("/zc_claim_item_damageSet", {
 							urlParameters: {
-								"$filter": "NumberOfWarrantyClaim eq '" + oClaimNum + "'and LanguageKey eq 'E' "
+								"$filter": "NumberOfWarrantyClaim eq '" + oClaimNum + "'and LanguageKey eq '" + sSelectedLocale.toLocaleLowerCase() +
+									"' "
 							},
 							success: $.proxy(function (sdata) {
 								this.getModel("LocalDataModel").setProperty("/DataItemDamageSet", sdata.results);
