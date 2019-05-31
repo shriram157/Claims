@@ -433,10 +433,7 @@ sap.ui.define([
 						var oTextUser = sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser");
 						//oTextUser.replace("Dealer"/g, "");
 
-						var oServiceUser = oPartner + sap.ui.getCore().getModel(
-							"UserDataModel").getProperty("/LoggedInUser").split("_").join("");
-
-						this.getView().getModel("DateModel").setProperty("/NameOfPersonRespWhoChangedObj", oServiceUser);
+						//	this.getView().getModel("DateModel").setProperty("/NameOfPersonRespWhoChangedObj", this.getModel("LocalDataModel").getProperty("/LoginId"));
 
 						if (data.results[0].ExternalObjectNumber == "") {
 							this.getView().getModel("DateModel").setProperty("/OdometerReq", false);
@@ -1437,6 +1434,7 @@ sap.ui.define([
 					"PreviousROInvoiceDate": null,
 					"PreviousROOdometer": "",
 					"PreviousROInvoice": "",
+					"NameOfPersonRespWhoChangedObj": "",
 					"AccessoryInstallOdometer": "",
 					"AccessoryInstallDate": null,
 					"AgreementNumber": "",
@@ -1451,6 +1449,7 @@ sap.ui.define([
 				//this.getView().getModel("DateModel").setProperty("/OdometerReq", true);
 				this.obj = {
 					"DBOperation": "SAVE",
+					"NameOfPersonRespWhoChangedObj": "",
 					"Message": "",
 					"WarrantyClaimType": "",
 					"Partner": "",
@@ -2754,6 +2753,7 @@ sap.ui.define([
 					"ExternalObjectNumber": this.getView().getModel("HeadSetData").getProperty("/ExternalObjectNumber"),
 					"Odometer": this.getView().getModel("HeadSetData").getProperty("/Odometer"),
 					"TCIWaybillNumber": "",
+					"NameOfPersonRespWhoChangedObj": this.getModel("LocalDataModel").getProperty("/LoginId"),
 					"ShipmentReceivedDate": null,
 					"DealerContact": this.getView().getModel("HeadSetData").getProperty("/DealerContact"),
 					"HeadText": this.getView().getModel("HeadSetData").getProperty("/HeadText"),
@@ -3563,6 +3563,7 @@ sap.ui.define([
 						"ActionCode": oActionCode,
 						"NumberOfWarrantyClaim": this.getView().getModel("HeadSetData").getProperty("/NumberOfWarrantyClaim"),
 						"PartnerRole": "AS",
+						"NameOfPersonRespWhoChangedObj": this.getModel("LocalDataModel").getProperty("/LoginId"),
 						"ReferenceDate": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/ReferenceDate")),
 						"DateOfApplication": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/DateOfApplication")),
 						"FinalProcdDate": null,
@@ -6745,6 +6746,7 @@ sap.ui.define([
 			//this.obj.WarrantyClaimType = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType");
 			this.obj.Partner = this.getModel("LocalDataModel").getProperty("/BpDealerModel/0/BusinessPartnerKey");
 			this.obj.ActionCode = "";
+			this.obj.NameOfPersonRespWhoChangedObj = this.getModel("LocalDataModel").getProperty("/LoginId");
 			this.obj.NumberOfWarrantyClaim = this.getView().getModel("HeadSetData").getProperty("/NumberOfWarrantyClaim");
 			this.obj.PartnerRole = "AS";
 			this.obj.ReferenceDate = this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/ReferenceDate"));
