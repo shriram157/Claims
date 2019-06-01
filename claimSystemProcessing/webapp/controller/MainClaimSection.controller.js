@@ -445,7 +445,7 @@ sap.ui.define([
 
 						//	this.getView().getModel("DateModel").setProperty("/NameOfPersonRespWhoChangedObj", this.getModel("LocalDataModel").getProperty("/LoginId"));
 
-						if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZECP") {
+						if (data.results[0].WarrantyClaimType == "ZECP") {
 							this.getModel("LocalDataModel").setProperty("/oCurrentDealerLabour", this.getModel("LocalDataModel").getProperty(
 								"/oDealerLabour/ECPNewLabourRate"));
 						} else {

@@ -8,12 +8,12 @@
 					adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" columnsXL="2" columnsL="2" columnsM="2"
 					singleContainerFullSize="false">
 					<f:content>
-						<!--<HBox>-->
 						<core:Title text=""/>
 						<Label text="{i18n>CarrierName}" class="sapUiTinyMarginBeginEnd"/>
 						<Text text="{LOIDataModel>/CarrierName}"/>
 						<Label text="{i18n>CarrierAddress}" class="sapUiTinyMarginBeginEnd"/>
-						<TextArea valueState="{DateModel>/partTypeState}" id="AddressLOI" growing="false" value="{LOIDataModel>/Address1} {LOIDataModel>/Address2} {LOIDataModel>/Address3} {LOIDataModel>/Address4}" maxLength="250" required="true"/>
+						<TextArea valueState="{DateModel>/partTypeState}" id="AddressLOI" growing="false"
+							value="{LOIDataModel>/Address1} {LOIDataModel>/Address2} {LOIDataModel>/Address3} {LOIDataModel>/Address4}" maxLength="250" required="true"/>
 						<core:Title text=""/>
 						<Label text=""/>
 						<Text text="{LOIDataModel>/TopTextLOI}"/>
@@ -41,7 +41,8 @@
 					<f:content>
 						<HBox>
 							<Label text="{i18n>DeliveryReceivedDate}" class="sapUiTinyMarginBeginEnd sapUiSmallMarginTop"/>
-							<DatePicker valueState="{DateModel>/partTypeState}" value="{path:'LOIDataModel>/DeliveryDateLOI', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd' } }"
+							<DatePicker valueState="{DateModel>/partTypeState}"
+								value="{path:'LOIDataModel>/DeliveryDateLOI', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd' } }"
 								required="true" id="idDDLOI"/>
 							<Label text="{i18n>TextAt}" class="sapUiTinyMarginBeginEnd sapUiSmallMarginTop"/>
 							<!--<DateTimeInput type="Time" class="sapUiSmallMarginBottom" value="{path:'LOIDataModel>/AtLOI', type: 'sap.ui.model.type.Time'}"/>-->
@@ -52,7 +53,8 @@
 						</HBox>
 						<!--<HBox>-->
 						<Label text="{i18n>ExceptionNoted}" class="sapUiTinyMarginBeginEnd" required="true"/>
-						<RadioButtonGroup valueState="{DateModel>/partTypeState}" id="IDRadioException" select="onRadioChangeEN" columns="3" class="sapUiMediumMarginBottom" selectedIndex="0">
+						<RadioButtonGroup valueState="{DateModel>/partTypeState}" id="IDRadioException" select="onRadioChangeEN" columns="3"
+							class="sapUiMediumMarginBottom" selectedIndex="0">
 							<buttons>
 								<RadioButton id="LOI1-1" text="{i18n>Damage}"/>
 								<RadioButton id="LOI2-2" text="{i18n>MissingPieces}"/>
@@ -62,7 +64,9 @@
 						<!--</HBox>-->
 						<!--<HBox>-->
 						<Label text="{i18n>EstimatedValueofClaim}" class="sapUiTinyMarginBeginEnd"/>
-						<Input valueState="{DateModel>/partTypeState}" value="{path:'LOIDataModel>/estClaimValueLOI', formatter: 'zclaimProcessing.utils.formatter.roundedDecimals'}" id="estClaimValueLOI" editable="false"/>
+						<Input valueState="{DateModel>/partTypeState}"
+							value="{path:'LOIDataModel>/estClaimValueLOI', formatter: 'zclaimProcessing.utils.formatter.roundedDecimals'}" id="estClaimValueLOI"
+							editable="false"/>
 						<Text text="{i18n>ActualDeclaredVal}" class="sapUiTinyMarginBeginEnd"/>
 						<!--</HBox>-->
 						<Label text="{i18n>DescriptionIncludingPartNumbers}" class="sapUiTinyMarginBeginEnd"/>
@@ -77,15 +81,17 @@
 					<f:content>
 						<HBox>
 							<Label text="{i18n>CarrierContactedBy}" class="sapUiTinyMarginBeginEnd sapUiSmallMarginTop" required="true"/>
-							<RadioButtonGroup valueState="{DateModel>/partTypeState}" id="RadioCCPhoneEmail" select="onRadioChangeCPhone" columns="2" class="sapUiMediumMarginBottom" selectedIndex="0">
+							<RadioButtonGroup valueState="{DateModel>/partTypeState}" id="RadioCCPhoneEmail" select="onRadioChangeCPhone" columns="2"
+								class="sapUiMediumMarginBottom" selectedIndex="0">
 								<buttons>
 									<RadioButton id="LOI01-1" text="{i18n>Yes}"/>
 									<RadioButton id="LOI02-2" text="{i18n>No}"/>
 								</buttons>
 							</RadioButtonGroup>
 							<Label text="{i18n>PartsDate}" class="sapUiTinyMarginBeginEnd sapUiSmallMarginTop"/>
-							<DatePicker valueState="{DateModel>/partTypeState}" value="{path:'LOIDataModel>/DateLOI', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd' } }" required="true"
-								id="idDateLOI02"/>
+							<DatePicker valueState="{DateModel>/partTypeState}"
+								value="{path:'LOIDataModel>/DateLOI', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd' } }"
+								required="true" id="idDateLOI02"/>
 							<Label text="{i18n>TextAt}" class="sapUiTinyMarginBeginEnd sapUiSmallMarginTop"/>
 							<!--<Input value="{path:'LOIDataModel>/AtLOI02'}"/>-->
 							<TimePicker value="{path:'LOIDataModel>/AtLOI02', type: 'sap.ui.model.type.Time'}"/>
@@ -94,7 +100,8 @@
 						<Input value="{path:'LOIDataModel>/RepresntativeName'}" width="100%"/>
 						<!--</HBox>-->
 						<Label text="{i18n>TraceRequest}" class="sapUiTinyMarginBeginEnd" required="true"/>
-						<RadioButtonGroup valueState="{DateModel>/partTypeState}" id="RadioTR" select="onRadioChangeTR" columns="4" class="sapUiMediumMarginBottom" selectedIndex="0">
+						<RadioButtonGroup valueState="{DateModel>/partTypeState}" id="RadioTR" select="onRadioChangeTR" columns="4" class="sapUiMediumMarginBottom"
+							selectedIndex="0">
 							<buttons>
 								<RadioButton id="LOITR-1" text="{i18n>Yes}"/>
 								<RadioButton id="LOITR-2" text="{i18n>No}"/>
@@ -102,7 +109,8 @@
 							</buttons>
 						</RadioButtonGroup>
 						<Label text="{i18n>CarrierRighttoInspectionWaived}" class="sapUiTinyMarginBeginEnd" required="true"/>
-						<RadioButtonGroup valueState="{DateModel>/partTypeState}" id="RadioCR" select="onRadioChangeCR" columns="4" class="sapUiMediumMarginBottom" selectedIndex="0">
+						<RadioButtonGroup valueState="{DateModel>/partTypeState}" id="RadioCR" select="onRadioChangeCR" columns="4" class="sapUiMediumMarginBottom"
+							selectedIndex="0">
 							<buttons>
 								<RadioButton id="LOICR-1" text="{i18n>Yes}"/>
 								<RadioButton id="LOICR-2" text="{i18n>No}"/>
@@ -110,7 +118,8 @@
 							</buttons>
 						</RadioButtonGroup>
 						<Label text="{i18n>PartsWillBe}" class="sapUiTinyMarginBeginEnd" required="true"/>
-						<RadioButtonGroup valueState="{DateModel>/partTypeState}" id="RadioParts" select="onRadioChangeParts" columns="1" width="100%" class="sapUiMediumMarginBottom" selectedIndex="0">
+						<RadioButtonGroup valueState="{DateModel>/partTypeState}" id="RadioParts" select="onRadioChangeParts" columns="1" width="100%"
+							class="sapUiMediumMarginBottom" selectedIndex="0">
 							<buttons>
 								<RadioButton width="100%" id="LOIPR-1" text="{i18n>PartsOption1}"/>
 								<RadioButton width="100%" id="LOIPR-2" text="{i18n>PartsOption2}"/>
@@ -119,12 +128,11 @@
 						</RadioButtonGroup>
 						<Label text=""/>
 						<HBox>
-							<Text width="100%"
-								text="{i18n>LOINote2}"/>
+							<Text width="100%" text="{i18n>LOINote2}"/>
 						</HBox>
 						<!--<HBox>-->
 						<Label text="{i18n>YoursTruly}" class="sapUiTinyMarginBeginEnd"/>
-						<Input  valueState="{DateModel>/partTypeState}" value="{path:'LOIDataModel>/ursTrulyText'}" required="true" width="25%"/>
+						<Input valueState="{DateModel>/partTypeState}" value="{path:'LOIDataModel>/ursTrulyText'}" required="true" width="25%"/>
 						<Label text="{i18n>Phone}" class="sapUiTinyMarginBeginEnd"/>
 						<Input value="{path:'LOIDataModel>/PhoneLOI'}" width="25%"/>
 						<Label text="{i18n>Extension}" class="sapUiTinyMarginBeginEnd"/>
