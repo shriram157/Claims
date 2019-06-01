@@ -4460,6 +4460,30 @@ sap.ui.define([
 								},
 								success: $.proxy(function (cdata) {
 									this.getView().getModel("HeadSetData").setData(cdata.results[0]);
+
+									oClaimModel.read("/zc_headSet", {
+										urlParameters: {
+											"$filter": "NumberOfWarrantyClaim eq '" + oClaimNum +
+												"'and LanguageKey eq '" + sSelectedLocale.toUpperCase() + "'",
+											"$expand": "zc_claim_vsrSet,zc_claim_read_descriptionSet"
+										},
+										success: $.proxy(function (errorData) {
+											this.getModel("LocalDataModel").setProperty("/oErrorSet", errorData.results[0].zc_claim_vsrSet.results);
+											this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", errorData.results[0].zc_claim_read_descriptionSet
+												.results[0].OFPDescription);
+											this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", errorData.results[0].zc_claim_read_descriptionSet
+												.results[0].MainOpsCodeDescription);
+											this.getView().getModel("HeadSetData").setProperty("/ReferenceDate", errorData.results[0].zc_claim_read_descriptionSet
+												.results[0].ReferenceDate);
+
+											this.getView().getModel("HeadSetData").setProperty("/DateOfApplication", errorData.results[0].zc_claim_read_descriptionSet
+												.results[0].DateOfApplication);
+
+											this.getView().getModel("HeadSetData").setProperty("/RepairDate", errorData.results[0].zc_claim_read_descriptionSet
+												.results[0].RepairDate);
+										}, this)
+									});
+
 									this.getModel("LocalDataModel").setProperty("/WarrantyClaimNum", oClaimNum);
 									this.getModel("LocalDataModel").setProperty("/WarrantyClaimNumber", oBundle.getText("TCIClaimNumber") + " : " +
 										oClaimNum);
@@ -4574,6 +4598,30 @@ sap.ui.define([
 								},
 								success: $.proxy(function (cdata) {
 									this.getView().getModel("HeadSetData").setData(cdata.results[0]);
+
+									oClaimModel.read("/zc_headSet", {
+										urlParameters: {
+											"$filter": "NumberOfWarrantyClaim eq '" + oClaimNum +
+												"'and LanguageKey eq '" + sSelectedLocale.toUpperCase() + "'",
+											"$expand": "zc_claim_vsrSet,zc_claim_read_descriptionSet"
+										},
+										success: $.proxy(function (errorData) {
+											this.getModel("LocalDataModel").setProperty("/oErrorSet", errorData.results[0].zc_claim_vsrSet.results);
+											this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", errorData.results[0].zc_claim_read_descriptionSet
+												.results[0].OFPDescription);
+											this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", errorData.results[0].zc_claim_read_descriptionSet
+												.results[0].MainOpsCodeDescription);
+											this.getView().getModel("HeadSetData").setProperty("/ReferenceDate", errorData.results[0].zc_claim_read_descriptionSet
+												.results[0].ReferenceDate);
+
+											this.getView().getModel("HeadSetData").setProperty("/DateOfApplication", errorData.results[0].zc_claim_read_descriptionSet
+												.results[0].DateOfApplication);
+
+											this.getView().getModel("HeadSetData").setProperty("/RepairDate", errorData.results[0].zc_claim_read_descriptionSet
+												.results[0].RepairDate);
+										}, this)
+									});
+
 									this.getModel("LocalDataModel").setProperty("/WarrantyClaimNum", oClaimNum);
 									this.getModel("LocalDataModel").setProperty("/WarrantyClaimNumber", oBundle.getText("TCIAuthNumber") + " : " +
 										oClaimNum);
@@ -6797,9 +6845,13 @@ sap.ui.define([
 				sSelectedLocale = "en"; // default is english
 			}
 
+			// 			WarrantyClaimSubType
+			// 			WarrantyClaimType
+
 			var oClaimModel = this.getModel("ProssingModel");
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
-			//this.obj.WarrantyClaimType = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType");
+			this.obj.WarrantyClaimType = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType");
+			this.obj.WarrantyClaimSubType = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType");
 			this.obj.Partner = this.getModel("LocalDataModel").getProperty("/BpDealerModel/0/BusinessPartnerKey");
 			this.obj.ActionCode = "";
 			this.obj.NameOfPersonRespWhoChangedObj = this.getModel("LocalDataModel").getProperty("/LoginId").substr(0, 12);

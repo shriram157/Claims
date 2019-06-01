@@ -29,7 +29,7 @@
 					</custom:CustomCombo>
 					<core:Title text=""/>
 					<Label text="{i18n>FirstSubmissionDate}"/>
-					<Text text="{ path: 'HeadSetData>/ReferenceDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd'}}"/>
+					<Text text="{ path: 'HeadSetData>/ReferenceDate', formatter:'zclaimProcessing.utils.formatter.fnDateFormat'}"/>
 					<Label text="{i18n>ClaimAge}"/>
 					<Text text="{HeadSetData>/ClaimAge}"/>
 					<Label text="{i18n>LastModifiedby}"/>
