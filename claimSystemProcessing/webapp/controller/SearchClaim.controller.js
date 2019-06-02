@@ -600,9 +600,9 @@ sap.ui.define([
 				sQueryStat == "") {
 				oProssingModel.read("/ZC_CLAIM_HEAD_NEW", {
 					urlParameters: {
-						"$filter": "Partner eq '" + sQueryDealer + "' and " + sDate + " ge datetime'" + FromDateFormat +
+						"$filter": "" + sDate + " ge datetime'" + FromDateFormat +
 							"'and " + sDate + " le datetime'" + ToDateFormat +
-							"'"
+							"' and Partner eq '" + sQueryDealer + "'"
 					},
 					success: $.proxy(function (data) {
 						this.getModel("LocalDataModel").setProperty("/ZcClaimHeadNewData", data.results);
@@ -614,9 +614,9 @@ sap.ui.define([
 				sQueryStat == "") {
 				oProssingModel.read("/ZC_CLAIM_HEAD_NEW", {
 					urlParameters: {
-						"$filter": "Partner eq '" + sQueryDealer + "' and " + sDate + " ge datetime'" + FromDateFormat +
+						"$filter": "" + sDate + " ge datetime'" + FromDateFormat +
 							"'and " + sDate + " le datetime'" + ToDateFormat +
-							"' and " + sQuerySearchBy + " eq '" + sQuerySearchText + "'"
+							"' and Partner eq '" + sQueryDealer + "' and " + sQuerySearchBy + " eq '" + sQuerySearchText + "'"
 					},
 					success: $.proxy(function (data) {
 						// 		data.results.map(function(item){
@@ -633,9 +633,10 @@ sap.ui.define([
 
 				oProssingModel.read("/ZC_CLAIM_HEAD_NEW", {
 					urlParameters: {
-						"$filter": "Partner eq '" + sQueryDealer + "' and " + sDate + " ge datetime'" + FromDateFormat +
+						"$filter": "" + sDate + " ge datetime'" + FromDateFormat +
 							"'and " + sDate + " le datetime'" + ToDateFormat +
-							"'and WarrantyClaimType eq '" + sQueryClaimType + "'and " + sQuerySearchBy + " eq '" + sQuerySearchText + "'"
+							"'and Partner eq '" + sQueryDealer + "' and WarrantyClaimType eq '" + sQueryClaimType + "'and " + sQuerySearchBy + " eq '" +
+							sQuerySearchText + "'"
 					},
 					success: $.proxy(function (data) {
 						this.getView().getModel("DateModel").setProperty("/tableBusyIndicator", false);
@@ -647,9 +648,9 @@ sap.ui.define([
 
 				oProssingModel.read("/ZC_CLAIM_HEAD_NEW", {
 					urlParameters: {
-						"$filter": "Partner eq '" + sQueryDealer + "' and " + sDate + " ge datetime'" + FromDateFormat +
+						"$filter": "" + sDate + " ge datetime'" + FromDateFormat +
 							"'and " + sDate + " le datetime'" + ToDateFormat +
-							"'and WarrantyClaimType eq '" + sQueryClaimType + "'"
+							"'and Partner eq '" + sQueryDealer + "' and WarrantyClaimType eq '" + sQueryClaimType + "'"
 					},
 					success: $.proxy(function (data) {
 						this.getView().getModel("DateModel").setProperty("/tableBusyIndicator", false);
@@ -661,9 +662,9 @@ sap.ui.define([
 
 				oProssingModel.read("/ZC_CLAIM_HEAD_NEW", {
 					urlParameters: {
-						"$filter": "Partner eq '" + sQueryDealer + "' and " + sDate + " ge datetime'" + FromDateFormat +
+						"$filter": "" + sDate + " ge datetime'" + FromDateFormat +
 							"'and " + sDate + " le datetime'" + ToDateFormat +
-							"'and WarrantyClaimType eq '" + sQueryClaimType + "'and (" + oResult + ")"
+							"'and Partner eq '" + sQueryDealer + "' and WarrantyClaimType eq '" + sQueryClaimType + "'and (" + oResult + ")"
 					},
 					success: $.proxy(function (data) {
 						this.getView().getModel("DateModel").setProperty("/tableBusyIndicator", false);
@@ -675,9 +676,9 @@ sap.ui.define([
 
 				oProssingModel.read("/ZC_CLAIM_HEAD_NEW", {
 					urlParameters: {
-						"$filter": "Partner eq '" + sQueryDealer + "' and " + sDate + " ge datetime'" + FromDateFormat +
+						"$filter": "" + sDate + " ge datetime'" + FromDateFormat +
 							"'and " + sDate + " le datetime'" + ToDateFormat +
-							"'and " + sQuerySearchBy + " eq '" + sQuerySearchText + "'and (" + oResult + ")"
+							"'and Partner eq '" + sQueryDealer + "' and" + sQuerySearchBy + " eq '" + sQuerySearchText + "'and (" + oResult + ")"
 					},
 					success: $.proxy(function (data) {
 						this.getView().getModel("DateModel").setProperty("/tableBusyIndicator", false);
@@ -689,9 +690,9 @@ sap.ui.define([
 
 				oProssingModel.read("/ZC_CLAIM_HEAD_NEW", {
 					urlParameters: {
-						"$filter": "Partner eq '" + sQueryDealer + "' and " + sDate + " ge datetime'" + FromDateFormat +
+						"$filter": "" + sDate + " ge datetime'" + FromDateFormat +
 							"'and " + sDate + " le datetime'" + ToDateFormat +
-							"'and ClaimGroup eq '" + sQueryClaimGroup + "'and (" + oResult + ")"
+							"'and Partner eq '" + sQueryDealer + "' and  ClaimGroup eq '" + sQueryClaimGroup + "'and (" + oResult + ")"
 					},
 					success: $.proxy(function (data) {
 						this.getView().getModel("DateModel").setProperty("/tableBusyIndicator", false);
@@ -703,9 +704,9 @@ sap.ui.define([
 
 				oProssingModel.read("/ZC_CLAIM_HEAD_NEW", {
 					urlParameters: {
-						"$filter": "Partner eq '" + sQueryDealer + "' and " + sDate + " ge datetime'" + FromDateFormat +
+						"$filter": "" + sDate + " ge datetime'" + FromDateFormat +
 							"'and " + sDate + " le datetime'" + ToDateFormat +
-							"'and (" + oResult + ")"
+							"'and Partner eq '" + sQueryDealer + "' and (" + oResult + ")"
 					},
 					success: $.proxy(function (data) {
 						this.getView().getModel("DateModel").setProperty("/tableBusyIndicator", false);
@@ -717,9 +718,9 @@ sap.ui.define([
 
 				oProssingModel.read("/ZC_CLAIM_HEAD_NEW", {
 					urlParameters: {
-						"$filter": "Partner eq '" + sQueryDealer + "' and " + sDate + " ge datetime'" + FromDateFormat +
+						"$filter": "" + sDate + " ge datetime'" + FromDateFormat +
 							"'and WarrantyClaimType eq '" + sQueryClaimType + "'and " + sDate + " le datetime'" + ToDateFormat +
-							"'and " + sQuerySearchBy + " eq '" + sQuerySearchText + "'and (" + oResult + ")"
+							"'and Partner eq '" + sQueryDealer + "' and " + sQuerySearchBy + " eq '" + sQuerySearchText + "'and (" + oResult + ")"
 					},
 					success: $.proxy(function (data) {
 						this.getView().getModel("DateModel").setProperty("/tableBusyIndicator", false);
@@ -731,9 +732,9 @@ sap.ui.define([
 
 				oProssingModel.read("/ZC_CLAIM_HEAD_NEW", {
 					urlParameters: {
-						"$filter": "Partner eq '" + sQueryDealer + "' and " + sDate + " ge datetime'" + FromDateFormat +
+						"$filter": "" + sDate + " ge datetime'" + FromDateFormat +
 							"'and " + sDate + " le datetime'" + ToDateFormat +
-							"'and ClaimGroup eq '" + sQueryClaimGroup + "'"
+							"'and Partner eq '" + sQueryDealer + "' and  ClaimGroup eq '" + sQueryClaimGroup + "'"
 					},
 					success: $.proxy(function (data) {
 						this.getView().getModel("DateModel").setProperty("/tableBusyIndicator", false);

@@ -63,7 +63,7 @@
 					<Label text="{i18n>Type}"/>
 					<Text text="{HeadSetData>/WarrantyClaimType}"/>
 					<Label text="{i18n>Status}"/>
-					<Text text="{HeadSetData>/ProcessingStatusOfWarrantyClm}"/>
+					<Text text="{HeadSetData>/DecisionCode}"/>
 				</f:content>
 			</f:SimpleForm>
 		</Panel>
