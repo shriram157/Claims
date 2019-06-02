@@ -4599,6 +4599,12 @@ sap.ui.define([
 								success: $.proxy(function (cdata) {
 									this.getView().getModel("HeadSetData").setData(cdata.results[0]);
 
+									if (cdata.results[0].DecisionCode == "ZTAA") {
+										this.getView().getModel("DateModel").setProperty("/copyClaimEnable", true);
+									} else {
+										this.getView().getModel("DateModel").setProperty("/copyClaimEnable", false);
+									}
+
 									oClaimModel.read("/zc_headSet", {
 										urlParameters: {
 											"$filter": "NumberOfWarrantyClaim eq '" + oClaimNum +
