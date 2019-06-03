@@ -61,5 +61,19 @@
 			"$XSAPPNAME.View_Quick_Coverage_Tool",
 			"$XSAPPNAME.View_Service_Claims"
 		]
+	}, {
+		"source": "^/app-config$",
+		"destination": "claimSystemProcessing-node-backend",
+		"csrfProtection": false,
+		"scope": [
+			"$XSAPPNAME.Manage_Parts_Claims",
+			"$XSAPPNAME.Manage_Service_Claims",
+			"$XSAPPNAME.Submit_Service_Claims",
+			"$XSAPPNAME.View_Claim_Inquiry",
+			"$XSAPPNAME.View_Dealer_Labor_Rate",
+			"$XSAPPNAME.View_Parts_Claims",
+			"$XSAPPNAME.View_Quick_Coverage_Tool",
+			"$XSAPPNAME.View_Service_Claims"
+		]
 	}]
 }
