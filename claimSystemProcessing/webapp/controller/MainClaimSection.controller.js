@@ -438,7 +438,7 @@ sap.ui.define([
 					success: $.proxy(function (data) {
 						var submissionType = data.results[0].WarrantyClaimSubType;
 
-						var oPartner = data.results[0].Partner.substring(data.results[0].Partner.length - 5, data.results[0].Partner.length);
+						var oPartner = data.results[0].Partner;
 
 						var oTextUser = sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser");
 						//oTextUser.replace("Dealer"/g, "");
@@ -1095,6 +1095,9 @@ sap.ui.define([
 					},
 					success: $.proxy(function (sdata) {
 						//console.log(sdata);
+
+						//this.getModel("LocalDataModel").setProperty("/oCurrentPartner", sdata.results[0].Partner);
+
 						this.getModel("LocalDataModel").setProperty("/ClaimDetails", sdata.results[0]);
 						this.getView().getModel("HeadSetData").setData(sdata.results[0]);
 						oProssingModel.read("/zc_headSet", {
@@ -1912,25 +1915,53 @@ sap.ui.define([
 		onChangeDate: function (oEvent) {
 			console.log(oEvent);
 		},
-		// formatDate : function(oval){
-		// 	var oDate = "";
-		// 	var oDateFormat = sap.ui.core.format.DateFormat.getDateInstance({
-		// 			pattern: "yyyy-MM-dd"
-		// 		});
 
-		// 	if(oval){
-		// 		oDate = oDateFormat.format(oval);	
-		// 	}else {
-		// 		oDate = null;
-		// 	}
-
-		// 	return oDate;
-
-		// },
 		onAddComment: function (oEvent) {
 			var oDialogBox = sap.ui.xmlfragment("zclaimProcessing.view.fragments.ClaimComments", this);
 			this.getView().addDependent(oDialogBox);
 			oDialogBox.open();
+		},
+		handleDealerLabourInq: function (oEvent) {
+			var sDivision;
+			var oDialog;
+			var oPartner;
+			this.getModel("LocalDataModel").getProperty("/ClaimDetails/Partner");
+			//console.log(this.getModel("LocalDataModel").getProperty("/ClaimDetails"));
+			if (this.getModel("LocalDataModel").getProperty("/ClaimDetails/Partner") != "" &&
+				this.getModel("LocalDataModel").getProperty("/ClaimDetails/Partner") != undefined) {
+				oPartner = this.getModel("LocalDataModel").getProperty("/ClaimDetails/Partner");
+			} else {
+				oPartner = this.getView().getModel("LocalDataModel").getProperty("/BpDealerModel/0/BusinessPartnerKey");
+			}
+
+			//	var selectedKey = this.getView().byId("idDealerCode").getSelectedKey();
+			//  get the locale to determine the language.
+			var isDivision = window.location.search.match(/Division=([^&]*)/i);
+			if (isDivision) {
+				sDivision = window.location.search.match(/Division=([^&]*)/i)[1];
+			} else {
+				sDivision = "10"; // default is english
+			}
+
+			// 			this.getDealer();
+
+			var oProssingModel = this.getModel("ProssingModel");
+			oProssingModel.read("/zc_labour_rateSet(Partner='" + oPartner + "',Division='" + sDivision +
+				"')", {
+					success: $.proxy(function (data) {
+						this.getModel("LocalDataModel").setProperty("/oDealerLabour", data);
+						if (!oDialog) {
+							oDialog = sap.ui.xmlfragment("zclaimProcessing.view.fragments.DealerLabour",
+								this);
+							this.getView().addDependent(oDialog);
+						}
+						oDialog.open();
+					}, this),
+					error: function () {
+
+					}
+				});
+
 		},
 
 		onEnterComment: function () {

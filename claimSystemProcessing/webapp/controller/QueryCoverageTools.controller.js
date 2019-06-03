@@ -34,6 +34,7 @@ sap.ui.define([
 
 			HeadSetData.setDefaultBindingMode("TwoWay");
 			this.getView().setModel(HeadSetData, "HeadSetData");
+			this.getDealer();
 			this.getOwnerComponent().getRouter().attachRoutePatternMatched(this._onRoutMatched, this);
 
 		},
@@ -110,7 +111,48 @@ sap.ui.define([
 				this.getView().byId("vin").setValue("");
 			}
 		},
+		handleDealerLabourInq: function (oEvent) {
+			var sDivision;
+			var oDialog;
+			var oPartner;
+			//this.getModel("LocalDataModel").getProperty("/ClaimDetails/Partner");
+			//console.log(this.getModel("LocalDataModel").getProperty("/ClaimDetails"));
+			if (this.getModel("LocalDataModel").getProperty("/ClaimDetails/Partner") != "" &&
+				this.getModel("LocalDataModel").getProperty("/ClaimDetails/Partner") != undefined) {
+				oPartner = this.getModel("LocalDataModel").getProperty("/ClaimDetails/Partner");
+			} else {
+				oPartner = this.getView().getModel("LocalDataModel").getProperty("/BpDealerModel/0/BusinessPartnerKey");
+			}
 
+			//	var selectedKey = this.getView().byId("idDealerCode").getSelectedKey();
+			//  get the locale to determine the language.
+			var isDivision = window.location.search.match(/Division=([^&]*)/i);
+			if (isDivision) {
+				sDivision = window.location.search.match(/Division=([^&]*)/i)[1];
+			} else {
+				sDivision = "10"; // default is english
+			}
+
+			// 			this.getDealer();
+
+			var oProssingModel = this.getModel("ProssingModel");
+			oProssingModel.read("/zc_labour_rateSet(Partner='" + oPartner + "',Division='" + sDivision +
+				"')", {
+					success: $.proxy(function (data) {
+						this.getModel("LocalDataModel").setProperty("/oDealerLabour", data);
+						if (!oDialog) {
+							oDialog = sap.ui.xmlfragment("zclaimProcessing.view.fragments.DealerLabour",
+								this);
+							this.getView().addDependent(oDialog);
+						}
+						oDialog.open();
+					}, this),
+					error: function () {
+
+					}
+				});
+
+		},
 		/**
 		 * Similar to onAfterRendering, but this hook is invoked before the controller's View is re-rendered
 		 * (NOT before the first rendering! onInit() is used for that one!).

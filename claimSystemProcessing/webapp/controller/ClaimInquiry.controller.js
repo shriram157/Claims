@@ -73,6 +73,7 @@ sap.ui.define([
 
 		},
 		onPressClaimInquiryDetails: function (oEvent) {
+			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var oCustomer = oEvent.getSource().getParent().getCells()[0].getText();
 			var oClaimNum = oEvent.getSource().getParent().getCells()[2].getText();
 			var oClaimType = oEvent.getSource().getParent().getCells()[6].getText();
@@ -83,7 +84,7 @@ sap.ui.define([
 			}
 			// var oSelectedClaimGroup = oEvent.getSource().getParent().getCells()[15].getText();
 			var oDealer = this.getModel("LocalDataModel").getProperty("/BpDealerModel/0/BusinessPartnerKey");
-			if (oCustomer === oDealer) {
+			if (oCustomer === oDealer || sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") == "TCI_Admin") {
 				this.getOwnerComponent().getRouter().navTo("MainClaimSection", {
 					claimNum: oClaimNum,
 					oKey: oClaimType,
@@ -92,8 +93,50 @@ sap.ui.define([
 
 				});
 			} else {
-				MessageToast.show("No Authorization to View this claim.");
+				MessageToast.show(oBundle.getText("NoAuthViewClaim"));
 			}
+		},
+		handleDealerLabourInq: function (oEvent) {
+			var sDivision;
+			var oDialog;
+			var oPartner;
+			//this.getModel("LocalDataModel").getProperty("/ClaimDetails/Partner");
+			//console.log(this.getModel("LocalDataModel").getProperty("/ClaimDetails"));
+			if (this.getModel("LocalDataModel").getProperty("/ClaimDetails/Partner") != "" &&
+				this.getModel("LocalDataModel").getProperty("/ClaimDetails/Partner") != undefined) {
+				oPartner = this.getModel("LocalDataModel").getProperty("/ClaimDetails/Partner");
+			} else {
+				oPartner = this.getView().getModel("LocalDataModel").getProperty("/BpDealerModel/0/BusinessPartnerKey");
+			}
+
+			//	var selectedKey = this.getView().byId("idDealerCode").getSelectedKey();
+			//  get the locale to determine the language.
+			var isDivision = window.location.search.match(/Division=([^&]*)/i);
+			if (isDivision) {
+				sDivision = window.location.search.match(/Division=([^&]*)/i)[1];
+			} else {
+				sDivision = "10"; // default is english
+			}
+
+			// 			this.getDealer();
+
+			var oProssingModel = this.getModel("ProssingModel");
+			oProssingModel.read("/zc_labour_rateSet(Partner='" + oPartner + "',Division='" + sDivision +
+				"')", {
+					success: $.proxy(function (data) {
+						this.getModel("LocalDataModel").setProperty("/oDealerLabour", data);
+						if (!oDialog) {
+							oDialog = sap.ui.xmlfragment("zclaimProcessing.view.fragments.DealerLabour",
+								this);
+							this.getView().addDependent(oDialog);
+						}
+						oDialog.open();
+					}, this),
+					error: function () {
+
+					}
+				});
+
 		},
 		fnFormatDealer: function (val) {
 			var oDealer = this.getModel("LocalDataModel").getProperty("/BpDealerModel/0/BusinessPartnerKey");

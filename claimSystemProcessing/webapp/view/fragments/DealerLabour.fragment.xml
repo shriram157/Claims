@@ -5,7 +5,7 @@
 			<f:SimpleForm editable="false" layout="GridLayout" adjustLabelSpan="false" singleContainerFullSize="false">
 				<f:content>
 					<Label text="{i18n>Dealern}" design="Bold" class="greenlable"/>
-					<Text text="{DealerLabour>/Name}"/>
+					<Text text="{LocalDataModel>/oDealerLabour/Name}"/>
 					<Label text="{i18n>Franch}" design="Bold" class="greenlable"/>
 					<Text text="{i18n>toyota}"/>
 				</f:content>
@@ -14,22 +14,24 @@
 			<f:SimpleForm editable="false" layout="ResponsiveGridLayout" singleContainerFullSize="false">
 				<f:content>
 					<Label text="{i18n>Prelab}" design="Bold" class="greenlable"/>
-					<Text text="${DealerLabour>/WTYPrevLabourRate}"/>
+					<Text text="${LocalDataModel>/oDealerLabour/WTYPrevLabourRate}"/>
 					<Label text="{i18n>Newlab}" design="Bold" class="redlable"/>
-					<Text text="${DealerLabour>/WTYNewLabourRate}"/>
+					<Text text="${LocalDataModel>/oDealerLabour/WTYNewLabourRate}"/>
 					<Label text="{i18n>Effdate}" design="Bold" class="greenlable"/>
-					<Text text="{path:'DealerLabour>/WTYEffectiveDate', type: 'sap.ui.model.type.Date', formatOptions: { pattern: 'YYYY-MM-dd'}}"/>
+					<Text
+						text="{path:'LocalDataModel>/oDealerLabour/WTYEffectiveDate', type: 'sap.ui.model.type.Date', formatOptions: { pattern: 'YYYY-MM-dd'}}"/>
 				</f:content>
 			</f:SimpleForm>
 			<MessageStrip text="{i18n>Ecp}" class="messagestrip"/>
 			<f:SimpleForm editable="false" layout="ResponsiveGridLayout" singleContainerFullSize="false">
 				<f:content>
 					<Label text="{i18n>Prelab}" design="Bold" class="greenlable"/>
-					<Text text="${DealerLabour>/ECPPrevLabourRate}"/>
+					<Text text="${LocalDataModel>/oDealerLabour/ECPPrevLabourRate}"/>
 					<Label text="{i18n>Newlab}" design="Bold" class="redlable"/>
-					<Text text="${DealerLabour>/ECPNewLabourRate}"/>
+					<Text text="${LocalDataModel>/oDealerLabour/ECPNewLabourRate}"/>
 					<Label text="{i18n>Effdate}" design="Bold" class="greenlable"/>
-					<Text text="{path:'DealerLabour>/ECPEffectiveDate', type: 'sap.ui.model.type.Date', formatOptions: { pattern: 'YYYY-MM-dd'}}"/>
+					<Text
+						text="{path:'LocalDataModel>/oDealerLabour/ECPEffectiveDate', type: 'sap.ui.model.type.Date', formatOptions: { pattern: 'YYYY-MM-dd'}}"/>
 				</f:content>
 			</f:SimpleForm>
 		</content>

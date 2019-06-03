@@ -16,10 +16,7 @@
 									<f:content>
 										<core:Title text=""/>
 										<Label text="{i18n>DealerCode}" textAlign="Begin"/>
-										<!--<Text-->
-										<!--	text="{parts: [{path: 'LocalDataModel>/DealerText'}, {path: 'LocalDataModel>/AdditionalText'}], formatter: 'zclaimProcessing.utils.formatter.fnFormatter'}"/>-->
-										<Select showSecondaryValues="true" id="idDealerCode" change="onSelectiDealer" items="{LocalDataModel>/BpDealerModel}"
-											selectedKey="{LocalDataModel>/BpDealerModel/0/BusinessPartnerKey}">
+										<Select showSecondaryValues="true" id="idDealerCode" change="onSelectiDealer" items="{LocalDataModel>/BpDealerModel}">
 											<core:ListItem key="{LocalDataModel>BusinessPartnerKey}" text="{path:'LocalDataModel>BusinessPartner'}"
 												additionalText="{LocalDataModel>BusinessPartnerName}"/>
 										</Select>
@@ -63,105 +60,6 @@
 					<uxap:ObjectPageSubSection title="">
 						<uxap:blocks class="sapUiLargeMarginBottom sapUiLargePaddingBottom">
 							<VBox class="sapUiLargeMarginBottom sapUiLargePaddingBottom">
-								<!--<table:Table id="idClaimTable" class="classRCPTable" selectionMode="Single" rows="{ path: '/ZC_CLAIM_HEAD_NEW'}"-->
-								<!--	rowSelectionChange="onNavigate" visibleRowCount="{RowCountModel>/rowCount}" selectionBehavior="Row" showNoData="true"-->
-								<!--	threshold="{RowCountModel>/rowCount}" enableBusyIndicator="false">-->
-								<!--	<table:columns>-->
-								<!--		<table:Column width="9rem">-->
-								<!--			<Label text="{i18n>TCIClaim}" textAlign="Center" width="100%"/>-->
-								<!--			<table:template>-->
-								<!--				<Link text="{NumberOfWarrantyClaim}" press="onPressClaim"/>-->
-								<!--			</table:template>-->
-								<!--		</table:Column>-->
-								<!--		<table:Column width="11rem">-->
-								<!--			<Label text="{i18n>DealerClaim}" textAlign="Center" width="100%"/>-->
-								<!--			<table:template>-->
-								<!--				<Text text="{ExternalNumberOfClaim}"/>-->
-								<!--			</table:template>-->
-								<!--		</table:Column>-->
-								<!--		<table:Column width="11rem">-->
-								<!--			<Label text="{i18n>RepairOrder}" textAlign="Center" width="100%"/>-->
-								<!--			<table:template>-->
-								<!--				<Text text="{RepairOrderNumberExternal}"/>-->
-								<!--			</table:template>-->
-								<!--		</table:Column>-->
-								<!--		<table:Column width="10rem">-->
-								<!--			<Label text="{i18n>RepairOrderDate}" textAlign="Center" width="100%"/>-->
-								<!--			<table:template>-->
-								<!--				<Text-->
-								<!--					text="{path:'RepairDate', type: 'sap.ui.model.type.Date', constraints: { displayFormat: 'Date' }, formatOptions: { style: 'medium', strictParsing: true , UTC: true}}"/>-->
-								<!--			</table:template>-->
-								<!--		</table:Column>-->
-								<!--		<table:Column width="11rem">-->
-								<!--			<Label text="{i18n>ClaimSubmissionDate}" textAlign="Center" width="100%"/>-->
-								<!--			<table:template>-->
-								<!--				<Text-->
-								<!--					text="{path:'ReferenceDate', type: 'sap.ui.model.type.Date', constraints: { displayFormat: 'Date' }, formatOptions: { style: 'medium', strictParsing: true , UTC: true}}"/>-->
-								<!--			</table:template>-->
-								<!--		</table:Column>-->
-								<!--		<table:Column width="9rem">-->
-								<!--			<Label text="{i18n>ClaimType}" textAlign="Center" width="100%"/>-->
-								<!--			<table:template>-->
-								<!--				<Text text="{WarrantyClaimType}"/>-->
-								<!--			</table:template>-->
-								<!--		</table:Column>-->
-								<!--		<table:Column width="10rem">-->
-								<!--			<Label text="{i18n>VIN}" textAlign="Center" width="100%"/>-->
-								<!--			<table:template>-->
-								<!--				<Text text="{ExternalObjectNumber}"/>-->
-								<!--			</table:template>-->
-								<!--		</table:Column>-->
-								<!--		<table:Column width="9rem">-->
-								<!--			<Label text="{i18n>ClaimStatus}" textAlign="Center" width="100%"/>-->
-								<!--			<table:template>-->
-								<!--				<Text text="{ProcessingStatusOfWarrantyClm}"/>-->
-								<!--			</table:template>-->
-								<!--		</table:Column>-->
-								<!--		<table:Column width="8rem">-->
-								<!--			<Label text="{i18n>OFP}" textAlign="Center" width="100%"/>-->
-								<!--			<table:template>-->
-								<!--				<Text text="{OFP}"/>-->
-								<!--			</table:template>-->
-								<!--		</table:Column>-->
-								<!--		<table:Column width="8rem">-->
-								<!--			<Label text="{i18n>MainOpCode}" textAlign="Center" width="100%"/>-->
-								<!--			<table:template>-->
-								<!--				<Text text="{MainOpsCode}"/>-->
-								<!--			</table:template>-->
-								<!--		</table:Column>-->
-								<!--		<table:Column width="8rem">-->
-								<!--			<Label text="{i18n>ClaimAge}" textAlign="Center" width="100%"/>-->
-								<!--			<table:template>-->
-								<!--				<Text text="{ClaimAge}"/>-->
-								<!--			</table:template>-->
-								<!--		</table:Column>-->
-								<!--		<table:Column width="11rem">-->
-								<!--			<Label text="{i18n>ClaimAmount}" textAlign="Center" width="100%"/>-->
-								<!--			<table:template>-->
-								<!--				<Text text="{ClaimAmountSum}"/>-->
-								<!--			</table:template>-->
-								<!--		</table:Column>-->
-								<!--		<table:Column width="11rem">-->
-								<!--			<Label text="{i18n>AuthorizationNumber}" textAlign="Center" width="100%"/>-->
-								<!--			<table:template>-->
-								<!--				<Text text="{AuthorizationNumber}"/>-->
-								<!--			</table:template>-->
-								<!--		</table:Column>-->
-								<!--		<table:Column width="11rem">-->
-								<!--			<Label text="{i18n>ClaimTypeGroup}" textAlign="Center" width="100%"/>-->
-								<!--			<table:template>-->
-								<!--				<Text text="{WarrantyClaimGroupDes}"/>-->
-								<!--			</table:template>-->
-								<!--		</table:Column>-->
-								<!--	</table:columns>-->
-								<!--<table:footer>-->
-								<!--	<Toolbar>-->
-								<!--		<content><Button id="btn_previous" text="Back" type="Emphasized" press="onPressBack" visible="{viewModel>/searchFormVisible}"/>-->
-								<!--			<Button id="btn_next" text="Next" type="Emphasized" press="onPressNext" visible="{=!${viewModel>/searchFormVisible}}"/>-->
-								<!--		</content>-->
-								<!--	</Toolbar>-->
-								<!--</table:footer>-->
-								<!--</table:Table>-->
 								<Table id="idClaimTable" inset="false" class="classRCPTable sapUiSizeCompact sapUiLargeMarginBottom" mode="None"
 									busy="{DateModel>/tableBusyIndicator}" items="{LocalDataModel>/ZcClaimHeadNewData}" growing="true" growingThreshold="25"
 									growingScrollToLoad="false" growingTriggerText="Load more">

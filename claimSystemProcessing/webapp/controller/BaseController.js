@@ -109,8 +109,8 @@ sap.ui.define([
 				dataType: "json",
 				success: function (oData) {
 					var userType = oData.loggedUserType[0];
-					//var userType = "Dealer_Services_Manager";
-					// var userType = "ManageAllParts";
+					//var userType = "Dealer_Services_Admin";
+					//var userType = "Dealer_Parts_Admin";
 
 					sap.ui.getCore().getModel("UserDataModel").setProperty("/LoggedInUser", userType);
 					sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "");
@@ -261,7 +261,7 @@ sap.ui.define([
 				//----------------------------------
 				//Code of Dealer Labour--------------
 				//------------------------------------
-				that.getDealerlabour(data.attributes[0]);
+				//that.getDealerlabour(data.attributes[0]);
 			});
 
 		},
@@ -285,41 +285,41 @@ sap.ui.define([
 			}
 		},
 		onCloseDialogDealer: function (Oevent) {
-			Oevent.getSource().getParent().close();
-		},
-		// 		getDealerlabour : function(data){
-		// 		    var oModel = this.getModel("ProssingModel");
-		// 		    oModel.read("/zc_labour_rateSet(Partner='" + data.BusinessPartnerKey + "',Division='" + data.Division +"')", {
-		// 		        success : function
-		// 		    });
-		// 		},
-
-		getDealerlabour: function (data) {
-				var that = this;
-				var oUrl = this.sPrefix + "/node/ZDLR_CLAIM_SRV/zc_labour_rateSet(Partner='" + data.BusinessPartnerKey + "',Division='" + data.Division +
-					"')";
-				$.ajax({
-					url: oUrl,
-					method: 'GET',
-					async: false,
-					dataType: 'json',
-					success: function (zdata, textStatus, jqXHR) {
-						var oModel = new sap.ui.model.json.JSONModel();
-						zdata.d.Name = data.BusinessPartnerName;
-						if (zdata.d.ECPEffectiveDate != null || zdata.d.ECPEffectiveDate != "") {
-							var zd1 = parseInt(zdata.d.ECPEffectiveDate.replace(/[^0-9]+/g, ''));
-							zdata.d.ECPEffectiveDate = new Date(zd1);
-							zdata.d.WTYEffectiveDate = new Date(zd1);
-						}
-						oModel.setData(zdata.d);
-						that.getView().setModel(oModel, 'DealerLabour');
-						that.getModel("LocalDataModel").setProperty("/oDealerLabour", zdata.d);
-					},
-					error: function (jqXHR, textStatus, errorThrown) {}
-				});
+				Oevent.getSource().getParent().close();
 			}
-			//     	getListRow: function(proId, control) {
-			// 	//var oStandardListItem =control.getParent();
+			// 		getDealerlabour : function(data){
+			// 		    var oModel = this.getModel("ProssingModel");
+			// 		    oModel.read("/zc_labour_rateSet(Partner='" + data.BusinessPartnerKey + "',Division='" + data.Division +"')", {
+			// 		        success : function
+			// 		    });
+			// 		},
+
+		// 		getDealerlabour: function (data) {
+		// 				var that = this;
+		// 				var oUrl = this.sPrefix + "/node/ZDLR_CLAIM_SRV/zc_labour_rateSet(Partner='" + data.BusinessPartnerKey + "',Division='" + data.Division +
+		// 					"')";
+		// 				$.ajax({
+		// 					url: oUrl,
+		// 					method: 'GET',
+		// 					async: false,
+		// 					dataType: 'json',
+		// 					success: function (zdata, textStatus, jqXHR) {
+		// 						var oModel = new sap.ui.model.json.JSONModel();
+		// 						zdata.d.Name = data.BusinessPartnerName;
+		// 						if (zdata.d.ECPEffectiveDate != null || zdata.d.ECPEffectiveDate != "") {
+		// 							var zd1 = parseInt(zdata.d.ECPEffectiveDate.replace(/[^0-9]+/g, ''));
+		// 							zdata.d.ECPEffectiveDate = new Date(zd1);
+		// 							zdata.d.WTYEffectiveDate = new Date(zd1);
+		// 						}
+		// 						oModel.setData(zdata.d);
+		// 						that.getView().setModel(oModel, 'DealerLabour');
+		// 						that.getModel("LocalDataModel").setProperty("/oDealerLabour", zdata.d);
+		// 					},
+		// 					error: function (jqXHR, textStatus, errorThrown) {}
+		// 				});
+		// 			}
+		//     	getListRow: function(proId, control) {
+		// 	//var oStandardListItem =control.getParent();
 
 		// 	if (proId % 2 === 0) {
 

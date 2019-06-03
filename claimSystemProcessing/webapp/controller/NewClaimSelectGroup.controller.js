@@ -29,59 +29,12 @@ sap.ui.define([
 			console.log("HeaderLinksModel", sap.ui.getCore().getModel("HeaderLinksModel"));
 			this.getView().setModel(sap.ui.getCore().getModel("HeaderLinksModel"), "HeaderLinksModel");
 
-			// 			oProssingModel.read("/ZC_CLAIM_GROUP", {
-			// 				success: $.proxy(function (data) {
-			// 					var odata = data.results;
-			// 					for (var i = 0; i < odata.length; i++) {
-			// 						if (oClaimData.indexOf(odata[i].ClaimGroupDes) < 0 && !$.isEmptyObject(odata[i].ClaimGroupDes)) {
-			// 							oClaimData.push(
-			// 								odata[i].ClaimGroupDes
-			// 							);
-			// 						}
-			// 					}
-
-			// 					if (sap.ui.getCore().getModel("UserDataModel").getProperty("/UserScope") == "ManageAllParts") {
-			// 						oClaimGroup = oClaimData.filter(function (val) {
-			// 							return val == "CORE RETURN" || val == "SMART PARTS" || val == "PART WAREHOUSE";
-			// 						});
-			// 					} else if (sap.ui.getCore().getModel("UserDataModel").getProperty("/UserScope") == "ManageAllServices" || sap.ui.getCore().getModel(
-			// 							"UserDataModel").getProperty("/UserScope") == "ManageAllShowAuthorization") {
-			// 						oClaimGroup = oClaimData.filter(function (val) {
-			// 							return val == "SETR" || val == "WARRANTY" || val == "CUSTOMER RELATIONS" || val == "VEHICLE LOGISTICS" || val == "ECP" ||
-			// 								val == "FIELD ACTION";
-			// 						});
-			// 					} else {
-			// 						oClaimGroup = oClaimData;
-			// 					}
-
-			// 					for (var j = 0; j < oClaimGroup.length; j++) {
-			// 						oClaimGroupJson.push({
-			// 							ClaimGroupDes: oClaimGroup[j]
-			// 						});
-			// 					}
-			// 					this.getOwnerComponent().getModel("LocalDataModel").setProperty("/ClaimGroupData", oClaimGroupJson);
-			// 					var oKey = oClaimGroupJson[0].ClaimGroupDes;
-			// 					if (oKey === "WARRANTY") {
-			// 						this.getOwnerComponent().getModel("LocalDataModel").setProperty("/RadioEdit", true);
-			// 					} else {
-			// 						this.getOwnerComponent().getModel("LocalDataModel").setProperty("/RadioEdit", false);
-			// 					}
-
-			// 				}, this),
-			// 				error: function () {}
-			// 			});
-
 			oProssingModel.read("/zc_claim_groupSet", {
 				urlParameters: {
 					"$filter": "LanguageKey eq '" + sSelectedLocale.toUpperCase() + "'"
 				},
 				success: $.proxy(function (data) {
 					var oClaimData = data.results;
-					// 	for (var i = 0; i < oClaimData.length; i++) {
-					// 		if (oClaimGroup.indexOf(oClaimData[i].ClaimGroupDes) == -1) {
-					// 			oClaimGroup.push(oClaimData[i]);
-					// 		}
-					// 	}
 
 					var elements = oClaimData.reduce(function (previous, current) {
 
@@ -228,36 +181,52 @@ sap.ui.define([
 
 			// sap.ui.getCore().getEventBus().publish("App", "oType", {text : oUniqIndex});
 		},
+		handleDealerLabourInq: function (oEvent) {
+			var sDivision;
+			var oDialog;
+			var oPartner;
+			//this.getModel("LocalDataModel").getProperty("/ClaimDetails/Partner");
+			//console.log(this.getModel("LocalDataModel").getProperty("/ClaimDetails"));
+			if (this.getModel("LocalDataModel").getProperty("/ClaimDetails/Partner") != "" &&
+				this.getModel("LocalDataModel").getProperty("/ClaimDetails/Partner") != undefined) {
+				oPartner = this.getModel("LocalDataModel").getProperty("/ClaimDetails/Partner");
+			} else {
+				oPartner = this.getView().getModel("LocalDataModel").getProperty("/BpDealerModel/0/BusinessPartnerKey");
+			}
+
+			//	var selectedKey = this.getView().byId("idDealerCode").getSelectedKey();
+			//  get the locale to determine the language.
+			var isDivision = window.location.search.match(/Division=([^&]*)/i);
+			if (isDivision) {
+				sDivision = window.location.search.match(/Division=([^&]*)/i)[1];
+			} else {
+				sDivision = "10"; // default is english
+			}
+
+			// 			this.getDealer();
+
+			var oProssingModel = this.getModel("ProssingModel");
+			oProssingModel.read("/zc_labour_rateSet(Partner='" + oPartner + "',Division='" + sDivision +
+				"')", {
+					success: $.proxy(function (data) {
+						this.getModel("LocalDataModel").setProperty("/oDealerLabour", data);
+						if (!oDialog) {
+							oDialog = sap.ui.xmlfragment("zclaimProcessing.view.fragments.DealerLabour",
+								this);
+							this.getView().addDependent(oDialog);
+						}
+						oDialog.open();
+					}, this),
+					error: function () {
+
+					}
+				});
+
+		},
 
 		onPressCancel: function () {
 			this.getRouter().navTo("SearchClaim");
 		}
-
-		/**
-		 * Similar to onAfterRendering, but this hook is invoked before the controller's View is re-rendered
-		 * (NOT before the first rendering! onInit() is used for that one!).
-		 * @memberOf zclaimProcessing.view.NewClaimSelectGroup
-		 */
-		//	onBeforeRendering: function() {
-		//
-		//	},
-
-		/**
-		 * Called when the View has been rendered (so its HTML is part of the document). Post-rendering manipulations of the HTML could be done here.
-		 * This hook is the same one that SAPUI5 controls get after being rendered.
-		 * @memberOf zclaimProcessing.view.NewClaimSelectGroup
-		 */
-		//	onAfterRendering: function() {
-		//
-		//	},
-
-		/**
-		 * Called when the Controller is destroyed. Use this one to free resources and finalize activities.
-		 * @memberOf zclaimProcessing.view.NewClaimSelectGroup
-		 */
-		//	onExit: function() {
-		//
-		//	}
 
 	});
 

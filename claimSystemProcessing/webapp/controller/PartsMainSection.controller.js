@@ -18,6 +18,7 @@ sap.ui.define([
 	return BaseController.extend("zclaimProcessing.controller.PartsMainSection", {
 
 		onInit: function () {
+			this.getDealer();
 			userScope = sap.ui.getCore().getModel("UserDataModel").getProperty("/UserScope");
 			console.log("HeaderLinksModel", sap.ui.getCore().getModel("HeaderLinksModel"));
 			this.getView().setModel(sap.ui.getCore().getModel("HeaderLinksModel"), "HeaderLinksModel");
@@ -913,87 +914,7 @@ sap.ui.define([
 						this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", false);
 					}
 				});
-				// oProssingModel.read("/zc_claim_item_price_dataSet", {
-				// 	urlParameters: {
-				// 		"$filter": "NumberOfWarrantyClaim eq '" + oClaim + "' "
-				// 	},
-				// 	success: $.proxy(function (data) {
 
-				// 		var pricingData = data.results;
-				// 		var oFilteredData = pricingData.filter(function (val) {
-				// 			return val.ItemType === "MAT";
-				// 		});
-
-				// 		this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
-				// 		var PartItem = oFilteredData.map(function (item) {
-				// 			if (item.RepairOrRetrunPart == "Yes") {
-				// 				var RepairPart = "Y";
-				// 			} else {
-				// 				RepairPart = "N";
-				// 			}
-				// 			if (item.RetainPart == "Yes") {
-				// 				var RetainPart = "Y";
-				// 			} else {
-				// 				RetainPart = "N";
-				// 			}
-				// 			return {
-				// 				Type: "PART",
-				// 				ItemType: "",
-				// 				ControllingItemType: "MAT",
-				// 				UnitOfMeasure: item.UnitOfMeasure,
-				// 				MaterialNumber: item.matnr,
-				// 				PartDescription: item.PartDescription,
-				// 				PartQty: item.quant,
-				// 				LineRefnr: item.LineRefnr,
-				// 				ItemKey: item.ItemKey,
-				// 				RetainPart: RetainPart,
-				// 				QuantityOrdered: item.QuantityOrdered,
-				// 				QuantityReceived: item.QuantityReceived,
-				// 				DiscreCode: item.DiscreCode,
-				// 				ALMDiscreDesc: item.ALMDiscreDesc,
-				// 				WrongPart: item.WrongPart,
-				// 				RepairOrRetrunPart: RepairPart,
-				// 				RepairAmount: item.RepairAmt
-				// 			};
-				// 		});
-				// 		this.obj = {
-				// 			"DBOperation": "SAVE",
-				// 			"Message": "",
-				// 			"WarrantyClaimType": this.claimType,
-				// 			"Partner": this.getModel("LocalDataModel").getProperty("/ClaimDetails/Partner"),
-				// 			"ActionCode": "",
-				// 			"NumberOfWarrantyClaim": this.getModel("LocalDataModel").getProperty("/NumberOfWarrantyClaim"),
-				// 			"PartnerRole": "AS",
-				// 			"ReferenceDate": this._fnDateFormat(this.getModel("LocalDataModel").getProperty("/ClaimDetails/ReferenceDate")),
-				// 			"DateOfApplication": this._fnDateFormat(this.getModel("LocalDataModel").getProperty("/ClaimDetails/DateOfApplication")),
-				// 			"RepairDate": this._fnDateFormat(this.getModel("LocalDataModel").getProperty("/ClaimDetails/RepairDate")),
-				// 			"Delivery": "",
-				// 			"DeliveryDate": this._fnDateFormat(this.getModel("LocalDataModel").getProperty("/ClaimDetails/DeliveryDate")),
-				// 			"TCIWaybillNumber": "",
-				// 			"ShipmentReceivedDate": null,
-				// 			"DealerContact": this.getModel("LocalDataModel").getProperty("/ClaimDetails/DealerContact"),
-				// 			"DeliveringCarrier": this.getModel("LocalDataModel").getProperty("/ClaimDetails/DeliveringCarrier"),
-				// 			"HeadText": this.getModel("LocalDataModel").getProperty("/ClaimDetails/HeadText"),
-				// 			"zc_itemSet": {
-				// 				"results": PartItem
-				// 			},
-				// 			"zc_claim_vsrSet": {
-				// 				"results": []
-				// 			},
-				// 			"zc_claim_attachmentsSet": {
-				// 				"results": []
-				// 			},
-				// 			"zc_claim_item_price_dataSet": {
-				// 				"results": pricingData
-				// 			}
-				// 		};
-				// 	}, this),
-				// 	error: function (err) {
-				// 		var err = JSON.parse(err.responseText);
-				// 		var msg = err.error.message.value;
-				// 		MessageBox.show(msg, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
-				// 	}
-				// });
 				oProssingModel.read("/zc_claim_attachmentsSet", {
 					urlParameters: {
 						"$filter": "NumberOfWarrantyClaim eq '" + oClaim + "'"
@@ -4038,6 +3959,48 @@ sap.ui.define([
 				return val.BusinessPartner === oDealerEvt.getParameter("newValue");
 			});
 			this.getView().byId("idCarrierName").setValueState("None");
+		},
+		handleDealerLabourInq: function (oEvent) {
+			var sDivision;
+			var oDialog;
+			var oPartner;
+			//this.getModel("LocalDataModel").getProperty("/ClaimDetails/Partner");
+			//console.log(this.getModel("LocalDataModel").getProperty("/ClaimDetails"));
+			if (this.getModel("LocalDataModel").getProperty("/ClaimDetails/Partner") != "" &&
+				this.getModel("LocalDataModel").getProperty("/ClaimDetails/Partner") != undefined) {
+				oPartner = this.getModel("LocalDataModel").getProperty("/ClaimDetails/Partner");
+			} else {
+				oPartner = this.getView().getModel("LocalDataModel").getProperty("/BpDealerModel/0/BusinessPartnerKey");
+			}
+
+			//	var selectedKey = this.getView().byId("idDealerCode").getSelectedKey();
+			//  get the locale to determine the language.
+			var isDivision = window.location.search.match(/Division=([^&]*)/i);
+			if (isDivision) {
+				sDivision = window.location.search.match(/Division=([^&]*)/i)[1];
+			} else {
+				sDivision = "10"; // default is english
+			}
+
+			// 			this.getDealer();
+
+			var oProssingModel = this.getModel("ProssingModel");
+			oProssingModel.read("/zc_labour_rateSet(Partner='" + oPartner + "',Division='" + sDivision +
+				"')", {
+					success: $.proxy(function (data) {
+						this.getModel("LocalDataModel").setProperty("/oDealerLabour", data);
+						if (!oDialog) {
+							oDialog = sap.ui.xmlfragment("zclaimProcessing.view.fragments.DealerLabour",
+								this);
+							this.getView().addDependent(oDialog);
+						}
+						oDialog.open();
+					}, this),
+					error: function () {
+
+					}
+				});
+
 		},
 
 		onExit: function () {
