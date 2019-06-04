@@ -159,9 +159,13 @@
 		},
 		"resources": {
 			"js": [
+			    {
+					"uri": "libs/moment.js"
+				},
 				{
 					"uri": "utils/formatter.js"
 				},
+				
 				{
 					"uri": "utils/changeFabicon.js"
 				}

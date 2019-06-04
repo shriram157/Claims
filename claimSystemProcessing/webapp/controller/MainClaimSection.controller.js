@@ -8,8 +8,9 @@ sap.ui.define([
 	"sap/ui/core/ValueState",
 	"zclaimProcessing/utils/Validator",
 	'sap/ui/model/Filter',
-	'sap/m/Button'
-], function (Dialog, Label, MessageToast, Text, BaseController, base64, ValueState, Validator, Filter, Button) {
+	'sap/m/Button',
+	"zclaimProcessing/libs/moment"
+], function (Dialog, Label, MessageToast, Text, BaseController, base64, ValueState, Validator, Filter, Button, moment) {
 	"use strict";
 
 	return BaseController.extend("zclaimProcessing.controller.MainClaimSection", {
@@ -1925,7 +1926,7 @@ sap.ui.define([
 			var sDivision;
 			var oDialog;
 			var oPartner;
-			this.getModel("LocalDataModel").getProperty("/ClaimDetails/Partner");
+			//this.getModel("LocalDataModel").getProperty("/ClaimDetails/Partner");
 			//console.log(this.getModel("LocalDataModel").getProperty("/ClaimDetails"));
 			if (this.getModel("LocalDataModel").getProperty("/ClaimDetails/Partner") != "" &&
 				this.getModel("LocalDataModel").getProperty("/ClaimDetails/Partner") != undefined) {
@@ -2421,19 +2422,33 @@ sap.ui.define([
 
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			var isProxy = "";
-			var oWindowLocation = window.location.href.substr(0, 16);
+			var oHref = window.location.href.substr(0, 8);
+			var oInput = window.location.href.substr(8, 4);
+
 			if (window.document.domain == "localhost") {
 				isProxy = "proxy";
 			}
-			var w = window.open(
-				"" + oWindowLocation + "ecpsales.cfapps.us10.hana.ondemand.com/ecpsales/index.html?Division=" + sDivision + "&Language=" +
-				sSelectedLocale.toUpperCase() +
-				"#/AgreementInquiry/" + oECPAgr + "",
-				'_blank');
-			if (w == null) {
-				console.log("Error");
-				//MessageBox.warning(oBundle.getText("Error.PopUpBloqued"));
+			//https://ecpsales.scp.toyota.ca/ecpsales/index.html?Division=10&Language=fr
+
+			//https://ecpsales.scp.toyota.ca/ecpsales/index.html?Division=10&Language=fr
+			if (window.location.href.search("-") == -1) {
+				window.open(
+					"" + oHref + "ecpsales.scp.toyota.ca/ecpsales/index.html?Division=" + sDivision + "&Language=" +
+					sSelectedLocale.toUpperCase() +
+					"#/AgreementInquiry/" + oECPAgr + "",
+					'_blank');
+			} else {
+				var w = window.open(
+					"" + oHref + oInput + "ecpsales.scp.toyota.ca/ecpsales/index.html?Division=" + sDivision + "&Language=" +
+					sSelectedLocale.toUpperCase() +
+					"#/AgreementInquiry/" + oECPAgr + "",
+					'_blank');
+
 			}
+			// 			if (w == null) {
+			// 				console.log("Error");
+			// 				//MessageBox.warning(oBundle.getText("Error.PopUpBloqued"));
+			// 			}
 		},
 
 		onPressLookUpECP: function () {
