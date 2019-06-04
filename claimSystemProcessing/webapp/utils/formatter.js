@@ -690,8 +690,8 @@ zclaimProcessing.utils.formatter = {
 	fnDateFormat: function (val) {
 		var Oval;
 		if (val) {
-			var oText = val.toUTCString();
-			Oval = moment(oText).format("YYYY-MM-DD");
+			//var oText = val.toUTCString();
+			Oval = moment.utc(val).format("YYYY-MM-DD");
 		} else {
 			Oval = null;
 		}
