@@ -68,7 +68,7 @@ sap.ui.define([
 			var sLocation = window.location.host;
 			var sLocation_conf = sLocation.search("webide");
 			if (sLocation_conf == 0) {
-				this.sPrefix = "/Claim_Destination"; //ecpSales_node_secured
+				this.sPrefix = "/Claim_Destination";
 				this.attributeUrl = "/userDetails/attributesforlocaltesting";
 			} else {
 				this.sPrefix = "";
@@ -220,6 +220,15 @@ sap.ui.define([
 					}
 					// console.log(sap.ui.getCore().getModel("UserDataModel"));
 				}
+			});
+
+			$.ajax({
+				url: this.sPrefix + "/app-config",
+				type: "GET",
+				dataType: "json",
+				success: $.proxy(function (appData) {
+					this.getModel("LocalDataModel").setProperty("/oECPURL", appData.ecpSalesAppUrl);
+				}, this)
 			});
 
 			// get the attributes and BP Details - Minakshi to confirm if BP details needed		// TODO: 
