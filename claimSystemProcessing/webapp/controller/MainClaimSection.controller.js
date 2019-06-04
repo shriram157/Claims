@@ -2428,12 +2428,9 @@ sap.ui.define([
 			if (window.document.domain == "localhost") {
 				isProxy = "proxy";
 			}
-			// 			//https://ecpsales.scp.toyota.ca/ecpsales/index.html?Division=10&Language=fr
-
-			// 			this.getModel("LocalDataModel").getProperty("/oECPURL");
 
 			var w = window.open(this.getModel("LocalDataModel").getProperty("/oECPURL") + "?Division=" + sDivision + "&Language=" +
-				sSelectedLocale.toUpperCase() +
+				sSelectedLocale +
 				"#/AgreementInquiry/" + oECPAgr + "",
 				'_blank');
 
