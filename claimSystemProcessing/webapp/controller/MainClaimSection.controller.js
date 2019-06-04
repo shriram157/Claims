@@ -2302,7 +2302,20 @@ sap.ui.define([
 							"$filter": "VIN eq '" + oVin + "'"
 						},
 						success: $.proxy(function (data) {
+
 							this.getModel("LocalDataModel").setProperty("/AgreementDataECP", data.results);
+							var oTable = this.getView().byId("idECPAGR");
+							var oLength = data.results.filter(function (item) {
+								return item.AgreementStatus == "Active"
+							}).length;
+							var oTableSelectedRow = data.results.findIndex(function (item) {
+								return item.AgreementStatus == "Active"
+							});
+							// 			if (oLength > 1) {
+							// 				this.getView().byId("idECPAGR").removeSelections();
+							// 			} else {
+							// 				oTable.setSelectedIndex(oTableSelectedRow);
+							// 			}
 						}, this),
 						error: function () {}
 					});
@@ -2774,7 +2787,13 @@ sap.ui.define([
 			if (bValidationError) {
 				this.getView().byId("idMainClaimMessage").setText(oBundle.getText("FillUpMandatoryField"));
 				this.getView().byId("idMainClaimMessage").setType("Error");
+				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+			} else if (oClaimtype == "ECP" && this.getView().getModel("HeadSetData").getProperty("/AgreementNumber") == "") {
+				this.getView().byId("idMainClaimMessage").setText(oBundle.getText("PleaseSelectAgreement"));
+				this.getView().byId("idMainClaimMessage").setType("Error");
+				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
 			} else {
+				this.getView().byId("idMainClaimMessage").setProperty("visible", false);
 				this.getView().byId("id_Date").setValueState("None");
 				this.getView().byId("idPrInvDate").setValueState("None");
 				this.getView().byId("idPreInvNum").setValueState("None");
@@ -5245,88 +5264,8 @@ sap.ui.define([
 			evt.getSource().getBinding("items").filter([]);
 		},
 
-		// handleValueHelpLabour: function (oController) {
-		// 	this.inputId = oController.getParameters().id;
-		// 	//console.log(this.inputId);
-		// 	// create value help dialog
-		// 	if (!this._valueHelpDialogLabour) {
-		// 		this._valueHelpDialogLabour = sap.ui.xmlfragment(
-		// 			"zclaimProcessing.view.fragments.LabourNumber",
-		// 			this
-		// 		);
-		// 		this.getView().addDependent(this._valueHelpDialogLabour);
-		// 	}
-
-		// 	// open value help dialog
-		// 	this._valueHelpDialogLabour.open();
-		// },
-		// _handleValueHelpSearchLabour: function (evt) {
-		// 	var sValue = evt.getParameter("value");
-
-		// 	if (sValue) {
-		// 		var oFilter = new Filter(
-		// 			"LabourNumber",
-		// 			sap.ui.model.FilterOperator.EQ, sValue
-		// 		);
-		// 		//console.log(oFilter);
-		// 		evt.getSource().getBinding("items").filter([oFilter]);
-		// 	} else {
-		// 		evt.getSource().getBinding("items").filter([]);
-		// 	}
-		// },
-		// _handleValueHelpCloseLabour: function (evt) {
-		// 	this.oSelectedItem = evt.getParameter("selectedItem");
-		// 	this.oSelectedTitle = this.oSelectedItem.getTitle();
-		// 	// this.getView().getModel("LocalDataModel").setProperty("/MaterialDescription", this.oSelectedItem.getInfo());
-		// 	// this.getView().byId("idPartDes").setValue(this.oSelectedItem.getInfo());
-		// 	if (this.oSelectedItem) {
-		// 		var productInput = this.byId(this.inputId);
-		// 		productInput.setValue(this.oSelectedItem.getTitle());
-		// 	}
-		// 	evt.getSource().getBinding("items").filter([]);
-		// },
-
-		// handleValueHelpPaint: function (oController) {
-		// 	this.inputId = oController.getParameters().id;
-		// 	//console.log(this.inputId);
-		// 	// create value help dialog
-		// 	if (!this._valueHelpDialogPaint) {
-		// 		this._valueHelpDialogPaint = sap.ui.xmlfragment(
-		// 			"zclaimProcessing.view.fragments.operationList",
-		// 			this
-		// 		);
-		// 		this.getView().addDependent(this._valueHelpDialogPaint);
-		// 	}
-
-		// 	// open value help dialog
-		// 	this._valueHelpDialogLabour.open();
-		// },
-		// _handleValueHelpSearchPaint: function (evt) {
-		// 	var sValue = evt.getParameter("value");
-
-		// 	if (sValue) {
-		// 		var oFilter = new Filter(
-		// 			"PaintPositionCode",
-		// 			sap.ui.model.FilterOperator.EQ, sValue
-		// 		);
-		// 		//console.log(oFilter);
-		// 		evt.getSource().getBinding("items").filter([oFilter]);
-		// 	} else {
-		// 		evt.getSource().getBinding("items").filter([]);
-		// 	}
-		// },
-		// _handleValueHelpClosePaint: function (evt) {
-		// 	this.oSelectedItem = evt.getParameter("selectedItem");
-		// 	this.oSelectedTitle = this.oSelectedItem.getTitle();
-		// 	// this.getView().getModel("LocalDataModel").setProperty("/MaterialDescription", this.oSelectedItem.getInfo());
-		// 	// this.getView().byId("idPartDes").setValue(this.oSelectedItem.getInfo());
-		// 	if (this.oSelectedItem) {
-		// 		var productInput = this.byId(this.inputId);
-		// 		productInput.setValue(this.oSelectedItem.getTitle());
-		// 	}
-		// 	evt.getSource().getBinding("items").filter([]);
-		// },
 		onSelectECP: function (oEvent) {
+			this.getView().byId("idMainClaimMessage").setProperty("visible", false);
 			var oPath = oEvent.getSource().getSelectedContextPaths()[0];
 			var oObj = this.getModel("LocalDataModel").getProperty(oPath);
 			this.getView().getModel("HeadSetData").setProperty("/AgreementNumber", oObj.AgreementNumber);
