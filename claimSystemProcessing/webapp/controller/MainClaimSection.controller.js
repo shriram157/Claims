@@ -3706,6 +3706,11 @@ sap.ui.define([
 					if (bValidationError) {
 						this.getView().byId("idMainClaimMessage").setText(oBundle.getText("FillUpMandatoryField"));
 						this.getView().byId("idMainClaimMessage").setType("Error");
+						this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+					} else if (oClaimtype == "ECP" && this.getView().getModel("HeadSetData").getProperty("/AgreementNumber") == "") {
+						this.getView().byId("idMainClaimMessage").setText(oBundle.getText("PleaseSelectAgreement"));
+						this.getView().byId("idMainClaimMessage").setType("Error");
+						this.getView().byId("idMainClaimMessage").setProperty("visible", true);
 					} else {
 						this.getView().byId("idMainClaimMessage").setProperty("visible", false);
 						this.getView().byId("idMainClaimMessage").setText("");
