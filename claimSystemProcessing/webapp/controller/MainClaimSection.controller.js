@@ -609,6 +609,29 @@ sap.ui.define([
 								},
 								success: $.proxy(function (agrData) {
 									this.getModel("LocalDataModel").setProperty("/AgreementDataECP", agrData.results);
+									var oTable = this.getView().byId("idECPAGR");
+									var oLength = agrData.results.filter(function (item) {
+										return item.AgreementStatus == "Active"
+									}).length;
+									var oTableSelectedRow = agrData.results.findIndex(function (item) {
+										return item.AgreementNumber == data.results[0].AgreementNumber
+									});
+
+									for (let i = 0; i < agrData.results.length; i++) {
+										if (agrData.results[i].AgreementStatus == "Expired" || agrData.results[i].AgreementStatus == "Suspended") {
+											oTable.getItems()[i].getCells()[0].setProperty("enabled", false);
+											oTable.getItems()[i].getCells()[0].setProperty("selected", false);
+										} else {
+											oTable.getItems()[i].getCells()[0].setProperty("enabled", true);
+											oTable.getItems()[i].getCells()[0].setProperty("selected", false);
+										}
+									}
+
+									//this.getView().byId("idECPAGR").removeSelections();
+									if (oTableSelectedRow > -1) {
+										oTable.getItems()[oTableSelectedRow].getCells()[0].setProperty("selected", true);
+									}
+
 								}, this),
 								error: function () {}
 							});
@@ -2311,11 +2334,25 @@ sap.ui.define([
 							var oTableSelectedRow = data.results.findIndex(function (item) {
 								return item.AgreementStatus == "Active"
 							});
-							// 			if (oLength > 1) {
-							// 				this.getView().byId("idECPAGR").removeSelections();
-							// 			} else {
-							// 				oTable.setSelectedIndex(oTableSelectedRow);
-							// 			}
+
+							for (let i = 0; i < data.results.length; i++) {
+								if (data.results[i].AgreementStatus == "Expired" || data.results[i].AgreementStatus == "Suspended") {
+									oTable.getItems()[i].getCells()[0].setProperty("enabled", false);
+									oTable.getItems()[i].getCells()[0].setProperty("selected", false);
+								} else {
+									oTable.getItems()[i].getCells()[0].setProperty("enabled", true);
+									oTable.getItems()[i].getCells()[0].setProperty("selected", false);
+								}
+							}
+							if (oLength > 1) {
+								//this.getView().byId("idECPAGR").removeSelections();
+								oTable.getItems()[oTableSelectedRow].getCells()[0].setProperty("selected", false);
+							} else if (oLength == 1) {
+								//oTable.setSelectedIndex(oTableSelectedRow);
+
+								oTable.getItems()[oTableSelectedRow].getCells()[0].setProperty("selected", true);
+								this.getView().getModel("HeadSetData").setProperty("/AgreementNumber", data.results[oTableSelectedRow].AgreementNumber);
+							}
 						}, this),
 						error: function () {}
 					});
@@ -3478,7 +3515,7 @@ sap.ui.define([
 				aInputs = aInputsFieldActZCWE;
 			} else if (oClaimtype == "FAC") {
 				aInputs = aInputsFieldAct;
-			} else if (oClaimtype == "ECP") {
+			} else if (oClaimtype == "ZECP") {
 				aInputs = aInputsOECP;
 			} else if (oClaimtype == "STR") {
 				aInputs = aInputsSETR;
@@ -3507,6 +3544,8 @@ sap.ui.define([
 			jQuery.each(aInputs, function (i, oInput) {
 				if (oInput.getVisible() == true && oInput.mProperties.enabled == true) {
 					bValidationError = that._validateInput(oInput) || bValidationError;
+				} else {
+					oInput.setValueState("None");
 				}
 			});
 
@@ -3707,7 +3746,7 @@ sap.ui.define([
 						this.getView().byId("idMainClaimMessage").setText(oBundle.getText("FillUpMandatoryField"));
 						this.getView().byId("idMainClaimMessage").setType("Error");
 						this.getView().byId("idMainClaimMessage").setProperty("visible", true);
-					} else if (oClaimtype == "ECP" && this.getView().getModel("HeadSetData").getProperty("/AgreementNumber") == "") {
+					} else if (oClaimtype == "ZECP" && this.getView().getModel("HeadSetData").getProperty("/AgreementNumber") == "") {
 						this.getView().byId("idMainClaimMessage").setText(oBundle.getText("PleaseSelectAgreement"));
 						this.getView().byId("idMainClaimMessage").setType("Error");
 						this.getView().byId("idMainClaimMessage").setProperty("visible", true);
@@ -5269,11 +5308,11 @@ sap.ui.define([
 			evt.getSource().getBinding("items").filter([]);
 		},
 
-		onSelectECP: function (oEvent) {
+		onSelectAgreement: function (oEvent) {
 			this.getView().byId("idMainClaimMessage").setProperty("visible", false);
-			var oPath = oEvent.getSource().getSelectedContextPaths()[0];
-			var oObj = this.getModel("LocalDataModel").getProperty(oPath);
-			this.getView().getModel("HeadSetData").setProperty("/AgreementNumber", oObj.AgreementNumber);
+			// 			var oPath = oEvent.getSource().getSelectedContextPaths()[0];
+			// 			var oObj = this.getModel("LocalDataModel").getProperty(oPath);
+			this.getView().getModel("HeadSetData").setProperty("/AgreementNumber", oEvent.getSource().getParent().getCells()[1].getText());
 		},
 		onPressSavePart: function () {
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");

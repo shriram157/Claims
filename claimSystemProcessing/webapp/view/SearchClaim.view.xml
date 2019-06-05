@@ -16,7 +16,7 @@
 									<f:content>
 										<core:Title text=""/>
 										<Label text="{i18n>DealerCode}" textAlign="Begin"/>
-										<Select showSecondaryValues="true" id="idDealerCode" change="onSelectiDealer" items="{LocalDataModel>/BpDealerModel}">
+										<Select showSecondaryValues="true" id="idDealerCode" change="onSelectiDealer" items="{path:'LocalDataModel>/BpDealerModel', length:300}">
 											<core:ListItem key="{LocalDataModel>BusinessPartnerKey}" text="{path:'LocalDataModel>BusinessPartner'}"
 												additionalText="{LocalDataModel>BusinessPartnerName}"/>
 										</Select>

@@ -273,9 +273,10 @@
 				</items>
 			</Table>
 		</VBox>
-		<Table id="idECPAGR" headerText="{i18n>ActiveAgreeement}" mode="SingleSelectLeft" items="{path:'LocalDataModel>/AgreementDataECP'}"
-			class="sapUiMediumMarginTop" selectionChange="onSelectECP" visible="{DateModel>/oECPfields}">
+		<Table id="idECPAGR" headerText="{i18n>ActiveAgreeement}" mode="None" items="{path:'LocalDataModel>/AgreementDataECP'}"
+			class="sapUiMediumMarginTop" visible="{DateModel>/oECPfields}">
 			<columns>
+				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Begin"><Text text=""/></Column>
 				<Column hAlign="Center">
 					<Label text="{i18n>ECPAgreement}"/>
 				</Column >
@@ -299,6 +300,7 @@
 			<items>
 				<ColumnListItem vAlign="Middle">
 					<cells>
+						<RadioButton groupName="D" selected="false" select="onSelectAgreement" textAlign="Center"/>
 						<Link text="{LocalDataModel>AgreementNumber}" press="onPressAgreement"/>
 						<Text text="{LocalDataModel>PlanType}" wrapping="true"/>
 						<Text text="{LocalDataModel>AgreementStatus}" wrapping="true"/>
