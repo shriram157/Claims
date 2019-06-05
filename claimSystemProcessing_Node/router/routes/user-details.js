@@ -91,6 +91,8 @@ module.exports = function (appContext) {
 				bpZone = "4000";
 			} else if (zone === "7") {
 				bpZone = "9000";
+			} else if (zone === "8") {
+				bpZone = "8000";
 			} else {
 				logger.warning("Unrecognized zone ID: %s", zone);
 				return res.type("plain/text").status(400).send("Unknown zone ID.");
@@ -98,7 +100,7 @@ module.exports = function (appContext) {
 
 			bpReqUrl = url + "/API_BUSINESS_PARTNER/A_BusinessPartner?sap-client=" + s4Client + "&$format=json" +
 				"&$expand=to_Customer/to_CustomerSalesArea&$filter=(BusinessPartnerType eq 'Z001' or " +
-				"BusinessPartnerType eq 'Z004' or BusinessPartnerType eq 'Z005') and zstatus ne 'X'" +
+				"BusinessPartnerType eq 'Z002' or BusinessPartnerType eq 'Z004') and zstatus ne 'X'" +
 				"&$orderby=BusinessPartner asc";
 		}
 
@@ -106,7 +108,7 @@ module.exports = function (appContext) {
 		else {
 			bpReqUrl = url + "/API_BUSINESS_PARTNER/A_BusinessPartner?sap-client=" + s4Client + "&$format=json" +
 				"&$expand=to_Customer/to_CustomerSalesArea&$filter=(BusinessPartnerType eq 'Z001' or " +
-				"BusinessPartnerType eq 'Z004' or BusinessPartnerType eq 'Z005') and zstatus ne 'X'" +
+				"BusinessPartnerType eq 'Z002' or BusinessPartnerType eq 'Z004') and zstatus ne 'X'" +
 				"&$orderby=BusinessPartner asc";
 		}
 
@@ -129,7 +131,6 @@ module.exports = function (appContext) {
 				var bpResBody = JSON.parse(bpResBodyStr);
 				var bpResults = bpResBody.d.results;
 
-				// Filter BP results by sales area for zone user
 				if (userType === "Zone") {
 					bpResults = bpResults.filter(o => {
 						if (!o.to_Customer) {
@@ -149,7 +150,19 @@ module.exports = function (appContext) {
 				}
 				if (userType === "National") {
 					bpResults = bpResults.filter(o => {
-						return !!o.to_Customer;
+						if (!o.to_Customer) {
+							return false;
+						}
+						var customerSalesArea = o.to_Customer.to_CustomerSalesArea;
+						if (!customerSalesArea) {
+							return false;
+						}
+						for (var i = 0; i < customerSalesArea.results.length; i++) {
+							if (customerSalesArea.results[i].SalesOrganization == "7000" && customerSalesArea.results[i].DistributionChannel == "10") {
+								return true;
+							}
+						}
+						return false;
 					});
 				}
 
