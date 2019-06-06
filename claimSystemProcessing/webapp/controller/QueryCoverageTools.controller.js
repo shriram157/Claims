@@ -24,7 +24,8 @@ sap.ui.define([
 				foreignVinInd: false,
 				writtenOffInd: false,
 				specialVinInd: false,
-				oAgrTable: false
+				oAgrTable: false,
+				VIN: ""
 			});
 
 			oDateModel.setDefaultBindingMode("TwoWay");
@@ -66,7 +67,8 @@ sap.ui.define([
 
 		onEnterVIN: function (oEvent) {
 
-			var oVin = oEvent.getParameters().value;
+			var oVin = oEvent.getParameters().value.toUpperCase();
+			this.getView().getModel("DateModel").setProperty("/VIN", oVin);
 			var oProssingModel = this.getModel("ProssingModel");
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			//this.getModel("LocalDataModel").setProperty("/selectedVehicle", oVin);
@@ -106,10 +108,11 @@ sap.ui.define([
 
 		},
 		onLiveVINEnter: function (oEvent) {
-			var oVin = oEvent.getParameters().value;
-			if (oVin.length > 17) {
-				this.getView().byId("vin").setValue("");
-			}
+			// 			var oVin = oEvent.getParameters().value.toUpperCase();
+			// 			this.getView().getModel("DateModel").setProperty("/VIN", oVin);
+			// 			if (oVin.length > 17) {
+			// 				this.getView().byId("vin").setValue("");
+			// 			}
 		},
 		handleDealerLabourInq: function (oEvent) {
 			var sDivision;
