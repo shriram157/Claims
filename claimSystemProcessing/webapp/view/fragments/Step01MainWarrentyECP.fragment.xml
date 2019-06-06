@@ -300,7 +300,7 @@
 			<items>
 				<ColumnListItem vAlign="Middle">
 					<cells>
-						<RadioButton groupName="D" selected="false" select="onSelectAgreement" textAlign="Center"/>
+						<RadioButton groupName="D" selected="false" editable="{DateModel>/oFormEdit}" select="onSelectAgreement" textAlign="Center"/>
 						<Link text="{LocalDataModel>AgreementNumber}" press="onPressAgreement"/>
 						<Text text="{LocalDataModel>PlanType}" wrapping="true"/>
 						<Text text="{LocalDataModel>AgreementStatus}" wrapping="true"/>
@@ -320,12 +320,12 @@
 			<f:content>
 				<core:Title text=""/>
 				<Label text="{i18n>ClientLastName}"/>
-				<Input id="idClientLastName"
+				<Input id="idClientLastName" editable="{DateModel>/oFormEdit}"
 					value="{path:'HeadSetData>/CustomerFullName', type : 'sap.ui.model.type.String', constraints : { minLength : 2, maxLength : 40 }}"
 					required="true"/>
 				<core:Title text=""/>
 				<Label text="{i18n>PostalCode}"/>
-				<Input id="idPostalCode"
+				<Input id="idPostalCode" editable="{DateModel>/oFormEdit}"
 					value="{path:'HeadSetData>/CustomerPostalCode', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 10 }}"
 					required="true"/>
 				<!--<core:Title text=""/>-->
