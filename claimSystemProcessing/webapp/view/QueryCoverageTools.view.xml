@@ -16,7 +16,7 @@
 									<f:content>
 										<core:Title text=""/>
 										<Label text="{i18n>VIN}" textAlign="Begin" required="true"/>
-										<Input maxLength="17" value="{DateModel>/VIN}" id='vin' change="onEnterVIN" liveChange="onLiveVINEnter"/>
+										<Input maxLength="17" value="{DateModel>/VIN}" id='vin' liveChange="onEnterVIN"/>
 										<core:Title text=""/>
 										<Label text="{i18n>Odometer}" textAlign="Begin" required="true"/>
 										<custom:CustomInput maxLength="6" value="" id='Odometer'/>
