@@ -1375,6 +1375,17 @@ sap.ui.define([
 				this._fnClaimSumPercent();
 
 			} else {
+				var oPartner = this.getModel("LocalDataModel").getProperty("/BpDealerModel/0/BusinessPartnerKey");
+				var oBusinessModel = this.getModel("ApiBusinessModel");
+				oBusinessModel.read("/A_BusinessPartner", {
+					urlParameters: {
+						"$filter": "BusinessPartner eq '" + oPartner + "'"
+					},
+					success: $.proxy(function (data) {
+						this.getModel("LocalDataModel").setProperty("/BPOrgName", data.results[0].OrganizationBPName1);
+					}, this)
+				});
+
 				if (oClaimSelectedGroup == "Authorization") {
 					this.getView().getModel("DateModel").setProperty("/warrantySubmissionClaim", true);
 
@@ -2949,14 +2960,14 @@ sap.ui.define([
 				var oPartner = this.getModel("LocalDataModel").getProperty("/BpDealerModel/0/BusinessPartnerKey");
 
 				var oBusinessModel = this.getModel("ApiBusinessModel");
-				oBusinessModel.read("/A_BusinessPartner", {
-					urlParameters: {
-						"$filter": "BusinessPartner eq '" + oPartner + "'"
-					},
-					success: $.proxy(function (data) {
-						this.getModel("LocalDataModel").setProperty("/BPOrgName", data.results[0].OrganizationBPName1);
-					}, this)
-				});
+				// oBusinessModel.read("/A_BusinessPartner", {
+				// 	urlParameters: {
+				// 		"$filter": "BusinessPartner eq '" + oPartner + "'"
+				// 	},
+				// 	success: $.proxy(function (data) {
+				// 		this.getModel("LocalDataModel").setProperty("/BPOrgName", data.results[0].OrganizationBPName1);
+				// 	}, this)
+				// });
 				oClaimModel.refreshSecurityToken();
 				oClaimModel.create("/zc_headSet", this.obj, {
 					success: $.proxy(function (data, response) {
