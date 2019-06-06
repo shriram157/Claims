@@ -20,14 +20,57 @@ sap.ui.define([
 				secondDateValueDRS2: PriorDate,
 				dateCurrent: new Date(),
 				vinState: "None",
-				tableBusyIndicator: false
+				tableBusyIndicator: false,
+				searchEnabled: false
 			});
 			this.getView().setModel(oDateModel, "DateModel");
 			this.getModel("LocalDataModel").setProperty("/LinkEnable", true);
 		},
 
+		onEnterVIN: function (oEvent) {
+
+			var oVin = oEvent.getParameters().value;
+			var oProssingModel = this.getModel("ProssingModel");
+			var oBundle = this.getView().getModel("i18n").getResourceBundle();
+			//this.getModel("LocalDataModel").setProperty("/selectedVehicle", oVin);
+
+			oProssingModel.read("/ZC_GET_FORE_VIN(p_vhvin='" + oVin + "')/Set", {
+				success: $.proxy(function (data) {
+					this.getView().getModel("LocalDataModel").setProperty("/oVinDetisl", data.results);
+					if (data.results.length > 0) {
+						var oVinModel = data.results[0].Model;
+						if (oVinModel == "I_VEH_US") {
+
+							this.getView().byId("idNewClaimMsgStrp").setProperty("visible", false);
+							this.getView().byId("idNewClaimMsgStrp").setText("");
+							this.getView().byId("idNewClaimMsgStrp").setType("None");
+							this.getView().getModel("DateModel").setProperty("/searchEnabled", true);
+						} else if (data.results[0].Message == "Invalid VIN Number") {
+
+							this.getView().byId("idNewClaimMsgStrp").setProperty("visible", true);
+							this.getView().byId("idNewClaimMsgStrp").setText(oBundle.getText("PleaseEnterValidVIN"));
+							this.getView().byId("idNewClaimMsgStrp").setType("Error");
+							this.getView().getModel("DateModel").setProperty("/searchEnabled", false);
+							this.getModel("LocalDataModel").setProperty("/DataResultEnquiry", "");
+						} else {
+
+							this.getView().byId("idNewClaimMsgStrp").setProperty("visible", false);
+							this.getView().byId("idNewClaimMsgStrp").setText("");
+							this.getView().byId("idNewClaimMsgStrp").setType("None");
+							this.getView().getModel("DateModel").setProperty("/searchEnabled", true);
+						}
+
+					}
+				}, this),
+				error: function () {
+
+				}
+			});
+
+		},
+
 		onPressSearch: function () {
-			this.getView().getModel("DateModel").setProperty("/tableBusyIndicator", true);
+
 			var oClaimModel = this.getModel("ProssingModel");
 			var oDealer = this.getModel("LocalDataModel").getProperty("/BpDealerModel/0/BusinessPartnerKey");
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
@@ -41,6 +84,7 @@ sap.ui.define([
 			var FromDateFormat = oDateFormat.format(FromDate);
 			var ToDateFormat = oDateFormat.format(ToDate);
 			if (sQuery != "") {
+				this.getView().getModel("DateModel").setProperty("/tableBusyIndicator", true);
 				oClaimModel.read("/ZC_CLAIM_HEAD_NEW", {
 					urlParameters: {
 						"$filter": "ReferenceDate ge datetime'" + FromDateFormat +
@@ -49,24 +93,21 @@ sap.ui.define([
 
 					},
 					success: $.proxy(function (data) {
-						//var oArr = data.results;
+
 						this.getModel("LocalDataModel").setProperty("/DataResultEnquiry", data.results);
 						this.getView().getModel("DateModel").setProperty("/tableBusyIndicator", false);
-						// var oArr = this.getModel("LocalDataModel").getProperty("/DataResultEnquiry");
-						// oArr.forEach($.proxy(function(item){
-						// 	if(item.Partner == oDealer){
-						// 		this.getModel("LocalDataModel").setProperty("/LinkEnable", true);	
-						// 	}else {
-						// 		this.getModel("LocalDataModel").setProperty("/LinkEnable", false);
-						// 	}
-						// }),this);
 
-					}, this)
+					}, this),
+					error: function (error) {
+						console.log(error);
+					}
 				});
 
 				this.getView().getModel("DateModel").setProperty("/vinState", "None");
 
 			} else {
+				this.getView().getModel("DateModel").setProperty("/tableBusyIndicator", false);
+				this.getModel("LocalDataModel").setProperty("/DataResultEnquiry", "");
 				this.getView().getModel("DateModel").setProperty("/vinState", "Error");
 				this.getView().byId("idNewClaimMsgStrp").setProperty("visible", true);
 			}
