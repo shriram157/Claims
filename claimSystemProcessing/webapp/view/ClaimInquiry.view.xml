@@ -16,7 +16,7 @@
 									<f:content>
 										<core:Title text=""/>
 										<Label text="{i18n>VIN}" textAlign="Begin"/>
-										<Input liveChange="onEnterVIN" maxLength="17" value="" id="idVin" required="true" valueState="{DateModel>/vinState}"/>
+										<Input liveChange="onEnterVIN" maxLength="17" value="{DateModel>/VIN}" id="idVin" required="true" valueState="{DateModel>/vinState}"/>
 										<core:Title text=""/>
 										<Label text="{i18n>ClaimSubDate}" textAlign="Begin"/>
 										<DateRangeSelection id="DRS2" dateValue="{path:'DateModel>/dateValueDRS2'}" secondDateValue="{path:'DateModel>/secondDateValueDRS2'}"
