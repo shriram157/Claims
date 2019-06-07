@@ -72,7 +72,7 @@ sap.ui.define([
 				dataType: "json",
 				success: function (oData) {
 					var userType = oData.loggedUserType[0];
-					//	var userType = "Dealer_Services_Admin";
+					//var userType = "Dealer_Services_Admin";
 					//var userType = "Dealer_Parts_Admin";
 					sap.ui.getCore().getModel("UserDataModel").setProperty("/LoggedInUser", userType);
 					sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "");
@@ -338,6 +338,8 @@ sap.ui.define([
 			});
 			// for sorting table
 			this._mViewSettingsDialogs = {};
+
+			this.getModel("LocalDataModel").setProperty("/oSelectedStatusKeys", ["ZTIC", "ZTMR", "ZTRC"]);
 
 		},
 
