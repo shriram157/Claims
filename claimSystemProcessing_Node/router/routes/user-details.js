@@ -139,7 +139,10 @@ module.exports = function (appContext) {
 							return false;
 						}
 						for (var i = 0; i < customerSalesArea.results.length; i++) {
-							if (customerSalesArea.results[i].SalesOffice === bpZone) {
+							if (customerSalesArea.results[i].SalesOffice === bpZone &&
+									customerSalesArea.results[i].SalesOrganization == "7000" &&
+									customerSalesArea.results[i].DistributionChannel == "10" &&
+									customerSalesArea.results[i].SalesGroup != "T99") {
 								return true;
 							}
 						}
@@ -156,7 +159,9 @@ module.exports = function (appContext) {
 							return false;
 						}
 						for (var i = 0; i < customerSalesArea.results.length; i++) {
-							if (customerSalesArea.results[i].SalesOrganization == "7000" && customerSalesArea.results[i].DistributionChannel == "10") {
+							if (customerSalesArea.results[i].SalesOrganization == "7000" &&
+									customerSalesArea.results[i].DistributionChannel == "10" &&
+									customerSalesArea.results[i].SalesGroup != "T99") {
 								return true;
 							}
 						}
