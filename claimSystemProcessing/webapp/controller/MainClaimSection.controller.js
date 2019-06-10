@@ -517,31 +517,31 @@ sap.ui.define([
 							}
 						});
 
-						oProssingModel.read("/zc_get_operation_numberSet", {
-							urlParameters: {
-								"$filter": "CLMNO eq '" + oClaim + "' and VHVIN eq '" + data.results[0].ExternalObjectNumber + "' and Langu eq '" +
-									sSelectedLocale.toUpperCase() + "'"
-							},
-							success: $.proxy(function (oPdata) {
-								var oLabourArray = oPdata.results.filter(function (item) {
+						// 		oProssingModel.read("/zc_get_operation_numberSet", {
+						// 			urlParameters: {
+						// 				"$filter": "CLMNO eq '" + oClaim + "' and VHVIN eq '" + data.results[0].ExternalObjectNumber + "' and Langu eq '" +
+						// 					sSelectedLocale.toUpperCase() + "'"
+						// 			},
+						// 			success: $.proxy(function (oPdata) {
+						// 				var oLabourArray = oPdata.results.filter(function (item) {
 
-									return item.J_3GKATNRC[0] != "P";
-									//return item.ItemKey[14] == "P";
-								});
-								this.getModel("LocalDataModel").setProperty("/SuggetionOperationList", oLabourArray);
-								var oPaintData = oPdata.results.filter(function (item) {
+						// 					return item.J_3GKATNRC[0] != "P";
+						// 					//return item.ItemKey[14] == "P";
+						// 				});
+						// 				this.getModel("LocalDataModel").setProperty("/SuggetionOperationList", oLabourArray);
+						// 				var oPaintData = oPdata.results.filter(function (item) {
 
-									return item.J_3GKATNRC[0] == "P";
-									//return item.ItemKey[14] == "P";
-								});
-								console.log(oPaintData);
-								this.getModel("LocalDataModel").setProperty("/oPaintList", oPaintData);
+						// 					return item.J_3GKATNRC[0] == "P";
+						// 					//return item.ItemKey[14] == "P";
+						// 				});
+						// 				console.log(oPaintData);
+						// 				this.getModel("LocalDataModel").setProperty("/oPaintList", oPaintData);
 
-							}, this),
-							error: function () {
-								console.log("Error");
-							}
-						});
+						// 			}, this),
+						// 			error: function () {
+						// 				console.log("Error");
+						// 			}
+						// 		});
 						if (data.results[0].ExternalObjectNumber != "") {
 							//	this.getView().byId("idRequestType").setSelectedIndex(0);
 							this.getView().getModel("DateModel").setProperty("/oRadioVinIndex", 0);
@@ -4892,30 +4892,30 @@ sap.ui.define([
 				this.getView().byId("idOperationLabour").focus();
 			}
 
-			oProssingModel.read("/zc_get_operation_numberSet", {
-				urlParameters: {
-					"$filter": "CLMNO eq '" + oClaimNum + "' and VHVIN eq '" + oVin + "' and Langu eq '" + sSelectedLocale.toUpperCase() + "'"
-				},
-				success: $.proxy(function (data) {
-					var oLabourArray = data.results.filter(function (item) {
+			// 			oProssingModel.read("/zc_get_operation_numberSet", {
+			// 				urlParameters: {
+			// 					"$filter": "CLMNO eq '" + oClaimNum + "' and VHVIN eq '" + oVin + "' and Langu eq '" + sSelectedLocale.toUpperCase() + "'"
+			// 				},
+			// 				success: $.proxy(function (data) {
+			// 					var oLabourArray = data.results.filter(function (item) {
 
-						return item.J_3GKATNRC[0] != "P";
-						//return item.ItemKey[14] == "P";
-					});
-					this.getModel("LocalDataModel").setProperty("/SuggetionOperationList", oLabourArray);
-					var oPaintData = data.results.filter(function (item) {
+			// 						return item.J_3GKATNRC[0] != "P";
+			// 						//return item.ItemKey[14] == "P";
+			// 					});
+			// 					this.getModel("LocalDataModel").setProperty("/SuggetionOperationList", oLabourArray);
+			// 					var oPaintData = data.results.filter(function (item) {
 
-						return item.J_3GKATNRC[0] == "P";
+			// 						return item.J_3GKATNRC[0] == "P";
 
-					});
-					console.log(oPaintData);
-					this.getModel("LocalDataModel").setProperty("/oPaintList", oPaintData);
+			// 					});
+			// 					console.log(oPaintData);
+			// 					this.getModel("LocalDataModel").setProperty("/oPaintList", oPaintData);
 
-				}, this),
-				error: function () {
-					console.log("Error");
-				}
-			});
+			// 				}, this),
+			// 				error: function () {
+			// 					console.log("Error");
+			// 				}
+			// 			});
 
 			// oProssingModel.read("/zc_get_operation_numberSet", {
 			// 	urlParameters: {
@@ -5919,6 +5919,56 @@ sap.ui.define([
 		},
 
 		handleValueHelpLabour: function (oEvent) {
+			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
+			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
+			var oOFP = this.getView().getModel("HeadSetData").getProperty("/OFP");
+			var oVin = this.getModel("LocalDataModel").getProperty("/ClaimDetails/ExternalObjectNumber");
+			var oProssingModel = this.getModel("ProssingModel");
+			var sSelectedLocale;
+			//  get the locale to determine the language.
+			var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
+			if (isLocaleSent) {
+				sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
+			} else {
+				sSelectedLocale = "en"; // default is english
+			}
+			oProssingModel.read("/zc_get_operation_numberSet", {
+				urlParameters: {
+					"$filter": "CLMNO eq '" + oClaimNum + "' and VHVIN eq '" + oVin + "' and Langu eq '" + sSelectedLocale.toUpperCase() + "'"
+				},
+				success: $.proxy(function (data) {
+					var oLabourArray = data.results.filter(function (item) {
+
+						return item.J_3GKATNRC[0] != "P";
+						//return item.ItemKey[14] == "P";
+					});
+					this.getModel("LocalDataModel").setProperty("/SuggetionOperationList", oLabourArray);
+					var oPaintData = data.results.filter(function (item) {
+
+						return item.J_3GKATNRC[0] == "P";
+
+					});
+					console.log(oPaintData);
+					this.getModel("LocalDataModel").setProperty("/oPaintList", oPaintData);
+
+				}, this),
+				error: function () {
+					console.log("Error");
+				}
+			});
+
+			// 			oProssingModel.read("/zc_get_operation_numberSet", {
+			// 				urlParameters: {
+			// 					"$filter": "CLMNO eq '" + oClaimNum + "' "
+			// 				},
+			// 				success: $.proxy(function (data) {
+			// 					this.getModel("LocalDataModel").setProperty("/SuggetionOperationList", data.results);
+			// 				}, this),
+			// 				error: function () {
+			// 					console.log("Error");
+			// 				}
+			// 			});
+
 			var sInputValue = oEvent.getSource().getValue();
 
 			this.inputId = oEvent.getSource().getId();
@@ -5942,6 +5992,45 @@ sap.ui.define([
 		},
 
 		handleValueHelpPaint: function (oEvent) {
+			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
+			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
+			var oOFP = this.getView().getModel("HeadSetData").getProperty("/OFP");
+			var oVin = this.getModel("LocalDataModel").getProperty("/ClaimDetails/ExternalObjectNumber");
+			var oProssingModel = this.getModel("ProssingModel");
+			var sSelectedLocale;
+			//  get the locale to determine the language.
+			var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
+			if (isLocaleSent) {
+				sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
+			} else {
+				sSelectedLocale = "en"; // default is english
+			}
+
+			oProssingModel.read("/zc_get_operation_numberSet", {
+				urlParameters: {
+					"$filter": "CLMNO eq '" + oClaimNum + "' and VHVIN eq '" + oVin + "' and Langu eq '" + sSelectedLocale.toUpperCase() + "'"
+				},
+				success: $.proxy(function (data) {
+					var oLabourArray = data.results.filter(function (item) {
+
+						return item.J_3GKATNRC[0] != "P";
+						//return item.ItemKey[14] == "P";
+					});
+					this.getModel("LocalDataModel").setProperty("/SuggetionOperationList", oLabourArray);
+					var oPaintData = data.results.filter(function (item) {
+
+						return item.J_3GKATNRC[0] == "P";
+
+					});
+					console.log(oPaintData);
+					this.getModel("LocalDataModel").setProperty("/oPaintList", oPaintData);
+
+				}, this),
+				error: function () {
+					console.log("Error");
+				}
+			});
+
 			var sInputValue = oEvent.getSource().getValue();
 
 			this.inputId = oEvent.getSource().getId();
@@ -6242,34 +6331,7 @@ sap.ui.define([
 				//var oIndex = parseInt(oTable._aSelectedPaths.toString().split("/")[2]);
 				//this.obj.zc_claim_item_labourSet.results.splice(oIndex, 1);
 				var oClaimModel = this.getModel("ProssingModel");
-				// this._oToken = oClaimModel.getHeaders()['x-csrf-token'];
-				// $.ajaxSetup({
-				// 	headers: {
-				// 		'X-CSRF-Token': this._oToken
-				// 	}
-				// });
 
-				// oClaimModel.refreshSecurityToken();
-
-				// oClaimModel.create("/zc_headSet", this.obj, {
-				// 	success: $.proxy(function (data, response) {
-				// 		var pricinghData = response.data.zc_claim_item_price_dataSet.results;
-				// 		var oFilteredData = pricinghData.filter(function (val) {
-				// 			return val.ItemType === "FR" && val.ItemKey[0] != "P";
-				// 		});
-				// 		this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", response.data.OFPDescription);
-				// 		this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.data.MainOpsCodeDescription);
-				// 		console.log(oFilteredData);
-				// 		this.getModel("LocalDataModel").setProperty("/LabourPricingDataModel", oFilteredData);
-				// 		oTable.removeSelections("true");
-				// 		this._fnClaimSum();
-				// 		this._fnClaimSumPercent();
-				// 		//MessageToast.show("Claim has been deleted successfully");
-				// 	}, this),
-				// 	error: function (err) {
-				// 		console.log(err);
-				// 	}
-				// });
 			} else {
 				MessageToast.show(oBundle.getText("Pleaseselect1row"), {
 					my: "center center",
