@@ -4929,18 +4929,18 @@ sap.ui.define([
 			// 	}
 			// });
 
-			oProssingModel.read("/zc_get_suggested_operationsSet", {
-				urlParameters: {
-					"$filter": "CLMNO eq '" + oClaimNum + "'and OFP_GROUP eq '" + oOFP + "' and VHVIN eq '" + oVin + "' and Langu eq '" +
-						sSelectedLocale.toUpperCase() + "'"
-				},
-				success: $.proxy(function (data) {
-					this.getModel("LocalDataModel").setProperty("/SuggetionOperationListFiltered", data.results);
-				}, this),
-				error: function () {
-					console.log("Error");
-				}
-			});
+			// 			oProssingModel.read("/zc_get_suggested_operationsSet", {
+			// 				urlParameters: {
+			// 					"$filter": "CLMNO eq '" + oClaimNum + "'and OFP_GROUP eq '" + oOFP + "' and VHVIN eq '" + oVin + "' and Langu eq '" +
+			// 						sSelectedLocale.toUpperCase() + "'"
+			// 				},
+			// 				success: $.proxy(function (data) {
+			// 					this.getModel("LocalDataModel").setProperty("/SuggetionOperationListFiltered", data.results);
+			// 				}, this),
+			// 				error: function () {
+			// 					console.log("Error");
+			// 				}
+			// 			});
 
 		},
 		onStep03Back: function () {
