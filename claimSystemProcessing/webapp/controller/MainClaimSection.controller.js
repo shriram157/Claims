@@ -614,7 +614,12 @@ sap.ui.define([
 										return item.AgreementStatus == "Active"
 									}).length;
 									var oTableSelectedRow = agrData.results.findIndex(function (item) {
-										return item.AgreementNumber == data.results[0].AgreementNumber
+										if (data.results[0].AgreementNumber != "") {
+											return item.AgreementNumber == data.results[0].AgreementNumber
+
+										} else {
+											return item.AgreementStatus == "Active"
+										}
 									});
 
 									for (let i = 0; i < agrData.results.length; i++) {
@@ -627,10 +632,40 @@ sap.ui.define([
 										}
 									}
 
-									//this.getView().byId("idECPAGR").removeSelections();
-									if (oTableSelectedRow > -1) {
+									// 	if (oTableSelectedRow > -1) {
+									// 		oTable.getItems()[oTableSelectedRow].getCells()[0].setProperty("selected", true);
+									// 	}
+
+									if (oLength > 1) {
+										oTable.getItems()[oTableSelectedRow].getCells()[0].setProperty("selected", false);
+									} else if (oLength == 1) {
+
 										oTable.getItems()[oTableSelectedRow].getCells()[0].setProperty("selected", true);
+										this.getView().getModel("HeadSetData").setProperty("/AgreementNumber", agrData.results[oTableSelectedRow].AgreementNumber);
 									}
+
+									// 			var oTableSelectedRow = data.results.findIndex(function (item) {
+									// 				return item.AgreementStatus == "Active"
+									// 			});
+
+									// 			for (let i = 0; i < data.results.length; i++) {
+									// 				if (data.results[i].AgreementStatus == "Expired" || data.results[i].AgreementStatus == "Suspended") {
+									// 					oTable.getItems()[i].getCells()[0].setProperty("enabled", false);
+									// 					oTable.getItems()[i].getCells()[0].setProperty("selected", false);
+									// 				} else {
+									// 					oTable.getItems()[i].getCells()[0].setProperty("enabled", true);
+									// 					oTable.getItems()[i].getCells()[0].setProperty("selected", false);
+									// 				}
+									// 			}
+									// 			if (oLength > 1) {
+									// 				//this.getView().byId("idECPAGR").removeSelections();
+									// 				oTable.getItems()[oTableSelectedRow].getCells()[0].setProperty("selected", false);
+									// 			} else if (oLength == 1) {
+									// 				//oTable.setSelectedIndex(oTableSelectedRow);
+
+									// 				oTable.getItems()[oTableSelectedRow].getCells()[0].setProperty("selected", true);
+									// 				this.getView().getModel("HeadSetData").setProperty("/AgreementNumber", data.results[oTableSelectedRow].AgreementNumber);
+									// 			}
 
 								}, this),
 								error: function () {}

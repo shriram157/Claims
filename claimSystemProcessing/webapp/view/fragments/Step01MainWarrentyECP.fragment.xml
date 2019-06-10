@@ -297,22 +297,17 @@
 				</Column>
 				<Column hAlign="Center"></Column>
 			</columns>
-			<items>
-				<ColumnListItem vAlign="Middle">
-					<cells>
-						<RadioButton groupName="D" selected="false" editable="{DateModel>/oFormEdit}" select="onSelectAgreement" textAlign="Center"/>
-						<Link text="{LocalDataModel>AgreementNumber}" press="onPressAgreement"/>
-						<Text text="{LocalDataModel>PlanType}" wrapping="true"/>
-						<Text text="{LocalDataModel>AgreementStatus}" wrapping="true"/>
-						<Text text="{path:'LocalDataModel>StatusDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd'}}"
-							wrapping="true"/>
-						<Text
-							text="{path:'LocalDataModel>AgreementthruDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd'}}"
-							wrapping="true"/>
-						<Text text="{LocalDataModel>AgreementthruKMreading}" wrapping="true"/>
-					</cells>
-				</ColumnListItem>
-			</items>
+			<ColumnListItem vAlign="Middle">
+				<cells>
+					<RadioButton groupName="D" selected="false" editable="{DateModel>/oFormEdit}" select="onSelectAgreement" textAlign="Center"/>
+					<Link text="{LocalDataModel>AgreementNumber}" press="onPressAgreement"/>
+					<Text text="{LocalDataModel>PlanType}" wrapping="true"/>
+					<Text text="{LocalDataModel>AgreementStatus}" wrapping="true"/>
+					<Text text="{path:'LocalDataModel>StatusDate', formatter:'zclaimProcessing.utils.formatter.fnDateFormat'}" wrapping="true"/>
+					<Text text="{path:'LocalDataModel>AgreementthruDate', formatter:'zclaimProcessing.utils.formatter.fnDateFormat'}" wrapping="true"/>
+					<Text text="{LocalDataModel>AgreementthruKMreading}" wrapping="true"/>
+				</cells>
+			</ColumnListItem>
 		</Table>
 		<f:SimpleForm editable="" title="" layout="ResponsiveGridLayout" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12"
 			adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="4" columnsL="4" columnsM="3"
