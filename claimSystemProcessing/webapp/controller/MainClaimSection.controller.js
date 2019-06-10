@@ -28,13 +28,13 @@ sap.ui.define([
 			this.setModel(this.getModel("ZVehicleMasterModel"), "ZVehicleMasterModel");
 			this.setModel(this.getModel("ProssingModel"));
 			var oProssingModel = this.getModel("ProssingModel");
-			oProssingModel.read("/zc_claim_item_labourSet", {
-				success: $.proxy(function (data) {
+			// 			oProssingModel.read("/zc_claim_item_labourSet", {
+			// 				success: $.proxy(function (data) {
 
-					this.getModel("LocalDataModel").setProperty("/LabourSetData", data.results);
-				}, this),
-				error: function () {}
-			});
+			// 					this.getModel("LocalDataModel").setProperty("/LabourSetData", data.results);
+			// 				}, this),
+			// 				error: function () {}
+			// 			});
 
 			var sSelectedLocale;
 
