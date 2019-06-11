@@ -636,13 +636,8 @@ sap.ui.define([
 									// 		oTable.getItems()[oTableSelectedRow].getCells()[0].setProperty("selected", true);
 									// 	}
 
-									if (oLength > 1) {
-										oTable.getItems()[oTableSelectedRow].getCells()[0].setProperty("selected", false);
-									} else if (oLength == 1) {
-
-										oTable.getItems()[oTableSelectedRow].getCells()[0].setProperty("selected", true);
-										this.getView().getModel("HeadSetData").setProperty("/AgreementNumber", agrData.results[oTableSelectedRow].AgreementNumber);
-									}
+									oTable.getItems()[oTableSelectedRow].getCells()[0].setProperty("selected", true);
+									this.getView().getModel("HeadSetData").setProperty("/AgreementNumber", agrData.results[oTableSelectedRow].AgreementNumber);
 
 									// 			var oTableSelectedRow = data.results.findIndex(function (item) {
 									// 				return item.AgreementStatus == "Active"
