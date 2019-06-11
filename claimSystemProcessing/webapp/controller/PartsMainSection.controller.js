@@ -1423,7 +1423,7 @@ sap.ui.define([
 		},
 
 		onPressSavePartClaim: function () {
-			this.getView().getModel("DateModel").setProperty("/SavePart2", true);
+			// this.getView().getModel("DateModel").setProperty("/SavePart2", true);
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var oClaimModel = this.getModel("ProssingModel");
 			this._oToken = oClaimModel.getHeaders()['x-csrf-token'];
@@ -1480,6 +1480,7 @@ sap.ui.define([
 
 		onPressSavePart: function () {
 			arrPartLOI = [];
+			this.getView().getModel("DateModel").setProperty("/SavePart2", true);
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var oValidator = new Validator();
 			if (this.getView().getModel("DateModel").getProperty("/partLine") == true) {
