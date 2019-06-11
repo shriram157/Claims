@@ -5646,7 +5646,6 @@ sap.ui.define([
 			} else {
 				MessageToast.show(oBundle.getText("PlsFillupOFP"));
 			}
-
 		},
 		onCloseLabour: function (oEvent) {
 			oEvent.getSource().getParent().getParent().getParent().close();
