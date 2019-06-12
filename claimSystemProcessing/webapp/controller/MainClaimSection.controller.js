@@ -6866,21 +6866,6 @@ sap.ui.define([
 
 							oClaimModel.create("/zc_headSet", this.obj, {
 								success: $.proxy(function (data, response) {
-
-									// 	this.getView().getModel("HeadSetData").setProperty("/RepairDate", response.data.RepairDate);
-									// 	this.getView().getModel("HeadSetData").setProperty("/ReferenceDate", response.data.ReferenceDate);
-									// 	this.getView().getModel("HeadSetData").setProperty("/DateOfApplication", response.data.DateOfApplication);
-
-									// var oErrorSet = response.data.zc_claim_vsrSet.results;
-									//	this.getModel("LocalDataModel").setProperty("/oErrorSet", response.data.zc_claim_vsrSet.results);
-									// 	response.data.zc_claim_vsrSet.results.map($.proxy(function (item) {
-									// 		if (item.ItemType == "" && item.POSNR == "") {
-									// 			this.getView().getModel("DateModel").setProperty("/VisiblePageLine", false);
-									// 		} else {
-									// 			this.getView().getModel("DateModel").setProperty("/VisiblePageLine", true);
-									// 		}
-									// 	}), this);
-
 									oClaimModel.read("/zc_headSet", {
 										urlParameters: {
 											"$filter": "NumberOfWarrantyClaim eq '" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") +
