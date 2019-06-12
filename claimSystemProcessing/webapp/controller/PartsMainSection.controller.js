@@ -3700,7 +3700,7 @@ sap.ui.define([
 		onStep03Next: function () {
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			if (this.getView().getModel("DateModel").getProperty("/SavePart2") == false) {
-				MessageBox.show(this.oBundle.getText("PleaseSaveClaim"), MessageBox.Icon.ERROR, "Reminder", MessageBox.Action.OK,
+				MessageBox.show(this.oBundle.getText("PleaseSavePart"), MessageBox.Icon.ERROR, "Reminder", MessageBox.Action.OK,
 					null, null);
 			} else {
 				var validator = new Validator();
