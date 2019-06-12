@@ -3647,6 +3647,8 @@ sap.ui.define([
 					}
 				});
 
+			var oDamageItem = [];
+
 			oClaimModel.read("/zc_claim_item_price_dataSet", {
 				urlParameters: {
 					"$filter": "NumberOfWarrantyClaim eq '" + oClaimNum + "'and LanguageKey eq '" + sSelectedLocale.toUpperCase() + "' "
@@ -3663,7 +3665,7 @@ sap.ui.define([
 
 							this.getModel("LocalDataModel").setProperty("/DataItemDamageSet", sddata.results);
 							if (sddata.results.length > 0) {
-								var oDamageItem = sddata.results.map(function (item) {
+								oDamageItem = sddata.results.map(function (item) {
 									return {
 										DmgAreaCode: item.DmgAreaCode,
 										DmgSevrCode: item.DmgSevrCode,
@@ -3672,6 +3674,8 @@ sap.ui.define([
 									};
 
 								});
+							} else {
+								oDamageItem = [];
 							}
 
 							var pricinghData = data.results;
