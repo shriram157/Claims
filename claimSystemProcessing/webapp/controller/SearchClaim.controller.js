@@ -680,7 +680,7 @@ sap.ui.define([
 					urlParameters: {
 						"$filter": "" + sDate + " ge datetime'" + FromDateFormat +
 							"'and " + sDate + " le datetime'" + ToDateFormat +
-							"'and Partner eq '" + sQueryDealer + "' and" + sQuerySearchBy + " eq '" + sQuerySearchText + "'and (" + oResult + ")"
+							"'and Partner eq '" + sQueryDealer + "'and " + sQuerySearchBy + " eq '" + sQuerySearchText + "'and (" + oResult + ")"
 					},
 					success: $.proxy(function (data) {
 						this.getView().getModel("DateModel").setProperty("/tableBusyIndicator", false);

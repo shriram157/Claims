@@ -44,8 +44,8 @@
 											<core:Item key="{LocalDataModel>TMCClaimType}" text="{LocalDataModel>TMCClaimType} - {LocalDataModel>ALMClaimTypeDes}"/>
 										</custom:CustomCombo>
 										<Label text="{i18n>ClaimStatus}" textAlign="Begin"/>
-										<MultiComboBox items="{ path: 'LocalDataModel>/OModelClaimGroupStatus'}" selectionChange="handleSelectClaimGroup"
-											selectionFinish="handleSelectClaimGroupFinish" id="idClaimStatus">
+										<MultiComboBox items="{ path: 'LocalDataModel>/OModelClaimGroupStatus'}" selectedKeys="{LocalDataModel>/oSelectedStatusKeys}"
+											selectionChange="handleSelectClaimGroup" selectionFinish="handleSelectClaimGroupFinish" id="idClaimStatus">
 											<core:Item key="{LocalDataModel>Status}" text="{LocalDataModel>Description}"/>
 										</MultiComboBox>
 										<core:Title text=""/>
