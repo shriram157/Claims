@@ -144,7 +144,8 @@ sap.ui.define([
 				"DiscrepancyCodes": "",
 				"ALMDiscrepancyCode": "",
 				"RepairOrRetrunPart": "N",
-				"RepairAmount": "0.000"
+				"RepairAmount": "0.000",
+				"NameOfPersonRespWhoChangedObj": ""
 			});
 			HeadSetData.setDefaultBindingMode("TwoWay");
 			this.getView().setModel(HeadSetData, "HeadSetData");
@@ -269,13 +270,15 @@ sap.ui.define([
 				this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", false);
 			} else {
 				this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", true);
-				if (this.getView().getModel("HeadSetData").getProperty("/DeliveryDate") > this.getView().getModel("HeadSetData").getProperty("/ShipmentReceivedDate")) {
+				if (this.getView().getModel("HeadSetData").getProperty("/DeliveryDate") > this.getView().getModel("HeadSetData").getProperty(
+						"/ShipmentReceivedDate")) {
 					this.getView().getModel("DateModel").setProperty("/SaveClimBTN", false);
 					MessageToast.show(this.oBundle.getText("receivedDateErrMSG"));
 				} else if (this.getView().getModel("HeadSetData").getProperty("/ShipmentReceivedDate") > new Date()) {
 					this.getView().getModel("DateModel").setProperty("/SaveClimBTN", false);
 					MessageToast.show(this.oBundle.getText("receivedDateErrMSG2"));
-				} else if (this.getView().getModel("HeadSetData").getProperty("/DeliveryDate") <= this.getView().getModel("HeadSetData").getProperty("/ShipmentReceivedDate")) {
+				} else if (this.getView().getModel("HeadSetData").getProperty("/DeliveryDate") <= this.getView().getModel("HeadSetData").getProperty(
+						"/ShipmentReceivedDate")) {
 					this.getView().getModel("DateModel").setProperty("/SaveClimBTN", true);
 				}
 			}
@@ -660,6 +663,7 @@ sap.ui.define([
 								"WarrantyClaimType": this.claimType,
 								"Partner": this.getModel("LocalDataModel").getProperty("/ClaimDetails/Partner"),
 								"ActionCode": "",
+								"NameOfPersonRespWhoChangedObj": this.getModel("LocalDataModel").getProperty("/LoginId").substr(0, 12),
 								"NumberOfWarrantyClaim": this.getModel("LocalDataModel").getProperty("/NumberOfWarrantyClaim"),
 								"PartnerRole": "AS",
 								"ReferenceDate": this._fnDateFormat(this.getModel("LocalDataModel").getProperty("/ClaimDetails/ReferenceDate")),
@@ -892,6 +896,7 @@ sap.ui.define([
 								"WarrantyClaimType": this.claimType,
 								"Partner": this.getModel("LocalDataModel").getProperty("/ClaimDetails/Partner"),
 								"ActionCode": "",
+								"NameOfPersonRespWhoChangedObj": this.getModel("LocalDataModel").getProperty("/LoginId").substr(0, 12),
 								"NumberOfWarrantyClaim": this.getModel("LocalDataModel").getProperty("/NumberOfWarrantyClaim"),
 								"PartnerRole": "AS",
 								"ReferenceDate": this._fnDateFormat(this.getModel("LocalDataModel").getProperty("/ClaimDetails/ReferenceDate")),
@@ -992,6 +997,7 @@ sap.ui.define([
 				this.getView().getModel("DropDownModel").setProperty("/" + "/items", "");
 				var HeadSetData = new sap.ui.model.json.JSONModel({
 					"WarrantyClaimType": "",
+					"NameOfPersonRespWhoChangedObj": "",
 					"Partner": "",
 					"PartnerRole": "",
 					"ReferenceDate": null,
@@ -2136,6 +2142,7 @@ sap.ui.define([
 									"ContactbyphoneDate": this._fnDateFormat(this.getView().getModel("LOIDataModel").getProperty("/DateLOI")),
 									"ContactbyphoneTime": this.timeFormatter.format(new Date(Number(this.getView().getModel("LOIDataModel").getProperty(
 										"/AtLOI02")))),
+									"NameOfPersonRespWhoChangedObj": this.getModel("LocalDataModel").getProperty("/LoginId").substr(0, 12),
 									"ContactbyphoneRepName": this.getView().getModel("LOIDataModel").getProperty("/RepresntativeName"),
 									"Tracerequest": this.getView().getModel("LOIDataModel").getProperty("/RadioTR"),
 									"InspectionWaived": this.getView().getModel("LOIDataModel").getProperty("/RadioCR"),
@@ -3460,6 +3467,7 @@ sap.ui.define([
 							"ActionCode": oActionCode,
 							"NumberOfWarrantyClaim": this.getView().getModel("HeadSetData").getProperty("/NumberOfWarrantyClaim"),
 							"PartnerRole": "AS",
+							"NameOfPersonRespWhoChangedObj": this.getModel("LocalDataModel").getProperty("/LoginId").substr(0, 12),
 							"ReferenceDate": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/ReferenceDate")),
 							"DateOfApplication": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/DateOfApplication")),
 							"TCIWaybillNumber": this.getView().getModel("HeadSetData").getProperty("/TCIWaybillNumber"),
@@ -3563,6 +3571,7 @@ sap.ui.define([
 				this.obj = {
 					"DBOperation": "SAVE",
 					"Message": "",
+					"NameOfPersonRespWhoChangedObj": this.getModel("LocalDataModel").getProperty("/LoginId").substr(0, 12),
 					// "NumberOfWarrantyClaim": this.getView().getModel("HeadSetData").getProperty("/NumberOfWarrantyClaim"),
 					"WarrantyClaimType": this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType"),
 					"Partner": this.getModel("LocalDataModel").getProperty("/BpDealerModel/0/BusinessPartnerKey"),
@@ -3788,6 +3797,7 @@ sap.ui.define([
 			console.log("claimType", this.obj.WarrantyClaimType);
 			this.obj.Partner = this.getModel("LocalDataModel").getProperty("/BPDealerDetails/BusinessPartnerKey");
 			this.obj.ActionCode = "";
+			this.obj.NameOfPersonRespWhoChangedObj = this.getModel("LocalDataModel").getProperty("/LoginId").substr(0, 12);
 			this.obj.NumberOfWarrantyClaim = this.getView().getModel("HeadSetData").getProperty("/NumberOfWarrantyClaim");
 			this.obj.PartnerRole = "AS";
 			this.obj.ReferenceDate = this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/ReferenceDate"));
@@ -4092,7 +4102,8 @@ sap.ui.define([
 				"DeliveringCarrier": "",
 				"HeadText": "",
 				"text": null,
-				"number": 0
+				"number": 0,
+				"NameOfPersonRespWhoChangedObj":""
 			});
 			HeadSetData.setDefaultBindingMode("TwoWay");
 			this.getView().setModel(HeadSetData, "HeadSetData");
@@ -4117,7 +4128,8 @@ sap.ui.define([
 				"ShipmentReceivedDate": null,
 				"DealerContact": "",
 				"DeliveringCarrier": "",
-				"HeadText": ""
+				"HeadText": "",
+				"NameOfPersonRespWhoChangedObj":""
 			};
 
 			this.optionChanged = false;
