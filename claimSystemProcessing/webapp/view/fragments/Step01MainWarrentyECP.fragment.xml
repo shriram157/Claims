@@ -379,20 +379,20 @@
 					<Text text="{HeadSetData>/AppliedWarrantyCoverage}"/>
 					<Label text="{i18n>T1Code}"/>
 					<ComboBox id="idT1Field" required="{DateModel>/enabledT1}" selectionChange="onChangeT1" showSecondaryValues="true"
-						items="{ path: '/Zt1DescSrchhelpSet' }" filterSecondaryValues="true"
+						items="{ path: 'LocalDataModel>/t1DescSrchhelpSet' }" filterSecondaryValues="true"
 						value="{path:'HeadSetData>/T1WarrantyCodes', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 140 } }"
 						selectedKey="{path:'HeadSetData>/T1WarrantyCodes'}" visible="{DateModel>/enabledT1}" editable="{DateModel>/oFormEdit}">
-						<core:ListItem key="{T1}" text="{path:'T1'}" additionalText="{T1Text}"/>
+						<core:ListItem key="{LocalDataModel>T1}" text="{path:'LocalDataModel>T1'}" additionalText="{LocalDataModel>T1Text}"/>
 					</ComboBox>
 					<!--<Select selectedKey="{HeadSetData>/T1WarrantyCodes}" items="{ path: '/Zt1DescSrchhelpSet' }" enabled="{DateModel>/oFormEdit}">-->
 					<!--	<core:Item key="{T1}" text="{T1} - {T1Text}"/>-->
 					<!--</Select>-->
 					<Label text="{i18n>T2Code}"/>
 					<ComboBox id="idT2Field" required="{DateModel>/enabledT2}" selectionChange="onChangeT2" showSecondaryValues="true"
-						items="{ path: '/Zt2DescSrchhelpSet' }" filterSecondaryValues="true"
+						items="{ path: 'LocalDataModel>/t2DescSrchhelpSet' }" filterSecondaryValues="true"
 						value="{path:'HeadSetData>/T2WarrantyCodes', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 140 } }"
 						selectedKey="{path:'HeadSetData>/T2WarrantyCodes'}" visible="{DateModel>/enabledT2}" editable="{DateModel>/oFormEdit}">
-						<core:ListItem key="{path:'T2'}" text="{T2}" additionalText="{T2Text}"/>
+						<core:ListItem key="{path:'LocalDataModel>T2'}" text="{LocalDataModel>T2}" additionalText="{LocalDataModel>T2Text}"/>
 					</ComboBox>
 					<!--<Select selectedKey="{HeadSetData>/T2WarrantyCodes}" items="{ path: '/Zt2DescSrchhelpSet' }" enabled="{DateModel>/oFormEdit}">-->
 					<!--	<core:Item key="{T2}" text="{T2} - {T2Text}"/>-->

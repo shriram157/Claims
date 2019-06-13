@@ -81,6 +81,30 @@ sap.ui.define([
 				}
 			});
 
+			oProssingModel.read("/Zt1DescSrchhelpSet", {
+				urlParameters: {
+					"$filter": "Spras eq '" + sSelectedLocale.toUpperCase() + "' "
+				},
+				success: $.proxy(function (data) {
+					this.getModel("LocalDataModel").setProperty("/t1DescSrchhelpSet", data.results);
+				}, this),
+				error: function () {
+
+				}
+			});
+
+			oProssingModel.read("/Zt2DescSrchhelpSet", {
+				urlParameters: {
+					"$filter": "Spras eq '" + sSelectedLocale.toUpperCase() + "' "
+				},
+				success: $.proxy(function (data) {
+					this.getModel("LocalDataModel").setProperty("/t2DescSrchhelpSet", data.results);
+				}, this),
+				error: function () {
+
+				}
+			});
+
 			var partData = new sap.ui.model.json.JSONModel({
 				"matnr": "",
 				"quant": "",
@@ -5772,6 +5796,7 @@ sap.ui.define([
 		},
 
 		handleValueHelpLabour: function (oEvent) {
+			this.getModel("LocalDataModel").setProperty("/labourBusyIndicator", true);
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			var oOFP = this.getView().getModel("HeadSetData").getProperty("/OFP");
@@ -5790,6 +5815,7 @@ sap.ui.define([
 					"$filter": "CLMNO eq '" + oClaimNum + "' and VHVIN eq '" + oVin + "' and Langu eq '" + sSelectedLocale.toUpperCase() + "'"
 				},
 				success: $.proxy(function (data) {
+					this.getModel("LocalDataModel").setProperty("/labourBusyIndicator", false);
 					var oLabourArray = data.results.filter(function (item) {
 
 						return item.J_3GKATNRC[0] != "P";
@@ -5805,9 +5831,10 @@ sap.ui.define([
 					this.getModel("LocalDataModel").setProperty("/oPaintList", oPaintData);
 
 				}, this),
-				error: function () {
+				error: $.proxy(function () {
+					this.getModel("LocalDataModel").setProperty("/labourBusyIndicator", false);
 					console.log("Error");
-				}
+				}, this)
 			});
 
 			var sInputValue = oEvent.getSource().getValue();
@@ -5846,12 +5873,13 @@ sap.ui.define([
 			} else {
 				sSelectedLocale = "en"; // default is english
 			}
-
+			this.getModel("LocalDataModel").setProperty("/labourBusyIndicator", true);
 			oProssingModel.read("/zc_get_operation_numberSet", {
 				urlParameters: {
 					"$filter": "CLMNO eq '" + oClaimNum + "' and VHVIN eq '" + oVin + "' and Langu eq '" + sSelectedLocale.toUpperCase() + "'"
 				},
 				success: $.proxy(function (data) {
+					this.getModel("LocalDataModel").setProperty("/labourBusyIndicator", false);
 					var oLabourArray = data.results.filter(function (item) {
 
 						return item.J_3GKATNRC[0] != "P";
@@ -5867,9 +5895,10 @@ sap.ui.define([
 					this.getModel("LocalDataModel").setProperty("/oPaintList", oPaintData);
 
 				}, this),
-				error: function () {
+				error: $.proxy(function () {
+					this.getModel("LocalDataModel").setProperty("/labourBusyIndicator", false);
 					console.log("Error");
-				}
+				}, this)
 			});
 
 			var sInputValue = oEvent.getSource().getValue();
@@ -7014,9 +7043,10 @@ sap.ui.define([
 									});
 
 								}, this),
-								error: function (err) {
-
-								}
+								error: $.proxy(function (err) {
+									MessageToast.show(oBundle.getText("SystemInternalError"));
+									this.getView().getModel("DateModel").setProperty("/errorBusyIndicator", false);
+								}, this)
 							});
 
 						}, this)
