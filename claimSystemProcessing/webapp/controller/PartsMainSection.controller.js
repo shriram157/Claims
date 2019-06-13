@@ -1551,7 +1551,7 @@ sap.ui.define([
 					this.claimType = this.obj.WarrantyClaimType;
 				}
 
-				if (this.claimType == "ZPDC" && this.getView().getModel("PartDataModel").getProperty("/DiscreCode") == "8A") {
+				if (this.claimType === "ZPDC" && this.getView().getModel("PartDataModel").getProperty("/DiscreCode") === "8A") {
 					this.getView().getModel("DateModel").setProperty("/oLetterOfIntent", true);
 				} else if (this.claimType == "ZPTS") {
 					this.getView().getModel("DateModel").setProperty("/oLetterOfIntent", true);
@@ -3124,7 +3124,7 @@ sap.ui.define([
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var that = this;
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
-			this.obj.NumberOfWarrantyClaim = oClaimNum;
+			// this.obj.NumberOfWarrantyClaim = oClaimNum;
 			var reader = new FileReader();
 
 			if (oClaimNum != "" && oClaimNum != undefined && oClaimNum != "nun") {
@@ -3699,45 +3699,45 @@ sap.ui.define([
 
 		onStep03Next: function () {
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
+
+			var validator = new Validator();
+			validator.validate(this.byId("partTable"));
 			if (this.getView().getModel("DateModel").getProperty("/SavePart2") == false) {
 				MessageBox.show(this.oBundle.getText("PleaseSavePart"), MessageBox.Icon.ERROR, "Reminder", MessageBox.Action.OK,
 					null, null);
-			} else {
-				var validator = new Validator();
-				validator.validate(this.byId("partTable"));
-				if (this.getView().getModel("DateModel").getProperty("/oLetterOfIntent") == true) {
-					MessageBox.show(this.oBundle.getText("LOIMandatoryBeforeTCISubmit"), MessageBox.Icon.INFORMATION, "Reminder", MessageBox.Action.OK,
-						null, null);
-				}
-				if (!validator.isValid()) {
-					//do something additional to drawing red borders? message box?
-					this.getView().byId("idMainClaimMessage").setProperty("visible", true);
-					this.getView().byId("idFilter03").setProperty("enabled", false);
-					this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
-					this.getView().getModel("DateModel").setProperty("/submitTCIBtn", false);
-					this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
-					this.getView().byId("idMainClaimMessage").setType("Error");
-					return;
-				}
-				if (validator.isValid()) {
-					this.getView().byId("mainSectionTitle").setTitle(this.oBundle.getText("ValidatePartsSection"));
-					/*Uncomment for security*/
-					if (userScope == "ReadOnlyViewAll") {
-						this.getView().getModel("DateModel").setProperty("/submitTCIBtn", false);
-						this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
-					} else {
-						/*Uncomment for security*/
-						this.getView().getModel("DateModel").setProperty("/submitTCIBtn", true);
-						this.getView().getModel("DateModel").setProperty("/SaveClaim07", true);
-						/*Uncomment for security*/
-					}
-					/*Uncomment for security*/
-					this.getView().byId("idMainClaimMessage").setProperty("visible", false);
-					this.getView().byId("idMainClaimMessage").setType("None");
-					this.getView().byId("idFilter03").setProperty("enabled", true);
-					this.getView().byId("idPartClaimIconBar").setSelectedKey("Tab3");
-				}
+			} else if (this.getView().getModel("DateModel").getProperty("/oLetterOfIntent") == true) {
+				MessageBox.show(this.oBundle.getText("LOIMandatoryBeforeTCISubmit"), MessageBox.Icon.INFORMATION, "Reminder", MessageBox.Action.OK,
+					null, null);
 			}
+			if (!validator.isValid()) {
+				//do something additional to drawing red borders? message box?
+				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+				this.getView().byId("idFilter03").setProperty("enabled", false);
+				this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
+				this.getView().getModel("DateModel").setProperty("/submitTCIBtn", false);
+				this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
+				this.getView().byId("idMainClaimMessage").setType("Error");
+				return;
+			}
+			if (validator.isValid()) {
+				this.getView().byId("mainSectionTitle").setTitle(this.oBundle.getText("ValidatePartsSection"));
+				/*Uncomment for security*/
+				if (userScope == "ReadOnlyViewAll") {
+					this.getView().getModel("DateModel").setProperty("/submitTCIBtn", false);
+					this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
+				} else {
+					/*Uncomment for security*/
+					this.getView().getModel("DateModel").setProperty("/submitTCIBtn", true);
+					this.getView().getModel("DateModel").setProperty("/SaveClaim07", true);
+					/*Uncomment for security*/
+				}
+				/*Uncomment for security*/
+				this.getView().byId("idMainClaimMessage").setProperty("visible", false);
+				this.getView().byId("idMainClaimMessage").setType("None");
+				this.getView().byId("idFilter03").setProperty("enabled", true);
+				this.getView().byId("idPartClaimIconBar").setSelectedKey("Tab3");
+			}
+
 		},
 		onRevalidate: function () {
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
@@ -3855,11 +3855,33 @@ sap.ui.define([
 											success: $.proxy(function (errorData) {
 												this.getModel("LocalDataModel").setProperty("/oErrorSet", errorData.results[0].zc_claim_vsrSet.results);
 												this.obj.zc_claim_vsrSet.results.pop(oObj);
+
+												this.getView().getModel("PartDataModel").setProperty("/LineNo", "");
+												this.getView().getModel("PartDataModel").setProperty("/matnr", "");
+												this.getView().getModel("PartDataModel").setProperty("/quant", "");
+												this.getView().getModel("PartDataModel").setProperty("/quant2", "");
+												this.getView().getModel("PartDataModel").setProperty("/PartDescription", "");
+												this.getView().getModel("PartDataModel").setProperty("/DiscreCode", "");
+												this.getView().getModel("PartDataModel").setProperty("/RetainPart", "");
+												this.getView().getModel("HeadSetData").setProperty("/PartRepaired", "");
+												this.getView().getModel("HeadSetData").setProperty("/RepairOrRetrunPart", "");
+												this.getView().getModel("HeadSetData").setProperty("/RepairAmount", "");
+												this.getView().getModel("PartDataModel").setProperty("/QuantityReceived", "0");
+												this.getModel("LocalDataModel").setProperty("/partItemAttachments", "");
+												this.getView().getModel("AttachmentModel").setProperty("/" + "/items", "");
+												this.getView().getModel("HeadSetData").setProperty("/PartNumberRc", "");
+												this.getView().getModel("PartDataModel").setProperty("/PartNumberRcDesc", "");
+												this.getView().getModel("HeadSetData").setProperty("/DamageCondition", "");
+												this.getView().getModel("HeadSetData").setProperty("/MiscellaneousCode", "");
+												this.getView().getModel("HeadSetData").setProperty("/TranportShortageType", "");
+
 												if (response.data.zc_claim_vsrSet.results.length <= 0) {
 													this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
 													this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
 													this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", false);
 													this.getView().getModel("DateModel").setProperty("/submitTCIBtn", false);
+													this.getView().getModel("DateModel").setProperty("/partLine", false);
+													this.getView().getModel("DateModel").setProperty("/saveParts", false);
 													MessageToast.show(oBundle.getText("ClaimNumber") + " " + oClaimNum + " " + oBundle.getText(
 														"successfullysubmittedTCI"), {
 														my: "center center",
@@ -3870,6 +3892,8 @@ sap.ui.define([
 												} else {
 													this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
 													this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", true);
+													this.getView().getModel("DateModel").setProperty("/partLine", false);
+													this.getView().getModel("DateModel").setProperty("/saveParts", false);
 													MessageToast.show(
 														oBundle.getText("ClaimNumber") + " " + oClaimNum + " " + oBundle.getText(
 															"RejectedTCIValidationResultsdetails"), {
@@ -4103,7 +4127,7 @@ sap.ui.define([
 				"HeadText": "",
 				"text": null,
 				"number": 0,
-				"NameOfPersonRespWhoChangedObj":""
+				"NameOfPersonRespWhoChangedObj": ""
 			});
 			HeadSetData.setDefaultBindingMode("TwoWay");
 			this.getView().setModel(HeadSetData, "HeadSetData");
@@ -4129,7 +4153,7 @@ sap.ui.define([
 				"DealerContact": "",
 				"DeliveringCarrier": "",
 				"HeadText": "",
-				"NameOfPersonRespWhoChangedObj":""
+				"NameOfPersonRespWhoChangedObj": ""
 			};
 
 			this.optionChanged = false;
