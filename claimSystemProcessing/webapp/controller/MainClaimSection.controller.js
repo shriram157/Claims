@@ -6774,7 +6774,7 @@ sap.ui.define([
 
 			// 			WarrantyClaimSubType
 			// 			WarrantyClaimType
-
+			this.fnDisableLine();
 			var oClaimModel = this.getModel("ProssingModel");
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			this.obj.WarrantyClaimType = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType");
@@ -7159,6 +7159,27 @@ sap.ui.define([
 			if (oVal.length > 0) {
 				this.getView().byId("idT2Field").setValueState("None");
 			}
+		},
+
+		fnDisableLine: function () {
+			this.getView().getModel("DateModel").setProperty("/partLine", false);
+			this.getView().getModel("PartDataModel").setProperty("/matnr", "");
+			this.getView().getModel("PartDataModel").setProperty("/quant", "");
+			this.getView().getModel("PartDataModel").setProperty("/PartDescription", "");
+			this.getView().getModel("LocalDataModel").setProperty("/BaseUnit", "");
+			this.getView().getModel("DateModel").setProperty("/labourLine", false);
+			this.getView().getModel("LabourDataModel").setProperty("/LabourOp", "");
+			this.getView().getModel("LabourDataModel").setProperty("/ClaimedHours", "");
+			this.getView().getModel("LabourDataModel").setProperty("/LabourDescription", "");
+			this.getView().getModel("DateModel").setProperty("/paintLine", false);
+			this.getView().getModel("PaintDataModel").setProperty("/PaintPositionCode", "");
+			this.getView().getModel("DateModel").setProperty("/subletLine", false);
+			this.getView().getModel("SubletDataModel").setProperty("/SubletCode", "");
+			this.getView().getModel("SubletDataModel").setProperty("/InvoiceNo", "");
+			this.getView().getModel("SubletDataModel").setProperty("/Amount", "");
+			this.getView().getModel("SubletDataModel").setProperty("/description", "");
+			this.getView().getModel("SubletDataModel").setProperty("/brand", "");
+			this.getView().getModel("SubletDataModel").setProperty("/days", "");
 		},
 
 		onExit: function () {
