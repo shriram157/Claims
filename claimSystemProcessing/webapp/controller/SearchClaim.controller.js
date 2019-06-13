@@ -673,6 +673,36 @@ sap.ui.define([
 						this.getModel("LocalDataModel").setProperty("/ZcClaimHeadNewData", data.results);
 					}, this)
 				});
+			} else if (sQueryStat != "" && sQueryClaimType == "" && sQueryClaimGroup != "" && sQueryDate != "" && sQueryDealer != "" &&
+				sQuerySearchText != "") {
+
+				oProssingModel.read("/ZC_CLAIM_HEAD_NEW", {
+					urlParameters: {
+						"$filter": "" + sDate + " ge datetime'" + FromDateFormat +
+							"'and " + sDate + " le datetime'" + ToDateFormat +
+							"'and Partner eq '" + sQueryDealer + "'and  ClaimGroup eq '" + sQueryClaimGroup + "'and " + sQuerySearchBy + " eq '" +
+							sQuerySearchText + "'and (" + oResult + ")"
+					},
+					success: $.proxy(function (data) {
+						this.getView().getModel("DateModel").setProperty("/tableBusyIndicator", false);
+						this.getModel("LocalDataModel").setProperty("/ZcClaimHeadNewData", data.results);
+					}, this)
+				});
+			} else if (sQueryStat == "" && sQueryClaimType == "" && sQueryClaimGroup != "" && sQueryDate != "" && sQueryDealer != "" &&
+				sQuerySearchText != "") {
+
+				oProssingModel.read("/ZC_CLAIM_HEAD_NEW", {
+					urlParameters: {
+						"$filter": "" + sDate + " ge datetime'" + FromDateFormat +
+							"'and " + sDate + " le datetime'" + ToDateFormat +
+							"'and Partner eq '" + sQueryDealer + "'and  ClaimGroup eq '" + sQueryClaimGroup + "'and " + sQuerySearchBy + " eq '" +
+							sQuerySearchText + "'"
+					},
+					success: $.proxy(function (data) {
+						this.getView().getModel("DateModel").setProperty("/tableBusyIndicator", false);
+						this.getModel("LocalDataModel").setProperty("/ZcClaimHeadNewData", data.results);
+					}, this)
+				});
 			} else if (sQueryStat != "" && sQuerySearchText != "" && sQueryDate != "" && sQueryClaimGroup == "" && sQueryDealer != "" &&
 				sQueryClaimType == "") {
 
