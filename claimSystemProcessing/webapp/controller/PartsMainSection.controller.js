@@ -2142,7 +2142,6 @@ sap.ui.define([
 									"ContactbyphoneDate": this._fnDateFormat(this.getView().getModel("LOIDataModel").getProperty("/DateLOI")),
 									"ContactbyphoneTime": this.timeFormatter.format(new Date(Number(this.getView().getModel("LOIDataModel").getProperty(
 										"/AtLOI02")))),
-									"NameOfPersonRespWhoChangedObj": this.getModel("LocalDataModel").getProperty("/LoginId").substr(0, 12),
 									"ContactbyphoneRepName": this.getView().getModel("LOIDataModel").getProperty("/RepresntativeName"),
 									"Tracerequest": this.getView().getModel("LOIDataModel").getProperty("/RadioTR"),
 									"InspectionWaived": this.getView().getModel("LOIDataModel").getProperty("/RadioCR"),
@@ -2212,35 +2211,6 @@ sap.ui.define([
 										});
 									}, _that),
 									error: function (err) {
-										// var LOIData = new sap.ui.model.json.JSONModel({
-										// 	"claimNumber": "",
-										// 	"CarrierName": "",
-										// 	"CarrierAddress": "",
-										// 	"TextAttentionLOI": that.oBundle.getText("ClaimsDepartment"),
-										// 	"TextStripLOI": "",
-										// 	"TopTextLOI": that.oBundle.getText("WithoutPrejudice"),
-										// 	"LOIDate": new Date(),
-										// 	"DeliveryDateLOI": "",
-										// 	"AtLOI": "",
-										// 	"WaybillNoLOI": "",
-										// 	"RadioException": that.oBundle.getText("Damage"),
-										// 	"estClaimValueLOI": "",
-										// 	"LOIDescp": "",
-										// 	"RadioCCPhoneEmail": "Y",
-										// 	"DateLOI": "",
-										// 	"AtLOI02": "",
-										// 	"RepresntativeName": "",
-										// 	"RadioTR": "Y",
-										// 	"RadioCR": "Y",
-										// 	"RadioParts": "H",
-										// 	"ursTrulyText": "",
-										// 	"PhoneLOI": "",
-										// 	"LOIExt": "",
-										// 	"LOIEmail": "",
-										// 	"ReAddress": ""
-										// });
-										// LOIData.setDefaultBindingMode("TwoWay");
-										// _that.getView().setModel(LOIData, "LOIDataModel");
 										console.log(err);
 										var errMsg = (JSON.parse(err.responseText)).error.message.value;
 										// MessageBox.error(errMsg);
