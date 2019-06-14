@@ -8,9 +8,8 @@ sap.ui.define([
 	"sap/ui/core/ValueState",
 	"zclaimProcessing/utils/Validator",
 	'sap/ui/model/Filter',
-	'sap/m/Button',
-	"zclaimProcessing/libs/moment"
-], function (Dialog, Label, MessageToast, Text, BaseController, base64, ValueState, Validator, Filter, Button, moment) {
+	'sap/m/Button'
+], function (Dialog, Label, MessageToast, Text, BaseController, base64, ValueState, Validator, Filter, Button) {
 	"use strict";
 
 	return BaseController.extend("zclaimProcessing.controller.MainClaimSection", {
@@ -2593,7 +2592,7 @@ sap.ui.define([
 			if (elm != "" && elm != null && elm != NaN) {
 				// var oNumTime = Date.UTC(elm.getFullYear(), elm.getMonth(), elm.getDate(),
 				// 	elm.getHours(), elm.getMinutes(), elm.getSeconds(), elm.getMilliseconds());
-				var oNumTime = new Date(elm).getTime();
+				var oNumTime = moment.utc(new Date(elm)).valueOf();
 				var oTime = "\/Date(" + oNumTime + ")\/";
 				return oTime;
 			} else {
