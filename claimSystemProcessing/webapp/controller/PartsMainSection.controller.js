@@ -314,8 +314,6 @@ sap.ui.define([
 			//ZDLR_CLAIM_SRV/zc_get_delidateSet(DeliNum='80000029')?$format=json	
 		},
 		_onRoutMatched: function (oEvent) {
-			//ZDLR_CLAIM_SRV/zc_claim_groupSet?$filter=LanguageKey%20eq%20%27EN%27
-			//zc_claim_groupSet?$filter=LanguageKey%20eq%20%27EN%27
 			var sSelectedLocale;
 			var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
 			if (isLocaleSent) {
@@ -378,7 +376,8 @@ sap.ui.define([
 					waybilltype: "None",
 					obdValueState: "None",
 					SavePart2: false,
-					DelDateEdit: false
+					DelDateEdit: false,
+					PWPrintEnable:false
 				});
 			} else {
 				/*Uncomment for security*/
@@ -402,9 +401,9 @@ sap.ui.define([
 					waybilltype: "None",
 					obdValueState: "None",
 					SavePart2: false,
-					DelDateEdit: false
+					DelDateEdit: false,
+					PWPrintEnable:false
 				});
-				/*Uncomment for security*/
 			}
 			/*Uncomment for security*/
 			this.getView().setModel(oDateModel, "DateModel");
@@ -416,6 +415,7 @@ sap.ui.define([
 			// this.getModel("LOIDataModel").setProperty("/claimNumber", oClaim);
 			// LOIDataModel claimNumber
 			if (oClaim != "nun" && oClaim != undefined) {
+				this.getView().getModel("DateModel").setProperty("/PWPrintEnable", true);
 				this.getModel("LocalDataModel").setProperty("/step01Next", true);
 				this.claimType = oEvent.getParameters().arguments.oKey;
 				if (this.claimType === "ZPDC") {
@@ -592,6 +592,19 @@ sap.ui.define([
 							}
 							/*Uncomment for security*/
 						}
+
+						oProssingModel.read("/zc_headSet", {
+							urlParameters: {
+								"$filter": "NumberOfWarrantyClaim eq '" + this.getModel("LocalDataModel").getProperty(
+										"/WarrantyClaimNum") +
+									"'and LanguageKey eq '" + sSelectedLocale.toUpperCase() + "'",
+								"$expand": "zc_claim_read_descriptionSet"
+							},
+							success: $.proxy(function (Data) {
+								this.getView().getModel("HeadSetData").setProperty("/HeadText", Data.results[0].zc_claim_read_descriptionSet.results[0]
+									.HeadText);
+							}, this)
+						});
 						/*Uncomment for security*/
 
 					}, this),
@@ -1428,6 +1441,23 @@ sap.ui.define([
 
 		},
 
+		//For Pring Functionality
+		onPressPWPrint: function () {
+			//ZDLR_CLAIM_SRV/zc_claim_printSet(NumberOfWarrantyClaim='000030000662',PrintType='NON_WTY')/$value
+			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
+			var isProxy = "";
+			if (window.document.domain == "localhost") {
+				isProxy = "proxy";
+			}
+			var w = window.open(isProxy +
+				"/node/ZDLR_CLAIM_SRV/zc_claim_printSet(NumberOfWarrantyClaim='" + oClaimNum + "',PrintType='NON_WTY')/$value",
+				'_blank');
+			if (w === null) {
+				console.log("Error");
+				//MessageBox.warning(oBundle.getText("Error.PopUpBloqued"));
+			}
+		},
+
 		onPressSavePartClaim: function () {
 			// this.getView().getModel("DateModel").setProperty("/SavePart2", true);
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
@@ -2142,7 +2172,6 @@ sap.ui.define([
 									"ContactbyphoneDate": this._fnDateFormat(this.getView().getModel("LOIDataModel").getProperty("/DateLOI")),
 									"ContactbyphoneTime": this.timeFormatter.format(new Date(Number(this.getView().getModel("LOIDataModel").getProperty(
 										"/AtLOI02")))),
-									"NameOfPersonRespWhoChangedObj": this.getModel("LocalDataModel").getProperty("/LoginId").substr(0, 12),
 									"ContactbyphoneRepName": this.getView().getModel("LOIDataModel").getProperty("/RepresntativeName"),
 									"Tracerequest": this.getView().getModel("LOIDataModel").getProperty("/RadioTR"),
 									"InspectionWaived": this.getView().getModel("LOIDataModel").getProperty("/RadioCR"),
@@ -2212,35 +2241,6 @@ sap.ui.define([
 										});
 									}, _that),
 									error: function (err) {
-										// var LOIData = new sap.ui.model.json.JSONModel({
-										// 	"claimNumber": "",
-										// 	"CarrierName": "",
-										// 	"CarrierAddress": "",
-										// 	"TextAttentionLOI": that.oBundle.getText("ClaimsDepartment"),
-										// 	"TextStripLOI": "",
-										// 	"TopTextLOI": that.oBundle.getText("WithoutPrejudice"),
-										// 	"LOIDate": new Date(),
-										// 	"DeliveryDateLOI": "",
-										// 	"AtLOI": "",
-										// 	"WaybillNoLOI": "",
-										// 	"RadioException": that.oBundle.getText("Damage"),
-										// 	"estClaimValueLOI": "",
-										// 	"LOIDescp": "",
-										// 	"RadioCCPhoneEmail": "Y",
-										// 	"DateLOI": "",
-										// 	"AtLOI02": "",
-										// 	"RepresntativeName": "",
-										// 	"RadioTR": "Y",
-										// 	"RadioCR": "Y",
-										// 	"RadioParts": "H",
-										// 	"ursTrulyText": "",
-										// 	"PhoneLOI": "",
-										// 	"LOIExt": "",
-										// 	"LOIEmail": "",
-										// 	"ReAddress": ""
-										// });
-										// LOIData.setDefaultBindingMode("TwoWay");
-										// _that.getView().setModel(LOIData, "LOIDataModel");
 										console.log(err);
 										var errMsg = (JSON.parse(err.responseText)).error.message.value;
 										// MessageBox.error(errMsg);
@@ -3398,6 +3398,7 @@ sap.ui.define([
 		},
 
 		_fnUpdateClaimParts: function () {
+			this.getView().getModel("DateModel").setProperty("/PWPrintEnable", true);
 			if ((this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZPDC" || this.getView().getModel("HeadSetData").getProperty(
 					"/WarrantyClaimType") == "ZPTS") && this.getView().getModel("HeadSetData").getProperty("/TCIWaybillNumber") == "") {
 				this.getView().getModel("DateModel").setProperty("/waybilltype", "Error");
@@ -3637,6 +3638,19 @@ sap.ui.define([
 								this.getView().getModel("HeadSetData").setProperty("/NumberOfWarrantyClaim", this.getModel("LocalDataModel").getProperty(
 									"/WarrantyClaimNum"));
 								this.getView().getModel("DateModel").setProperty("/saveParts", true);
+								this.getView().getModel("DateModel").setProperty("/PWPrintEnable", true);
+								oClaimModel.read("/zc_headSet", {
+									urlParameters: {
+										"$filter": "NumberOfWarrantyClaim eq '" + this.getModel("LocalDataModel").getProperty(
+												"/WarrantyClaimNum") +
+											"'and LanguageKey eq '" + sSelectedLocale.toUpperCase() + "'",
+										"$expand": "zc_claim_read_descriptionSet"
+									},
+									success: $.proxy(function (Data) {
+										this.getView().getModel("HeadSetData").setProperty("/HeadText", Data.results[0].zc_claim_read_descriptionSet.results[
+											0].HeadText);
+									}, this)
+								});
 							}, this),
 							error: function (err) {
 								console.log(err);
@@ -3850,10 +3864,12 @@ sap.ui.define([
 											urlParameters: {
 												"$filter": "NumberOfWarrantyClaim eq '" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") +
 													"'and LanguageKey eq '" + sSelectedLocale.toUpperCase() + "'",
-												"$expand": "zc_claim_vsrSet"
+												"$expand": "zc_claim_vsrSet,zc_claim_read_descriptionSet"
 											},
 											success: $.proxy(function (errorData) {
 												this.getModel("LocalDataModel").setProperty("/oErrorSet", errorData.results[0].zc_claim_vsrSet.results);
+												this.getView().getModel("HeadSetData").setProperty("/HeadText", errorData.results[0].zc_claim_read_descriptionSet
+													.results[0].HeadText);
 												this.obj.zc_claim_vsrSet.results.pop(oObj);
 
 												this.getView().getModel("PartDataModel").setProperty("/LineNo", "");
@@ -4023,6 +4039,7 @@ sap.ui.define([
 
 		},
 		onCancelClaim: function (oEvent) {
+			this.getView().getModel("DateModel").setProperty("/PWPrintEnable", true);
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var dialog = new Dialog({
 				title: oBundle.getText("CancelClaim"),
