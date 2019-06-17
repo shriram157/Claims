@@ -592,6 +592,19 @@ sap.ui.define([
 							}
 							/*Uncomment for security*/
 						}
+
+						oProssingModel.read("/zc_headSet", {
+							urlParameters: {
+								"$filter": "NumberOfWarrantyClaim eq '" + this.getModel("LocalDataModel").getProperty(
+										"/WarrantyClaimNum") +
+									"'and LanguageKey eq '" + sSelectedLocale.toUpperCase() + "'",
+								"$expand": "zc_claim_read_descriptionSet"
+							},
+							success: $.proxy(function (Data) {
+								this.getView().getModel("HeadSetData").setProperty("/HeadText", Data.results[0].zc_claim_read_descriptionSet.results[0]
+									.HeadText);
+							}, this)
+						});
 						/*Uncomment for security*/
 
 					}, this),
@@ -3607,6 +3620,18 @@ sap.ui.define([
 								this.getView().getModel("HeadSetData").setProperty("/NumberOfWarrantyClaim", this.getModel("LocalDataModel").getProperty(
 									"/WarrantyClaimNum"));
 								this.getView().getModel("DateModel").setProperty("/saveParts", true);
+								oClaimModel.read("/zc_headSet", {
+									urlParameters: {
+										"$filter": "NumberOfWarrantyClaim eq '" + this.getModel("LocalDataModel").getProperty(
+												"/WarrantyClaimNum") +
+											"'and LanguageKey eq '" + sSelectedLocale.toUpperCase() + "'",
+										"$expand": "zc_claim_read_descriptionSet"
+									},
+									success: $.proxy(function (Data) {
+										this.getView().getModel("HeadSetData").setProperty("/HeadText", Data.results[0].zc_claim_read_descriptionSet.results[
+											0].HeadText);
+									}, this)
+								});
 							}, this),
 							error: function (err) {
 								console.log(err);
@@ -3820,10 +3845,12 @@ sap.ui.define([
 											urlParameters: {
 												"$filter": "NumberOfWarrantyClaim eq '" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") +
 													"'and LanguageKey eq '" + sSelectedLocale.toUpperCase() + "'",
-												"$expand": "zc_claim_vsrSet"
+												"$expand": "zc_claim_vsrSet,zc_claim_read_descriptionSet"
 											},
 											success: $.proxy(function (errorData) {
 												this.getModel("LocalDataModel").setProperty("/oErrorSet", errorData.results[0].zc_claim_vsrSet.results);
+												this.getView().getModel("HeadSetData").setProperty("/HeadText", errorData.results[0].zc_claim_read_descriptionSet
+												.results[0].HeadText);
 												this.obj.zc_claim_vsrSet.results.pop(oObj);
 
 												this.getView().getModel("PartDataModel").setProperty("/LineNo", "");
