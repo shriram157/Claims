@@ -5991,7 +5991,7 @@ sap.ui.define([
 			}
 
 			if (oTableIndex.length == 1) {
-				//var oIndex = parseInt(oTableIndex.toString().split("/")[2]);
+
 				var oIndex = this.obj.zc_claim_item_labourSet.results.findIndex(({
 					LabourNumber
 				}) => LabourNumber == this.getView().getModel("LabourDataModel").getProperty("/LabourOp"));
@@ -6005,12 +6005,6 @@ sap.ui.define([
 				"ClaimedHours": oClaimHr,
 				"LabourDescription": this.getView().getModel("LabourDataModel").getProperty("/LabourDescription")
 			};
-
-			// 			for(var i=0; i<this.obj.zc_claim_item_labourSet.results.length; i++){
-			// 			    if(this.obj.zc_claim_item_labourSet.results[i].LabourNumber != itemObj.LabourNumber){
-
-			// 			    }
-			// 			}
 
 			var oIndexItem = this.obj.zc_claim_item_labourSet.results.findIndex(function (item) {
 				return item.LabourNumber == itemObj.LabourNumber;
@@ -6206,7 +6200,15 @@ sap.ui.define([
 				"ClaimedHours": "0.00"
 			};
 
-			this.obj.zc_claim_item_paintSet.results.push(itemObj);
+			var oIndexItem = this.obj.zc_claim_item_paintSet.results.findIndex(function (item) {
+				return item.PaintPositionCode == itemObj.PaintPositionCode;
+			});
+
+			if (oIndexItem == -1) {
+				this.obj.zc_claim_item_paintSet.results.push(itemObj);
+			}
+
+			//this.obj.zc_claim_item_paintSet.results.push(itemObj);
 
 			var oClaimModel = this.getModel("ProssingModel");
 			// this._oToken = oClaimModel.getHeaders()['x-csrf-token'];
@@ -6372,7 +6374,13 @@ sap.ui.define([
 					"Days": oDays
 				};
 
-				this.obj.zc_item_subletSet.results.push(itemObj);
+				var oIndexItem = this.obj.zc_item_subletSet.results.findIndex(function (item) {
+					return item.SubletType == itemObj.SubletType;
+				});
+
+				if (oIndexItem == -1) {
+					this.obj.zc_item_subletSet.results.push(itemObj);
+				}
 
 				var oClaimModel = this.getModel("ProssingModel");
 
