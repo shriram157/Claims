@@ -2073,7 +2073,7 @@ sap.ui.define([
 				success: $.proxy(function (data) {
 					var oPartnerName = data.results[0].OrganizationBPName1;
 					//var oFinalText = `${oPrevComment} \n  ${oPartnerName} ( ${oDate} ) ${oText}`;
-					var oFinalText = oPrevComment + "\n" + "#" +
+					var oFinalText = oPrevComment + "\n" +
 						oPartnerName + "(" + oDate + ") " + " : " + oText;
 					this.getView().getModel("HeadSetData").setProperty("/HeadText", oFinalText);
 					this.getView().getModel("HeadSetData").setProperty("/NewText", "");
@@ -4524,15 +4524,24 @@ sap.ui.define([
 		},
 
 		onPressAddPart: function () {
+			var oTable = this.getView().byId("idTableParts");
+			oTable.removeSelections("true");
 			this.getView().getModel("DateModel").setProperty("/partLine", true);
 		},
 		onPressAddLabour: function () {
+
+			var oTable = this.getView().byId("idLabourTable");
+			oTable.removeSelections("true");
 			this.getView().getModel("DateModel").setProperty("/labourLine", true);
 		},
 		onPressAddPaint: function () {
+			var oTable = this.getView().byId("idPaintTable");
+			oTable.removeSelections("true");
 			this.getView().getModel("DateModel").setProperty("/paintLine", true);
 		},
 		onPressAddSublet: function () {
+			var oTable = this.getView().byId("idSubletTable");
+			oTable.removeSelections("true");
 			this.getView().getModel("DateModel").setProperty("/subletLine", true);
 		},
 		onPressRecalculate: function () {
@@ -5997,7 +6006,19 @@ sap.ui.define([
 				"LabourDescription": this.getView().getModel("LabourDataModel").getProperty("/LabourDescription")
 			};
 
-			this.obj.zc_claim_item_labourSet.results.push(itemObj);
+			// 			for(var i=0; i<this.obj.zc_claim_item_labourSet.results.length; i++){
+			// 			    if(this.obj.zc_claim_item_labourSet.results[i].LabourNumber != itemObj.LabourNumber){
+
+			// 			    }
+			// 			}
+
+			var oIndexItem = this.obj.zc_claim_item_labourSet.results.findIndex(function (item) {
+				return item.LabourNumber == itemObj.LabourNumber;
+			});
+
+			if (oIndexItem == -1) {
+				this.obj.zc_claim_item_labourSet.results.push(itemObj);
+			}
 
 			var oClaimModel = this.getModel("ProssingModel");
 
