@@ -15,12 +15,12 @@
 				</TextArea>
 				<core:Title text=""/>
 				<Label text="{i18n>NewComment}"/>
-				<TextArea height="8rem" value="{HeadSetData>/NewPartsText}">
+				<TextArea height="8rem" value="{HeadSetData>/NewPartsText}"  liveChange="onEnterPWCommentText">
 					<layoutData>
 						<l:GridData span="XL8 L8 M8 S12"/>
 					</layoutData>
 				</TextArea>
-				<Button text="{i18n>Add}" press="onEnterPartsComments" type="Emphasized">
+				<Button text="{i18n>Add}" press="onEnterPartsComments" type="Emphasized" enabled="{LocalDataModel>/enablePWEnterComment}">
 					<layoutData>
 						<l:GridData span="XL2 L2 M3 S4"/>
 					</layoutData>

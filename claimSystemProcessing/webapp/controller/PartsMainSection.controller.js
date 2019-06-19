@@ -330,23 +330,11 @@ sap.ui.define([
 				},
 				success: $.proxy(function (groupData) {
 					var oClaimGroupsData;
-					console.log("groupData", groupData);
-					// if (sSelectedLocale == "EN") {
-					console.log(that.oBundle.getText("partwarehouse"));
 					oClaimGroupsData = groupData.results.filter(function (item) {
 						item.ALMClaimTypeDes = item.ALMClaimTypeDes;
 						item.ALMClaimType = item.WarrantyClaimType;
 						return item.ClaimGroupDes == that.oBundle.getText("partwarehouse").toUpperCase(); //partwarehouse
 					});
-					// 	console.log("oClaimGroupsData", oClaimGroupsData);
-					// } else if (sSelectedLocale == "FR") {
-					// 	oClaimGroupsData = groupData.results.filter(function (item) {
-					// 		item.ALMClaimTypeDes = item.ALMClaimTypeDesFr;
-					// 		item.ALMClaimType = item.WarrantyClaimType;
-					// 		return item.ClaimGroupDesFr == "PART WAREHOUSE"; // "ENTREPÔT PARTIE";
-					// 	});
-					// 	console.log("oClaimGroupsData", oClaimGroupsData);
-					// }
 					this.getModel("LocalDataModel").setProperty("/oClaimPartsGroupsData", oClaimGroupsData);
 				}, this)
 			});
@@ -354,6 +342,7 @@ sap.ui.define([
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var oDateModel = new sap.ui.model.json.JSONModel();
 			this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
+			this.getModel("LocalDataModel").setProperty("/enablePWEnterComment", false);
 			/*Uncomment for security*/
 			if (userScope == "ReadOnlyViewAll") {
 				oDateModel.setData({
@@ -1233,15 +1222,24 @@ sap.ui.define([
 				}
 			}
 		},
-
+		
+		/***************Claim Comment Section**************/
 		onAddPartsComment: function () {
 			var oDialogBox = sap.ui.xmlfragment("zclaimProcessing.view.fragments.PartsClaimComments", this);
 			this.getView().getModel("DateModel").setProperty("/oFormEdit2", true);
 			this.getView().addDependent(oDialogBox);
 			oDialogBox.open();
 		},
-
+		onEnterPWCommentText: function (oEvent) {
+			var oText = oEvent.getParameters().value;
+			if (oText.length >= 2) {
+				this.getModel("LocalDataModel").setProperty("/enablePWEnterComment", true);
+			} else {
+				this.getModel("LocalDataModel").setProperty("/enablePWEnterComment", false);
+			}
+		},
 		onEnterPartsComments: function () {
+			this.getModel("LocalDataModel").setProperty("/enablePWEnterComment", false);
 			var oPrevComment = this.getView().getModel("HeadSetData").getProperty("/HeadText");
 			var oPartner = this.getModel("LocalDataModel").getProperty("/BpDealerModel/0/BusinessPartnerKey");
 			var oDateFormat = sap.ui.core.format.DateFormat.getDateInstance({
@@ -1258,7 +1256,8 @@ sap.ui.define([
 				success: $.proxy(function (data) {
 					var oPartnerName = data.results[0].OrganizationBPName1;
 					//var oFinalText = `${oPrevComment} \n  ${oPartnerName} ( ${oDate} ) ${oText}`;
-					var oFinalText = oPrevComment + "\n" + oPartnerName + "(" + oDate + ") " + " : " + oText;
+					// var oFinalText = oPrevComment + "\n" + oPartnerName + "(" + oDate + ") " + " : " + oText;
+						var oFinalText = oPrevComment + "\r\n" + "#" +oPartnerName + "(" + oDate + ") " + " : " + oText;
 					this.getView().getModel("HeadSetData").setProperty("/HeadText", oFinalText);
 					this.getView().getModel("HeadSetData").setProperty("/NewPartsText", "");
 					// console.log(oFinalText);
