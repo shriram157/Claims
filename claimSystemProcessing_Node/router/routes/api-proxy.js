@@ -73,6 +73,10 @@ module.exports = function (appContext) {
 			method: proxiedMethod,
 			url: proxiedUrl
 		});
+
+		// Remove cookies from the original request to avoid ABAP-related cookies such as MYSAPSSO2 from being proxied
+		delete req.headers.cookie;
+
 		req.pipe(proxiedReq);
 		proxiedReq.on("response", proxiedRes => {
 			tracer.info("Proxied call %s %s successful.", proxiedMethod, proxiedUrl);
