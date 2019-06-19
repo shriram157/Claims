@@ -230,6 +230,8 @@ sap.ui.define([
 
 		_onRoutMatched: function (oEvent) {
 			this.getModel("LocalDataModel").setProperty("/oCurrentDealerLabour", "");
+			this.getModel("LocalDataModel").setProperty("/enableEnterComment", false);
+
 			this._ValidateOnLoad();
 			var sSelectedLocale;
 			//  get the locale to determine the language.
@@ -2055,8 +2057,16 @@ sap.ui.define([
 				});
 
 		},
-
+		onEnterCommentText: function (oEvent) {
+			var oText = oEvent.getParameters().value;
+			if (oText.length >= 2) {
+				this.getModel("LocalDataModel").setProperty("/enableEnterComment", true);
+			} else {
+				this.getModel("LocalDataModel").setProperty("/enableEnterComment", false);
+			}
+		},
 		onEnterComment: function () {
+			this.getModel("LocalDataModel").setProperty("/enableEnterComment", false);
 			var oPrevComment = this.getView().getModel("HeadSetData").getProperty("/HeadText");
 			var oPartner = this.getModel("LocalDataModel").getProperty("/BpDealerModel/0/BusinessPartnerKey");
 			var oDateFormat = sap.ui.core.format.DateFormat.getDateInstance({
@@ -2073,7 +2083,7 @@ sap.ui.define([
 				success: $.proxy(function (data) {
 					var oPartnerName = data.results[0].OrganizationBPName1;
 					//var oFinalText = `${oPrevComment} \n  ${oPartnerName} ( ${oDate} ) ${oText}`;
-					var oFinalText = oPrevComment + "\n" +
+					var oFinalText = oPrevComment + "\r\n" + "#" +
 						oPartnerName + "(" + oDate + ") " + " : " + oText;
 					this.getView().getModel("HeadSetData").setProperty("/HeadText", oFinalText);
 					this.getView().getModel("HeadSetData").setProperty("/NewText", "");
