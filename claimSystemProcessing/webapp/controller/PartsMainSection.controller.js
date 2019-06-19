@@ -684,8 +684,8 @@ sap.ui.define([
 								"RepairDate": this._fnDateFormat(this.getModel("LocalDataModel").getProperty("/ClaimDetails/RepairDate")),
 								"Delivery": this.getView().getModel("HeadSetData").getProperty("/Delivery"),
 								"DeliveryDate": this._fnDateFormat(this.getModel("LocalDataModel").getProperty("/ClaimDetails/DeliveryDate")),
-								"TCIWaybillNumber": "",
-								"ShipmentReceivedDate": null,
+								"TCIWaybillNumber": this.getView().getModel("HeadSetData").getProperty("/TCIWaybillNumber"),
+								"ShipmentReceivedDate": this.getView().getModel("HeadSetData").getProperty("/ShipmentReceivedDate"),
 								"DealerContact": this.getModel("LocalDataModel").getProperty("/ClaimDetails/DealerContact"),
 								"DeliveringCarrier": this.getModel("LocalDataModel").getProperty("/ClaimDetails/DeliveringCarrier"),
 								"HeadText": this.getModel("LocalDataModel").getProperty("/ClaimDetails/HeadText"),
@@ -917,8 +917,8 @@ sap.ui.define([
 								"RepairDate": this._fnDateFormat(this.getModel("LocalDataModel").getProperty("/ClaimDetails/RepairDate")),
 								"Delivery": this.getView().getModel("HeadSetData").getProperty("/Delivery"),
 								"DeliveryDate": this._fnDateFormat(this.getModel("LocalDataModel").getProperty("/ClaimDetails/DeliveryDate")),
-								"TCIWaybillNumber": "",
-								"ShipmentReceivedDate": null,
+								"TCIWaybillNumber": this.getView().getModel("HeadSetData").getProperty("/TCIWaybillNumber"),
+								"ShipmentReceivedDate": this.getView().getModel("HeadSetData").getProperty("/ShipmentReceivedDate"),
 								"DealerContact": this.getModel("LocalDataModel").getProperty("/ClaimDetails/DealerContact"),
 								"DeliveringCarrier": this.getModel("LocalDataModel").getProperty("/ClaimDetails/DeliveringCarrier"),
 								"HeadText": this.getModel("LocalDataModel").getProperty("/ClaimDetails/HeadText"),
@@ -3808,7 +3808,6 @@ sap.ui.define([
 			var oClaimModel = this.getModel("ProssingModel");
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			this.obj.WarrantyClaimType = this.getView().getModel("HeadSetData").getProperty("/ClaimType");
-			console.log("claimType", this.obj.WarrantyClaimType);
 			this.obj.Partner = this.getModel("LocalDataModel").getProperty("/BPDealerDetails/BusinessPartnerKey");
 			this.obj.ActionCode = "";
 			this.obj.NameOfPersonRespWhoChangedObj = this.getModel("LocalDataModel").getProperty("/LoginId").substr(0, 12);
@@ -3819,13 +3818,15 @@ sap.ui.define([
 			this.obj.RepairDate = this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairDate"));
 			this.obj.Delivery = this.getView().getModel("HeadSetData").getProperty("/Delivery");
 			this.obj.DeliveryDate = this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/DeliveryDate"));
-			this.obj.TCIWaybillNumber = "";
-			this.obj.ShipmentReceivedDate = null;
+			this.obj.TCIWaybillNumber = this.getView().getModel("HeadSetData").getProperty("/TCIWaybillNumber");
+			this.obj.ShipmentReceivedDate = this.getView().getModel("HeadSetData").getProperty("/ShipmentReceivedDate");
 			this.obj.DealerContact = this.getView().getModel("HeadSetData").getProperty("/DealerContact");
 			this.obj.DeliveringCarrier = this.getView().getModel("HeadSetData").getProperty("/DeliveringCarrier");
 			this.obj.HeadText = this.getView().getModel("HeadSetData").getProperty("/HeadText");
 			this.obj.Message = "";
 			this.obj.DBOperation = "SUB";
+			
+			console.log("onTCIsubmit", this.obj);
 			// this.obj.NumberOfWarrantyClaim = oClaimNum;
 			var oObj = {
 				"NumberOfWarrantyClaim": this.obj.NumberOfWarrantyClaim,
