@@ -216,7 +216,7 @@ sap.ui.define([
 				type: "GET",
 				dataType: "json",
 				success: function (oData) {
-					console.log("BPNameAddress", oData.d.results);
+					// console.log("BPNameAddress", oData.d.results);
 					if (oData.d.results.length === 1) {
 						oFilteredDealerData = [];
 						var BpLength = oData.d.results[0].BusinessPartner.length;
@@ -253,10 +253,10 @@ sap.ui.define([
 						});
 					});
 
-					console.log("Role BP list filtered", BpDealerList);
+					// console.log("Role BP list filtered", BpDealerList);
 					that.getView().getModel("BpDealerModel").setProperty("/BpDealerList", BpDealerList);
 					// that.getView().getModel("BpDealerModel").updateBindings(true);
-					console.log("BPDealerModel", that.getView().getModel("BpDealerModel"));
+					// console.log("BPDealerModel", that.getView().getModel("BpDealerModel"));
 
 				},
 				error: function (response) {
@@ -330,23 +330,11 @@ sap.ui.define([
 				},
 				success: $.proxy(function (groupData) {
 					var oClaimGroupsData;
-					console.log("groupData", groupData);
-					// if (sSelectedLocale == "EN") {
-					console.log(that.oBundle.getText("partwarehouse"));
 					oClaimGroupsData = groupData.results.filter(function (item) {
 						item.ALMClaimTypeDes = item.ALMClaimTypeDes;
 						item.ALMClaimType = item.WarrantyClaimType;
 						return item.ClaimGroupDes == that.oBundle.getText("partwarehouse").toUpperCase(); //partwarehouse
 					});
-					// 	console.log("oClaimGroupsData", oClaimGroupsData);
-					// } else if (sSelectedLocale == "FR") {
-					// 	oClaimGroupsData = groupData.results.filter(function (item) {
-					// 		item.ALMClaimTypeDes = item.ALMClaimTypeDesFr;
-					// 		item.ALMClaimType = item.WarrantyClaimType;
-					// 		return item.ClaimGroupDesFr == "PART WAREHOUSE"; // "ENTREPÔT PARTIE";
-					// 	});
-					// 	console.log("oClaimGroupsData", oClaimGroupsData);
-					// }
 					this.getModel("LocalDataModel").setProperty("/oClaimPartsGroupsData", oClaimGroupsData);
 				}, this)
 			});
@@ -354,6 +342,7 @@ sap.ui.define([
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var oDateModel = new sap.ui.model.json.JSONModel();
 			this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
+			this.getModel("LocalDataModel").setProperty("/enablePWEnterComment", false);
 			/*Uncomment for security*/
 			if (userScope == "ReadOnlyViewAll") {
 				oDateModel.setData({
@@ -560,15 +549,13 @@ sap.ui.define([
 					urlParameters: {
 						"$filter": "NumberOfWarrantyClaim eq '" + oClaim + "' "
 					},
-					success: $.proxy(function (data) {
+					success: $.proxy(function (data) {console.log(data.results);
 						this.getModel("LocalDataModel").setProperty("/ClaimDetails", data.results[0]);
 						this.getModel("LocalDataModel").setProperty("/BPPartner", data.results[0].Partner);
 						BPKey = data.results[0].Partner;
 						this._getBPModel(BPKey);
 						this.getModel("LocalDataModel").setProperty("/NumberOfWarrantyClaim", data.results[0].NumberOfWarrantyClaim);
-						// this.getModel("LocalDataModel").setProperty("/PartDetailList", data.results[0].to_claimitem.results);
-						console.log(data.results);
-						console.log("oFilteredDealerData", oFilteredDealerData);
+					
 						var HeadSetData = new sap.ui.model.json.JSONModel(data.results[0]);
 						HeadSetData.setDefaultBindingMode("TwoWay");
 						this.getView().setModel(HeadSetData, "HeadSetData");
@@ -634,7 +621,7 @@ sap.ui.define([
 							}
 							this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
 
-							// this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
+							console.log("pricing data",oFilteredData);
 							var PartItem = oFilteredData.map(function (item) {
 								if (item.RepairOrRetrunPart == "Yes") {
 									var RepairPart = "Y";
@@ -866,6 +853,7 @@ sap.ui.define([
 								}
 							}
 							this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
+							console.log("pricing data",oFilteredData);
 
 							// this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
 							var PartItem = oFilteredData.map(function (item) {
@@ -1233,15 +1221,24 @@ sap.ui.define([
 				}
 			}
 		},
-
+		
+		/***************Claim Comment Section**************/
 		onAddPartsComment: function () {
 			var oDialogBox = sap.ui.xmlfragment("zclaimProcessing.view.fragments.PartsClaimComments", this);
 			this.getView().getModel("DateModel").setProperty("/oFormEdit2", true);
 			this.getView().addDependent(oDialogBox);
 			oDialogBox.open();
 		},
-
+		onEnterPWCommentText: function (oEvent) {
+			var oText = oEvent.getParameters().value;
+			if (oText.length >= 2) {
+				this.getModel("LocalDataModel").setProperty("/enablePWEnterComment", true);
+			} else {
+				this.getModel("LocalDataModel").setProperty("/enablePWEnterComment", false);
+			}
+		},
 		onEnterPartsComments: function () {
+			this.getModel("LocalDataModel").setProperty("/enablePWEnterComment", false);
 			var oPrevComment = this.getView().getModel("HeadSetData").getProperty("/HeadText");
 			var oPartner = this.getModel("LocalDataModel").getProperty("/BpDealerModel/0/BusinessPartnerKey");
 			var oDateFormat = sap.ui.core.format.DateFormat.getDateInstance({
@@ -1258,7 +1255,8 @@ sap.ui.define([
 				success: $.proxy(function (data) {
 					var oPartnerName = data.results[0].OrganizationBPName1;
 					//var oFinalText = `${oPrevComment} \n  ${oPartnerName} ( ${oDate} ) ${oText}`;
-					var oFinalText = oPrevComment + "\n" + oPartnerName + "(" + oDate + ") " + " : " + oText;
+					// var oFinalText = oPrevComment + "\n" + oPartnerName + "(" + oDate + ") " + " : " + oText;
+						var oFinalText = oPrevComment + "\r\n" + "#" +oPartnerName + "(" + oDate + ") " + " : " + oText;
 					this.getView().getModel("HeadSetData").setProperty("/HeadText", oFinalText);
 					this.getView().getModel("HeadSetData").setProperty("/NewPartsText", "");
 					// console.log(oFinalText);
@@ -2320,10 +2318,10 @@ sap.ui.define([
 				oEvent.getSource().getParent().getParent().destroy();
 				this.getView().getModel("DateModel").setProperty("/partTypeState", "None");
 			} else {
-				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
-				this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
-				this.getView().byId("idMainClaimMessage").setType("Error");
-				this.getView().getModel("DateModel").setProperty("/partTypeState", "Error");
+				sap.ui.getCore().byId("idMainClaimMessage2").setProperty("visible", true);
+				sap.ui.getCore().byId("idMainClaimMessage2").setText("Please fill up all mandatory fields.");
+				sap.ui.getCore().byId("idMainClaimMessage2").setType("Error");
+				// this.getView().getModel("DateModel").setProperty("/partTypeState", "Error");
 			}
 		},
 

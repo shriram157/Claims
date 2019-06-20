@@ -2,9 +2,8 @@
 	xmlns="sap.m" xmlns:t="sap.ui.table">
 	<Dialog>
 		<content>
-			<VBox width="1024px">
-				<MessageStrip id="idMainClaimMessage" text="" showIcon="true" showCloseButton="false" class="sapUiMediumMarginBottom" visible="false"></MessageStrip>
-				<f:SimpleForm minWidth="1024" id="id_LOIForm01" editable="true" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="4" labelSpanM="4"
+			<VBox width="1024px" class="nostyleForm">
+				<f:SimpleForm id="id_LOIForm01" minWidth="1024" editable="true" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="4" labelSpanM="4"
 					adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" columnsXL="2" columnsL="2" columnsM="2"
 					singleContainerFullSize="false">
 					<f:content>
@@ -144,7 +143,8 @@
 					</f:content>
 				</f:SimpleForm>
 			</VBox>
-			<HBox class="sapUiSmallMarginTop" width="50%" alignContent="Center">
+						<MessageStrip id="idMainClaimMessage2" text="" showIcon="true" showCloseButton="false" visible="false"></MessageStrip>
+			<HBox class="sapUiSmallMarginTop btnPaddings" width="50%" alignContent="Center">
 				<Button class="sapUiSmallMarginBeginEnd" type="Emphasized" text="{i18n>Close}" press="onCloseLetterOfIntent"/>
 				<Button class="sapUiSmallMarginBeginEnd" type="Emphasized" text="{i18n>SendToCarrier}" press="onSendLetterOfIntent"/>
 			</HBox>
