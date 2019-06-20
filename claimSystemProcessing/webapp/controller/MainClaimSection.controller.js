@@ -6081,10 +6081,10 @@ sap.ui.define([
 			var LabourNum = obj.ItemKey;
 
 			var oFindIndexOfSelectedObj = this.obj.zc_claim_item_labourSet.results.findIndex(function (elm) {
-				return elm.ItemKey === LabourNum;
+				return elm.LabourNumber === LabourNum;
 			});
 
-			if (oTableIndex.length == 1 && oFindIndexOfSelectedObj == -1) {
+			if (oTableIndex.length == 1 && oFindIndexOfSelectedObj != -1) {
 
 				var dialog = new Dialog({
 					title: oBundle.getText("deleteLine"),
