@@ -200,3 +200,8 @@
 
 
 /*}*/
+
+/*Parts - letter of intent*/
+.nostyleForm .sapUiFormTitleH5 {  font-size: 0; line-height: 0 !important; height: 0 !important;}
+.nostyleForm .sapUiFormResGridCont { padding-bottom: 0;}
+.btnPaddings{ padding: 0 10rem 1rem;}

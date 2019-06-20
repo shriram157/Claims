@@ -606,7 +606,7 @@ zclaimProcessing.utils.formatter = {
 	},
 
 	roundedDecimals: function (oNumber) {
-		console.log("oNumber", oNumber);
+		// console.log("oNumber", oNumber);
 		if (oNumber !== null && oNumber != undefined && oNumber != "") {
 			var oNumber1, oNumber2, oNum1, oNum2;
 			if (oNumber.length > 10) {
