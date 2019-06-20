@@ -3719,7 +3719,6 @@ sap.ui.define([
 
 		onStep03Next: function () {
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
-
 			var validator = new Validator();
 			validator.validate(this.byId("partTable"));
 			if (this.getView().getModel("DateModel").getProperty("/SavePart2") == false) {
@@ -3729,7 +3728,22 @@ sap.ui.define([
 				MessageBox.show(this.oBundle.getText("LOIMandatoryBeforeTCISubmit"), MessageBox.Icon.INFORMATION, "Reminder", MessageBox.Action.OK,
 					null, null);
 			}
-			else if (!validator.isValid()) {
+			if (userScope == "ReadOnlyViewAll") {
+				this.getView().getModel("DateModel").setProperty("/submitTCIBtn", false);
+				this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
+			} else {
+				if (this.ClaimStatus == "ZTRC" || this.ClaimStatus == "ZTIC") {
+					/*Uncomment for security*/
+					this.getView().getModel("DateModel").setProperty("/submitTCIBtn", true);
+					this.getView().getModel("DateModel").setProperty("/SaveClaim07", true);
+				} else {
+					this.getView().getModel("DateModel").setProperty("/submitTCIBtn", false);
+					this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
+				}
+				/*Uncomment for security*/
+			}
+
+			if (!validator.isValid()) {
 				//do something additional to drawing red borders? message box?
 				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
 				this.getView().byId("idFilter03").setProperty("enabled", false);
@@ -3739,7 +3753,7 @@ sap.ui.define([
 				this.getView().byId("idMainClaimMessage").setType("Error");
 				return;
 			}
-			else if (validator.isValid()) {
+			if (validator.isValid()) {
 				this.getView().byId("mainSectionTitle").setTitle(this.oBundle.getText("ValidatePartsSection"));
 				/*Uncomment for security*/
 				if (userScope == "ReadOnlyViewAll") {
