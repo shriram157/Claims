@@ -605,7 +605,7 @@ sap.ui.define([
 					this.getModel("LocalDataModel").setProperty("/PricingDataModel", "");
 					oProssingModel.read("/zc_claim_item_price_dataSet", {
 						urlParameters: {
-							"$filter": "NumberOfWarrantyClaim eq '" + oClaim + "' "
+							"$filter": "NumberOfWarrantyClaim eq '" + oClaim + "' and LanguageKey eq '"+sSelectedLocale+"'"
 						},
 						success: $.proxy(function (data) {
 							var pricingData = data.results;
@@ -700,7 +700,7 @@ sap.ui.define([
 					this.getModel("LocalDataModel").setProperty("/PricingDataModel", "");
 					oProssingModel.read("/zc_claim_item_price_dataSet", {
 						urlParameters: {
-							"$filter": "NumberOfWarrantyClaim eq '" + oClaim + "'"
+							"$filter": "NumberOfWarrantyClaim eq '" + oClaim +  "' and LanguageKey eq '"+sSelectedLocale+"'"
 						},
 						success: $.proxy(function (pricedata) {
 							var temp = [];
@@ -1473,7 +1473,7 @@ sap.ui.define([
 					oClaimModel.read("/zc_claim_item_price_dataSet", {
 						urlParameters: {
 							"$filter": "NumberOfWarrantyClaim eq '" + this.getView().getModel("HeadSetData").getProperty("/NumberOfWarrantyClaim") +
-								"'and LanguageKey eq 'E'"
+								"'and LanguageKey eq '"+sSelectedLocale+"'"
 						},
 						success: $.proxy(function (pricedata) {
 							MessageToast.show(that.oBundle.getText("ClaimSuccessMSG"));
@@ -1689,7 +1689,7 @@ sap.ui.define([
 									urlParameters: {
 										"$filter": "NumberOfWarrantyClaim eq '" + this.getView().getModel("HeadSetData").getProperty(
 												"/NumberOfWarrantyClaim") +
-											"' and LanguageKey eq 'E'"
+											"' and LanguageKey eq '"+sSelectedLocale+"'"
 									},
 									success: $.proxy(function (pricedata) {
 										MessageToast.show(that.oBundle.getText("PartItemSuccessMSG"));
@@ -1834,7 +1834,7 @@ sap.ui.define([
 									urlParameters: {
 										"$filter": "NumberOfWarrantyClaim eq '" + this.getView().getModel("HeadSetData").getProperty(
 												"/NumberOfWarrantyClaim") +
-											"'and LanguageKey eq 'E'"
+											"'and LanguageKey eq '"+sSelectedLocale+"'"
 									},
 									success: $.proxy(function (pricedata) {
 											var temp = [];
@@ -2723,7 +2723,7 @@ sap.ui.define([
 							urlParameters: {
 								"$filter": "NumberOfWarrantyClaim eq '" + this.getView().getModel("HeadSetData").getProperty(
 										"/NumberOfWarrantyClaim") +
-									"'and LanguageKey eq 'E'"
+									"'and LanguageKey eq '"+sSelectedLocale+"'"
 							},
 							success: $.proxy(function (pricedata) {
 								if (this.claimType != "ZPPD") {
