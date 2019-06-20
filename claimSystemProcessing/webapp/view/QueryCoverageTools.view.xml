@@ -121,7 +121,8 @@
 									<items>
 										<ColumnListItem>
 											<cells>
-												<Text text="{LocalDataModel>AgreementNumber}" wrapping="true"/>
+												<Link text="{LocalDataModel>AgreementNumber}" press="onPressAgreement"/>
+												<!--<Text text="{LocalDataModel>AgreementNumber}" wrapping="true"/>-->
 												<Text text="{LocalDataModel>PlanType}" wrapping="true"/>
 												<Text text="{LocalDataModel>AgreementStatus}" wrapping="true"/>
 												<Text

@@ -156,6 +156,37 @@ sap.ui.define([
 				});
 
 		},
+		onPressAgreement: function (oEvent) {
+			var oECPAgr = oEvent.getSource().getText();
+			var sSelectedLocale;
+			//  get the locale to determine the language.
+			var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
+			if (isLocaleSent) {
+				sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
+			} else {
+				sSelectedLocale = "en"; // default is english
+			}
+			var sDivision = window.location.search.match(/Division=([^&]*)/i)[1];
+
+			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
+			var isProxy = "";
+			var oHref = window.location.href.substr(0, 8);
+			var oInput = window.location.href.substr(8, 4);
+
+			if (window.document.domain == "localhost") {
+				isProxy = "proxy";
+			}
+
+			var w = window.open(this.getModel("LocalDataModel").getProperty("/oECPURL") + "?Division=" + sDivision + "&Language=" +
+				sSelectedLocale +
+				"#/AgreementInquiry/" + oECPAgr + "",
+				'_blank');
+
+			if (w == null) {
+				console.log("Error");
+				//MessageBox.warning(oBundle.getText("Error.PopUpBloqued"));
+			}
+		},
 		/**
 		 * Similar to onAfterRendering, but this hook is invoked before the controller's View is re-rendered
 		 * (NOT before the first rendering! onInit() is used for that one!).
