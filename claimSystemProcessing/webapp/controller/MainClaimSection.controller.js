@@ -4975,56 +4975,6 @@ sap.ui.define([
 				this.getView().byId("idOperationLabour").focus();
 			}
 
-			// 			oProssingModel.read("/zc_get_operation_numberSet", {
-			// 				urlParameters: {
-			// 					"$filter": "CLMNO eq '" + oClaimNum + "' and VHVIN eq '" + oVin + "' and Langu eq '" + sSelectedLocale.toUpperCase() + "'"
-			// 				},
-			// 				success: $.proxy(function (data) {
-			// 					var oLabourArray = data.results.filter(function (item) {
-
-			// 						return item.J_3GKATNRC[0] != "P";
-			// 						//return item.ItemKey[14] == "P";
-			// 					});
-			// 					this.getModel("LocalDataModel").setProperty("/SuggetionOperationList", oLabourArray);
-			// 					var oPaintData = data.results.filter(function (item) {
-
-			// 						return item.J_3GKATNRC[0] == "P";
-
-			// 					});
-			// 					console.log(oPaintData);
-			// 					this.getModel("LocalDataModel").setProperty("/oPaintList", oPaintData);
-
-			// 				}, this),
-			// 				error: function () {
-			// 					console.log("Error");
-			// 				}
-			// 			});
-
-			// oProssingModel.read("/zc_get_operation_numberSet", {
-			// 	urlParameters: {
-			// 		"$filter": "CLMNO eq '" + oClaimNum + "' "
-			// 	},
-			// 	success: $.proxy(function (data) {
-			// 		this.getModel("LocalDataModel").setProperty("/SuggetionOperationList", data.results);
-			// 	}, this),
-			// 	error: function () {
-			// 		console.log("Error");
-			// 	}
-			// });
-
-			// 			oProssingModel.read("/zc_get_suggested_operationsSet", {
-			// 				urlParameters: {
-			// 					"$filter": "CLMNO eq '" + oClaimNum + "'and OFP_GROUP eq '" + oOFP + "' and VHVIN eq '" + oVin + "' and Langu eq '" +
-			// 						sSelectedLocale.toUpperCase() + "'"
-			// 				},
-			// 				success: $.proxy(function (data) {
-			// 					this.getModel("LocalDataModel").setProperty("/SuggetionOperationListFiltered", data.results);
-			// 				}, this),
-			// 				error: function () {
-			// 					console.log("Error");
-			// 				}
-			// 			});
-
 		},
 		onStep03Back: function () {
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
@@ -6074,8 +6024,6 @@ sap.ui.define([
 			var oTable = this.getView().byId("idLabourTable");
 			var oTableIndex = oTable._aSelectedPaths;
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
-
-			//var oValOFP = this.getView().getModel("HeadSetData").getProperty("/OFP");
 			var oSelectedRow = oTableIndex.toString();
 			var obj = this.getView().getModel("LocalDataModel").getProperty(oSelectedRow);
 			var LabourNum = obj.ItemKey;
