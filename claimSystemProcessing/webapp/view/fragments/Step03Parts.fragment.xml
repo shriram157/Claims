@@ -76,7 +76,7 @@
 							<Input id="idOrderedPartDesc" value="{PartDataModel>/PartDescription}" editable="{multiHeaderConfig>/OrderedPartDesc}"></Input>
 							<core:Title text=""/>
 							<Label text="{i18n>Quantity}"></Label>
-							<Input value="{path : 'PartDataModel>/quant', type : 'sap.ui.model.type.Integer', constraints : { minLength : 1, maxLength : 10 }}"
+							<Input value="{path : 'PartDataModel>/PartQty', type : 'sap.ui.model.type.Integer', constraints : { minLength : 1, maxLength : 10 }}"
 								required="true" enabled="{DateModel>/partLine}" valueState="{DateModel>/partTypeState}">
 								<layoutData>
 									<l:GridData span="XL8 L8"/>
@@ -249,8 +249,8 @@
 							<Text text="{LocalDataModel>matnr}"/>
 							<Text text="{LocalDataModel>PartDescription}"/>
 							<Text text="{path: 'LocalDataModel>DealerNet', formatter: 'zclaimProcessing.utils.formatter.roundedDecimalsCAD'}"/>
-							<Text text="{LocalDataModel>quant2}"/>
 							<Text text="{LocalDataModel>quant}"/>
+							<Text text="{LocalDataModel>PartQty}"/>
 							<Text text="{LocalDataModel>RetainPart}"/>
 							<Text text="{LocalDataModel>PartRepaired}"/>
 							<Text text="{path: 'LocalDataModel>RepairAmt', formatter: 'zclaimProcessing.utils.formatter.roundedDecimals'}"/>

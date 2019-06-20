@@ -152,8 +152,8 @@ sap.ui.define([
 
 			var partData = new sap.ui.model.json.JSONModel({
 				"matnr": "",
+				"PartQty": "",
 				"quant": "",
-				"quant2": "",
 				"PartDescription": "",
 				"LineNo": "",
 				"QuantityReceived": "0",
@@ -617,7 +617,7 @@ sap.ui.define([
 								if (oFilteredData[m].ALMDiscreDesc != undefined || oFilteredData[m].ALMDiscreDesc != "") {
 									oFilteredData[m].ALMDiscreDesc = oFilteredData[m].ALMDiscreDesc.split("-")[1];
 								}
-								oFilteredData[m].quant2 = oFilteredData[m].PartQty;
+								oFilteredData[m].quant = oFilteredData[m].PartQty;
 							}
 							this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
 
@@ -747,11 +747,11 @@ sap.ui.define([
 												"Received: " + (-IncorrectPartData[m + 1].DealerNet)
 											].join("\n");
 											// IncorrectPartData[m].quant= IncorrectPartData[m].PartQty;
-											IncorrectPartData[m].quant = [
+											IncorrectPartData[m].PartQty = [
 												"Ordered: " + IncorrectPartData[m].PartQty,
 												"Received: " + IncorrectPartData[m + 1].PartQty
 											].join("\n");
-											IncorrectPartData[m].quant2 = [
+											IncorrectPartData[m].quant = [
 												"Ordered: " + IncorrectPartData[m].QuantityOrdered,
 												"Received: " + IncorrectPartData[m + 1].QuantityReceived
 											].join("\n");
@@ -784,11 +784,11 @@ sap.ui.define([
 												"Received: " + IncorrectPartData[m + 1].DealerNet
 											].join("\n");
 											// IncorrectPartData[m].quant= IncorrectPartData[m].PartQty;
-											IncorrectPartData[m].quant = [
+											IncorrectPartData[m].PartQty = [
 												"Ordered: " + IncorrectPartData[m].PartQty,
 												"Received: " + IncorrectPartData[m + 1].PartQty
 											].join("\n");
-											IncorrectPartData[m].quant2 = [
+											IncorrectPartData[m].quant = [
 												"Ordered: " + IncorrectPartData[m].QuantityOrdered,
 												"Received: " + IncorrectPartData[m + 1].QuantityReceived
 											].join("\n");
@@ -822,9 +822,9 @@ sap.ui.define([
 										"Received: " + filteredPriceData[m].PartDescription
 									].join("\n");
 									filteredPriceData[m].DealerNet = filteredPriceData[m].DealerNet;
-									filteredPriceData[m].quant = filteredPriceData[m].PartQty;
+									filteredPriceData[m].PartQty = filteredPriceData[m].PartQty;
 
-									filteredPriceData[m].quant2 = [
+									filteredPriceData[m].quant = [
 										"Ordered: " + filteredPriceData[m].QuantityOrdered,
 										"Received: " + filteredPriceData[m].QuantityReceived
 									].join("\n");
@@ -1017,8 +1017,8 @@ sap.ui.define([
 				this.getView().setModel(HeadSetData, "HeadSetData");
 				var partData = new sap.ui.model.json.JSONModel({
 					"matnr": "",
+					"PartQty": "",
 					"quant": "",
-					"quant2": "",
 					"PartDescription": "",
 					"LineNo": "",
 					"QuantityReceived": "0",
@@ -1401,7 +1401,7 @@ sap.ui.define([
 			} else {
 				this.getView().getModel("DateModel").setProperty("/partTypeState", "None");
 				if (this.getView().getModel("PartDataModel").getProperty("/DiscreCode") == "2A") {
-					if (this.getView().getModel("PartDataModel").getProperty("/quant") <= liveQty.getParameters().newValue) {
+					if (this.getView().getModel("PartDataModel").getProperty("/PartQty") <= liveQty.getParameters().newValue) {
 						this.youCanAddPartItem = false;
 						MessageBox.show(this.oBundle.getText("ShortageWarning"), MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK,
 							null, null);
@@ -1409,7 +1409,7 @@ sap.ui.define([
 						this.getView().getModel("DateModel").setProperty("/partTypeState", "None");
 					}
 				} else if (this.getView().getModel("PartDataModel").getProperty("/ALMDiscreCode") == "PTSA") {
-					if (this.getView().getModel("PartDataModel").getProperty("/quant") <= liveQty.getParameters().newValue) {
+					if (this.getView().getModel("PartDataModel").getProperty("/PartQty") <= liveQty.getParameters().newValue) {
 						this.youCanAddPartItem = false;
 						MessageBox.show(this.oBundle.getText("ShortageWarning"), MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK,
 							null, null);
@@ -1419,7 +1419,7 @@ sap.ui.define([
 				}
 
 				if (this.getView().getModel("PartDataModel").getProperty("/DiscreCode") == "3A") {
-					if (this.getView().getModel("PartDataModel").getProperty("/quant") >= liveQty.getParameters().newValue) {
+					if (this.getView().getModel("PartDataModel").getProperty("/PartQty") >= liveQty.getParameters().newValue) {
 						this.youCanAddPartItem = false;
 						MessageBox.show(this.oBundle.getText("OverageWarning"), MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK,
 							null, null);
@@ -1427,7 +1427,7 @@ sap.ui.define([
 						this.getView().getModel("DateModel").setProperty("/partTypeState", "None");
 					}
 				} else if (this.getView().getModel("PartDataModel").getProperty("/ALMDiscreCode") == "PTOA") {
-					if (this.getView().getModel("PartDataModel").getProperty("/quant") >= liveQty.getParameters().newValue) {
+					if (this.getView().getModel("PartDataModel").getProperty("/PartQty") >= liveQty.getParameters().newValue) {
 						this.youCanAddPartItem = false;
 						MessageBox.show(this.oBundle.getText("OverageWarning"), MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK,
 							null, null);
@@ -1519,15 +1519,15 @@ sap.ui.define([
 			var oValidator = new Validator();
 			if (this.getView().getModel("DateModel").getProperty("/partLine") == true) {
 				var Qty;
-				if (this.getView().getModel("PartDataModel").getProperty("/quant") == "" || this.getView().getModel("PartDataModel").getProperty(
-						"/quant") == "0") {
+				if (this.getView().getModel("PartDataModel").getProperty("/PartQty") == "" || this.getView().getModel("PartDataModel").getProperty(
+						"/PartQty") == "0") {
 					this.getView().getModel("DateModel").setProperty("/partTypeState", "None");
 					// this.inValid = false;
 					Qty = "0.000";
 				} else {
 					// this.inValid = true;
 					this.getView().getModel("DateModel").setProperty("/partTypeState", "None");
-					Qty = this.getView().getModel("PartDataModel").getProperty("/quant");
+					Qty = this.getView().getModel("PartDataModel").getProperty("/PartQty");
 				}
 				if (this.getView().getModel("PartDataModel").getProperty("/QuantityReceived") == "" || this.getView().getModel("PartDataModel")
 					.getProperty(
@@ -1653,7 +1653,7 @@ sap.ui.define([
 								"LineRefnr": this.getView().getModel("PartDataModel").getProperty("/LineNo").toString(),
 								"ItemKey": this.getView().getModel("PartDataModel").getProperty("/matnr"),
 								"RetainPart": retainval,
-								"QuantityOrdered": this.getView().getModel("PartDataModel").getProperty("/quant").toString(),
+								"QuantityOrdered": this.getView().getModel("PartDataModel").getProperty("/PartQty").toString(),
 								"QuantityReceived": this.getView().getModel("PartDataModel").getProperty("/QuantityReceived").toString(),
 								"DiscreCode": this.getView().getModel("PartDataModel").getProperty("/DiscreCode"),
 								"WrongPart": "",
@@ -1703,7 +1703,7 @@ sap.ui.define([
 												oFilteredData[m].ALMDiscreDesc = oFilteredData[m].ALMDiscreDesc.split("-")[1];
 											}
 											// oFilteredData[m].quant = oFilteredData[m].PartQty;
-											oFilteredData[m].quant2 = oFilteredData[m].PartQty;
+											oFilteredData[m].quant = oFilteredData[m].PartQty;
 										}
 										this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
 
@@ -1713,8 +1713,8 @@ sap.ui.define([
 										this.updatePartFlag = false;
 										this.getView().getModel("PartDataModel").setProperty("/LineNo", "");
 										this.getView().getModel("PartDataModel").setProperty("/matnr", "");
+										this.getView().getModel("PartDataModel").setProperty("/PartQty", "");
 										this.getView().getModel("PartDataModel").setProperty("/quant", "");
-										this.getView().getModel("PartDataModel").setProperty("/quant2", "");
 										this.getView().getModel("PartDataModel").setProperty("/PartDescription", "");
 										this.getView().getModel("PartDataModel").setProperty("/DiscreCode", "");
 										this.getView().getModel("PartDataModel").setProperty("/RetainPart", "");
@@ -1772,7 +1772,7 @@ sap.ui.define([
 							"LineRefnr": this.getView().getModel("PartDataModel").getProperty("/LineNo").toString(),
 							"ItemKey": this.getView().getModel("PartDataModel").getProperty("/matnr"),
 							"RetainPart": retainval,
-							"QuantityOrdered": this.getView().getModel("PartDataModel").getProperty("/quant").toString(),
+							"QuantityOrdered": this.getView().getModel("PartDataModel").getProperty("/PartQty").toString(),
 							"QuantityReceived": this.getView().getModel("PartDataModel").getProperty("/QuantityReceived").toString(),
 							"DiscreCode": this.getView().getModel("PartDataModel").getProperty("/DiscreCode"),
 							"WrongPart": WrongPart,
@@ -1881,11 +1881,11 @@ sap.ui.define([
 																"Received: " + (-IncorrectPartData[m + 1].DealerNet)
 															].join("\n");
 															// IncorrectPartData[m].quant= IncorrectPartData[m].PartQty;
-															IncorrectPartData[m].quant = [
+															IncorrectPartData[m].PartQty = [
 																"Ordered: " + IncorrectPartData[m].PartQty,
 																"Received: " + IncorrectPartData[m + 1].PartQty
 															].join("\n");
-															IncorrectPartData[m].quant2 = [
+															IncorrectPartData[m].quant = [
 																"Ordered: " + IncorrectPartData[m].QuantityOrdered,
 																"Received: " + IncorrectPartData[m + 1].QuantityReceived
 															].join("\n");
@@ -1918,11 +1918,11 @@ sap.ui.define([
 																"Received: " + IncorrectPartData[m + 1].DealerNet
 															].join("\n");
 															// IncorrectPartData[m].quant= IncorrectPartData[m].PartQty;
-															IncorrectPartData[m].quant = [
+															IncorrectPartData[m].PartQty = [
 																"Ordered: " + IncorrectPartData[m].PartQty,
 																"Received: " + IncorrectPartData[m + 1].PartQty
 															].join("\n");
-															IncorrectPartData[m].quant2 = [
+															IncorrectPartData[m].quant = [
 																"Ordered: " + IncorrectPartData[m].QuantityOrdered,
 																"Received: " + IncorrectPartData[m + 1].QuantityReceived
 															].join("\n");
@@ -1956,9 +1956,9 @@ sap.ui.define([
 														"Received: " + filteredPriceData[m].PartDescription
 													].join("\n");
 													filteredPriceData[m].DealerNet = filteredPriceData[m].DealerNet;
-													filteredPriceData[m].quant = filteredPriceData[m].PartQty;
+													filteredPriceData[m].PartQty = filteredPriceData[m].PartQty;
 
-													filteredPriceData[m].quant2 = [
+													filteredPriceData[m].quant = [
 														"Ordered: " + filteredPriceData[m].QuantityOrdered,
 														"Received: " + filteredPriceData[m].QuantityReceived
 													].join("\n");
@@ -1996,7 +1996,7 @@ sap.ui.define([
 											this.addPartFlag = false;
 											this.updatePartFlag = false;
 											this.getView().getModel("PartDataModel").setProperty("/matnr", "");
-											this.getView().getModel("PartDataModel").setProperty("/quant", "");
+											this.getView().getModel("PartDataModel").setProperty("/PartQty", "");
 											this.getView().getModel("PartDataModel").setProperty("/PartDescription", "");
 											this.getView().getModel("PartDataModel").setProperty("/DiscreCode", "");
 											this.getView().getModel("PartDataModel").setProperty("/RetainPart", "");
@@ -2581,7 +2581,7 @@ sap.ui.define([
 					// var PartQt = obj.QuantityOrdered;
 					var str1 = obj.PartDescription.split("Ordered: ");
 					var str2 = str1[1].split("Received: ");
-					var str3 = obj.quant2.split("Ordered: ");
+					var str3 = obj.quant.split("Ordered: ");
 					var str4 = str3[1].split("Received: ");
 
 					if (obj.DiscreCode == "4A") {
@@ -2592,7 +2592,7 @@ sap.ui.define([
 						this.getView().getModel("HeadSetData").setProperty("/PartNumberRc", PartNum);
 						this.getView().getModel("HeadSetData").setProperty("/PartNumberRcDesc", str2[0]);
 					}
-					this.getView().getModel("PartDataModel").setProperty("/quant", str4[0]);
+					this.getView().getModel("PartDataModel").setProperty("/PartQty", str4[0]);
 					this.getView().getModel("PartDataModel").setProperty("/PartDescription", str2[0]);
 					this.getView().getModel("PartDataModel").setProperty("/QuantityReceived", str4[1]);
 					this.getView().getModel("PartDataModel").setProperty("/LineNo", obj.LineRefnr);
@@ -2607,7 +2607,7 @@ sap.ui.define([
 						this.getView().getModel("PartDataModel").setProperty("/RetainPart", "No");
 					}
 				} else {
-					this.getView().getModel("PartDataModel").setProperty("/quant", obj.QuantityOrdered);
+					this.getView().getModel("PartDataModel").setProperty("/PartQty", obj.QuantityOrdered);
 					this.getView().getModel("PartDataModel").setProperty("/PartDescription", obj.PartDescription);
 					this.getView().getModel("PartDataModel").setProperty("/QuantityReceived", obj.QuantityReceived);
 
@@ -2736,7 +2736,7 @@ sap.ui.define([
 										if (oFilteredData[m].ALMDiscreDesc != undefined || oFilteredData[m].ALMDiscreDesc != "") {
 											oFilteredData[m].ALMDiscreDesc = oFilteredData[m].ALMDiscreDesc.split("-")[1];
 										}
-										oFilteredData[m].quant2 = oFilteredData[m].PartQty;
+										oFilteredData[m].quant = oFilteredData[m].PartQty;
 									}
 									this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
 								} else {
@@ -2782,11 +2782,11 @@ sap.ui.define([
 														"Received: " + (-IncorrectPartData[m + 1].DealerNet)
 													].join("\n");
 													// IncorrectPartData[m].quant= IncorrectPartData[m].PartQty;
-													IncorrectPartData[m].quant = [
+													IncorrectPartData[m].PartQty = [
 														"Ordered: " + IncorrectPartData[m].PartQty,
 														"Received: " + IncorrectPartData[m + 1].PartQty
 													].join("\n");
-													IncorrectPartData[m].quant2 = [
+													IncorrectPartData[m].quant = [
 														"Ordered: " + IncorrectPartData[m].QuantityOrdered,
 														"Received: " + IncorrectPartData[m + 1].QuantityReceived
 													].join("\n");
@@ -2818,11 +2818,11 @@ sap.ui.define([
 														"Received: " + IncorrectPartData[m + 1].DealerNet
 													].join("\n");
 													// IncorrectPartData[m].quant= IncorrectPartData[m].PartQty;
-													IncorrectPartData[m].quant = [
+													IncorrectPartData[m].PartQty = [
 														"Ordered: " + IncorrectPartData[m].PartQty,
 														"Received: " + IncorrectPartData[m + 1].PartQty
 													].join("\n");
-													IncorrectPartData[m].quant2 = [
+													IncorrectPartData[m].quant = [
 														"Ordered: " + IncorrectPartData[m].QuantityOrdered,
 														"Received: " + IncorrectPartData[m + 1].QuantityReceived
 													].join("\n");
@@ -2855,16 +2855,16 @@ sap.ui.define([
 												"Received: " + filteredPriceData[m].PartDescription
 											].join("\n");
 											filteredPriceData[m].DealerNet = filteredPriceData[m].DealerNet;
-											filteredPriceData[m].quant = filteredPriceData[m].PartQty;
+											filteredPriceData[m].PartQty = filteredPriceData[m].PartQty;
 
-											filteredPriceData[m].quant2 = [
+											filteredPriceData[m].quant = [
 												"Ordered: " + filteredPriceData[m].QuantityOrdered,
 												"Received: " + filteredPriceData[m].QuantityReceived
 											].join("\n");
 											filteredPriceData[m].AmtClaimed = filteredPriceData[m].AmtClaimed;
 											filteredPriceData[m].TCIApprovedAmount = filteredPriceData[m].TCIApprAmt;
 											filteredPriceData[m].DiffAmt = filteredPriceData[m].DiffAmt;
-											filteredPriceData[m].quant = filteredPriceData[m].PartQty;
+											filteredPriceData[m].PartQty = filteredPriceData[m].PartQty;
 										}
 										// this.getView().getModel("multiHeaderConfig").setProperty("/flagIncorrectPart", false);
 										console.log("correct data updated", filteredPriceData);
@@ -3873,8 +3873,8 @@ sap.ui.define([
 
 												this.getView().getModel("PartDataModel").setProperty("/LineNo", "");
 												this.getView().getModel("PartDataModel").setProperty("/matnr", "");
+												this.getView().getModel("PartDataModel").setProperty("/PartQty", "");
 												this.getView().getModel("PartDataModel").setProperty("/quant", "");
-												this.getView().getModel("PartDataModel").setProperty("/quant2", "");
 												this.getView().getModel("PartDataModel").setProperty("/PartDescription", "");
 												this.getView().getModel("PartDataModel").setProperty("/DiscreCode", "");
 												this.getView().getModel("PartDataModel").setProperty("/RetainPart", "");
