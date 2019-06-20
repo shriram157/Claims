@@ -5600,7 +5600,11 @@ sap.ui.define([
 			var PartNum = obj.matnr;
 			var PartQt = obj.QtyHrs;
 
-			if (oTableIndex.length == 1) {
+			var oFindIndexOfSelectedObj = this.obj.zc_itemSet.results.findIndex(function (elm) {
+				return elm.MaterialNumber === PartNum;
+			});
+
+			if (oTableIndex.length == 1 && oFindIndexOfSelectedObj != -1) {
 
 				var dialog = new Dialog({
 					title: oBundle.getText("deleteLine"),
@@ -5618,7 +5622,7 @@ sap.ui.define([
 								}
 
 								var oIndex = parseInt(oTable._aSelectedPaths.toString().split("/")[2]);
-								this.obj.zc_itemSet.results.splice(oIndex, 1);
+								this.obj.zc_itemSet.results.splice(oFindIndexOfSelectedObj, 1);
 
 								var oClaimModel = this.getModel("ProssingModel");
 								this.obj.OFP = this.getView().getModel("HeadSetData").getProperty("/OFP");
@@ -5630,7 +5634,6 @@ sap.ui.define([
 										var pricinghData = response.data.zc_claim_item_price_dataSet.results;
 										var oFilteredData = pricinghData.filter(function (val) {
 											return val.ItemType === "MAT";
-
 										});
 
 										this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.data.MainOpsCodeDescription);
@@ -6076,12 +6079,13 @@ sap.ui.define([
 			var oSelectedRow = oTableIndex.toString();
 			var obj = this.getView().getModel("LocalDataModel").getProperty(oSelectedRow);
 			var LabourNum = obj.ItemKey;
-			//	var PartQt = obj.QtyHrs;
 
-			//	this.obj.MainOpsCode = this.getView().getModel("HeadSetData").getProperty("/MainOpsCode");
-			if (oTableIndex.length == 1) {
-				// var oTableStringSplit = oTableIndex.toString().split(",");
-				// Array.prototype.splice.apply(this.obj.zc_itemSet.results, oTableStringSplit);
+			var oFindIndexOfSelectedObj = this.obj.zc_claim_item_labourSet.results.findIndex(function (elm) {
+				return elm.ItemKey === LabourNum;
+			});
+
+			if (oTableIndex.length == 1 && oFindIndexOfSelectedObj == -1) {
+
 				var dialog = new Dialog({
 					title: oBundle.getText("deleteLine"),
 					type: "Message",
@@ -6098,7 +6102,7 @@ sap.ui.define([
 								}
 
 								var oIndex = parseInt(oTable._aSelectedPaths.toString().split("/")[2]);
-								this.obj.zc_claim_item_labourSet.results.splice(oIndex, 1);
+								this.obj.zc_claim_item_labourSet.results.splice(oFindIndexOfSelectedObj, 1);
 								var oClaimModel = this.getModel("ProssingModel");
 								this.obj.DBOperation = "SAVE";
 								oClaimModel.refreshSecurityToken();
@@ -6512,29 +6516,6 @@ sap.ui.define([
 					}, this)
 				});
 
-				// var oIndex = parseInt(oTable._aSelectedPaths.toString().split("/")[2]);
-				// this.obj.zc_item_subletSet.results.splice(oIndex, 1);
-
-				// oClaimModel.refreshSecurityToken();
-				// oClaimModel.create("/zc_headSet", this.obj, {
-				// 	success: $.proxy(function (data, response) {
-				// 		var pricinghData = response.data.zc_claim_item_price_dataSet.results;
-				// 		var oFilteredData = pricinghData.filter(function (val) {
-				// 			return val.ItemType === "SUBL";
-				// 		});
-				// 		this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", response.data.OFPDescription);
-				// 		this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.data.MainOpsCodeDescription);
-				// 		console.log(oFilteredData);
-				// 		this.getModel("LocalDataModel").setProperty("/SubletPricingDataModel", oFilteredData);
-				// 		oTable.removeSelections("true");
-				// 		this._fnClaimSum();
-				// 		this._fnClaimSumPercent();
-				// 		//MessageToast.show("Claim has been deleted successfully");
-				// 	}, this),
-				// 	error: function (err) {
-				// 		console.log(err);
-				// 	}
-				// });
 			} else {
 				MessageToast.show(oBundle.getText("Pleaseselect1row"), {
 					my: "center center",
@@ -6549,15 +6530,17 @@ sap.ui.define([
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var oTableIndex = oTable._aSelectedPaths;
 			var oPath = oTableIndex.toString();
+			//var oSelectedRow = oTableIndex.toString();
+			var obj = this.getView().getModel("LocalDataModel").getProperty(oPath);
+			var oSelectedItem = obj.ItemKey;
+
 			var oFile = this.getModel("LocalDataModel").getProperty(oPath).URI.split(",")[1].split("=")[1].split(")")[0];
 			var oFileReplaced = oFile.replace(/'/g, "");
 
-			// var oSubletType = this.getView().getModel("SubletDataModel").getProperty("/SubletCode");
-			// var fileType = this.oUploadedFile.type;
-			// var fileNamePrior = oSubletType + "@@@" + this.oUploadedFile.name;
-
-			if (oTableIndex.length == 1) {
-
+			var oFindIndexOfSelectedObj = this.obj.zc_item_subletSet.results.findIndex(function (elm) {
+				return elm.SubletType === oSelectedItem;
+			});
+			if (oTableIndex.length == 1 && oFindIndexOfSelectedObj != -1) {
 				var dialog = new Dialog({
 					title: oBundle.getText("deleteLine"),
 					type: "Message",
@@ -6571,7 +6554,7 @@ sap.ui.define([
 							press: $.proxy(function () {
 
 								var oIndex = parseInt(oTable._aSelectedPaths.toString().split("/")[2]);
-								this.obj.zc_item_subletSet.results.splice(oIndex, 1);
+								this.obj.zc_item_subletSet.results.splice(oFindIndexOfSelectedObj, 1);
 								var oClaimModel = this.getModel("ProssingModel");
 								this.obj.DBOperation = "SAVE";
 
