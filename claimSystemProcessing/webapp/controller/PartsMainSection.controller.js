@@ -35,7 +35,7 @@ sap.ui.define([
 				oLetterOfIntent: false,
 				saveParts: false,
 				partTypeState: "None",
-				SaveClimBTN: false,
+				SaveClaimBTN: false,
 				submitTCIBtn: false,
 				oFormEdit2: false,
 				ddType: "None",
@@ -272,14 +272,14 @@ sap.ui.define([
 				this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", true);
 				if (this.getView().getModel("HeadSetData").getProperty("/DeliveryDate") > this.getView().getModel("HeadSetData").getProperty(
 						"/ShipmentReceivedDate")) {
-					this.getView().getModel("DateModel").setProperty("/SaveClimBTN", false);
+					this.getView().getModel("DateModel").setProperty("/SaveClaimBTN", false);
 					MessageToast.show(this.oBundle.getText("receivedDateErrMSG"));
 				} else if (this.getView().getModel("HeadSetData").getProperty("/ShipmentReceivedDate") > new Date()) {
-					this.getView().getModel("DateModel").setProperty("/SaveClimBTN", false);
+					this.getView().getModel("DateModel").setProperty("/SaveClaimBTN", false);
 					MessageToast.show(this.oBundle.getText("receivedDateErrMSG2"));
 				} else if (this.getView().getModel("HeadSetData").getProperty("/DeliveryDate") <= this.getView().getModel("HeadSetData").getProperty(
 						"/ShipmentReceivedDate")) {
-					this.getView().getModel("DateModel").setProperty("/SaveClimBTN", true);
+					this.getView().getModel("DateModel").setProperty("/SaveClaimBTN", true);
 				}
 			}
 		},
@@ -356,7 +356,7 @@ sap.ui.define([
 					oLetterOfIntent: false,
 					saveParts: false,
 					partTypeState: "None",
-					SaveClimBTN: false,
+					SaveClaimBTN: false,
 					submitTCIBtn: false,
 					oFormEdit2: false,
 					ddType: "None",
@@ -381,7 +381,7 @@ sap.ui.define([
 					oLetterOfIntent: false,
 					saveParts: false,
 					partTypeState: "None",
-					SaveClimBTN: true,
+					SaveClaimBTN: true,
 					submitTCIBtn: true,
 					oFormEdit2: false,
 					ddType: "None",
@@ -563,8 +563,11 @@ sap.ui.define([
 						console.log("this.ClaimStatus", this.ClaimStatus);
 						/*Uncomment for security*/
 						if (userScope == "ReadOnlyViewAll") {
-							this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
-							this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", false);
+								this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
+								this.getView().getModel("DateModel").setProperty("/SaveClaimBTN", false);
+								this.getModel("LocalDataModel").setProperty("/UploadEnableHeader", false);
+								this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", false);
+								this.getView().getModel("DateModel").setProperty("/submitTCIBtn", false);
 						} else {
 							/*Uncomment for security*/
 							if (this.ClaimStatus == "ZTRC" || this.ClaimStatus == "ZTIC") {
@@ -572,10 +575,14 @@ sap.ui.define([
 								this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
 								this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", true);
 								this.getModel("LocalDataModel").setProperty("/UploadEnableHeader", true);
+								this.getView().getModel("DateModel").setProperty("/SaveClaimBTN", true);
+								this.getView().getModel("DateModel").setProperty("/submitTCIBtn", true);
 							} else {
 								this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
+								this.getView().getModel("DateModel").setProperty("/SaveClaimBTN", false);
 								this.getModel("LocalDataModel").setProperty("/UploadEnableHeader", false);
 								this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", false);
+								this.getView().getModel("DateModel").setProperty("/submitTCIBtn", false);
 							}
 							/*Uncomment for security*/
 						}
@@ -1206,18 +1213,18 @@ sap.ui.define([
 					.getModel("HeadSetData").getProperty("/DeliveryDate") === undefined) || this.getView().getModel("HeadSetData").getProperty(
 					"/DeliveryDate") === null) {
 				this.getView().getModel("DateModel").setProperty("/obdValueState", "Error");
-				this.getView().getModel("DateModel").setProperty("/SaveClimBTN", false);
+				this.getView().getModel("DateModel").setProperty("/SaveClaimBTN", false);
 			} else {
 				// if (receivedDate !== "" || receivedDate !== undefined) {
 				this.getView().getModel("DateModel").setProperty("/obdValueState", "None");
 				if (this.getView().getModel("HeadSetData").getProperty("/DeliveryDate") > receivedDate) {
-					this.getView().getModel("DateModel").setProperty("/SaveClimBTN", false);
+					this.getView().getModel("DateModel").setProperty("/SaveClaimBTN", false);
 					MessageToast.show(this.oBundle.getText("receivedDateErrMSG"));
 				} else if (receivedDate > new Date()) {
-					this.getView().getModel("DateModel").setProperty("/SaveClimBTN", false);
+					this.getView().getModel("DateModel").setProperty("/SaveClaimBTN", false);
 					MessageToast.show(this.oBundle.getText("receivedDateErrMSG2"));
 				} else if (this.getView().getModel("HeadSetData").getProperty("/DeliveryDate") <= receivedDate) {
-					this.getView().getModel("DateModel").setProperty("/SaveClimBTN", true);
+					this.getView().getModel("DateModel").setProperty("/SaveClaimBTN", true);
 				}
 			}
 		},
