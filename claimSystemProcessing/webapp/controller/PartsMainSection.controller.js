@@ -1716,6 +1716,7 @@ sap.ui.define([
 										this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
 
 										this.getView().getModel("DateModel").setProperty("/partLine", false);
+										this.getView().getModel("DateModel").setProperty("/saveParts", false);
 										this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
 										this.addPartFlag = false;
 										this.updatePartFlag = false;
@@ -2001,6 +2002,7 @@ sap.ui.define([
 
 											this.getView().getModel("PartDataModel").setProperty("/LineNo", "");
 											this.getView().getModel("DateModel").setProperty("/partLine", false);
+											this.getView().getModel("DateModel").setProperty("/saveParts", false);
 											this.addPartFlag = false;
 											this.updatePartFlag = false;
 											this.getView().getModel("PartDataModel").setProperty("/matnr", "");
