@@ -2571,7 +2571,6 @@ sap.ui.define([
 
 		onPressUpdatePart: function (oEvent) {
 			this.updatePartFlag = true;
-			// this.getView().getModel("DateModel").setProperty("/saveParts", true);
 			var oTable = this.getView().byId("partTable");
 			var oTableIndex = oTable._aSelectedPaths;
 			var oPartNo = this.getView().getModel("PartDataModel").getProperty("/matnr");
@@ -2657,7 +2656,7 @@ sap.ui.define([
 							});
 							this.getModel("LocalDataModel").setProperty("/partItemAttachments", oAttachSet);
 							this.getView().getModel("AttachmentModel").setProperty("/" + "/items", oAttachSet);
-							// this.getModel("LocalDataModel").setProperty("/partItemAttachments", oAttachSet);
+							this.getModel("LocalDataModel").setProperty("/UploadEnable", true);
 						}, this)
 					});
 				}
@@ -2668,12 +2667,6 @@ sap.ui.define([
 
 				oClaimModel.create("/zc_headSet", this.obj, {
 					success: $.proxy(function (data, response) {
-						// oClaimModel.read("/zc_claim_item_price_dataSet", {
-						// 	urlParameters: {
-						// 		"$filter": "NumberOfWarrantyClaim eq '" + this.getView().getModel("HeadSetData").getProperty("/NumberOfWarrantyClaim") +
-						// 			"'and LanguageKey eq 'E'"
-						// 	},
-						// 	success: $.proxy(function (pricedata) {
 						var pricingData = response.data.zc_claim_item_price_dataSet.results;
 						var oFilteredData = pricingData.filter(function (val) {
 							return val.ItemType === "MAT";
@@ -2684,12 +2677,8 @@ sap.ui.define([
 						}
 						this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
 						this.getView().getModel("DateModel").setProperty("/saveParts", true);
+						this.getModel("LocalDataModel").setProperty("/UploadEnable", true);
 						this._fnClaimSum();
-						// 	}, this),
-						// 	error: function (err) {
-						// 		console.log(err);
-						// 	}
-						// });
 					}, this),
 					error: function (err) {
 						console.log(err);
@@ -3705,9 +3694,14 @@ sap.ui.define([
 					this.getView().getModel("DateModel").setProperty("/submitTCIBtn", false);
 					this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
 				} else {
-					/*Uncomment for security*/
-					this.getView().getModel("DateModel").setProperty("/submitTCIBtn", true);
-					this.getView().getModel("DateModel").setProperty("/SaveClaim07", true);
+					if (this.ClaimStatus == "ZTRC" || this.ClaimStatus == "ZTIC") {
+						/*Uncomment for security*/
+						this.getView().getModel("DateModel").setProperty("/submitTCIBtn", true);
+						this.getView().getModel("DateModel").setProperty("/SaveClaim07", true);
+					} else {
+						this.getView().getModel("DateModel").setProperty("/submitTCIBtn", false);
+						this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
+					}
 					/*Uncomment for security*/
 				}
 				/*Uncomment for security*/
