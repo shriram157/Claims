@@ -152,56 +152,41 @@
     height: 3rem;
 }
 
-
-/*#__page0-cont {*/
-
-
-/*    height: auto!important;*/
-
-
-/*}*/
-
 #ObjectPageLayout h5.sapUiFormTitleH5 {
     height: 0!important;
 }
 
+.clCommentFix .sapMFeedListItemFigure {
+    float: left;
+    height: 1.5rem;
+    width: 1.5rem;
+}
 
-/*div#__xmlview1 {*/
+.clCommentFix .sapMFeedListItemImage {
+    width: 1.5rem;
+    height: 1.5rem;
+    line-height: 1.5rem;
+    font-size: 1.5rem;
+}
 
+html.sap-tablet .clCommentFix .sapMFeedListItemHasFigure,
+html.sap-desktop .clCommentFix .sapMFeedListItemHasFigure {
+    margin-left: 2.75rem;
+}
 
-/*    top: 3rem!important;*/
-
-
-/*}*/
-
-
-/*.sapUxAPObjectPageLayout-Std-Desktop .sapUxAPBlockContainer {*/
-
-
-/*    padding-bottom: 0rem!important;*/
-
-
-/*}*/
-
-
-/*.hideDltBtn .sapMUCDeleteBtn {*/
-
-
-/*    visibility:hidden;*/
-
-
-/*}*/
-
-
-/*.showDltBtn .sapMUCDeleteBtn {*/
-
-
-/*    visibility:visible;*/
-
-
-/*}*/
 
 /*Parts - letter of intent*/
-.nostyleForm .sapUiFormTitleH5 {  font-size: 0; line-height: 0 !important; height: 0 !important;}
-.nostyleForm .sapUiFormResGridCont { padding-bottom: 0;}
-.btnPaddings{ padding: 0 10rem 1rem;}
+
+.nostyleForm .sapUiFormTitleH5 {
+    font-size: 0;
+    line-height: 0 !important;
+    height: 0 !important;
+}
+
+.nostyleForm .sapUiFormResGridCont {
+    padding-bottom: 0;
+}
+
+.btnPaddings {
+    padding: 0 10rem 1rem;
+}

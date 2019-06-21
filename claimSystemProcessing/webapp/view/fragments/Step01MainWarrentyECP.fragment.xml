@@ -438,23 +438,32 @@
 				<Input visible="{DateModel>/PreroOdometerVisible}" value="{path:'HeadSetData>/PreviousROOdometer'}" editable="{DateModel>/oFormEdit}"/>
 			</f:content>
 		</f:SimpleForm>
-		<f:SimpleForm editable="{DateModel>/oFormEdit}" title="{i18n>ClaimComments}" layout="ResponsiveGridLayout" labelSpanXL="3" labelSpanL="3"
-			labelSpanM="3" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="1" emptySpanL="1" emptySpanM="1" emptySpanS="0" columnsXL="1"
-			columnsL="1" columnsM="1" singleContainerFullSize="false">
-			<f:content>
-				<core:Title text=""/>
-				<TextArea height="8rem" value="{HeadSetData>/HeadText}" editable="{DateModel>/commentEditable}" enabled="{DateModel>/oFormEdit}">
-					<layoutData>
-						<l:GridData span="XL8 L8 M8 S12"/>
-					</layoutData>
-				</TextArea>
-				<Button text="Add" press="onAddComment" enabled="{DateModel>/oFormEdit}">
-					<layoutData>
-						<l:GridData span="XL2 L2 M3 S4"/>
-					</layoutData>
-				</Button>
-			</f:content>
-		</f:SimpleForm>
+		<!--<f:SimpleForm editable="{DateModel>/oFormEdit}" title="{i18n>ClaimComments}" layout="ResponsiveGridLayout" labelSpanXL="3" labelSpanL="3"-->
+		<!--	labelSpanM="3" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="1" emptySpanL="1" emptySpanM="1" emptySpanS="0" columnsXL="1"-->
+		<!--	columnsL="1" columnsM="1" singleContainerFullSize="false">-->
+		<!--	<f:content>-->
+		<!--		<core:Title text=""/>-->
+		<!--		<TextArea height="8rem" value="{HeadSetData>/HeadText}" editable="{DateModel>/commentEditable}" enabled="{DateModel>/oFormEdit}">-->
+		<!--			<layoutData>-->
+		<!--				<l:GridData span="XL8 L8 M8 S12"/>-->
+		<!--			</layoutData>-->
+		<!--		</TextArea>-->
+		<!--		<Button text="Add" press="onAddComment" enabled="{DateModel>/oFormEdit}">-->
+		<!--			<layoutData>-->
+		<!--				<l:GridData span="XL2 L2 M3 S4"/>-->
+		<!--			</layoutData>-->
+		<!--		</Button>-->
+		<!--	</f:content>-->
+		<!--</f:SimpleForm>-->
+		<Panel backgroundDesign="Transparent" headerText="{i18n>ClaimComments}" expandable="true" class="sapUiSizeCompact clCommentFix">
+			<content>
+				<FeedInput post=".onPost"/>
+				<List class="sapUiSizeCompact" busy="{LocalDataModel>/commentIndicator}" id="idCommentsList" noDataText="{i18n>ObjectCommentNoData}"
+					showSeparators="Inner" items="{ path: 'LocalDataModel>/claim_commentSet'}">
+					<FeedListItem text="{LocalDataModel>HeadText}"/>
+				</List>
+			</content>
+		</Panel>
 	</VBox>
 	<VBox>
 		<Panel width="auto" class="sapUiSmallMarginBottom" accessibleRole="Region">
