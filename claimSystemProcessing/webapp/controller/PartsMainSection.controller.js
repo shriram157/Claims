@@ -35,7 +35,7 @@ sap.ui.define([
 				oLetterOfIntent: false,
 				saveParts: false,
 				partTypeState: "None",
-				SaveClimBTN: false,
+				SaveClaimBTN: false,
 				submitTCIBtn: false,
 				oFormEdit2: false,
 				ddType: "None",
@@ -152,8 +152,8 @@ sap.ui.define([
 
 			var partData = new sap.ui.model.json.JSONModel({
 				"matnr": "",
+				"PartQty": "",
 				"quant": "",
-				"quant2": "",
 				"PartDescription": "",
 				"LineNo": "",
 				"QuantityReceived": "0",
@@ -272,14 +272,14 @@ sap.ui.define([
 				this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", true);
 				if (this.getView().getModel("HeadSetData").getProperty("/DeliveryDate") > this.getView().getModel("HeadSetData").getProperty(
 						"/ShipmentReceivedDate")) {
-					this.getView().getModel("DateModel").setProperty("/SaveClimBTN", false);
+					this.getView().getModel("DateModel").setProperty("/SaveClaimBTN", false);
 					MessageToast.show(this.oBundle.getText("receivedDateErrMSG"));
 				} else if (this.getView().getModel("HeadSetData").getProperty("/ShipmentReceivedDate") > new Date()) {
-					this.getView().getModel("DateModel").setProperty("/SaveClimBTN", false);
+					this.getView().getModel("DateModel").setProperty("/SaveClaimBTN", false);
 					MessageToast.show(this.oBundle.getText("receivedDateErrMSG2"));
 				} else if (this.getView().getModel("HeadSetData").getProperty("/DeliveryDate") <= this.getView().getModel("HeadSetData").getProperty(
 						"/ShipmentReceivedDate")) {
-					this.getView().getModel("DateModel").setProperty("/SaveClimBTN", true);
+					this.getView().getModel("DateModel").setProperty("/SaveClaimBTN", true);
 				}
 			}
 		},
@@ -356,7 +356,7 @@ sap.ui.define([
 					oLetterOfIntent: false,
 					saveParts: false,
 					partTypeState: "None",
-					SaveClimBTN: false,
+					SaveClaimBTN: false,
 					submitTCIBtn: false,
 					oFormEdit2: false,
 					ddType: "None",
@@ -366,7 +366,7 @@ sap.ui.define([
 					obdValueState: "None",
 					SavePart2: false,
 					DelDateEdit: false,
-					PWPrintEnable:false
+					PWPrintEnable: false
 				});
 			} else {
 				/*Uncomment for security*/
@@ -381,7 +381,7 @@ sap.ui.define([
 					oLetterOfIntent: false,
 					saveParts: false,
 					partTypeState: "None",
-					SaveClimBTN: true,
+					SaveClaimBTN: true,
 					submitTCIBtn: true,
 					oFormEdit2: false,
 					ddType: "None",
@@ -391,7 +391,7 @@ sap.ui.define([
 					obdValueState: "None",
 					SavePart2: false,
 					DelDateEdit: false,
-					PWPrintEnable:false
+					PWPrintEnable: false
 				});
 			}
 			/*Uncomment for security*/
@@ -549,13 +549,14 @@ sap.ui.define([
 					urlParameters: {
 						"$filter": "NumberOfWarrantyClaim eq '" + oClaim + "' "
 					},
-					success: $.proxy(function (data) {console.log(data.results);
+					success: $.proxy(function (data) {
+						console.log(data.results);
 						this.getModel("LocalDataModel").setProperty("/ClaimDetails", data.results[0]);
 						this.getModel("LocalDataModel").setProperty("/BPPartner", data.results[0].Partner);
 						BPKey = data.results[0].Partner;
 						this._getBPModel(BPKey);
 						this.getModel("LocalDataModel").setProperty("/NumberOfWarrantyClaim", data.results[0].NumberOfWarrantyClaim);
-					
+
 						var HeadSetData = new sap.ui.model.json.JSONModel(data.results[0]);
 						HeadSetData.setDefaultBindingMode("TwoWay");
 						this.getView().setModel(HeadSetData, "HeadSetData");
@@ -564,7 +565,10 @@ sap.ui.define([
 						/*Uncomment for security*/
 						if (userScope == "ReadOnlyViewAll") {
 							this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
+							this.getView().getModel("DateModel").setProperty("/SaveClaimBTN", false);
+							this.getModel("LocalDataModel").setProperty("/UploadEnableHeader", false);
 							this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", false);
+							this.getView().getModel("DateModel").setProperty("/submitTCIBtn", false);
 						} else {
 							/*Uncomment for security*/
 							if (this.ClaimStatus == "ZTRC" || this.ClaimStatus == "ZTIC") {
@@ -572,10 +576,14 @@ sap.ui.define([
 								this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
 								this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", true);
 								this.getModel("LocalDataModel").setProperty("/UploadEnableHeader", true);
+								this.getView().getModel("DateModel").setProperty("/SaveClaimBTN", true);
+								this.getView().getModel("DateModel").setProperty("/submitTCIBtn", true);
 							} else {
 								this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
+								this.getView().getModel("DateModel").setProperty("/SaveClaimBTN", false);
 								this.getModel("LocalDataModel").setProperty("/UploadEnableHeader", false);
 								this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", false);
+								this.getView().getModel("DateModel").setProperty("/submitTCIBtn", false);
 							}
 							/*Uncomment for security*/
 						}
@@ -605,7 +613,7 @@ sap.ui.define([
 					this.getModel("LocalDataModel").setProperty("/PricingDataModel", "");
 					oProssingModel.read("/zc_claim_item_price_dataSet", {
 						urlParameters: {
-							"$filter": "NumberOfWarrantyClaim eq '" + oClaim + "' and LanguageKey eq '"+sSelectedLocale+"'"
+							"$filter": "NumberOfWarrantyClaim eq '" + oClaim + "' and LanguageKey eq '" + sSelectedLocale + "'"
 						},
 						success: $.proxy(function (data) {
 							var pricingData = data.results;
@@ -617,11 +625,11 @@ sap.ui.define([
 								if (oFilteredData[m].ALMDiscreDesc != undefined || oFilteredData[m].ALMDiscreDesc != "") {
 									oFilteredData[m].ALMDiscreDesc = oFilteredData[m].ALMDiscreDesc.split("-")[1];
 								}
-								oFilteredData[m].quant2 = oFilteredData[m].PartQty;
+								oFilteredData[m].quant = oFilteredData[m].PartQty;
 							}
 							this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
 
-							console.log("pricing data",oFilteredData);
+							console.log("pricing data", oFilteredData);
 							var PartItem = oFilteredData.map(function (item) {
 								if (item.RepairOrRetrunPart == "Yes") {
 									var RepairPart = "Y";
@@ -700,7 +708,7 @@ sap.ui.define([
 					this.getModel("LocalDataModel").setProperty("/PricingDataModel", "");
 					oProssingModel.read("/zc_claim_item_price_dataSet", {
 						urlParameters: {
-							"$filter": "NumberOfWarrantyClaim eq '" + oClaim +  "' and LanguageKey eq '"+sSelectedLocale+"'"
+							"$filter": "NumberOfWarrantyClaim eq '" + oClaim + "' and LanguageKey eq '" + sSelectedLocale + "'"
 						},
 						success: $.proxy(function (pricedata) {
 							var temp = [];
@@ -747,11 +755,11 @@ sap.ui.define([
 												"Received: " + (-IncorrectPartData[m + 1].DealerNet)
 											].join("\n");
 											// IncorrectPartData[m].quant= IncorrectPartData[m].PartQty;
-											IncorrectPartData[m].quant = [
+											IncorrectPartData[m].PartQty = [
 												"Ordered: " + IncorrectPartData[m].PartQty,
 												"Received: " + IncorrectPartData[m + 1].PartQty
 											].join("\n");
-											IncorrectPartData[m].quant2 = [
+											IncorrectPartData[m].quant = [
 												"Ordered: " + IncorrectPartData[m].QuantityOrdered,
 												"Received: " + IncorrectPartData[m + 1].QuantityReceived
 											].join("\n");
@@ -784,11 +792,11 @@ sap.ui.define([
 												"Received: " + IncorrectPartData[m + 1].DealerNet
 											].join("\n");
 											// IncorrectPartData[m].quant= IncorrectPartData[m].PartQty;
-											IncorrectPartData[m].quant = [
+											IncorrectPartData[m].PartQty = [
 												"Ordered: " + IncorrectPartData[m].PartQty,
 												"Received: " + IncorrectPartData[m + 1].PartQty
 											].join("\n");
-											IncorrectPartData[m].quant2 = [
+											IncorrectPartData[m].quant = [
 												"Ordered: " + IncorrectPartData[m].QuantityOrdered,
 												"Received: " + IncorrectPartData[m + 1].QuantityReceived
 											].join("\n");
@@ -822,9 +830,9 @@ sap.ui.define([
 										"Received: " + filteredPriceData[m].PartDescription
 									].join("\n");
 									filteredPriceData[m].DealerNet = filteredPriceData[m].DealerNet;
-									filteredPriceData[m].quant = filteredPriceData[m].PartQty;
+									filteredPriceData[m].PartQty = filteredPriceData[m].PartQty;
 
-									filteredPriceData[m].quant2 = [
+									filteredPriceData[m].quant = [
 										"Ordered: " + filteredPriceData[m].QuantityOrdered,
 										"Received: " + filteredPriceData[m].QuantityReceived
 									].join("\n");
@@ -853,7 +861,7 @@ sap.ui.define([
 								}
 							}
 							this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
-							console.log("pricing data",oFilteredData);
+							console.log("pricing data", oFilteredData);
 
 							// this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
 							var PartItem = oFilteredData.map(function (item) {
@@ -1017,8 +1025,8 @@ sap.ui.define([
 				this.getView().setModel(HeadSetData, "HeadSetData");
 				var partData = new sap.ui.model.json.JSONModel({
 					"matnr": "",
+					"PartQty": "",
 					"quant": "",
-					"quant2": "",
 					"PartDescription": "",
 					"LineNo": "",
 					"QuantityReceived": "0",
@@ -1206,22 +1214,22 @@ sap.ui.define([
 					.getModel("HeadSetData").getProperty("/DeliveryDate") === undefined) || this.getView().getModel("HeadSetData").getProperty(
 					"/DeliveryDate") === null) {
 				this.getView().getModel("DateModel").setProperty("/obdValueState", "Error");
-				this.getView().getModel("DateModel").setProperty("/SaveClimBTN", false);
+				this.getView().getModel("DateModel").setProperty("/SaveClaimBTN", false);
 			} else {
 				// if (receivedDate !== "" || receivedDate !== undefined) {
 				this.getView().getModel("DateModel").setProperty("/obdValueState", "None");
 				if (this.getView().getModel("HeadSetData").getProperty("/DeliveryDate") > receivedDate) {
-					this.getView().getModel("DateModel").setProperty("/SaveClimBTN", false);
+					this.getView().getModel("DateModel").setProperty("/SaveClaimBTN", false);
 					MessageToast.show(this.oBundle.getText("receivedDateErrMSG"));
 				} else if (receivedDate > new Date()) {
-					this.getView().getModel("DateModel").setProperty("/SaveClimBTN", false);
+					this.getView().getModel("DateModel").setProperty("/SaveClaimBTN", false);
 					MessageToast.show(this.oBundle.getText("receivedDateErrMSG2"));
 				} else if (this.getView().getModel("HeadSetData").getProperty("/DeliveryDate") <= receivedDate) {
-					this.getView().getModel("DateModel").setProperty("/SaveClimBTN", true);
+					this.getView().getModel("DateModel").setProperty("/SaveClaimBTN", true);
 				}
 			}
 		},
-		
+
 		/***************Claim Comment Section**************/
 		onAddPartsComment: function () {
 			var oDialogBox = sap.ui.xmlfragment("zclaimProcessing.view.fragments.PartsClaimComments", this);
@@ -1256,7 +1264,7 @@ sap.ui.define([
 					var oPartnerName = data.results[0].OrganizationBPName1;
 					//var oFinalText = `${oPrevComment} \n  ${oPartnerName} ( ${oDate} ) ${oText}`;
 					// var oFinalText = oPrevComment + "\n" + oPartnerName + "(" + oDate + ") " + " : " + oText;
-						var oFinalText = oPrevComment + "\r\n" + "#" +oPartnerName + "(" + oDate + ") " + " : " + oText;
+					var oFinalText = oPrevComment + "\r\n" + "#" + oPartnerName + "(" + oDate + ") " + " : " + oText;
 					this.getView().getModel("HeadSetData").setProperty("/HeadText", oFinalText);
 					this.getView().getModel("HeadSetData").setProperty("/NewPartsText", "");
 					// console.log(oFinalText);
@@ -1401,7 +1409,7 @@ sap.ui.define([
 			} else {
 				this.getView().getModel("DateModel").setProperty("/partTypeState", "None");
 				if (this.getView().getModel("PartDataModel").getProperty("/DiscreCode") == "2A") {
-					if (this.getView().getModel("PartDataModel").getProperty("/quant") <= liveQty.getParameters().newValue) {
+					if (this.getView().getModel("PartDataModel").getProperty("/PartQty") <= liveQty.getParameters().newValue) {
 						this.youCanAddPartItem = false;
 						MessageBox.show(this.oBundle.getText("ShortageWarning"), MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK,
 							null, null);
@@ -1409,7 +1417,7 @@ sap.ui.define([
 						this.getView().getModel("DateModel").setProperty("/partTypeState", "None");
 					}
 				} else if (this.getView().getModel("PartDataModel").getProperty("/ALMDiscreCode") == "PTSA") {
-					if (this.getView().getModel("PartDataModel").getProperty("/quant") <= liveQty.getParameters().newValue) {
+					if (this.getView().getModel("PartDataModel").getProperty("/PartQty") <= liveQty.getParameters().newValue) {
 						this.youCanAddPartItem = false;
 						MessageBox.show(this.oBundle.getText("ShortageWarning"), MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK,
 							null, null);
@@ -1419,7 +1427,7 @@ sap.ui.define([
 				}
 
 				if (this.getView().getModel("PartDataModel").getProperty("/DiscreCode") == "3A") {
-					if (this.getView().getModel("PartDataModel").getProperty("/quant") >= liveQty.getParameters().newValue) {
+					if (this.getView().getModel("PartDataModel").getProperty("/PartQty") >= liveQty.getParameters().newValue) {
 						this.youCanAddPartItem = false;
 						MessageBox.show(this.oBundle.getText("OverageWarning"), MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK,
 							null, null);
@@ -1427,7 +1435,7 @@ sap.ui.define([
 						this.getView().getModel("DateModel").setProperty("/partTypeState", "None");
 					}
 				} else if (this.getView().getModel("PartDataModel").getProperty("/ALMDiscreCode") == "PTOA") {
-					if (this.getView().getModel("PartDataModel").getProperty("/quant") >= liveQty.getParameters().newValue) {
+					if (this.getView().getModel("PartDataModel").getProperty("/PartQty") >= liveQty.getParameters().newValue) {
 						this.youCanAddPartItem = false;
 						MessageBox.show(this.oBundle.getText("OverageWarning"), MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK,
 							null, null);
@@ -1473,7 +1481,7 @@ sap.ui.define([
 					oClaimModel.read("/zc_claim_item_price_dataSet", {
 						urlParameters: {
 							"$filter": "NumberOfWarrantyClaim eq '" + this.getView().getModel("HeadSetData").getProperty("/NumberOfWarrantyClaim") +
-								"'and LanguageKey eq '"+sSelectedLocale+"'"
+								"'and LanguageKey eq '" + sSelectedLocale + "'"
 						},
 						success: $.proxy(function (pricedata) {
 							MessageToast.show(that.oBundle.getText("ClaimSuccessMSG"));
@@ -1519,15 +1527,15 @@ sap.ui.define([
 			var oValidator = new Validator();
 			if (this.getView().getModel("DateModel").getProperty("/partLine") == true) {
 				var Qty;
-				if (this.getView().getModel("PartDataModel").getProperty("/quant") == "" || this.getView().getModel("PartDataModel").getProperty(
-						"/quant") == "0") {
+				if (this.getView().getModel("PartDataModel").getProperty("/PartQty") == "" || this.getView().getModel("PartDataModel").getProperty(
+						"/PartQty") == "0") {
 					this.getView().getModel("DateModel").setProperty("/partTypeState", "None");
 					// this.inValid = false;
 					Qty = "0.000";
 				} else {
 					// this.inValid = true;
 					this.getView().getModel("DateModel").setProperty("/partTypeState", "None");
-					Qty = this.getView().getModel("PartDataModel").getProperty("/quant");
+					Qty = this.getView().getModel("PartDataModel").getProperty("/PartQty");
 				}
 				if (this.getView().getModel("PartDataModel").getProperty("/QuantityReceived") == "" || this.getView().getModel("PartDataModel")
 					.getProperty(
@@ -1653,7 +1661,7 @@ sap.ui.define([
 								"LineRefnr": this.getView().getModel("PartDataModel").getProperty("/LineNo").toString(),
 								"ItemKey": this.getView().getModel("PartDataModel").getProperty("/matnr"),
 								"RetainPart": retainval,
-								"QuantityOrdered": this.getView().getModel("PartDataModel").getProperty("/quant").toString(),
+								"QuantityOrdered": this.getView().getModel("PartDataModel").getProperty("/PartQty").toString(),
 								"QuantityReceived": this.getView().getModel("PartDataModel").getProperty("/QuantityReceived").toString(),
 								"DiscreCode": this.getView().getModel("PartDataModel").getProperty("/DiscreCode"),
 								"WrongPart": "",
@@ -1689,7 +1697,7 @@ sap.ui.define([
 									urlParameters: {
 										"$filter": "NumberOfWarrantyClaim eq '" + this.getView().getModel("HeadSetData").getProperty(
 												"/NumberOfWarrantyClaim") +
-											"' and LanguageKey eq '"+sSelectedLocale+"'"
+											"' and LanguageKey eq '" + sSelectedLocale + "'"
 									},
 									success: $.proxy(function (pricedata) {
 										MessageToast.show(that.oBundle.getText("PartItemSuccessMSG"));
@@ -1703,18 +1711,19 @@ sap.ui.define([
 												oFilteredData[m].ALMDiscreDesc = oFilteredData[m].ALMDiscreDesc.split("-")[1];
 											}
 											// oFilteredData[m].quant = oFilteredData[m].PartQty;
-											oFilteredData[m].quant2 = oFilteredData[m].PartQty;
+											oFilteredData[m].quant = oFilteredData[m].PartQty;
 										}
 										this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
 
 										this.getView().getModel("DateModel").setProperty("/partLine", false);
+										this.getView().getModel("DateModel").setProperty("/saveParts", false);
 										this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
 										this.addPartFlag = false;
 										this.updatePartFlag = false;
 										this.getView().getModel("PartDataModel").setProperty("/LineNo", "");
 										this.getView().getModel("PartDataModel").setProperty("/matnr", "");
+										this.getView().getModel("PartDataModel").setProperty("/PartQty", "");
 										this.getView().getModel("PartDataModel").setProperty("/quant", "");
-										this.getView().getModel("PartDataModel").setProperty("/quant2", "");
 										this.getView().getModel("PartDataModel").setProperty("/PartDescription", "");
 										this.getView().getModel("PartDataModel").setProperty("/DiscreCode", "");
 										this.getView().getModel("PartDataModel").setProperty("/RetainPart", "");
@@ -1772,7 +1781,7 @@ sap.ui.define([
 							"LineRefnr": this.getView().getModel("PartDataModel").getProperty("/LineNo").toString(),
 							"ItemKey": this.getView().getModel("PartDataModel").getProperty("/matnr"),
 							"RetainPart": retainval,
-							"QuantityOrdered": this.getView().getModel("PartDataModel").getProperty("/quant").toString(),
+							"QuantityOrdered": this.getView().getModel("PartDataModel").getProperty("/PartQty").toString(),
 							"QuantityReceived": this.getView().getModel("PartDataModel").getProperty("/QuantityReceived").toString(),
 							"DiscreCode": this.getView().getModel("PartDataModel").getProperty("/DiscreCode"),
 							"WrongPart": WrongPart,
@@ -1834,7 +1843,7 @@ sap.ui.define([
 									urlParameters: {
 										"$filter": "NumberOfWarrantyClaim eq '" + this.getView().getModel("HeadSetData").getProperty(
 												"/NumberOfWarrantyClaim") +
-											"'and LanguageKey eq '"+sSelectedLocale+"'"
+											"'and LanguageKey eq '" + sSelectedLocale + "'"
 									},
 									success: $.proxy(function (pricedata) {
 											var temp = [];
@@ -1881,11 +1890,11 @@ sap.ui.define([
 																"Received: " + (-IncorrectPartData[m + 1].DealerNet)
 															].join("\n");
 															// IncorrectPartData[m].quant= IncorrectPartData[m].PartQty;
-															IncorrectPartData[m].quant = [
+															IncorrectPartData[m].PartQty = [
 																"Ordered: " + IncorrectPartData[m].PartQty,
 																"Received: " + IncorrectPartData[m + 1].PartQty
 															].join("\n");
-															IncorrectPartData[m].quant2 = [
+															IncorrectPartData[m].quant = [
 																"Ordered: " + IncorrectPartData[m].QuantityOrdered,
 																"Received: " + IncorrectPartData[m + 1].QuantityReceived
 															].join("\n");
@@ -1918,11 +1927,11 @@ sap.ui.define([
 																"Received: " + IncorrectPartData[m + 1].DealerNet
 															].join("\n");
 															// IncorrectPartData[m].quant= IncorrectPartData[m].PartQty;
-															IncorrectPartData[m].quant = [
+															IncorrectPartData[m].PartQty = [
 																"Ordered: " + IncorrectPartData[m].PartQty,
 																"Received: " + IncorrectPartData[m + 1].PartQty
 															].join("\n");
-															IncorrectPartData[m].quant2 = [
+															IncorrectPartData[m].quant = [
 																"Ordered: " + IncorrectPartData[m].QuantityOrdered,
 																"Received: " + IncorrectPartData[m + 1].QuantityReceived
 															].join("\n");
@@ -1956,9 +1965,9 @@ sap.ui.define([
 														"Received: " + filteredPriceData[m].PartDescription
 													].join("\n");
 													filteredPriceData[m].DealerNet = filteredPriceData[m].DealerNet;
-													filteredPriceData[m].quant = filteredPriceData[m].PartQty;
+													filteredPriceData[m].PartQty = filteredPriceData[m].PartQty;
 
-													filteredPriceData[m].quant2 = [
+													filteredPriceData[m].quant = [
 														"Ordered: " + filteredPriceData[m].QuantityOrdered,
 														"Received: " + filteredPriceData[m].QuantityReceived
 													].join("\n");
@@ -1993,10 +2002,11 @@ sap.ui.define([
 
 											this.getView().getModel("PartDataModel").setProperty("/LineNo", "");
 											this.getView().getModel("DateModel").setProperty("/partLine", false);
+											this.getView().getModel("DateModel").setProperty("/saveParts", false);
 											this.addPartFlag = false;
 											this.updatePartFlag = false;
 											this.getView().getModel("PartDataModel").setProperty("/matnr", "");
-											this.getView().getModel("PartDataModel").setProperty("/quant", "");
+											this.getView().getModel("PartDataModel").setProperty("/PartQty", "");
 											this.getView().getModel("PartDataModel").setProperty("/PartDescription", "");
 											this.getView().getModel("PartDataModel").setProperty("/DiscreCode", "");
 											this.getView().getModel("PartDataModel").setProperty("/RetainPart", "");
@@ -2563,7 +2573,6 @@ sap.ui.define([
 
 		onPressUpdatePart: function (oEvent) {
 			this.updatePartFlag = true;
-			// this.getView().getModel("DateModel").setProperty("/saveParts", true);
 			var oTable = this.getView().byId("partTable");
 			var oTableIndex = oTable._aSelectedPaths;
 			var oPartNo = this.getView().getModel("PartDataModel").getProperty("/matnr");
@@ -2581,7 +2590,7 @@ sap.ui.define([
 					// var PartQt = obj.QuantityOrdered;
 					var str1 = obj.PartDescription.split("Ordered: ");
 					var str2 = str1[1].split("Received: ");
-					var str3 = obj.quant2.split("Ordered: ");
+					var str3 = obj.quant.split("Ordered: ");
 					var str4 = str3[1].split("Received: ");
 
 					if (obj.DiscreCode == "4A") {
@@ -2592,7 +2601,7 @@ sap.ui.define([
 						this.getView().getModel("HeadSetData").setProperty("/PartNumberRc", PartNum);
 						this.getView().getModel("HeadSetData").setProperty("/PartNumberRcDesc", str2[0]);
 					}
-					this.getView().getModel("PartDataModel").setProperty("/quant", str4[0]);
+					this.getView().getModel("PartDataModel").setProperty("/PartQty", str4[0]);
 					this.getView().getModel("PartDataModel").setProperty("/PartDescription", str2[0]);
 					this.getView().getModel("PartDataModel").setProperty("/QuantityReceived", str4[1]);
 					this.getView().getModel("PartDataModel").setProperty("/LineNo", obj.LineRefnr);
@@ -2607,7 +2616,7 @@ sap.ui.define([
 						this.getView().getModel("PartDataModel").setProperty("/RetainPart", "No");
 					}
 				} else {
-					this.getView().getModel("PartDataModel").setProperty("/quant", obj.QuantityOrdered);
+					this.getView().getModel("PartDataModel").setProperty("/PartQty", obj.QuantityOrdered);
 					this.getView().getModel("PartDataModel").setProperty("/PartDescription", obj.PartDescription);
 					this.getView().getModel("PartDataModel").setProperty("/QuantityReceived", obj.QuantityReceived);
 
@@ -2649,7 +2658,7 @@ sap.ui.define([
 							});
 							this.getModel("LocalDataModel").setProperty("/partItemAttachments", oAttachSet);
 							this.getView().getModel("AttachmentModel").setProperty("/" + "/items", oAttachSet);
-							// this.getModel("LocalDataModel").setProperty("/partItemAttachments", oAttachSet);
+							this.getModel("LocalDataModel").setProperty("/UploadEnable", true);
 						}, this)
 					});
 				}
@@ -2660,12 +2669,6 @@ sap.ui.define([
 
 				oClaimModel.create("/zc_headSet", this.obj, {
 					success: $.proxy(function (data, response) {
-						// oClaimModel.read("/zc_claim_item_price_dataSet", {
-						// 	urlParameters: {
-						// 		"$filter": "NumberOfWarrantyClaim eq '" + this.getView().getModel("HeadSetData").getProperty("/NumberOfWarrantyClaim") +
-						// 			"'and LanguageKey eq 'E'"
-						// 	},
-						// 	success: $.proxy(function (pricedata) {
 						var pricingData = response.data.zc_claim_item_price_dataSet.results;
 						var oFilteredData = pricingData.filter(function (val) {
 							return val.ItemType === "MAT";
@@ -2676,12 +2679,8 @@ sap.ui.define([
 						}
 						this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
 						this.getView().getModel("DateModel").setProperty("/saveParts", true);
+						this.getModel("LocalDataModel").setProperty("/UploadEnable", true);
 						this._fnClaimSum();
-						// 	}, this),
-						// 	error: function (err) {
-						// 		console.log(err);
-						// 	}
-						// });
 					}, this),
 					error: function (err) {
 						console.log(err);
@@ -2723,7 +2722,7 @@ sap.ui.define([
 							urlParameters: {
 								"$filter": "NumberOfWarrantyClaim eq '" + this.getView().getModel("HeadSetData").getProperty(
 										"/NumberOfWarrantyClaim") +
-									"'and LanguageKey eq '"+sSelectedLocale+"'"
+									"'and LanguageKey eq '" + sSelectedLocale + "'"
 							},
 							success: $.proxy(function (pricedata) {
 								if (this.claimType != "ZPPD") {
@@ -2736,7 +2735,7 @@ sap.ui.define([
 										if (oFilteredData[m].ALMDiscreDesc != undefined || oFilteredData[m].ALMDiscreDesc != "") {
 											oFilteredData[m].ALMDiscreDesc = oFilteredData[m].ALMDiscreDesc.split("-")[1];
 										}
-										oFilteredData[m].quant2 = oFilteredData[m].PartQty;
+										oFilteredData[m].quant = oFilteredData[m].PartQty;
 									}
 									this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
 								} else {
@@ -2782,11 +2781,11 @@ sap.ui.define([
 														"Received: " + (-IncorrectPartData[m + 1].DealerNet)
 													].join("\n");
 													// IncorrectPartData[m].quant= IncorrectPartData[m].PartQty;
-													IncorrectPartData[m].quant = [
+													IncorrectPartData[m].PartQty = [
 														"Ordered: " + IncorrectPartData[m].PartQty,
 														"Received: " + IncorrectPartData[m + 1].PartQty
 													].join("\n");
-													IncorrectPartData[m].quant2 = [
+													IncorrectPartData[m].quant = [
 														"Ordered: " + IncorrectPartData[m].QuantityOrdered,
 														"Received: " + IncorrectPartData[m + 1].QuantityReceived
 													].join("\n");
@@ -2818,11 +2817,11 @@ sap.ui.define([
 														"Received: " + IncorrectPartData[m + 1].DealerNet
 													].join("\n");
 													// IncorrectPartData[m].quant= IncorrectPartData[m].PartQty;
-													IncorrectPartData[m].quant = [
+													IncorrectPartData[m].PartQty = [
 														"Ordered: " + IncorrectPartData[m].PartQty,
 														"Received: " + IncorrectPartData[m + 1].PartQty
 													].join("\n");
-													IncorrectPartData[m].quant2 = [
+													IncorrectPartData[m].quant = [
 														"Ordered: " + IncorrectPartData[m].QuantityOrdered,
 														"Received: " + IncorrectPartData[m + 1].QuantityReceived
 													].join("\n");
@@ -2855,16 +2854,16 @@ sap.ui.define([
 												"Received: " + filteredPriceData[m].PartDescription
 											].join("\n");
 											filteredPriceData[m].DealerNet = filteredPriceData[m].DealerNet;
-											filteredPriceData[m].quant = filteredPriceData[m].PartQty;
+											filteredPriceData[m].PartQty = filteredPriceData[m].PartQty;
 
-											filteredPriceData[m].quant2 = [
+											filteredPriceData[m].quant = [
 												"Ordered: " + filteredPriceData[m].QuantityOrdered,
 												"Received: " + filteredPriceData[m].QuantityReceived
 											].join("\n");
 											filteredPriceData[m].AmtClaimed = filteredPriceData[m].AmtClaimed;
 											filteredPriceData[m].TCIApprovedAmount = filteredPriceData[m].TCIApprAmt;
 											filteredPriceData[m].DiffAmt = filteredPriceData[m].DiffAmt;
-											filteredPriceData[m].quant = filteredPriceData[m].PartQty;
+											filteredPriceData[m].PartQty = filteredPriceData[m].PartQty;
 										}
 										// this.getView().getModel("multiHeaderConfig").setProperty("/flagIncorrectPart", false);
 										console.log("correct data updated", filteredPriceData);
@@ -3697,9 +3696,14 @@ sap.ui.define([
 					this.getView().getModel("DateModel").setProperty("/submitTCIBtn", false);
 					this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
 				} else {
-					/*Uncomment for security*/
-					this.getView().getModel("DateModel").setProperty("/submitTCIBtn", true);
-					this.getView().getModel("DateModel").setProperty("/SaveClaim07", true);
+					if (this.ClaimStatus == "ZTRC" || this.ClaimStatus == "ZTIC") {
+						/*Uncomment for security*/
+						this.getView().getModel("DateModel").setProperty("/submitTCIBtn", true);
+						this.getView().getModel("DateModel").setProperty("/SaveClaim07", true);
+					} else {
+						this.getView().getModel("DateModel").setProperty("/submitTCIBtn", false);
+						this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
+					}
 					/*Uncomment for security*/
 				}
 				/*Uncomment for security*/
@@ -3711,7 +3715,6 @@ sap.ui.define([
 
 		onStep03Next: function () {
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
-
 			var validator = new Validator();
 			validator.validate(this.byId("partTable"));
 			if (this.getView().getModel("DateModel").getProperty("/SavePart2") == false) {
@@ -3721,6 +3724,21 @@ sap.ui.define([
 				MessageBox.show(this.oBundle.getText("LOIMandatoryBeforeTCISubmit"), MessageBox.Icon.INFORMATION, "Reminder", MessageBox.Action.OK,
 					null, null);
 			}
+			if (userScope == "ReadOnlyViewAll") {
+				this.getView().getModel("DateModel").setProperty("/submitTCIBtn", false);
+				this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
+			} else {
+				if (this.ClaimStatus == "ZTRC" || this.ClaimStatus == "ZTIC") {
+					/*Uncomment for security*/
+					this.getView().getModel("DateModel").setProperty("/submitTCIBtn", true);
+					this.getView().getModel("DateModel").setProperty("/SaveClaim07", true);
+				} else {
+					this.getView().getModel("DateModel").setProperty("/submitTCIBtn", false);
+					this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
+				}
+				/*Uncomment for security*/
+			}
+
 			if (!validator.isValid()) {
 				//do something additional to drawing red borders? message box?
 				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
@@ -3738,11 +3756,17 @@ sap.ui.define([
 					this.getView().getModel("DateModel").setProperty("/submitTCIBtn", false);
 					this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
 				} else {
-					/*Uncomment for security*/
-					this.getView().getModel("DateModel").setProperty("/submitTCIBtn", true);
-					this.getView().getModel("DateModel").setProperty("/SaveClaim07", true);
+					if (this.ClaimStatus == "ZTRC" || this.ClaimStatus == "ZTIC") {
+						/*Uncomment for security*/
+						this.getView().getModel("DateModel").setProperty("/submitTCIBtn", true);
+						this.getView().getModel("DateModel").setProperty("/SaveClaim07", true);
+					} else {
+						this.getView().getModel("DateModel").setProperty("/submitTCIBtn", false);
+						this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
+					}
 					/*Uncomment for security*/
 				}
+
 				/*Uncomment for security*/
 				this.getView().byId("idMainClaimMessage").setProperty("visible", false);
 				this.getView().byId("idMainClaimMessage").setType("None");
@@ -3823,7 +3847,7 @@ sap.ui.define([
 			this.obj.HeadText = this.getView().getModel("HeadSetData").getProperty("/HeadText");
 			this.obj.Message = "";
 			this.obj.DBOperation = "SUB";
-			
+
 			console.log("onTCIsubmit", this.obj);
 			// this.obj.NumberOfWarrantyClaim = oClaimNum;
 			var oObj = {
@@ -3873,8 +3897,8 @@ sap.ui.define([
 
 												this.getView().getModel("PartDataModel").setProperty("/LineNo", "");
 												this.getView().getModel("PartDataModel").setProperty("/matnr", "");
+												this.getView().getModel("PartDataModel").setProperty("/PartQty", "");
 												this.getView().getModel("PartDataModel").setProperty("/quant", "");
-												this.getView().getModel("PartDataModel").setProperty("/quant2", "");
 												this.getView().getModel("PartDataModel").setProperty("/PartDescription", "");
 												this.getView().getModel("PartDataModel").setProperty("/DiscreCode", "");
 												this.getView().getModel("PartDataModel").setProperty("/RetainPart", "");
