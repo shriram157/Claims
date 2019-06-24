@@ -3709,8 +3709,10 @@ sap.ui.define([
 			var validator = new Validator();
 			validator.validate(this.byId("partTable"));
 			if (this.getView().getModel("DateModel").getProperty("/SavePart2") == false) {
-				MessageBox.show(this.oBundle.getText("PleaseSavePart"), MessageBox.Icon.ERROR, "Reminder", MessageBox.Action.OK,
-					null, null);
+				if (this.ClaimStatus == "ZTRC" || this.ClaimStatus == "ZTIC") {
+					MessageBox.show(this.oBundle.getText("PleaseSavePart"), MessageBox.Icon.ERROR, "Reminder", MessageBox.Action.OK,
+						null, null);
+				}
 			} else if (this.getView().getModel("DateModel").getProperty("/oLetterOfIntent") == true) {
 				MessageBox.show(this.oBundle.getText("LOIMandatoryBeforeTCISubmit"), MessageBox.Icon.INFORMATION, "Reminder", MessageBox.Action.OK,
 					null, null);
