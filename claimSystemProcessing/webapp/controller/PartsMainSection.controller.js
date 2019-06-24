@@ -43,7 +43,8 @@ sap.ui.define([
 				waybilltype: "None",
 				obdValueState: "None",
 				SavePart2: false,
-				DelDateEdit: false
+				DelDateEdit: false,
+				FeedEnabled:false
 			});
 			this.getView().setModel(oDateModel, "DateModel");
 			var oNodeModel = new sap.ui.model.json.JSONModel();
@@ -349,7 +350,8 @@ sap.ui.define([
 					obdValueState: "None",
 					SavePart2: false,
 					DelDateEdit: false,
-					PWPrintEnable: false
+					PWPrintEnable: false,
+					FeedEnabled:false
 				});
 			} else {
 				/*Uncomment for security*/
@@ -374,7 +376,8 @@ sap.ui.define([
 					obdValueState: "None",
 					SavePart2: false,
 					DelDateEdit: false,
-					PWPrintEnable: false
+					PWPrintEnable: false,
+					FeedEnabled:false
 				});
 			}
 			/*Uncomment for security*/
@@ -542,6 +545,7 @@ sap.ui.define([
 							this.getModel("LocalDataModel").setProperty("/UploadEnableHeader", false);
 							this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", false);
 							this.getView().getModel("DateModel").setProperty("/submitTCIBtn", false);
+							this.getView().getModel("DateModel").setProperty("/FeedEnabled", false);
 						} else {
 							if (this.ClaimStatus == "ZTRC" || this.ClaimStatus == "ZTIC") {
 								//code here
@@ -550,12 +554,14 @@ sap.ui.define([
 								this.getModel("LocalDataModel").setProperty("/UploadEnableHeader", true);
 								this.getView().getModel("DateModel").setProperty("/SaveClaimBTN", true);
 								this.getView().getModel("DateModel").setProperty("/submitTCIBtn", true);
+								this.getView().getModel("DateModel").setProperty("/FeedEnabled", true);
 							} else {
 								this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
 								this.getView().getModel("DateModel").setProperty("/SaveClaimBTN", false);
 								this.getModel("LocalDataModel").setProperty("/UploadEnableHeader", false);
 								this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", false);
 								this.getView().getModel("DateModel").setProperty("/submitTCIBtn", false);
+								this.getView().getModel("DateModel").setProperty("/FeedEnabled", false);
 							}
 						}
 						oProssingModel.read("/zc_headSet", {
@@ -565,7 +571,7 @@ sap.ui.define([
 									"'and LanguageKey eq '" + sSelectedLocale.toUpperCase() + "'",
 								"$expand": "zc_claim_commentSet,zc_claim_vsrSet,zc_claim_read_descriptionSet"
 							},
-							success: $.proxy(function (Data) {
+							success: $.proxy(function (errorData) {
 								this.getModel("LocalDataModel").setProperty("/oErrorSet", errorData.results[0].zc_claim_vsrSet.results);
 								this.getView().getModel("HeadSetData").setProperty("/ReferenceDate", errorData.results[0].zc_claim_read_descriptionSet
 									.results[0].ReferenceDate);
@@ -3587,6 +3593,7 @@ sap.ui.define([
 							},
 							success: $.proxy(function (sdata) {
 								console.log("Response after claim is saved", sdata);
+								this.getView().getModel("DateModel").setProperty("/FeedEnabled", true);
 								this.getModel("LocalDataModel").setProperty("/ClaimDetails", sdata.results[0]);
 								this.getView().getModel("HeadSetData").setData(sdata.results[0]);
 								this.getView().getModel("HeadSetData").setProperty("/DeliveryDate", that.DataRes1.DeliveryDate);
@@ -3622,14 +3629,13 @@ sap.ui.define([
 
 					}, this),
 					error: function (err) {
+						that.getView().getModel("DateModel").setProperty("/FeedEnabled", false);
 						console.log(err);
 						var err = JSON.parse(err.responseText);
 						var msg = err.error.message.value;
 						MessageBox.show(msg, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
 					}
 				});
-				// this.getView().byId("idOutBoundDD").setValueState("None");
-				// this.getView().byId("idShipmentRDate").setValueState("None");
 				this.getView().byId("idMainClaimMessage").setProperty("visible", false);
 				this.getView().getModel("DateModel").setProperty("/claimTypeEn", false);
 				this.getModel("LocalDataModel").setProperty("/step01Next", true);
@@ -3644,7 +3650,6 @@ sap.ui.define([
 			this.getView().byId("mainSectionTitle").setTitle(this.oBundle.getText("ClaimPartsSection"));
 			if (!oValidator.isValid()) {
 				this.getView().byId("mainSectionTitle").setTitle(this.oBundle.getText("MainSection"));
-				//do something additional to drawing red borders? message box?
 				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
 				this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
 				this.getView().byId("idFilter02").setProperty("enabled", false);
@@ -3654,22 +3659,19 @@ sap.ui.define([
 			if (oValidator.isValid()) {
 				this.getView().byId("idFilter02").setProperty("enabled", true);
 				this.getView().byId("idPartClaimIconBar").setSelectedKey("Tab2");
-				/*Uncomment for security*/
+				
 				if (userScope == "ReadOnlyViewAll") {
 					this.getView().getModel("DateModel").setProperty("/submitTCIBtn", false);
 					this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
 				} else {
 					if (this.ClaimStatus == "ZTRC" || this.ClaimStatus == "ZTIC") {
-						/*Uncomment for security*/
 						this.getView().getModel("DateModel").setProperty("/submitTCIBtn", true);
 						this.getView().getModel("DateModel").setProperty("/SaveClaim07", true);
 					} else {
 						this.getView().getModel("DateModel").setProperty("/submitTCIBtn", false);
 						this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
 					}
-					/*Uncomment for security*/
 				}
-				/*Uncomment for security*/
 				this.getView().byId("idMainClaimMessage").setProperty("visible", false);
 				this.getView().byId("idMainClaimMessage").setType("None");
 
@@ -3692,18 +3694,15 @@ sap.ui.define([
 				this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
 			} else {
 				if (this.ClaimStatus == "ZTRC" || this.ClaimStatus == "ZTIC") {
-					/*Uncomment for security*/
 					this.getView().getModel("DateModel").setProperty("/submitTCIBtn", true);
 					this.getView().getModel("DateModel").setProperty("/SaveClaim07", true);
 				} else {
 					this.getView().getModel("DateModel").setProperty("/submitTCIBtn", false);
 					this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
 				}
-				/*Uncomment for security*/
 			}
 
 			if (!validator.isValid()) {
-				//do something additional to drawing red borders? message box?
 				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
 				this.getView().byId("idFilter03").setProperty("enabled", false);
 				this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
@@ -3714,29 +3713,26 @@ sap.ui.define([
 			}
 			if (validator.isValid()) {
 				this.getView().byId("mainSectionTitle").setTitle(this.oBundle.getText("ValidatePartsSection"));
-				/*Uncomment for security*/
+				
 				if (userScope == "ReadOnlyViewAll") {
 					this.getView().getModel("DateModel").setProperty("/submitTCIBtn", false);
 					this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
 				} else {
 					if (this.ClaimStatus == "ZTRC" || this.ClaimStatus == "ZTIC") {
-						/*Uncomment for security*/
+						
 						this.getView().getModel("DateModel").setProperty("/submitTCIBtn", true);
 						this.getView().getModel("DateModel").setProperty("/SaveClaim07", true);
 					} else {
 						this.getView().getModel("DateModel").setProperty("/submitTCIBtn", false);
 						this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
 					}
-					/*Uncomment for security*/
 				}
-
-				/*Uncomment for security*/
+				
 				this.getView().byId("idMainClaimMessage").setProperty("visible", false);
 				this.getView().byId("idMainClaimMessage").setType("None");
 				this.getView().byId("idFilter03").setProperty("enabled", true);
 				this.getView().byId("idPartClaimIconBar").setSelectedKey("Tab3");
 			}
-
 		},
 		onRevalidate: function () {
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
