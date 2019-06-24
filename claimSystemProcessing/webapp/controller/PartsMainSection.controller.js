@@ -691,7 +691,7 @@ sap.ui.define([
 									"results": pricingData
 								},
 								"zc_claim_commentSet": {
-									"results": []
+									"results": this.getModel("LocalDataModel").getProperty("/claim_commentSet")
 								}
 							};
 						}, this),
@@ -918,7 +918,7 @@ sap.ui.define([
 									"results": pricingData
 								},
 								"zc_claim_commentSet": {
-									"results": []
+									"results": this.getModel("LocalDataModel").getProperty("/claim_commentSet")
 								}
 							};
 						}, this),
