@@ -9,8 +9,9 @@ sap.ui.define([
 	"sap/ui/core/ValueState",
 	"zclaimProcessing/utils/Validator",
 	'sap/ui/model/Filter',
-	'sap/m/MessageBox'
-], function (Button, Dialog, Label, MessageToast, Text, BaseController, base64, ValueState, Validator, Filter, MessageBox) {
+	'sap/m/MessageBox',
+	"sap/ui/core/format/DateFormat"
+], function (Button, Dialog, Label, MessageToast, Text, BaseController, base64, ValueState, Validator, Filter, MessageBox, DateFormat) {
 	"use strict";
 	var callData, arrPartLOI = [],
 		BpDealerModel, BpDealerList = [],
@@ -758,7 +759,7 @@ sap.ui.define([
 											filteredPriceData.push(IncorrectPartData[m]);
 
 										} else {
-											
+
 											IncorrectPartData[m].matnr = [
 												"Ordered: " + IncorrectPartData[m].matnr,
 												"Received: " + IncorrectPartData[m + 1].matnr
@@ -771,7 +772,7 @@ sap.ui.define([
 												"Ordered: " + IncorrectPartData[m].DealerNet,
 												"Received: " + IncorrectPartData[m + 1].DealerNet
 											].join("\n");
-											
+
 											IncorrectPartData[m].PartQty = [
 												"Ordered: " + IncorrectPartData[m].PartQty,
 												"Received: " + IncorrectPartData[m + 1].PartQty
@@ -833,7 +834,7 @@ sap.ui.define([
 							}
 							this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
 							console.log("pricing data", oFilteredData);
-							
+
 							var PartItem = oFilteredData.map(function (item) {
 								if (item.RepairOrRetrunPart == "Yes") {
 									var RepairPart = "Y";
@@ -1125,7 +1126,6 @@ sap.ui.define([
 						"QuantityReceived": "0.000",
 						"WrongPart": "",
 						"PartRepaired": "",
-						"RepairOrRetrunPart": "N",
 						"RetainPart": "",
 						"RepairAmt": "0.000"
 					}]
@@ -3384,6 +3384,13 @@ sap.ui.define([
 
 						this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
 						var PartItem = oFilteredData.map(function (item) {
+							if (item.RepairOrRetrunPart == "Yes") {
+								var RepairPart = "Y";
+							} else if (item.RepairOrRetrunPart == "No") {
+								RepairPart = "N";
+							} else {
+								RepairPart = "";
+							}
 							if (item.RetainPart == "Yes") {
 								var RetainPart = "Y";
 							} else if (item.RetainPart == "No") {
@@ -3405,7 +3412,8 @@ sap.ui.define([
 								DiscreCode: item.DiscreCode,
 								ALMDiscreDesc: item.ALMDiscreDesc,
 								WrongPart: item.WrongPart,
-								RepairAmount: item.RepairAmt
+								RepairAmount: item.RepairAmt,
+								RepairOrRetrunPart: RepairPart
 							};
 						});
 						this.getView().getModel("HeadSetData").getProperty("/DateOfApplication", this.getView().getModel("HeadSetData").getProperty(
@@ -3578,8 +3586,6 @@ sap.ui.define([
 									"'"
 							},
 							success: $.proxy(function (sdata) {
-								//-(10.5*60*60)
-								//estTime.setHours(estTime.getHours() + estTime.getTimezoneOffset()/60 - 5);
 								console.log("Response after claim is saved", sdata);
 								this.getModel("LocalDataModel").setProperty("/ClaimDetails", sdata.results[0]);
 								this.getView().getModel("HeadSetData").setData(sdata.results[0]);
@@ -3587,7 +3593,8 @@ sap.ui.define([
 								this.getView().getModel("HeadSetData").setProperty("/ShipmentReceivedDate", that.DataRes1.ShipmentReceivedDate);
 								this.getView().getModel("HeadSetData").setProperty("/ReferenceDate", that.DataRes1.ReferenceDate);
 								this.getView().getModel("HeadSetData").setProperty("/DateOfApplication", that.DataRes1.DateOfApplication);
-								// var oCLaim = this.getModel("LocalDataModel").getProperty("/ClaimDetails/NumberOfWarrantyClaim");
+								//this.getModel("LocalDataModel").getProperty("/ClaimDetails").DecisionCode
+								this.ClaimStatus = this.getModel("LocalDataModel").getProperty("/ClaimDetails/DecisionCode");
 								this.getView().getModel("HeadSetData").setProperty("/NumberOfWarrantyClaim", this.getModel("LocalDataModel").getProperty(
 									"/WarrantyClaimNum"));
 								this.getView().getModel("DateModel").setProperty("/saveParts", true);
@@ -4246,7 +4253,6 @@ sap.ui.define([
 					"QuantityReceived": "0.000",
 					"WrongPart": "",
 					"PartRepaired": "",
-					"RepairOrRetrunPart": "",
 					"RetainPart": "",
 					"RepairAmt": "0.000"
 				}]
