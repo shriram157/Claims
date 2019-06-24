@@ -2624,9 +2624,10 @@ sap.ui.define([
 					this.getView().getModel("HeadSetData").setProperty("/DamageCondition", obj.DiscreCode);
 					this.getView().getModel("HeadSetData").setProperty("/MiscellaneousCode", obj.DiscreCode);
 					this.getView().getModel("HeadSetData").setProperty("/TranportShortageType", obj.DiscreCode);
-
-					var oFile = obj.URI.split(",")[1].split("=")[1].split(")")[0];
-					var oFileReplaced = oFile.replace(/'/g, "");
+					if (obj.URI !== "") {
+						var oFile = obj.URI.split(",")[1].split("=")[1].split(")")[0];
+						var oFileReplaced = oFile.replace(/'/g, "");
+					}
 
 					oClaimModel.read("/zc_claim_partattachmentSet", {
 						urlParameters: {
@@ -2685,8 +2686,10 @@ sap.ui.define([
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			if (this.URI != undefined) {
 				if (this.claimType != "ZPPD") { //this.getModel("LocalDataModel").getProperty(oPath)
-					var oFile = this.URI.split(",")[1].split("=")[1].split(")")[0];
-					var oFileReplaced = oFile.replace(/'/g, "");
+					if (this.URI !== "") {
+						var oFile = this.URI.split(",")[1].split("=")[1].split(")")[0];
+						var oFileReplaced = oFile.replace(/'/g, "");
+					}
 				}
 			}
 
