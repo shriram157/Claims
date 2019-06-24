@@ -232,7 +232,7 @@ sap.ui.define([
 		_onRoutMatched: function (oEvent) {
 			this.getModel("LocalDataModel").setProperty("/oCurrentDealerLabour", "");
 			this.getModel("LocalDataModel").setProperty("/enableEnterComment", false);
-
+			this.getModel("LocalDataModel").setProperty("/FeedEnabled", false);
 			this._ValidateOnLoad();
 			var sSelectedLocale;
 			//  get the locale to determine the language.
@@ -389,6 +389,7 @@ sap.ui.define([
 
 				var sSelectedLocale;
 				this.getModel("LocalDataModel").setProperty("/PrintEnable", true);
+
 				//  get the locale to determine the language.
 				var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
 				if (isLocaleSent) {
@@ -1038,9 +1039,6 @@ sap.ui.define([
 								"UserDataModel").getProperty("/LoggedInUser") != "Zone_User" &&
 							sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") != "TCI_Admin") {
 
-							//sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") != "Zone_User" && sap.ui.getCore().getModel(
-							//	"UserDataModel").getProperty("/LoggedInUser") != "TCI_Admin"
-
 							if (oClaimSelectedGroup == "Authorization") {
 								this.getView().getModel("DateModel").setProperty("/copyClaimEnable", false);
 								this.getModel("LocalDataModel").setProperty("/PercentState", true);
@@ -1049,6 +1047,7 @@ sap.ui.define([
 								this.getModel("LocalDataModel").setProperty("/PercentState", false);
 							}
 							this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
+							this.getModel("LocalDataModel").setProperty("/FeedEnabled", true);
 							this.getView().getModel("DateModel").setProperty("/SaveClaim07", true);
 							this.getModel("LocalDataModel").setProperty("/CancelEnable", true);
 							this.getView().getModel("DateModel").setProperty("/claimEditSt", false);
@@ -1074,6 +1073,7 @@ sap.ui.define([
 								this.getModel("LocalDataModel").setProperty("/PercentState", false);
 							}
 							this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
+							this.getModel("LocalDataModel").setProperty("/FeedEnabled", true);
 							this.getView().getModel("DateModel").setProperty("/SaveClaim07", true);
 							this.getModel("LocalDataModel").setProperty("/CancelEnable", true);
 							this.getView().getModel("DateModel").setProperty("/damageLine", true);
@@ -1400,8 +1400,8 @@ sap.ui.define([
 					urlParameters: {
 						"$filter": "BusinessPartner eq '" + oPartner + "'"
 					},
-					success: $.proxy(function (data) {
-						this.getModel("LocalDataModel").setProperty("/BPOrgName", data.results[0].OrganizationBPName1);
+					success: $.proxy(function (sdata) {
+						this.getModel("LocalDataModel").setProperty("/BPOrgName", sdata.results[0].OrganizationBPName1);
 					}, this)
 				});
 
@@ -1425,19 +1425,6 @@ sap.ui.define([
 						var oSubmissionData = oResult.filter(function (v, t) {
 							return v.AuthorizationApply != "";
 						});
-
-						// 		oProssingModel.read("/zc_claim_groupSet", {
-						// 			urlParameters: {
-						// 				"$filter": "ClaimGroupDes eq 'FAC'"
-						// 			},
-						// 			success: $.proxy(function (sdata) {
-						// 				//var oFieldAct = sdata.results;
-						// 				sdata.results.forEach(function (item) {
-						// 					oSubmissionData.push(item);
-						// 				});
-
-						// 			}, this)
-						// 		});
 
 						this.getModel("LocalDataModel").setProperty("/DataSubmissionClaim", oSubmissionData);
 
@@ -1621,17 +1608,6 @@ sap.ui.define([
 				};
 				this.getView().getModel("DateModel").setProperty("/claimTypeEn", true);
 
-				// var oProssingModel = this.getModel("ProssingModel");
-				// oProssingModel.read("/zc_claim_groupSet", {
-				// 	urlParameters: {
-				// 		"$filter": "ClaimGroup eq '" + oText + "'and LanguageKey eq 'EN'"
-				// 	},
-				// 	success: $.proxy(function (data) {
-				// 		this.getModel("LocalDataModel").setProperty("/oClaimTypeData", data.results);
-
-				// 	}, this)
-				// });
-
 				var sSelectedLocale;
 				//  get the locale to determine the language.
 				var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
@@ -1689,36 +1665,6 @@ sap.ui.define([
 							console.log("Error");
 						}
 					});
-
-					// oProssingModel.read("/ZC_CLAIM_GROUP", {
-					// 	urlParameters: {
-					// 		"$filter": "ClaimGroupDes eq 'FAC'"
-					// 	},
-					// 	success: $.proxy(function (data) {
-
-					// 		var oResult = data.results;
-
-					// 		if (oClaimSelectedGroup == "Authorization") {
-					// 			this.oFilteredData = oResult.filter(function (v, t) {
-					// 				return v.ALMClaimType == "ZACD" || v.ALMClaimType == "ZAUT";
-					// 			});
-					// 			this.getView().getModel("DateModel").setProperty("/warrantySubmissionClaim", true);
-					// 			this.getModel("LocalDataModel").setProperty("/linkToAuth", false);
-					// 			this.getModel("LocalDataModel").setProperty("/reCalculate", true);
-					// 			this.getModel("LocalDataModel").setProperty("/PercentState", true);
-					// 		} else if (oClaimSelectedGroup == "Claim") {
-					// 			this.oFilteredData = oResult.filter(function (v, t) {
-					// 				return v.ALMClaimType != "ZACD" && v.ALMClaimType != "ZAUT";
-					// 			});
-					// 			this.getView().getModel("DateModel").setProperty("/warrantySubmissionClaim", false);
-
-					// 		} else {
-					// 			this.getView().getModel("DateModel").setProperty("/warrantySubmissionClaim", false);
-					// 		}
-					// 		this.getModel("LocalDataModel").setProperty("/ClaimGroupSet", this.oFilteredData);
-					// 	}, this),
-					// 	error: function () {}
-					// });
 
 					this.getView().getModel("DateModel").setProperty("/Paint", false);
 					this.getView().getModel("DateModel").setProperty("/Sublet", true);
@@ -2027,6 +1973,7 @@ sap.ui.define([
 		},
 
 		onPost: function (oEvent) {
+
 			var oBusinessModel = this.getModel("ApiBusinessModel");
 			this.getModel("LocalDataModel").setProperty("/commentIndicator", true);
 
@@ -2083,14 +2030,6 @@ sap.ui.define([
 					});
 				}, this)
 			});
-
-			// update model
-			// 			var oFeedbackModel = this.getModel("productFeedback");
-			// 			var aEntries = oFeedbackModel.getData().productComments;
-			// 			aEntries.push(oEntry);
-			// 			oFeedbackModel.setData({
-			// 				productComments: aEntries
-			// 			});
 		},
 
 		onEnterComment: function () {
@@ -3059,21 +2998,21 @@ sap.ui.define([
 				var oPartner = this.getModel("LocalDataModel").getProperty("/BpDealerModel/0/BusinessPartnerKey");
 
 				var oBusinessModel = this.getModel("ApiBusinessModel");
-				// oBusinessModel.read("/A_BusinessPartner", {
-				// 	urlParameters: {
-				// 		"$filter": "BusinessPartner eq '" + oPartner + "'"
-				// 	},
-				// 	success: $.proxy(function (data) {
-				// 		this.getModel("LocalDataModel").setProperty("/BPOrgName", data.results[0].OrganizationBPName1);
-				// 	}, this)
-				// });
+				oBusinessModel.read("/A_BusinessPartner", {
+					urlParameters: {
+						"$filter": "BusinessPartner eq '" + oPartner + "'"
+					},
+					success: $.proxy(function (bpdata) {
+						this.getModel("LocalDataModel").setProperty("/BPOrgName", dBp.results[0].OrganizationBPName1);
+					}, this)
+				});
 				oClaimModel.refreshSecurityToken();
 				oClaimModel.create("/zc_headSet", this.obj, {
 					success: $.proxy(function (data, response) {
 						this.getView().byId("idMainClaimMessage").setProperty("visible", false);
 						this.getView().getModel("DateModel").setProperty("/claimTypeEn", false);
 						this.getModel("LocalDataModel").setProperty("/step01Next", true);
-
+						this.getModel("LocalDataModel").setProperty("/FeedEnabled", true);
 						this.getModel("LocalDataModel").setProperty("/WarrantyClaimNum", response.data.NumberOfWarrantyClaim);
 						MessageToast.show(oBundle.getText("Claimhasbeensavedsuccessfully"), {
 							my: "center center",
@@ -3097,16 +3036,20 @@ sap.ui.define([
 								console.log(sdata);
 								this.getModel("LocalDataModel").setProperty("/ClaimDetails", sdata.results[0]);
 
-								var oPartner = this.getModel("LocalDataModel").getProperty("/BpDealerModel/0/BusinessPartnerKey");
-								var oBusinessModel = this.getModel("ApiBusinessModel");
-								oBusinessModel.read("/A_BusinessPartner", {
-									urlParameters: {
-										"$filter": "BusinessPartner eq '" + oPartner + "'"
-									},
-									success: $.proxy(function (dBp) {
-										this.getModel("LocalDataModel").setProperty("/BPOrgName", dBp.results[0].OrganizationBPName1);
-									}, this)
-								});
+								//var oPartner = this.getModel("LocalDataModel").getProperty("/BpDealerModel/0/BusinessPartnerKey");
+
+								// oBusinessModel.read("/A_BusinessPartner", {
+								// 	urlParameters: {
+								// 		"$filter": "BusinessPartner eq '" + this.getModel("LocalDataModel").getProperty(
+								// 			"/BpDealerModel/0/BusinessPartnerKey") + "'"
+								// 	},
+								// 	success: $.proxy(function (dBp) {
+								// 		this.getModel("LocalDataModel").setProperty("/BPOrgName", dBp.results[0].OrganizationBPName1);
+								// 	}, this),
+								// 	error: function (err) {
+								// 		console.log(err);
+								// 	}
+								// });
 
 								this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", sdata.results[0].OfpDescription);
 								this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", sdata.results[0].Main_opsDescription);
