@@ -1062,7 +1062,7 @@ sap.ui.define([
 				this.obj.zc_claim_commentSet = {
 					"results": []
 				};
-				this.getModel("LocalDataModel").setProperty("/claim_commentSet","");
+				this.getModel("LocalDataModel").setProperty("/claim_commentSet", "");
 				this.obj.zc_claim_item_price_dataSet = {
 					"results": [{
 						"Meins": "",
@@ -3788,8 +3788,8 @@ sap.ui.define([
 						dialog.close();
 					}, this),
 					error: function (err) {
-							dialog.close();
-						}
+						dialog.close();
+					}
 				}),
 				endButton: new Button({
 					text: 'Cancel',
@@ -3895,6 +3895,7 @@ sap.ui.define([
 
 												if (response.data.zc_claim_vsrSet.results.length <= 0) {
 													this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
+													this.getView().getModel("DateModel").setProperty("/SaveClaimBTN", false);
 													this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
 													this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", false);
 													this.getView().getModel("DateModel").setProperty("/submitTCIBtn", false);
@@ -3909,6 +3910,7 @@ sap.ui.define([
 													this.getView().byId("idFilter04").setProperty("enabled", true);
 												} else {
 													this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
+													this.getView().getModel("DateModel").setProperty("/SaveClaimBTN", true);
 													this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", true);
 													this.getView().getModel("DateModel").setProperty("/partLine", false);
 													this.getView().getModel("DateModel").setProperty("/saveParts", false);
@@ -3931,6 +3933,7 @@ sap.ui.define([
 										dialog.close();
 										console.log("Error in submitting claim to TCI", err);
 										this.getView().byId("idFilter04").setProperty("enabled", false);
+										this.getView().getModel("DateModel").setProperty("/SaveClaimBTN", true);
 										this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
 										this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", true);
 										var err = JSON.parse(err.responseText);
