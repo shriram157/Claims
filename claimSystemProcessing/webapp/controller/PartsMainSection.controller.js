@@ -574,33 +574,33 @@ sap.ui.define([
 								this.getModel("LocalDataModel").setProperty("/BPOrgName", sdata.results[0].OrganizationBPName1);
 							}, this)
 						});
-						oProssingModel.read("/zc_headSet", {
-							urlParameters: {
-								"$filter": "NumberOfWarrantyClaim eq '" + this.getModel("LocalDataModel").getProperty(
-										"/WarrantyClaimNum") +
-									"'and LanguageKey eq '" + sSelectedLocale.toUpperCase() + "'",
-								"$expand": "zc_claim_commentSet,zc_claim_vsrSet,zc_claim_read_descriptionSet"
-							},
-							success: $.proxy(function (errorData) {
-								this.getModel("LocalDataModel").setProperty("/oErrorSet", errorData.results[0].zc_claim_vsrSet.results);
-								this.getView().getModel("HeadSetData").setProperty("/ReferenceDate", errorData.results[0].zc_claim_read_descriptionSet
-									.results[0].ReferenceDate);
-								this.getView().getModel("HeadSetData").setProperty("/DateOfApplication", errorData.results[0].zc_claim_read_descriptionSet
-									.results[0].DateOfApplication);
-								this.getView().getModel("HeadSetData").setProperty("/RepairDate", errorData.results[0].zc_claim_read_descriptionSet
-									.results[0].RepairDate);
-								this.getModel("LocalDataModel").setProperty("/claim_commentSet", errorData.results[0].zc_claim_commentSet.results);
-							}, this),
-							error: function (err) {
-								console.log(err);
-							}
-						});
 						/*Uncomment for security*/
 					}, this),
 					error: function (err) {
 						var err = JSON.parse(err.responseText);
 						var msg = err.error.message.value;
 						MessageBox.show(msg, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
+					}
+				});
+				oProssingModel.read("/zc_headSet", {
+					urlParameters: {
+						"$filter": "NumberOfWarrantyClaim eq '" + this.getModel("LocalDataModel").getProperty(
+								"/WarrantyClaimNum") +
+							"'and LanguageKey eq '" + sSelectedLocale.toUpperCase() + "'",
+						"$expand": "zc_claim_commentSet,zc_claim_vsrSet,zc_claim_read_descriptionSet"
+					},
+					success: $.proxy(function (errorData) {
+						this.getModel("LocalDataModel").setProperty("/oErrorSet", errorData.results[0].zc_claim_vsrSet.results);
+						this.getView().getModel("HeadSetData").setProperty("/ReferenceDate", errorData.results[0].zc_claim_read_descriptionSet
+							.results[0].ReferenceDate);
+						this.getView().getModel("HeadSetData").setProperty("/DateOfApplication", errorData.results[0].zc_claim_read_descriptionSet
+							.results[0].DateOfApplication);
+						this.getView().getModel("HeadSetData").setProperty("/RepairDate", errorData.results[0].zc_claim_read_descriptionSet
+							.results[0].RepairDate);
+						this.getModel("LocalDataModel").setProperty("/claim_commentSet", errorData.results[0].zc_claim_commentSet.results);
+					}, this),
+					error: function (err) {
+						console.log(err);
 					}
 				});
 				if (this.claimType != "ZPPD") {
@@ -691,7 +691,7 @@ sap.ui.define([
 									"results": pricingData
 								},
 								"zc_claim_commentSet": {
-									"results": this.getModel("LocalDataModel").getProperty("/claim_commentSet")
+									"results": that.getModel("LocalDataModel").getProperty("/claim_commentSet")
 								}
 							};
 						}, this),
@@ -918,7 +918,7 @@ sap.ui.define([
 									"results": pricingData
 								},
 								"zc_claim_commentSet": {
-									"results": this.getModel("LocalDataModel").getProperty("/claim_commentSet")
+									"results": that.getModel("LocalDataModel").getProperty("/claim_commentSet")
 								}
 							};
 						}, this),
