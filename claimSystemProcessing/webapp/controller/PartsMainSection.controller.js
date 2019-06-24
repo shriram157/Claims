@@ -1062,6 +1062,7 @@ sap.ui.define([
 				this.obj.zc_claim_commentSet = {
 					"results": []
 				};
+				this.getModel("LocalDataModel").setProperty("/claim_commentSet","");
 				this.obj.zc_claim_item_price_dataSet = {
 					"results": [{
 						"Meins": "",
@@ -3777,7 +3778,7 @@ sap.ui.define([
 					press: $.proxy(function () {
 						oClaimModel.create("/zc_headSet", this.obj, {
 							success: function (data, response) {
-								MessageToast.show(this.getView().getModel("HeadSetData").getProperty("/NumberOfWarrantyClaim") +
+								MessageToast.show(that.getView().getModel("HeadSetData").getProperty("/NumberOfWarrantyClaim") +
 									"has been Saved successfully");
 							},
 							error: function () {
@@ -3789,9 +3790,6 @@ sap.ui.define([
 					error: function (err) {
 							dialog.close();
 						}
-						// 	MessageToast.show('Claim Number {cliam number" was successfully submitted to TCI.');
-						// 	that.getRouter().navTo("ApplicationList");
-						// }
 				}),
 				endButton: new Button({
 					text: 'Cancel',
