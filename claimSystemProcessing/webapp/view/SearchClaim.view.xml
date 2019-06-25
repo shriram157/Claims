@@ -62,7 +62,7 @@
 							<VBox class="sapUiLargeMarginBottom sapUiLargePaddingBottom">
 								<Table id="idClaimTable" inset="false" class="classRCPTable sapUiSizeCompact sapUiLargeMarginBottom" mode="None"
 									busy="{DateModel>/tableBusyIndicator}"
-									items="{path:'LocalDataModel>/ZcClaimHeadNewData', sorter:{path:'LocalDataModel>NumberOfWarrantyClaim', descending : false}}" growing="true"
+									items="{path:'LocalDataModel>/ZcClaimHeadNewData', sorter:{path:'NumberOfWarrantyClaim', descending : false}}" growing="true"
 									growingThreshold="25" growingScrollToLoad="false" growingTriggerText="Load more">
 									<headerToolbar>
 										<Toolbar>
