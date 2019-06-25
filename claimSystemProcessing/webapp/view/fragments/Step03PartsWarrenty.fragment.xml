@@ -147,7 +147,7 @@
 				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center"><Text text="{i18n>PartNumber}" textAlign="Center"/></Column>
 				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center"><Text text="{i18n>Description}" textAlign="Center"/></Column>
 				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
-					<Text text="{i18n>DealerNetPrice}" textAlign="Center"/>
+					<Text text="{LocalDataModel>/DealerPriceText}" textAlign="Center"/>
 				</Column>
 				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center"><Text text="{i18n>Quantity}" textAlign="Center"/>
 					<footer><Text text="{i18n>Subtotal}" textAlign="Center"/></footer>

@@ -479,9 +479,13 @@ sap.ui.define([
 						if (data.results[0].WarrantyClaimType == "ZECP") {
 							this.getModel("LocalDataModel").setProperty("/oCurrentDealerLabour", this.getModel("LocalDataModel").getProperty(
 								"/oDealerLabour/ECPNewLabourRate"));
+
+							this.getModel("LocalDataModel").setProperty("/DealerPriceText", oBundle.getText("MSRP"));
 						} else {
 							this.getModel("LocalDataModel").setProperty("/oCurrentDealerLabour", this.getModel("LocalDataModel").getProperty(
 								"/oDealerLabour/WTYNewLabourRate"));
+
+							this.getModel("LocalDataModel").setProperty("/DealerPriceText", oBundle.getText("DealerNetPrice"));
 						}
 
 						if (data.results[0].ExternalObjectNumber == "") {
@@ -2066,6 +2070,7 @@ sap.ui.define([
 			// this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType");
 			//var oClaimType = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType");
 			//var oClaimSubType = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType");
+			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var oKey = oEvent.getSource().getSelectedKey();
 
 			if (oKey == "ZGGW") {
@@ -2271,6 +2276,13 @@ sap.ui.define([
 				this.getView().getModel("DateModel").setProperty("/oTciQtyAppr", true);
 			} else {
 				this.getView().getModel("DateModel").setProperty("/oTciQtyAppr", false);
+			}
+
+			if (oKey == "ZECP") {
+				this.getModel("LocalDataModel").setProperty("/DealerPriceText", oBundle.getText("MSRP"));
+			} else {
+				this.getModel("LocalDataModel").setProperty("/DealerPriceText", oBundle.getText("DealerNetPrice"));
+
 			}
 
 		},
