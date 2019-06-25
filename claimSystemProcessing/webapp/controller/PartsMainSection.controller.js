@@ -44,7 +44,7 @@ sap.ui.define([
 				obdValueState: "None",
 				SavePart2: false,
 				DelDateEdit: false,
-				FeedEnabled:false
+				FeedEnabled: false
 			});
 			this.getView().setModel(oDateModel, "DateModel");
 			var oNodeModel = new sap.ui.model.json.JSONModel();
@@ -351,7 +351,7 @@ sap.ui.define([
 					SavePart2: false,
 					DelDateEdit: false,
 					PWPrintEnable: false,
-					FeedEnabled:false
+					FeedEnabled: false
 				});
 			} else {
 				/*Uncomment for security*/
@@ -377,7 +377,7 @@ sap.ui.define([
 					SavePart2: false,
 					DelDateEdit: false,
 					PWPrintEnable: false,
-					FeedEnabled:false
+					FeedEnabled: false
 				});
 			}
 			/*Uncomment for security*/
@@ -531,6 +531,7 @@ sap.ui.define([
 						this.getModel("LocalDataModel").setProperty("/ClaimDetails", data.results[0]);
 						this.getModel("LocalDataModel").setProperty("/BPPartner", data.results[0].Partner);
 						BPKey = data.results[0].Partner;
+						var Partner = data.results[0].Partner;
 						this._getBPModel(BPKey);
 						this.getModel("LocalDataModel").setProperty("/NumberOfWarrantyClaim", data.results[0].NumberOfWarrantyClaim);
 
@@ -564,26 +565,14 @@ sap.ui.define([
 								this.getView().getModel("DateModel").setProperty("/FeedEnabled", false);
 							}
 						}
-						oProssingModel.read("/zc_headSet", {
+						var oBusinessModel = this.getModel("ApiBusinessModel");
+						oBusinessModel.read("/A_BusinessPartner", {
 							urlParameters: {
-								"$filter": "NumberOfWarrantyClaim eq '" + this.getModel("LocalDataModel").getProperty(
-										"/WarrantyClaimNum") +
-									"'and LanguageKey eq '" + sSelectedLocale.toUpperCase() + "'",
-								"$expand": "zc_claim_commentSet,zc_claim_vsrSet,zc_claim_read_descriptionSet"
+								"$filter": "BusinessPartner eq '" + Partner + "'"
 							},
-							success: $.proxy(function (errorData) {
-								this.getModel("LocalDataModel").setProperty("/oErrorSet", errorData.results[0].zc_claim_vsrSet.results);
-								this.getView().getModel("HeadSetData").setProperty("/ReferenceDate", errorData.results[0].zc_claim_read_descriptionSet
-									.results[0].ReferenceDate);
-								this.getView().getModel("HeadSetData").setProperty("/DateOfApplication", errorData.results[0].zc_claim_read_descriptionSet
-									.results[0].DateOfApplication);
-								this.getView().getModel("HeadSetData").setProperty("/RepairDate", errorData.results[0].zc_claim_read_descriptionSet
-									.results[0].RepairDate);
-								this.getModel("LocalDataModel").setProperty("/claim_commentSet", errorData.results[0].zc_claim_commentSet.results);
-							}, this),
-							error: function (err) {
-								console.log(err);
-							}
+							success: $.proxy(function (sdata) {
+								this.getModel("LocalDataModel").setProperty("/BPOrgName", sdata.results[0].OrganizationBPName1);
+							}, this)
 						});
 						/*Uncomment for security*/
 					}, this),
@@ -591,6 +580,27 @@ sap.ui.define([
 						var err = JSON.parse(err.responseText);
 						var msg = err.error.message.value;
 						MessageBox.show(msg, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
+					}
+				});
+				oProssingModel.read("/zc_headSet", {
+					urlParameters: {
+						"$filter": "NumberOfWarrantyClaim eq '" + this.getModel("LocalDataModel").getProperty(
+								"/WarrantyClaimNum") +
+							"'and LanguageKey eq '" + sSelectedLocale.toUpperCase() + "'",
+						"$expand": "zc_claim_commentSet,zc_claim_vsrSet,zc_claim_read_descriptionSet"
+					},
+					success: $.proxy(function (errorData) {
+						this.getModel("LocalDataModel").setProperty("/oErrorSet", errorData.results[0].zc_claim_vsrSet.results);
+						this.getView().getModel("HeadSetData").setProperty("/ReferenceDate", errorData.results[0].zc_claim_read_descriptionSet
+							.results[0].ReferenceDate);
+						this.getView().getModel("HeadSetData").setProperty("/DateOfApplication", errorData.results[0].zc_claim_read_descriptionSet
+							.results[0].DateOfApplication);
+						this.getView().getModel("HeadSetData").setProperty("/RepairDate", errorData.results[0].zc_claim_read_descriptionSet
+							.results[0].RepairDate);
+						this.getModel("LocalDataModel").setProperty("/claim_commentSet", errorData.results[0].zc_claim_commentSet.results);
+					}, this),
+					error: function (err) {
+						console.log(err);
 					}
 				});
 				if (this.claimType != "ZPPD") {
@@ -681,7 +691,7 @@ sap.ui.define([
 									"results": pricingData
 								},
 								"zc_claim_commentSet": {
-									"results": []
+									"results": that.getModel("LocalDataModel").getProperty("/claim_commentSet")
 								}
 							};
 						}, this),
@@ -908,7 +918,7 @@ sap.ui.define([
 									"results": pricingData
 								},
 								"zc_claim_commentSet": {
-									"results": []
+									"results": that.getModel("LocalDataModel").getProperty("/claim_commentSet")
 								}
 							};
 						}, this),
@@ -1052,6 +1062,7 @@ sap.ui.define([
 				this.obj.zc_claim_commentSet = {
 					"results": []
 				};
+				this.getModel("LocalDataModel").setProperty("/claim_commentSet", "");
 				this.obj.zc_claim_item_price_dataSet = {
 					"results": [{
 						"Meins": "",
@@ -2613,9 +2624,10 @@ sap.ui.define([
 					this.getView().getModel("HeadSetData").setProperty("/DamageCondition", obj.DiscreCode);
 					this.getView().getModel("HeadSetData").setProperty("/MiscellaneousCode", obj.DiscreCode);
 					this.getView().getModel("HeadSetData").setProperty("/TranportShortageType", obj.DiscreCode);
-
-					var oFile = obj.URI.split(",")[1].split("=")[1].split(")")[0];
-					var oFileReplaced = oFile.replace(/'/g, "");
+					if (obj.URI !== "") {
+						var oFile = obj.URI.split(",")[1].split("=")[1].split(")")[0];
+						var oFileReplaced = oFile.replace(/'/g, "");
+					}
 
 					oClaimModel.read("/zc_claim_partattachmentSet", {
 						urlParameters: {
@@ -2674,8 +2686,10 @@ sap.ui.define([
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			if (this.URI != undefined) {
 				if (this.claimType != "ZPPD") { //this.getModel("LocalDataModel").getProperty(oPath)
-					var oFile = this.URI.split(",")[1].split("=")[1].split(")")[0];
-					var oFileReplaced = oFile.replace(/'/g, "");
+					if (this.URI !== "") {
+						var oFile = this.URI.split(",")[1].split("=")[1].split(")")[0];
+						var oFileReplaced = oFile.replace(/'/g, "");
+					}
 				}
 			}
 
@@ -3463,14 +3477,15 @@ sap.ui.define([
 								"results": this.getModel("LocalDataModel").getProperty("/claim_commentSet")
 							}
 						};
+
 						oClaimModel.refreshSecurityToken();
 						oClaimModel.create("/zc_headSet", this.obj, {
 							success: $.proxy(function (response) {
 								MessageToast.show(that.oBundle.getText("ClaimUpdateMSG"));
-								this.getModel("LocalDataModel").setProperty("/step01Next", true);
+								that.getModel("LocalDataModel").setProperty("/step01Next", true);
 							}, this),
 							error: function () {
-								this.getModel("LocalDataModel").setProperty("/step01Next", false);
+								that.getModel("LocalDataModel").setProperty("/step01Next", false);
 							}
 						});
 
@@ -3565,7 +3580,7 @@ sap.ui.define([
 					},
 					"zc_claim_commentSet": {
 						"results": []
-					},
+					}
 				};
 				var that = this;
 
@@ -3586,6 +3601,7 @@ sap.ui.define([
 						this.getView().getModel("HeadSetData").setProperty("/DateOfApplication", response.data.DateOfApplication);
 						// this.getModel("LOIDataModel").setProperty("/claimNumber", response.data.NumberOfWarrantyClaim);
 						this._fnClaimSum();
+						var oBusinessModel = this.getModel("ApiBusinessModel");
 						oClaimModel.read("/ZC_CLAIM_HEAD_NEW", {
 							urlParameters: {
 								"$filter": "NumberOfWarrantyClaim eq '" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") +
@@ -3593,6 +3609,7 @@ sap.ui.define([
 							},
 							success: $.proxy(function (sdata) {
 								console.log("Response after claim is saved", sdata);
+								var oPartner = sdata.results[0].Partner;
 								this.getView().getModel("DateModel").setProperty("/FeedEnabled", true);
 								this.getModel("LocalDataModel").setProperty("/ClaimDetails", sdata.results[0]);
 								this.getView().getModel("HeadSetData").setData(sdata.results[0]);
@@ -3614,10 +3631,19 @@ sap.ui.define([
 										"$expand": "zc_claim_read_descriptionSet"
 									},
 									success: $.proxy(function (Data) {
-										this.getView().getModel("HeadSetData").setProperty("/HeadText", Data.results[0].zc_claim_read_descriptionSet.results[
+										that.getView().getModel("HeadSetData").setProperty("/HeadText", Data.results[0].zc_claim_read_descriptionSet.results[
 											0].HeadText);
 									}, this)
 								});
+								oBusinessModel.read("/A_BusinessPartner", {
+									urlParameters: {
+										"$filter": "BusinessPartner eq '" + oPartner + "'"
+									},
+									success: $.proxy(function (sdata) {
+										this.getModel("LocalDataModel").setProperty("/BPOrgName", sdata.results[0].OrganizationBPName1);
+									}, this)
+								});
+
 							}, this),
 							error: function (err) {
 								console.log(err);
@@ -3659,7 +3685,7 @@ sap.ui.define([
 			if (oValidator.isValid()) {
 				this.getView().byId("idFilter02").setProperty("enabled", true);
 				this.getView().byId("idPartClaimIconBar").setSelectedKey("Tab2");
-				
+
 				if (userScope == "ReadOnlyViewAll") {
 					this.getView().getModel("DateModel").setProperty("/submitTCIBtn", false);
 					this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
@@ -3683,8 +3709,10 @@ sap.ui.define([
 			var validator = new Validator();
 			validator.validate(this.byId("partTable"));
 			if (this.getView().getModel("DateModel").getProperty("/SavePart2") == false) {
-				MessageBox.show(this.oBundle.getText("PleaseSavePart"), MessageBox.Icon.ERROR, "Reminder", MessageBox.Action.OK,
-					null, null);
+				if (this.ClaimStatus == "ZTRC" || this.ClaimStatus == "ZTIC") {
+					MessageBox.show(this.oBundle.getText("PleaseSavePart"), MessageBox.Icon.ERROR, "Reminder", MessageBox.Action.OK,
+						null, null);
+				}
 			} else if (this.getView().getModel("DateModel").getProperty("/oLetterOfIntent") == true) {
 				MessageBox.show(this.oBundle.getText("LOIMandatoryBeforeTCISubmit"), MessageBox.Icon.INFORMATION, "Reminder", MessageBox.Action.OK,
 					null, null);
@@ -3713,21 +3741,21 @@ sap.ui.define([
 			}
 			if (validator.isValid()) {
 				this.getView().byId("mainSectionTitle").setTitle(this.oBundle.getText("ValidatePartsSection"));
-				
-				if (userScope == "ReadOnlyViewAll") {
-					this.getView().getModel("DateModel").setProperty("/submitTCIBtn", false);
-					this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
-				} else {
-					if (this.ClaimStatus == "ZTRC" || this.ClaimStatus == "ZTIC") {
-						
-						this.getView().getModel("DateModel").setProperty("/submitTCIBtn", true);
-						this.getView().getModel("DateModel").setProperty("/SaveClaim07", true);
-					} else {
-						this.getView().getModel("DateModel").setProperty("/submitTCIBtn", false);
-						this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
-					}
-				}
-				
+
+				// if (userScope == "ReadOnlyViewAll") {
+				// 	this.getView().getModel("DateModel").setProperty("/submitTCIBtn", false);
+				// 	this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
+				// } else {
+				// 	if (this.ClaimStatus == "ZTRC" || this.ClaimStatus == "ZTIC") {
+
+				// 		this.getView().getModel("DateModel").setProperty("/submitTCIBtn", true);
+				// 		this.getView().getModel("DateModel").setProperty("/SaveClaim07", true);
+				// 	} else {
+				// 		this.getView().getModel("DateModel").setProperty("/submitTCIBtn", false); 
+				// 		this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
+				// 	}
+				// }
+
 				this.getView().byId("idMainClaimMessage").setProperty("visible", false);
 				this.getView().byId("idMainClaimMessage").setType("None");
 				this.getView().byId("idFilter03").setProperty("enabled", true);
@@ -3755,7 +3783,7 @@ sap.ui.define([
 					press: $.proxy(function () {
 						oClaimModel.create("/zc_headSet", this.obj, {
 							success: function (data, response) {
-								MessageToast.show(this.getView().getModel("HeadSetData").getProperty("/NumberOfWarrantyClaim") +
+								MessageToast.show(that.getView().getModel("HeadSetData").getProperty("/NumberOfWarrantyClaim") +
 									"has been Saved successfully");
 							},
 							error: function () {
@@ -3765,11 +3793,8 @@ sap.ui.define([
 						dialog.close();
 					}, this),
 					error: function (err) {
-							dialog.close();
-						}
-						// 	MessageToast.show('Claim Number {cliam number" was successfully submitted to TCI.');
-						// 	that.getRouter().navTo("ApplicationList");
-						// }
+						dialog.close();
+					}
 				}),
 				endButton: new Button({
 					text: 'Cancel',
@@ -3788,7 +3813,7 @@ sap.ui.define([
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var oClaimModel = this.getModel("ProssingModel");
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
-			this.obj.WarrantyClaimType = this.getView().getModel("HeadSetData").getProperty("/ClaimType");
+			this.obj.WarrantyClaimType = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType");
 			this.obj.Partner = this.getModel("LocalDataModel").getProperty("/BPDealerDetails/BusinessPartnerKey");
 			this.obj.ActionCode = "";
 			this.obj.NameOfPersonRespWhoChangedObj = this.getModel("LocalDataModel").getProperty("/LoginId").substr(0, 12);
@@ -3833,94 +3858,154 @@ sap.ui.define([
 					new Button({
 						text: "Yes",
 						press: $.proxy(function () {
-							if (that.getView().getModel("DateModel").getProperty("/oLetterOfIntent") == true) {
-								dialog.close();
-								// var msg = oBundle.getText("LOIMandatoryBeforeTCISubmit");
-								MessageBox.show(oBundle.getText("LOIMandatoryBeforeTCISubmit"), MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK,
-									null, null);
-							} else {
-								oClaimModel.refreshSecurityToken();
-								oClaimModel.create("/zc_headSet", this.obj, {
-									success: $.proxy(function (data, response) {
-										oClaimModel.read("/zc_headSet", {
-											urlParameters: {
-												"$filter": "NumberOfWarrantyClaim eq '" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") +
-													"'and LanguageKey eq '" + sSelectedLocale.toUpperCase() + "'",
-												"$expand": "zc_claim_vsrSet,zc_claim_read_descriptionSet"
-											},
-											success: $.proxy(function (errorData) {
-												this.getModel("LocalDataModel").setProperty("/oErrorSet", errorData.results[0].zc_claim_vsrSet.results);
-												this.getView().getModel("HeadSetData").setProperty("/HeadText", errorData.results[0].zc_claim_read_descriptionSet
-													.results[0].HeadText);
-												this.obj.zc_claim_vsrSet.results.pop(oObj);
+								if (that.getView().getModel("DateModel").getProperty("/oLetterOfIntent") == true) {
+									dialog.close();
+									// var msg = oBundle.getText("LOIMandatoryBeforeTCISubmit");
+									MessageBox.show(oBundle.getText("LOIMandatoryBeforeTCISubmit"), MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK,
+										null, null);
+								} else {
+									oClaimModel.refreshSecurityToken();
+									oClaimModel.create("/zc_headSet", this.obj, {
+										success: $.proxy(function (data, response) {
+												oClaimModel.read("/zc_headSet", {
+													urlParameters: {
+														"$filter": "NumberOfWarrantyClaim eq '" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") +
+															"'and LanguageKey eq '" + sSelectedLocale.toUpperCase() + "'",
+														"$expand": "zc_claim_vsrSet,zc_claim_read_descriptionSet"
+													},
+													success: $.proxy(function (errorData) {
+														this.getModel("LocalDataModel").setProperty("/oErrorSet", errorData.results[0].zc_claim_vsrSet.results);
+														this.getView().getModel("HeadSetData").setProperty("/HeadText", errorData.results[0].zc_claim_read_descriptionSet
+															.results[0].HeadText);
+														this.obj.zc_claim_vsrSet.results.pop(oObj);
 
-												this.getView().getModel("PartDataModel").setProperty("/LineNo", "");
-												this.getView().getModel("PartDataModel").setProperty("/matnr", "");
-												this.getView().getModel("PartDataModel").setProperty("/PartQty", "");
-												this.getView().getModel("PartDataModel").setProperty("/quant", "");
-												this.getView().getModel("PartDataModel").setProperty("/PartDescription", "");
-												this.getView().getModel("PartDataModel").setProperty("/DiscreCode", "");
-												this.getView().getModel("PartDataModel").setProperty("/RetainPart", "");
-												this.getView().getModel("HeadSetData").setProperty("/PartRepaired", "");
-												this.getView().getModel("HeadSetData").setProperty("/RepairOrRetrunPart", "");
-												this.getView().getModel("HeadSetData").setProperty("/RepairAmount", "");
-												this.getView().getModel("PartDataModel").setProperty("/QuantityReceived", "0");
-												this.getModel("LocalDataModel").setProperty("/partItemAttachments", "");
-												this.getView().getModel("AttachmentModel").setProperty("/" + "/items", "");
-												this.getView().getModel("HeadSetData").setProperty("/PartNumberRc", "");
-												this.getView().getModel("PartDataModel").setProperty("/PartNumberRcDesc", "");
-												this.getView().getModel("HeadSetData").setProperty("/DamageCondition", "");
-												this.getView().getModel("HeadSetData").setProperty("/MiscellaneousCode", "");
-												this.getView().getModel("HeadSetData").setProperty("/TranportShortageType", "");
+														this.getView().getModel("PartDataModel").setProperty("/LineNo", "");
+														this.getView().getModel("PartDataModel").setProperty("/matnr", "");
+														this.getView().getModel("PartDataModel").setProperty("/PartQty", "");
+														this.getView().getModel("PartDataModel").setProperty("/quant", "");
+														this.getView().getModel("PartDataModel").setProperty("/PartDescription", "");
+														this.getView().getModel("PartDataModel").setProperty("/DiscreCode", "");
+														this.getView().getModel("PartDataModel").setProperty("/RetainPart", "");
+														this.getView().getModel("HeadSetData").setProperty("/PartRepaired", "");
+														this.getView().getModel("HeadSetData").setProperty("/RepairOrRetrunPart", "");
+														this.getView().getModel("HeadSetData").setProperty("/RepairAmount", "");
+														this.getView().getModel("PartDataModel").setProperty("/QuantityReceived", "0");
+														this.getModel("LocalDataModel").setProperty("/partItemAttachments", "");
+														this.getView().getModel("AttachmentModel").setProperty("/" + "/items", "");
+														this.getView().getModel("HeadSetData").setProperty("/PartNumberRc", "");
+														this.getView().getModel("PartDataModel").setProperty("/PartNumberRcDesc", "");
+														this.getView().getModel("HeadSetData").setProperty("/DamageCondition", "");
+														this.getView().getModel("HeadSetData").setProperty("/MiscellaneousCode", "");
+														this.getView().getModel("HeadSetData").setProperty("/TranportShortageType", "");
 
-												if (response.data.zc_claim_vsrSet.results.length <= 0) {
-													this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
-													this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
-													this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", false);
-													this.getView().getModel("DateModel").setProperty("/submitTCIBtn", false);
-													this.getView().getModel("DateModel").setProperty("/partLine", false);
-													this.getView().getModel("DateModel").setProperty("/saveParts", false);
-													MessageToast.show(oBundle.getText("ClaimNumber") + " " + oClaimNum + " " + oBundle.getText(
-														"successfullysubmittedTCI"), {
-														my: "center center",
-														at: "center center"
-													});
-													// MessageToast.show("Claim Number " + oClaimNum + " successfully submitted to TCI.");
-													this.getView().byId("idFilter04").setProperty("enabled", true);
-												} else {
-													this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
-													this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", true);
-													this.getView().getModel("DateModel").setProperty("/partLine", false);
-													this.getView().getModel("DateModel").setProperty("/saveParts", false);
-													MessageToast.show(
-														oBundle.getText("ClaimNumber") + " " + oClaimNum + " " + oBundle.getText(
-															"RejectedTCIValidationResultsdetails"), {
-															my: "center center",
-															at: "center center"
-														});
-													// MessageToast.show(
-													// 	"Claim Number " + oClaimNum + " was Rejected by TCI, please see Validation Results for more details.");
-												}
-												// this.getView().getModel("DateModel").setProperty("/errorBusyIndicator", false);
-											}, this)
-										});
+														// if (response.data.zc_claim_vsrSet.results.length <= 0) {
+														// this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
+														// this.getView().getModel("DateModel").setProperty("/SaveClaimBTN", false);
+														// this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
+														// this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", false);
+														// this.getView().getModel("DateModel").setProperty("/submitTCIBtn", false);
+														// this.getView().getModel("DateModel").setProperty("/partLine", false);
+														// this.getView().getModel("DateModel").setProperty("/saveParts", false);
+														// this.getView().getModel("DateModel").setProperty("/FeedEnabled", false);
+														// this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
+														// this.getModel("LocalDataModel").setProperty("/UploadEnableHeader", false);
+														// 	MessageToast.show(oBundle.getText("ClaimNumber") + " " + oClaimNum + " " + oBundle.getText(
+														// 		"successfullysubmittedTCI"), {
+														// 		my: "center center",
+														// 		at: "center center"
+														// 	});
+														// 	// MessageToast.show("Claim Number " + oClaimNum + " successfully submitted to TCI.");
+														// 	this.getView().byId("idFilter04").setProperty("enabled", true);
+														// } else {
+														// this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
+														// this.getView().getModel("DateModel").setProperty("/SaveClaimBTN", true);
+														// this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", true);
+														// this.getView().getModel("DateModel").setProperty("/partLine", false);
+														// this.getView().getModel("DateModel").setProperty("/saveParts", false);
+														// this.getView().getModel("DateModel").setProperty("/FeedEnabled", true);
+														// this.getModel("LocalDataModel").setProperty("/UploadEnable", true);
+														// this.getModel("LocalDataModel").setProperty("/UploadEnableHeader", true);
+														// 	MessageToast.show(
+														// 		oBundle.getText("ClaimNumber") + " " + oClaimNum + " " + oBundle.getText(
+														// 			"RejectedTCIValidationResultsdetails"), {
+														// 			my: "center center",
+														// 			at: "center center"
+														// 		});
+														// 	// MessageToast.show(
+														// 	// 	"Claim Number " + oClaimNum + " was Rejected by TCI, please see Validation Results for more details.");
+														// }
+														// this.getView().getModel("DateModel").setProperty("/errorBusyIndicator", false);
+													}, this)
+												});
+												oClaimModel.read("/ZC_CLAIM_HEAD_NEW", {
+													urlParameters: {
+														"$filter": "NumberOfWarrantyClaim eq '" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") +
+															"'"
+													},
+													success: $.proxy(function (sdata) {
+														console.log("claim status after tci submit", sdata);
+														this.getView().getModel("HeadSetData").setProperty("/DecisionCode", sdata.results[0].DecisionCode);
+														this.ClaimStatus = sdata.results[0].DecisionCode;
+														if (sdata.results[0].DecisionCode == "ZTIC" || sdata.results[0].DecisionCode == "ZTRC") {
+															this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
+															this.getView().getModel("DateModel").setProperty("/SaveClaimBTN", true);
+															this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", true);
+															this.getView().getModel("DateModel").setProperty("/partLine", false);
+															this.getView().getModel("DateModel").setProperty("/saveParts", false);
+															this.getView().getModel("DateModel").setProperty("/FeedEnabled", true);
+															this.getModel("LocalDataModel").setProperty("/UploadEnable", true);
+															this.getModel("LocalDataModel").setProperty("/UploadEnableHeader", true);
+															MessageToast.show(
+																oBundle.getText("ClaimNumber") + " " + oClaimNum + " " + oBundle.getText(
+																	"RejectedTCIValidationResultsdetails"), {
+																	my: "center center",
+																	at: "center center"
+																});
 
-										dialog.close();
-									}, this),
-									error: function (err) {
-										dialog.close();
-										console.log("Error in submitting claim to TCI", err);
-										this.getView().byId("idFilter04").setProperty("enabled", false);
-										this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
-										this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", true);
-										var err = JSON.parse(err.responseText);
-										var msg = err.error.message.value;
-										MessageBox.show(msg, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
-									}
-								});
-							}
+														} else {
+															this.getView().getModel("DateModel").setProperty("/SaveClaimBTN", false);
+															this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
+															this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", false);
+															this.getView().getModel("DateModel").setProperty("/submitTCIBtn", false);
+															this.getView().getModel("DateModel").setProperty("/partLine", false);
+															this.getView().getModel("DateModel").setProperty("/saveParts", false);
+															this.getView().getModel("DateModel").setProperty("/FeedEnabled", false);
+															this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
+															this.getModel("LocalDataModel").setProperty("/UploadEnableHeader", false);
+															this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
+															MessageToast.show(oBundle.getText("ClaimNumber") + " " + oClaimNum + " " + oBundle.getText(
+																"successfullysubmittedTCI"), {
+																my: "center center",
+																at: "center center"
+															});
+														}
+														this.getView().getModel("DateModel").setProperty("/errorBusyIndicator", false);
+													}, this),
+													error: function (err) {}
+												});
 
-						}, this)
+												dialog.close();
+											}, this),
+										error: function (err) {
+											dialog.close();
+											// console.log("Error in submitting claim to TCI", err);
+											this.getView().byId("idFilter04").setProperty("enabled", false);
+											this.getView().getModel("DateModel").setProperty("/SaveClaimBTN", true);
+											this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
+											this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", true);
+											this.getView().getModel("DateModel").setProperty("/FeedEnabled", true);
+											this.getModel("LocalDataModel").setProperty("/UploadEnable", true);
+											this.getModel("LocalDataModel").setProperty("/UploadEnableHeader", true);
+											this.getView().getModel("DateModel").setProperty("/errorBusyIndicator", false);
+											var err = JSON.parse(err.responseText);
+											var msg = err.error.message.value;
+											MessageBox.show(msg, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
+										}
+									});
+								}
+
+							},
+							this)
 					}),
 					new Button({
 						text: oBundle.getText("Cancel"),
