@@ -253,19 +253,21 @@ sap.ui.define([
 		},
 
 		onDelDateChange: function () {
+			var oDateFormat = sap.ui.core.format.DateFormat.getDateTimeInstance({pattern: "MM-dd-yyyy"});
+			// var delDate = oDateFormat.format(new Date(this.getView().getModel("HeadSetData").getProperty("/DeliveryDate")));
 			if (this.SelectedClaimType !== "ZPMS") {
 				this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", false);
 			} else {
+				var delDate = oDateFormat.format(new Date(this.getView().getModel("HeadSetData").getProperty("/DeliveryDate")));
+				var shipDate = oDateFormat.format(new Date(this.getView().getModel("HeadSetData").getProperty("/ShipmentReceivedDate")));
 				this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", true);
-				if (this.getView().getModel("HeadSetData").getProperty("/DeliveryDate") > this.getView().getModel("HeadSetData").getProperty(
-						"/ShipmentReceivedDate")) {
+				if (delDate > shipDate) {
 					this.getView().getModel("DateModel").setProperty("/SaveClaimBTN", false);
 					MessageToast.show(this.oBundle.getText("receivedDateErrMSG"));
-				} else if (this.getView().getModel("HeadSetData").getProperty("/ShipmentReceivedDate") > new Date()) {
+				} else if (shipDate > new Date()) {
 					this.getView().getModel("DateModel").setProperty("/SaveClaimBTN", false);
 					MessageToast.show(this.oBundle.getText("receivedDateErrMSG2"));
-				} else if (this.getView().getModel("HeadSetData").getProperty("/DeliveryDate") <= this.getView().getModel("HeadSetData").getProperty(
-						"/ShipmentReceivedDate")) {
+				} else if (delDate <= shipDate) {
 					this.getView().getModel("DateModel").setProperty("/SaveClaimBTN", true);
 				}
 			}
@@ -1190,21 +1192,22 @@ sap.ui.define([
 		},
 
 		onReceivedDateChange: function (oReceivedDate) {
-			var receivedDate = new Date(oReceivedDate.getParameters().newValue);
-			if ((this.SelectedClaimType === "ZPMS") && (this.getView().getModel("HeadSetData").getProperty("/DeliveryDate") === "" || this.getView()
-					.getModel("HeadSetData").getProperty("/DeliveryDate") === undefined) || this.getView().getModel("HeadSetData").getProperty(
-					"/DeliveryDate") === null) {
+			var oDateFormat = sap.ui.core.format.DateFormat.getDateTimeInstance({pattern: "MM-dd-yyyy"});
+			// var delDate = oDateFormat.format(new Date(this.getView().getModel("HeadSetData").getProperty("/DeliveryDate")));
+			var receivedDate = oDateFormat.format(new Date(oReceivedDate.getParameters().newValue));
+			var delDate = oDateFormat.format(new Date(this.getView().getModel("HeadSetData").getProperty("/DeliveryDate")));
+			if ((this.SelectedClaimType === "ZPMS") && (delDate === "" || delDate === undefined) || delDate === null) {
 				this.getView().getModel("DateModel").setProperty("/obdValueState", "Error");
 				this.getView().getModel("DateModel").setProperty("/SaveClaimBTN", false);
 			} else {
 				this.getView().getModel("DateModel").setProperty("/obdValueState", "None");
-				if (this.getView().getModel("HeadSetData").getProperty("/DeliveryDate") > receivedDate) {
+				if (delDate > receivedDate) {
 					this.getView().getModel("DateModel").setProperty("/SaveClaimBTN", false);
 					MessageToast.show(this.oBundle.getText("receivedDateErrMSG"));
 				} else if (receivedDate > new Date()) {
 					this.getView().getModel("DateModel").setProperty("/SaveClaimBTN", false);
 					MessageToast.show(this.oBundle.getText("receivedDateErrMSG2"));
-				} else if (this.getView().getModel("HeadSetData").getProperty("/DeliveryDate") <= receivedDate) {
+				} else if (delDate <= receivedDate) {
 					this.getView().getModel("DateModel").setProperty("/SaveClaimBTN", true);
 				}
 			}
