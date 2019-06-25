@@ -332,7 +332,7 @@ sap.ui.define([
 			var oDateModel = new sap.ui.model.json.JSONModel();
 			this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
 			this.getModel("LocalDataModel").setProperty("/enablePWEnterComment", false);
-			this.letterSubmitted =false;
+			this.letterSubmitted = false;
 			/*Uncomment for security*/
 			if (userScope == "ReadOnlyViewAll") {
 				oDateModel.setData({
@@ -3391,6 +3391,7 @@ sap.ui.define([
 		},
 
 		_fnUpdateClaimParts: function () {
+			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			this.getView().getModel("DateModel").setProperty("/PWPrintEnable", true);
 			if ((this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZPDC" || this.getView().getModel("HeadSetData").getProperty(
 					"/WarrantyClaimType") == "ZPTS") && this.getView().getModel("HeadSetData").getProperty("/TCIWaybillNumber") == "") {
@@ -3401,6 +3402,18 @@ sap.ui.define([
 				var that = this;
 				var oClaimModel = this.getModel("ProssingModel");
 				var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
+
+				var oPartner = this.getModel("LocalDataModel").getProperty("/BpDealerModel/0/BusinessPartnerKey");
+
+				var oBusinessModel = this.getModel("ApiBusinessModel");
+				oBusinessModel.read("/A_BusinessPartner", {
+					urlParameters: {
+						"$filter": "BusinessPartner eq '" + oPartner + "'"
+					},
+					success: $.proxy(function (data) {
+						this.getModel("LocalDataModel").setProperty("/BPOrgName", data.results[0].OrganizationBPName1);
+					}, this)
+				});
 
 				var oActionCode = "";
 				oClaimModel.read("/zc_claim_item_price_dataSet", {
@@ -3488,11 +3501,43 @@ sap.ui.define([
 								"results": this.getModel("LocalDataModel").getProperty("/claim_commentSet")
 							}
 						};
-
+						var that=this;
 						oClaimModel.refreshSecurityToken();
+						if(this.obj.zc_claim_commentSet.results ==""){
+							this.obj.zc_claim_commentSet.results=[];
+						}
 						oClaimModel.create("/zc_headSet", this.obj, {
 							success: $.proxy(function (response) {
-								MessageToast.show(that.oBundle.getText("ClaimUpdateMSG"));
+								// MessageToast.show(that.oBundle.getText("ClaimUpdateMSG"));
+										that.getModel("LocalDataModel").setProperty("/UploadEnable", true);
+										MessageToast.show(oBundle.getText("ClaimUpdatedsuccessfully"), {
+											my: "center center",
+											at: "center center"
+										});
+										this.getModel("LocalDataModel").setProperty("/CancelEnable", true);
+										oClaimModel.read("/ZC_CLAIM_HEAD_NEW", {
+											urlParameters: {
+												"$filter": "NumberOfWarrantyClaim eq '" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") +
+													"'"
+											},
+											success: $.proxy(function (sdata) {
+												this.getView().getModel("HeadSetData").setData(sdata.results[0]);
+												this.getView().getModel("HeadSetData").setProperty("/ReferenceDate", response.ReferenceDate);
+												this.getView().getModel("HeadSetData").setProperty("/DateOfApplication", response.DateOfApplication);
+												oClaimModel.read("/zc_headSet", {
+													urlParameters: {
+														"$filter": "NumberOfWarrantyClaim eq '" + this.getModel("LocalDataModel").getProperty(
+																"/WarrantyClaimNum") +
+															"'and LanguageKey eq '" + sSelectedLocale.toUpperCase() + "'",
+														"$expand": "zc_claim_read_descriptionSet"
+													},
+													success: $.proxy(function (errorData) {
+														this.getView().getModel("HeadSetData").setProperty("/HeadText", errorData.results[0].zc_claim_read_descriptionSet
+															.results[0].HeadText);
+													}, this)
+												});
+											}, this)
+										});
 								that.getModel("LocalDataModel").setProperty("/step01Next", true);
 							}, this),
 							error: function () {
@@ -3628,7 +3673,7 @@ sap.ui.define([
 								this.getView().getModel("HeadSetData").setProperty("/ShipmentReceivedDate", that.DataRes1.ShipmentReceivedDate);
 								this.getView().getModel("HeadSetData").setProperty("/ReferenceDate", that.DataRes1.ReferenceDate);
 								this.getView().getModel("HeadSetData").setProperty("/DateOfApplication", that.DataRes1.DateOfApplication);
-								//this.getModel("LocalDataModel").getProperty("/ClaimDetails").DecisionCode
+
 								this.ClaimStatus = this.getModel("LocalDataModel").getProperty("/ClaimDetails/DecisionCode");
 								this.getView().getModel("HeadSetData").setProperty("/NumberOfWarrantyClaim", this.getModel("LocalDataModel").getProperty(
 									"/WarrantyClaimNum"));
