@@ -158,6 +158,7 @@ sap.ui.define([
 		},
 
 		_onRoutMatched: function (oEvent) {
+			this.getDealer();
 			var PercentData = [{
 				"num": "0%",
 				"okey": "0"
@@ -344,7 +345,6 @@ sap.ui.define([
 			// 			this.getView().getModel("DateModel").setProperty("/authAcClm", false);
 			// 			this.getView().getModel("DateModel").setProperty("/authRejClm", false);
 
-			this.getDealer();
 			var oProssingModel = this.getModel("ProssingModel");
 			this.getView().byId("idMainClaimMessage").setProperty("visible", false);
 			//oProssingModel.refresh();
@@ -3004,7 +3004,7 @@ sap.ui.define([
 					urlParameters: {
 						"$filter": "BusinessPartner eq '" + oPartner + "'"
 					},
-					success: $.proxy(function (bpdata) {
+					success: $.proxy(function (dBp) {
 						this.getModel("LocalDataModel").setProperty("/BPOrgName", dBp.results[0].OrganizationBPName1);
 					}, this)
 				});
