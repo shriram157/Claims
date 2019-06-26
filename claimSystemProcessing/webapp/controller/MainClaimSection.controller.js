@@ -28,14 +28,6 @@ sap.ui.define([
 			this.setModel(this.getModel("ZVehicleMasterModel"), "ZVehicleMasterModel");
 			this.setModel(this.getModel("ProssingModel"));
 			var oProssingModel = this.getModel("ProssingModel");
-			// 			oProssingModel.read("/zc_claim_item_labourSet", {
-			// 				success: $.proxy(function (data) {
-
-			// 					this.getModel("LocalDataModel").setProperty("/LabourSetData", data.results);
-			// 				}, this),
-			// 				error: function () {}
-			// 			});
-
 			var sSelectedLocale;
 
 			var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
@@ -148,13 +140,9 @@ sap.ui.define([
 			this.getView().setModel(PaintData, "PaintDataModel");
 
 			this.getOwnerComponent().getRouter().attachRoutePatternMatched(this._onRoutMatched, this);
-			this.getModel("LocalDataModel").setProperty("/step01Next", false);
 
 			this.ArrIndex = [];
 			this.ArrIndexLabour = [];
-
-			this.getModel("LocalDataModel").setProperty("/CancelEnable", false);
-			this.getModel("LocalDataModel").setProperty("/PrintEnable", false);
 
 			var HeadSetData = new sap.ui.model.json.JSONModel();
 			HeadSetData.setDefaultBindingMode("TwoWay");
@@ -166,6 +154,10 @@ sap.ui.define([
 			sap.ui.getCore().attachValidationSuccess(function (oEvent) {
 				oEvent.getParameter("element").setValueState(ValueState.None);
 			});
+
+		},
+
+		_onRoutMatched: function (oEvent) {
 			var PercentData = [{
 				"num": "0%",
 				"okey": "0"
@@ -219,17 +211,15 @@ sap.ui.define([
 				"okey": "100"
 			}];
 			this.getModel("LocalDataModel").setProperty("/DataPercent", PercentData);
+
 			this.getModel("LocalDataModel").setProperty("/linkToAuth", true);
 			this.getModel("LocalDataModel").setProperty("/reCalculate", false);
 			this.getModel("LocalDataModel").setProperty("/PercentState", false);
 			this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
-
+			this.getModel("LocalDataModel").setProperty("/CancelEnable", false);
+			this.getModel("LocalDataModel").setProperty("/PrintEnable", false);
+			this.getModel("LocalDataModel").setProperty("/step01Next", false);
 			this.getModel("LocalDataModel").setProperty("/IndicatorState", false);
-			//this.getView().byId("__picker0-inner").setEnabled(false);
-
-		},
-
-		_onRoutMatched: function (oEvent) {
 			this.getModel("LocalDataModel").setProperty("/oCurrentDealerLabour", "");
 			this.getModel("LocalDataModel").setProperty("/enableEnterComment", false);
 			this.getModel("LocalDataModel").setProperty("/FeedEnabled", false);
