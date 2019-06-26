@@ -5391,6 +5391,7 @@ sap.ui.define([
 			this.obj.DBOperation = "SAVE";
 			this.obj.OFP = this.getView().getModel("HeadSetData").getProperty("/OFP");
 			this.obj.MainOpsCode = this.getView().getModel("HeadSetData").getProperty("/MainOpsCode");
+			this.obj.WarrantyClaimSubType = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType");
 
 			var itemObj = {
 				"Type": "PART",
@@ -5941,6 +5942,7 @@ sap.ui.define([
 			this.obj.OFP = this.getView().getModel("HeadSetData").getProperty("/OFP");
 			this.obj.MainOpsCode = this.getView().getModel("HeadSetData").getProperty("/MainOpsCode");
 			this.obj.DBOperation = "SAVE";
+			this.obj.WarrantyClaimSubType = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType");
 			var oClaimHr = this.getView().getModel("LabourDataModel").getProperty("/ClaimedHours");
 			if (oClaimHr == "") {
 				oClaimHr = "0.0";
@@ -6148,6 +6150,7 @@ sap.ui.define([
 			this.obj.OFP = this.getView().getModel("HeadSetData").getProperty("/OFP");
 			this.obj.MainOpsCode = this.getView().getModel("HeadSetData").getProperty("/MainOpsCode");
 			this.obj.DBOperation = "SAVE";
+			this.obj.WarrantyClaimSubType = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType");
 			var oTable = this.getView().byId("idPaintTable");
 			var itemObj = {
 				"ItemType": "PAINT",
@@ -6298,6 +6301,7 @@ sap.ui.define([
 			this.obj.OFP = this.getView().getModel("HeadSetData").getProperty("/OFP");
 			this.obj.MainOpsCode = this.getView().getModel("HeadSetData").getProperty("/MainOpsCode");
 			this.obj.NumberOfWarrantyClaim = oClaimNum;
+			this.obj.WarrantyClaimSubType = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType");
 			var oDays;
 			var oTableIndex = oTable._aSelectedPaths;
 			if (oTableIndex.length == 1) {
