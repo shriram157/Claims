@@ -1274,6 +1274,7 @@ sap.ui.define([
 									"DBOperation": "SAVE",
 									"Message": "",
 									"WarrantyClaimType": this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType"),
+									"WarrantyClaimSubType": this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType"),
 									"Partner": this.getModel("LocalDataModel").getProperty("/BpDealerModel/0/BusinessPartnerKey"),
 									"ActionCode": "",
 									"NumberOfWarrantyClaim": this.getView().getModel("HeadSetData").getProperty("/NumberOfWarrantyClaim"),
@@ -1466,6 +1467,7 @@ sap.ui.define([
 				this.getModel("LocalDataModel").setProperty("/SubletPricingDataModel", "");
 				this.HeadSetData = new sap.ui.model.json.JSONModel({
 					"WarrantyClaimType": "",
+					"WarrantyClaimSubType": "",
 					"Partner": "",
 					"PartnerRole": "",
 					"ReferenceDate": null,
@@ -1509,6 +1511,7 @@ sap.ui.define([
 					"NameOfPersonRespWhoChangedObj": "",
 					"Message": "",
 					"WarrantyClaimType": "",
+					"WarrantyClaimSubType": "",
 					"Partner": "",
 					"PartnerRole": "",
 					"ReferenceDate": null,
