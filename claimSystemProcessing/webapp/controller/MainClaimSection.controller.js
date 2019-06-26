@@ -1274,7 +1274,7 @@ sap.ui.define([
 									"DBOperation": "SAVE",
 									"Message": "",
 									"WarrantyClaimType": this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType"),
-									"WarrantyClaimSubType": this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType"),
+
 									"Partner": this.getModel("LocalDataModel").getProperty("/BpDealerModel/0/BusinessPartnerKey"),
 									"ActionCode": "",
 									"NumberOfWarrantyClaim": this.getView().getModel("HeadSetData").getProperty("/NumberOfWarrantyClaim"),
@@ -5402,6 +5402,10 @@ sap.ui.define([
 				"UnitOfMeasure": this.getView().getModel("LocalDataModel").getProperty("/BaseUnit")
 			};
 
+			var oGetIndex = this.obj.zc_itemSet.results.findIndex(function (item) {
+				return item.MaterialNumber == itemObj.MaterialNumber;
+			});
+
 			var oArrNew = this.obj.zc_itemSet.results.filter(function (val) {
 				return val.MaterialNumber === itemObj.MaterialNumber;
 			}).length;
@@ -5421,9 +5425,9 @@ sap.ui.define([
 				this.obj.zc_itemSet.results.splice(oIndex, 1);
 			}
 
-			var oGetIndex = this.obj.zc_itemSet.results.findIndex(({
-				MaterialNumber
-			}) => MaterialNumber == this.getView().getModel("PartDataModel").getProperty("/matnr"));
+			// 			var oGetIndex = this.obj.zc_itemSet.results.findIndex(({
+			// 				MaterialNumber
+			// 			}) => MaterialNumber == this.getView().getModel("PartDataModel").getProperty("/matnr"));
 
 			this._oToken = oClaimModel.getHeaders()['x-csrf-token'];
 			$.ajaxSetup({
