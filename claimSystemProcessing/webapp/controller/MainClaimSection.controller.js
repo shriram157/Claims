@@ -5451,6 +5451,7 @@ sap.ui.define([
 			} else {
 				this.obj.zc_itemSet.results.push(itemObj);
 				this.getView().byId("idPartQty").setValueState("None");
+				console.log(this.obj);
 				oClaimModel.create("/zc_headSet", this.obj, {
 					success: $.proxy(function (data, response) {
 						var pricinghData = response.data.zc_claim_item_price_dataSet.results;
