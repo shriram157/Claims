@@ -253,13 +253,12 @@ sap.ui.define([
 		},
 
 		onDelDateChange: function () {
-
 			if (this.SelectedClaimType !== "ZPMS") {
 				this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", false);
 			} else {
-				var delDate = new Date(this.getView().getModel("HeadSetData").getProperty("/DeliveryDate"));
+				var delDate =  new Date(this.getView().getModel("HeadSetData").getProperty("/DeliveryDate"));
 				var shipDate = new Date(this.getView().getModel("HeadSetData").getProperty("/ShipmentReceivedDate"));
-
+				console.log("dates", delDate +""+shipDate);
 				shipDate = new Date(shipDate.getFullYear(), shipDate.getMonth(), shipDate.getDate());
 				delDate = new Date(delDate.getFullYear(), delDate.getMonth(), delDate.getDate());
 
@@ -968,11 +967,15 @@ sap.ui.define([
 						"$filter": "NumberOfWarrantyClaim eq '" + oClaim + "'"
 					},
 					success: $.proxy(function (odata) {
+						console.log("attachment data", odata);
 						var oArr = odata.results;
 						var oAttachSet = oArr.map(function (item) {
 							item.FileName = item.FileName.replace("HEAD@@@", "");
+							console.log("filename",item.FileName );
+							if(item.FileName == "Letter Of Intent.pdf"){
+								that.letterSubmitted = true;
+							}
 							return item;
-
 						});
 						this.getModel("LocalDataModel").setProperty("/PartHeadAttachData", oAttachSet);
 					}, this)
@@ -1196,8 +1199,10 @@ sap.ui.define([
 		},
 
 		onReceivedDateChange: function (oReceivedDate) {
-			var receivedDate = new Date(oReceivedDate.getParameters().newValue);
-			var delDate = new Date(this.getView().getModel("HeadSetData").getProperty("/DeliveryDate"));
+			var receivedDate = oReceivedDate.getSource().mProperties.dateValue;
+			console.log("received date",receivedDate);
+			var delDate =new Date(this.getView().getModel("HeadSetData").getProperty("/DeliveryDate"));
+			console.log("delDate ",delDate);
 			receivedDate = new Date(receivedDate.getFullYear(), receivedDate.getMonth(), receivedDate.getDate());
 			delDate = new Date(delDate.getFullYear(), delDate.getMonth(), delDate.getDate());
 
@@ -3769,7 +3774,7 @@ sap.ui.define([
 					MessageBox.show(this.oBundle.getText("PleaseSavePart"), MessageBox.Icon.ERROR, "Reminder", MessageBox.Action.OK,
 						null, null);
 				}
-			} else if (this.letterSubmitted == false) {
+			} else if (this.letterSubmitted == false && this.claimType === "ZPDC" && this.getView().getModel("PartDataModel").getProperty("/DiscreCode") === "8A") {
 				MessageBox.show(this.oBundle.getText("LOIMandatoryBeforeTCISubmit"), MessageBox.Icon.INFORMATION, "Reminder", MessageBox.Action.OK,
 					null, null);
 			}
@@ -3914,7 +3919,7 @@ sap.ui.define([
 					new Button({
 						text: "Yes",
 						press: $.proxy(function () {
-								if (this.letterSubmitted == false) {
+								if (that.letterSubmitted == false && that.claimType === "ZPDC" && that.getView().getModel("PartDataModel").getProperty("/DiscreCode") === "8A") {
 									dialog.close();
 									// var msg = oBundle.getText("LOIMandatoryBeforeTCISubmit");
 									MessageBox.show(oBundle.getText("LOIMandatoryBeforeTCISubmit"), MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK,
