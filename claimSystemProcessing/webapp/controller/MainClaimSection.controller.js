@@ -622,7 +622,11 @@ sap.ui.define([
 									});
 
 									for (let i = 0; i < agrData.results.length; i++) {
-										if (agrData.results[i].AgreementStatus == "Expired" || agrData.results[i].AgreementStatus == "Suspended") {
+										if (agrData.results[i].AgreementStatus == "Suspended") {
+											oTable.getItems()[i].getCells()[0].setProperty("enabled", false);
+											oTable.getItems()[i].getCells()[0].setProperty("selected", false);
+										} else if (agrData.results[i].AgreementStatus == "Expired" && agrData.results[i].AgreementthruDate < this.getView().getModel(
+												"HeadSetData").getProperty("/RepairDate")) {
 											oTable.getItems()[i].getCells()[0].setProperty("enabled", false);
 											oTable.getItems()[i].getCells()[0].setProperty("selected", false);
 										} else {
@@ -2387,13 +2391,18 @@ sap.ui.define([
 							});
 
 							for (let i = 0; i < data.results.length; i++) {
-								if (data.results[i].AgreementStatus == "Expired" || data.results[i].AgreementStatus == "Suspended") {
+								if (data.results[i].AgreementStatus == "Suspended") {
+									oTable.getItems()[i].getCells()[0].setProperty("enabled", false);
+									oTable.getItems()[i].getCells()[0].setProperty("selected", false);
+								} else if (data.results[i].AgreementStatus == "Expired" && data.results[i].AgreementthruDate < this.getView().getModel(
+										"HeadSetData").getProperty("/RepairDate")) {
 									oTable.getItems()[i].getCells()[0].setProperty("enabled", false);
 									oTable.getItems()[i].getCells()[0].setProperty("selected", false);
 								} else {
 									oTable.getItems()[i].getCells()[0].setProperty("enabled", true);
 									oTable.getItems()[i].getCells()[0].setProperty("selected", false);
 								}
+
 							}
 							if (oLength > 1) {
 								//this.getView().byId("idECPAGR").removeSelections();
@@ -3911,6 +3920,54 @@ sap.ui.define([
 
 													}, this)
 												});
+
+												if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZECP") {
+													oClaimModel.read("/zc_cliam_agreement", {
+														urlParameters: {
+															"$filter": "VIN eq '" + this.getView().getModel("HeadSetData").getProperty("/ExternalObjectNumber") +
+																"'"
+														},
+														success: $.proxy(function (data) {
+
+															this.getModel("LocalDataModel").setProperty("/AgreementDataECP", data.results);
+															var oTable = this.getView().byId("idECPAGR");
+															var oLength = data.results.filter(function (item) {
+																return item.AgreementStatus == "Active"
+															}).length;
+															var oTableSelectedRow = data.results.findIndex(function (item) {
+																return item.AgreementStatus == "Active"
+															});
+
+															for (let i = 0; i < data.results.length; i++) {
+																if (data.results[i].AgreementStatus == "Suspended") {
+																	oTable.getItems()[i].getCells()[0].setProperty("enabled", false);
+																	oTable.getItems()[i].getCells()[0].setProperty("selected", false);
+																} else if (data.results[i].AgreementStatus == "Expired" && data.results[i].AgreementthruDate <
+																	this.getView().getModel(
+																		"HeadSetData").getProperty("/RepairDate")) {
+																	oTable.getItems()[i].getCells()[0].setProperty("enabled", false);
+																	oTable.getItems()[i].getCells()[0].setProperty("selected", false);
+																} else {
+																	oTable.getItems()[i].getCells()[0].setProperty("enabled", true);
+																	oTable.getItems()[i].getCells()[0].setProperty("selected", false);
+																}
+
+															}
+															if (oLength > 1) {
+																//this.getView().byId("idECPAGR").removeSelections();
+																oTable.getItems()[oTableSelectedRow].getCells()[0].setProperty("selected", false);
+															} else if (oLength == 1) {
+																//oTable.setSelectedIndex(oTableSelectedRow);
+
+																oTable.getItems()[oTableSelectedRow].getCells()[0].setProperty("selected", true);
+																this.getView().getModel("HeadSetData").setProperty("/AgreementNumber", data.results[
+																	oTableSelectedRow].AgreementNumber);
+															}
+														}, this),
+														error: function () {}
+													});
+												}
+
 											}, this)
 										});
 
@@ -5296,6 +5353,35 @@ sap.ui.define([
 
 		},
 		handleValueHelp: function (oController) {
+			var sSelectedLocale;
+			//  get the locale to determine the language.
+			var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
+			if (isLocaleSent) {
+				sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
+			} else {
+				sSelectedLocale = "en"; // default is english
+			}
+			// 			var productModel = this.getModel("ProductMaster");
+			// 			productModel.read("/I_MaterialText", {
+			// 				urlParameters: {
+			// 					"$filter": "Language eq '" + sSelectedLocale + "'"
+			// 				},
+			// 				success: $.proxy(function (data) {
+			// 				    console.log(data.results);
+			// 					this.getModel("LocalDataModel").setProperty("/productMaterials", data.results)
+			// 				}, this)
+
+			// 			});
+
+			// 			productModel.read("/C_Product_Fs", {
+			// 				urlParameters: {
+			// 					"$filter": "Language eq '" + sSelectedLocale + "'and ProductType NE 'VERP'and ProductType NE 'DIEN'and ProductType NE 'VEHI'"
+			// 				},
+			// 				success: $.proxy(function (data) {
+			// 					this.getModel("LocalDataModel").setProperty("/productMaterials", data.results);
+			// 				}, this)
+
+			// 			});
 			//debugger;
 			this.inputId = oController.getParameters().id;
 			//console.log(this.inputId);
@@ -5637,7 +5723,14 @@ sap.ui.define([
 			var oOFP = this.getView().getModel("HeadSetData").getProperty("/OFP");
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			this.getView().byId("idOFPLabour").setText(oSelectedPart);
-
+		},
+		onSelectOFPPrint: function (oEvent) {
+			var table = this.getView().byId("idPaintTable");
+			var oVin = this.getModel("LocalDataModel").getProperty("/ClaimDetails/ExternalObjectNumber");
+			var oSelectedPart = oEvent.getSource().getParent().getCells()[2].getText();
+			var oOFP = this.getView().getModel("HeadSetData").getProperty("/OFP");
+			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
+			this.getView().byId("idOFPLabour").setText(oSelectedPart);
 		},
 		onPressSuggestLabour: function (oEvent) {
 

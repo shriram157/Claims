@@ -1,9 +1,4 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
-	<!--<SelectDialog title="{i18n>SelectPartNumber}" class="sapUiPopupWithPadding" items="{ProductMasterModel>/C_Product_Fs}"-->
-	<!--	search="_handleValueHelpSearch" liveChange="_handleLiveSearch" confirm="_handleValueHelpClose" cancel="_handleValueHelpClose">-->
-	<!--	<StandardListItem title="{ProductMasterModel>Material}" description="{ProductMasterModel>Material_Text}"-->
-	<!--		info="{ProductMasterModel>BaseUnit}"/>-->
-	<!--</SelectDialog>-->
 	<TableSelectDialog noDataText="No data Found" title="{i18n>SelectPartNumber}" search="_handleValueHelpSearch" liveChange="_handleLiveSearch"
 		confirm="_handleValueHelpClose" cancel="_handleValueHelpClose"
 		items="{path:'ProductMasterModel>/C_Product_Fs', filters: [ { filters: [ { path: 'ProductType', operator: 'NE', value1: 'VERP' }, { path: 'ProductType', operator: 'NE', value1: 'DIEN' }, { path: 'ProductType', operator: 'NE', value1: 'VEHI' } ], and: true } ]}">
