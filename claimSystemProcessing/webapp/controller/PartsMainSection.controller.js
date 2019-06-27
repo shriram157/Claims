@@ -3774,7 +3774,7 @@ sap.ui.define([
 					MessageBox.show(this.oBundle.getText("PleaseSavePart"), MessageBox.Icon.ERROR, "Reminder", MessageBox.Action.OK,
 						null, null);
 				}
-			} else if (this.letterSubmitted == false && this.claimType === "ZPDC" && this.getView().getModel("PartDataModel").getProperty("/DiscreCode") === "8A") {
+			} else if (this.letterSubmitted == false && (this.claimType === "ZPDC" || this.getView().getModel("PartDataModel").getProperty("/DiscreCode") === "8A")) {
 				MessageBox.show(this.oBundle.getText("LOIMandatoryBeforeTCISubmit"), MessageBox.Icon.INFORMATION, "Reminder", MessageBox.Action.OK,
 					null, null);
 			}
@@ -3919,7 +3919,7 @@ sap.ui.define([
 					new Button({
 						text: "Yes",
 						press: $.proxy(function () {
-								if (that.letterSubmitted == false && that.claimType === "ZPDC" && that.getView().getModel("PartDataModel").getProperty("/DiscreCode") === "8A") {
+								if (that.letterSubmitted == false && (that.claimType === "ZPDC" || that.getView().getModel("PartDataModel").getProperty("/DiscreCode") === "8A")) {
 									dialog.close();
 									// var msg = oBundle.getText("LOIMandatoryBeforeTCISubmit");
 									MessageBox.show(oBundle.getText("LOIMandatoryBeforeTCISubmit"), MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK,
