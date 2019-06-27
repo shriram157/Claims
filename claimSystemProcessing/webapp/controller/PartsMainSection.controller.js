@@ -3919,7 +3919,7 @@ sap.ui.define([
 					new Button({
 						text: "Yes",
 						press: $.proxy(function () {
-								if (this.letterSubmitted == false) {
+								if (that.letterSubmitted == false && that.claimType === "ZPDC" && that.getView().getModel("PartDataModel").getProperty("/DiscreCode") === "8A") {
 									dialog.close();
 									// var msg = oBundle.getText("LOIMandatoryBeforeTCISubmit");
 									MessageBox.show(oBundle.getText("LOIMandatoryBeforeTCISubmit"), MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK,
