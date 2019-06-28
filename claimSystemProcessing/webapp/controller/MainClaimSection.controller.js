@@ -3981,62 +3981,21 @@ sap.ui.define([
 															"$filter": "VIN eq '" + this.getView().getModel("HeadSetData").getProperty("/ExternalObjectNumber") +
 																"'"
 														},
-														success: $.proxy(function (agrData) {
-
-															// 			this.getModel("LocalDataModel").setProperty("/AgreementDataECP", data.results);
-															// 			var oTable = this.getView().byId("idECPAGR");
-															// 			var oLength = data.results.filter(function (item) {
-															// 				return item.AgreementStatus == "Active"
-															// 			}).length;
-															// 			var oTableSelectedRow = data.results.findIndex(function (item) {
-															// 				return item.AgreementStatus == "Active"
-															// 			});
-
-															// 			for (let i = 0; i < data.results.length; i++) {
-															// 				if (data.results[i].AgreementStatus == "Suspended") {
-															// 					oTable.getItems()[i].getCells()[0].setProperty("enabled", false);
-															// 					oTable.getItems()[i].getCells()[0].setProperty("selected", false);
-															// 				} else if (data.results[i].AgreementStatus == "Expired" && data.results[i].AgreementthruDate <
-															// 					this.getView().getModel(
-															// 						"HeadSetData").getProperty("/RepairDate")) {
-															// 					oTable.getItems()[i].getCells()[0].setProperty("enabled", false);
-															// 					oTable.getItems()[i].getCells()[0].setProperty("selected", false);
-															// 				} else {
-															// 					oTable.getItems()[i].getCells()[0].setProperty("enabled", true);
-															// 					oTable.getItems()[i].getCells()[0].setProperty("selected", false);
-															// 				}
-
-															// 			}
-															// 			if (oLength > 1) {
-															// 				//this.getView().byId("idECPAGR").removeSelections();
-															// 				oTable.getItems()[oTableSelectedRow].getCells()[0].setProperty("selected", false);
-															// 			} else if (oLength == 1) {
-															// 				//oTable.setSelectedIndex(oTableSelectedRow);
-
-															// 				oTable.getItems()[oTableSelectedRow].getCells()[0].setProperty("selected", true);
-															// 				this.getView().getModel("HeadSetData").setProperty("/AgreementNumber", data.results[
-															// 					oTableSelectedRow].AgreementNumber);
-															// 			}
-
-															this.getModel("LocalDataModel").setProperty("/AgreementDataECP", agrData.results);
+														success: $.proxy(function (data) {
+															this.getModel("LocalDataModel").setProperty("/AgreementDataECP", data.results);
 															var oTable = this.getView().byId("idECPAGR");
-															var oLength = agrData.results.filter(function (item) {
+															var oLength = data.results.filter(function (item) {
 																return item.AgreementStatus == "Active"
 															}).length;
-															var oTableSelectedRow = agrData.results.findIndex(function (item) {
-																if (data.results[0].AgreementNumber != "") {
-																	return item.AgreementNumber == data.results[0].AgreementNumber
-
-																} else {
-																	return item.AgreementStatus == "Active"
-																}
+															var oTableSelectedRow = data.results.findIndex(function (item) {
+																return item.AgreementStatus == "Active"
 															});
 
-															for (let i = 0; i < agrData.results.length; i++) {
-																if (agrData.results[i].AgreementStatus == "Suspended") {
+															for (let i = 0; i < data.results.length; i++) {
+																if (data.results[i].AgreementStatus == "Suspended") {
 																	oTable.getItems()[i].getCells()[0].setProperty("enabled", false);
 																	oTable.getItems()[i].getCells()[0].setProperty("selected", false);
-																} else if (agrData.results[i].AgreementStatus == "Expired" && agrData.results[i].AgreementthruDate <
+																} else if (data.results[i].AgreementStatus == "Expired" && data.results[i].AgreementthruDate <
 																	this.getView().getModel(
 																		"HeadSetData").getProperty("/RepairDate")) {
 																	oTable.getItems()[i].getCells()[0].setProperty("enabled", false);
@@ -4045,11 +4004,16 @@ sap.ui.define([
 																	oTable.getItems()[i].getCells()[0].setProperty("enabled", true);
 																	oTable.getItems()[i].getCells()[0].setProperty("selected", false);
 																}
-															}
 
-															oTable.getItems()[oTableSelectedRow].getCells()[0].setProperty("selected", true);
-															this.getView().getModel("HeadSetData").setProperty("/AgreementNumber", agrData.results[
-																oTableSelectedRow].AgreementNumber);
+															}
+															if (oLength > 1) {
+																//this.getView().byId("idECPAGR").removeSelections();
+																oTable.getItems()[oTableSelectedRow].getCells()[0].setProperty("selected", false);
+															} else if (oLength == 1) {
+																oTable.getItems()[oTableSelectedRow].getCells()[0].setProperty("selected", true);
+																this.getView().getModel("HeadSetData").setProperty("/AgreementNumber", data.results[
+																	oTableSelectedRow].AgreementNumber);
+															}
 
 														}, this),
 														error: function () {}
@@ -4738,17 +4702,16 @@ sap.ui.define([
 
 			// 			});
 
-			// 			oClaimModel.read("/ZC_CLAIM_MATERIAL_DESC(p_langu='" + sSelectedLocale.toUpperCase() + "')/Set", {
-			// 				sync: false,
-			// 				success: $.proxy(function (data, response) {
-			// 					console.log(data.results);
-			// 					console.log(response);
-			// 					this.getModel("LocalDataModel").setProperty("/productMaterials", data.results);
-			// 					this.getModel("LocalDataModel").setSizeLimit(100000);
+			oClaimModel.read("/ZC_CLAIM_MATERIAL_DESC(p_langu='" + sSelectedLocale.toUpperCase() + "')/Set", {
 
-			// 				}, this)
+				success: $.proxy(function (data) {
+					console.log(data.results);
+					this.getModel("LocalDataModel").setProperty("/productMaterials", data.results);
+					this.getModel("LocalDataModel").setSizeLimit(100000);
 
-			// 			});
+				}, this)
+
+			});
 		},
 		onPressAddLabour: function () {
 
