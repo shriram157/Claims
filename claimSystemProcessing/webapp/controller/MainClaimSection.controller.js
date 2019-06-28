@@ -4727,16 +4727,16 @@ sap.ui.define([
 
 			// 			});
 
-			oClaimModel.read("/ZC_CLAIM_MATERIAL_DESC(p_langu='" + sSelectedLocale.toUpperCase() + "')/Set", {
+			// 			oClaimModel.read("/ZC_CLAIM_MATERIAL_DESC(p_langu='" + sSelectedLocale.toUpperCase() + "')/Set", {
 
-				success: $.proxy(function (data) {
-					console.log(data.results);
-					this.getModel("LocalDataModel").setProperty("/productMaterials", data.results);
-					this.getModel("LocalDataModel").setSizeLimit(100000);
+			// 				success: $.proxy(function (data) {
+			// 					console.log(data.results);
+			// 					this.getModel("LocalDataModel").setProperty("/productMaterials", data.results);
+			// 					this.getModel("LocalDataModel").setSizeLimit(100000);
 
-				}, this)
+			// 				}, this)
 
-			});
+			// 			});
 		},
 		onPressAddLabour: function () {
 
@@ -5604,7 +5604,6 @@ sap.ui.define([
 			this.obj.DBOperation = "SAVE";
 			this.obj.OFP = this.getView().getModel("HeadSetData").getProperty("/OFP");
 			this.obj.MainOpsCode = this.getView().getModel("HeadSetData").getProperty("/MainOpsCode");
-			this.obj.WarrantyClaimSubType = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType");
 
 			var itemObj = {
 				"Type": "PART",
@@ -5615,10 +5614,6 @@ sap.ui.define([
 				"PartDescription": this.getView().getModel("PartDataModel").getProperty("/PartDescription"),
 				"UnitOfMeasure": this.getView().getModel("LocalDataModel").getProperty("/BaseUnit")
 			};
-
-			var oGetIndex = this.obj.zc_itemSet.results.findIndex(function (item) {
-				return item.MaterialNumber == itemObj.MaterialNumber;
-			});
 
 			var oArrNew = this.obj.zc_itemSet.results.filter(function (val) {
 				return val.MaterialNumber === itemObj.MaterialNumber;
@@ -5639,16 +5634,9 @@ sap.ui.define([
 				this.obj.zc_itemSet.results.splice(oIndex, 1);
 			}
 
-			// 			var oGetIndex = this.obj.zc_itemSet.results.findIndex(({
-			// 				MaterialNumber
-			// 			}) => MaterialNumber == this.getView().getModel("PartDataModel").getProperty("/matnr"));
-
-			this._oToken = oClaimModel.getHeaders()['x-csrf-token'];
-			$.ajaxSetup({
-				headers: {
-					'X-CSRF-Token': this._oToken
-				}
-			});
+			var oGetIndex = this.obj.zc_itemSet.results.findIndex(({
+				MaterialNumber
+			}) => MaterialNumber == this.getView().getModel("PartDataModel").getProperty("/matnr"));
 
 			if (this.getView().getModel("PartDataModel").getProperty("/quant") == "") {
 				this.getView().byId("idPartQty").setValueState("Error");
@@ -5664,7 +5652,6 @@ sap.ui.define([
 			} else {
 				this.obj.zc_itemSet.results.push(itemObj);
 				this.getView().byId("idPartQty").setValueState("None");
-				console.log(this.obj);
 				oClaimModel.create("/zc_headSet", this.obj, {
 					success: $.proxy(function (data, response) {
 						var pricinghData = response.data.zc_claim_item_price_dataSet.results;
@@ -7067,12 +7054,12 @@ sap.ui.define([
 
 			if (oIndexLabour > -1) {
 				this.obj.zc_claim_item_labourSet.results[oIndexLabour].MainOpIndicator = "X";
-				this.getView().byId("idLabourTable").getItems()[oIndexLabour].getCells()[1].setProperty("selected", true);
+
 			}
 
 			if (oIndexPaint > -1) {
 				this.obj.zc_claim_item_paintSet.results[oIndexPaint].MainOpIndicator = "X";
-				this.getView().byId("idPaintTable").getItems()[oIndexPaint].getCells()[1].setProperty("selected", true);
+
 			}
 
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
@@ -7139,6 +7126,15 @@ sap.ui.define([
 												"'"
 										},
 										success: $.proxy(function (sdata) {
+
+											if (oIndexLabour > -1) {
+												this.getView().byId("idLabourTable").getItems()[oIndexLabour].getCells()[1].setProperty("selected", true);
+											}
+
+											if (oIndexPaint > -1) {
+												this.getView().byId("idPaintTable").getItems()[oIndexPaint].getCells()[1].setProperty("selected", true);
+											}
+
 											this.getView().getModel("HeadSetData").setProperty("/DecisionCode", sdata.results[0].DecisionCode);
 
 											if (sdata.results[0].DecisionCode == "ZTIC") {
