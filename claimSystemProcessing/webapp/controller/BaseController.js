@@ -228,6 +228,8 @@ sap.ui.define([
 				dataType: "json",
 				success: $.proxy(function (appData) {
 					this.getModel("LocalDataModel").setProperty("/oECPURL", appData.ecpSalesAppUrl);
+					this.getModel("LocalDataModel").setProperty("/oCICURL", appData.cicUrl);
+					this.getModel("LocalDataModel").setProperty("/oCVSHURL", appData.cvshUrl);
 				}, this)
 			});
 

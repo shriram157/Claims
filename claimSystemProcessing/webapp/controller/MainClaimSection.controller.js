@@ -7418,6 +7418,7 @@ sap.ui.define([
 			this.getView().getModel("SubletDataModel").setProperty("/days", "");
 		},
 		onPressCIC: function () {
+			var oCICUrl = this.getModel("LocalDataModel").getProperty("/oCICURL");
 			var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
 			var sSelectedLocale;
 
@@ -7426,12 +7427,12 @@ sap.ui.define([
 			} else {
 				sSelectedLocale = "en"; // default is english
 			}
-			window.open("https://b2b.toyota.ca/CICWeb/?.lang=" + sSelectedLocale + "", '_blank');
+			window.open("" + oCICUrl + "?.lang=" + sSelectedLocale + "", '_blank');
 		},
 		onPressCVSH: function () {
 			var oDivision;
 			var isDivisionSent = window.location.search.match(/Division=([^&]*)/i);
-
+			var oCVSHUrl = this.getModel("LocalDataModel").getProperty("/oCVSHURL");
 			if (isDivisionSent) {
 				this.sDivision = window.location.search.match(/Division=([^&]*)/i)[1];
 
@@ -7454,7 +7455,7 @@ sap.ui.define([
 			} else {
 				sSelectedLocale = "en"; // default is english
 			}
-			window.open("https://b2b.toyota.ca/cvsh/?.lang=" + sSelectedLocale + "&franchise=" + oDivision + "", '_blank');
+			window.open("" + oCVSHUrl + "?.lang=" + sSelectedLocale + "&franchise=" + oDivision + "", '_blank');
 		},
 
 		onExit: function () {
