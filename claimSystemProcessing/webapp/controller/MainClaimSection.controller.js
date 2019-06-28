@@ -1254,6 +1254,13 @@ sap.ui.define([
 
 								});
 
+								var oIndexPaint = PaintItem.findIndex($.proxy(function (item) {
+									return item.PaintPositionCode == this.getView().getModel("HeadSetData").getProperty("/MainOpsCode")
+								}), this);
+								if (oIndexPaint > -1) {
+									this.getView().byId("idPaintTable").getItems()[oIndexPaint].getCells()[1].setProperty("selected", true);
+								}
+
 								var oFilteredDataSubl = pricinghData.filter(function (val) {
 									return val.ItemType === "SUBL";
 								});
@@ -4113,6 +4120,9 @@ sap.ui.define([
 				this.getView().byId("idMainOps").setValueState("None");
 			}
 			var partPricingModel = this.getModel("LocalDataModel").getProperty("/LabourPricingDataModel");
+
+			var PaintPricingModel = this.getModel("LocalDataModel").getProperty("/PaintPricingDataModel");
+
 			if (partPricingModel != "") {
 				var oItems = this.getView().byId("idLabourTable").getItems();
 
@@ -4131,6 +4141,24 @@ sap.ui.define([
 
 				if (oIndexMat > -1) {
 					this.getView().byId("idLabourTable").getItems()[oIndexMat].getCells()[1].setProperty("selected", true);
+				}
+			}
+
+			if (PaintPricingModel != "") {
+				var oIndexPaint = PaintPricingModel.findIndex($.proxy(function (item) {
+					return item.ItemKey == this.getView().getModel("HeadSetData").getProperty("/MainOpsCode")
+				}), this);
+
+				for (var i = 0; i < PaintPricingModel.length; i++) {
+					if (oEvent.getParameters().value == "" || PaintPricingModel[i].ItemKey != oEvent.getParameters().value) {
+						this.getView().byId("idPaintTable").getItems()[i].getCells()[1].setProperty("selected", false);
+						this.getView().getModel("HeadSetData").setProperty("/MainOpsCode", oEvent.getParameters().value);
+					}
+
+				}
+
+				if (oIndexPaint > -1) {
+					this.getView().byId("idPaintTable").getItems()[oIndexPaint].getCells()[1].setProperty("selected", true);
 				}
 			}
 
@@ -4583,6 +4611,62 @@ sap.ui.define([
 			var oTable = this.getView().byId("idTableParts");
 			oTable.removeSelections("true");
 			this.getView().getModel("DateModel").setProperty("/partLine", true);
+
+			var sSelectedLocale;
+			var sDivision;
+
+			var isDivisionSent = window.location.search.match(/Division=([^&]*)/i);
+			if (isDivisionSent) {
+				sDivision = window.location.search.match(/Division=([^&]*)/i)[1];
+			} else {
+				sDivision = 10;
+			}
+			//  get the locale to determine the language.
+			var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
+			if (isLocaleSent) {
+				sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
+			} else {
+				sSelectedLocale = "en"; // default is english
+			}
+			var oClaimModel = this.getModel("ProssingModel");
+			var productModel = this.getModel("ProductMaster");
+
+			// 			var oParObj = {
+			// 				Division: sDivision,
+			// 				Languagekey: sSelectedLocale
+			// 			}
+
+			// 			oClaimModel.create("/ZC_CLAIM_MATERIAL_DESC", oParObj, {
+			// 				success: function (data) {
+			// 					console.log(data);
+			// 				}
+			// 			});
+
+			// 			oClaimModel.read("/zc_vehicle_informationSet", {
+			// 				urlParameters: {
+			// 					"$filter": "LanguageKey eq '" + sSelectedLocale.toUpperCase() +
+			// 						"'and Division eq'" + sDivision + "'",
+			// 					"$expand": "ZC_CLAIM_MATERIALTEXTSET"
+
+			// 				},
+			// 				success: $.proxy(function (data) {
+			// 					console.log(data.results);
+			// 					//this.getModel("LocalDataModel").setProperty("/productMaterials", data.results);
+
+			// 				}, this)
+
+			// 			});
+
+			oClaimModel.read("/ZC_CLAIM_MATERIAL_DESC(p_langu='" + sSelectedLocale.toUpperCase() + "')/Set", {
+
+				success: $.proxy(function (data) {
+					console.log(data.results);
+					this.getModel("LocalDataModel").setProperty("/productMaterials", data.results);
+					this.getModel("LocalDataModel").setSizeLimit(100000);
+
+				}, this)
+
+			});
 		},
 		onPressAddLabour: function () {
 
@@ -5353,35 +5437,8 @@ sap.ui.define([
 
 		},
 		handleValueHelp: function (oController) {
-			var sSelectedLocale;
-			//  get the locale to determine the language.
-			var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
-			if (isLocaleSent) {
-				sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
-			} else {
-				sSelectedLocale = "en"; // default is english
-			}
-			// 			var productModel = this.getModel("ProductMaster");
-			// 			productModel.read("/I_MaterialText", {
-			// 				urlParameters: {
-			// 					"$filter": "Language eq '" + sSelectedLocale + "'"
-			// 				},
-			// 				success: $.proxy(function (data) {
-			// 				    console.log(data.results);
-			// 					this.getModel("LocalDataModel").setProperty("/productMaterials", data.results)
-			// 				}, this)
+			//  var oModel = new sap.ui.model.odata.v2.ODataModel(myServiceUrl);
 
-			// 			});
-
-			// 			productModel.read("/C_Product_Fs", {
-			// 				urlParameters: {
-			// 					"$filter": "Language eq '" + sSelectedLocale + "'and ProductType NE 'VERP'and ProductType NE 'DIEN'and ProductType NE 'VEHI'"
-			// 				},
-			// 				success: $.proxy(function (data) {
-			// 					this.getModel("LocalDataModel").setProperty("/productMaterials", data.results);
-			// 				}, this)
-
-			// 			});
 			//debugger;
 			this.inputId = oController.getParameters().id;
 			//console.log(this.inputId);
@@ -6284,6 +6341,12 @@ sap.ui.define([
 
 					console.log(oFilteredData);
 					this.getModel("LocalDataModel").setProperty("/PaintPricingDataModel", oFilteredData);
+					var oIndexMat = oFilteredData.findIndex($.proxy(function (item) {
+						return item.ItemKey == this.getView().getModel("HeadSetData").getProperty("/MainOpsCode")
+					}), this);
+					if (oIndexMat > -1) {
+						this.getView().byId("idPaintTable").getItems()[oIndexMat].getCells()[1].setProperty("selected", true);
+					}
 					//this.getModel("LocalDataModel").setProperty("/WarrantyClaimNum", response.data.NumberOfWarrantyClaim);
 					MessageToast.show(oBundle.getText("Claimhasbeensavedsuccessfully"), {
 						my: "center center",
@@ -6927,8 +6990,17 @@ sap.ui.define([
 			var oIndexLabour = this.obj.zc_claim_item_labourSet.results.findIndex($.proxy(function (item) {
 				return item.LabourNumber == this.getView().getModel("HeadSetData").getProperty("/MainOpsCode")
 			}), this);
+
+			var oIndexPaint = this.obj.zc_claim_item_paintSet.results.findIndex($.proxy(function (item) {
+				return item.PaintPositionCode == this.getView().getModel("HeadSetData").getProperty("/MainOpsCode")
+			}), this);
+
 			if (oIndexLabour > -1) {
 				this.obj.zc_claim_item_labourSet.results[oIndexLabour].MainOpIndicator = "X";
+			}
+
+			if (oIndexPaint > -1) {
+				this.obj.zc_claim_item_paintSet.results[oIndexPaint].MainOpIndicator = "X";
 			}
 
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();

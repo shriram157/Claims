@@ -14,6 +14,7 @@ sap.ui.define([
 		createLocalDataModel: function () {
 			var oModel = new JSONModel();
 			oModel.setDefaultBindingMode("TwoWay");
+
 			return oModel;
 		}
 
