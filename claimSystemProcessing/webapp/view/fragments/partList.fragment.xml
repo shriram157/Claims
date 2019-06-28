@@ -4,9 +4,9 @@
 		items="{path:'ProductMasterModel>/C_Product_Fs', filters: [ { filters: [ { path: 'ProductType', operator: 'NE', value1: 'VERP' }, { path: 'ProductType', operator: 'NE', value1: 'DIEN' }, { path: 'ProductType', operator: 'NE', value1: 'VEHI' } ], and: true } ]}">
 		<ColumnListItem>
 			<cells>
-				<Text text="{Material}"/>
-				<Text text="{Description}"/>
-				<Text text="{BaseUnit}"/>
+				<Text text="{ProductMasterModel>Material}"/>
+				<Text text="{ProductMasterModel>Material_Text}"/>
+				<Text text="{ProductMasterModel>BaseUnit}"/>
 			</cells>
 		</ColumnListItem>
 		<columns>

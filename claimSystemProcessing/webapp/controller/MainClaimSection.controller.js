@@ -4738,16 +4738,17 @@ sap.ui.define([
 
 			// 			});
 
-			oClaimModel.read("/ZC_CLAIM_MATERIAL_DESC(p_langu='" + sSelectedLocale.toUpperCase() + "')/Set", {
+			// 			oClaimModel.read("/ZC_CLAIM_MATERIAL_DESC(p_langu='" + sSelectedLocale.toUpperCase() + "')/Set", {
+			// 				sync: false,
+			// 				success: $.proxy(function (data, response) {
+			// 					console.log(data.results);
+			// 					console.log(response);
+			// 					this.getModel("LocalDataModel").setProperty("/productMaterials", data.results);
+			// 					this.getModel("LocalDataModel").setSizeLimit(100000);
 
-				success: $.proxy(function (data) {
-					console.log(data.results);
-					this.getModel("LocalDataModel").setProperty("/productMaterials", data.results);
-					this.getModel("LocalDataModel").setSizeLimit(100000);
+			// 				}, this)
 
-				}, this)
-
-			});
+			// 			});
 		},
 		onPressAddLabour: function () {
 
