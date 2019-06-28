@@ -3987,8 +3987,17 @@ sap.ui.define([
 															var oLength = data.results.filter(function (item) {
 																return item.AgreementStatus == "Active"
 															}).length;
+															// 			var oTableSelectedRow = data.results.findIndex(function (item) {
+															// 				return item.AgreementStatus == "Active"
+															// 			});
+
 															var oTableSelectedRow = data.results.findIndex(function (item) {
-																return item.AgreementStatus == "Active"
+																if (sdata.results[0].AgreementNumber != "") {
+																	return item.AgreementNumber == sdata.results[0].AgreementNumber
+
+																} else {
+																	return item.AgreementStatus == "Active"
+																}
 															});
 
 															for (let i = 0; i < data.results.length; i++) {
