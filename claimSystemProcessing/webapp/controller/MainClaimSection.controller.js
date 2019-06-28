@@ -3952,6 +3952,22 @@ sap.ui.define([
 												if (oIndexMat > -1) {
 													this.getView().byId("idTableParts").getItems()[oIndexMat].getCells()[1].setProperty("selected", true);
 												}
+
+												var oIndexLab = LabourItem.findIndex($.proxy(function (item) {
+													return item.LabourNumber == this.getView().getModel("HeadSetData").getProperty("/MainOpsCode")
+												}), this);
+
+												if (oIndexLab > -1) {
+													this.getView().byId("idLabourTable").getItems()[oIndexLab].getCells()[1].setProperty("selected", true);
+												}
+
+												var oIndexPaint = PaintItem.findIndex($.proxy(function (item) {
+													return item.PaintPositionCode == this.getView().getModel("HeadSetData").getProperty("/MainOpsCode")
+												}), this);
+												if (oIndexPaint > -1) {
+													this.getView().byId("idPaintTable").getItems()[oIndexPaint].getCells()[1].setProperty("selected", true);
+												}
+
 												this.getView().getModel("HeadSetData").setProperty("/RepairDate", response.RepairDate);
 												this.getView().getModel("HeadSetData").setProperty("/ReferenceDate", response.ReferenceDate);
 												this.getView().getModel("HeadSetData").setProperty("/DateOfApplication", response.DateOfApplication);
@@ -5831,7 +5847,7 @@ sap.ui.define([
 			var table = this.getView().byId("idLabourTable");
 			var oVin = this.getModel("LocalDataModel").getProperty("/ClaimDetails/ExternalObjectNumber");
 			var oSelectedPart = oEvent.getSource().getParent().getCells()[2].getText();
-			var oOFP = this.getView().getModel("HeadSetData").getProperty("/OFP");
+			//var oOFP = this.getView().getModel("HeadSetData").getProperty("/OFP");
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			this.getView().byId("idOFPLabour").setText(oSelectedPart);
 		},
@@ -5839,7 +5855,7 @@ sap.ui.define([
 			var table = this.getView().byId("idPaintTable");
 			var oVin = this.getModel("LocalDataModel").getProperty("/ClaimDetails/ExternalObjectNumber");
 			var oSelectedPart = oEvent.getSource().getParent().getCells()[2].getText();
-			var oOFP = this.getView().getModel("HeadSetData").getProperty("/OFP");
+			//var oOFP = this.getView().getModel("HeadSetData").getProperty("/OFP");
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			this.getView().byId("idOFPLabour").setText(oSelectedPart);
 		},

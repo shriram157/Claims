@@ -160,7 +160,7 @@
 				<ColumnListItem vAlign="Middle">
 					<cells>
 						<Text text="{LocalDataModel>posnr}" wrapping="true"/>
-						<RadioButton groupName="GroupA" enabled="{DateModel>/oFormEdit}" select="onSelectOFPLabour"/>
+						<RadioButton groupName="GroupC" enabled="{DateModel>/oFormEdit}" select="onSelectOFPLabour"/>
 						<Text text="{path:'LocalDataModel>LabourNumber'}" wrapping="true"/>
 						<Text text="{LocalDataModel>LabourDescription}" wrapping="true"/>
 						<Text text="{LocalDataModel>QtyHrs}" wrapping="true"/>
