@@ -7067,10 +7067,12 @@ sap.ui.define([
 
 			if (oIndexLabour > -1) {
 				this.obj.zc_claim_item_labourSet.results[oIndexLabour].MainOpIndicator = "X";
+				this.getView().byId("idLabourTable").getItems()[oIndexLabour].getCells()[1].setProperty("selected", true);
 			}
 
 			if (oIndexPaint > -1) {
 				this.obj.zc_claim_item_paintSet.results[oIndexPaint].MainOpIndicator = "X";
+				this.getView().byId("idPaintTable").getItems()[oIndexPaint].getCells()[1].setProperty("selected", true);
 			}
 
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
@@ -7138,6 +7140,7 @@ sap.ui.define([
 										},
 										success: $.proxy(function (sdata) {
 											this.getView().getModel("HeadSetData").setProperty("/DecisionCode", sdata.results[0].DecisionCode);
+
 											if (sdata.results[0].DecisionCode == "ZTIC") {
 												MessageToast.show(
 													oBundle.getText("ClaimNumber") + " " + oClaimNum + " " + oBundle.getText(
