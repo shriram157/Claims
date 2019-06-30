@@ -3104,21 +3104,6 @@ sap.ui.define([
 								console.log(sdata);
 								this.getModel("LocalDataModel").setProperty("/ClaimDetails", sdata.results[0]);
 
-								//var oPartner = this.getModel("LocalDataModel").getProperty("/BpDealerModel/0/BusinessPartnerKey");
-
-								// oBusinessModel.read("/A_BusinessPartner", {
-								// 	urlParameters: {
-								// 		"$filter": "BusinessPartner eq '" + this.getModel("LocalDataModel").getProperty(
-								// 			"/BpDealerModel/0/BusinessPartnerKey") + "'"
-								// 	},
-								// 	success: $.proxy(function (dBp) {
-								// 		this.getModel("LocalDataModel").setProperty("/BPOrgName", dBp.results[0].OrganizationBPName1);
-								// 	}, this),
-								// 	error: function (err) {
-								// 		console.log(err);
-								// 	}
-								// });
-
 								this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", sdata.results[0].OfpDescription);
 								this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", sdata.results[0].Main_opsDescription);
 								this.getView().getModel("HeadSetData").setData(sdata.results[0]);
@@ -3910,6 +3895,11 @@ sap.ui.define([
 								this.getView().byId("idMainClaimMessage").setProperty("visible", true);
 							} else if (oClaimtype == "ZECP" && this.getView().getModel("HeadSetData").getProperty("/AgreementNumber") == "") {
 								this.getView().byId("idMainClaimMessage").setText(oBundle.getText("PleaseSelectAgreement"));
+								this.getView().byId("idMainClaimMessage").setType("Error");
+								this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+							} else if (this.getModel("LocalDataModel").getProperty("/WarrantyClaimTypeGroup") == "Authorization" && oClmSubType ==
+								"") {
+								this.getView().byId("idMainClaimMessage").setText(oBundle.getText("FillUpMandatoryField"));
 								this.getView().byId("idMainClaimMessage").setType("Error");
 								this.getView().byId("idMainClaimMessage").setProperty("visible", true);
 							} else {
@@ -7085,171 +7075,181 @@ sap.ui.define([
 						text: oBundle.getText("Yes"),
 						press: $.proxy(function () {
 							dialog.close();
-							this.getView().getModel("DateModel").setProperty("/errorBusyIndicator", true);
-
-							oClaimModel.refreshSecurityToken();
-
-							oClaimModel.create("/zc_headSet", this.obj, {
-								success: $.proxy(function (data, response) {
-									oClaimModel.read("/zc_headSet", {
-										urlParameters: {
-											"$filter": "NumberOfWarrantyClaim eq '" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") +
-												"'and LanguageKey eq '" + sSelectedLocale.toUpperCase() + "'",
-											"$expand": "zc_claim_vsrSet,zc_claim_read_descriptionSet"
-										},
-										success: $.proxy(function (errorData) {
-											this.getModel("LocalDataModel").setProperty("/oErrorSet", errorData.results[0].zc_claim_vsrSet.results);
-											this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", errorData.results[0].zc_claim_read_descriptionSet
-												.results[0].OFPDescription);
-											this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", errorData.results[0].zc_claim_read_descriptionSet
-												.results[0].MainOpsCodeDescription);
-
-											this.getView().getModel("HeadSetData").setProperty("/ReferenceDate", errorData.results[0].zc_claim_read_descriptionSet
-												.results[0].ReferenceDate);
-
-											this.getView().getModel("HeadSetData").setProperty("/DateOfApplication", errorData.results[0].zc_claim_read_descriptionSet
-												.results[0].DateOfApplication);
-
-											this.getView().getModel("HeadSetData").setProperty("/RepairDate", errorData.results[0].zc_claim_read_descriptionSet
-												.results[0].RepairDate);
-											this.getView().getModel("HeadSetData").setProperty("/HeadText", errorData.results[0].zc_claim_read_descriptionSet
-												.results[0].HeadText);
-
-											this.getView().getModel("DateModel").setProperty("/errorBusyIndicator", false);
-											this.obj.zc_claim_vsrSet.results.pop(oObj);
-										}, this)
+							if (this.getModel("LocalDataModel").getProperty("/WarrantyClaimTypeGroup") == "Authorization" &&
+								this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") == "") {
+								this.getView().getModel("DateModel").setProperty("/claimTypeState", "Error");
+								MessageToast.show(
+									oBundle.getText("submissionTypeMandatory"), {
+										my: "center center",
+										at: "center center"
 									});
+							} else {
+								this.getView().getModel("DateModel").setProperty("/claimTypeState", "None");
+								this.getView().getModel("DateModel").setProperty("/errorBusyIndicator", true);
+								oClaimModel.refreshSecurityToken();
+								oClaimModel.create("/zc_headSet", this.obj, {
+									success: $.proxy(function (data, response) {
+										oClaimModel.read("/zc_headSet", {
+											urlParameters: {
+												"$filter": "NumberOfWarrantyClaim eq '" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") +
+													"'and LanguageKey eq '" + sSelectedLocale.toUpperCase() + "'",
+												"$expand": "zc_claim_vsrSet,zc_claim_read_descriptionSet"
+											},
+											success: $.proxy(function (errorData) {
+												this.getModel("LocalDataModel").setProperty("/oErrorSet", errorData.results[0].zc_claim_vsrSet.results);
+												this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", errorData.results[0].zc_claim_read_descriptionSet
+													.results[0].OFPDescription);
+												this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", errorData.results[0].zc_claim_read_descriptionSet
+													.results[0].MainOpsCodeDescription);
 
-									oClaimModel.read("/ZC_CLAIM_HEAD_NEW", {
-										urlParameters: {
-											"$filter": "NumberOfWarrantyClaim eq '" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") +
-												"'"
-										},
-										success: $.proxy(function (sdata) {
+												this.getView().getModel("HeadSetData").setProperty("/ReferenceDate", errorData.results[0].zc_claim_read_descriptionSet
+													.results[0].ReferenceDate);
 
-											if (oIndexLabour > -1) {
-												this.getView().byId("idLabourTable").getItems()[oIndexLabour].getCells()[1].setProperty("selected", true);
-											}
+												this.getView().getModel("HeadSetData").setProperty("/DateOfApplication", errorData.results[0].zc_claim_read_descriptionSet
+													.results[0].DateOfApplication);
 
-											if (oIndexPaint > -1) {
-												this.getView().byId("idPaintTable").getItems()[oIndexPaint].getCells()[1].setProperty("selected", true);
-											}
+												this.getView().getModel("HeadSetData").setProperty("/RepairDate", errorData.results[0].zc_claim_read_descriptionSet
+													.results[0].RepairDate);
+												this.getView().getModel("HeadSetData").setProperty("/HeadText", errorData.results[0].zc_claim_read_descriptionSet
+													.results[0].HeadText);
 
-											this.getView().getModel("HeadSetData").setProperty("/DecisionCode", sdata.results[0].DecisionCode);
+												this.getView().getModel("DateModel").setProperty("/errorBusyIndicator", false);
+												this.obj.zc_claim_vsrSet.results.pop(oObj);
+											}, this)
+										});
 
-											if (sdata.results[0].DecisionCode == "ZTIC") {
-												MessageToast.show(
-													oBundle.getText("ClaimNumber") + " " + oClaimNum + " " + oBundle.getText(
-														"RejectedTCIValidationResultsdetails"), {
+										oClaimModel.read("/ZC_CLAIM_HEAD_NEW", {
+											urlParameters: {
+												"$filter": "NumberOfWarrantyClaim eq '" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") +
+													"'"
+											},
+											success: $.proxy(function (sdata) {
+
+												if (oIndexLabour > -1) {
+													this.getView().byId("idLabourTable").getItems()[oIndexLabour].getCells()[1].setProperty("selected", true);
+												}
+
+												if (oIndexPaint > -1) {
+													this.getView().byId("idPaintTable").getItems()[oIndexPaint].getCells()[1].setProperty("selected", true);
+												}
+
+												this.getView().getModel("HeadSetData").setProperty("/DecisionCode", sdata.results[0].DecisionCode);
+
+												if (sdata.results[0].DecisionCode == "ZTIC") {
+													MessageToast.show(
+														oBundle.getText("ClaimNumber") + " " + oClaimNum + " " + oBundle.getText(
+															"RejectedTCIValidationResultsdetails"), {
+															my: "center center",
+															at: "center center"
+														});
+
+												} else {
+													this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
+													MessageToast.show(oBundle.getText("ClaimNumber") + " " + oClaimNum + " " + oBundle.getText(
+														"successfullysubmittedTCI"), {
 														my: "center center",
 														at: "center center"
 													});
 
-											} else {
-												this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
-												MessageToast.show(oBundle.getText("ClaimNumber") + " " + oClaimNum + " " + oBundle.getText(
-													"successfullysubmittedTCI"), {
-													my: "center center",
-													at: "center center"
-												});
-
-											}
-
-											if (sdata.results[0].DecisionCode == "ZTIC" || sdata.results[0].DecisionCode ==
-												"ZTRC") {
-
-												if (GroupType == "Authorization") {
-													this.getView().getModel("DateModel").setProperty("/copyClaimEnable", false);
-													this.getModel("LocalDataModel").setProperty("/PercentState", true);
-												} else {
-													this.getView().getModel("DateModel").setProperty("/copyClaimEnable", true);
-													this.getModel("LocalDataModel").setProperty("/PercentState", false);
 												}
-												this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
-												this.getView().getModel("DateModel").setProperty("/SaveClaim07", true);
-												this.getModel("LocalDataModel").setProperty("/CancelEnable", true);
-												this.getView().getModel("DateModel").setProperty("/claimEditSt", false);
-												this.getView().getModel("DateModel").setProperty("/updateEnable", true);
-												//this.getView().getModel("DateModel").setProperty("/copyClaimEnable", true);
-												this.getModel("LocalDataModel").setProperty("/UploadEnable", true);
-												this.getView().getModel("DateModel").setProperty("/authAcClm", false);
-												this.getView().getModel("DateModel").setProperty("/authRejClm", false);
-												this.getView().getModel("DateModel").setProperty("/damageLine", true);
-												this.getView().getModel("DateModel").setProperty("/oDamageLineBtn", true);
-											} else if (sdata.results[0].DecisionCode == "ZTAC") {
-												this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
-												this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
-												this.getModel("LocalDataModel").setProperty("/CancelEnable", false);
-												this.getView().getModel("DateModel").setProperty("/claimEditSt", true);
-												this.getView().getModel("DateModel").setProperty("/updateEnable", false);
-												this.getView().getModel("DateModel").setProperty("/copyClaimEnable", false);
-												this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
-												this.getView().getModel("DateModel").setProperty("/authAcClm", false);
-												this.getView().getModel("DateModel").setProperty("/authRejClm", false);
-												this.getView().getModel("DateModel").setProperty("/damageLine", true);
-												this.getView().getModel("DateModel").setProperty("/oDamageLineBtn", false);
-											} else if (sdata.results[0].DecisionCode == "ZTMR" && sap.ui.getCore().getModel(
-													"UserDataModel").getProperty("/LoggedInUser") == "Dealer_Services_Manager") {
-												this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
-												this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
-												this.getModel("LocalDataModel").setProperty("/CancelEnable", false);
-												this.getView().getModel("DateModel").setProperty("/claimEditSt", true);
-												this.getView().getModel("DateModel").setProperty("/updateEnable", false);
-												this.getView().getModel("DateModel").setProperty("/copyClaimEnable", false);
-												this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
-												this.getView().getModel("DateModel").setProperty("/authAcClm", true);
-												this.getView().getModel("DateModel").setProperty("/authRejClm", true);
-												this.getView().getModel("DateModel").setProperty("/damageLine", true);
-												this.getView().getModel("DateModel").setProperty("/oDamageLineBtn", false);
-											} else if (sdata.results[0].DecisionCode == "ZTAA") {
-												this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
-												this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
-												this.getModel("LocalDataModel").setProperty("/CancelEnable", false);
-												this.getView().getModel("DateModel").setProperty("/claimEditSt", false);
-												this.getView().getModel("DateModel").setProperty("/updateEnable", false);
-												this.getView().getModel("DateModel").setProperty("/copyClaimEnable", true);
-												this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
-												this.getView().getModel("DateModel").setProperty("/authAcClm", false);
-												this.getView().getModel("DateModel").setProperty("/authRejClm", false);
-												this.getView().getModel("DateModel").setProperty("/damageLine", true);
-												this.getView().getModel("DateModel").setProperty("/oDamageLineBtn", false);
-											} else {
-												this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
-												this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
-												this.getModel("LocalDataModel").setProperty("/CancelEnable", false);
-												this.getView().getModel("DateModel").setProperty("/claimEditSt", false);
-												this.getView().getModel("DateModel").setProperty("/updateEnable", false);
-												this.getView().getModel("DateModel").setProperty("/copyClaimEnable", false);
-												this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
-												this.getView().getModel("DateModel").setProperty("/authAcClm", false);
-												this.getView().getModel("DateModel").setProperty("/authRejClm", false);
-												this.getView().getModel("DateModel").setProperty("/damageLine", true);
-												this.getView().getModel("DateModel").setProperty("/oDamageLineBtn", false);
-											}
 
-											if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZSCR" &&
-												sdata.results[0].DecisionCode != "ZTIC") {
-												this.getView().getModel("DateModel").setProperty("/oSlipVisible", true);
-											} else if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZSCR" &&
-												sdata.results[0].DecisionCode == "ZTIC") {
-												this.getView().getModel("DateModel").setProperty("/oSlipVisible", false);
-											} else if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZSCR" &&
-												sdata.results[0].DecisionCode == "ZTRC") {
-												this.getView().getModel("DateModel").setProperty("/oSlipVisible", false);
-											}
+												if (sdata.results[0].DecisionCode == "ZTIC" || sdata.results[0].DecisionCode ==
+													"ZTRC") {
 
-											this._fnClaimSum();
-											this._fnClaimSumPercent();
-											this._fnPricingData(oClaimNum);
-										}, this)
-									});
+													if (GroupType == "Authorization") {
+														this.getView().getModel("DateModel").setProperty("/copyClaimEnable", false);
+														this.getModel("LocalDataModel").setProperty("/PercentState", true);
+													} else {
+														this.getView().getModel("DateModel").setProperty("/copyClaimEnable", true);
+														this.getModel("LocalDataModel").setProperty("/PercentState", false);
+													}
+													this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
+													this.getView().getModel("DateModel").setProperty("/SaveClaim07", true);
+													this.getModel("LocalDataModel").setProperty("/CancelEnable", true);
+													this.getView().getModel("DateModel").setProperty("/claimEditSt", false);
+													this.getView().getModel("DateModel").setProperty("/updateEnable", true);
+													//this.getView().getModel("DateModel").setProperty("/copyClaimEnable", true);
+													this.getModel("LocalDataModel").setProperty("/UploadEnable", true);
+													this.getView().getModel("DateModel").setProperty("/authAcClm", false);
+													this.getView().getModel("DateModel").setProperty("/authRejClm", false);
+													this.getView().getModel("DateModel").setProperty("/damageLine", true);
+													this.getView().getModel("DateModel").setProperty("/oDamageLineBtn", true);
+												} else if (sdata.results[0].DecisionCode == "ZTAC") {
+													this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
+													this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
+													this.getModel("LocalDataModel").setProperty("/CancelEnable", false);
+													this.getView().getModel("DateModel").setProperty("/claimEditSt", true);
+													this.getView().getModel("DateModel").setProperty("/updateEnable", false);
+													this.getView().getModel("DateModel").setProperty("/copyClaimEnable", false);
+													this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
+													this.getView().getModel("DateModel").setProperty("/authAcClm", false);
+													this.getView().getModel("DateModel").setProperty("/authRejClm", false);
+													this.getView().getModel("DateModel").setProperty("/damageLine", true);
+													this.getView().getModel("DateModel").setProperty("/oDamageLineBtn", false);
+												} else if (sdata.results[0].DecisionCode == "ZTMR" && sap.ui.getCore().getModel(
+														"UserDataModel").getProperty("/LoggedInUser") == "Dealer_Services_Manager") {
+													this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
+													this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
+													this.getModel("LocalDataModel").setProperty("/CancelEnable", false);
+													this.getView().getModel("DateModel").setProperty("/claimEditSt", true);
+													this.getView().getModel("DateModel").setProperty("/updateEnable", false);
+													this.getView().getModel("DateModel").setProperty("/copyClaimEnable", false);
+													this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
+													this.getView().getModel("DateModel").setProperty("/authAcClm", true);
+													this.getView().getModel("DateModel").setProperty("/authRejClm", true);
+													this.getView().getModel("DateModel").setProperty("/damageLine", true);
+													this.getView().getModel("DateModel").setProperty("/oDamageLineBtn", false);
+												} else if (sdata.results[0].DecisionCode == "ZTAA") {
+													this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
+													this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
+													this.getModel("LocalDataModel").setProperty("/CancelEnable", false);
+													this.getView().getModel("DateModel").setProperty("/claimEditSt", false);
+													this.getView().getModel("DateModel").setProperty("/updateEnable", false);
+													this.getView().getModel("DateModel").setProperty("/copyClaimEnable", true);
+													this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
+													this.getView().getModel("DateModel").setProperty("/authAcClm", false);
+													this.getView().getModel("DateModel").setProperty("/authRejClm", false);
+													this.getView().getModel("DateModel").setProperty("/damageLine", true);
+													this.getView().getModel("DateModel").setProperty("/oDamageLineBtn", false);
+												} else {
+													this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
+													this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
+													this.getModel("LocalDataModel").setProperty("/CancelEnable", false);
+													this.getView().getModel("DateModel").setProperty("/claimEditSt", false);
+													this.getView().getModel("DateModel").setProperty("/updateEnable", false);
+													this.getView().getModel("DateModel").setProperty("/copyClaimEnable", false);
+													this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
+													this.getView().getModel("DateModel").setProperty("/authAcClm", false);
+													this.getView().getModel("DateModel").setProperty("/authRejClm", false);
+													this.getView().getModel("DateModel").setProperty("/damageLine", true);
+													this.getView().getModel("DateModel").setProperty("/oDamageLineBtn", false);
+												}
 
-								}, this),
-								error: $.proxy(function (err) {
-									MessageToast.show(oBundle.getText("SystemInternalError"));
-									this.getView().getModel("DateModel").setProperty("/errorBusyIndicator", false);
-								}, this)
-							});
+												if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZSCR" &&
+													sdata.results[0].DecisionCode != "ZTIC") {
+													this.getView().getModel("DateModel").setProperty("/oSlipVisible", true);
+												} else if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZSCR" &&
+													sdata.results[0].DecisionCode == "ZTIC") {
+													this.getView().getModel("DateModel").setProperty("/oSlipVisible", false);
+												} else if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZSCR" &&
+													sdata.results[0].DecisionCode == "ZTRC") {
+													this.getView().getModel("DateModel").setProperty("/oSlipVisible", false);
+												}
+
+												this._fnClaimSum();
+												this._fnClaimSumPercent();
+												this._fnPricingData(oClaimNum);
+											}, this)
+										});
+
+									}, this),
+									error: $.proxy(function (err) {
+										MessageToast.show(oBundle.getText("SystemInternalError"));
+										this.getView().getModel("DateModel").setProperty("/errorBusyIndicator", false);
+									}, this)
+								});
+
+							}
 
 						}, this)
 					}),
