@@ -323,7 +323,7 @@ sap.ui.define([
 			this.getView().getModel("DataPercetCalculate").setProperty("/DealerAmt", "");
 			this.getView().getModel("DataPercetCalculate").setProperty("/TCIAmt", "");
 			this.getModel("LocalDataModel").setProperty("/oErrorSet", "");
-			this.getModel("LocalDataModel").setProperty("/claim_commentSet", "");
+			this.getModel("LocalDataModel").setProperty("/claim_commentSet", []);
 			this.getModel("LocalDataModel").setProperty("/BPOrgName", "");
 
 			this.getView().getModel("DataPercetCalculate").setProperty("/AuthorizationNumber", "");
