@@ -1813,11 +1813,8 @@ sap.ui.define([
 					this.getView().getModel("DateModel").setProperty("/oMainOpsReq", false);
 					this.getView().getModel("DateModel").setProperty("/authHide", false);
 
-				} else {
-					this.getView().getModel("DateModel").setProperty("/ShipmentVisible", false);
-					this.getView().getModel("DateModel").setProperty("/LabourBtnVsbl", true);
-					this.getView().getModel("DateModel").setProperty("/RepairdDetailVisible", true);
 				}
+
 				if (oGroupDescription == "CRC") {
 					oProssingModel.read("/zc_claim_groupSet", {
 						urlParameters: {
@@ -2327,6 +2324,8 @@ sap.ui.define([
 				this.getView().getModel("DateModel").setProperty("/oBatteryTestEnable", false);
 				this.getView().getModel("DateModel").setProperty("/authHide", true);
 				this.getView().getModel("DateModel").setProperty("/oMainOpsReq", false);
+			} else if (oKey == "ZSCR") {
+				this.getView().getModel("DateModel").setProperty("/RepairdDetailVisible", false);
 			} else {
 				this.getView().getModel("DateModel").setProperty("/authHide", false);
 			}
@@ -2338,6 +2337,7 @@ sap.ui.define([
 
 			if (oKey == "ZSCR") {
 				this.getView().getModel("DateModel").setProperty("/oTciQtyAppr", true);
+
 			} else {
 				this.getView().getModel("DateModel").setProperty("/oTciQtyAppr", false);
 			}
@@ -2769,12 +2769,7 @@ sap.ui.define([
 			var aInputsArrCoreRet = [
 				oView.byId("idClaimType"),
 				oView.byId("idDealerClaim"),
-				oView.byId("idVinNum"),
-				oView.byId("idT1Field"),
-				oView.byId("idT2Field"),
-				oView.byId("idRemedy"),
-				oView.byId("idCause"),
-				oView.byId("idCondition")
+				oView.byId("idVinNum")
 			];
 
 			var aInputsArrZWAC = [
@@ -3507,12 +3502,7 @@ sap.ui.define([
 			var aInputsArrCoreRet = [
 
 				oView.byId("idDealerClaim"),
-				oView.byId("idVinNum"),
-				oView.byId("idT1Field"),
-				oView.byId("idT2Field"),
-				oView.byId("idRemedy"),
-				oView.byId("idCause"),
-				oView.byId("idCondition")
+				oView.byId("idVinNum")
 			];
 
 			var aInputsArrZWAC = [
