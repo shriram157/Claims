@@ -267,6 +267,7 @@ sap.ui.define([
 				enableTab: false,
 				RepairdDetailVisible: true,
 				claimTypeState: "None",
+				claimTypeState2: "None",
 				warrantySubmissionClaim: false,
 				LabourBtnVsbl: true,
 				copyClaimEnable: true,
@@ -2116,6 +2117,14 @@ sap.ui.define([
 		onCloseComment: function (oEvent) {
 			oEvent.getSource().getParent().getParent().getParent().getParent().getParent().close();
 		},
+
+		// 		onChangeSubClaimType: function (oEvent) {
+		// 			if (oEvent.getParameters().value != "") {
+		// 				this.getView().getModel("DateModel").setProperty("/claimTypeState2", "None");
+		// 			} else {
+		// 				this.getView().getModel("DateModel").setProperty("/claimTypeState2", "Error");
+		// 			}
+		// 		},
 		onSelectClaimTpe: function (oEvent) {
 			// this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") = oEvent.getSource().getSelectedKey();
 			// this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType");
@@ -2123,6 +2132,10 @@ sap.ui.define([
 			//var oClaimSubType = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType");
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var oKey = oEvent.getSource().getSelectedKey();
+			if (oKey != "") {
+
+				this.getView().getModel("DateModel").setProperty("/claimTypeState2", "None")
+			}
 
 			if (oKey == "ZGGW") {
 				this.getView().getModel("DateModel").setProperty("/oMainOps", true);
@@ -2943,6 +2956,17 @@ sap.ui.define([
 				this.getView().byId("idMainClaimMessage").setText(oBundle.getText("PleaseSelectAgreement"));
 				this.getView().byId("idMainClaimMessage").setType("Error");
 				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+			} else if (oGroupType == "Authorization" && oClmSubType ==
+				"") {
+				this.getView().getModel("DateModel").setProperty("/claimTypeState2", "Error");
+				MessageToast.show(
+					oBundle.getText("submissionTypeMandatory"), {
+						my: "center center",
+						at: "center center"
+					});
+				// this.getView().byId("idMainClaimMessage").setText(oBundle.getText("FillUpMandatoryField"));
+				// this.getView().byId("idMainClaimMessage").setType("Error");
+				// this.getView().byId("idMainClaimMessage").setProperty("visible", true);
 			} else {
 				this.getView().byId("idMainClaimMessage").setProperty("visible", false);
 				this.getView().byId("id_Date").setValueState("None");
@@ -2961,6 +2985,7 @@ sap.ui.define([
 					oActionCode = "";
 				}
 				this.getView().getModel("DateModel").setProperty("/claimTypeState", "None");
+				this.getView().getModel("DateModel").setProperty("/claimTypeState2", "None");
 				this.obj = {
 					"DBOperation": "SAVE",
 					"Message": "",
@@ -3899,9 +3924,15 @@ sap.ui.define([
 								this.getView().byId("idMainClaimMessage").setProperty("visible", true);
 							} else if (this.getModel("LocalDataModel").getProperty("/WarrantyClaimTypeGroup") == "Authorization" && oClmSubType ==
 								"") {
-								this.getView().byId("idMainClaimMessage").setText(oBundle.getText("FillUpMandatoryField"));
-								this.getView().byId("idMainClaimMessage").setType("Error");
-								this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+								// this.getView().byId("idMainClaimMessage").setText(oBundle.getText("FillUpMandatoryField"));
+								// this.getView().byId("idMainClaimMessage").setType("Error");
+								// this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+								this.getView().getModel("DateModel").setProperty("/claimTypeState2", "Eror");
+								MessageToast.show(
+									oBundle.getText("submissionTypeMandatory"), {
+										my: "center center",
+										at: "center center"
+									});
 							} else {
 								this.getView().byId("idMainClaimMessage").setProperty("visible", false);
 								this.getView().byId("idMainClaimMessage").setText("");
@@ -3912,6 +3943,7 @@ sap.ui.define([
 								this.getView().byId("idT2Field").setValueState("None");
 								this.getView().byId("idT1Field").setValueState("None");
 								this.getView().byId("idPreInvNum").setValueState("None");
+								this.getView().getModel("DateModel").setProperty("/claimTypeState2", "None");
 								oClaimModel.refreshSecurityToken();
 								oClaimModel.create("/zc_headSet", this.obj, {
 
@@ -7077,7 +7109,7 @@ sap.ui.define([
 							dialog.close();
 							if (this.getModel("LocalDataModel").getProperty("/WarrantyClaimTypeGroup") == "Authorization" &&
 								this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") == "") {
-								this.getView().getModel("DateModel").setProperty("/claimTypeState", "Error");
+								this.getView().getModel("DateModel").setProperty("/claimTypeState2", "Error");
 								MessageToast.show(
 									oBundle.getText("submissionTypeMandatory"), {
 										my: "center center",
@@ -7085,6 +7117,7 @@ sap.ui.define([
 									});
 							} else {
 								this.getView().getModel("DateModel").setProperty("/claimTypeState", "None");
+								this.getView().getModel("DateModel").setProperty("/claimTypeState2", "None");
 								this.getView().getModel("DateModel").setProperty("/errorBusyIndicator", true);
 								oClaimModel.refreshSecurityToken();
 								oClaimModel.create("/zc_headSet", this.obj, {
