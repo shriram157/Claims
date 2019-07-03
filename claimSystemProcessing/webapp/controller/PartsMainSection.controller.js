@@ -303,6 +303,7 @@ sap.ui.define([
 		},
 		_onRoutMatched: function (oEvent) {
 			var sSelectedLocale;
+			this.DiscreCode="";
 			var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
 			if (isLocaleSent) {
 				sSelectedLocale = (window.location.search.match(/language=([^&]*)/i)[1]).toUpperCase();
@@ -2545,6 +2546,7 @@ sap.ui.define([
 			this.getView().getModel("PartDataModel").setProperty("/ALMDiscreCode", SelectedDD.ALMDiscreCode);
 			this.getView().getModel("PartDataModel").setProperty("/ALMDiscreDesc", SelectedDD.ALMDiscreCode + " - " + SelectedDD.ALMDiscreDesc);
 			this.getView().getModel("PartDataModel").setProperty("/ClaimType", SelectedDD.ClaimType);
+			this.DiscreCode = SelectedDD.DiscreCode;
 			this.getView().getModel("PartDataModel").setProperty("/DiscreCode", SelectedDD.DiscreCode);
 			this.getView().getModel("PartDataModel").setProperty("/DiscreDesc", SelectedDD.DiscreDesc);
 			this.getView().getModel("PartDataModel").setProperty("/LanguageKey", SelectedDD.LanguageKey);
@@ -3774,7 +3776,7 @@ sap.ui.define([
 					MessageBox.show(this.oBundle.getText("PleaseSavePart"), MessageBox.Icon.ERROR, "Reminder", MessageBox.Action.OK,
 						null, null);
 				}
-			} else if (this.letterSubmitted == false && (this.claimType === "ZPTS" && this.getView().getModel("PartDataModel").getProperty("/DiscreCode") === "8A")) {
+			} else if (this.letterSubmitted == false && (this.claimType === "ZPTS" && this.DiscreCode === "8A")) {
 				MessageBox.show(this.oBundle.getText("LOIMandatoryBeforeTCISubmit"), MessageBox.Icon.INFORMATION, "Reminder", MessageBox.Action.OK,
 					null, null);
 			}
@@ -3919,7 +3921,7 @@ sap.ui.define([
 					new Button({
 						text: "Yes",
 						press: $.proxy(function () {
-								if (that.letterSubmitted == false && (that.claimType === "ZPTS" && that.getView().getModel("PartDataModel").getProperty("/DiscreCode") === "8A")) {
+								if (that.letterSubmitted == false && (that.claimType === "ZPTS" && this.DiscreCode === "8A")) {
 									dialog.close();
 									// var msg = oBundle.getText("LOIMandatoryBeforeTCISubmit");
 									MessageBox.show(oBundle.getText("LOIMandatoryBeforeTCISubmit"), MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK,
