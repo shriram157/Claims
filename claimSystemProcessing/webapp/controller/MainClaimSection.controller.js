@@ -16,9 +16,6 @@ sap.ui.define([
 	return BaseController.extend("zclaimProcessing.controller.MainClaimSection", {
 		onInit: function () {
 			this.getDealer();
-			var oNodeModel = new sap.ui.model.json.JSONModel();
-			oNodeModel.loadData(jQuery.sap.getModulePath("zclaimProcessing.utils", "/Nodes.json"));
-			this.oUploadCollection = this.byId("UploadSupportingDoc");
 
 			//Model data set for Header Links visibility as per User login
 			console.log("HeaderLinksModel", sap.ui.getCore().getModel("HeaderLinksModel"));
@@ -2729,11 +2726,9 @@ sap.ui.define([
 
 			var oValidator = new Validator();
 			//var oValid = oValidator.validate(this.getView().byId("idClaimMainForm"));
-
 			// var oValid01 = oValidator.validate(this.getView().byId("idVehicleInfo"));
 			var oValid02 = oValidator.validate(this.getView().byId("idpart01Form"));
 			oValidator.validate(!(this.getView().byId("id_Date")));
-
 			var sSelectedLocale;
 			//  get the locale to determine the language.
 			var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
@@ -2808,7 +2803,6 @@ sap.ui.define([
 				oView.byId("idDealerClaim"),
 				oView.byId("id_Date"),
 				oView.byId("idRepairOrder"),
-
 				oView.byId("idT1Field"),
 				oView.byId("idT2Field"),
 				oView.byId("idRemedy"),
@@ -2926,6 +2920,7 @@ sap.ui.define([
 			} else if (oClmType == "ZWMS" || oClmSubType == "ZWMS") {
 				aInputs = aInputsArrZWMS;
 			} else if (oClmType == "ZWVE") {
+				oView.byId("idFieldActionInput").setProperty("valueState", "None");
 				aInputs = aInputsZWVE;
 			} else if (oClmType == "ZWP1") {
 				aInputs = aInputsZWVE;
@@ -3528,7 +3523,6 @@ sap.ui.define([
 				oView.byId("idPrInvDate"),
 				oView.byId("id_Date"),
 				oView.byId("idRepairOrder"),
-
 				oView.byId("idT1Field"),
 				oView.byId("idT2Field"),
 				oView.byId("idRemedy"),
@@ -3537,11 +3531,9 @@ sap.ui.define([
 			];
 
 			var aInputsArrZWMS = [
-
 				oView.byId("idDealerClaim"),
 				oView.byId("id_Date"),
 				oView.byId("idRepairOrder"),
-
 				oView.byId("idT1Field"),
 				oView.byId("idT2Field"),
 				oView.byId("idRemedy"),
@@ -3638,36 +3630,54 @@ sap.ui.define([
 
 			var bValidationError = false;
 
-			if (oClmSubType == "ZCER" || oClmSubType == "ZCLS" || oClmSubType == "ZCSR") {
+			if (oClmSubType == "ZCER" || oClmSubType == "ZCLS" || oClmSubType == "ZCSR" || oClmType == "ZCER" || oClmType == "ZCLS" || oClmType ==
+				"ZCSR") {
+				oView.byId("idOFP").addStyleClass("clNotReq");
+				oView.byId("idMainOps").addStyleClass("clNotReq");
 				aInputs = aInputsFieldAct;
-			} else if (oClaimtype == "FAC" && oClmType == "ZCWE") {
+			} else if (oClmType == "ZCWE" || oClmSubType == "ZCWE") {
 				aInputs = aInputsFieldActZCWE;
-			} else if (oClmSubType == "ZCWE") {
-				aInputs = aInputsFieldActZCWE;
-			} else if (oClaimtype == "FAC") {
-				aInputs = aInputsFieldAct;
-			} else if (oClaimtype == "ZECP") {
+			} else if (oClmType == "ZECP") {
+				oView.byId("idOFP").addStyleClass("clNotReq");
+				oView.byId("idFieldActionInput").addStyleClass("clNotReq");
 				aInputs = aInputsOECP;
-			} else if (oClaimtype == "STR") {
+			} else if (oClmType == "ZSSE") {
+				oView.byId("idOFP").addStyleClass("clNotReq");
+				oView.byId("idFieldActionInput").addStyleClass("clNotReq");
 				aInputs = aInputsSETR;
-			} else if (oClaimtype == "VLC") {
+			} else if (oClmType == "ZLDC") {
 				aInputs = aInputVehiclLog;
 			} else if (oClmType == "ZWAC" || oClmSubType == "ZWAC") {
+				oView.byId("idOFP").addStyleClass("clNotReq");
+				oView.byId("idFieldActionInput").addStyleClass("clNotReq");
 				aInputs = aInputsArrZWAC;
 			} else if (oClmType == "ZWP2" || oClmSubType == "ZWP2") {
+				oView.byId("idOFP").addStyleClass("clNotReq");
+				oView.byId("idFieldActionInput").addStyleClass("clNotReq");
 				aInputs = aInputsArrZWP2;
 			} else if (oClmType == "ZWMS" || oClmSubType == "ZWMS") {
+				oView.byId("idOFP").addStyleClass("clNotReq");
+				oView.byId("idFieldActionInput").addStyleClass("clNotReq");
 				aInputs = aInputsArrZWMS;
-			} else if (oClmType == "ZWVE") {
+			} else if (oClmType == "ZWVE" || oClmSubType == "ZWVE") {
+				oView.byId("idOFP").addStyleClass("clNotReq");
+				oView.byId("idFieldActionInput").addStyleClass("clNotReq");
 				aInputs = aInputsZWVE;
-			} else if (oClmType == "ZGGW") {
+
+			} else if (oClmType == "ZGGW" || oClmSubType == "ZGGW" || oClmType == "ZWA1" || oClmType == "ZWA2") {
 				aInputs = aInputsArr;
-			} else if (oClmType == "ZWP1") {
+				oView.byId("idMainOps").addStyleClass("clNotReq");
+				oView.byId("idOFP").addStyleClass("clNotReq");
+				oView.byId("idFieldActionInput").addStyleClass("clNotReq");
+			} else if (oClmType == "ZWP1" || oClmSubType == "ZWP1") {
 				aInputs = aInputsZWVE;
-			} else if (oClaimtype == "WTY") {
+				oView.byId("idOFP").addStyleClass("clNotReq");
+				oView.byId("idFieldActionInput").addStyleClass("clNotReq");
+			} else if (oClmType == "ZRCR") {
 				aInputs = aInputsArr;
-			} else if (oClaimtype == "CRC") {
-				aInputs = aInputsArr;
+				oView.byId("idMainOps").addStyleClass("clNotReq");
+				oView.byId("idOFP").addStyleClass("clNotReq");
+				oView.byId("idFieldActionInput").addStyleClass("clNotReq");
 			} else if (oClmType == "ZSCR") {
 				aInputs = aInputsArrCoreRet;
 			}
@@ -4613,45 +4623,6 @@ sap.ui.define([
 				}, this)
 			});
 		},
-		// deleteItemById: function (sItemToDeleteId, mModel) {
-		// 	var sCurrentPath = this.getCurrentFolderPath();
-		// 	var oData = this.getView().getModel(mModel).getProperty(sCurrentPath);
-		// 	var aItems = oData && oData.items;
-		// 	jQuery.each(aItems, function (index) {
-		// 		if (aItems[index] && aItems[index].documentId === sItemToDeleteId) {
-		// 			aItems.splice(index, 1);
-		// 		}
-		// 	});
-		// 	this.getView().getModel(mModel).setProperty(sCurrentPath + "/items", aItems);
-		// },
-
-		// uploadCollectionItemFactory: function (id, context) {
-		// 	var oItem = new sap.m.UploadCollectionItem(id, {
-		// 		documentId: "{ClaimModel>DOC_ID}",
-		// 		fileName: "{ClaimModel>FileName}",
-		// 		mimeType: "{ClaimModel>MIMETYPE}",
-		// 		thumbnailUrl: "{ClaimModel>url}",
-		// 		url: "{ClaimModel>URI}"
-		// 	});
-
-		// 	if (context.getProperty("type") === "folder") {
-		// 		oItem.attachPress(this.onFolderPress, this);
-		// 		oItem.attachDeletePress(this.onFolderDeletePress, this);
-		// 		oItem.setAriaLabelForPicture("Folder");
-		// 	}
-		// 	return oItem;
-		// },
-		// bindUploadCollectionItems: function (path) {
-		// 	this.oUploadCollection.bindItems({
-		// 		path: path,
-		// 		factory: this.uploadCollectionItemFactory.bind(this)
-		// 	});
-		// },
-		// getCurrentLocationText: function () {
-		// 	// Remove the previously added number of items from the currentLocationText in order to not show the number twice after rendering.
-		// 	var sText = this.oBreadcrumbs.getCurrentLocationText().replace(/\s\([0-9]*\)/, "");
-		// 	return sText;
-		// },
 
 		onPressTCIQty: function (oEvent) {
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
@@ -4713,42 +4684,6 @@ sap.ui.define([
 			var oClaimModel = this.getModel("ProssingModel");
 			var productModel = this.getModel("ProductMaster");
 
-			// 			var oParObj = {
-			// 				Division: sDivision,
-			// 				Languagekey: sSelectedLocale
-			// 			}
-
-			// 			oClaimModel.create("/ZC_CLAIM_MATERIAL_DESC", oParObj, {
-			// 				success: function (data) {
-			// 					console.log(data);
-			// 				}
-			// 			});
-
-			// 			oClaimModel.read("/zc_vehicle_informationSet", {
-			// 				urlParameters: {
-			// 					"$filter": "LanguageKey eq '" + sSelectedLocale.toUpperCase() +
-			// 						"'and Division eq'" + sDivision + "'",
-			// 					"$expand": "ZC_CLAIM_MATERIALTEXTSET"
-
-			// 				},
-			// 				success: $.proxy(function (data) {
-			// 					console.log(data.results);
-			// 					//this.getModel("LocalDataModel").setProperty("/productMaterials", data.results);
-
-			// 				}, this)
-
-			// 			});
-
-			// 			oClaimModel.read("/ZC_CLAIM_MATERIAL_DESC(p_langu='" + sSelectedLocale.toUpperCase() + "')/Set", {
-
-			// 				success: $.proxy(function (data) {
-			// 					console.log(data.results);
-			// 					this.getModel("LocalDataModel").setProperty("/productMaterials", data.results);
-			// 					this.getModel("LocalDataModel").setSizeLimit(100000);
-
-			// 				}, this)
-
-			// 			});
 		},
 		onPressAddLabour: function () {
 
@@ -4796,8 +4731,6 @@ sap.ui.define([
 					}, this)
 
 				});
-
-				//console.log("The Sum of percent should be within 100%");
 
 			} else {
 				MessageToast.show(oBundle.getText("TheSumpercentwithin100"), {

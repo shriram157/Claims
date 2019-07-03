@@ -188,12 +188,11 @@
 					<core:Title text=""/>
 					<Label text="{i18n>DeliveryDate}"/>
 					<DatePicker class="clDatePicker" required="true"
-						value="{path:'HeadSetData>/DeliveryDate', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'yyyy-MM-dd', UTC : 'X'}}"
+						value="{path:'HeadSetData>/DeliveryDate', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'yyyy-MM-dd'}}"
 						editable="{DateModel>/oFormEdit}"/>
 					<core:Title text=""/>
 					<Label text="{i18n>Delivery}"/>
-					<custom:CustomCombo id="idDelivery" required="true" editable="{DateModel>/oFormEdit}" items="" selectedKey=""
-						value="{HeadSetData>/Delivery}">
+					<custom:CustomCombo id="idDelivery" required="true" editable="{DateModel>/oFormEdit}" selectedKey="" value="{HeadSetData>/Delivery}">
 						<core:ListItem key="" text="{i18n>Attended}"/>
 						<core:ListItem key="" text="{i18n>Unattended}"/>
 					</custom:CustomCombo>
@@ -230,7 +229,7 @@
 						<core:Title text=""/>
 						<Label text=" "/>
 						<Button text="{i18n>SaveDamage}" press="onSaveDamage" type="Emphasized" enabled="{DateModel>/damageLine}"/>
-						<Link text="{i18n>CancelClaim}" enabled="{DateModel>/damageLine}"/>
+						<!--<Link text="{i18n>Cancel}" enabled="{DateModel>/damageLine}"/>-->
 					</f:content>
 				</f:SimpleForm>
 			</VBox>
@@ -260,7 +259,7 @@
 					</Column>
 				</columns>
 				<items>
-					<ColumnListItem>
+					<ColumnListItem vAlign="Middle">
 						<cells>
 							<Text text="{LocalDataModel>LineNum}"/>
 							<Text text="{LocalDataModel>DmgAreaCode}"/>
@@ -367,7 +366,7 @@
 					<Text text="{path:'LocalDataModel>/OFPDescription'}" visible="{DateModel>/ofpEnabled}"/>
 					<Label text="{i18n>MainOpDescription}"/>
 					<Text text="{path:'LocalDataModel>/MainOpsCodeDescription'}" visible="{DateModel>/oMainOps}"/>
-					<Label text="{i18n>FieldActionCode}"/>
+					<Label text="{i18n>FieldActionCode}" labelFor="idFieldActionInput"/>
 					<Input id="idFieldActionInput" maxLength="10" required="{path:'DateModel>/oFieldActionInput'}"
 						value="{path:'HeadSetData>/FieldActionReference', type : 'sap.ui.model.type.String', constraints : { minLength : 2, maxLength : 10 }}"
 						editable="{DateModel>/oFormEdit}" enabled="{DateModel>/oFieldActionInput}"/>
@@ -410,7 +409,7 @@
 				<core:Title text=""/>
 				<Label text="{i18n>InstallDate}"/>
 				<DatePicker id="idAccDate" class="clDatePicker" visible="{DateModel>/AcA1}" required="{DateModel>/AcA1}"
-					value="{path:'HeadSetData>/AccessoryInstallDate', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'yyyy-MM-dd', UTC : 'X'}}"
+					value="{path:'HeadSetData>/AccessoryInstallDate', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'yyyy-MM-dd'}}"
 					editable="{DateModel>/oFormEdit}"/>
 				<core:Title text=""/>
 				<Label text="{i18n>InstallOdometer}"/>
@@ -431,7 +430,7 @@
 				<core:Title text=""/>
 				<Label text="{i18n>ROInvoiceDate}"/>
 				<DatePicker class="clDatePicker" id="idPrInvDate" required="{DateModel>/oPrevInvDateReq}"
-					value="{path:'HeadSetData>/PreviousROInvoiceDate', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'yyyy-MM-dd', UTC : 'X'}}"
+					value="{path:'HeadSetData>/PreviousROInvoiceDate', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'yyyy-MM-dd'}}"
 					editable="{DateModel>/oFormEdit}"/>
 				<core:Title text=""/>
 				<Label text="{i18n>ROOdometer}"/>
