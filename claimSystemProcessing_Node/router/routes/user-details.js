@@ -140,9 +140,9 @@ module.exports = function (appContext) {
 						}
 						for (var i = 0; i < customerSalesArea.results.length; i++) {
 							if (customerSalesArea.results[i].SalesOffice === bpZone &&
-									customerSalesArea.results[i].SalesOrganization == "7000" &&
-									customerSalesArea.results[i].DistributionChannel == "10" &&
-									customerSalesArea.results[i].SalesGroup != "T99") {
+								customerSalesArea.results[i].SalesOrganization == "7000" &&
+								customerSalesArea.results[i].DistributionChannel == "10" &&
+								customerSalesArea.results[i].SalesGroup != "T99") {
 								return true;
 							}
 						}
@@ -160,8 +160,8 @@ module.exports = function (appContext) {
 						}
 						for (var i = 0; i < customerSalesArea.results.length; i++) {
 							if (customerSalesArea.results[i].SalesOrganization == "7000" &&
-									customerSalesArea.results[i].DistributionChannel == "10" &&
-									customerSalesArea.results[i].SalesGroup != "T99") {
+								customerSalesArea.results[i].DistributionChannel == "10" &&
+								customerSalesArea.results[i].SalesGroup != "T99") {
 								return true;
 							}
 						}

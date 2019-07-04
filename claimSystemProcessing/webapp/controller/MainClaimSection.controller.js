@@ -3649,6 +3649,7 @@ sap.ui.define([
 				aInputs = aInputVehiclLog;
 			} else if (oClmType == "ZWAC" || oClmSubType == "ZWAC") {
 				oView.byId("idOFP").addStyleClass("clNotReq");
+				oView.byId("idMainOps").addStyleClass("clNotReq");
 				oView.byId("idFieldActionInput").addStyleClass("clNotReq");
 				aInputs = aInputsArrZWAC;
 			} else if (oClmType == "ZWP2" || oClmSubType == "ZWP2") {

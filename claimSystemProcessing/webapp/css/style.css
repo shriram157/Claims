@@ -175,7 +175,8 @@ html.sap-desktop .clCommentFix .sapMFeedListItemHasFigure {
 }
 
 .clNotReq .sapMInputBaseContentWrapperError {
-    border-color: #bfbfbf;
+    border: 1px solid #bfbfbf;
+    outline: none;
 }
 
 
