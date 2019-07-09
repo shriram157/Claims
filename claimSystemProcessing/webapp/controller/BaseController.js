@@ -116,7 +116,7 @@ sap.ui.define([
 					sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "");
 					switch (userType) {
 					case "Dealer_Parts_Admin":
-						// console.log("Dealer Parts");
+
 						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ManageAllParts");
 						/*Uncomment for security*/
 						that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", true);
