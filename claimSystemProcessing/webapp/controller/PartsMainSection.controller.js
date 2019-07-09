@@ -256,9 +256,9 @@ sap.ui.define([
 			if (this.SelectedClaimType !== "ZPMS") {
 				this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", false);
 			} else {
-				var delDate =  new Date(this.getView().getModel("HeadSetData").getProperty("/DeliveryDate"));
+				var delDate = new Date(this.getView().getModel("HeadSetData").getProperty("/DeliveryDate"));
 				var shipDate = new Date(this.getView().getModel("HeadSetData").getProperty("/ShipmentReceivedDate"));
-				console.log("dates", delDate +""+shipDate);
+				console.log("dates", delDate + "" + shipDate);
 				shipDate = new Date(shipDate.getFullYear(), shipDate.getMonth(), shipDate.getDate());
 				delDate = new Date(delDate.getFullYear(), delDate.getMonth(), delDate.getDate());
 
@@ -303,7 +303,7 @@ sap.ui.define([
 		},
 		_onRoutMatched: function (oEvent) {
 			var sSelectedLocale;
-			this.DiscreCode="";
+			this.DiscreCode = "";
 			var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
 			if (isLocaleSent) {
 				sSelectedLocale = (window.location.search.match(/language=([^&]*)/i)[1]).toUpperCase();
@@ -972,8 +972,8 @@ sap.ui.define([
 						var oArr = odata.results;
 						var oAttachSet = oArr.map(function (item) {
 							item.FileName = item.FileName.replace("HEAD@@@", "");
-							console.log("filename",item.FileName );
-							if(item.FileName == "Letter Of Intent.pdf"){
+							console.log("filename", item.FileName);
+							if (item.FileName == "Letter Of Intent.pdf") {
 								that.letterSubmitted = true;
 							}
 							return item;
@@ -1201,9 +1201,9 @@ sap.ui.define([
 
 		onReceivedDateChange: function (oReceivedDate) {
 			var receivedDate = oReceivedDate.getSource().mProperties.dateValue;
-			console.log("received date",receivedDate);
-			var delDate =new Date(this.getView().getModel("HeadSetData").getProperty("/DeliveryDate"));
-			console.log("delDate ",delDate);
+			console.log("received date", receivedDate);
+			var delDate = new Date(this.getView().getModel("HeadSetData").getProperty("/DeliveryDate"));
+			console.log("delDate ", delDate);
 			receivedDate = new Date(receivedDate.getFullYear(), receivedDate.getMonth(), receivedDate.getDate());
 			delDate = new Date(delDate.getFullYear(), delDate.getMonth(), delDate.getDate());
 
@@ -3508,43 +3508,43 @@ sap.ui.define([
 								"results": this.getModel("LocalDataModel").getProperty("/claim_commentSet")
 							}
 						};
-						var that=this;
+						var that = this;
 						oClaimModel.refreshSecurityToken();
-						if(this.obj.zc_claim_commentSet.results ==""){
-							this.obj.zc_claim_commentSet.results=[];
+						if (this.obj.zc_claim_commentSet.results == "") {
+							this.obj.zc_claim_commentSet.results = [];
 						}
 						oClaimModel.create("/zc_headSet", this.obj, {
 							success: $.proxy(function (response) {
 								// MessageToast.show(that.oBundle.getText("ClaimUpdateMSG"));
-										that.getModel("LocalDataModel").setProperty("/UploadEnable", true);
-										MessageToast.show(oBundle.getText("ClaimUpdatedsuccessfully"), {
-											my: "center center",
-											at: "center center"
-										});
-										this.getModel("LocalDataModel").setProperty("/CancelEnable", true);
-										oClaimModel.read("/ZC_CLAIM_HEAD_NEW", {
+								that.getModel("LocalDataModel").setProperty("/UploadEnable", true);
+								MessageToast.show(oBundle.getText("ClaimUpdatedsuccessfully"), {
+									my: "center center",
+									at: "center center"
+								});
+								this.getModel("LocalDataModel").setProperty("/CancelEnable", true);
+								oClaimModel.read("/ZC_CLAIM_HEAD_NEW", {
+									urlParameters: {
+										"$filter": "NumberOfWarrantyClaim eq '" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") +
+											"'"
+									},
+									success: $.proxy(function (sdata) {
+										this.getView().getModel("HeadSetData").setData(sdata.results[0]);
+										this.getView().getModel("HeadSetData").setProperty("/ReferenceDate", response.ReferenceDate);
+										this.getView().getModel("HeadSetData").setProperty("/DateOfApplication", response.DateOfApplication);
+										oClaimModel.read("/zc_headSet", {
 											urlParameters: {
-												"$filter": "NumberOfWarrantyClaim eq '" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") +
-													"'"
+												"$filter": "NumberOfWarrantyClaim eq '" + this.getModel("LocalDataModel").getProperty(
+														"/WarrantyClaimNum") +
+													"'and LanguageKey eq '" + sSelectedLocale.toUpperCase() + "'",
+												"$expand": "zc_claim_read_descriptionSet"
 											},
-											success: $.proxy(function (sdata) {
-												this.getView().getModel("HeadSetData").setData(sdata.results[0]);
-												this.getView().getModel("HeadSetData").setProperty("/ReferenceDate", response.ReferenceDate);
-												this.getView().getModel("HeadSetData").setProperty("/DateOfApplication", response.DateOfApplication);
-												oClaimModel.read("/zc_headSet", {
-													urlParameters: {
-														"$filter": "NumberOfWarrantyClaim eq '" + this.getModel("LocalDataModel").getProperty(
-																"/WarrantyClaimNum") +
-															"'and LanguageKey eq '" + sSelectedLocale.toUpperCase() + "'",
-														"$expand": "zc_claim_read_descriptionSet"
-													},
-													success: $.proxy(function (errorData) {
-														this.getView().getModel("HeadSetData").setProperty("/HeadText", errorData.results[0].zc_claim_read_descriptionSet
-															.results[0].HeadText);
-													}, this)
-												});
+											success: $.proxy(function (errorData) {
+												this.getView().getModel("HeadSetData").setProperty("/HeadText", errorData.results[0].zc_claim_read_descriptionSet
+													.results[0].HeadText);
 											}, this)
 										});
+									}, this)
+								});
 								that.getModel("LocalDataModel").setProperty("/step01Next", true);
 							}, this),
 							error: function () {
@@ -4249,6 +4249,14 @@ sap.ui.define([
 					}
 				});
 
+		},
+		onTCIWayBillChange: function (oEvent) {
+			var oVal = oEvent.getSource().getValue();
+			if (oVal !== "") {
+				this.getView().getModel("DateModel").setProperty("/waybilltype", "None");
+			} else {
+				this.getView().getModel("DateModel").setProperty("/waybilltype", "Error");
+			}
 		},
 
 		onExit: function () {

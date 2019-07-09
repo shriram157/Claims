@@ -14,7 +14,6 @@
 				<f:content>
 					<core:Title text=""/>
 					<Label text="{i18n>ClaimType}"/>
-					
 					<ComboBox id="ID_claimGroupsforParts" required="true" items="{LocalDataModel>/oClaimPartsGroupsData}" change="onSelectClaim"
 						selectedKey="{HeadSetData>/WarrantyClaimType}" enabled="{DateModel>/claimTypeEn}">
 						<core:Item text="{LocalDataModel>ALMClaimTypeDes}" key="{LocalDataModel>ALMClaimType}"/>
@@ -67,7 +66,8 @@
 				<Input value="" id="idPdcCode" editable="false"/>
 				<core:Title text=""/>
 				<Label text="{i18n>TCIWaybillNo}"/>
-				<Input value="{HeadSetData>/TCIWaybillNumber}" id="idTCIWayBill" enabled="{DateModel>/oFormEdit}" required="{DateModel>/required}" valueState="{DateModel>/waybilltype}"/>
+				<Input value="{HeadSetData>/TCIWaybillNumber}" liveChange="onTCIWayBillChange" id="idTCIWayBill" enabled="{DateModel>/oFormEdit}"
+					required="{DateModel>/required}" valueState="{DateModel>/waybilltype}"/>
 				<Label text="{i18n>CarrierName}"/>
 				<ComboBox id="idCarrierName" required="true" items="{BpDealerModel>/BpDealerList}" change="onSelectPartsDealer"
 					selectedKey="{HeadSetData>/DeliveringCarrier}" showSecondaryValues="true" enabled="{DateModel>/oFormEdit}">
@@ -77,14 +77,14 @@
 			</f:content>
 		</f:SimpleForm>
 		<Panel backgroundDesign="Transparent" headerText="{i18n>ClaimComments}" expandable="true" class="sapUiSizeCompact clCommentFix">
-            <content>
-                <FeedInput post=".onPostPWComments" enabled="{DateModel>/FeedEnabled}"/>
-                <List class="sapUiSizeCompact" busy="{LocalDataModel>/commentIndicator}" id="idPWCommentsList" noDataText="No Data"
-                    showSeparators="Inner" items="{ path: 'LocalDataModel>/claim_commentSet'}">
-                    <FeedListItem text="{LocalDataModel>HeadText}"/>
-                </List>
-            </content>
-        </Panel>
+			<content>
+				<FeedInput post=".onPostPWComments" enabled="{DateModel>/FeedEnabled}"/>
+				<List class="sapUiSizeCompact" busy="{LocalDataModel>/commentIndicator}" id="idPWCommentsList" noDataText="No Data" showSeparators="Inner"
+					items="{ path: 'LocalDataModel>/claim_commentSet'}">
+					<FeedListItem text="{LocalDataModel>HeadText}"/>
+				</List>
+			</content>
+		</Panel>
 	</VBox>
 	<Panel width="auto" class="sapUiSmallMarginBottom" accessibleRole="Region">
 		<headerToolbar>
