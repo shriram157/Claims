@@ -5441,8 +5441,15 @@ sap.ui.define([
 			} else {
 				if (oClaimNum == undefined) {
 					that.fnOpenDialogOnBack();
-				} else if (that.getView().getModel("HeadSetData").getProperty("/DecisionCode") == "ZTIC" ||
-					that.getView().getModel("HeadSetData").getProperty("/DecisionCode") == "ZTRC") {
+				} else if (
+					that.getView().getModel("HeadSetData").getProperty("/DecisionCode") == "ZTIC" && sap.ui.getCore().getModel("UserDataModel").getProperty(
+						"/LoggedInUser") == "Dealer_Services_Admin" ||
+					that.getView().getModel("HeadSetData").getProperty("/DecisionCode") == "ZTIC" && sap.ui.getCore().getModel("UserDataModel").getProperty(
+						"/LoggedInUser") == "Dealer_Services_Manager" ||
+					that.getView().getModel("HeadSetData").getProperty("/DecisionCode") == "ZTRC" && sap.ui.getCore().getModel("UserDataModel").getProperty(
+						"/LoggedInUser") == "Dealer_Services_Manager" ||
+					that.getView().getModel("HeadSetData").getProperty("/DecisionCode") == "ZTRC" && sap.ui.getCore().getModel("UserDataModel").getProperty(
+						"/LoggedInUser") == "Dealer_Services_Admin") {
 					var dialog = new Dialog({
 						title: oBundle.getText("SaveChanges"),
 						type: "Message",
@@ -5483,6 +5490,13 @@ sap.ui.define([
 					});
 
 					dialog.open();
+				} else if (
+					sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") == "Dealer_User" ||
+					sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") == "TCI_Admin" ||
+					sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") == "TCI_User" ||
+					sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") == "Zone_User"
+				) {
+					that.getRouter().navTo("SearchClaim");
 				} else {
 					that.getRouter().navTo("SearchClaim");
 				}
