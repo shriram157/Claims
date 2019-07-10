@@ -176,7 +176,7 @@
 					<custom:CustomCombo id="iDdelivCarrier" required="true" editable="{DateModel>/oFormEdit}" selectedKey=""
 						value="{HeadSetData>/DeliveringCarrier}">
 						<core:ListItem key="" text="Hansen's"/>
-						<core:ListItem key="" text="United Road"/>
+						<core:ListItem key="" text="UnitedRoad"/>
 						<core:ListItem key="" text="MCGill"/>
 						<core:ListItem key="" text="Harvey"/>
 						<core:ListItem key="" text="Laberge"/>

@@ -2420,6 +2420,7 @@ sap.ui.define([
 		onEnterVIN: function (oEvent) {
 			this.getView().byId("idECPAGR").removeSelections();
 			this.getView().getModel("HeadSetData").setProperty("/AgreementNumber", "");
+
 			var sSelectedLocale;
 			//  get the locale to determine the language.
 			var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
@@ -2486,6 +2487,7 @@ sap.ui.define([
 					success: $.proxy(function (data) {
 						if (data.results.length > 0) {
 							var oVinModel = data.results[0].Model;
+							this.getModel("LocalDataModel").setProperty("/invalidVinMsg", data.results[0].Message);
 							if (oVinModel == "I_VEH_US") {
 								this.getView().getModel("HeadSetData").setProperty("/ForeignVINIndicator", "Yes");
 								this.oText = "true";
@@ -2497,7 +2499,7 @@ sap.ui.define([
 								this.getModel("LocalDataModel").setProperty("/DataVinDetails", "");
 								this.getView().byId("idMainClaimMessage").setProperty("visible", true);
 								this.getModel("LocalDataModel").setProperty("/VehicleMonths", "");
-								this.getView().byId("idMainClaimMessage").setText("Please Enter a Valid VIN.");
+								this.getView().byId("idMainClaimMessage").setText(oBundle.getText("PleaseEnterValidVIN"));
 								this.getView().byId("idMainClaimMessage").setType("Error");
 								this.getView().getModel("HeadSetData").setProperty("/ForeignVINIndicator", "No");
 							} else {
@@ -2938,8 +2940,6 @@ sap.ui.define([
 				}
 			});
 
-			this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", true);
-
 			if (bValidationError) {
 				this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", false);
 				this.getView().byId("idMainClaimMessage").setText(oBundle.getText("FillUpMandatoryField"));
@@ -2950,6 +2950,9 @@ sap.ui.define([
 				this.getView().byId("idMainClaimMessage").setText(oBundle.getText("PleaseSelectAgreement"));
 				this.getView().byId("idMainClaimMessage").setType("Error");
 				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+			} else if (this.getModel("LocalDataModel").getProperty("/invalidVinMsg") == "Invalid VIN Number") {
+				this.getView().byId("idMainClaimMessage").setText(oBundle.getText("PleaseEnterValidVIN"));
+				this.getView().byId("idMainClaimMessage").setType("Error");
 			} else if (oGroupType == "Authorization" && oClmSubType ==
 				"") {
 				this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", false);
@@ -2979,6 +2982,7 @@ sap.ui.define([
 				} else {
 					oActionCode = "";
 				}
+				this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", true);
 				this.getView().getModel("DateModel").setProperty("/claimTypeState", "None");
 				this.getView().getModel("DateModel").setProperty("/claimTypeState2", "None");
 				this.obj = {
@@ -3934,7 +3938,7 @@ sap.ui.define([
 									"results": pricinghData
 								}
 							};
-							this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", true);
+
 							if (bValidationError) {
 								this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", false);
 								this.getView().byId("idMainClaimMessage").setText(oBundle.getText("FillUpMandatoryField"));
@@ -3945,6 +3949,9 @@ sap.ui.define([
 								this.getView().byId("idMainClaimMessage").setText(oBundle.getText("PleaseSelectAgreement"));
 								this.getView().byId("idMainClaimMessage").setType("Error");
 								this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+							} else if (this.getModel("LocalDataModel").getProperty("/invalidVinMsg") == "Invalid VIN Number") {
+								this.getView().byId("idMainClaimMessage").setText(oBundle.getText("PleaseEnterValidVIN"));
+								this.getView().byId("idMainClaimMessage").setType("Error");
 							} else if (this.getModel("LocalDataModel").getProperty("/WarrantyClaimTypeGroup") == "Authorization" && oClmSubType ==
 								"") {
 								// this.getView().byId("idMainClaimMessage").setText(oBundle.getText("FillUpMandatoryField"));
@@ -3958,6 +3965,7 @@ sap.ui.define([
 										at: "center center"
 									});
 							} else {
+								this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", true);
 								this.getView().byId("idMainClaimMessage").setProperty("visible", false);
 								this.getView().byId("idMainClaimMessage").setText("");
 								this.getView().byId("idMainClaimMessage").setType("None");
@@ -5303,8 +5311,8 @@ sap.ui.define([
 				.getProperty(
 					"/WarrantyClaimSubType") == "ZWA2" || this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") == "ZWAC" ||
 				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZWP1" ||
-				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") == "ZWP1"
-
+				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") == "ZWP1" ||
+				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZLDC"
 			) {
 				this.getView().byId("idFilter04").setProperty("enabled", true);
 				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab4");
@@ -6534,7 +6542,7 @@ sap.ui.define([
 			}
 		},
 		onPressSaveClaimItemSublet: function () {
-			this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", true);
+
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var oTable = this.getView().byId("idSubletTable");
@@ -6563,6 +6571,7 @@ sap.ui.define([
 			}
 			if (this.getModel("LocalDataModel").getProperty("/SubletAtchmentData") != undefined && this.getModel("LocalDataModel").getProperty(
 					"/SubletAtchmentData") != "") {
+				this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", true);
 				var itemObj = {
 					"ItemType": "SUBL",
 					"SubletType": this.getView().getModel("SubletDataModel").getProperty("/SubletCode"),
