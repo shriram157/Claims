@@ -97,8 +97,9 @@
 					editable="{DateModel>/oFormEdit}" visible="{DateModel>/oVisibleRepDate}"/>
 				<!--constraints: { displayFormat: 'Date' }-->
 				<Label text="{i18n>DealerContact}"/>
-				<Input required="{DateModel>/oDealerContactReq}" maxLength="30" value="{path:'HeadSetData>/DealerContact'}" id="idDealerContact"
-					editable="{DateModel>/oFormEdit}" enabled="{DateModel>/oDealerContactReq}"/>
+				<Input required="{DateModel>/oDealerContactReq}" maxLength="30"
+					value="{path:'HeadSetData>/DealerContact', type : 'sap.ui.model.type.String', constraints : { minLength : 2, maxLength : 30 }}"
+					id="idDealerContact" editable="{DateModel>/oFormEdit}" enabled="{DateModel>/oDealerContactReq}"/>
 				<core:Title text=""/>
 				<Label text="{i18n>RepairOrder}"/>
 				<Input required="true" maxLength="10"
@@ -174,7 +175,7 @@
 					<core:Title text=""/>
 					<Label text="{i18n>DeliveringCarrier}"/>
 					<custom:CustomCombo id="iDdelivCarrier" required="true" editable="{DateModel>/oFormEdit}" selectedKey=""
-						value="{HeadSetData>/DeliveringCarrier}">
+						value="{path:'HeadSetData>/DeliveringCarrier', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 10 }}">
 						<core:ListItem key="" text="Hansen's"/>
 						<core:ListItem key="" text="UnitedRoad"/>
 						<core:ListItem key="" text="MCGill"/>
@@ -184,15 +185,17 @@
 					</custom:CustomCombo>
 					<core:Title text=""/>
 					<Label text="{i18n>Probill}"/>
-					<Input id="idProbill" value="{HeadSetData>/ProbillNum}" required="true"/>
+					<Input id="idProbill"
+						value="{path:'HeadSetData>/ProbillNum', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 15 }}" required="true"/>
 					<core:Title text=""/>
 					<Label text="{i18n>DeliveryDate}"/>
-					<DatePicker class="clDatePicker" required="true"
+					<DatePicker class="clDatePicker" id="idDeliveryDate" required="true"
 						value="{path:'HeadSetData>/DeliveryDate', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'yyyy-MM-dd'}}"
 						editable="{DateModel>/oFormEdit}"/>
 					<core:Title text=""/>
 					<Label text="{i18n>Delivery}"/>
-					<custom:CustomCombo id="idDelivery" required="true" editable="{DateModel>/oFormEdit}" selectedKey="" value="{HeadSetData>/Delivery}">
+					<custom:CustomCombo id="idDelivery" required="true" editable="{DateModel>/oFormEdit}" selectedKey=""
+						value="{path:'HeadSetData>/Delivery', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 20 } }">
 						<core:ListItem key="" text="{i18n>Attended}"/>
 						<core:ListItem key="" text="{i18n>Unattended}"/>
 					</custom:CustomCombo>
