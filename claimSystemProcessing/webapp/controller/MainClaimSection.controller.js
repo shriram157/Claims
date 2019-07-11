@@ -460,9 +460,6 @@ sap.ui.define([
 						var oPartner = data.results[0].Partner;
 
 						var oTextUser = sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser");
-						//oTextUser.replace("Dealer"/g, "");
-
-						//	this.getView().getModel("DateModel").setProperty("/NameOfPersonRespWhoChangedObj", this.getModel("LocalDataModel").getProperty("/LoginId"));
 
 						if (data.results[0].WarrantyClaimType == "ZECP") {
 							this.getModel("LocalDataModel").setProperty("/oCurrentDealerLabour", this.getModel("LocalDataModel").getProperty(
@@ -516,14 +513,6 @@ sap.ui.define([
 								});
 							}
 						}
-						oBusinessModel.read("/A_BusinessPartner", {
-							urlParameters: {
-								"$filter": "BusinessPartner eq '" + oPartner + "'"
-							},
-							success: $.proxy(function (sdata) {
-								this.getModel("LocalDataModel").setProperty("/BPOrgName", sdata.results[0].OrganizationBPName1);
-							}, this)
-						});
 
 						oProssingModel.read("/ZC_CLAIM_SUBLET_CODE", {
 							urlParameters: {
@@ -1121,12 +1110,19 @@ sap.ui.define([
 						"$filter": "NumberOfWarrantyClaim eq '" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") + "'"
 					},
 					success: $.proxy(function (sdata) {
-						//console.log(sdata);
-
-						//this.getModel("LocalDataModel").setProperty("/oCurrentPartner", sdata.results[0].Partner);
 
 						this.getModel("LocalDataModel").setProperty("/ClaimDetails", sdata.results[0]);
 						this.getView().getModel("HeadSetData").setData(sdata.results[0]);
+						var oBusinessModel = this.getModel("ApiBusinessModel");
+						oBusinessModel.read("/A_BusinessPartner", {
+							urlParameters: {
+								"$filter": "BusinessPartner eq '" + this.getModel("LocalDataModel").getProperty("/ClaimDetails/Partner") + "'"
+							},
+							success: $.proxy(function (busData) {
+								this.getModel("LocalDataModel").setProperty("/BPOrgName", busData.results[0].OrganizationBPName1);
+							}, this)
+						});
+
 						oProssingModel.read("/zc_headSet", {
 							urlParameters: {
 								"$filter": "NumberOfWarrantyClaim eq '" + oClaim +
@@ -3129,7 +3125,6 @@ sap.ui.define([
 							success: $.proxy(function (sdata) {
 								console.log(sdata);
 								this.getModel("LocalDataModel").setProperty("/ClaimDetails", sdata.results[0]);
-
 								this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", sdata.results[0].OfpDescription);
 								this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", sdata.results[0].Main_opsDescription);
 								this.getView().getModel("HeadSetData").setData(sdata.results[0]);
@@ -3728,17 +3723,17 @@ sap.ui.define([
 				}
 			});
 
-			var oPartner = this.getModel("LocalDataModel").getProperty("/BpDealerModel/0/BusinessPartnerKey");
+			//var oPartner = this.getModel("LocalDataModel").getProperty("/ClaimDetails/Partner");
 
-			var oBusinessModel = this.getModel("ApiBusinessModel");
-			oBusinessModel.read("/A_BusinessPartner", {
-				urlParameters: {
-					"$filter": "BusinessPartner eq '" + oPartner + "'"
-				},
-				success: $.proxy(function (data) {
-					this.getModel("LocalDataModel").setProperty("/BPOrgName", data.results[0].OrganizationBPName1);
-				}, this)
-			});
+			// 			var oBusinessModel = this.getModel("ApiBusinessModel");
+			// 			oBusinessModel.read("/A_BusinessPartner", {
+			// 				urlParameters: {
+			// 					"$filter": "BusinessPartner eq '" + oPartner + "'"
+			// 				},
+			// 				success: $.proxy(function (data) {
+			// 					this.getModel("LocalDataModel").setProperty("/BPOrgName", data.results[0].OrganizationBPName1);
+			// 				}, this)
+			// 			});
 
 			var oActionCode = "";
 			if (this.getView().getModel("DateModel").getProperty("/oztac") == true) {
@@ -3882,7 +3877,7 @@ sap.ui.define([
 								"DBOperation": "SAVE",
 								"Message": "",
 								"WarrantyClaimType": this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType"),
-								"Partner": this.getModel("LocalDataModel").getProperty("/BpDealerModel/0/BusinessPartnerKey"),
+								"Partner": this.getModel("LocalDataModel").getProperty("/ClaimDetails/Partner"),
 								"ActionCode": oActionCode,
 								"NumberOfWarrantyClaim": this.getView().getModel("HeadSetData").getProperty("/NumberOfWarrantyClaim"),
 								"PartnerRole": "AS",
