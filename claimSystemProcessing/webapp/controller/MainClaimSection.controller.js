@@ -1279,8 +1279,7 @@ sap.ui.define([
 									"DBOperation": "SAVE",
 									"Message": "",
 									"WarrantyClaimType": this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType"),
-
-									"Partner": this.getModel("LocalDataModel").getProperty("/BpDealerModel/0/BusinessPartnerKey"),
+									"Partner": this.getModel("LocalDataModel").getProperty("/ClaimDetails/Partner"),
 									"ActionCode": "",
 									"NumberOfWarrantyClaim": this.getView().getModel("HeadSetData").getProperty("/NumberOfWarrantyClaim"),
 									"PartnerRole": "AS",
@@ -3084,17 +3083,6 @@ sap.ui.define([
 					}
 				};
 
-				var oPartner = this.getModel("LocalDataModel").getProperty("/BpDealerModel/0/BusinessPartnerKey");
-
-				var oBusinessModel = this.getModel("ApiBusinessModel");
-				oBusinessModel.read("/A_BusinessPartner", {
-					urlParameters: {
-						"$filter": "BusinessPartner eq '" + oPartner + "'"
-					},
-					success: $.proxy(function (dBp) {
-						this.getModel("LocalDataModel").setProperty("/BPOrgName", dBp.results[0].OrganizationBPName1);
-					}, this)
-				});
 				oClaimModel.refreshSecurityToken();
 				oClaimModel.create("/zc_headSet", this.obj, {
 					success: $.proxy(function (data, response) {
@@ -3125,6 +3113,19 @@ sap.ui.define([
 							success: $.proxy(function (sdata) {
 								console.log(sdata);
 								this.getModel("LocalDataModel").setProperty("/ClaimDetails", sdata.results[0]);
+
+								var oPartner = this.getModel("LocalDataModel").getProperty("/ClaimDetails/Partner");
+
+								var oBusinessModel = this.getModel("ApiBusinessModel");
+								oBusinessModel.read("/A_BusinessPartner", {
+									urlParameters: {
+										"$filter": "BusinessPartner eq '" + oPartner + "'"
+									},
+									success: $.proxy(function (dBp) {
+										this.getModel("LocalDataModel").setProperty("/BPOrgName", dBp.results[0].OrganizationBPName1);
+									}, this)
+								});
+
 								this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", sdata.results[0].OfpDescription);
 								this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", sdata.results[0].Main_opsDescription);
 								this.getView().getModel("HeadSetData").setData(sdata.results[0]);
@@ -7029,7 +7030,7 @@ sap.ui.define([
 		onSubmitTci: function (oEvent) {
 
 			var sSelectedLocale;
-			//  get the locale to determine the language.
+
 			var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
 			if (isLocaleSent) {
 				sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
@@ -7037,14 +7038,12 @@ sap.ui.define([
 				sSelectedLocale = "en"; // default is english
 			}
 
-			// 			WarrantyClaimSubType
-			// 			WarrantyClaimType
 			this.fnDisableLine();
 			var oClaimModel = this.getModel("ProssingModel");
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			this.obj.WarrantyClaimType = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType");
 			this.obj.WarrantyClaimSubType = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType");
-			this.obj.Partner = this.getModel("LocalDataModel").getProperty("/BpDealerModel/0/BusinessPartnerKey");
+			this.obj.Partner = this.getModel("LocalDataModel").getProperty("/ClaimDetails/Partner");
 			this.obj.ActionCode = "";
 			this.obj.NameOfPersonRespWhoChangedObj = this.getModel("LocalDataModel").getProperty("/LoginId").substr(0, 12);
 			this.obj.NumberOfWarrantyClaim = this.getView().getModel("HeadSetData").getProperty("/NumberOfWarrantyClaim");
@@ -7057,12 +7056,10 @@ sap.ui.define([
 			this.obj.ExternalNumberOfClaim = this.getView().getModel("HeadSetData").getProperty("/ExternalNumberOfClaim");
 			this.obj.ExternalObjectNumber = this.getView().getModel("HeadSetData").getProperty("/ExternalObjectNumber");
 			this.obj.Odometer = this.getView().getModel("HeadSetData").getProperty("/Odometer");
-
 			this.obj.DeliveryDate = this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/DeliveryDate"));
 			this.obj.TCIWaybillNumber = "";
 			this.obj.ShipmentReceivedDate = null;
 			this.obj.DealerContact = this.getView().getModel("HeadSetData").getProperty("/DealerContact");
-
 			this.obj.HeadText = this.getView().getModel("HeadSetData").getProperty("/HeadText");
 			this.obj.OFP = this.getView().getModel("HeadSetData").getProperty("/OFP");
 			this.obj.WTYClaimRecoverySource = "";
@@ -7120,14 +7117,7 @@ sap.ui.define([
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var GroupType = this.getModel("LocalDataModel").getProperty("/WarrantyClaimTypeGroup");
 			oEvent.getSource().getParent().getParent().addStyleClass("clMinHeight");
-			// if (ogetKey > 1 && ogetKey <= 8) {
-			// 	var oSelectedNum = ogetKey - 1;
-			// 	this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab" + oSelectedNum + "");
-			// } else {
-			// 	this.getRouter().navTo("SearchClaim");
-			// }
 
-			//var that = this;
 			var dialog = new Dialog({
 				title: oBundle.getText("SubmitClaimTCI"),
 				type: "Message",
