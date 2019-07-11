@@ -3143,7 +3143,7 @@ sap.ui.define([
 								this.getView().getModel("HeadSetData").setProperty("/DateOfApplication", response.data.DateOfApplication);
 								this.getView().getModel("HeadSetData").setProperty("/AccessoryInstallDate", response.data.AccessoryInstallDate);
 								this.getView().getModel("HeadSetData").setProperty("/PreviousROInvoiceDate", response.data.PreviousROInvoiceDate);
-
+								this.getView().getModel("HeadSetData").setProperty("/DeliveryDate", response.data.DeliveryDate);
 								var oCLaim = this.getModel("LocalDataModel").getProperty("/ClaimDetails/NumberOfWarrantyClaim");
 								this.getView().getModel("HeadSetData").setProperty("/NumberOfWarrantyClaim", oCLaim);
 								if (oGroupType == "Authorization") {
@@ -4036,6 +4036,7 @@ sap.ui.define([
 												this.getView().getModel("HeadSetData").setProperty("/DateOfApplication", response.DateOfApplication);
 												this.getView().getModel("HeadSetData").setProperty("/AccessoryInstallDate", response.AccessoryInstallDate);
 												this.getView().getModel("HeadSetData").setProperty("/PreviousROInvoiceDate", response.PreviousROInvoiceDate);
+												this.getView().getModel("HeadSetData").setProperty("/DeliveryDate", response.DeliveryDate);
 
 												oClaimModel.read("/zc_headSet", {
 													urlParameters: {
