@@ -3659,35 +3659,43 @@ sap.ui.define([
 			if (oClmSubType == "ZCER" || oClmSubType == "ZCLS" || oClmSubType == "ZCSR" || oClmType == "ZCER" || oClmType == "ZCLS" || oClmType ==
 				"ZCSR") {
 				oView.byId("idOFP").addStyleClass("clNotReq");
+				oView.byId("idDealerContact").addStyleClass("clNotReq");
 				oView.byId("idMainOps").addStyleClass("clNotReq");
 				aInputs = aInputsFieldAct;
 			} else if (oClmType == "ZCWE" || oClmSubType == "ZCWE") {
+				oView.byId("idDealerContact").addStyleClass("clNotReq");
 				aInputs = aInputsFieldActZCWE;
 			} else if (oClmType == "ZECP") {
 				oView.byId("idOFP").addStyleClass("clNotReq");
+				oView.byId("idDealerContact").addStyleClass("clNotReq");
 				oView.byId("idFieldActionInput").addStyleClass("clNotReq");
 				aInputs = aInputsOECP;
 			} else if (oClmType == "ZSSE") {
 				oView.byId("idOFP").addStyleClass("clNotReq");
+				oView.byId("idDealerContact").addStyleClass("clNotReq");
 				oView.byId("idFieldActionInput").addStyleClass("clNotReq");
 				aInputs = aInputsSETR;
 			} else if (oClmType == "ZLDC") {
 				aInputs = aInputVehiclLog;
 			} else if (oClmType == "ZWAC" || oClmSubType == "ZWAC") {
+				oView.byId("idDealerContact").addStyleClass("clNotReq");
 				oView.byId("idOFP").addStyleClass("clNotReq");
 				oView.byId("idMainOps").addStyleClass("clNotReq");
 				oView.byId("idFieldActionInput").addStyleClass("clNotReq");
 				aInputs = aInputsArrZWAC;
 			} else if (oClmType == "ZWP2" || oClmSubType == "ZWP2") {
+				oView.byId("idDealerContact").addStyleClass("clNotReq");
 				oView.byId("idOFP").addStyleClass("clNotReq");
 				oView.byId("idFieldActionInput").addStyleClass("clNotReq");
 				aInputs = aInputsArrZWP2;
 			} else if (oClmType == "ZWMS" || oClmSubType == "ZWMS") {
 				oView.byId("idOFP").addStyleClass("clNotReq");
+				oView.byId("idDealerContact").addStyleClass("clNotReq");
 				oView.byId("idFieldActionInput").addStyleClass("clNotReq");
 				aInputs = aInputsArrZWMS;
 			} else if (oClmType == "ZWVE" || oClmSubType == "ZWVE") {
 				oView.byId("idOFP").addStyleClass("clNotReq");
+				oView.byId("idDealerContact").addStyleClass("clNotReq");
 				oView.byId("idFieldActionInput").addStyleClass("clNotReq");
 				aInputs = aInputsZWVE;
 
@@ -3695,15 +3703,18 @@ sap.ui.define([
 				aInputs = aInputsArr;
 				oView.byId("idMainOps").addStyleClass("clNotReq");
 				oView.byId("idOFP").addStyleClass("clNotReq");
+				oView.byId("idDealerContact").addStyleClass("clNotReq");
 				oView.byId("idFieldActionInput").addStyleClass("clNotReq");
 			} else if (oClmType == "ZWP1" || oClmSubType == "ZWP1") {
 				aInputs = aInputsZWVE;
 				oView.byId("idOFP").addStyleClass("clNotReq");
+				oView.byId("idDealerContact").addStyleClass("clNotReq");
 				oView.byId("idFieldActionInput").addStyleClass("clNotReq");
 			} else if (oClmType == "ZRCR") {
 				aInputs = aInputsArr;
 				oView.byId("idMainOps").addStyleClass("clNotReq");
 				oView.byId("idOFP").addStyleClass("clNotReq");
+				oView.byId("idDealerContact").addStyleClass("clNotReq");
 				oView.byId("idFieldActionInput").addStyleClass("clNotReq");
 			} else if (oClmType == "ZSCR") {
 				aInputs = aInputsArrCoreRet;
@@ -5452,8 +5463,14 @@ sap.ui.define([
 				if (oClaimNum == undefined) {
 					that.fnOpenDialogOnBack();
 				} else if (
-					that.getView().getModel("HeadSetData").getProperty("/DecisionCode") == "ZTIC" ||
-					that.getView().getModel("HeadSetData").getProperty("/DecisionCode") == "ZTRC") {
+					that.getView().getModel("HeadSetData").getProperty("/DecisionCode") == "ZTIC" && sap.ui.getCore().getModel("UserDataModel").getProperty(
+						"/LoggedInUser") == "Dealer_Services_Admin" ||
+					that.getView().getModel("HeadSetData").getProperty("/DecisionCode") == "ZTIC" && sap.ui.getCore().getModel("UserDataModel").getProperty(
+						"/LoggedInUser") == "Dealer_Services_Manager" ||
+					that.getView().getModel("HeadSetData").getProperty("/DecisionCode") == "ZTRC" && sap.ui.getCore().getModel("UserDataModel").getProperty(
+						"/LoggedInUser") == "Dealer_Services_Manager" ||
+					that.getView().getModel("HeadSetData").getProperty("/DecisionCode") == "ZTRC" && sap.ui.getCore().getModel("UserDataModel").getProperty(
+						"/LoggedInUser") == "Dealer_Services_Admin") {
 					var dialog = new Dialog({
 						title: oBundle.getText("SaveChanges"),
 						type: "Message",
@@ -5494,30 +5511,19 @@ sap.ui.define([
 					});
 
 					dialog.open();
+				} else if (
+					sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") == "Dealer_User" ||
+					sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") == "TCI_Admin" ||
+					sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") == "TCI_User" ||
+					sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") == "Zone_User"
+				) {
+					that.getRouter().navTo("SearchClaim");
 				} else {
 					that.getRouter().navTo("SearchClaim");
 				}
 			}
 
 		},
-
-		// 		else if (
-		// 					sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") == "Dealer_User" ||
-		// 					sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") == "TCI_Admin" ||
-		// 					sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") == "TCI_User" ||
-		// 					sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") == "Zone_User"
-		// 				) {
-		// 					that.getRouter().navTo("SearchClaim");
-		// 				} 
-
-		// 			that.getView().getModel("HeadSetData").getProperty("/DecisionCode") == "ZTIC" && sap.ui.getCore().getModel("UserDataModel").getProperty(
-		// 						"/LoggedInUser") == "Dealer_Services_Admin" ||
-		// 					that.getView().getModel("HeadSetData").getProperty("/DecisionCode") == "ZTIC" && sap.ui.getCore().getModel("UserDataModel").getProperty(
-		// 						"/LoggedInUser") == "Dealer_Services_Manager" ||
-		// 					that.getView().getModel("HeadSetData").getProperty("/DecisionCode") == "ZTRC" && sap.ui.getCore().getModel("UserDataModel").getProperty(
-		// 						"/LoggedInUser") == "Dealer_Services_Manager" ||
-		// 					that.getView().getModel("HeadSetData").getProperty("/DecisionCode") == "ZTRC" && sap.ui.getCore().getModel("UserDataModel").getProperty(
-		// 						"/LoggedInUser") == "Dealer_Services_Admin"
 
 		fnOpenDialogOnBack: function () {
 			var oClaimNum = this.getView().getModel("HeadSetData").getProperty("/NumberOfWarrantyClaim");
