@@ -2895,6 +2895,22 @@ sap.ui.define([
 				oView.byId("idCondition")
 			];
 
+			var aInputsZWVEZACD = [
+				oView.byId("idClaimType"),
+				oView.byId("idDealerClaim"),
+				oView.byId("id_Date"),
+				oView.byId("idOdometer"),
+				oView.byId("idRepairOrder"),
+				oView.byId("idMainOps"),
+				oView.byId("idFieldActionInput"),
+				oView.byId("idVinNum"),
+				oView.byId("idT1Field"),
+				oView.byId("idT2Field"),
+				oView.byId("idRemedy"),
+				oView.byId("idCause"),
+				oView.byId("idCondition")
+			];
+
 			var bValidationError = false;
 
 			if (oClmSubType == "ZCER" || oClmSubType == "ZCLS" || oClmSubType == "ZCSR") {
@@ -2926,7 +2942,7 @@ sap.ui.define([
 				aInputs = aInputsArr;
 			} else if (oClaimtype == "CRC") {
 				aInputs = aInputsArr;
-			} else if (oClmType == "ZSCR") {
+			} else if (oClaimtype == "SCR") {
 				aInputs = aInputsArrCoreRet;
 			}
 
@@ -3713,6 +3729,7 @@ sap.ui.define([
 				oView.byId("idDealerContact").addStyleClass("clNotReq");
 				oView.byId("idFieldActionInput").addStyleClass("clNotReq");
 			} else if (oClmType == "ZSCR") {
+				oView.byId("idDealerContact").addStyleClass("clNotReq");
 				aInputs = aInputsArrCoreRet;
 			}
 
@@ -3963,11 +3980,12 @@ sap.ui.define([
 								this.getView().byId("idMainClaimMessage").setType("Error");
 							} else if (this.getModel("LocalDataModel").getProperty("/WarrantyClaimTypeGroup") == "Authorization" && oClmSubType ==
 								"") {
+
 								// this.getView().byId("idMainClaimMessage").setText(oBundle.getText("FillUpMandatoryField"));
 								// this.getView().byId("idMainClaimMessage").setType("Error");
-								// this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+								this.getView().byId("idSubmissionClaim").setProperty("enabled", true);
 								this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", false);
-								this.getView().getModel("DateModel").setProperty("/claimTypeState2", "Eror");
+								this.getView().getModel("DateModel").setProperty("/claimTypeState2", "Error");
 								MessageToast.show(
 									oBundle.getText("submissionTypeMandatory"), {
 										my: "center center",
@@ -3989,6 +4007,7 @@ sap.ui.define([
 								oClaimModel.create("/zc_headSet", this.obj, {
 
 									success: $.proxy(function (response) {
+										this.getView().getModel("DateModel").setProperty("/claimTypeEn", false);
 										console.log(oEvent);
 										this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", false);
 										this.getModel("LocalDataModel").setProperty("/UploadEnable", true);
@@ -7139,6 +7158,8 @@ sap.ui.define([
 										my: "center center",
 										at: "center center"
 									});
+
+								this.getView().byId("idSubmissionClaim").setProperty("enabled", true);
 							} else {
 								this.getView().getModel("DateModel").setProperty("/claimTypeState", "None");
 								this.getView().getModel("DateModel").setProperty("/claimTypeState2", "None");
@@ -7146,6 +7167,7 @@ sap.ui.define([
 								oClaimModel.refreshSecurityToken();
 								oClaimModel.create("/zc_headSet", this.obj, {
 									success: $.proxy(function (data, response) {
+										this.getView().getModel("DateModel").setProperty("/claimTypeEn", false);
 										oClaimModel.read("/zc_headSet", {
 											urlParameters: {
 												"$filter": "NumberOfWarrantyClaim eq '" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") +

@@ -21,7 +21,7 @@
 						<core:ListItem text="{LocalDataModel>TMCClaimType}" key="{LocalDataModel>TMCClaimType}" additionalText="{LocalDataModel>ALMClaimTypeDes}"/>
 					</custom:CustomCombo>
 					<Label text="{i18n>SubmissionClaimType}" visible="{DateModel>/warrantySubmissionClaim}"/>
-					<custom:CustomCombo showSecondaryValues="true" required="true" visible="{DateModel>/warrantySubmissionClaim}"
+					<custom:CustomCombo id="idSubmissionClaim" showSecondaryValues="true" required="true" visible="{DateModel>/warrantySubmissionClaim}"
 						items="{path:'LocalDataModel>/DataSubmissionClaim'}" selectionChange="onSelectClaimTpe" selectedKey="{HeadSetData>/WarrantyClaimSubType}"
 						enabled="{DateModel>/claimTypeEn}" valueState="{DateModel>/claimTypeState2}"
 						value="{path:'HeadSetData>/WarrantyClaimSubType', type : 'sap.ui.model.type.String', constraints : { minLength : 2, maxLength : 50 } }">
