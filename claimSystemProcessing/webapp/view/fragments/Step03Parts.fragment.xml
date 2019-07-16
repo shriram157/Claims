@@ -1,6 +1,6 @@
 <core:FragmentDefinition xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:u="sap.ui.unified" xmlns:l="sap.ui.layout"
 	xmlns="sap.m" xmlns:t="sap.ui.table">
-	<VBox class="sapUiSmallMargin clFormTitleGap" id="idPartForm">
+	<VBox class="sapUiSmallMargin clFormTitleGap" id="idPartForm" busy="{DateModel>/SavePWPartIndicator}">
 		<Panel width="auto" class="sapUiSmallMarginBottom" accessibleRole="Region">
 			<headerToolbar>
 				<Toolbar height="3rem">
