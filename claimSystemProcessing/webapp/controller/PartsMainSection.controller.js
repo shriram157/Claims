@@ -4293,6 +4293,8 @@ sap.ui.define([
 									this.getView().getModel("DateModel").setProperty("/SaveClaimBTN", false);
 									this.getView().getModel("DateModel").setProperty("/claimTypeEn", false);
 									this.getView().getModel("DateModel").setProperty("/updateEnable", false);
+									this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
+									this.getView().getModel("DateModel").setProperty("/submitTCIBtn", false);
 									this.getModel("LocalDataModel").setProperty("/CancelEnable", false);
 									this.getModel("LocalDataModel").setProperty("/UploadEnableHeader", false);
 									this.getView().getModel("DateModel").setProperty("/DelDateEdit", false);
