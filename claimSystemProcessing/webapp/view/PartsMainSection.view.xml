@@ -2,6 +2,13 @@
 	xmlns:html="http://www.w3.org/1999/xhtml" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:uxap="sap.uxap">
 	<core:Fragment fragmentName="zclaimProcessing.view.fragments.ToolHeader" type="XML"/>
 	<uxap:ObjectPageLayout enableLazyLoading="true">
+		<uxap:headerContent>
+			<VBox width="100%" class="sapUiSmallMarginTop">
+				<HBox width="100%" justifyContent="End" displayInline="true">
+					<Text text="{i18n>Status} : {HeadSetData>/DecisionCode}" class="sapUiSmallMarginEnd clFont01"/>
+				</HBox>
+			</VBox>
+		</uxap:headerContent>
 		<uxap:sections>
 			<uxap:ObjectPageSection title="{i18n>MainSection}" id="mainSectionTitle">
 				<uxap:subSections>
