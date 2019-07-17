@@ -3638,6 +3638,7 @@ sap.ui.define([
 				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
 				this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
 				this.getView().byId("idMainClaimMessage").setType("Error");
+				this.getView().getModel("DateModel").setProperty("/SavePWClaimIndicator", false);
 			} else if (oValid && this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != undefined && this.getView().getModel(
 					"HeadSetData").getProperty("/WarrantyClaimType") != "") {
 				this.getView().byId("idOutBoundDD").setValueState("None");
