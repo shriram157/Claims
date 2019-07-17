@@ -3546,7 +3546,7 @@ sap.ui.define([
 						}
 						oClaimModel.create("/zc_headSet", this.obj, {
 							success: $.proxy(function (response) {
-								// MessageToast.show(that.oBundle.getText("ClaimUpdateMSG"));
+								that.getView().getModel("DateModel").setProperty("/SavePWClaimIndicator", false);
 								that.getModel("LocalDataModel").setProperty("/UploadEnable", true);
 								MessageToast.show(oBundle.getText("ClaimUpdatedsuccessfully"), {
 									my: "center center",
