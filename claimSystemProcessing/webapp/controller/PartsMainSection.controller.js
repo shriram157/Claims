@@ -3427,16 +3427,16 @@ sap.ui.define([
 		},
 
 		_fnUpdateClaimParts: function () {
-			this.getView().getModel("DateModel").setProperty("/SavePWClaimIndicator", true);
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			this.getView().getModel("DateModel").setProperty("/PWPrintEnable", true);
 			if ((this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZPDC" || this.getView().getModel("HeadSetData").getProperty(
 					"/WarrantyClaimType") == "ZPTS") && this.getView().getModel("HeadSetData").getProperty("/TCIWaybillNumber") == "") {
 				this.getView().getModel("DateModel").setProperty("/waybilltype", "Error");
 			} else {
+				var that = this;
+				this.getView().getModel("DateModel").setProperty("/SavePWClaimIndicator", true);
 				this.getView().getModel("DateModel").setProperty("/waybilltype", "None");
 				this.oBundle = this.getView().getModel("i18n").getResourceBundle();
-				var that = this;
 				var oClaimModel = this.getModel("ProssingModel");
 				var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 
