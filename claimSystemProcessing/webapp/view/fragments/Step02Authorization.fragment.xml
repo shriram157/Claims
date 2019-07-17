@@ -105,9 +105,18 @@
 			</f:content>
 		</f:SimpleForm>
 		<l:VerticalLayout width="100%" class="gridWrapper">
+			<VBox>
+				<Text class="sapUiSmallMarginBegin" text="{i18n>PricingOptions}"/>
+				<RadioButtonGroup columns="2" select="onSelectAuthPricingOpt" id="idPricingOpt">
+					<buttons>
+						<RadioButton id="RB4-1" text="{i18n>Participation}"/>
+						<RadioButton id="RB4-2" text="{i18n>DiscountPercentageOption}"/>
+					</buttons>
+				</RadioButtonGroup>
+			</VBox>
 			<l:Grid containerQuery="true" defaultSpan="XL6 L12 M12 S12">
 				<html:div class="exampleDiv">
-					<Table showSeparators="All">
+					<Table showSeparators="All" busy="{LocalDataModel>/discountBusyIndicator}" id="idParticiaptionTable">
 						<columns>
 							<Column hAlign="Center"></Column>
 							<Column hAlign="Center">
@@ -151,10 +160,49 @@
 							</ColumnListItem>
 						</items>
 					</Table>
+					<Table showSeparators="All" id="idDiscountTable" busy="{LocalDataModel>/discountBusyIndicator}" visible="false">
+						<columns>
+							<Column hAlign="Center"></Column>
+							<Column hAlign="Center">
+								<Label text="{i18n>Parts}"/>
+							</Column>
+							<Column hAlign="Center">
+								<Label text="{i18n>Labour}"/>
+							</Column>
+							<Column hAlign="Center">
+								<Label text="{i18n>Sublet}"/>
+							</Column>
+						</columns>
+						<items>
+							<ColumnListItem>
+								<cells>
+									<Text text="{i18n>Discount%}"/>
+									<Select change="onChangeCustomerPer" items="{LocalDataModel>/DataPercent}" enabled="{LocalDataModel>/PercentState}"
+										selectedKey="{path:'DataPercetCalculate>/PartPer'}">
+										<core:Item key="{LocalDataModel>okey}" text="{LocalDataModel>num}"/>
+									</Select>
+									<Select items="{LocalDataModel>/DataPercent}" enabled="{LocalDataModel>/PercentState}" selectedKey="{DataPercetCalculate>/LabourPer}">
+										<core:Item key="{LocalDataModel>okey}" text="{LocalDataModel>num}"/>
+									</Select>
+									<Select items="{LocalDataModel>/DataPercent}" enabled="{LocalDataModel>/PercentState}" selectedKey="{DataPercetCalculate>/SubletPer}">
+										<core:Item key="{LocalDataModel>okey}" text="{LocalDataModel>num}"/>
+									</Select>
+								</cells>
+							</ColumnListItem>
+							<ColumnListItem>
+								<cells>
+									<Text text="{i18n>Discount$}"/>
+									<Text text="{DataPercetCalculate>/PartPerAmt}"/>
+									<Text text="{DataPercetCalculate>/LabourPerAmt}"/>
+									<Text text="{DataPercetCalculate>/SubletPerAmt}"/>
+								</cells>
+							</ColumnListItem>
+						</items>
+					</Table>
 				</html:div>
 				<html:div >
-					<Button text="Re-calculate Claim Amount" visible="{LocalDataModel>/reCalculate}" enabled="{DateModel>/oFormEdit}" press="onPressRecalculate"
-						type="Emphasized"/>
+					<Button text="{i18n>RecalculateClaimAmount}" visible="{LocalDataModel>/reCalculate}" enabled="{DateModel>/oFormEdit}"
+						press="onPressRecalculate" type="Emphasized"/>
 				</html:div>
 			</l:Grid>
 		</l:VerticalLayout>

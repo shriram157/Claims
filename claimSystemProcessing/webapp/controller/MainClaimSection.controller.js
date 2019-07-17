@@ -113,7 +113,10 @@ sap.ui.define([
 			this.PercentData = new sap.ui.model.json.JSONModel({
 				"CustomerPer": "",
 				"DealerPer": "",
-				"TCIPer": ""
+				"TCIPer": "",
+				"PartPer": "",
+				"LabourPer": "",
+				"SubletPer": ""
 			});
 			this.PercentData.setDefaultBindingMode("TwoWay");
 			this.getView().setModel(this.PercentData, "DataPercetCalculate");
@@ -221,6 +224,7 @@ sap.ui.define([
 			this.getModel("LocalDataModel").setProperty("/oCurrentDealerLabour", "");
 			this.getModel("LocalDataModel").setProperty("/enableEnterComment", false);
 			this.getModel("LocalDataModel").setProperty("/FeedEnabled", false);
+			this.getModel("LocalDataModel").setProperty("/discountBusyIndicator", false);
 			this._ValidateOnLoad();
 			var sSelectedLocale;
 			//  get the locale to determine the language.
@@ -408,17 +412,28 @@ sap.ui.define([
 					oProssingModel.read("/zc_authorizationSet", {
 						urlParameters: {
 							"$filter": "DBOperation eq 'READ'and AuthorizationNumber eq '" + oClaim +
-								"'and DealerPer eq '00'and CustomerPer eq '00'and TCIPer eq '00'"
+								"'and DealerPer eq '00'and CustomerPer eq '00'and TCIPer eq '00'and PartPer eq '00'and LabourPer eq '00'and SubletPer eq '00'"
 						},
 						success: $.proxy(function (data) {
 							this.getView().getModel("DataPercetCalculate").setData(data.results[0]);
 							var ocust = parseInt(data.results[0].CustomerPer).toString();
 							var odeal = parseInt(data.results[0].DealerPer).toString();
 							var otci = parseInt(data.results[0].TCIPer).toString();
+							var oPartPer = parseInt(data.results[0].PartPer).toString();
+							var oLabourPer = parseInt(data.results[0].LabourPer).toString();
+							var oSubletPer = parseInt(data.results[0].SubletPer).toString();
+							if (oPartPer != "0" || oLabourPer != "0" || oSubletPer != "0") {
+								this.getView().byId("idPricingOpt").setSelectedIndex(1);
+							} else {
+								this.getView().byId("idPricingOpt").setSelectedIndex(0);
+							}
 
 							this.getView().getModel("DataPercetCalculate").setProperty("/CustomerPer", ocust);
 							this.getView().getModel("DataPercetCalculate").setProperty("/DealerPer", odeal);
 							this.getView().getModel("DataPercetCalculate").setProperty("/TCIPer", otci);
+							this.getView().getModel("DataPercetCalculate").setProperty("/PartPer", oPartPer);
+							this.getView().getModel("DataPercetCalculate").setProperty("/LabourPer", oLabourPer);
+							this.getView().getModel("DataPercetCalculate").setProperty("/SubletPer", oSubletPer);
 							this._fnClaimSum();
 							this._fnClaimSumPercent();
 						}, this)
@@ -496,16 +511,24 @@ sap.ui.define([
 								oProssingModel.read("/zc_authorizationSet", {
 									urlParameters: {
 										"$filter": "DBOperation eq 'READ'and AuthorizationNumber eq '" + data.results[0].AuthorizationNumber +
-											"'and DealerPer eq '00'and CustomerPer eq '00'and TCIPer eq '00'"
+											"'and DealerPer eq '00'and CustomerPer eq '00'and TCIPer eq '00'and PartPer eq '00'and LabourPer eq '00'and SubletPer eq '00'"
 									},
 									success: $.proxy(function (authData) {
 										this.getView().getModel("DataPercetCalculate").setData(authData.results[0]);
 										var ocust = parseInt(authData.results[0].CustomerPer).toString();
 										var odeal = parseInt(authData.results[0].DealerPer).toString();
 										var otci = parseInt(authData.results[0].TCIPer).toString();
+										var oPartPer = parseInt(authData.results[0].PartPer).toString();
+										var oLabourPer = parseInt(authData.results[0].LabourPer).toString();
+										var oSubletPer = parseInt(authData.results[0].SubletPer).toString();
 										this.getView().getModel("DataPercetCalculate").setProperty("/CustomerPer", ocust);
 										this.getView().getModel("DataPercetCalculate").setProperty("/DealerPer", odeal);
 										this.getView().getModel("DataPercetCalculate").setProperty("/TCIPer", otci);
+
+										this.getView().getModel("DataPercetCalculate").setProperty("/PartPer", oPartPer);
+										this.getView().getModel("DataPercetCalculate").setProperty("/LabourPer", oLabourPer);
+										this.getView().getModel("DataPercetCalculate").setProperty("/SubletPer", oSubletPer);
+
 										this._fnClaimSumPercent();
 										this._fnClaimSum();
 
@@ -1318,6 +1341,7 @@ sap.ui.define([
 									"AgreementNumber": this.getView().getModel("HeadSetData").getProperty("/AgreementNumber"),
 									"CustomerPostalCode": this.getView().getModel("HeadSetData").getProperty("/CustomerPostalCode"),
 									"CustomerFullName": this.getView().getModel("HeadSetData").getProperty("/CustomerFullName"),
+									"WarrantyClaimSubType": this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType"),
 									"zc_itemSet": {
 										"results": PartItem
 									},
@@ -4772,41 +4796,101 @@ sap.ui.define([
 			this.getView().getModel("DateModel").setProperty("/subletLine", true);
 		},
 		onPressRecalculate: function () {
+
+			var oRadioInd = this.getView().byId("idPricingOpt").getSelectedIndex();
 			var oCustomerPer = parseInt(this.getView().getModel("DataPercetCalculate").getProperty("/CustomerPer"));
 			var oDealerPer = parseInt(this.getView().getModel("DataPercetCalculate").getProperty("/DealerPer"));
 			var oTciPer = parseInt(this.getView().getModel("DataPercetCalculate").getProperty("/TCIPer"));
+			var PartPer = parseInt(this.getView().getModel("DataPercetCalculate").getProperty("/PartPer"));
+			var LabourPer = parseInt(this.getView().getModel("DataPercetCalculate").getProperty("/LabourPer"));
+			var SublPer = parseInt(this.getView().getModel("DataPercetCalculate").getProperty("/SubletPer"));
+
 			var oAuthNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
+			var oClaimModel = this.getModel("ProssingModel");
 
-			if ((oCustomerPer + oDealerPer + oTciPer) == 100) {
-				var oClaimModel = this.getModel("ProssingModel");
-				oClaimModel.read("/zc_authorizationSet", {
-					urlParameters: {
-						"$filter": "DBOperation eq 'POST'and AuthorizationNumber eq '" + oAuthNum + "'and DealerPer eq '" + oDealerPer +
-							"'and CustomerPer eq '" + oCustomerPer +
-							"'and TCIPer eq '" + oTciPer + "'"
-					},
-					success: $.proxy(function (sdata) {
-						this.getView().getModel("DataPercetCalculate").setData(sdata.results[0]);
-						var ocust = parseInt(sdata.results[0].CustomerPer).toString();
-						var odeal = parseInt(sdata.results[0].DealerPer).toString();
-						var otci = parseInt(sdata.results[0].TCIPer).toString();
-						this.getView().getModel("DataPercetCalculate").setProperty("/CustomerPer", ocust);
-						this.getView().getModel("DataPercetCalculate").setProperty("/DealerPer", odeal);
-						this.getView().getModel("DataPercetCalculate").setProperty("/TCIPer", otci);
-						this._fnClaimSumPercent();
-						this._fnClaimSum();
-						this._fnPricingData(oAuthNum);
+			if (oRadioInd == 0) {
+				if ((oCustomerPer + oDealerPer + oTciPer) == 100) {
+					this.getModel("LocalDataModel").setProperty("/discountBusyIndicator", true);
+					oClaimModel.read("/zc_authorizationSet", {
+						urlParameters: {
+							"$filter": "PricingOption eq'P'and DBOperation eq 'POST'and AuthorizationNumber eq '" + oAuthNum + "'and DealerPer eq '" +
+								oDealerPer +
+								"'and CustomerPer eq '" + oCustomerPer +
+								"'and TCIPer eq '" + oTciPer + "'"
+						},
+						success: $.proxy(function (sdata) {
+							this.getModel("LocalDataModel").setProperty("/discountBusyIndicator", false);
+							this.getView().getModel("DataPercetCalculate").setData(sdata.results[0]);
+							var ocust = parseInt(sdata.results[0].CustomerPer).toString();
+							var odeal = parseInt(sdata.results[0].DealerPer).toString();
+							var otci = parseInt(sdata.results[0].TCIPer).toString();
+							var oPartPer = parseInt(sdata.results[0].PartPer).toString();
+							var oLabourPer = parseInt(sdata.results[0].LabourPer).toString();
+							var oSubletPer = parseInt(sdata.results[0].SubletPer).toString();
+							this.getView().getModel("DataPercetCalculate").setProperty("/CustomerPer", ocust);
+							this.getView().getModel("DataPercetCalculate").setProperty("/DealerPer", odeal);
+							this.getView().getModel("DataPercetCalculate").setProperty("/TCIPer", otci);
 
-					}, this)
+							this.getView().getModel("DataPercetCalculate").setProperty("/PartPer", oPartPer);
+							this.getView().getModel("DataPercetCalculate").setProperty("/LabourPer", oLabourPer);
+							this.getView().getModel("DataPercetCalculate").setProperty("/SubletPer", oSubletPer);
+							this._fnClaimSumPercent();
+							this._fnClaimSum();
+							this._fnPricingData(oAuthNum);
 
-				});
+						}, this)
 
-			} else {
-				MessageToast.show(oBundle.getText("TheSumpercentwithin100"), {
-					my: "center center",
-					at: "center center"
-				});
+					});
+				} else {
+					MessageToast.show(oBundle.getText("TheSumpercentwithin100"), {
+						my: "center center",
+						at: "center center"
+					});
+
+				}
+
+			} else if (oRadioInd == 1) {
+				if ((PartPer + LabourPer + SublPer) == 100) {
+					this.getModel("LocalDataModel").setProperty("/discountBusyIndicator", true);
+					oClaimModel.read("/zc_authorizationSet", {
+						urlParameters: {
+							"$filter": "PricingOption eq 'D'and DBOperation eq 'POST'and AuthorizationNumber eq '" + oAuthNum + "'and PartPer eq '" +
+								PartPer +
+								"'and LabourPer eq '" + LabourPer +
+								"'and SubletPer eq '" + SublPer + "'"
+						},
+						success: $.proxy(function (sdata) {
+							this.getModel("LocalDataModel").setProperty("/discountBusyIndicator", false);
+							this.getView().getModel("DataPercetCalculate").setData(sdata.results[0]);
+							var ocust = parseInt(sdata.results[0].CustomerPer).toString();
+							var odeal = parseInt(sdata.results[0].DealerPer).toString();
+							var otci = parseInt(sdata.results[0].TCIPer).toString();
+							var oPartPer = parseInt(sdata.results[0].PartPer).toString();
+							var oLabourPer = parseInt(sdata.results[0].LabourPer).toString();
+							var oSubletPer = parseInt(sdata.results[0].SubletPer).toString();
+							this.getView().getModel("DataPercetCalculate").setProperty("/CustomerPer", ocust);
+							this.getView().getModel("DataPercetCalculate").setProperty("/DealerPer", odeal);
+							this.getView().getModel("DataPercetCalculate").setProperty("/TCIPer", otci);
+
+							this.getView().getModel("DataPercetCalculate").setProperty("/PartPer", oPartPer);
+							this.getView().getModel("DataPercetCalculate").setProperty("/LabourPer", oLabourPer);
+							this.getView().getModel("DataPercetCalculate").setProperty("/SubletPer", oSubletPer);
+							this._fnClaimSumPercent();
+							this._fnClaimSum();
+							this._fnPricingData(oAuthNum);
+
+						}, this)
+
+					});
+
+				} else {
+					MessageToast.show(oBundle.getText("TheSumpercentwithin100"), {
+						my: "center center",
+						at: "center center"
+					});
+
+				}
 
 			}
 
@@ -4967,7 +5051,7 @@ sap.ui.define([
 										urlParameters: {
 											"$filter": "DBOperation eq 'READ'and AuthorizationNumber eq '" +
 												oAuthNum +
-												"'and DealerPer eq '00'and CustomerPer eq '00'and TCIPer eq '00'"
+												"'and DealerPer eq '00'and CustomerPer eq '00'and TCIPer eq '00'and PartPer eq '00'and LabourPer eq '00'and SubletPer eq '00'"
 										},
 										success: $.proxy(function (sdata) {
 
@@ -4975,10 +5059,16 @@ sap.ui.define([
 											var ocust = parseInt(sdata.results[0].CustomerPer).toString();
 											var odeal = parseInt(sdata.results[0].DealerPer).toString();
 											var otci = parseInt(sdata.results[0].TCIPer).toString();
+											var oPartPer = parseInt(sdata.results[0].PartPer).toString();
+											var oLabourPer = parseInt(sdata.results[0].LabourPer).toString();
+											var oSubletPer = parseInt(sdata.results[0].SubletPer).toString();
 											this.getView().getModel("DataPercetCalculate").setProperty("/CustomerPer", ocust);
 											this.getView().getModel("DataPercetCalculate").setProperty("/DealerPer", odeal);
 											this.getView().getModel("DataPercetCalculate").setProperty("/TCIPer", otci);
-											// 	this.getView().getModel("DataPercetCalculate").setProperty("/AuthorizationNumber", "");
+
+											this.getView().getModel("DataPercetCalculate").setProperty("/PartPer", oPartPer);
+											this.getView().getModel("DataPercetCalculate").setProperty("/LabourPer", oLabourPer);
+											this.getView().getModel("DataPercetCalculate").setProperty("/SubletPer", oSubletPer);
 											this._fnClaimSum();
 											this._fnClaimSumPercent();
 											this._fnPricingData(oClaimNum);
@@ -5021,7 +5111,7 @@ sap.ui.define([
 								urlParameters: {
 									"$filter": "DBOperation eq 'LINK'and Numberofwarrantyclaim eq '" + oClaimNum + "'and  AuthorizationNumber eq '" +
 										oAuthNum +
-										"'and DealerPer eq '00'and CustomerPer eq '00'and TCIPer eq '00'"
+										"'and DealerPer eq '00'and CustomerPer eq '00'and TCIPer eq '00'and PartPer eq '00'and LabourPer eq '00'and SubletPer eq '00'"
 								},
 								success: $.proxy(function (sdata) {
 
@@ -5029,10 +5119,16 @@ sap.ui.define([
 									var ocust = parseInt(sdata.results[0].CustomerPer).toString();
 									var odeal = parseInt(sdata.results[0].DealerPer).toString();
 									var otci = parseInt(sdata.results[0].TCIPer).toString();
+									var oPartPer = parseInt(sdata.results[0].PartPer).toString();
+									var oLabourPer = parseInt(sdata.results[0].LabourPer).toString();
+									var oSubletPer = parseInt(sdata.results[0].SubletPer).toString();
 									this.getView().getModel("DataPercetCalculate").setProperty("/CustomerPer", ocust);
 									this.getView().getModel("DataPercetCalculate").setProperty("/DealerPer", odeal);
 									this.getView().getModel("DataPercetCalculate").setProperty("/TCIPer", otci);
-									// 	this.getView().getModel("DataPercetCalculate").setProperty("/AuthorizationNumber", "");
+
+									this.getView().getModel("DataPercetCalculate").setProperty("/PartPer", oPartPer);
+									this.getView().getModel("DataPercetCalculate").setProperty("/LabourPer", oLabourPer);
+									this.getView().getModel("DataPercetCalculate").setProperty("/SubletPer", oSubletPer);
 									this._fnClaimSum();
 									this._fnClaimSumPercent();
 									this._fnPricingData(oClaimNum);
@@ -5129,7 +5225,7 @@ sap.ui.define([
 			oProssingModel.read("/zc_authorizationSet", {
 				urlParameters: {
 					"$filter": "DBOperation eq 'LINK'and Numberofwarrantyclaim eq '" + oClaimNum + "'and  AuthorizationNumber eq '" + oClaim +
-						"'and DealerPer eq '00'and CustomerPer eq '00'and TCIPer eq '00'"
+						"'and DealerPer eq '00'and CustomerPer eq '00'and TCIPer eq '00'and PartPer eq '00'and LabourPer eq '00'and SubletPer eq '00'"
 				},
 				success: $.proxy(function (data) {
 					if (data.results[0].Message == "") {
@@ -5137,10 +5233,16 @@ sap.ui.define([
 						var ocust = parseInt(data.results[0].CustomerPer).toString();
 						var odeal = parseInt(data.results[0].DealerPer).toString();
 						var otci = parseInt(data.results[0].TCIPer).toString();
+						var oPartPer = parseInt(data.results[0].PartPer).toString();
+						var oLabourPer = parseInt(data.results[0].LabourPer).toString();
+						var oSubletPer = parseInt(data.results[0].SubletPer).toString();
 						this.getView().getModel("DataPercetCalculate").setProperty("/CustomerPer", ocust);
 						this.getView().getModel("DataPercetCalculate").setProperty("/DealerPer", odeal);
 						this.getView().getModel("DataPercetCalculate").setProperty("/TCIPer", otci);
-						// 	this.getView().getModel("DataPercetCalculate").setProperty("/AuthorizationNumber", "");
+
+						this.getView().getModel("DataPercetCalculate").setProperty("/PartPer", oPartPer);
+						this.getView().getModel("DataPercetCalculate").setProperty("/LabourPer", oLabourPer);
+						this.getView().getModel("DataPercetCalculate").setProperty("/SubletPer", oSubletPer);
 						this._fnClaimSum();
 						this._fnClaimSumPercent();
 						this._fnPricingData(oClaimNum);
@@ -7538,8 +7640,15 @@ sap.ui.define([
 			window.open("" + oCVSHUrl + "?.lang=" + sSelectedLocale + "&franchise=" + oDivision + "", '_blank');
 		},
 
-		onExit: function () {
-			alert("Hello");
+		onSelectAuthPricingOpt: function (oEvent) {
+			var oSelectedRadio = oEvent.getSource().getSelectedIndex();
+			if (oSelectedRadio == 1) {
+				this.getView().byId("idDiscountTable").setProperty("visible", true);
+				this.getView().byId("idParticiaptionTable").setProperty("visible", false);
+			} else {
+				this.getView().byId("idParticiaptionTable").setProperty("visible", true);
+				this.getView().byId("idDiscountTable").setProperty("visible", false);
+			}
 		}
 
 	});
