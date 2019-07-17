@@ -3593,7 +3593,6 @@ sap.ui.define([
 		},
 
 		_fnSaveClaimParts: function (oEvent) {
-			this.getView().getModel("DateModel").setProperty("/SavePWClaimIndicator", true);
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var oClaimModel = this.getModel("ProssingModel");
 			var oValidator = new Validator();
@@ -3626,6 +3625,7 @@ sap.ui.define([
 				if (this.getView().getModel("HeadSetData").getProperty("/ShipmentReceivedDate") == undefined || this.getView().getModel(
 						"HeadSetData").getProperty("/ShipmentReceivedDate") == "") {
 					this.getView().byId("idShipmentRDate").setValueState("Error");
+					this.getView().getModel("DateModel").setProperty("/SavePWClaimIndicator", false);
 				}
 				this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
 				this.getView().byId("idMainClaimMessage").setType("Error");
@@ -3646,7 +3646,8 @@ sap.ui.define([
 				if (this.getView().getModel("HeadSetData").getProperty("/NumberOfWarrantyClaim") == undefined) {
 					this.getView().getModel("HeadSetData").setProperty("/NumberOfWarrantyClaim", "");
 				}
-
+				
+				this.getView().getModel("DateModel").setProperty("/SavePWClaimIndicator", true);
 				this.getView().getModel("DateModel").setProperty("/waybilltype", "None");
 				oCurrentDt = new Date(new Date().getTime() - (10.5 * 60 * 60));
 				this.getView().getModel("HeadSetData").getProperty("/ShipmentReceivedDate", this.getView().getModel("HeadSetData").getProperty(
@@ -3962,9 +3963,10 @@ sap.ui.define([
 					new Button({
 						text: "Yes",
 						press: $.proxy(function () {
+							dialog.close();
 							this.getView().getModel("DateModel").setProperty("/SubmitPWBusyIndicator", true);
 							if (that.letterSubmitted == false && (that.claimType === "ZPTS" || this.DiscreCode === "8A")) {
-								dialog.close();
+								// dialog.close();
 								// var msg = oBundle.getText("LOIMandatoryBeforeTCISubmit");
 								this.getView().getModel("DateModel").setProperty("/SubmitPWBusyIndicator", false);
 								MessageBox.show(oBundle.getText("LOIMandatoryBeforeTCISubmit"), MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK,
