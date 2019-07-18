@@ -4034,11 +4034,18 @@ sap.ui.define([
 							} else if (this.getModel("LocalDataModel").getProperty("/invalidVinMsg") == "Invalid VIN Number") {
 								this.getView().byId("idMainClaimMessage").setText(oBundle.getText("PleaseEnterValidVIN"));
 								this.getView().byId("idMainClaimMessage").setType("Error");
-							} else if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZACD" ||
-								this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZAUT" && oClmSubType == "") {
-
-								// this.getView().byId("idMainClaimMessage").setText(oBundle.getText("FillUpMandatoryField"));
-								// this.getView().byId("idMainClaimMessage").setType("Error");
+							} else if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZACD" &&
+								this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") == "") {
+								this.getView().byId("idSubmissionClaim").setProperty("enabled", true);
+								this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", false);
+								this.getView().getModel("DateModel").setProperty("/claimTypeState2", "Error");
+								MessageToast.show(
+									oBundle.getText("submissionTypeMandatory"), {
+										my: "center center",
+										at: "center center"
+									});
+							} else if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZAUT" &&
+								this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") == "") {
 								this.getView().byId("idSubmissionClaim").setProperty("enabled", true);
 								this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", false);
 								this.getView().getModel("DateModel").setProperty("/claimTypeState2", "Error");
@@ -7322,8 +7329,17 @@ sap.ui.define([
 						text: oBundle.getText("Yes"),
 						press: $.proxy(function () {
 							dialog.close();
-							if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZACD" ||
-								this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZAUT" &&
+							if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZACD" &&
+								this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") == "") {
+								this.getView().getModel("DateModel").setProperty("/claimTypeState2", "Error");
+								MessageToast.show(
+									oBundle.getText("submissionTypeMandatory"), {
+										my: "center center",
+										at: "center center"
+									});
+
+								this.getView().byId("idSubmissionClaim").setProperty("enabled", true);
+							} else if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZAUT" &&
 								this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") == "") {
 								this.getView().getModel("DateModel").setProperty("/claimTypeState2", "Error");
 								MessageToast.show(
