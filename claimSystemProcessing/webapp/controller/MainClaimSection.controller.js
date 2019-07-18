@@ -4851,46 +4851,46 @@ sap.ui.define([
 				}
 
 			} else if (oRadioInd == 1) {
-				if ((PartPer + LabourPer + SublPer) == 100) {
-					this.getModel("LocalDataModel").setProperty("/discountBusyIndicator", true);
-					oClaimModel.read("/zc_authorizationSet", {
-						urlParameters: {
-							"$filter": "PricingOption eq 'D'and DBOperation eq 'POST'and AuthorizationNumber eq '" + oAuthNum + "'and PartPer eq '" +
-								PartPer +
-								"'and LabourPer eq '" + LabourPer +
-								"'and SubletPer eq '" + SublPer + "'"
-						},
-						success: $.proxy(function (sdata) {
-							this.getModel("LocalDataModel").setProperty("/discountBusyIndicator", false);
-							this.getView().getModel("DataPercetCalculate").setData(sdata.results[0]);
-							var ocust = parseInt(sdata.results[0].CustomerPer).toString();
-							var odeal = parseInt(sdata.results[0].DealerPer).toString();
-							var otci = parseInt(sdata.results[0].TCIPer).toString();
-							var oPartPer = parseInt(sdata.results[0].PartPer).toString();
-							var oLabourPer = parseInt(sdata.results[0].LabourPer).toString();
-							var oSubletPer = parseInt(sdata.results[0].SubletPer).toString();
-							this.getView().getModel("DataPercetCalculate").setProperty("/CustomerPer", ocust);
-							this.getView().getModel("DataPercetCalculate").setProperty("/DealerPer", odeal);
-							this.getView().getModel("DataPercetCalculate").setProperty("/TCIPer", otci);
+				// if ((PartPer + LabourPer + SublPer) == 100) {
+				this.getModel("LocalDataModel").setProperty("/discountBusyIndicator", true);
+				oClaimModel.read("/zc_authorizationSet", {
+					urlParameters: {
+						"$filter": "PricingOption eq 'D'and DBOperation eq 'POST'and AuthorizationNumber eq '" + oAuthNum + "'and PartPer eq '" +
+							PartPer +
+							"'and LabourPer eq '" + LabourPer +
+							"'and SubletPer eq '" + SublPer + "'"
+					},
+					success: $.proxy(function (sdata) {
+						this.getModel("LocalDataModel").setProperty("/discountBusyIndicator", false);
+						this.getView().getModel("DataPercetCalculate").setData(sdata.results[0]);
+						var ocust = parseInt(sdata.results[0].CustomerPer).toString();
+						var odeal = parseInt(sdata.results[0].DealerPer).toString();
+						var otci = parseInt(sdata.results[0].TCIPer).toString();
+						var oPartPer = parseInt(sdata.results[0].PartPer).toString();
+						var oLabourPer = parseInt(sdata.results[0].LabourPer).toString();
+						var oSubletPer = parseInt(sdata.results[0].SubletPer).toString();
+						this.getView().getModel("DataPercetCalculate").setProperty("/CustomerPer", ocust);
+						this.getView().getModel("DataPercetCalculate").setProperty("/DealerPer", odeal);
+						this.getView().getModel("DataPercetCalculate").setProperty("/TCIPer", otci);
 
-							this.getView().getModel("DataPercetCalculate").setProperty("/PartPer", oPartPer);
-							this.getView().getModel("DataPercetCalculate").setProperty("/LabourPer", oLabourPer);
-							this.getView().getModel("DataPercetCalculate").setProperty("/SubletPer", oSubletPer);
-							this._fnClaimSumPercent();
-							this._fnClaimSum();
-							this._fnPricingData(oAuthNum);
+						this.getView().getModel("DataPercetCalculate").setProperty("/PartPer", oPartPer);
+						this.getView().getModel("DataPercetCalculate").setProperty("/LabourPer", oLabourPer);
+						this.getView().getModel("DataPercetCalculate").setProperty("/SubletPer", oSubletPer);
+						this._fnClaimSumPercent();
+						this._fnClaimSum();
+						this._fnPricingData(oAuthNum);
 
-						}, this)
+					}, this)
 
-					});
+				});
 
-				} else {
-					MessageToast.show(oBundle.getText("TheSumpercentwithin100"), {
-						my: "center center",
-						at: "center center"
-					});
+				// } else {
+				// 	MessageToast.show(oBundle.getText("TheSumpercentwithin100"), {
+				// 		my: "center center",
+				// 		at: "center center"
+				// 	});
 
-				}
+				// }
 
 			}
 
@@ -6792,6 +6792,7 @@ sap.ui.define([
 
 		onPressUpdateSublet: function (oEvent) {
 			//Math.abs(
+			this.getView().getModel("DateModel").setProperty("/subletLine", false);
 			var oTable = this.getView().byId("idSubletTable");
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 
@@ -6814,6 +6815,7 @@ sap.ui.define([
 				} else {
 					this.getView().getModel("DateModel").setProperty("/disableBrandDays", false);
 				}
+				this.getModel("LocalDataModel").setProperty("/IndicatorState", true);
 
 				var SubletNum = obj.matnr;
 				var SubletInv = obj.InvoiceNo;
@@ -6826,7 +6828,6 @@ sap.ui.define([
 				this.getView().getModel("SubletDataModel").setProperty("/days", Math.abs(parseInt(obj.Days)));
 				this.getView().getModel("SubletDataModel").setProperty("/unitOfMeasure", obj.Meinh);
 
-				this.getView().getModel("DateModel").setProperty("/subletLine", true);
 				var oFile = obj.URI.split(",")[1].split("=")[1].split(")")[0];
 				var oFileReplaced = oFile.replace(/'/g, "");
 
@@ -6835,6 +6836,8 @@ sap.ui.define([
 						"$filter": "NumberOfWarrantyClaim eq'" + oClaimNum + "'and AttachLevel eq 'SUBL' and FileName eq'" + oFileReplaced + "'"
 					},
 					success: $.proxy(function (subletData) {
+						this.getView().getModel("DateModel").setProperty("/subletLine", true);
+						this.getModel("LocalDataModel").setProperty("/IndicatorState", false);
 						var oAttachSet = subletData.results.map(function (item) {
 							item.FileName = item.FileName.replace(SubletNum + "@@@", "");
 							return item;
