@@ -6882,12 +6882,17 @@ sap.ui.define([
 				var SubletNum = obj.matnr;
 				var SubletInv = obj.InvoiceNo;
 				var SubletAmount = obj.AmtClaimed;
+
+				var oDays = Math.abs(parseInt(obj.Days));
+
 				this.getView().getModel("SubletDataModel").setProperty("/SubletCode", SubletNum);
 				this.getView().getModel("SubletDataModel").setProperty("/InvoiceNo", SubletInv);
 				this.getView().getModel("SubletDataModel").setProperty("/Amount", SubletAmount);
 				this.getView().getModel("SubletDataModel").setProperty("/description", obj.SubletDescription);
 				this.getView().getModel("SubletDataModel").setProperty("/brand", obj.Brand);
-				this.getView().getModel("SubletDataModel").setProperty("/days", Math.abs(parseInt(obj.Days)));
+
+				this.getView().getModel("SubletDataModel").setProperty("/days", oDays.toString());
+
 				this.getView().getModel("SubletDataModel").setProperty("/unitOfMeasure", obj.Meinh);
 
 				var oFile = obj.URI.split(",")[1].split("=")[1].split(")")[0];
