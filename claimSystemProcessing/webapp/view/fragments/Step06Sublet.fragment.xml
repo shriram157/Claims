@@ -141,9 +141,10 @@
 					<f:content>
 						<core:Title text=""/>
 						<Label text="{i18n>Attachments}" textAlign="Left"/>
-						<UploadCollection id="UploadSublet" maximumFileSize="10" fileSizeExceed="onFileSizeExceed" busy="{LocalDataModel>/IndicatorState}"
-							uploadEnabled="{LocalDataModel>/UploadEnable}" change="onUplaodChange" uploadComplete="onSubletUploadComplete"
-							fileDeleted="onFileSubletDeleted" items="{ path: 'LocalDataModel>/SubletAtchmentData', templateShareable: false }">
+						<UploadCollection id="UploadSublet" maximumFileSize="10" sameFilenameAllowed="false" fileSizeExceed="onFileSizeExceed"
+							busy="{LocalDataModel>/IndicatorState}" uploadEnabled="{LocalDataModel>/UploadEnableSublet}" change="onUplaodChange"
+							uploadComplete="onSubletUploadComplete" fileDeleted="onFileSubletDeleted"
+							items="{ path: 'LocalDataModel>/SubletAtchmentData', templateShareable: false }">
 							<toolbar>
 								<OverflowToolbar>
 									<Breadcrumbs id="breadcrumbsSupportingDoc02" currentLocationText="{LocalDataModel>/currentLocationText}" links="{LocalDataModel>/history}">

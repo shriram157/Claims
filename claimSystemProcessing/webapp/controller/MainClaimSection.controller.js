@@ -217,6 +217,7 @@ sap.ui.define([
 			this.getModel("LocalDataModel").setProperty("/reCalculate", false);
 			this.getModel("LocalDataModel").setProperty("/PercentState", false);
 			this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
+			this.getModel("LocalDataModel").setProperty("/UploadEnableSublet", false);
 			this.getModel("LocalDataModel").setProperty("/CancelEnable", false);
 			this.getModel("LocalDataModel").setProperty("/PrintEnable", false);
 			this.getModel("LocalDataModel").setProperty("/step01Next", false);
@@ -332,6 +333,13 @@ sap.ui.define([
 			this.getView().getModel("DataPercetCalculate").setProperty("/CustomerPer", "");
 			this.getView().getModel("DataPercetCalculate").setProperty("/DealerPer", "");
 			this.getView().getModel("DataPercetCalculate").setProperty("/TCIPer", "");
+			this.getView().getModel("DataPercetCalculate").setProperty("/PartPer", "");
+			this.getView().getModel("DataPercetCalculate").setProperty("/LabourPer", "");
+			this.getView().getModel("DataPercetCalculate").setProperty("/SubletPer", "");
+			this.getView().getModel("DataPercetCalculate").setProperty("/PartPerAmt", "");
+			this.getView().getModel("DataPercetCalculate").setProperty("/LabourPerAmt", "");
+			this.getView().getModel("DataPercetCalculate").setProperty("/SubletPerAmt", "");
+
 			this.getModel("LocalDataModel").setProperty("/ClaimSumAuth", "");
 			this.getView().byId("id_Date").setValueState("None");
 			this.getView().byId("idPrInvDate").setValueState("None");
@@ -424,8 +432,12 @@ sap.ui.define([
 							var oSubletPer = parseInt(data.results[0].SubletPer).toString();
 							if (oPartPer != "0" || oLabourPer != "0" || oSubletPer != "0") {
 								this.getView().byId("idPricingOpt").setSelectedIndex(1);
+								this.getView().byId("idParticiaptionTable").setProperty("visible", false);
+								this.getView().byId("idDiscountTable").setProperty("visible", true);
 							} else {
 								this.getView().byId("idPricingOpt").setSelectedIndex(0);
+								this.getView().byId("idParticiaptionTable").setProperty("visible", true);
+								this.getView().byId("idDiscountTable").setProperty("visible", false);
 							}
 
 							this.getView().getModel("DataPercetCalculate").setProperty("/CustomerPer", ocust);
@@ -521,6 +533,17 @@ sap.ui.define([
 										var oPartPer = parseInt(authData.results[0].PartPer).toString();
 										var oLabourPer = parseInt(authData.results[0].LabourPer).toString();
 										var oSubletPer = parseInt(authData.results[0].SubletPer).toString();
+
+										if (oPartPer != "0" || oLabourPer != "0" || oSubletPer != "0") {
+											this.getView().byId("idPricingOpt").setSelectedIndex(1);
+											this.getView().byId("idParticiaptionTable").setProperty("visible", false);
+											this.getView().byId("idDiscountTable").setProperty("visible", true);
+										} else {
+											this.getView().byId("idPricingOpt").setSelectedIndex(0);
+											this.getView().byId("idParticiaptionTable").setProperty("visible", true);
+											this.getView().byId("idDiscountTable").setProperty("visible", false);
+										}
+
 										this.getView().getModel("DataPercetCalculate").setProperty("/CustomerPer", ocust);
 										this.getView().getModel("DataPercetCalculate").setProperty("/DealerPer", odeal);
 										this.getView().getModel("DataPercetCalculate").setProperty("/TCIPer", otci);
@@ -957,21 +980,21 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/claimEditSt", false);
 							this.getView().getModel("DateModel").setProperty("/updateEnable", false);
 							this.getView().getModel("DateModel").setProperty("/copyClaimEnable", false);
-
 							this.getModel("LocalDataModel").setProperty("/CancelEnable", false);
 							this.getModel("LocalDataModel").setProperty("/PercentState", false);
 							this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
+							this.getModel("LocalDataModel").setProperty("/UploadEnableSublet", false);
 							this.getView().getModel("DateModel").setProperty("/oDamageLineBtn", false);
-
 						} else if (data.results[0].DecisionCode == "ZTAC") {
 							this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
 							this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
 							this.getView().getModel("DateModel").setProperty("/claimEditSt", true);
 							this.getView().getModel("DateModel").setProperty("/updateEnable", false);
-
+							this.getModel("LocalDataModel").setProperty("/UploadEnableSublet", false);
 							this.getView().getModel("DateModel").setProperty("/copyClaimEnable", false);
 							this.getModel("LocalDataModel").setProperty("/CancelEnable", false);
 							this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
+
 							this.getView().getModel("DateModel").setProperty("/authAcClm", false);
 							this.getView().getModel("DateModel").setProperty("/authRejClm", false);
 							this.getView().getModel("DateModel").setProperty("/damageLine", false);
@@ -985,9 +1008,9 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/damageLine", false);
 							this.getModel("LocalDataModel").setProperty("/CancelEnable", false);
 							this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
+							this.getModel("LocalDataModel").setProperty("/UploadEnableSublet", false);
 							this.getView().getModel("DateModel").setProperty("/authAcClm", false);
 							this.getView().getModel("DateModel").setProperty("/authRejClm", false);
-
 							this.getView().getModel("DateModel").setProperty("/copyClaimEnable", true);
 							this.getView().getModel("DateModel").setProperty("/oDamageLineBtn", false);
 							this.getModel("LocalDataModel").setProperty("/PercentState", false);
@@ -1003,6 +1026,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/copyClaimEnable", false);
 							this.getModel("LocalDataModel").setProperty("/CancelEnable", false);
 							this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
+							this.getModel("LocalDataModel").setProperty("/UploadEnableSublet", false);
 							this.getView().getModel("DateModel").setProperty("/oDamageLineBtn", false);
 							this.getView().getModel("DateModel").setProperty("/authAcClm", true);
 							this.getView().getModel("DateModel").setProperty("/authRejClm", true);
@@ -1020,6 +1044,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/copyClaimEnable", false);
 							this.getModel("LocalDataModel").setProperty("/CancelEnable", false);
 							this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
+							this.getModel("LocalDataModel").setProperty("/UploadEnableSublet", false);
 							this.getView().getModel("DateModel").setProperty("/oDamageLineBtn", false);
 							this.getView().getModel("DateModel").setProperty("/authAcClm", false);
 							this.getView().getModel("DateModel").setProperty("/authRejClm", false);
@@ -1035,6 +1060,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/updateEnable", false);
 							this.getModel("LocalDataModel").setProperty("/CancelEnable", false);
 							this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
+							this.getModel("LocalDataModel").setProperty("/UploadEnableSublet", false);
 							this.getView().getModel("DateModel").setProperty("/authAcClm", false);
 							this.getView().getModel("DateModel").setProperty("/authRejClm", false);
 							this.getView().getModel("DateModel").setProperty("/damageLine", false);
@@ -1062,6 +1088,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/updateEnable", true);
 							//this.getView().getModel("DateModel").setProperty("/copyClaimEnable", true);
 							this.getModel("LocalDataModel").setProperty("/UploadEnable", true);
+
 							this.getView().getModel("DateModel").setProperty("/authAcClm", false);
 							this.getView().getModel("DateModel").setProperty("/authRejClm", false);
 							this.getView().getModel("DateModel").setProperty("/damageLine", true);
@@ -1090,6 +1117,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/updateEnable", true);
 							this.getView().getModel("DateModel").setProperty("/copyClaimEnable", false);
 							this.getModel("LocalDataModel").setProperty("/UploadEnable", true);
+
 							this.getView().getModel("DateModel").setProperty("/authAcClm", false);
 							this.getView().getModel("DateModel").setProperty("/authRejClm", false);
 						}
@@ -2143,11 +2171,11 @@ sap.ui.define([
 			// this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType");
 			//var oClaimType = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType");
 			//var oClaimSubType = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType");
+			this.getView().getModel("DateModel").setProperty("/claimTypeState2", "None");
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var oKey = oEvent.getSource().getSelectedKey();
 			if (oKey != "") {
-
-				this.getView().getModel("DateModel").setProperty("/claimTypeState2", "None")
+				this.getView().getModel("DateModel").setProperty("/claimTypeState2", "None");
 			}
 
 			if (oKey == "ZGGW") {
@@ -3142,6 +3170,7 @@ sap.ui.define([
 						this.getModel("LocalDataModel").setProperty("/CancelEnable", true);
 						this.getModel("LocalDataModel").setProperty("/PrintEnable", true);
 						this.getModel("LocalDataModel").setProperty("/UploadEnable", true);
+						this.getModel("LocalDataModel").setProperty("/UploadEnableSublet", true);
 						this.getView().getModel("DateModel").setProperty("/oDamageLineBtn", true);
 
 						this._fnClaimSum();
@@ -3320,6 +3349,7 @@ sap.ui.define([
 									this.getView().getModel("DateModel").setProperty("/updateEnable", false);
 									this.getModel("LocalDataModel").setProperty("/CancelEnable", false);
 									this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
+									this.getModel("LocalDataModel").setProperty("/UploadEnableSublet", false);
 									this.getView().getModel("DateModel").setProperty("/copyClaimEnable", false);
 									this.getView().getModel("DateModel").setProperty("/authRejClm", false);
 									this.getView().getModel("DateModel").setProperty("/authAcClm", false);
@@ -3396,6 +3426,7 @@ sap.ui.define([
 					this.getView().getModel("DateModel").setProperty("/updateEnable", false);
 					this.getModel("LocalDataModel").setProperty("/CancelEnable", false);
 					this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
+					this.getModel("LocalDataModel").setProperty("/UploadEnableSublet", false);
 					this.getView().getModel("DateModel").setProperty("/copyClaimEnable", true);
 					this.getModel("LocalDataModel").setProperty("/PercentState", false);
 
@@ -3465,6 +3496,7 @@ sap.ui.define([
 									this.getView().getModel("DateModel").setProperty("/updateEnable", false);
 									this.getModel("LocalDataModel").setProperty("/CancelEnable", false);
 									this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
+									this.getModel("LocalDataModel").setProperty("/UploadEnableSublet", false);
 									this.getView().getModel("DateModel").setProperty("/copyClaimEnable", false);
 									this.getModel("LocalDataModel").setProperty("/PercentState", false);
 									oClaimModel.read("/ZC_CLAIM_HEAD_NEW", {
@@ -4002,8 +4034,8 @@ sap.ui.define([
 							} else if (this.getModel("LocalDataModel").getProperty("/invalidVinMsg") == "Invalid VIN Number") {
 								this.getView().byId("idMainClaimMessage").setText(oBundle.getText("PleaseEnterValidVIN"));
 								this.getView().byId("idMainClaimMessage").setType("Error");
-							} else if (this.getModel("LocalDataModel").getProperty("/WarrantyClaimTypeGroup") == "Authorization" && oClmSubType ==
-								"") {
+							} else if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZACD" ||
+								this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZAUT" && oClmSubType == "") {
 
 								// this.getView().byId("idMainClaimMessage").setText(oBundle.getText("FillUpMandatoryField"));
 								// this.getView().byId("idMainClaimMessage").setType("Error");
@@ -4035,6 +4067,7 @@ sap.ui.define([
 										console.log(oEvent);
 										this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", false);
 										this.getModel("LocalDataModel").setProperty("/UploadEnable", true);
+										this.getModel("LocalDataModel").setProperty("/UploadEnableSublet", true);
 										MessageToast.show(oBundle.getText("ClaimUpdatedsuccessfully"), {
 											my: "center center",
 											at: "center center"
@@ -4238,7 +4271,7 @@ sap.ui.define([
 											this.getView().getModel("DateModel").setProperty("/authRejClm", false);
 											this.getView().getModel("DateModel").setProperty("/claimEditSt", false);
 											this.getModel("LocalDataModel").setProperty("/UploadEnable", true);
-
+											this.getModel("LocalDataModel").setProperty("/UploadEnableSublet", true);
 											this._fnClaimSumPercent();
 											this._fnClaimSum();
 											this._fnPricingData(oClaimNum);
@@ -4531,18 +4564,11 @@ sap.ui.define([
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			var oSubletType = this.getView().getModel("SubletDataModel").getProperty("/SubletCode");
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
+			var oSubLength = this.getModel("LocalDataModel").getProperty("/SubletAtchmentData").length;
+			console.log(oSubLength);
 			if (oSubletType != "") {
 				var fileType = this.oUploadedFile.type;
-				//var oUploadedFileArr = this.oUploadedFile.name.split(".").reverse();
-				//var oFileExt = oUploadedFileArr[0].length;
 				var oFileName = this.oUploadedFile.name;
-				//oFileName = this.oUploadedFile.name.replace("." + oFileExt, "");
-
-				// if (oFileExt > 3) {
-				// 	oFileName = this.oUploadedFile.name.slice(0, -1);
-				// } else {
-				// 	oFileName = this.oUploadedFile.name;
-				// }
 				var fileNamePrior = oSubletType + "@@@" + oFileName;
 				var fileName = fileNamePrior;
 
@@ -4586,10 +4612,10 @@ sap.ui.define([
 								"$filter": "NumberOfWarrantyClaim eq'" + oClaimNum + "'and AttachLevel eq 'SUBL' and FileName eq'" + fileName + "'"
 							},
 							success: $.proxy(function (subletData) {
+								this.getModel("LocalDataModel").setProperty("/UploadEnableSublet", false);
 								var oAttachSet = subletData.results.map(function (item) {
 									item.FileName = item.FileName.replace(oSubletType + "@@@", "");
 									return item;
-
 								});
 								this.getModel("LocalDataModel").setProperty("/SubletAtchmentData", oAttachSet);
 							}, this)
@@ -4600,6 +4626,7 @@ sap.ui.define([
 					}
 				});
 			} else {
+
 				this.getModel("LocalDataModel").setProperty("/IndicatorState", false);
 				MessageToast.show(oBundle.getText("SelectSubletTypeGoForAttachment"), {
 					my: "center center",
@@ -4712,6 +4739,7 @@ sap.ui.define([
 
 							});
 							this.getModel("LocalDataModel").setProperty("/SubletAtchmentData", oAttachSet);
+							this.getModel("LocalDataModel").setProperty("/UploadEnableSublet", true);
 						}, this)
 					});
 				}, this)
@@ -4794,6 +4822,7 @@ sap.ui.define([
 			var oTable = this.getView().byId("idSubletTable");
 			oTable.removeSelections("true");
 			this.getView().getModel("DateModel").setProperty("/subletLine", true);
+			this.getModel("LocalDataModel").setProperty("/UploadEnableSublet", true);
 		},
 		onPressRecalculate: function () {
 
@@ -5032,6 +5061,8 @@ sap.ui.define([
 									this.getView().getModel("DateModel").setProperty("/updateEnable", true);
 									//this.getView().getModel("DateModel").setProperty("/copyClaimEnable", true);
 									this.getModel("LocalDataModel").setProperty("/UploadEnable", true);
+									this.getModel("LocalDataModel").setProperty("/UploadEnableSublet", true);
+
 									this.getView().getModel("DateModel").setProperty("/authAcClm", false);
 									this.getView().getModel("DateModel").setProperty("/authRejClm", false);
 									this.getView().getModel("DateModel").setProperty("/damageLine", true);
@@ -5062,6 +5093,17 @@ sap.ui.define([
 											var oPartPer = parseInt(sdata.results[0].PartPer).toString();
 											var oLabourPer = parseInt(sdata.results[0].LabourPer).toString();
 											var oSubletPer = parseInt(sdata.results[0].SubletPer).toString();
+
+											if (oPartPer != "0" || oLabourPer != "0" || oSubletPer != "0") {
+												this.getView().byId("idPricingOpt").setSelectedIndex(1);
+												this.getView().byId("idParticiaptionTable").setProperty("visible", false);
+												this.getView().byId("idDiscountTable").setProperty("visible", true);
+											} else {
+												this.getView().byId("idPricingOpt").setSelectedIndex(0);
+												this.getView().byId("idParticiaptionTable").setProperty("visible", true);
+												this.getView().byId("idDiscountTable").setProperty("visible", false);
+											}
+
 											this.getView().getModel("DataPercetCalculate").setProperty("/CustomerPer", ocust);
 											this.getView().getModel("DataPercetCalculate").setProperty("/DealerPer", odeal);
 											this.getView().getModel("DataPercetCalculate").setProperty("/TCIPer", otci);
@@ -5122,6 +5164,15 @@ sap.ui.define([
 									var oPartPer = parseInt(sdata.results[0].PartPer).toString();
 									var oLabourPer = parseInt(sdata.results[0].LabourPer).toString();
 									var oSubletPer = parseInt(sdata.results[0].SubletPer).toString();
+									if (oPartPer != "0" || oLabourPer != "0" || oSubletPer != "0") {
+										this.getView().byId("idPricingOpt").setSelectedIndex(1);
+										this.getView().byId("idParticiaptionTable").setProperty("visible", false);
+										this.getView().byId("idDiscountTable").setProperty("visible", true);
+									} else {
+										this.getView().byId("idPricingOpt").setSelectedIndex(0);
+										this.getView().byId("idParticiaptionTable").setProperty("visible", true);
+										this.getView().byId("idDiscountTable").setProperty("visible", false);
+									}
 									this.getView().getModel("DataPercetCalculate").setProperty("/CustomerPer", ocust);
 									this.getView().getModel("DataPercetCalculate").setProperty("/DealerPer", odeal);
 									this.getView().getModel("DataPercetCalculate").setProperty("/TCIPer", otci);
@@ -5236,16 +5287,25 @@ sap.ui.define([
 						var oPartPer = parseInt(data.results[0].PartPer).toString();
 						var oLabourPer = parseInt(data.results[0].LabourPer).toString();
 						var oSubletPer = parseInt(data.results[0].SubletPer).toString();
+						if (oPartPer != "0" || oLabourPer != "0" || oSubletPer != "0") {
+							this.getView().byId("idPricingOpt").setSelectedIndex(1);
+							this.getView().byId("idParticiaptionTable").setProperty("visible", false);
+							this.getView().byId("idDiscountTable").setProperty("visible", true);
+						} else {
+							this.getView().byId("idPricingOpt").setSelectedIndex(0);
+							this.getView().byId("idParticiaptionTable").setProperty("visible", true);
+							this.getView().byId("idDiscountTable").setProperty("visible", false);
+						}
 						this.getView().getModel("DataPercetCalculate").setProperty("/CustomerPer", ocust);
 						this.getView().getModel("DataPercetCalculate").setProperty("/DealerPer", odeal);
 						this.getView().getModel("DataPercetCalculate").setProperty("/TCIPer", otci);
-
 						this.getView().getModel("DataPercetCalculate").setProperty("/PartPer", oPartPer);
 						this.getView().getModel("DataPercetCalculate").setProperty("/LabourPer", oLabourPer);
 						this.getView().getModel("DataPercetCalculate").setProperty("/SubletPer", oSubletPer);
 						this._fnClaimSum();
 						this._fnClaimSumPercent();
 						this._fnPricingData(oClaimNum);
+
 					} else if (data.results[0].Message != "") {
 						MessageToast.show(data.results[0].Message, {
 							my: "center center",
@@ -6791,6 +6851,8 @@ sap.ui.define([
 		},
 
 		onPressUpdateSublet: function (oEvent) {
+			var oSubLength = this.getModel("LocalDataModel").getProperty("/SubletAtchmentData").length;
+			this.getModel("LocalDataModel").setProperty("/UploadEnableSublet", false);
 			//Math.abs(
 			this.getView().getModel("DateModel").setProperty("/subletLine", false);
 			var oTable = this.getView().byId("idSubletTable");
@@ -7255,7 +7317,8 @@ sap.ui.define([
 						text: oBundle.getText("Yes"),
 						press: $.proxy(function () {
 							dialog.close();
-							if (this.getModel("LocalDataModel").getProperty("/WarrantyClaimTypeGroup") == "Authorization" &&
+							if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZACD" ||
+								this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZAUT" &&
 								this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") == "") {
 								this.getView().getModel("DateModel").setProperty("/claimTypeState2", "Error");
 								MessageToast.show(
@@ -7360,6 +7423,7 @@ sap.ui.define([
 													this.getView().getModel("DateModel").setProperty("/updateEnable", true);
 													//this.getView().getModel("DateModel").setProperty("/copyClaimEnable", true);
 													this.getModel("LocalDataModel").setProperty("/UploadEnable", true);
+													this.getModel("LocalDataModel").setProperty("/UploadEnableSublet", true);
 													this.getView().getModel("DateModel").setProperty("/authAcClm", false);
 													this.getView().getModel("DateModel").setProperty("/authRejClm", false);
 													this.getView().getModel("DateModel").setProperty("/damageLine", true);
@@ -7372,6 +7436,7 @@ sap.ui.define([
 													this.getView().getModel("DateModel").setProperty("/updateEnable", false);
 													this.getView().getModel("DateModel").setProperty("/copyClaimEnable", false);
 													this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
+													this.getModel("LocalDataModel").setProperty("/UploadEnableSublet", false);
 													this.getView().getModel("DateModel").setProperty("/authAcClm", false);
 													this.getView().getModel("DateModel").setProperty("/authRejClm", false);
 													this.getView().getModel("DateModel").setProperty("/damageLine", true);
@@ -7385,6 +7450,7 @@ sap.ui.define([
 													this.getView().getModel("DateModel").setProperty("/updateEnable", false);
 													this.getView().getModel("DateModel").setProperty("/copyClaimEnable", false);
 													this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
+													this.getModel("LocalDataModel").setProperty("/UploadEnableSublet", false);
 													this.getView().getModel("DateModel").setProperty("/authAcClm", true);
 													this.getView().getModel("DateModel").setProperty("/authRejClm", true);
 													this.getView().getModel("DateModel").setProperty("/damageLine", true);
@@ -7397,6 +7463,7 @@ sap.ui.define([
 													this.getView().getModel("DateModel").setProperty("/updateEnable", false);
 													this.getView().getModel("DateModel").setProperty("/copyClaimEnable", true);
 													this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
+													this.getModel("LocalDataModel").setProperty("/UploadEnableSublet", false);
 													this.getView().getModel("DateModel").setProperty("/authAcClm", false);
 													this.getView().getModel("DateModel").setProperty("/authRejClm", false);
 													this.getView().getModel("DateModel").setProperty("/damageLine", true);
@@ -7409,6 +7476,7 @@ sap.ui.define([
 													this.getView().getModel("DateModel").setProperty("/updateEnable", false);
 													this.getView().getModel("DateModel").setProperty("/copyClaimEnable", false);
 													this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
+													this.getModel("LocalDataModel").setProperty("/UploadEnableSublet", false);
 													this.getView().getModel("DateModel").setProperty("/authAcClm", false);
 													this.getView().getModel("DateModel").setProperty("/authRejClm", false);
 													this.getView().getModel("DateModel").setProperty("/damageLine", true);
