@@ -6874,6 +6874,7 @@ sap.ui.define([
 				//var oString = oTableIndex.toString();
 				var oSelectedRow = oTableIndex.toString();
 				var obj = this.getView().getModel("LocalDataModel").getProperty(oSelectedRow);
+				console.log(obj.URI);
 				if (obj.matnr == "L2" || obj.matnr == "L3" ||
 					obj.matnr == "L4" ||
 					obj.matnr == "C2" ||
@@ -6901,28 +6902,43 @@ sap.ui.define([
 				this.getView().getModel("SubletDataModel").setProperty("/days", oDays.toString());
 
 				this.getView().getModel("SubletDataModel").setProperty("/unitOfMeasure", obj.Meinh);
+				if (obj.URI != "") {
+					var oFile = obj.URI.split(",")[1].split("=")[1].split(")")[0];
+					var oFileReplaced = oFile.replace(/'/g, "");
 
-				var oFile = obj.URI.split(",")[1].split("=")[1].split(")")[0];
-				var oFileReplaced = oFile.replace(/'/g, "");
+					oClaimModel.read("/zc_claim_subletattachmentSet", {
+						urlParameters: {
+							"$filter": "NumberOfWarrantyClaim eq'" + oClaimNum + "'and AttachLevel eq 'SUBL' and FileName eq'" + oFileReplaced + "'"
+						},
+						success: $.proxy(function (subletData) {
+							this.getView().getModel("DateModel").setProperty("/subletLine", true);
+							this.getModel("LocalDataModel").setProperty("/IndicatorState", false);
+							var oAttachSet = subletData.results.map(function (item) {
+								item.FileName = item.FileName.replace(SubletNum + "@@@", "");
+								return item;
 
-				oClaimModel.read("/zc_claim_subletattachmentSet", {
-					urlParameters: {
-						"$filter": "NumberOfWarrantyClaim eq'" + oClaimNum + "'and AttachLevel eq 'SUBL' and FileName eq'" + oFileReplaced + "'"
-					},
-					success: $.proxy(function (subletData) {
-						this.getView().getModel("DateModel").setProperty("/subletLine", true);
-						this.getModel("LocalDataModel").setProperty("/IndicatorState", false);
-						var oAttachSet = subletData.results.map(function (item) {
-							item.FileName = item.FileName.replace(SubletNum + "@@@", "");
-							return item;
+							});
+							this.getModel("LocalDataModel").setProperty("/SubletAtchmentData", oAttachSet);
+						}, this),
+						error: $.proxy(function () {
+							MessageToast.show(oBundle.getText("Noattachmentsexists"), {
+								my: "center center",
+								at: "center center"
+							});
+							this.getModel("LocalDataModel").setProperty("/UploadEnableSublet", true);
+							this.getModel("LocalDataModel").setProperty("/IndicatorState", false);
 
-						});
-						this.getModel("LocalDataModel").setProperty("/SubletAtchmentData", oAttachSet);
-					}, this),
-					error: $.proxy(function () {
-						this.getModel("LocalDataModel").setProperty("/IndicatorState", false);
-					}, this)
-				});
+						}, this)
+					});
+				} else {
+					this.getView().getModel("DateModel").setProperty("/subletLine", true);
+					MessageToast.show(oBundle.getText("Noattachmentsexists"), {
+						my: "center center",
+						at: "center center"
+					});
+					this.getModel("LocalDataModel").setProperty("/UploadEnableSublet", true);
+					this.getModel("LocalDataModel").setProperty("/IndicatorState", false);
+				}
 
 			} else {
 				MessageToast.show(oBundle.getText("Pleaseselect1row"), {
