@@ -6918,6 +6918,9 @@ sap.ui.define([
 
 						});
 						this.getModel("LocalDataModel").setProperty("/SubletAtchmentData", oAttachSet);
+					}, this),
+					error: $.proxy(function () {
+						this.getModel("LocalDataModel").setProperty("/IndicatorState", false);
 					}, this)
 				});
 
