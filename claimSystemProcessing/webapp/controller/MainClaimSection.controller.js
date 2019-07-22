@@ -959,7 +959,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/Sublet", true);
 							this.getView().getModel("DateModel").setProperty("/Labour", true);
 							this.getView().getModel("DateModel").setProperty("/Parts", true);
-							this.getView().getModel("DateModel").setProperty("/damageLine", true);
+							this.getView().getModel("DateModel").setProperty("/damageLine", false);
 							this.getView().getModel("DateModel").setProperty("/oDamageLineBtn", true);
 							this.getView().getModel("DateModel").setProperty("/oFieldActionInput", false);
 							this.getView().getModel("DateModel").setProperty("/Authorization", false);
@@ -1103,7 +1103,7 @@ sap.ui.define([
 
 							this.getView().getModel("DateModel").setProperty("/authAcClm", false);
 							this.getView().getModel("DateModel").setProperty("/authRejClm", false);
-							this.getView().getModel("DateModel").setProperty("/damageLine", true);
+
 							this.getView().getModel("DateModel").setProperty("/oDamageLineBtn", true);
 
 						} else if (data.results[0].DecisionCode == "ZTRC" && oClaimNav != "Inq" && sap.ui.getCore().getModel(
@@ -1123,7 +1123,7 @@ sap.ui.define([
 							this.getModel("LocalDataModel").setProperty("/FeedEnabled", true);
 							this.getView().getModel("DateModel").setProperty("/SaveClaim07", true);
 							this.getModel("LocalDataModel").setProperty("/CancelEnable", true);
-							this.getView().getModel("DateModel").setProperty("/damageLine", true);
+
 							this.getView().getModel("DateModel").setProperty("/oDamageLineBtn", true);
 							this.getView().getModel("DateModel").setProperty("/claimEditSt", false);
 							this.getView().getModel("DateModel").setProperty("/updateEnable", true);
@@ -5084,8 +5084,6 @@ sap.ui.define([
 
 									this.getView().getModel("DateModel").setProperty("/authAcClm", false);
 									this.getView().getModel("DateModel").setProperty("/authRejClm", false);
-									this.getView().getModel("DateModel").setProperty("/damageLine", true);
-									this.getView().getModel("DateModel").setProperty("/oDamageLineBtn", true);
 									this.getModel("LocalDataModel").setProperty("/PercentState", false);
 
 									oClaimModel.read("/zc_authorization_detailsSet", {
@@ -5335,19 +5333,24 @@ sap.ui.define([
 			});
 		},
 		onStep01Next: function (oEvent) {
-			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
+			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZWMS" ||
 				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") == "ZWMS" || this.getModel("LocalDataModel").getProperty(
 					"/GroupDescriptionName") === "CRC" || this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") ===
 				"ZRCR") {
 				this.getView().byId("idFilter06").setProperty("enabled", true);
 				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab6");
-				this.getView().byId("mainSectionTitle").setTitle(this.oBundle.getText("ClaimSubletSection"));
+				this.getView().byId("mainSectionTitle").setTitle(oBundle.getText("ClaimSubletSection"));
 				this.getView().byId("idSubletCode").focus();
+			} else if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZLDC" &&
+				this.getModel("LocalDataModel").getProperty("/DataItemDamageSet").length <= 0) {
+				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+				this.getView().byId("idMainClaimMessage").setText(oBundle.getText("PleaseAddatleastoneDamageLine"));
+				this.getView().byId("idMainClaimMessage").setType("Error");
 			} else {
 				this.getView().byId("idFilter03").setProperty("enabled", true);
 				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab3");
-				this.getView().byId("mainSectionTitle").setTitle(this.oBundle.getText("ClaimPartsSection"));
+				this.getView().byId("mainSectionTitle").setTitle(oBundle.getText("ClaimPartsSection"));
 				this.getView().byId("idPartNumber").focus();
 			}
 
@@ -7141,6 +7144,7 @@ sap.ui.define([
 							this.getView().getModel("HeadSetData").setProperty("/DmgAreaCode", "");
 							this.getView().getModel("HeadSetData").setProperty("/DmgTypeCode", "");
 							this.getView().getModel("HeadSetData").setProperty("/DmgSevrCode", "");
+							this.getView().getModel("DateModel").setProperty("/damageLine", false);
 						}, this)
 					});
 				}, this),
@@ -7478,7 +7482,7 @@ sap.ui.define([
 													this.getModel("LocalDataModel").setProperty("/UploadEnableSublet", true);
 													this.getView().getModel("DateModel").setProperty("/authAcClm", false);
 													this.getView().getModel("DateModel").setProperty("/authRejClm", false);
-													this.getView().getModel("DateModel").setProperty("/damageLine", true);
+
 													this.getView().getModel("DateModel").setProperty("/oDamageLineBtn", true);
 												} else if (sdata.results[0].DecisionCode == "ZTAC") {
 													this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
@@ -7491,7 +7495,7 @@ sap.ui.define([
 													this.getModel("LocalDataModel").setProperty("/UploadEnableSublet", false);
 													this.getView().getModel("DateModel").setProperty("/authAcClm", false);
 													this.getView().getModel("DateModel").setProperty("/authRejClm", false);
-													this.getView().getModel("DateModel").setProperty("/damageLine", true);
+
 													this.getView().getModel("DateModel").setProperty("/oDamageLineBtn", false);
 												} else if (sdata.results[0].DecisionCode == "ZTMR" && sap.ui.getCore().getModel(
 														"UserDataModel").getProperty("/LoggedInUser") == "Dealer_Services_Manager") {
@@ -7505,7 +7509,7 @@ sap.ui.define([
 													this.getModel("LocalDataModel").setProperty("/UploadEnableSublet", false);
 													this.getView().getModel("DateModel").setProperty("/authAcClm", true);
 													this.getView().getModel("DateModel").setProperty("/authRejClm", true);
-													this.getView().getModel("DateModel").setProperty("/damageLine", true);
+
 													this.getView().getModel("DateModel").setProperty("/oDamageLineBtn", false);
 												} else if (sdata.results[0].DecisionCode == "ZTAA") {
 													this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
@@ -7518,7 +7522,7 @@ sap.ui.define([
 													this.getModel("LocalDataModel").setProperty("/UploadEnableSublet", false);
 													this.getView().getModel("DateModel").setProperty("/authAcClm", false);
 													this.getView().getModel("DateModel").setProperty("/authRejClm", false);
-													this.getView().getModel("DateModel").setProperty("/damageLine", true);
+
 													this.getView().getModel("DateModel").setProperty("/oDamageLineBtn", false);
 												} else {
 													this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
@@ -7531,7 +7535,7 @@ sap.ui.define([
 													this.getModel("LocalDataModel").setProperty("/UploadEnableSublet", false);
 													this.getView().getModel("DateModel").setProperty("/authAcClm", false);
 													this.getView().getModel("DateModel").setProperty("/authRejClm", false);
-													this.getView().getModel("DateModel").setProperty("/damageLine", true);
+
 													this.getView().getModel("DateModel").setProperty("/oDamageLineBtn", false);
 												}
 
