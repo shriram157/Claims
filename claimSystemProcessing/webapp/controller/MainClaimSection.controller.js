@@ -6004,6 +6004,7 @@ sap.ui.define([
 
 								var oClaimModel = this.getModel("ProssingModel");
 								this.obj.OFP = this.getView().getModel("HeadSetData").getProperty("/OFP");
+								this.obj.DBOperation = "SAVE";
 								this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", true);
 								oClaimModel.refreshSecurityToken();
 								oClaimModel.create("/zc_headSet", this.obj, {
