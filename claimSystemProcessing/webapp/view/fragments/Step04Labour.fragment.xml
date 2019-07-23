@@ -104,7 +104,8 @@
 						<Label text="{i18n>OperationNumber}" textAlign="Left"/>
 						<Input type="Text" change="onChangeLabourOp" textFormatMode="Value" placeholder="{i18n>EnterOperationNumber}" showSuggestion="false"
 							showValueHelp="true" id="idOperationLabour" value="{LabourDataModel>/LabourOp}" valueHelpRequest="handleValueHelpLabour"
-							suggestionItems="{LocalDataModel>/SuggetionOperationList}" suggestionItemSelected="onSelectPositionCode" enabled="{DateModel>/labourLine}">
+							suggestionItems="{LocalDataModel>/SuggetionOperationList}" suggestionItemSelected="onSelectPositionCode" enabled="{DateModel>/labourLine}"
+							editable="{DateModel>/editableLabourNumber}">
 							<suggestionItems>
 								<core:ListItem key="{LocalDataModel>J_3GKATNRC}" text="{LocalDataModel>J_3GKATNRC}" additionalText="{LocalDataModel>LTEXT}"/>
 							</suggestionItems>

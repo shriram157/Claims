@@ -109,8 +109,8 @@
 						</Text>
 						<core:Title text=""/>
 						<Label text="{i18n>PartNumber}" textAlign="Left"/>
-						<Input value="{PartDataModel>/matnr}" required="true" id="idPartNumber" showValueHelp="true" valueHelpOnly="true"
-							valueHelpRequest="handleValueHelp" enabled="{DateModel>/partLine}"/>
+						<Input value="{PartDataModel>/matnr}" editable="{DateModel>/editablePartNumber}" required="true" id="idPartNumber" showValueHelp="true"
+							valueHelpOnly="true" valueHelpRequest="handleValueHelp" enabled="{DateModel>/partLine}"/>
 						<core:Title text=""/>
 						<Label text="{i18n>PartDescription}" textAlign="Left"/>
 						<Input value="{PartDataModel>/PartDescription}" editable="false" id="idPartDes"/>

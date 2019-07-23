@@ -263,6 +263,9 @@ sap.ui.define([
 				labourLine: false,
 				paintLine: false,
 				subletLine: false,
+				editablePartNumber: true,
+				editableLabourNumber: true,
+				editableSublNumber: true,
 				oDamageLineBtn: false,
 				damageLine: false,
 				SuggestBtn: false,
@@ -4805,6 +4808,7 @@ sap.ui.define([
 			var oTable = this.getView().byId("idTableParts");
 			oTable.removeSelections("true");
 			this.getView().getModel("DateModel").setProperty("/partLine", true);
+			this.getView().getModel("DateModel").setProperty("/editablePartNumber", true);
 
 			var sSelectedLocale;
 			var sDivision;
@@ -4831,6 +4835,7 @@ sap.ui.define([
 			var oTable = this.getView().byId("idLabourTable");
 			oTable.removeSelections("true");
 			this.getView().getModel("DateModel").setProperty("/labourLine", true);
+			this.getView().getModel("DateModel").setProperty("/editableLabourNumber", true);
 		},
 		onPressAddPaint: function () {
 			var oTable = this.getView().byId("idPaintTable");
@@ -4842,6 +4847,7 @@ sap.ui.define([
 			oTable.removeSelections("true");
 			this.getView().getModel("DateModel").setProperty("/subletLine", true);
 			this.getModel("LocalDataModel").setProperty("/UploadEnableSublet", true);
+			this.getView().getModel("DateModel").setProperty("/editableSublNumber", true);
 		},
 		onPressRecalculate: function () {
 
@@ -5938,12 +5944,14 @@ sap.ui.define([
 			var oTable = this.getView().byId("idTableParts");
 			var oTableIndex = oTable._aSelectedPaths;
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
+
 			if (oTableIndex.length == 1) {
 
 				var oSelectedRow = oTableIndex.toString();
 				var obj = this.getView().getModel("LocalDataModel").getProperty(oSelectedRow);
 				var PartNum = obj.matnr;
 				var PartQt = obj.QtyHrs;
+				this.getView().getModel("DateModel").setProperty("/editablePartNumber", false);
 				//var PartUnit = obj.Meins;
 
 				this.getView().getModel("PartDataModel").setProperty("/matnr", obj.matnr);
@@ -6567,6 +6575,7 @@ sap.ui.define([
 				this.getView().getModel("LabourDataModel").setProperty("/LabourOp", LabourNum);
 				this.getView().getModel("LabourDataModel").setProperty("/ClaimedHours", LabourHr);
 				this.getView().getModel("DateModel").setProperty("/labourLine", true);
+				this.getView().getModel("DateModel").setProperty("/editableLabourNumber", false);
 				//this.getView().byId("idLabourDes").setText(obj.LabourDescription);
 				this.getView().getModel("LabourDataModel").setProperty("/LabourDescription", obj.LabourDescription);
 				// for (var j = 0; j < this.obj.zc_claim_item_labourSet.results.length; j++) {
@@ -6890,6 +6899,7 @@ sap.ui.define([
 				//var oString = oTableIndex.toString();
 				var oSelectedRow = oTableIndex.toString();
 				var obj = this.getView().getModel("LocalDataModel").getProperty(oSelectedRow);
+				this.getView().getModel("DateModel").setProperty("/editableSublNumber", false);
 				console.log(obj.URI);
 				if (obj.matnr == "L2" || obj.matnr == "L3" ||
 					obj.matnr == "L4" ||
