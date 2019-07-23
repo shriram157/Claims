@@ -5833,7 +5833,6 @@ sap.ui.define([
 		},
 		onPressSavePart: function () {
 
-			this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", true);
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			var oTable = this.getView().byId("idTableParts");
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
@@ -5890,6 +5889,7 @@ sap.ui.define([
 			} else {
 				this.obj.zc_itemSet.results.push(itemObj);
 				this.getView().byId("idPartQty").setValueState("None");
+				this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", true);
 				oClaimModel.create("/zc_headSet", this.obj, {
 					success: $.proxy(function (data, response) {
 						this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", false);
@@ -6796,19 +6796,19 @@ sap.ui.define([
 			}
 			if (this.getModel("LocalDataModel").getProperty("/SubletAtchmentData") != undefined && this.getModel("LocalDataModel").getProperty(
 					"/SubletAtchmentData") != "") {
-				this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", true);
+
 				var itemObj = {
 					"ItemType": "SUBL",
 					"SubletType": this.getView().getModel("SubletDataModel").getProperty("/SubletCode"),
 					"InvoiceNo": this.getView().getModel("SubletDataModel").getProperty("/InvoiceNo"),
-					"Amount": this.getView().getModel("SubletDataModel").getProperty("/Amount"),
+					"Amount": this.getView().getModel("SubletDataModel").getProperty("/Amount") || "0.00",
 					"SubletDescription": this.getView().getModel("SubletDataModel").getProperty("/description"),
 					"URI": this.getModel("LocalDataModel").getProperty("/SubletAtchmentData/0/URI"),
 					"UnitOfMeasure": this.getView().getModel("SubletDataModel").getProperty("/unitOfMeasure"),
 					"Brand": this.getView().getModel("SubletDataModel").getProperty("/brand"),
 					"Days": oDays
 				};
-
+				this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", true);
 				var oIndexItem = this.obj.zc_item_subletSet.results.findIndex(function (item) {
 					return item.SubletType == itemObj.SubletType;
 				});
@@ -7398,6 +7398,12 @@ sap.ui.define([
 									});
 
 								this.getView().byId("idSubmissionClaim").setProperty("enabled", true);
+							} else if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZLDC" &&
+								this.getModel("LocalDataModel").getProperty("/DataItemDamageSet").length <= 0) {
+								this.getView().byId("idDamageArea").focus();
+								this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+								this.getView().byId("idMainClaimMessage").setText(oBundle.getText("PleaseAddatleastoneDamageLine"));
+								this.getView().byId("idMainClaimMessage").setType("Error");
 							} else {
 								this.getView().getModel("DateModel").setProperty("/claimTypeState", "None");
 								this.getView().getModel("DateModel").setProperty("/claimTypeState2", "None");
