@@ -5350,6 +5350,7 @@ sap.ui.define([
 				this.getView().byId("idSubletCode").focus();
 			} else if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZLDC" &&
 				this.getModel("LocalDataModel").getProperty("/DataItemDamageSet").length <= 0) {
+				this.getView().byId("idDamageArea").focus();
 				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
 				this.getView().byId("idMainClaimMessage").setText(oBundle.getText("PleaseAddatleastoneDamageLine"));
 				this.getView().byId("idMainClaimMessage").setType("Error");
@@ -5357,6 +5358,7 @@ sap.ui.define([
 				this.getView().byId("idFilter03").setProperty("enabled", true);
 				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab3");
 				this.getView().byId("mainSectionTitle").setTitle(oBundle.getText("ClaimPartsSection"));
+				this.getView().byId("idMainClaimMessage").setProperty("visible", false);
 				this.getView().byId("idPartNumber").focus();
 			}
 
@@ -7156,6 +7158,7 @@ sap.ui.define([
 							this.getView().getModel("HeadSetData").setProperty("/DmgTypeCode", "");
 							this.getView().getModel("HeadSetData").setProperty("/DmgSevrCode", "");
 							this.getView().getModel("DateModel").setProperty("/damageLine", false);
+							this.getView().byId("idMainClaimMessage").setProperty("visible", false);
 						}, this)
 					});
 				}, this),
