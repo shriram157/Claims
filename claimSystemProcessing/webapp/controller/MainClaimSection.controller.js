@@ -7447,6 +7447,9 @@ sap.ui.define([
 									success: $.proxy(function (data, response) {
 										var pricinghData = response.data.zc_claim_item_price_dataSet.results;
 
+										this.getView().getModel("HeadSetData").setProperty("/ReferenceDate", response.data.ReferenceDate);
+										this.getView().getModel("HeadSetData").setProperty("/DateOfApplication", response.data.DateOfApplication);
+
 										var oFilteredData = pricinghData.filter(function (val) {
 											return val.ItemType === "MAT";
 										});
@@ -7467,11 +7470,11 @@ sap.ui.define([
 												this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", errorData.results[0].zc_claim_read_descriptionSet
 													.results[0].MainOpsCodeDescription);
 
-												this.getView().getModel("HeadSetData").setProperty("/ReferenceDate", errorData.results[0].zc_claim_read_descriptionSet
-													.results[0].ReferenceDate);
+												// this.getView().getModel("HeadSetData").setProperty("/ReferenceDate", errorData.results[0].zc_claim_read_descriptionSet
+												// 	.results[0].ReferenceDate);
 
-												this.getView().getModel("HeadSetData").setProperty("/DateOfApplication", errorData.results[0].zc_claim_read_descriptionSet
-													.results[0].DateOfApplication);
+												// this.getView().getModel("HeadSetData").setProperty("/DateOfApplication", errorData.results[0].zc_claim_read_descriptionSet
+												// 	.results[0].DateOfApplication);
 
 												this.getView().getModel("HeadSetData").setProperty("/RepairDate", errorData.results[0].zc_claim_read_descriptionSet
 													.results[0].RepairDate);

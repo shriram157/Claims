@@ -48,7 +48,8 @@ sap.ui.define([
 				SavePWPartIndicator: false,
 				SavePWClaimIndicator: false,
 				SubmitPWBusyIndicator: false,
-				LOIBusyIndicator: false
+				LOIBusyIndicator: false,
+				editablePartNumber: true
 			});
 			this.getView().setModel(oDateModel, "DateModel");
 			var oNodeModel = new sap.ui.model.json.JSONModel();
@@ -307,6 +308,7 @@ sap.ui.define([
 			}
 		},
 		_onRoutMatched: function (oEvent) {
+			this.getView().getModel("DateModel").setProperty("/editablePartNumber", true);
 			var sSelectedLocale;
 			this.DiscreCode = "";
 			var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
@@ -2539,6 +2541,7 @@ sap.ui.define([
 		onPressAddPart: function () {
 			this.getView().getModel("DateModel").setProperty("/partLine", true);
 			this.getModel("LocalDataModel").setProperty("/UploadEnable", true);
+			this.getView().getModel("DateModel").setProperty("/editablePartNumber", true);
 			this.getView().getModel("DateModel").setProperty("/saveParts", true);
 			this.getView().getModel("DateModel").setProperty("/oLetterOfIntent", false);
 			this.addPartFlag = true;
@@ -2608,12 +2611,13 @@ sap.ui.define([
 			if (oTableIndex.length == 1) {
 				var oSelectedRow = oTableIndex.toString();
 				var obj = this.getModel("LocalDataModel").getProperty(oSelectedRow);
-				console.log("update this obj", obj);
+
 				var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 				var oClaimModel = this.getModel("ProssingModel");
 				oClaimModel.refreshSecurityToken();
 
 				var PartNum = obj.ItemKey;
+
 				if (this.claimType == "ZPPD") {
 					// var PartQt = obj.QuantityOrdered;
 					var str1 = obj.PartDescription.split("Ordered: ");
@@ -2635,6 +2639,7 @@ sap.ui.define([
 					this.getView().getModel("PartDataModel").setProperty("/LineNo", obj.LineRefnr);
 					this.getView().getModel("PartDataModel").setProperty("/matnr", PartNum);
 					this.getView().getModel("DateModel").setProperty("/partLine", true);
+					this.getView().getModel("DateModel").setProperty("/editablePartNumber", false);
 					this.getView().getModel("PartDataModel").setProperty("/DiscreCode", obj.DiscreCode);
 					this.getView().getModel("HeadSetData").setProperty("/DiscrepancyCodes", obj.DiscreCode);
 					this.getView().getModel("PartDataModel").setProperty("/ALMDiscreDesc", obj.ALMDiscreDesc.split("-")[1]);
@@ -2651,6 +2656,7 @@ sap.ui.define([
 					this.getView().getModel("PartDataModel").setProperty("/LineNo", obj.LineRefnr);
 					this.getView().getModel("PartDataModel").setProperty("/matnr", PartNum);
 					this.getView().getModel("DateModel").setProperty("/partLine", true);
+					this.getView().getModel("DateModel").setProperty("/editablePartNumber", false);
 					this.getView().getModel("PartDataModel").setProperty("/DiscreCode", obj.DiscreCode);
 					if (obj.RetainPart == "Y") {
 						this.getView().getModel("PartDataModel").setProperty("/RetainPart", "Yes");
@@ -3647,7 +3653,7 @@ sap.ui.define([
 				if (this.getView().getModel("HeadSetData").getProperty("/NumberOfWarrantyClaim") == undefined) {
 					this.getView().getModel("HeadSetData").setProperty("/NumberOfWarrantyClaim", "");
 				}
-				
+
 				this.getView().getModel("DateModel").setProperty("/SavePWClaimIndicator", true);
 				this.getView().getModel("DateModel").setProperty("/waybilltype", "None");
 				oCurrentDt = new Date(new Date().getTime() - (10.5 * 60 * 60));
