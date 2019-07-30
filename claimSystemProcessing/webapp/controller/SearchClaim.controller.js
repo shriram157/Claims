@@ -811,47 +811,6 @@ sap.ui.define([
 
 		},
 
-		onPressNext: function () {
-			this.getView().getModel("DateModel").setProperty("/tableBusyIndicator", true);
-			var oCount = this.getModel("LocalDataModel").getProperty("/HeadSetCount");
-			if (this.counter) {
-				this.counter += 1;
-			} else {
-				this.counter += 1;
-			}
-			this.oSkip = this.counter * 10;
-			var count1 = parseInt(this.getModel("LocalDataModel").getProperty("/HeadSetCount"));
-			if (this.oSkip >= count1) {
-				var Btn = this.getView().byId("btn_next");
-				Btn.setEnabled(false);
-			}
-			if (this.oSkip >= 20) {
-				Btn = this.getView().byId("btn_previous");
-				Btn.setEnabled(true);
-			}
-			this.onPressSearch();
-		},
-		onPressBack: function () {
-
-			var oCount = this.getModel("LocalDataModel").getProperty("/HeadSetCount");
-			if (this.counter) {
-				this.counter -= 1;
-			} else {
-				this.counter -= 1;
-			}
-			this.oSkip = this.counter * 10;
-			var count1 = parseInt(this.getModel("LocalDataModel").getProperty("/HeadSetCount"));
-			if (this.oSkip >= count1) {
-				var Btn = this.getView().byId("btn_next");
-				Btn.setEnabled(false);
-			}
-			if (this.oSkip == 10) {
-				Btn = this.getView().byId("btn_previous");
-				Btn.setEnabled(false);
-			}
-			this.onPressSearch();
-		},
-
 		onPressClear: function () {
 
 			var andFilter = [];

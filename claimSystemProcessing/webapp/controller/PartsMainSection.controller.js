@@ -1570,7 +1570,7 @@ sap.ui.define([
 				this.getView().getModel("DateModel").setProperty("/ddType", "None");
 				this.getView().getModel("DateModel").setProperty("/RetainPartType", "None");
 				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
-				this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
+				this.getView().byId("idMainClaimMessage").setText(this.oBundle.getText("FillUpMandatoryField"));
 				this.getView().byId("idMainClaimMessage").setType("Error");
 				if ((this.getView().getModel("PartDataModel").getProperty("/DiscreCode") == "PTSA" || this.getView().getModel("PartDataModel").getProperty(
 						"/DiscreCode") == "3A") && this.getView().getModel("PartDataModel").getProperty("/QuantityReceived") < 1) {
@@ -1580,14 +1580,14 @@ sap.ui.define([
 			} else if (this.getView().getModel("PartDataModel").getProperty("/DiscreCode") == "") {
 				this.getView().getModel("DateModel").setProperty("/ddType", "Error");
 				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
-				this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
+				this.getView().byId("idMainClaimMessage").setText(this.oBundle.getText("FillUpMandatoryField"));
 				this.getView().byId("idMainClaimMessage").setType("Error");
 				this.getView().getModel("DateModel").setProperty("/partTypeState", "None");
 			} else if (this.getView().getModel("PartDataModel").getProperty("/RetainPart") == "" && this.claimType == "ZPPD" && this.getView().getModel(
 					"PartDataModel").getProperty("/DiscreCode") !== "2A") {
 				this.getView().getModel("DateModel").setProperty("/RetainPartType", "Error");
 				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
-				this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
+				this.getView().byId("idMainClaimMessage").setText(this.oBundle.getText("FillUpMandatoryField"));
 				this.getView().byId("idMainClaimMessage").setType("Error");
 				this.getView().getModel("DateModel").setProperty("/partTypeState", "None");
 			} else {
@@ -2306,8 +2306,8 @@ sap.ui.define([
 			dialog.open();
 		},
 		onSendLetterOfIntent: function (oEvent) {
-			console.log("Start Validations");
 
+			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			if (this.getView().getModel("LOIDataModel").getProperty("/Address1") == "") {
 				// this.getView().getModel("DateModel").setProperty("/partTypeState", "Error");
 			} else {
@@ -2358,7 +2358,7 @@ sap.ui.define([
 				this.getView().getModel("DateModel").setProperty("/partTypeState", "None");
 			} else {
 				sap.ui.getCore().byId("idMainClaimMessage2").setProperty("visible", true);
-				sap.ui.getCore().byId("idMainClaimMessage2").setText("Please fill up all mandatory fields.");
+				sap.ui.getCore().byId("idMainClaimMessage2").setText(this.oBundle.getText("FillUpMandatoryField"));
 				sap.ui.getCore().byId("idMainClaimMessage2").setType("Error");
 				// this.getView().getModel("DateModel").setProperty("/partTypeState", "Error");
 			}
@@ -3618,7 +3618,7 @@ sap.ui.define([
 				this.getModel("LocalDataModel").setProperty("/step01Next", false);
 				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
 
-				this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
+				this.getView().byId("idMainClaimMessage").setText(this.oBundle.getText("FillUpMandatoryField"));
 				this.getView().byId("idMainClaimMessage").setType("Error");
 				this.getView().getModel("DateModel").setProperty("/waybilltype", "None");
 				this.getView().getModel("DateModel").setProperty("/SavePWClaimIndicator", false);
@@ -3633,7 +3633,7 @@ sap.ui.define([
 					this.getView().byId("idShipmentRDate").setValueState("Error");
 					this.getView().getModel("DateModel").setProperty("/SavePWClaimIndicator", false);
 				}
-				this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
+				this.getView().byId("idMainClaimMessage").setText(this.oBundle.getText("FillUpMandatoryField"));
 				this.getView().byId("idMainClaimMessage").setType("Error");
 				this.getView().byId("idCarrierName").setValueState("None");
 				this.getView().getModel("DateModel").setProperty("/waybilltype", "None");
@@ -3642,7 +3642,7 @@ sap.ui.define([
 			} else if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == undefined && this.getView().getModel(
 					"HeadSetData").getProperty("/WarrantyClaimType") != "") {
 				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
-				this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
+				this.getView().byId("idMainClaimMessage").setText(this.oBundle.getText("FillUpMandatoryField"));
 				this.getView().byId("idMainClaimMessage").setType("Error");
 				this.getView().getModel("DateModel").setProperty("/SavePWClaimIndicator", false);
 			} else if (oValid && this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != undefined && this.getView().getModel(
@@ -3693,7 +3693,6 @@ sap.ui.define([
 				};
 				var that = this;
 
-				console.log("Data for saving claim", this.obj);
 				oClaimModel.refreshSecurityToken();
 				oClaimModel.create("/zc_headSet", this.obj, {
 					success: $.proxy(function (data, response) {
@@ -3789,7 +3788,7 @@ sap.ui.define([
 			if (!oValidator.isValid()) {
 				this.getView().byId("mainSectionTitle").setTitle(this.oBundle.getText("MainSection"));
 				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
-				this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
+				this.getView().byId("idMainClaimMessage").setText(this.oBundle.getText("FillUpMandatoryField"));
 				this.getView().byId("idFilter02").setProperty("enabled", false);
 				this.getView().byId("idMainClaimMessage").setType("Error");
 				return;
@@ -3847,7 +3846,7 @@ sap.ui.define([
 				this.getView().byId("idFilter03").setProperty("enabled", false);
 				this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
 				this.getView().getModel("DateModel").setProperty("/submitTCIBtn", false);
-				this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
+				this.getView().byId("idMainClaimMessage").setText(this.oBundle.getText("FillUpMandatoryField"));
 				this.getView().byId("idMainClaimMessage").setType("Error");
 				return;
 			}
@@ -4182,7 +4181,7 @@ sap.ui.define([
 
 								//do something additional to drawing red borders? message box?
 								this.getView().byId("idMainClaimMessage").setProperty("visible", true);
-								this.getView().byId("idMainClaimMessage").setText("Please fill up all mandatory fields.");
+								this.getView().byId("idMainClaimMessage").setText(this.oBundle.getText("FillUpMandatoryField"));
 								this.getView().byId("idMainClaimMessage").setType("Error");
 								return;
 							} else {}
