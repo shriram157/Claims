@@ -413,6 +413,8 @@ sap.ui.define([
 					sSelectedLocale = "en"; // default is english
 				}
 
+				this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", true);
+
 				if (oClaimSelectedGroup == "Authorization") {
 					this.getView().getModel("DateModel").setProperty("/warrantySubmissionClaim", true);
 					this.getModel("LocalDataModel").setProperty("/linkToAuth", false);
@@ -1196,6 +1198,7 @@ sap.ui.define([
 								"$expand": "zc_claim_commentSet,zc_claim_vsrSet,zc_claim_read_descriptionSet"
 							},
 							success: $.proxy(function (errorData) {
+								this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", false);
 								this.getModel("LocalDataModel").setProperty("/oErrorSet", errorData.results[0].zc_claim_vsrSet.results);
 								this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", errorData.results[0].zc_claim_read_descriptionSet
 									.results[
@@ -4084,7 +4087,7 @@ sap.ui.define([
 									success: $.proxy(function (response) {
 										this.getView().getModel("DateModel").setProperty("/claimTypeEn", false);
 										console.log(oEvent);
-										this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", false);
+
 										this.getModel("LocalDataModel").setProperty("/UploadEnable", true);
 										this.getModel("LocalDataModel").setProperty("/UploadEnableSublet", true);
 										MessageToast.show(oBundle.getText("ClaimUpdatedsuccessfully"), {
@@ -4141,7 +4144,7 @@ sap.ui.define([
 														"$expand": "zc_claim_read_descriptionSet"
 													},
 													success: $.proxy(function (errorData) {
-
+														this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", false);
 														this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", errorData.results[0].zc_claim_read_descriptionSet
 															.results[0].OFPDescription);
 														this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", errorData.results[0]
@@ -5027,7 +5030,7 @@ sap.ui.define([
 
 						success: $.proxy(function (data) {
 							var oClaimNum = data.NumberOfWarrantyClaim;
-							this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", false);
+
 							this.getView().getModel("DateModel").setProperty("/warrantySubmissionClaim", false);
 							oClaimModel.read("/ZC_CLAIM_HEAD_NEW", {
 								urlParameters: {
@@ -5043,6 +5046,7 @@ sap.ui.define([
 											"$expand": "zc_claim_vsrSet,zc_claim_read_descriptionSet"
 										},
 										success: $.proxy(function (errorData) {
+											this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", false);
 											this.getModel("LocalDataModel").setProperty("/oErrorSet", errorData.results[0].zc_claim_vsrSet.results);
 											this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", errorData.results[0].zc_claim_read_descriptionSet
 												.results[0].OFPDescription);
@@ -5158,7 +5162,7 @@ sap.ui.define([
 					oClaimModel.read("/zc_claim_copy_to_authSet(NumberOfWarrantyClaim='" + oAuthNum + "')", {
 
 						success: $.proxy(function (data) {
-							this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", false);
+
 							var oClaimNum = data.NumberOfAuth;
 							this.getView().getModel("DateModel").setProperty("/warrantySubmissionClaim", true);
 							oClaimModel.read("/zc_authorization_detailsSet", {
@@ -5227,6 +5231,7 @@ sap.ui.define([
 											"$expand": "zc_claim_vsrSet,zc_claim_read_descriptionSet"
 										},
 										success: $.proxy(function (errorData) {
+											this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", false);
 											this.getModel("LocalDataModel").setProperty("/oErrorSet", errorData.results[0].zc_claim_vsrSet.results);
 											this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", errorData.results[0].zc_claim_read_descriptionSet
 												.results[0].OFPDescription);
@@ -6788,7 +6793,7 @@ sap.ui.define([
 			var oSelectedSublet = oEvent.getParameters().selectedItem.getKey();
 			if (oSelectedSublet == "L2" || oSelectedSublet == "L3" ||
 				oSelectedSublet == "L4" ||
-				oSelectedSublet == "C2" ||
+				oSelectedSublet == "C5" ||
 				oSelectedSublet == "C3" || oSelectedSublet == "C4" ||
 				oSelectedSublet == "RT" || oSelectedSublet == "RL" || oSelectedSublet == "RO") {
 				this.getView().getModel("DateModel").setProperty("/disableBrandDays", true);
