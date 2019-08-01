@@ -120,6 +120,8 @@
 												<Text text="{LocalDataModel>ExternalNumberOfClaim}"/>
 												<Text text="{LocalDataModel>RepairOrderNumberExternal}"/>
 												<Text text="{path:'LocalDataModel>RepairDate', formatter:'zclaimProcessing.utils.formatter.fnDateFormat'}"/>
+												<!--<Text text="{path:'LocalDataModel>RepairDate'}"/>-->
+												<!--<Text text="{path:'LocalDataModel>ReferenceDate'}"/>-->
 												<Text text="{path:'LocalDataModel>ReferenceDate', formatter:'zclaimProcessing.utils.formatter.fnDateFormat'}"/>
 												<Text text="{LocalDataModel>WarrantyClaimType}"/>
 												<Text text="{LocalDataModel>ExternalObjectNumber}"/>
