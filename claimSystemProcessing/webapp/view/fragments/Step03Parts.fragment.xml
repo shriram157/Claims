@@ -156,9 +156,6 @@
 							<Input
 								value="{path : 'PartDataModel>/QuantityReceived', type : 'sap.ui.model.type.Integer', formatOptions : { groupingEnabled : true }, constraints : { minimum : 0, maximum : 100 } }"
 								required="true" id="idReceivedQnt" enabled="{DateModel>/partLine}" change="ValidQty" valueState="{DateModel>/partTypeState}">
-								<!--<Input-->
-								<!--	value="{ path : 'PartDataModel>/QuantityReceived', type : 'sap.ui.model.type.Integer', formatOptions : { groupingEnabled : true }, constraints : { minimum : 50, maximum : 10000000 } }"-->
-								<!--	required="true" id="idReceivedQnt">-->
 								<layoutData>
 									<l:GridData span="XL8 L8"/>
 								</layoutData>

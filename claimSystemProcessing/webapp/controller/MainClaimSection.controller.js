@@ -7543,7 +7543,6 @@ sap.ui.define([
 
 												if (sdata.results[0].DecisionCode == "ZTIC" || sdata.results[0].DecisionCode ==
 													"ZTRC") {
-
 													if (GroupType == "Authorization") {
 														this.getView().getModel("DateModel").setProperty("/copyClaimEnable", false);
 														this.getModel("LocalDataModel").setProperty("/PercentState", true);
@@ -7561,7 +7560,6 @@ sap.ui.define([
 													this.getModel("LocalDataModel").setProperty("/UploadEnableSublet", true);
 													this.getView().getModel("DateModel").setProperty("/authAcClm", false);
 													this.getView().getModel("DateModel").setProperty("/authRejClm", false);
-
 													this.getView().getModel("DateModel").setProperty("/oDamageLineBtn", true);
 												} else if (sdata.results[0].DecisionCode == "ZTAC") {
 													this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
