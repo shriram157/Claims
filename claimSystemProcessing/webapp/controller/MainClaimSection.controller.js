@@ -4102,10 +4102,6 @@ sap.ui.define([
 											},
 											success: $.proxy(function (sdata) {
 												this.getView().getModel("HeadSetData").setData(sdata.results[0]);
-												if (this.getModel("LocalDataModel").getProperty("/oIDBtn") != this.getModel("LocalDataModel").getProperty(
-														"/SaveAuthClaim")) {
-													this.getRouter().navTo("SearchClaim");
-												}
 
 												var oIndexMat = PartItem.findIndex($.proxy(function (item) {
 													return item.MaterialNumber == this.getView().getModel("HeadSetData").getProperty("/OFP")
@@ -4152,6 +4148,11 @@ sap.ui.define([
 															.results[0].MainOpsCodeDescription);
 														this.getView().getModel("HeadSetData").setProperty("/HeadText", errorData.results[0].zc_claim_read_descriptionSet
 															.results[0].HeadText);
+
+														if (this.getModel("LocalDataModel").getProperty("/oIDBtn") != this.getModel("LocalDataModel").getProperty(
+																"/SaveAuthClaim")) {
+															this.getRouter().navTo("SearchClaim");
+														}
 
 													}, this)
 												});

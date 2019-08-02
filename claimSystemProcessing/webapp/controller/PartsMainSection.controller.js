@@ -3413,8 +3413,10 @@ sap.ui.define([
 		},
 
 		_fnDateFormat: function (elm) {
-			if (elm != "" && elm != null && elm != NaN) {
-				var oNumTime = elm.getTime();
+			if (elm != "" && elm != null) {
+				// var oNumTime = Date.UTC(elm.getFullYear(), elm.getMonth(), elm.getDate(),
+				// 	elm.getHours(), elm.getMinutes(), elm.getSeconds(), elm.getMilliseconds());
+				var oNumTime = moment.utc(new Date(elm)).valueOf();
 				var oTime = "\/Date(" + oNumTime + ")\/";
 				return oTime;
 			} else {
@@ -3432,7 +3434,11 @@ sap.ui.define([
 			}
 		},
 
-		_fnUpdateClaimParts: function () {
+		_fnUpdateClaimParts: function (oEvent) {
+
+			var oId = oEvent.getSource().getText();
+			this.getModel("LocalDataModel").setProperty("/oIDBtn", oId);
+
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			this.getView().getModel("DateModel").setProperty("/PWPrintEnable", true);
 			if ((this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZPDC" || this.getView().getModel("HeadSetData").getProperty(
@@ -3552,7 +3558,7 @@ sap.ui.define([
 						}
 						oClaimModel.create("/zc_headSet", this.obj, {
 							success: $.proxy(function (response) {
-								that.getView().getModel("DateModel").setProperty("/SavePWClaimIndicator", false);
+
 								that.getModel("LocalDataModel").setProperty("/UploadEnable", true);
 								MessageToast.show(oBundle.getText("ClaimUpdatedsuccessfully"), {
 									my: "center center",
@@ -3566,8 +3572,7 @@ sap.ui.define([
 									},
 									success: $.proxy(function (sdata) {
 										this.getView().getModel("HeadSetData").setData(sdata.results[0]);
-										this.getView().getModel("HeadSetData").setProperty("/ReferenceDate", response.ReferenceDate);
-										this.getView().getModel("HeadSetData").setProperty("/DateOfApplication", response.DateOfApplication);
+
 										oClaimModel.read("/zc_headSet", {
 											urlParameters: {
 												"$filter": "NumberOfWarrantyClaim eq '" + this.getModel("LocalDataModel").getProperty(
@@ -3578,6 +3583,16 @@ sap.ui.define([
 											success: $.proxy(function (errorData) {
 												this.getView().getModel("HeadSetData").setProperty("/HeadText", errorData.results[0].zc_claim_read_descriptionSet
 													.results[0].HeadText);
+												this.getView().getModel("HeadSetData").setProperty("/ReferenceDate", response.ReferenceDate);
+												this.getView().getModel("HeadSetData").setProperty("/ShipmentReceivedDate", response.ShipmentReceivedDate);
+												this.getView().getModel("HeadSetData").setProperty("/DeliveryDate", response.DeliveryDate);
+												this.getView().getModel("HeadSetData").setProperty("/DateOfApplication", response.DateOfApplication);
+												that.getView().getModel("DateModel").setProperty("/SavePWClaimIndicator", false);
+
+												if (this.getModel("LocalDataModel").getProperty("/oIDBtn") == oBundle.getText("Yes")) {
+													this.getRouter().navTo("SearchClaim");
+												}
+
 											}, this)
 										});
 									}, this)
@@ -4160,68 +4175,130 @@ sap.ui.define([
 		},
 
 		onPressBack: function (oEvent) {
-			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
-			this.getView().byId("mainSectionTitle").setTitle(this.oBundle.getText("MainSection"));
-			var that = this;
-			var oValidator = new Validator();
-			oValidator.validate(this.byId("idClaimForm"));
-			var dialog = new Dialog({
-				title: that.oBundle.getText("SaveChanges"),
-				type: "Message",
-				content: new Text({
-					text: that.oBundle.getText("WillYouLikeSaveChanges")
-				}),
 
-				buttons: [
-					new Button({
-						text: that.oBundle.getText("Yes"),
-						press: $.proxy(function () {
-
-							if (!oValidator.isValid()) {
-
-								//do something additional to drawing red borders? message box?
-								this.getView().byId("idMainClaimMessage").setProperty("visible", true);
-								this.getView().byId("idMainClaimMessage").setText(this.oBundle.getText("FillUpMandatoryField"));
-								this.getView().byId("idMainClaimMessage").setType("Error");
-								return;
-							} else {}
-
-							dialog.close();
-						}, this)
-					}),
-
-					new Button({
-						text: that.oBundle.getText("No"),
-						press: function () {
-							that.getRouter().navTo("SearchClaim");
-							dialog.close();
-						}
-					}),
-					new Button({
-						text: that.oBundle.getText("Cancel"),
-						press: function () {
-							dialog.close();
-						}
-					})
-
-				],
-
-				afterClose: function () {
-					dialog.destroy();
-				}
-			});
-
-			dialog.open();
-
+			var oClaimNum = this.getView().getModel("HeadSetData").getProperty("/NumberOfWarrantyClaim");
 			this.ogetSelectedKey = this.getView().byId("idPartClaimIconBar").getSelectedKey();
 			var ogetKey = this.ogetSelectedKey.split("Tab")[1];
+			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 
-			if (ogetKey > 1 && ogetKey <= 8) {
-				var oSelectedNum = ogetKey - 1;
-				this.getView().byId("idPartClaimIconBar").setSelectedKey("Tab" + oSelectedNum + "");
+			var that = this;
+
+			if (that.getModel("LocalDataModel").getProperty("/NavList") == "Inq") {
+				that.getRouter().navTo("ClaimInquiry");
 			} else {
-				this.getRouter().navTo("SearchClaim");
+				if (oClaimNum == undefined) {
+					that.fnOpenDialogOnBack();
+				} else if (
+					that.getView().getModel("HeadSetData").getProperty("/DecisionCode") == "ZTIC" &&
+					sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") == "Dealer_Parts_Admin" ||
+					that.getView().getModel("HeadSetData").getProperty("/DecisionCode") == "ZTRC" &&
+					sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") == "Dealer_Parts_Admin") {
+					var dialog = new Dialog({
+						title: oBundle.getText("SaveChanges"),
+						type: "Message",
+						content: new Text({
+							text: oBundle.getText("WillYouLikeSaveChanges")
+						}),
+
+						buttons: [
+							new Button({
+								text: oBundle.getText("Yes"),
+								press: function () {
+									that._fnUpdateClaimParts(oEvent);
+									dialog.close();
+								}
+							}),
+
+							new Button({
+								text: oBundle.getText("No"),
+								press: function () {
+									that.getRouter().navTo("SearchClaim");
+									dialog.close();
+								}
+							})
+
+						],
+
+						afterClose: function () {
+							dialog.destroy();
+						}
+					});
+
+					dialog.open();
+				} else if (
+					sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") == "Dealer_User" ||
+					sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") == "TCI_Admin" ||
+					sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") == "TCI_User" ||
+					sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") == "Zone_User"
+				) {
+					that.getRouter().navTo("SearchClaim");
+				} else {
+					that.getRouter().navTo("SearchClaim");
+				}
 			}
+
+			// 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
+			// 			this.getView().byId("mainSectionTitle").setTitle(this.oBundle.getText("MainSection"));
+			// 			var that = this;
+			// 			var oValidator = new Validator();
+			// 			oValidator.validate(this.byId("idClaimForm"));
+			// 			var dialog = new Dialog({
+			// 				title: that.oBundle.getText("SaveChanges"),
+			// 				type: "Message",
+			// 				content: new Text({
+			// 					text: that.oBundle.getText("WillYouLikeSaveChanges")
+			// 				}),
+
+			// 				buttons: [
+			// 					new Button({
+			// 						text: that.oBundle.getText("Yes"),
+			// 						press: $.proxy(function () {
+
+			// 							if (!oValidator.isValid()) {
+
+			// 								//do something additional to drawing red borders? message box?
+			// 								this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+			// 								this.getView().byId("idMainClaimMessage").setText(this.oBundle.getText("FillUpMandatoryField"));
+			// 								this.getView().byId("idMainClaimMessage").setType("Error");
+			// 								return;
+			// 							} 
+
+			// 							dialog.close();
+			// 						}, this)
+			// 					}),
+
+			// 					new Button({
+			// 						text: that.oBundle.getText("No"),
+			// 						press: function () {
+			// 							that.getRouter().navTo("SearchClaim");
+			// 							dialog.close();
+			// 						}
+			// 					}),
+			// 					new Button({
+			// 						text: that.oBundle.getText("Cancel"),
+			// 						press: function () {
+			// 							dialog.close();
+			// 						}
+			// 					})
+
+			// 				],
+
+			// 				afterClose: function () {
+			// 					dialog.destroy();
+			// 				}
+			// 			});
+
+			// 			dialog.open();
+
+			// 			this.ogetSelectedKey = this.getView().byId("idPartClaimIconBar").getSelectedKey();
+			// 			var ogetKey = this.ogetSelectedKey.split("Tab")[1];
+
+			// 			if (ogetKey > 1 && ogetKey <= 8) {
+			// 				var oSelectedNum = ogetKey - 1;
+			// 				this.getView().byId("idPartClaimIconBar").setSelectedKey("Tab" + oSelectedNum + "");
+			// 			} else {
+			// 				this.getRouter().navTo("SearchClaim");
+			// 			}
 
 		},
 		onCancelClaim: function (oEvent) {
