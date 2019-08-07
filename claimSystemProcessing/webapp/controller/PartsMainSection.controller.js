@@ -582,13 +582,20 @@ sap.ui.define([
 								this.getView().getModel("DateModel").setProperty("/SaveClaimBTN", true);
 								this.getView().getModel("DateModel").setProperty("/submitTCIBtn", true);
 								this.getView().getModel("DateModel").setProperty("/FeedEnabled", true);
+								this.getView().getModel("LocalDataModel").setProperty("/PWPrintEnable", true);
+								this.getView().getModel("LocalDataModel").setProperty("/CancelEnable", true);
+								this.getView().getModel("DateModel").setProperty("/SaveClaim07", true);
 							} else {
 								this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
+								this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
 								this.getView().getModel("DateModel").setProperty("/SaveClaimBTN", false);
 								this.getModel("LocalDataModel").setProperty("/UploadEnableHeader", false);
 								this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", false);
 								this.getView().getModel("DateModel").setProperty("/submitTCIBtn", false);
 								this.getView().getModel("DateModel").setProperty("/FeedEnabled", false);
+								this.getView().getModel("LocalDataModel").setProperty("/PWPrintEnable", false);
+								this.getView().getModel("LocalDataModel").setProperty("/CancelEnable", false);
+
 							}
 						}
 						var oBusinessModel = this.getModel("ApiBusinessModel");
@@ -1228,9 +1235,7 @@ sap.ui.define([
 
 		onReceivedDateChange: function (oReceivedDate) {
 			var receivedDate = oReceivedDate.getSource().mProperties.dateValue;
-			console.log("received date", receivedDate);
 			var delDate = new Date(this.getView().getModel("HeadSetData").getProperty("/DeliveryDate"));
-			console.log("delDate ", delDate);
 			receivedDate = new Date(receivedDate.getFullYear(), receivedDate.getMonth(), receivedDate.getDate());
 			delDate = new Date(delDate.getFullYear(), delDate.getMonth(), delDate.getDate());
 
@@ -4013,7 +4018,7 @@ sap.ui.define([
 											},
 											success: $.proxy(function (sdata) {
 												this.getView().getModel("DateModel").setProperty("/SubmitPWBusyIndicator", false);
-												console.log("claim status after tci submit", sdata);
+
 												this.getView().getModel("HeadSetData").setProperty("/DecisionCode", sdata.results[0].DecisionCode);
 												this.ClaimStatus = sdata.results[0].DecisionCode;
 												if (sdata.results[0].DecisionCode == "ZTIC" || sdata.results[0].DecisionCode == "ZTRC") {
