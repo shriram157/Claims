@@ -309,6 +309,7 @@ sap.ui.define([
 		},
 		_onRoutMatched: function (oEvent) {
 			this.getView().getModel("DateModel").setProperty("/editablePartNumber", true);
+			this.getModel("LocalDataModel").setProperty("/claim_commentSet", []);
 			var sSelectedLocale;
 			this.DiscreCode = "";
 			var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
@@ -1106,7 +1107,7 @@ sap.ui.define([
 				this.obj.zc_claim_commentSet = {
 					"results": []
 				};
-				this.getModel("LocalDataModel").setProperty("/claim_commentSet", "");
+				this.getModel("LocalDataModel").setProperty("/claim_commentSet", []);
 				this.obj.zc_claim_item_price_dataSet = {
 					"results": [{
 						"Meins": "",
@@ -1559,8 +1560,8 @@ sap.ui.define([
 			var oValidator = new Validator();
 			if (this.getView().getModel("DateModel").getProperty("/partLine") == true) {
 				var Qty;
-				if (this.getView().getModel("PartDataModel").getProperty("/PartQty") == "" || this.getView().getModel("PartDataModel").getProperty(
-						"/PartQty") == "0") {
+				if (this.getView().getModel("PartDataModel").getProperty("/PartQty") == "" ||
+					this.getView().getModel("PartDataModel").getProperty("/PartQty") == "0") {
 					this.getView().getModel("DateModel").setProperty("/partTypeState", "None");
 					// this.inValid = false;
 					Qty = "0.000";
@@ -1620,14 +1621,6 @@ sap.ui.define([
 					this.claimType = this.obj.WarrantyClaimType;
 				}
 
-				if (this.claimType === "ZPDC" && this.getView().getModel("PartDataModel").getProperty("/DiscreCode") === "8A") {
-					this.getView().getModel("DateModel").setProperty("/oLetterOfIntent", true);
-				} else if (this.claimType == "ZPTS") {
-					this.getView().getModel("DateModel").setProperty("/oLetterOfIntent", true);
-				} else {
-					this.getView().getModel("DateModel").setProperty("/oLetterOfIntent", false);
-				}
-
 				this.lineRefNumber = this.getView().getModel("PartDataModel").getProperty("/LineNo").toString();
 
 				var retainval, RepairOrRetrunPart;
@@ -1667,10 +1660,10 @@ sap.ui.define([
 						this.getView().getModel("PartDataModel").setProperty("/ALMDiscreDesc", this.getView().getModel("PartDataModel").getProperty(
 							"/DiscreCode") + "-" + this.getView().byId("TransportCodes")._getSelectedItemText());
 					}
-					console.log("descretext", this.getView().getModel("PartDataModel").getProperty("/ALMDiscreDesc"));
+
 				}
 				// }
-				console.log("item level claimType", this.claimType);
+
 				if (this.claimType != "ZPPD") {
 					if (this.getModel("LocalDataModel").getProperty("/partItemAttachments") != undefined && this.getModel("LocalDataModel").getProperty(
 							"/partItemAttachments") != "") {
@@ -1682,7 +1675,7 @@ sap.ui.define([
 							} else {
 								RepairAmt = this.getView().getModel("HeadSetData").getProperty("/RepairAmount");
 							}
-							var finalQTY;
+
 							var itemObj = {
 								"Type": "PART",
 								"ItemType": "MAT",
@@ -1735,8 +1728,29 @@ sap.ui.define([
 											success: $.proxy(function (pricedata) {
 												this.getView().getModel("DateModel").setProperty("/SavePWPartIndicator", false);
 												MessageToast.show(that.oBundle.getText("PartItemSuccessMSG"));
-												console.log("pricedata", pricedata);
+
 												var pricingData = pricedata.results;
+
+												var enabledIntent = pricingData.some((item) => item.DiscreCode == "8A");
+
+												var oAttachmentList = this.getModel("LocalDataModel").getProperty("/PartHeadAttachData");
+												var oAttachmentCheck = oAttachmentList.some((item) => item.FileName == "Letter Of Intent.pdf");
+
+												if (enabledIntent && this.claimType === "ZPDC" && !oAttachmentCheck || this.claimType == "ZPTS" &&
+													!oAttachmentCheck) {
+													this.getView().getModel("DateModel").setProperty("/oLetterOfIntent", true);
+												} else {
+													this.getView().getModel("DateModel").setProperty("/oLetterOfIntent", false);
+												}
+
+												// if (this.claimType === "ZPDC" && this.getView().getModel("PartDataModel").getProperty("/DiscreCode") === "8A") {
+												// 	this.getView().getModel("DateModel").setProperty("/oLetterOfIntent", true);
+												// } else if (this.claimType == "ZPTS") {
+												// 	this.getView().getModel("DateModel").setProperty("/oLetterOfIntent", true);
+												// } else {
+												// 	this.getView().getModel("DateModel").setProperty("/oLetterOfIntent", false);
+												// }
+
 												var oFilteredData = pricingData.filter(function (val) {
 													return val.ItemType === "MAT"
 												});
@@ -2571,7 +2585,7 @@ sap.ui.define([
 		},
 
 		onDDChange: function (oEventVal) {
-			console.log("2nd Screen oEventVal", oEventVal);
+
 			this.optionChanged = true;
 			this.getView().getModel("DateModel").setProperty("/ddType", "None");
 			var SelectedDD = oEventVal.getSource().getModel("DropDownModel").getProperty(oEventVal.getParameters().selectedItem.getBindingContext(
@@ -3827,15 +3841,15 @@ sap.ui.define([
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var validator = new Validator();
 			validator.validate(this.byId("partTable"));
-			if (this.getView().getModel("DateModel").getProperty("/SavePart2") == false) {
-				if (this.ClaimStatus == "ZTRC" || this.ClaimStatus == "ZTIC") {
-					MessageBox.show(this.oBundle.getText("PleaseSavePart"), MessageBox.Icon.ERROR, "Reminder", MessageBox.Action.OK,
-						null, null);
-				}
-			} else if (this.letterSubmitted == false && (this.claimType === "ZPTS" || this.DiscreCode === "8A")) {
-				MessageBox.show(this.oBundle.getText("LOIMandatoryBeforeTCISubmit"), MessageBox.Icon.INFORMATION, "Reminder", MessageBox.Action.OK,
-					null, null);
-			}
+			// 			if (this.getView().getModel("DateModel").getProperty("/SavePart2") == false) {
+			// 				if (this.ClaimStatus == "ZTRC" || this.ClaimStatus == "ZTIC") {
+			// 					MessageBox.show(this.oBundle.getText("PleaseSavePart"), MessageBox.Icon.ERROR, "Reminder", MessageBox.Action.OK,
+			// 						null, null);
+			// 				}
+			// 			} else if (this.letterSubmitted == false && (this.claimType === "ZPTS" || this.DiscreCode === "8A")) {
+			// 				MessageBox.show(this.oBundle.getText("LOIMandatoryBeforeTCISubmit"), MessageBox.Icon.INFORMATION, "Reminder", MessageBox.Action.OK,
+			// 					null, null);
+			// 			}
 			if (userScope == "ReadOnlyViewAll") {
 				this.getView().getModel("DateModel").setProperty("/submitTCIBtn", false);
 				this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
@@ -3915,6 +3929,7 @@ sap.ui.define([
 			dialog.open();
 		},
 		onSubmitTci: function (oEvent) {
+			this.fnClearLine();
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var oClaimModel = this.getModel("ProssingModel");
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
@@ -3964,13 +3979,26 @@ sap.ui.define([
 						press: $.proxy(function () {
 							dialog.close();
 							this.getView().getModel("DateModel").setProperty("/SubmitPWBusyIndicator", true);
-							if (that.letterSubmitted == false && (that.claimType === "ZPTS" || this.DiscreCode === "8A")) {
-								// dialog.close();
-								// var msg = oBundle.getText("LOIMandatoryBeforeTCISubmit");
+							// 			if (that.letterSubmitted == false && (that.claimType === "ZPTS" || this.DiscreCode === "8A")) {
+							// 				// dialog.close();
+							// 				// var msg = oBundle.getText("LOIMandatoryBeforeTCISubmit");
+							// 				this.getView().getModel("DateModel").setProperty("/SubmitPWBusyIndicator", false);
+							// 				MessageBox.show(oBundle.getText("LOIMandatoryBeforeTCISubmit"), MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK,
+							// 					null, null);
+							// 			} 
+							var oPartItemData = this.getModel("LocalDataModel").getProperty("/PricingDataModel");
+							var enabledIntent = oPartItemData.some((item) => item.DiscreCode == "8A");
+							var oAttachmentList = this.getModel("LocalDataModel").getProperty("/PartHeadAttachData");
+							var oAttachmentCheck = oAttachmentList.some((item) => item.FileName == "Letter Of Intent.pdf");
+
+							if (enabledIntent && this.claimType === "ZPDC" && !oAttachmentCheck || this.claimType == "ZPTS" &&
+								!oAttachmentCheck) {
+								this.getView().getModel("DateModel").setProperty("/oLetterOfIntent", true);
 								this.getView().getModel("DateModel").setProperty("/SubmitPWBusyIndicator", false);
 								MessageBox.show(oBundle.getText("LOIMandatoryBeforeTCISubmit"), MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK,
 									null, null);
 							} else {
+								this.getView().getModel("DateModel").setProperty("/oLetterOfIntent", false);
 								oClaimModel.refreshSecurityToken();
 								oClaimModel.create("/zc_headSet", this.obj, {
 									success: $.proxy(function (data, response) {
@@ -4056,14 +4084,14 @@ sap.ui.define([
 												}
 												this.getView().getModel("DateModel").setProperty("/errorBusyIndicator", false);
 											}, this),
-											error: function (err) {
+											error: $.proxy(function (err) {
 												this.getView().getModel("DateModel").setProperty("/SubmitPWBusyIndicator", false);
-											}
+											}, this)
 										});
 
 										dialog.close();
 									}, this),
-									error: function (err) {
+									error: $.proxy(function (err) {
 										dialog.close();
 										this.getView().getModel("DateModel").setProperty("/SubmitPWBusyIndicator", false);
 										this.getView().byId("idFilter04").setProperty("enabled", false);
@@ -4077,7 +4105,7 @@ sap.ui.define([
 										var err = JSON.parse(err.responseText);
 										var msg = err.error.message.value;
 										MessageBox.show(msg, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
-									}
+									}, this)
 								});
 							}
 						}, this)
@@ -4101,6 +4129,11 @@ sap.ui.define([
 		onStep07Back: function () {
 			this.getView().byId("idFilter02").setProperty("enabled", true);
 			this.getView().byId("idPartClaimIconBar").setSelectedKey("Tab2");
+		},
+
+		onStep01Back: function () {
+			this.getView().byId("idFilter01").setProperty("enabled", true);
+			this.getView().byId("idPartClaimIconBar").setSelectedKey("Tab1");
 		},
 
 		onPartsTabSelect: function (oselectedTab) {
@@ -4330,6 +4363,22 @@ sap.ui.define([
 			} else {
 				this.getView().getModel("DateModel").setProperty("/waybilltype", "Error");
 			}
+		},
+
+		fnClearLine: function () {
+			this.getView().getModel("DateModel").setProperty("/partLine", false);
+			this.getView().getModel("PartDataModel").setProperty("/LineNo", "0");
+			this.getView().getModel("PartDataModel").setProperty("/matnr", "");
+			this.getView().getModel("PartDataModel").setProperty("/PartDescription", "");
+			this.getView().getModel("PartDataModel").setProperty("/PartQty", "0");
+			this.getModel("LocalDataModel").setProperty("/partItemAttachments", "");
+
+			this.getView().getModel("PartDataModel").setProperty("/QuantityReceived", "");
+			this.getView().getModel("PartDataModel").setProperty("/RetainPart", "");
+
+			this.getView().getModel("HeadSetData").setProperty("/RepairAmount", "");
+			this.getView().getModel("HeadSetData").setProperty("/PartRepaired", "");
+			this.getView().getModel("HeadSetData").setProperty("/PartNumberRc", "");
 		},
 
 		onExit: function () {
