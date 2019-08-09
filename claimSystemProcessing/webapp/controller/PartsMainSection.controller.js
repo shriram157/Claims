@@ -299,9 +299,9 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/DelDateEdit", false);
 						}
 					}, this),
-					error: function (err) {
+					error: $.proxy(function (err) {
 						this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", false);
-					}
+					}, this)
 				});
 			} else {
 				this.getView().getModel("DateModel").setProperty("/DelDateEdit", true);
@@ -637,11 +637,11 @@ sap.ui.define([
 						});
 
 					}, this),
-					error: function (err) {
+					error: $.proxy(function (err) {
 						var err = JSON.parse(err.responseText);
 						var msg = err.error.message.value;
 						MessageBox.show(msg, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
-					}
+					}, this)
 				});
 
 				if (this.claimType != "ZPPD") {
@@ -736,11 +736,11 @@ sap.ui.define([
 								}
 							};
 						}, this),
-						error: function (err) {
+						error: $.proxy(function (err) {
 							var err = JSON.parse(err.responseText);
 							var msg = err.error.message.value;
 							MessageBox.show(msg, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
-						}
+						}, this)
 					});
 				} else {
 					this.getModel("LocalDataModel").setProperty("/PricingDataModel", "");
@@ -963,11 +963,11 @@ sap.ui.define([
 								}
 							};
 						}, this),
-						error: function (err) {
+						error: $.proxy(function (err) {
 							var err = JSON.parse(err.responseText);
 							var msg = err.error.message.value;
 							MessageBox.show(msg, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
-						}
+						}, this)
 					});
 				}
 				oProssingModel.read("/zc_headSet", {
@@ -993,9 +993,9 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", true);
 						}
 					}, this),
-					error: function (err) {
+					error: $.proxy(function (err) {
 						this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", false);
-					}
+					}, this)
 				});
 
 				oProssingModel.read("/zc_claim_attachmentsSet", {
@@ -1518,22 +1518,22 @@ sap.ui.define([
 							MessageToast.show(that.oBundle.getText("ClaimSuccessMSG"));
 							console.log("pricedata on saveClaim success", pricedata);
 						}, this),
-						error: function (err) {
+						error: $.proxy(function (err) {
 							this.getView().getModel("DateModel").setProperty("/SavePWPartIndicator", false);
 							console.log(err);
 							var err = JSON.parse(err.responseText);
 							var msg = err.error.message.value;
 							MessageBox.show(msg, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
-						}
+						}, this)
 					});
 				}, this),
-				error: function (err) {
+				error: $.proxy(function (err) {
 					this.getView().getModel("DateModel").setProperty("/SavePWPartIndicator", false);
 					console.log(err);
 					var err = JSON.parse(err.responseText);
 					var msg = err.error.message.value;
 					MessageBox.show(msg, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
-				}
+				}, this)
 			});
 		},
 
@@ -2084,17 +2084,17 @@ sap.ui.define([
 													this._fnClaimSum();
 												},
 												this),
-											error: function (err) {
+											error: $.proxy(function (err) {
 												this.getView().getModel("DateModel").setProperty("/SavePWPartIndicator", false);
 												console.log(err);
 												var err = JSON.parse(err.responseText);
 												var msg = err.error.message.value;
 												MessageBox.show(msg, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
-											}
+											}, this)
 										});
 									},
 									this),
-								error: function (err) {
+								error: $.proxy(function (err) {
 									this.getView().getModel("DateModel").setProperty("/SavePWPartIndicator", false);
 									that.obj.zc_itemSet.results.pop();
 									//this.itemObj
@@ -2102,7 +2102,7 @@ sap.ui.define([
 									var err = JSON.parse(err.responseText);
 									var msg = err.error.message.value;
 									MessageBox.show(msg, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
-								}
+								}, this)
 							});
 
 						} else {
@@ -3621,16 +3621,16 @@ sap.ui.define([
 								});
 								that.getModel("LocalDataModel").setProperty("/step01Next", true);
 							}, this),
-							error: function () {
+							error: $.proxy(function () {
 								that.getModel("LocalDataModel").setProperty("/step01Next", false);
 								that.getView().getModel("DateModel").setProperty("/SavePWClaimIndicator", false);
-							}
+							}, this)
 						});
 
 					}, this),
-					error: function () {
+					error: $.proxy(function () {
 						this.getView().getModel("DateModel").setProperty("/SavePWClaimIndicator", false);
-					}
+					}, this)
 				});
 			}
 		},
@@ -3791,21 +3791,21 @@ sap.ui.define([
 								});
 
 							}, this),
-							error: function (err) {
+							error: $.proxy(function (err) {
 								this.getView().getModel("DateModel").setProperty("/SavePWClaimIndicator", false);
 								var err = JSON.parse(err.responseText);
 								var msg = err.error.message.value;
 								MessageBox.show(msg, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
-							}
+							}, this)
 						});
 
 					}, this),
-					error: function (err) {
+					error: $.proxy(function (err) {
 						that.getView().getModel("DateModel").setProperty("/FeedEnabled", false);
 						var err = JSON.parse(err.responseText);
 						var msg = err.error.message.value;
 						MessageBox.show(msg, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
-					}
+					}, this)
 				});
 				this.getView().byId("idMainClaimMessage").setProperty("visible", false);
 				this.getView().getModel("DateModel").setProperty("/claimTypeEn", false);
@@ -4047,9 +4047,9 @@ sap.ui.define([
 												this.getView().getModel("HeadSetData").setProperty("/TranportShortageType", "");
 
 											}, this),
-											error: function (err) {
+											error: $.proxy(function (err) {
 												this.getView().getModel("DateModel").setProperty("/SubmitPWBusyIndicator", false);
-											}
+											}, this)
 										});
 										oClaimModel.read("/ZC_CLAIM_HEAD_NEW", {
 											urlParameters: {
