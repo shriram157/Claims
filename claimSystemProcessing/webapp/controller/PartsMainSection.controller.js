@@ -1751,13 +1751,22 @@ sap.ui.define([
 												}
 												this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
 
-												var enabledIntent = oFilteredData.some((item) => item.DiscreCode == "8A");
+												//var enabledIntent = oFilteredData.some((item) => item.DiscreCode == "8A");
+
+												var enabledIntent = oFilteredData.findIndex(function (item) {
+													return item.DiscreCode == "8A"
+												});
 
 												var oAttachmentList = this.getModel("LocalDataModel").getProperty("/PartHeadAttachData");
-												var oAttachmentCheck = oAttachmentList.some((item) => item.FileName == "Letter Of Intent.pdf");
+												var oAttachmentCheck = oAttachmentList.findIndex(function (item) {
+													return item.FileName == "Letter Of Intent.pdf"
+												});
 
-												if (enabledIntent && this.claimType === "ZPDC" && !oAttachmentCheck || this.claimType == "ZPTS" &&
-													!oAttachmentCheck) {
+												// var oAttachmentList = this.getModel("LocalDataModel").getProperty("/PartHeadAttachData");
+												// var oAttachmentCheck = oAttachmentList.some((item) => item.FileName == "Letter Of Intent.pdf");
+
+												if (enabledIntent > -1 && this.claimType === "ZPDC" && oAttachmentCheck == -1 || this.claimType == "ZPTS" &&
+													oAttachmentCheck == -1) {
 													this.getView().getModel("DateModel").setProperty("/oLetterOfIntent", true);
 												} else {
 													this.getView().getModel("DateModel").setProperty("/oLetterOfIntent", false);
@@ -1904,10 +1913,14 @@ sap.ui.define([
 														return val.ItemType === "MAT";
 													});
 
-													var enabledIntent = filteredPriceData.some((item) => item.DiscreCode == "8A");
+													var enabledIntent = filteredPriceData.findIndex(function (item) {
+														return item.DiscreCode == "8A";
+													});
 
 													var oAttachmentList = this.getModel("LocalDataModel").getProperty("/PartHeadAttachData");
-													var oAttachmentCheck = oAttachmentList.some((item) => item.FileName == "Letter Of Intent.pdf");
+													var oAttachmentCheck = oAttachmentList.findIndex(function (item) {
+														return item.FileName == "Letter Of Intent.pdf";
+													});
 
 													if (enabledIntent && this.claimType === "ZPDC" && !oAttachmentCheck || this.claimType == "ZPTS" &&
 														!oAttachmentCheck) {
@@ -3999,12 +4012,18 @@ sap.ui.define([
 							// 					null, null);
 							// 			} 
 							var oPartItemData = this.getModel("LocalDataModel").getProperty("/PricingDataModel");
-							var enabledIntent = oPartItemData.some((item) => item.DiscreCode == "8A");
-							var oAttachmentList = this.getModel("LocalDataModel").getProperty("/PartHeadAttachData");
-							var oAttachmentCheck = oAttachmentList.some((item) => item.FileName == "Letter Of Intent.pdf");
+							//var enabledIntent = oPartItemData.some((item) => item.DiscreCode == "8A");
+							var enabledIntent = oPartItemData.findIndex(function (item) {
+								return item.DiscreCode == "8A";
+							});
 
-							if (enabledIntent && this.claimType === "ZPDC" && !oAttachmentCheck || this.claimType == "ZPTS" &&
-								!oAttachmentCheck) {
+							var oAttachmentList = this.getModel("LocalDataModel").getProperty("/PartHeadAttachData");
+							var oAttachmentCheck = oAttachmentList.findIndex(function (item) {
+								return item.FileName == "Letter Of Intent.pdf";
+							});
+
+							if (enabledIntent > -1 && this.claimType === "ZPDC" && oAttachmentCheck == -1 || this.claimType == "ZPTS" &&
+								oAttachmentCheck == -1) {
 								this.getView().getModel("DateModel").setProperty("/oLetterOfIntent", true);
 								this.getView().getModel("DateModel").setProperty("/SubmitPWBusyIndicator", false);
 								MessageBox.show(oBundle.getText("LOIMandatoryBeforeTCISubmit"), MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK,
