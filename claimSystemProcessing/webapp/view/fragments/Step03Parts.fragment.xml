@@ -155,7 +155,7 @@
 							<Label text="{i18n>Quantity}"></Label>
 							<Input
 								value="{path : 'PartDataModel>/QuantityReceived', type : 'sap.ui.model.type.Integer', formatOptions : { groupingEnabled : true }, constraints : { minimum : 0, maximum : 100 } }"
-								required="true" id="idReceivedQnt" enabled="{DateModel>/partLine}" change="ValidQty" valueState="{DateModel>/partTypeState}">
+								required="true" id="idReceivedQnt" enabled="{DateModel>/partLine}" valueState="{DateModel>/partTypeState}">
 								<layoutData>
 									<l:GridData span="XL8 L8"/>
 								</layoutData>
