@@ -22,36 +22,7 @@ sap.ui.define([
 			this.getDealer();
 			userScope = sap.ui.getCore().getModel("UserDataModel").getProperty("/UserScope");
 			this.getView().setModel(sap.ui.getCore().getModel("HeaderLinksModel"), "HeaderLinksModel");
-			var oDateModel = new sap.ui.model.json.JSONModel();
-			oDateModel.setData({
-				dateValueDRS2: new Date(2018, 1, 1),
-				secondDateValueDRS2: new Date(2018, 2, 1),
-				partLine: false,
-				oFormEdit: false,
-				oFormShipmentEdit: false,
-				claimTypeEn: false,
-				SaveClaim07: false,
-				oLetterOfIntent: false,
-				saveParts: false,
-				partTypeState: "None",
-				SaveClaimBTN: false,
-				submitTCIBtn: false,
-				oFormEdit2: false,
-				ddType: "None",
-				RetainPartType: "None",
-				required: false,
-				waybilltype: "None",
-				obdValueState: "None",
-				SavePart2: false,
-				DelDateEdit: false,
-				FeedEnabled: false,
-				SavePWPartIndicator: false,
-				SavePWClaimIndicator: false,
-				SubmitPWBusyIndicator: false,
-				LOIBusyIndicator: false,
-				editablePartNumber: true
-			});
-			this.getView().setModel(oDateModel, "DateModel");
+
 			var oNodeModel = new sap.ui.model.json.JSONModel();
 			oNodeModel.setData({
 				"currentLocationText": "Attachments",
@@ -308,6 +279,37 @@ sap.ui.define([
 			}
 		},
 		_onRoutMatched: function (oEvent) {
+			var oDateModel = new sap.ui.model.json.JSONModel();
+			oDateModel.setData({
+				dateValueDRS2: new Date(2018, 1, 1),
+				secondDateValueDRS2: new Date(2018, 2, 1),
+				partLine: false,
+				oFormEdit: false,
+				oFormShipmentEdit: false,
+				claimTypeEn: false,
+				SaveClaim07: false,
+				oLetterOfIntent: false,
+				saveParts: false,
+				partTypeState: "None",
+				SaveClaimBTN: false,
+				submitTCIBtn: false,
+				oFormEdit2: false,
+				ddType: "None",
+				RetainPartType: "None",
+				required: false,
+				waybilltype: "None",
+				obdValueState: "None",
+				SavePart2: false,
+				DelDateEdit: false,
+				FeedEnabled: false,
+				SavePWPartIndicator: false,
+				SavePWClaimIndicator: false,
+				SubmitPWBusyIndicator: false,
+				LOIBusyIndicator: false,
+				editablePartNumber: true
+			});
+			this.getView().setModel(oDateModel, "DateModel");
+
 			this.getView().getModel("DateModel").setProperty("/editablePartNumber", true);
 			this.getModel("LocalDataModel").setProperty("/claim_commentSet", []);
 			var sSelectedLocale;
@@ -565,12 +567,15 @@ sap.ui.define([
 						this.ClaimStatus = data.results[0].DecisionCode;
 
 						if (userScope == "ReadOnlyViewAll") {
-							this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
-							this.getView().getModel("DateModel").setProperty("/SaveClaimBTN", false);
-							this.getModel("LocalDataModel").setProperty("/UploadEnableHeader", false);
-							this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", false);
-							this.getView().getModel("DateModel").setProperty("/submitTCIBtn", false);
-							this.getView().getModel("DateModel").setProperty("/FeedEnabled", false);
+							this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
+							this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", true);
+							this.getModel("LocalDataModel").setProperty("/UploadEnableHeader", true);
+							this.getView().getModel("DateModel").setProperty("/SaveClaimBTN", true);
+							this.getView().getModel("DateModel").setProperty("/submitTCIBtn", true);
+							this.getView().getModel("DateModel").setProperty("/FeedEnabled", true);
+							this.getView().getModel("LocalDataModel").setProperty("/PWPrintEnable", true);
+							this.getView().getModel("LocalDataModel").setProperty("/CancelEnable", true);
+							this.getView().getModel("DateModel").setProperty("/SaveClaim07", true);
 						} else {
 							if (this.ClaimStatus == "ZTRC" &&
 								sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") == "Dealer_Parts_Admin" ||
@@ -3851,7 +3856,9 @@ sap.ui.define([
 					this.getView().getModel("DateModel").setProperty("/submitTCIBtn", false);
 					this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
 				} else {
-					if (this.ClaimStatus == "ZTRC" || this.ClaimStatus == "ZTIC") {
+					if (this.ClaimStatus == "ZTRC" && sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") == "Dealer_Parts_Admin" ||
+						this.ClaimStatus == "ZTIC" && sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") == "Dealer_Parts_Admin") {
+
 						this.getView().getModel("DateModel").setProperty("/submitTCIBtn", true);
 						this.getView().getModel("DateModel").setProperty("/SaveClaim07", true);
 					} else {
@@ -3878,36 +3885,40 @@ sap.ui.define([
 			// 				MessageBox.show(this.oBundle.getText("LOIMandatoryBeforeTCISubmit"), MessageBox.Icon.INFORMATION, "Reminder", MessageBox.Action.OK,
 			// 					null, null);
 			// 			}
-			if (userScope == "ReadOnlyViewAll") {
-				this.getView().getModel("DateModel").setProperty("/submitTCIBtn", false);
-				this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
-			} else {
-				if (this.ClaimStatus == "ZTRC" || this.ClaimStatus == "ZTIC") {
-					this.getView().getModel("DateModel").setProperty("/submitTCIBtn", true);
-					this.getView().getModel("DateModel").setProperty("/SaveClaim07", true);
-				} else {
-					this.getView().getModel("DateModel").setProperty("/submitTCIBtn", false);
-					this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
-				}
-			}
+			// 			if (userScope == "ReadOnlyViewAll") {
+			// 				this.getView().getModel("DateModel").setProperty("/submitTCIBtn", false);
+			// 				this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
+			// 			} else {
+			// 				if (this.ClaimStatus == "ZTRC" || this.ClaimStatus == "ZTIC") {
+			// 					this.getView().getModel("DateModel").setProperty("/submitTCIBtn", true);
+			// 					this.getView().getModel("DateModel").setProperty("/SaveClaim07", true);
+			// 				} else {
+			// 					this.getView().getModel("DateModel").setProperty("/submitTCIBtn", false);
+			// 					this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
+			// 				}
+			// 			}
 
-			if (!validator.isValid()) {
-				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
-				this.getView().byId("idFilter03").setProperty("enabled", false);
-				this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
-				this.getView().getModel("DateModel").setProperty("/submitTCIBtn", false);
-				this.getView().byId("idMainClaimMessage").setText(this.oBundle.getText("FillUpMandatoryField"));
-				this.getView().byId("idMainClaimMessage").setType("Error");
-				return;
-			}
-			if (validator.isValid()) {
-				this.getView().byId("mainSectionTitle").setTitle(this.oBundle.getText("ValidatePartsSection"));
+			// 			if (!validator.isValid()) {
+			// 				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+			// 				this.getView().byId("idFilter03").setProperty("enabled", false);
+			// 				this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
+			// 				this.getView().getModel("DateModel").setProperty("/submitTCIBtn", false);
+			// 				this.getView().byId("idMainClaimMessage").setText(this.oBundle.getText("FillUpMandatoryField"));
+			// 				this.getView().byId("idMainClaimMessage").setType("Error");
+			// 				return;
+			// 			}
+			// 			if (validator.isValid()) {
+			// 				this.getView().byId("mainSectionTitle").setTitle(this.oBundle.getText("ValidatePartsSection"));
 
-				this.getView().byId("idMainClaimMessage").setProperty("visible", false);
-				this.getView().byId("idMainClaimMessage").setType("None");
-				this.getView().byId("idFilter03").setProperty("enabled", true);
-				this.getView().byId("idPartClaimIconBar").setSelectedKey("Tab3");
-			}
+			// 				this.getView().byId("idMainClaimMessage").setProperty("visible", false);
+			// 				this.getView().byId("idMainClaimMessage").setType("None");
+			// 				this.getView().byId("idFilter03").setProperty("enabled", true);
+			// 				this.getView().byId("idPartClaimIconBar").setSelectedKey("Tab3");
+			// 			}
+
+			this.getView().byId("idFilter03").setProperty("enabled", true);
+			this.getView().byId("idPartClaimIconBar").setSelectedKey("Tab3");
+
 		},
 		onRevalidate: function () {
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
