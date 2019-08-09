@@ -1027,7 +1027,7 @@ sap.ui.define([
 				this.getModel("LocalDataModel").setProperty("/step01Next", false);
 				this.getModel("ProssingModel").refresh();
 				this.getModel("LocalDataModel").setProperty("/PricingDataModel", "");
-				this.getModel("LocalDataModel").setProperty("/PartHeadAttachData", "");
+				this.getModel("LocalDataModel").setProperty("/PartHeadAttachData", []);
 				var DropDownModel = new sap.ui.model.json.JSONModel();
 				this.getView().setModel(DropDownModel, "DropDownModel");
 				this.getView().getModel("DropDownModel").setProperty("/" + "/items", "");
@@ -1752,14 +1752,15 @@ sap.ui.define([
 												this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
 
 												//var enabledIntent = oFilteredData.some((item) => item.DiscreCode == "8A");
-
+												console.log(oFilteredData);
 												var enabledIntent = oFilteredData.findIndex(function (item) {
-													return item.DiscreCode == "8A"
+													return item.DiscreCode === "8A";
 												});
 
 												var oAttachmentList = this.getModel("LocalDataModel").getProperty("/PartHeadAttachData");
+												console.log(oAttachmentList);
 												var oAttachmentCheck = oAttachmentList.findIndex(function (item) {
-													return item.FileName == "Letter Of Intent.pdf"
+													return item.FileName === "Letter Of Intent.pdf";
 												});
 
 												// var oAttachmentList = this.getModel("LocalDataModel").getProperty("/PartHeadAttachData");
@@ -1912,7 +1913,7 @@ sap.ui.define([
 													var filteredPriceData = pricingData.filter(function (val) {
 														return val.ItemType === "MAT";
 													});
-
+													console.log(filteredPriceData);
 													var enabledIntent = filteredPriceData.findIndex(function (item) {
 														return item.DiscreCode == "8A";
 													});
@@ -1921,6 +1922,8 @@ sap.ui.define([
 													var oAttachmentCheck = oAttachmentList.findIndex(function (item) {
 														return item.FileName == "Letter Of Intent.pdf";
 													});
+
+													console.log(oAttachmentList);
 
 													if (enabledIntent && this.claimType === "ZPDC" && !oAttachmentCheck || this.claimType == "ZPTS" &&
 														!oAttachmentCheck) {
@@ -4018,6 +4021,7 @@ sap.ui.define([
 							});
 
 							var oAttachmentList = this.getModel("LocalDataModel").getProperty("/PartHeadAttachData");
+							console.log(oAttachmentList);
 							var oAttachmentCheck = oAttachmentList.findIndex(function (item) {
 								return item.FileName == "Letter Of Intent.pdf";
 							});
@@ -4415,7 +4419,7 @@ sap.ui.define([
 		onExit: function () {
 			this.getModel("ProssingModel").refresh();
 			this.getModel("LocalDataModel").setProperty("/PricingDataModel", "");
-			this.getModel("LocalDataModel").setProperty("/PartHeadAttachData", "");
+			this.getModel("LocalDataModel").setProperty("/PartHeadAttachData", []);
 			// this.getView().getModel("ClaimModel").setProperty("/" + "/items", "");
 			var DropDownModel = new sap.ui.model.json.JSONModel();
 			this.getView().setModel(DropDownModel, "DropDownModel");
