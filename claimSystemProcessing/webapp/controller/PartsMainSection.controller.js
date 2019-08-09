@@ -1726,22 +1726,10 @@ sap.ui.define([
 													"' and LanguageKey eq '" + sSelectedLocale + "'"
 											},
 											success: $.proxy(function (pricedata) {
-												this.getView().getModel("DateModel").setProperty("/SavePWPartIndicator", false);
-												MessageToast.show(that.oBundle.getText("PartItemSuccessMSG"));
 
 												var pricingData = pricedata.results;
-
-												var enabledIntent = pricingData.some((item) => item.DiscreCode == "8A");
-
-												var oAttachmentList = this.getModel("LocalDataModel").getProperty("/PartHeadAttachData");
-												var oAttachmentCheck = oAttachmentList.some((item) => item.FileName == "Letter Of Intent.pdf");
-
-												if (enabledIntent && this.claimType === "ZPDC" && !oAttachmentCheck || this.claimType == "ZPTS" &&
-													!oAttachmentCheck) {
-													this.getView().getModel("DateModel").setProperty("/oLetterOfIntent", true);
-												} else {
-													this.getView().getModel("DateModel").setProperty("/oLetterOfIntent", false);
-												}
+												this.getView().getModel("DateModel").setProperty("/SavePWPartIndicator", false);
+												MessageToast.show(that.oBundle.getText("PartItemSuccessMSG"));
 
 												// if (this.claimType === "ZPDC" && this.getView().getModel("PartDataModel").getProperty("/DiscreCode") === "8A") {
 												// 	this.getView().getModel("DateModel").setProperty("/oLetterOfIntent", true);
@@ -1762,6 +1750,18 @@ sap.ui.define([
 													oFilteredData[m].quant = oFilteredData[m].PartQty;
 												}
 												this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
+
+												var enabledIntent = oFilteredData.some((item) => item.DiscreCode == "8A");
+
+												var oAttachmentList = this.getModel("LocalDataModel").getProperty("/PartHeadAttachData");
+												var oAttachmentCheck = oAttachmentList.some((item) => item.FileName == "Letter Of Intent.pdf");
+
+												if (enabledIntent && this.claimType === "ZPDC" && !oAttachmentCheck || this.claimType == "ZPTS" &&
+													!oAttachmentCheck) {
+													this.getView().getModel("DateModel").setProperty("/oLetterOfIntent", true);
+												} else {
+													this.getView().getModel("DateModel").setProperty("/oLetterOfIntent", false);
+												}
 
 												this.getView().getModel("DateModel").setProperty("/partLine", false);
 												this.getView().getModel("DateModel").setProperty("/saveParts", false);
@@ -1903,6 +1903,18 @@ sap.ui.define([
 													var filteredPriceData = pricingData.filter(function (val) {
 														return val.ItemType === "MAT";
 													});
+
+													var enabledIntent = filteredPriceData.some((item) => item.DiscreCode == "8A");
+
+													var oAttachmentList = this.getModel("LocalDataModel").getProperty("/PartHeadAttachData");
+													var oAttachmentCheck = oAttachmentList.some((item) => item.FileName == "Letter Of Intent.pdf");
+
+													if (enabledIntent && this.claimType === "ZPDC" && !oAttachmentCheck || this.claimType == "ZPTS" &&
+														!oAttachmentCheck) {
+														this.getView().getModel("DateModel").setProperty("/oLetterOfIntent", true);
+													} else {
+														this.getView().getModel("DateModel").setProperty("/oLetterOfIntent", false);
+													}
 
 													var IncorrectPartData = pricingData.filter(function (val) {
 														return val.DiscreCode === "4A";
