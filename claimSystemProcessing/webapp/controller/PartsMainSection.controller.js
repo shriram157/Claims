@@ -279,6 +279,7 @@ sap.ui.define([
 			}
 		},
 		_onRoutMatched: function (oEvent) {
+			this.getModel("LocalDataModel").setProperty("/PartHeadAttachData", []);
 			var oDateModel = new sap.ui.model.json.JSONModel();
 			oDateModel.setData({
 				dateValueDRS2: new Date(2018, 1, 1),
@@ -636,9 +637,10 @@ sap.ui.define([
 								this.getModel("LocalDataModel").setProperty("/claim_commentSet", errorData.results[0].zc_claim_commentSet.results);
 								that.getView().getModel("DateModel").setProperty("/SavePWClaimIndicator", false);
 							}, this),
-							error: function (err) {
+							error: $.proxy(function (err) {
 								console.log(err);
-							}
+								this.getView().getModel("DateModel").setProperty("/SavePWClaimIndicator", false);
+							}, this)
 						});
 
 					}, this),
@@ -646,6 +648,7 @@ sap.ui.define([
 						var err = JSON.parse(err.responseText);
 						var msg = err.error.message.value;
 						MessageBox.show(msg, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
+						this.getView().getModel("DateModel").setProperty("/SavePWClaimIndicator", false);
 					}, this)
 				});
 
@@ -775,6 +778,7 @@ sap.ui.define([
 							var err = JSON.parse(err.responseText);
 							var msg = err.error.message.value;
 							MessageBox.show(msg, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
+							this.getView().getModel("DateModel").setProperty("/SavePWClaimIndicator", false);
 						}, this)
 					});
 				} else {
@@ -1002,6 +1006,7 @@ sap.ui.define([
 							var err = JSON.parse(err.responseText);
 							var msg = err.error.message.value;
 							MessageBox.show(msg, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
+							this.getView().getModel("DateModel").setProperty("/SavePWClaimIndicator", false);
 						}, this)
 					});
 				}
@@ -1030,6 +1035,7 @@ sap.ui.define([
 					}, this),
 					error: $.proxy(function (err) {
 						this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", false);
+						this.getView().getModel("DateModel").setProperty("/SavePWClaimIndicator", false);
 					}, this)
 				});
 
@@ -1732,8 +1738,8 @@ sap.ui.define([
 
 							};
 
-							this.obj.zc_claim_item_price_dataSet.results = [];
-							this.obj.zc_claim_commentSet.results = [];
+							// 			this.obj.zc_claim_item_price_dataSet.results = [];
+							// 			this.obj.zc_claim_commentSet.results = [];
 
 							var oClaimModel = this.getModel("ProssingModel");
 
@@ -2365,19 +2371,19 @@ sap.ui.define([
 												});
 												_that.getModel("LocalDataModel").setProperty("/PartHeadAttachData", oAttachSet);
 											}, _that),
-											error: function (err) {
+											error: $.proxy(function (err) {
 												this.getView().getModel("DateModel").setProperty("/LOIBusyIndicator", false);
-											}
+											}, this)
 										});
 									}, _that),
-									error: function (err) {
+									error: $.proxy(function (err) {
 										this.getView().getModel("DateModel").setProperty("/LOIBusyIndicator", false);
 										console.log(err);
 										var errMsg = (JSON.parse(err.responseText)).error.message.value;
 										// MessageBox.error(errMsg);
 										// _that.getView().getModel("DateModel").setProperty("/oLetterOfIntent", false);
 										MessageBox.show(errMsg, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
-									}
+									}, this)
 								});
 								dialog.close();
 								// }
