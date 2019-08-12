@@ -144,10 +144,6 @@ sap.ui.define([
 			this.ArrIndex = [];
 			this.ArrIndexLabour = [];
 
-			var HeadSetData = new sap.ui.model.json.JSONModel();
-			HeadSetData.setDefaultBindingMode("TwoWay");
-			this.getView().setModel(HeadSetData, "HeadSetData");
-
 			sap.ui.getCore().attachValidationError(function (oEvent) {
 				oEvent.getParameter("element").setValueState(ValueState.Error);
 			});
@@ -158,6 +154,10 @@ sap.ui.define([
 		},
 
 		_onRoutMatched: function (oEvent) {
+			var HeadSetData = new sap.ui.model.json.JSONModel();
+			HeadSetData.setDefaultBindingMode("TwoWay");
+			this.getView().setModel(HeadSetData, "HeadSetData");
+
 			this.getDealer();
 			var PercentData = [{
 				"num": "0%",
@@ -1222,11 +1222,16 @@ sap.ui.define([
 								this.getModel("LocalDataModel").setProperty("/claim_commentSet", errorData.results[0].zc_claim_commentSet.results);
 
 							}, this),
-							error: function (err) {
+							error: $.proxy(function () {
 								console.log(err);
-							}
+								this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", false);
+							}, this)
 						});
 
+					}, this),
+					error: $.proxy(function () {
+						console.log(err);
+						this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", false);
 					}, this)
 				});
 
