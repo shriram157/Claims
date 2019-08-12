@@ -670,6 +670,36 @@ sap.ui.define([
 							this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
 
 							console.log("pricing data", oFilteredData);
+
+							var enabledIntent = oFilteredData.findIndex(function (item) {
+								return item.DiscreCode === "8A";
+							});
+
+							var oAttachmentList = this.getModel("LocalDataModel").getProperty("/PartHeadAttachData");
+
+							var oAttachmentCheck = oAttachmentList.findIndex(function (item) {
+								return item.FileName === "Letter Of Intent.pdf";
+							});
+
+							// var oAttachmentList = this.getModel("LocalDataModel").getProperty("/PartHeadAttachData");
+							// var oAttachmentCheck = oAttachmentList.some((item) => item.FileName == "Letter Of Intent.pdf");
+
+							if (enabledIntent > -1 && this.claimType === "ZPDC" && oAttachmentCheck == -1 || this.claimType == "ZPTS" &&
+								oAttachmentCheck == -1) {
+								this.getView().getModel("DateModel").setProperty("/oLetterOfIntent", true);
+							} else {
+								this.getView().getModel("DateModel").setProperty("/oLetterOfIntent", false);
+							}
+
+							var oLOIMAT = oFilteredData.filter(function (item) {
+								return item.DiscreCode === "8A" || item.DiscreCode === "8B";
+							});
+
+							for (var n = 0; n < oLOIMAT.length; n++) {
+								arrPartLOI.push(" " + oLOIMAT[n].matnr + " - " + oLOIMAT[n].PartDescription + " ");
+								this.getView().getModel("PartDataModel").setProperty("/arrPartLOI", arrPartLOI);
+							}
+
 							var PartItem = oFilteredData.map(function (item) {
 								if (item.RepairOrRetrunPart == "Yes") {
 									var RepairPart = "Y";
@@ -1702,10 +1732,6 @@ sap.ui.define([
 
 							};
 
-							for (var n = 0; n < this.obj.zc_itemSet.results.length; n++) {
-								arrPartLOI.push(this.obj.zc_itemSet.results[n].MaterialNumber, " ", this.obj.zc_itemSet.results[n].PartDescription);
-								this.getView().getModel("PartDataModel").setProperty("/arrPartLOI", arrPartLOI);
-							}
 							this.obj.zc_claim_item_price_dataSet.results = [];
 							this.obj.zc_claim_commentSet.results = [];
 
@@ -1722,6 +1748,7 @@ sap.ui.define([
 
 							if (this.getView().getModel("PartDataModel").getProperty("/QuantityReceived") > 0) {
 								this.obj.zc_itemSet.results.push(itemObj);
+
 								oClaimModel.create("/zc_headSet", this.obj, {
 									success: $.proxy(function (data, response) {
 										oClaimModel.read("/zc_claim_item_price_dataSet", {
@@ -1745,7 +1772,7 @@ sap.ui.define([
 												// }
 
 												var oFilteredData = pricingData.filter(function (val) {
-													return val.ItemType === "MAT"
+													return val.ItemType === "MAT";
 												});
 												for (var m = 0; m < oFilteredData.length; m++) {
 													if (oFilteredData[m].ALMDiscreDesc != undefined || oFilteredData[m].ALMDiscreDesc != "") {
@@ -1757,13 +1784,13 @@ sap.ui.define([
 												this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
 
 												//var enabledIntent = oFilteredData.some((item) => item.DiscreCode == "8A");
-												console.log(oFilteredData);
+
 												var enabledIntent = oFilteredData.findIndex(function (item) {
 													return item.DiscreCode === "8A";
 												});
 
 												var oAttachmentList = this.getModel("LocalDataModel").getProperty("/PartHeadAttachData");
-												console.log(oAttachmentList);
+
 												var oAttachmentCheck = oAttachmentList.findIndex(function (item) {
 													return item.FileName === "Letter Of Intent.pdf";
 												});
@@ -1776,6 +1803,15 @@ sap.ui.define([
 													this.getView().getModel("DateModel").setProperty("/oLetterOfIntent", true);
 												} else {
 													this.getView().getModel("DateModel").setProperty("/oLetterOfIntent", false);
+												}
+
+												var oLOIMAT = oFilteredData.filter(function (item) {
+													return item.DiscreCode === "8A" || item.DiscreCode === "8B";
+												});
+
+												for (var n = 0; n < oLOIMAT.length; n++) {
+													arrPartLOI.push(" " + oLOIMAT[n].matnr + " - " + oLOIMAT[n].PartDescription);
+													this.getView().getModel("PartDataModel").setProperty("/arrPartLOI", arrPartLOI);
 												}
 
 												this.getView().getModel("DateModel").setProperty("/partLine", false);
@@ -1845,32 +1881,13 @@ sap.ui.define([
 							WrongPart = "";
 						}
 
-						for (var n = 0; n < this.obj.zc_itemSet.results.length; n++) {
-							arrPartLOI.push(this.obj.zc_itemSet.results[n].MaterialNumber, " ", this.obj.zc_itemSet.results[n].PartDescription);
-							this.getView().getModel("PartDataModel").setProperty("/arrPartLOI", arrPartLOI);
-						}
+						// 		for (var n = 0; n < this.obj.zc_itemSet.results.length; n++) {
+						// 			arrPartLOI.push(this.obj.zc_itemSet.results[n].MaterialNumber, " ", this.obj.zc_itemSet.results[n].PartDescription);
+						// 			this.getView().getModel("PartDataModel").setProperty("/arrPartLOI", arrPartLOI);
+						// 		}
 						this.obj.zc_claim_item_price_dataSet.results = [];
 						this.obj.zc_claim_commentSet.results = [];
 						var arr = this.obj.zc_itemSet.results;
-
-						// 		function checkDuplicateLineItem(LineRefnr, arr) {
-						// 			var isDuplicate = false;
-						// 			var testObj = {};
-						// 			arr.map(function (item) {
-						// 				var itemLineRefnr = item[LineRefnr];
-						// 				if (itemLineRefnr in testObj) {
-						// 					testObj[itemLineRefnr].duplicate = true;
-						// 					item.duplicate = true;
-						// 					isDuplicate = true;
-						// 					console.log("found duplicate");
-						// 				} else {
-						// 					// isDuplicate =false;
-						// 					testObj[itemLineRefnr] = item;
-						// 					delete item.duplicate;
-						// 				}
-						// 			});
-						// 			return isDuplicate;
-						// 		}
 
 						if (this.getView().getModel("PartDataModel").getProperty("/QuantityReceived") > 0) {
 							var itemObj = {
@@ -1913,12 +1930,12 @@ sap.ui.define([
 											},
 											success: $.proxy(function (pricedata) {
 													var temp = [];
-													console.log("pricedata", pricedata);
+
 													var pricingData = pricedata.results;
 													var filteredPriceData = pricingData.filter(function (val) {
 														return val.ItemType === "MAT";
 													});
-													console.log(filteredPriceData);
+
 													var enabledIntent = filteredPriceData.findIndex(function (item) {
 														return item.DiscreCode == "8A";
 													});
@@ -1928,8 +1945,6 @@ sap.ui.define([
 														return item.FileName == "Letter Of Intent.pdf";
 													});
 
-													console.log(oAttachmentList);
-
 													if (enabledIntent && this.claimType === "ZPDC" && !oAttachmentCheck || this.claimType == "ZPTS" &&
 														!oAttachmentCheck) {
 														this.getView().getModel("DateModel").setProperty("/oLetterOfIntent", true);
@@ -1937,10 +1952,19 @@ sap.ui.define([
 														this.getView().getModel("DateModel").setProperty("/oLetterOfIntent", false);
 													}
 
+													var oLOIMAT = filteredPriceData.filter(function (item) {
+														return item.DiscreCode === "8A" || item.DiscreCode === "8B";
+													});
+
+													for (var n = 0; n < oLOIMAT.length; n++) {
+														arrPartLOI.push(" " + oLOIMAT[n].matnr + " - " + oLOIMAT[n].PartDescription);
+														this.getView().getModel("PartDataModel").setProperty("/arrPartLOI", arrPartLOI);
+													}
+
 													var IncorrectPartData = pricingData.filter(function (val) {
 														return val.DiscreCode === "4A";
 													});
-													console.log("IncorrectPartData initial", IncorrectPartData);
+
 													// }
 
 													if (IncorrectPartData != undefined && IncorrectPartData.length > 1) {
