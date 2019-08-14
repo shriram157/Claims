@@ -1539,12 +1539,12 @@ sap.ui.define([
 			this.getView().getModel("DateModel").setProperty("/SavePWPartIndicator", true);
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var oClaimModel = this.getModel("ProssingModel");
-			this._oToken = oClaimModel.getHeaders()['x-csrf-token'];
-			$.ajaxSetup({
-				headers: {
-					'X-CSRF-Token': this._oToken
-				}
-			});
+			// 			this._oToken = oClaimModel.getHeaders()['x-csrf-token'];
+			// 			$.ajaxSetup({
+			// 				headers: {
+			// 					'X-CSRF-Token': this._oToken
+			// 				}
+			// 			});
 			console.log("Part Item claim Data to be saved", this.obj);
 			var that = this;
 			oClaimModel.create("/zc_headSet", this.obj, {
@@ -1599,6 +1599,8 @@ sap.ui.define([
 			this.getView().getModel("DateModel").setProperty("/SavePart2", true);
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var oValidator = new Validator();
+			var oClaimModel = this.getModel("ProssingModel");
+			var that = this;
 			if (this.getView().getModel("DateModel").getProperty("/partLine") == true) {
 				var Qty;
 				if (this.getView().getModel("PartDataModel").getProperty("/PartQty") == "" ||
@@ -1740,8 +1742,6 @@ sap.ui.define([
 
 							// 			this.obj.zc_claim_item_price_dataSet.results = [];
 							// 			this.obj.zc_claim_commentSet.results = [];
-
-							var oClaimModel = this.getModel("ProssingModel");
 
 							this._oToken = oClaimModel.getHeaders()['x-csrf-token'];
 							$.ajaxSetup({
@@ -1891,8 +1891,8 @@ sap.ui.define([
 						// 			arrPartLOI.push(this.obj.zc_itemSet.results[n].MaterialNumber, " ", this.obj.zc_itemSet.results[n].PartDescription);
 						// 			this.getView().getModel("PartDataModel").setProperty("/arrPartLOI", arrPartLOI);
 						// 		}
-						this.obj.zc_claim_item_price_dataSet.results = [];
-						this.obj.zc_claim_commentSet.results = [];
+						// 		this.obj.zc_claim_item_price_dataSet.results = [];
+						// 		this.obj.zc_claim_commentSet.results = [];
 						var arr = this.obj.zc_itemSet.results;
 
 						if (this.getView().getModel("PartDataModel").getProperty("/QuantityReceived") > 0) {
@@ -1916,12 +1916,12 @@ sap.ui.define([
 							};
 							this.obj.zc_itemSet.results.push(itemObj);
 
-							this._oToken = oClaimModel.getHeaders()['x-csrf-token'];
-							$.ajaxSetup({
-								headers: {
-									'X-CSRF-Token': this._oToken
-								}
-							});
+							// 			this._oToken = oClaimModel.getHeaders()['x-csrf-token'];
+							// 			$.ajaxSetup({
+							// 				headers: {
+							// 					'X-CSRF-Token': this._oToken
+							// 				}
+							// 			});
 
 							oClaimModel.create("/zc_headSet", this.obj, {
 								success: $.proxy(function (data, response) {
@@ -3497,13 +3497,13 @@ sap.ui.define([
 			}
 		},
 
-		onSaveClaim: function () {
+		onSaveClaim: function (oEvent) {
 			var that = this;
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			if (oClaimNum != "nun" && oClaimNum != undefined) {
-				that._fnUpdateClaimParts();
+				that._fnUpdateClaimParts(oEvent);
 			} else {
-				that._fnSaveClaimParts();
+				that._fnSaveClaimParts(oEvent);
 			}
 		},
 
