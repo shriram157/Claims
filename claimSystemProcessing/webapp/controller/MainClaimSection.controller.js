@@ -249,6 +249,8 @@ sap.ui.define([
 			}
 			this.getModel("LocalDataModel").setProperty("/oErrorSet", "");
 			var oDateModel = new sap.ui.model.json.JSONModel();
+			console.warn("*** 1");
+			console.warn(oDateModel);
 			oDateModel.setData({
 				minDate: new Date(1999, 1, 1),
 				dateValueDRS2: new Date(2018, 1, 1),
@@ -440,6 +442,8 @@ sap.ui.define([
 								"'and DealerPer eq '00'and CustomerPer eq '00'and TCIPer eq '00'and PartPer eq '00'and LabourPer eq '00'and SubletPer eq '00'"
 						},
 						success: $.proxy(function (data) {
+							console.warn("*** 2");
+							console.warn(this.getView().getModel("DataPercetCalculate"));
 							this.getView().getModel("DataPercetCalculate").setData(data.results[0]);
 							var ocust = parseInt(data.results[0].CustomerPer).toString();
 							var odeal = parseInt(data.results[0].DealerPer).toString();
@@ -543,6 +547,8 @@ sap.ui.define([
 											"'and DealerPer eq '00'and CustomerPer eq '00'and TCIPer eq '00'and PartPer eq '00'and LabourPer eq '00'and SubletPer eq '00'"
 									},
 									success: $.proxy(function (authData) {
+										console.warn("*** 3");
+										console.warn(this.getView().getModel("DataPercetCalculate"));
 										this.getView().getModel("DataPercetCalculate").setData(authData.results[0]);
 										var ocust = parseInt(authData.results[0].CustomerPer).toString();
 										var odeal = parseInt(authData.results[0].DealerPer).toString();
@@ -1178,7 +1184,8 @@ sap.ui.define([
 						"$filter": "NumberOfWarrantyClaim eq '" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") + "'"
 					},
 					success: $.proxy(function (sdata) {
-
+						console.warn("*** 4");
+						console.warn(this.getView().getModel("HeadSetData"));
 						this.getModel("LocalDataModel").setProperty("/ClaimDetails", sdata.results[0]);
 						this.getView().getModel("HeadSetData").setData(sdata.results[0]);
 						var oBusinessModel = this.getModel("ApiBusinessModel");
@@ -3220,6 +3227,8 @@ sap.ui.define([
 
 								this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", sdata.results[0].OfpDescription);
 								this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", sdata.results[0].Main_opsDescription);
+								console.warn("*** 5");
+								console.warn(this.getView().getModel("HeadSetData"));
 								this.getView().getModel("HeadSetData").setData(sdata.results[0]);
 								if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZECP") {
 									this.getModel("LocalDataModel").setProperty("/oCurrentDealerLabour", this.getModel("LocalDataModel").getProperty(
@@ -4106,6 +4115,8 @@ sap.ui.define([
 													"'"
 											},
 											success: $.proxy(function (sdata) {
+												console.warn("*** 6");
+												console.warn(this.getView().getModel("HeadSetData"));
 												this.getView().getModel("HeadSetData").setData(sdata.results[0]);
 
 												var oIndexMat = PartItem.findIndex($.proxy(function (item) {
@@ -4881,6 +4892,8 @@ sap.ui.define([
 						},
 						success: $.proxy(function (sdata) {
 							this.getModel("LocalDataModel").setProperty("/discountBusyIndicator", false);
+							console.warn("*** 7");
+							console.warn(this.getView().getModel("DataPercetCalculate"));
 							this.getView().getModel("DataPercetCalculate").setData(sdata.results[0]);
 							var ocust = parseInt(sdata.results[0].CustomerPer).toString();
 							var odeal = parseInt(sdata.results[0].DealerPer).toString();
@@ -4922,6 +4935,8 @@ sap.ui.define([
 					},
 					success: $.proxy(function (sdata) {
 						this.getModel("LocalDataModel").setProperty("/discountBusyIndicator", false);
+						console.warn("*** 8");
+						console.warn(this.getView().getModel("DataPercetCalculate"));
 						this.getView().getModel("DataPercetCalculate").setData(sdata.results[0]);
 						var ocust = parseInt(sdata.results[0].CustomerPer).toString();
 						var odeal = parseInt(sdata.results[0].DealerPer).toString();
@@ -5043,6 +5058,8 @@ sap.ui.define([
 									"$filter": "NumberOfWarrantyClaim eq '" + oClaimNum + "'"
 								},
 								success: $.proxy(function (cdata) {
+									console.warn("*** 9");
+									console.warn(this.getView().getModel("HeadSetData"));
 									this.getView().getModel("HeadSetData").setData(cdata.results[0]);
 
 									oClaimModel.read("/zc_headSet", {
@@ -5115,7 +5132,8 @@ sap.ui.define([
 												"'and DealerPer eq '00'and CustomerPer eq '00'and TCIPer eq '00'and PartPer eq '00'and LabourPer eq '00'and SubletPer eq '00'"
 										},
 										success: $.proxy(function (sdata) {
-
+											console.warn("*** 10");
+											console.warn(this.getView().getModel("DataPercetCalculate"));
 											this.getView().getModel("DataPercetCalculate").setData(sdata.results[0]);
 											var ocust = parseInt(sdata.results[0].CustomerPer).toString();
 											var odeal = parseInt(sdata.results[0].DealerPer).toString();
@@ -5186,7 +5204,8 @@ sap.ui.define([
 										"'and DealerPer eq '00'and CustomerPer eq '00'and TCIPer eq '00'and PartPer eq '00'and LabourPer eq '00'and SubletPer eq '00'"
 								},
 								success: $.proxy(function (sdata) {
-
+									console.warn("*** 11");
+									console.warn(this.getView().getModel("DataPercetCalculate"));
 									this.getView().getModel("DataPercetCalculate").setData(sdata.results[0]);
 									var ocust = parseInt(sdata.results[0].CustomerPer).toString();
 									var odeal = parseInt(sdata.results[0].DealerPer).toString();
@@ -5222,6 +5241,8 @@ sap.ui.define([
 									"$filter": "NumberOfWarrantyClaim eq '" + oClaimNum + "'"
 								},
 								success: $.proxy(function (cdata) {
+									console.warn("*** 12");
+									console.warn(this.getView().getModel("HeadSetData"));
 									this.getView().getModel("HeadSetData").setData(cdata.results[0]);
 
 									if (cdata.results[0].DecisionCode == "ZTAA") {
@@ -5311,6 +5332,8 @@ sap.ui.define([
 				},
 				success: $.proxy(function (data) {
 					if (data.results[0].Message == "") {
+						console.warn("*** 13");
+						console.warn(this.getView().getModel("DataPercetCalculate"));
 						this.getView().getModel("DataPercetCalculate").setData(data.results[0]);
 						var ocust = parseInt(data.results[0].CustomerPer).toString();
 						var odeal = parseInt(data.results[0].DealerPer).toString();
