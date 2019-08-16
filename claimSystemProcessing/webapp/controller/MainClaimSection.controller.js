@@ -1587,7 +1587,7 @@ sap.ui.define([
 					"CustomerFullName": ""
 				});
 				this.HeadSetData.setDefaultBindingMode("TwoWay");
-
+				this.getView().setModel(this.HeadSetData, "HeadSetData"); 
 				this.getModel("LocalDataModel").setProperty("/ClaimDetails", "");
 				this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
 				this.getView().getModel("DateModel").setProperty("/SaveClaim07", true);
@@ -1924,7 +1924,8 @@ sap.ui.define([
 				this.getModel("LocalDataModel").setProperty("/ClaimSum", "");
 
 			}
-			this.getView().setModel(this.HeadSetData, "HeadSetData");
+			this.getView().getModel("HeadSetData").updateBindings(true); 
+			// this.getView().setModel(this.HeadSetData, "HeadSetData"); //first route issue
 		},
 		// _fnEnableEdit: function () {
 		// 	if (this.getModel("LocalDataModel").getProperty("/UploadEnable") == false) {
