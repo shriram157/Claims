@@ -157,7 +157,6 @@ sap.ui.define([
 			var HeadSetData = new sap.ui.model.json.JSONModel();
 			HeadSetData.setDefaultBindingMode("TwoWay");
 			this.getView().setModel(HeadSetData, "HeadSetData");
-
 			this.getDealer();
 			var PercentData = [{
 				"num": "0%",
@@ -367,8 +366,6 @@ sap.ui.define([
 			this.getView().getModel("DateModel").setProperty("/foreignVinInd", false);
 			this.getView().getModel("DateModel").setProperty("/writtenOffInd", false);
 			this.getView().getModel("DateModel").setProperty("/specialVinInd", false);
-			// 			this.getView().getModel("DateModel").setProperty("/authAcClm", false);
-			// 			this.getView().getModel("DateModel").setProperty("/authRejClm", false);
 
 			var oProssingModel = this.getModel("ProssingModel");
 			this.getView().byId("idMainClaimMessage").setProperty("visible", false);
