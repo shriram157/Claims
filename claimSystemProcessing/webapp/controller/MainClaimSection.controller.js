@@ -157,6 +157,7 @@ sap.ui.define([
 			var HeadSetData = new sap.ui.model.json.JSONModel();
 			HeadSetData.setDefaultBindingMode("TwoWay");
 			this.getView().setModel(HeadSetData, "HeadSetData");
+
 			this.getDealer();
 			var PercentData = [{
 				"num": "0%",
@@ -248,8 +249,6 @@ sap.ui.define([
 			}
 			this.getModel("LocalDataModel").setProperty("/oErrorSet", "");
 			var oDateModel = new sap.ui.model.json.JSONModel();
-			console.warn("*** 1");
-			console.warn(oDateModel);
 			oDateModel.setData({
 				minDate: new Date(1999, 1, 1),
 				dateValueDRS2: new Date(2018, 1, 1),
@@ -368,6 +367,8 @@ sap.ui.define([
 			this.getView().getModel("DateModel").setProperty("/foreignVinInd", false);
 			this.getView().getModel("DateModel").setProperty("/writtenOffInd", false);
 			this.getView().getModel("DateModel").setProperty("/specialVinInd", false);
+			// 			this.getView().getModel("DateModel").setProperty("/authAcClm", false);
+			// 			this.getView().getModel("DateModel").setProperty("/authRejClm", false);
 
 			var oProssingModel = this.getModel("ProssingModel");
 			this.getView().byId("idMainClaimMessage").setProperty("visible", false);
@@ -439,8 +440,6 @@ sap.ui.define([
 								"'and DealerPer eq '00'and CustomerPer eq '00'and TCIPer eq '00'and PartPer eq '00'and LabourPer eq '00'and SubletPer eq '00'"
 						},
 						success: $.proxy(function (data) {
-							console.warn("*** 2");
-							console.warn(this.getView().getModel("DataPercetCalculate"));
 							this.getView().getModel("DataPercetCalculate").setData(data.results[0]);
 							var ocust = parseInt(data.results[0].CustomerPer).toString();
 							var odeal = parseInt(data.results[0].DealerPer).toString();
@@ -544,8 +543,6 @@ sap.ui.define([
 											"'and DealerPer eq '00'and CustomerPer eq '00'and TCIPer eq '00'and PartPer eq '00'and LabourPer eq '00'and SubletPer eq '00'"
 									},
 									success: $.proxy(function (authData) {
-										console.warn("*** 3");
-										console.warn(this.getView().getModel("DataPercetCalculate"));
 										this.getView().getModel("DataPercetCalculate").setData(authData.results[0]);
 										var ocust = parseInt(authData.results[0].CustomerPer).toString();
 										var odeal = parseInt(authData.results[0].DealerPer).toString();
@@ -1181,8 +1178,7 @@ sap.ui.define([
 						"$filter": "NumberOfWarrantyClaim eq '" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") + "'"
 					},
 					success: $.proxy(function (sdata) {
-						console.warn("*** 4");
-						console.warn(this.getView().getModel("HeadSetData"));
+
 						this.getModel("LocalDataModel").setProperty("/ClaimDetails", sdata.results[0]);
 						this.getView().getModel("HeadSetData").setData(sdata.results[0]);
 						var oBusinessModel = this.getModel("ApiBusinessModel");
@@ -1376,7 +1372,7 @@ sap.ui.define([
 									"DealerContact": this.getView().getModel("HeadSetData").getProperty("/DealerContact"),
 									"DeliveringCarrier": "",
 									"HeadText": this.getView().getModel("HeadSetData").getProperty("/HeadText"),
-									"OFP": this.getView().getModel("HeadSetData").getProperty("/OFP"),
+									"OFP": this.getView().getModel("HeadSetData").getProperty("/OFP").toUpperCase(),
 									"WTYClaimRecoverySource": "",
 									"MainOpsCode": this.getView().getModel("HeadSetData").getProperty("/MainOpsCode"),
 									"T1WarrantyCodes": this.getView().getModel("HeadSetData").getProperty("/T1WarrantyCodes"),
@@ -1394,7 +1390,7 @@ sap.ui.define([
 									"AccessoryInstallDate": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty(
 										"/AccessoryInstallDate")),
 									"AgreementNumber": this.getView().getModel("HeadSetData").getProperty("/AgreementNumber"),
-									"CustomerPostalCode": this.getView().getModel("HeadSetData").getProperty("/CustomerPostalCode"),
+									"CustomerPostalCode": this.getView().getModel("HeadSetData").getProperty("/CustomerPostalCode").toUpperCase(),
 									"CustomerFullName": this.getView().getModel("HeadSetData").getProperty("/CustomerFullName"),
 									"WarrantyClaimSubType": this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType"),
 									"zc_itemSet": {
@@ -1584,7 +1580,7 @@ sap.ui.define([
 					"CustomerFullName": ""
 				});
 				this.HeadSetData.setDefaultBindingMode("TwoWay");
-				this.getView().setModel(this.HeadSetData, "HeadSetData"); 
+
 				this.getModel("LocalDataModel").setProperty("/ClaimDetails", "");
 				this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
 				this.getView().getModel("DateModel").setProperty("/SaveClaim07", true);
@@ -1919,10 +1915,9 @@ sap.ui.define([
 				this._fnOFPenabled();
 				this._fnDealerContact();
 				this.getModel("LocalDataModel").setProperty("/ClaimSum", "");
-
+				this.getView().setModel(this.HeadSetData, "HeadSetData");
 			}
-			this.getView().getModel("HeadSetData").updateBindings(true); 
-			// this.getView().setModel(this.HeadSetData, "HeadSetData"); //first route issue
+
 		},
 		// _fnEnableEdit: function () {
 		// 	if (this.getModel("LocalDataModel").getProperty("/UploadEnable") == false) {
@@ -3097,7 +3092,7 @@ sap.ui.define([
 					"ShipmentReceivedDate": null,
 					"DealerContact": this.getView().getModel("HeadSetData").getProperty("/DealerContact"),
 					"HeadText": this.getView().getModel("HeadSetData").getProperty("/HeadText"),
-					"OFP": this.getView().getModel("HeadSetData").getProperty("/OFP"),
+					"OFP": this.getView().getModel("HeadSetData").getProperty("/OFP").toUpperCase(),
 					"WTYClaimRecoverySource": "",
 					"MainOpsCode": this.getView().getModel("HeadSetData").getProperty("/MainOpsCode"),
 					"T1WarrantyCodes": this.getView().getModel("HeadSetData").getProperty("/T1WarrantyCodes"),
@@ -3113,7 +3108,7 @@ sap.ui.define([
 					"AccessoryInstallOdometer": this.getView().getModel("HeadSetData").getProperty("/AccessoryInstallOdometer"),
 					"AccessoryInstallDate": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/AccessoryInstallDate")),
 					"AgreementNumber": this.getView().getModel("HeadSetData").getProperty("/AgreementNumber"),
-					"CustomerPostalCode": this.getView().getModel("HeadSetData").getProperty("/CustomerPostalCode"),
+					"CustomerPostalCode": this.getView().getModel("HeadSetData").getProperty("/CustomerPostalCode").toUpperCase(),
 					"CustomerFullName": this.getView().getModel("HeadSetData").getProperty("/CustomerFullName"),
 					"ProbillNum": this.getView().getModel("HeadSetData").getProperty("/ProbillNum"),
 					"Delivery": this.getView().getModel("HeadSetData").getProperty("/Delivery"),
@@ -3225,8 +3220,6 @@ sap.ui.define([
 
 								this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", sdata.results[0].OfpDescription);
 								this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", sdata.results[0].Main_opsDescription);
-								console.warn("*** 5");
-								console.warn(this.getView().getModel("HeadSetData"));
 								this.getView().getModel("HeadSetData").setData(sdata.results[0]);
 								if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZECP") {
 									this.getModel("LocalDataModel").setProperty("/oCurrentDealerLabour", this.getModel("LocalDataModel").getProperty(
@@ -3995,7 +3988,7 @@ sap.ui.define([
 								"ShipmentReceivedDate": null,
 								"DealerContact": this.getView().getModel("HeadSetData").getProperty("/DealerContact"),
 								"HeadText": this.getView().getModel("HeadSetData").getProperty("/HeadText"),
-								"OFP": this.getView().byId("idOFP").getValue(),
+								"OFP": this.getView().byId("idOFP").getValue().toUpperCase(),
 								"WTYClaimRecoverySource": "",
 								"MainOpsCode": this.getView().getModel("HeadSetData").getProperty("/MainOpsCode"),
 								"T1WarrantyCodes": this.getView().getModel("HeadSetData").getProperty("/T1WarrantyCodes"),
@@ -4012,7 +4005,7 @@ sap.ui.define([
 								"AccessoryInstallOdometer": this.getView().getModel("HeadSetData").getProperty("/AccessoryInstallOdometer"),
 								"AccessoryInstallDate": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/AccessoryInstallDate")),
 								"AgreementNumber": this.getView().getModel("HeadSetData").getProperty("/AgreementNumber"),
-								"CustomerPostalCode": this.getView().getModel("HeadSetData").getProperty("/CustomerPostalCode"),
+								"CustomerPostalCode": this.getView().getModel("HeadSetData").getProperty("/CustomerPostalCode").toUpperCase(),
 								"CustomerFullName": this.getView().getModel("HeadSetData").getProperty("/CustomerFullName"),
 								"ProbillNum": this.getView().getModel("HeadSetData").getProperty("/ProbillNum"),
 								"Delivery": this.getView().getModel("HeadSetData").getProperty("/Delivery"),
@@ -4113,8 +4106,6 @@ sap.ui.define([
 													"'"
 											},
 											success: $.proxy(function (sdata) {
-												console.warn("*** 6");
-												console.warn(this.getView().getModel("HeadSetData"));
 												this.getView().getModel("HeadSetData").setData(sdata.results[0]);
 
 												var oIndexMat = PartItem.findIndex($.proxy(function (item) {
@@ -4890,8 +4881,6 @@ sap.ui.define([
 						},
 						success: $.proxy(function (sdata) {
 							this.getModel("LocalDataModel").setProperty("/discountBusyIndicator", false);
-							console.warn("*** 7");
-							console.warn(this.getView().getModel("DataPercetCalculate"));
 							this.getView().getModel("DataPercetCalculate").setData(sdata.results[0]);
 							var ocust = parseInt(sdata.results[0].CustomerPer).toString();
 							var odeal = parseInt(sdata.results[0].DealerPer).toString();
@@ -4933,8 +4922,6 @@ sap.ui.define([
 					},
 					success: $.proxy(function (sdata) {
 						this.getModel("LocalDataModel").setProperty("/discountBusyIndicator", false);
-						console.warn("*** 8");
-						console.warn(this.getView().getModel("DataPercetCalculate"));
 						this.getView().getModel("DataPercetCalculate").setData(sdata.results[0]);
 						var ocust = parseInt(sdata.results[0].CustomerPer).toString();
 						var odeal = parseInt(sdata.results[0].DealerPer).toString();
@@ -5056,8 +5043,6 @@ sap.ui.define([
 									"$filter": "NumberOfWarrantyClaim eq '" + oClaimNum + "'"
 								},
 								success: $.proxy(function (cdata) {
-									console.warn("*** 9");
-									console.warn(this.getView().getModel("HeadSetData"));
 									this.getView().getModel("HeadSetData").setData(cdata.results[0]);
 
 									oClaimModel.read("/zc_headSet", {
@@ -5130,8 +5115,7 @@ sap.ui.define([
 												"'and DealerPer eq '00'and CustomerPer eq '00'and TCIPer eq '00'and PartPer eq '00'and LabourPer eq '00'and SubletPer eq '00'"
 										},
 										success: $.proxy(function (sdata) {
-											console.warn("*** 10");
-											console.warn(this.getView().getModel("DataPercetCalculate"));
+
 											this.getView().getModel("DataPercetCalculate").setData(sdata.results[0]);
 											var ocust = parseInt(sdata.results[0].CustomerPer).toString();
 											var odeal = parseInt(sdata.results[0].DealerPer).toString();
@@ -5202,8 +5186,7 @@ sap.ui.define([
 										"'and DealerPer eq '00'and CustomerPer eq '00'and TCIPer eq '00'and PartPer eq '00'and LabourPer eq '00'and SubletPer eq '00'"
 								},
 								success: $.proxy(function (sdata) {
-									console.warn("*** 11");
-									console.warn(this.getView().getModel("DataPercetCalculate"));
+
 									this.getView().getModel("DataPercetCalculate").setData(sdata.results[0]);
 									var ocust = parseInt(sdata.results[0].CustomerPer).toString();
 									var odeal = parseInt(sdata.results[0].DealerPer).toString();
@@ -5239,8 +5222,6 @@ sap.ui.define([
 									"$filter": "NumberOfWarrantyClaim eq '" + oClaimNum + "'"
 								},
 								success: $.proxy(function (cdata) {
-									console.warn("*** 12");
-									console.warn(this.getView().getModel("HeadSetData"));
 									this.getView().getModel("HeadSetData").setData(cdata.results[0]);
 
 									if (cdata.results[0].DecisionCode == "ZTAA") {
@@ -5330,8 +5311,6 @@ sap.ui.define([
 				},
 				success: $.proxy(function (data) {
 					if (data.results[0].Message == "") {
-						console.warn("*** 13");
-						console.warn(this.getView().getModel("DataPercetCalculate"));
 						this.getView().getModel("DataPercetCalculate").setData(data.results[0]);
 						var ocust = parseInt(data.results[0].CustomerPer).toString();
 						var odeal = parseInt(data.results[0].DealerPer).toString();
@@ -7383,7 +7362,7 @@ sap.ui.define([
 			this.obj.ShipmentReceivedDate = null;
 			this.obj.DealerContact = this.getView().getModel("HeadSetData").getProperty("/DealerContact");
 			this.obj.HeadText = this.getView().getModel("HeadSetData").getProperty("/HeadText");
-			this.obj.OFP = this.getView().getModel("HeadSetData").getProperty("/OFP");
+			this.obj.OFP = this.getView().getModel("HeadSetData").getProperty("/OFP").toUpperCase();
 			this.obj.WTYClaimRecoverySource = "";
 			this.obj.MainOpsCode = this.getView().getModel("HeadSetData").getProperty("/MainOpsCode");
 			this.obj.T1WarrantyCodes = this.getView().getModel("HeadSetData").getProperty("/T1WarrantyCodes");
@@ -7398,7 +7377,7 @@ sap.ui.define([
 			this.obj.PreviousROInvoice = this.getView().getModel("HeadSetData").getProperty("/PreviousROInvoice");
 			this.obj.AccessoryInstallOdometer = this.getView().getModel("HeadSetData").getProperty("/AccessoryInstallOdometer");
 			this.obj.AgreementNumber = this.getView().getModel("HeadSetData").getProperty("/AgreementNumber");
-			this.obj.CustomerPostalCode = this.getView().getModel("HeadSetData").getProperty("/CustomerPostalCode");
+			this.obj.CustomerPostalCode = this.getView().getModel("HeadSetData").getProperty("/CustomerPostalCode").toUpperCase();
 			this.obj.CustomerFullName = this.getView().getModel("HeadSetData").getProperty("/CustomerFullName");
 			this.obj.AccessoryInstallDate = this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/AccessoryInstallDate"));
 			this.obj.ProbillNum = this.getView().getModel("HeadSetData").getProperty("/ProbillNum");
