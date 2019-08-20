@@ -84,14 +84,7 @@ sap.ui.define([
 				ClaimInquiry: false,
 				DealerLabourRateInquiry: false
 			});
-			/*Uncomment for security*/
-			// HeaderLinksModel.setData({
-			// 	NewClaim: true,
-			// 	ViewUpdateClaims: true,
-			// 	QuickCoverageTool: true,
-			// 	ClaimInquiry: true,
-			// 	DealerLabourRateInquiry: true
-			// });
+
 			this.getView().setModel(HeaderLinksModel, "HeaderLinksModel");
 			sap.ui.getCore().setModel(HeaderLinksModel, "HeaderLinksModel");
 
