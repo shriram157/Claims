@@ -288,14 +288,8 @@ sap.ui.define([
 			}
 		},
 		onCloseDialogDealer: function (Oevent) {
-				Oevent.getSource().getParent().close();
-			}
-			// 		getDealerlabour : function(data){
-			// 		    var oModel = this.getModel("ProssingModel");
-			// 		    oModel.read("/zc_labour_rateSet(Partner='" + data.BusinessPartnerKey + "',Division='" + data.Division +"')", {
-			// 		        success : function
-			// 		    });
-			// 		},
+			Oevent.getSource().getParent().close();
+		}
 
 		// 		getDealerlabour: function (data) {
 		// 				var that = this;
