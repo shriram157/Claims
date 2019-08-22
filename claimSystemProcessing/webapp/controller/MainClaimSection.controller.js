@@ -4501,6 +4501,13 @@ sap.ui.define([
 				at: "center center"
 			});
 		},
+		onFileNameLengthExceed: function () {
+			var oBundle = this.getView().getModel("i18n").getResourceBundle();
+			MessageToast.show(oBundle.getText("FileNameExceed"), {
+				my: "center center",
+				at: "center center"
+			});
+		},
 		onUploadComplete: function (oEvent) {
 
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
