@@ -137,7 +137,7 @@
 					<f:content>
 						<core:Title text=""/>
 						<Label text="{i18n>Attachments}" textAlign="Left"/>
-						<UploadCollection id="UploadSublet" maximumFilenameLength="30" filenameLengthExceed="onFileNameLengthExceed" maximumFileSize="10"
+						<UploadCollection id="UploadSublet" maximumFilenameLength="50" filenameLengthExceed="onFileNameLengthExceed" maximumFileSize="10"
 							sameFilenameAllowed="false" fileSizeExceed="onFileSizeExceed" busy="{LocalDataModel>/IndicatorState}"
 							uploadEnabled="{LocalDataModel>/UploadEnableSublet}" change="onUplaodChange" uploadComplete="onSubletUploadComplete"
 							fileDeleted="onFileSubletDeleted" items="{ path: 'LocalDataModel>/SubletAtchmentData', templateShareable: false }">

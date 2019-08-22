@@ -4818,6 +4818,11 @@ sap.ui.define([
 		},
 
 		onPressAddPart: function () {
+			this.getView().getModel("PartDataModel").setProperty("/matnr", "");
+			this.getView().getModel("PartDataModel").setProperty("/quant", "");
+			this.getView().getModel("PartDataModel").setProperty("/PartDescription", "");
+			this.getView().getModel("LocalDataModel").setProperty("/BaseUnit", "");
+
 			var oTable = this.getView().byId("idTableParts");
 			oTable.removeSelections("true");
 			this.getView().getModel("DateModel").setProperty("/partLine", true);
@@ -4844,18 +4849,27 @@ sap.ui.define([
 
 		},
 		onPressAddLabour: function () {
-
+			this.getView().getModel("LabourDataModel").setProperty("/LabourOp", "");
+			this.getView().getModel("LabourDataModel").setProperty("/ClaimedHours", "");
+			this.getView().getModel("LabourDataModel").setProperty("/LabourDescription", "");
 			var oTable = this.getView().byId("idLabourTable");
 			oTable.removeSelections("true");
 			this.getView().getModel("DateModel").setProperty("/labourLine", true);
 			this.getView().getModel("DateModel").setProperty("/editableLabourNumber", true);
 		},
 		onPressAddPaint: function () {
+			this.getView().getModel("PaintDataModel").setProperty("/PaintPositionCode", "");
 			var oTable = this.getView().byId("idPaintTable");
 			oTable.removeSelections("true");
 			this.getView().getModel("DateModel").setProperty("/paintLine", true);
 		},
 		onPressAddSublet: function () {
+			this.getView().getModel("SubletDataModel").setProperty("/SubletCode", "");
+			this.getView().getModel("SubletDataModel").setProperty("/InvoiceNo", "");
+			this.getView().getModel("SubletDataModel").setProperty("/Amount", "");
+			this.getView().getModel("SubletDataModel").setProperty("/description", "");
+			this.getView().getModel("SubletDataModel").setProperty("/brand", "");
+			this.getView().getModel("SubletDataModel").setProperty("/days", "");
 			var oTable = this.getView().byId("idSubletTable");
 			oTable.removeSelections("true");
 			this.getView().getModel("DateModel").setProperty("/subletLine", true);
