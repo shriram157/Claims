@@ -600,7 +600,7 @@ sap.ui.define([
 								this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", false);
 								this.getView().getModel("DateModel").setProperty("/submitTCIBtn", false);
 								this.getView().getModel("DateModel").setProperty("/FeedEnabled", false);
-								this.getView().getModel("LocalDataModel").setProperty("/PWPrintEnable", false);
+								this.getView().getModel("LocalDataModel").setProperty("/PWPrintEnable", true);
 								this.getView().getModel("LocalDataModel").setProperty("/CancelEnable", false);
 
 							}
@@ -3836,8 +3836,8 @@ sap.ui.define([
 									urlParameters: {
 										"$filter": "BusinessPartner eq '" + oPartner + "'"
 									},
-									success: $.proxy(function (sdata) {
-										this.getModel("LocalDataModel").setProperty("/BPOrgName", sdata.results[0].OrganizationBPName1);
+									success: $.proxy(function (bdata) {
+										this.getModel("LocalDataModel").setProperty("/BPOrgName", bdata.results[0].OrganizationBPName1);
 									}, this)
 								});
 
