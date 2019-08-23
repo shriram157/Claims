@@ -307,7 +307,8 @@ sap.ui.define([
 				SavePWClaimIndicator: false,
 				SubmitPWBusyIndicator: false,
 				LOIBusyIndicator: false,
-				editablePartNumber: true
+				editablePartNumber: true,
+				PWPrintEnable: false
 			});
 			this.getView().setModel(oDateModel, "DateModel");
 
@@ -574,7 +575,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/SaveClaimBTN", true);
 							this.getView().getModel("DateModel").setProperty("/submitTCIBtn", true);
 							this.getView().getModel("DateModel").setProperty("/FeedEnabled", true);
-							this.getView().getModel("LocalDataModel").setProperty("/PWPrintEnable", true);
+
 							this.getView().getModel("LocalDataModel").setProperty("/CancelEnable", true);
 							this.getView().getModel("DateModel").setProperty("/SaveClaim07", true);
 						} else {
@@ -589,7 +590,6 @@ sap.ui.define([
 								this.getView().getModel("DateModel").setProperty("/SaveClaimBTN", true);
 								this.getView().getModel("DateModel").setProperty("/submitTCIBtn", true);
 								this.getView().getModel("DateModel").setProperty("/FeedEnabled", true);
-								this.getView().getModel("LocalDataModel").setProperty("/PWPrintEnable", true);
 								this.getView().getModel("LocalDataModel").setProperty("/CancelEnable", true);
 								this.getView().getModel("DateModel").setProperty("/SaveClaim07", true);
 							} else {
@@ -600,7 +600,7 @@ sap.ui.define([
 								this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", false);
 								this.getView().getModel("DateModel").setProperty("/submitTCIBtn", false);
 								this.getView().getModel("DateModel").setProperty("/FeedEnabled", false);
-								this.getView().getModel("LocalDataModel").setProperty("/PWPrintEnable", true);
+
 								this.getView().getModel("LocalDataModel").setProperty("/CancelEnable", false);
 
 							}
@@ -1064,6 +1064,8 @@ sap.ui.define([
 
 			} else {
 				this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", false);
+				this.getView().getModel("DateModel").setProperty("/PWPrintEnable", false);
+
 				this.getModel("LocalDataModel").setProperty("/UploadEnableHeader", true);
 				this.getModel("LocalDataModel").setProperty("/step01Next", false);
 				this.getModel("ProssingModel").refresh();
