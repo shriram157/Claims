@@ -7144,9 +7144,9 @@ sap.ui.define([
 			}
 		},
 		onPressCancelSublet: function () {
-			// 			var oClaimModel = this.getModel("ProssingModel");
-			// 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
-			// 			var oSubletCode = this.getView().getModel("SubletDataModel").getProperty("/SubletCode");
+			// var oClaimModel = this.getModel("ProssingModel");
+			// var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
+			// var oSubletCode = this.getView().getModel("SubletDataModel").getProperty("/SubletCode");
 			var oTable = this.getView().byId("idSubletTable");
 
 			//var oBundle = this.getView().getModel("i18n").getResourceBundle();
@@ -7158,6 +7158,7 @@ sap.ui.define([
 			this.getView().getModel("SubletDataModel").setProperty("/days", "");
 			this.getView().getModel("SubletDataModel").setProperty("/unitOfMeasure", "");
 			this.getModel("LocalDataModel").setProperty("/SubletAtchmentData", []);
+			// 	this.getModel("LocalDataModel").setProperty("/UploadEnableSublet", true);
 
 			oTable.removeSelections("true");
 
