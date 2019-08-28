@@ -16,8 +16,7 @@
 					enabled="{DateModel>/oFormEdit}"/>
 				<Button text="{i18n>letterOfIntent}" class="sapUiTinyMarginBeginEnd" enabled="{DateModel>/oLetterOfIntent}" press="onPressLetterOfIntent"/>
 				<ToolbarSpacer/>
-				<Button text="{i18n>SaveClaim}" class="sapUiTinyMarginBeginEnd" type="Emphasized" enabled="{DateModel>/oFormEdit}"
-					press="onSaveClaim"/>
+				<Button text="{i18n>SaveClaim}" class="sapUiTinyMarginBeginEnd" type="Emphasized" enabled="{DateModel>/oFormEdit}" press="onSaveClaim"/>
 			</OverflowToolbar>
 			<VBox class="clBgColor">
 				<f:SimpleForm editable="true" labelSpanL="12" width="90%" title="" labelSpanXL="12" layout="ResponsiveGridLayout" emptySpanXL="0"
@@ -60,8 +59,8 @@
 					</f:content>
 				</f:SimpleForm>
 				<VBox class="clBgColor">
-					<f:SimpleForm id="idRow01Form" class="sapUiSmallMarginBegin borderStyle" width="100%" editable="true" labelSpanL="12" title=""
-						labelSpanXL="12" layout="ResponsiveGridLayout" columnsM="7" columnsL="6" columnsXL="6">
+					<f:SimpleForm id="idRow01Form" class=" borderStyle" editable="true" labelSpanL="12" title="" labelSpanXL="12" layout="ResponsiveGridLayout"
+						columnsM="7" columnsL="6" columnsXL="6">
 						<!--<f:SimpleForm id="idRow01Form" class="sapUiResponsiveMargin ClsubHeadingLineHeight borderStyle" width="90%" layout="ResponsiveGridLayout">-->
 						<f:content>
 							<core:Title text=""/>

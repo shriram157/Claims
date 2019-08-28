@@ -1604,6 +1604,19 @@ sap.ui.define([
 		},
 
 		onPressSavePart: function () {
+
+			var oTable = this.getView().byId("partTable");
+			var oTableIndex = oTable._aSelectedPaths;
+			if (oTableIndex.length == 1) {
+				var oIndex = this.obj.zc_itemSet.results.findIndex(({
+					MaterialNumber
+				}) => MaterialNumber == this.getView().getModel("PartDataModel").getProperty("/matnr"));
+				this.obj.zc_claim_item_price_dataSet.results = [];
+				//this.obj.zc_claim_commentSet.results = [];
+				this.obj.zc_itemSet.results.splice(oIndex, 1);
+
+			}
+
 			arrPartLOI = [];
 			this.getView().getModel("DateModel").setProperty("/SavePart2", true);
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
@@ -2818,31 +2831,33 @@ sap.ui.define([
 
 				var oIndex = oTableIndex.toString().split("/")[2];
 				this.obj.zc_claim_item_price_dataSet.results = [];
+				this.getView().getModel("DateModel").setProperty("/saveParts", true);
+				this.getModel("LocalDataModel").setProperty("/UploadEnable", true);
 				//this.obj.zc_claim_commentSet.results = [];
-				this.obj.zc_itemSet.results.splice(oIndex, 1);
+				//this.obj.zc_itemSet.results.splice(oIndex, 1);
 
-				oClaimModel.create("/zc_headSet", this.obj, {
-					success: $.proxy(function (data, response) {
-						var pricingData = response.data.zc_claim_item_price_dataSet.results;
-						var oFilteredData = pricingData.filter(function (val) {
-							return val.ItemType === "MAT";
-						});
-						console.log(oFilteredData);
-						for (var m = 0; m < oFilteredData.length; m++) {
-							oFilteredData[m].ALMDiscreDesc = oFilteredData[m].ALMDiscreDesc.split("-")[1];
-						}
-						this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
-						this.getView().getModel("DateModel").setProperty("/saveParts", true);
-						this.getModel("LocalDataModel").setProperty("/UploadEnable", true);
-						this._fnClaimSum();
-					}, this),
-					error: function (err) {
-						console.log(err);
-						var err = JSON.parse(err.responseText);
-						var msg = err.error.message.value;
-						MessageBox.show(msg, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
-					}
-				});
+				// oClaimModel.create("/zc_headSet", this.obj, {
+				// 	success: $.proxy(function (data, response) {
+				// 		var pricingData = response.data.zc_claim_item_price_dataSet.results;
+				// 		var oFilteredData = pricingData.filter(function (val) {
+				// 			return val.ItemType === "MAT";
+				// 		});
+				// 		console.log(oFilteredData);
+				// 		for (var m = 0; m < oFilteredData.length; m++) {
+				// 			oFilteredData[m].ALMDiscreDesc = oFilteredData[m].ALMDiscreDesc.split("-")[1];
+				// 		}
+				// 		this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
+				// 		this.getView().getModel("DateModel").setProperty("/saveParts", true);
+				// 		this.getModel("LocalDataModel").setProperty("/UploadEnable", true);
+				// 		this._fnClaimSum();
+				// 	}, this),
+				// 	error: function (err) {
+				// 		console.log(err);
+				// 		var err = JSON.parse(err.responseText);
+				// 		var msg = err.error.message.value;
+				// 		MessageBox.show(msg, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
+				// 	}
+				// });
 			} else {
 				MessageToast.show("Please select 1 row.");
 				oTable.removeSelections("true");

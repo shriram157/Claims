@@ -324,7 +324,7 @@ sap.ui.define([
 				ShipmentVisible: false
 			});
 			this.getView().setModel(oDateModel, "DateModel");
-			this.getModel("LocalDataModel").setProperty("/SubletAtchmentData", "");
+			this.getModel("LocalDataModel").setProperty("/SubletAtchmentData", []);
 			this.getView().getModel("SubletDataModel").setProperty("/InvoiceNo", "");
 			this.getView().getModel("SubletDataModel").setProperty("/description", "");
 			this.getView().getModel("SubletDataModel").setProperty("/Amount", "");
@@ -6857,8 +6857,17 @@ sap.ui.define([
 			} else {
 				oDays = this.getView().getModel("SubletDataModel").getProperty("/days");
 			}
-			if (this.getModel("LocalDataModel").getProperty("/SubletAtchmentData") == undefined || this.getModel("LocalDataModel").getProperty(
-					"/SubletAtchmentData") == "") {
+
+			var oSubletTypeModel = this.getModel("LocalDataModel").getProperty("/ClaimSubletCodeModel");
+			var selectedSubletItem = oSubletTypeModel.filter($.proxy(function (item) {
+
+				return item.Matnr == this.getView().getModel("SubletDataModel").getProperty("/SubletCode")
+
+			}, this));
+
+			if (this.getModel("LocalDataModel").getProperty("/SubletAtchmentData").length == 0 && selectedSubletItem[0].ZATTACHMENT_REQUIRED ==
+				"Y" || this.getModel("LocalDataModel").getProperty("/SubletAtchmentData").length == 0 && selectedSubletItem[0].ZATTACHMENT_REQUIRED ==
+				"") {
 				MessageToast.show("Attachment is required.", {
 					my: "center center",
 					at: "center center"
@@ -6924,7 +6933,7 @@ sap.ui.define([
 						oTable.removeSelections("true");
 						this._fnClaimSum();
 						this._fnClaimSumPercent();
-						this.getModel("LocalDataModel").setProperty("/SubletAtchmentData", "");
+						this.getModel("LocalDataModel").setProperty("/SubletAtchmentData", []);
 
 					}, this),
 					error: $.proxy(function (err) {
