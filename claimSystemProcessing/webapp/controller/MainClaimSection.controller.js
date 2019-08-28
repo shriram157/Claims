@@ -6999,7 +6999,7 @@ sap.ui.define([
 
 				this.getView().getModel("SubletDataModel").setProperty("/unitOfMeasure", obj.Meinh);
 				if (obj.URI != "") {
-					var oFile = obj.URI.split(",")[1].split("=")[1].split(")")[0];
+					var oFile = obj.URI.split("FileName=")[1].split("')/")[0];
 					var oFileReplaced = oFile.replace(/'/g, "");
 
 					oClaimModel.read("/zc_claim_subletattachmentSet", {
@@ -7055,7 +7055,7 @@ sap.ui.define([
 			var obj = this.getView().getModel("LocalDataModel").getProperty(oPath);
 			var oSelectedItem = obj.ItemKey;
 			if (this.getModel("LocalDataModel").getProperty(oPath).URI != "") {
-				oFile = this.getModel("LocalDataModel").getProperty(oPath).URI.split(",")[1].split("=")[1].split(")")[0];
+				oFile = this.getModel("LocalDataModel").getProperty(oPath).URI.split("FileName=")[1].split("')/")[0];
 				oFileReplaced = oFile.replace(/'/g, "");
 			}
 
