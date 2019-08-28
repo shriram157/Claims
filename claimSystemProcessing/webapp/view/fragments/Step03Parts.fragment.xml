@@ -94,7 +94,8 @@
 							<core:Title text=""/>
 							<Text text="" id="textHeaderLabel"/>
 							<core:Title text=""/>
-							<UploadCollection id="UploadCollection" uploadEnabled="{LocalDataModel>/UploadEnable}" change="onUploadChangeParts"
+							<UploadCollection id="UploadCollection" maximumFilenameLength="50" filenameLengthExceed="onFileNameLengthExceed" maximumFileSize="10"
+								sameFilenameAllowed="false" fileSizeExceed="onFileSizeExceed" uploadEnabled="{LocalDataModel>/UploadEnable}" change="onUploadChangeParts"
 								uploadComplete="onUploadComplete02Parts" fileDeleted="onFileDeleted02" visible="{multiHeaderConfig>/uploader}"
 								items="{ path: 'LocalDataModel>/partItemAttachments', templateShareable: false }">
 								<toolbar>
