@@ -2596,8 +2596,8 @@ sap.ui.define([
 										}
 										//var oRepDate = this.getView().getModel("HeadSetData").getProperty("/RepairDate");
 										var regTime = new Date(sdata.results[0].RegDate).getTime();
-										var repTime = new Date(oRepDate).getTime();
-										var oMonth = (regTime - repTime) / (1000 * 60 * 60 * 24 * 30);
+										var todayTime = new Date().getTime();
+										var oMonth = (todayTime - regTime) / (1000 * 60 * 60 * 24 * 30.4167);
 										//parseFloat(oMonth).toFixed(2);
 										this.getModel("LocalDataModel").setProperty("/VehicleMonths", Math.abs(oMonth.toFixed(1)));
 										if (sdata.results[0].ForeignVIN == "YES") {
