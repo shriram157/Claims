@@ -2598,6 +2598,7 @@ sap.ui.define([
 										var regTime = new Date(sdata.results[0].RegDate).getTime();
 										var todayTime = new Date().getTime();
 										var oMonth = (todayTime - regTime) / (1000 * 60 * 60 * 24 * 30.4167);
+										console.log(oMonth);
 										//parseFloat(oMonth).toFixed(2);
 										this.getModel("LocalDataModel").setProperty("/VehicleMonths", Math.abs(oMonth.toFixed(1)));
 										if (sdata.results[0].ForeignVIN == "YES") {
