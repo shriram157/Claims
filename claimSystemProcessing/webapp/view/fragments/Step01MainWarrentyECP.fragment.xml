@@ -432,7 +432,7 @@
 					editable="{DateModel>/oFormEdit}"/>
 				<core:Title text=""/>
 				<Label text="{i18n>ROInvoiceDate}"/>
-				<DatePicker class="clDatePicker" id="idPrInvDate" required="{DateModel>/oPrevInvDateReq}"
+				<DatePicker class="clDatePicker" id="idPrInvDate" required="{DateModel>/oPrevInvDateReq}" change="onPrevDateChange"
 					value="{path:'HeadSetData>/PreviousROInvoiceDate', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'yyyy-MM-dd'}}"
 					editable="{DateModel>/oFormEdit}"/>
 				<core:Title text=""/>

@@ -2036,6 +2036,18 @@ sap.ui.define([
 			//console.log(oEvent.getSource().getDateValue());
 		},
 
+		onPrevDateChange: function (oEvent) {
+			var oBundle = this.getView().getModel("i18n").getResourceBundle();
+			if (oEvent.getSource().getDateValue() <= new Date()) {
+				this.getView().byId("idMainClaimMessage").setProperty("visible", false);
+				this.getView().byId("idMainClaimMessage").setType("None");
+			} else {
+				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+				this.getView().byId("idMainClaimMessage").setText(oBundle.getText("FutureDateNotallowed"));
+				this.getView().byId("idMainClaimMessage").setType("Error");
+			}
+		},
+
 		onAddComment: function (oEvent) {
 			var oDialogBox = sap.ui.xmlfragment("zclaimProcessing.view.fragments.ClaimComments", this);
 			this.getView().addDependent(oDialogBox);
@@ -3053,6 +3065,12 @@ sap.ui.define([
 				// this.getView().byId("idMainClaimMessage").setText(oBundle.getText("FillUpMandatoryField"));
 				// this.getView().byId("idMainClaimMessage").setType("Error");
 				// this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+			} else if (this.getView().getModel("HeadSetData").getProperty("/PreviousROInvoiceDate") > new Date()) {
+				this.getView().byId("idPrInvDate").setValueState("Error");
+				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+				this.getView().byId("idMainClaimMessage").setText(oBundle.getText("FutureDateNotallowed"));
+				this.getView().byId("idMainClaimMessage").setType("Error");
+
 			} else {
 				this.getView().byId("idMainClaimMessage").setProperty("visible", false);
 				this.getView().byId("id_Date").setValueState("None");
@@ -4055,6 +4073,12 @@ sap.ui.define([
 							} else if (this.getModel("LocalDataModel").getProperty("/invalidVinMsg") == "Invalid VIN Number") {
 								this.getView().byId("idMainClaimMessage").setText(oBundle.getText("PleaseEnterValidVIN"));
 								this.getView().byId("idMainClaimMessage").setType("Error");
+							} else if (this.getView().getModel("HeadSetData").getProperty("/PreviousROInvoiceDate") > new Date()) {
+								this.getView().byId("idPrInvDate").setValueState("Error");
+								this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+								this.getView().byId("idMainClaimMessage").setText(oBundle.getText("FutureDateNotallowed"));
+								this.getView().byId("idMainClaimMessage").setType("Error");
+
 							} else if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZACD" &&
 								this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") == "") {
 								this.getView().byId("idSubmissionClaim").setProperty("enabled", true);
