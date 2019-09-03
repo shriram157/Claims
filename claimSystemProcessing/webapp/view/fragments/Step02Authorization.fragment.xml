@@ -67,45 +67,58 @@
 				</f:content>
 			</f:SimpleForm>
 		</Panel>
-		<f:SimpleForm editable="true" layout="ResponsiveGridLayout" title="{i18n>AuthorizationDetails}" labelSpanXL="3" labelSpanL="3"
-			labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="2"
-			columnsL="2" columnsM="1" singleContainerFullSize="false">
-			<f:content>
-				<core:Title text=""/>
-				<Label text="{i18n>AuthorizationNo}" visible="{LocalDataModel>/linkToAuth}"/>
-				<Input id="idAuthNum" value="{DataPercetCalculate>/AuthorizationNumber}" enabled="{DateModel>/oFormEdit}"
-					visible="{LocalDataModel>/linkToAuth}"/>
-				<Button text="{i18n>LinktoAuthorization}" press="onPressLinkAuthorization" enabled="{DateModel>/oFormEdit}"
-					visible="{LocalDataModel>/linkToAuth}"/>
-			</f:content>
-		</f:SimpleForm>
-		<f:SimpleForm id="idAuthorizationForm" editable="true" layout="ResponsiveGridLayout" title="" labelSpanXL="6" labelSpanL="6" labelSpanM="12"
-			labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="3" columnsL="3" columnsM="2"
-			singleContainerFullSize="false">
-			<f:content>
-				<core:Title text=""/>
-				<Label text="{i18n>TCIClaim}"/>
-				<Text text="{LocalDataModel>/DataAuthDetails/TCIClaimNo}"/>
-				<Label text="{i18n>AuthorizationType}"/>
-				<Text text="{LocalDataModel>/DataAuthDetails/AuthorizationType}"/>
-				<Label text="{i18n>TotalClaimAmountCAD}"/>
-				<Text text="{LocalDataModel>/DataAuthDetails/TotalClaimAmountCAD}"/>
-				<core:Title text=""/>
-				<Label text="{i18n>TerritoryCode}"/>
-				<Text text="{LocalDataModel>/DataAuthDetails/TerritoryCode}"/>
-				<Label text="{i18n>AuthorizationDate}"/>
-				<Text
-					text="{ path: 'LocalDataModel>/DataAuthDetails/AuthorizationDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium' } }"/>
-				<core:Title text=""/>
-				<Label text="{i18n>DealerAuthorizationLevel}"/>
-				<Text text="{LocalDataModel>/DataAuthDetails/DealerAuthorizationLevel}"/>
-				<Label text="{i18n>ClaimSubmissionType}"/>
-				<Text text="{LocalDataModel>/DataAuthDetails/ClaimSubmissionType}"/>
-				<!--<Button text="Save Claim" press="onPressSave" type="Emphasized"/>-->
-			</f:content>
-		</f:SimpleForm>
+		<VBox id="idAuthGWCLM">
+			<!--<Text class="sapUiSmallMarginBegin" text="{i18n>PricingOptions}"/>-->
+			<RadioButtonGroup columns="2" select="onSelectAuthGoodWill" id="idPricingOptGW">
+				<buttons>
+					<RadioButton id="RB4-4" text="{i18n>Participation}"/>
+					<RadioButton id="RB4-3" text="{i18n>LinktoAuthorization}"/>
+				</buttons>
+			</RadioButtonGroup>
+		</VBox>
+		<VBox id="idAuthorizationLinkForm">
+			<f:SimpleForm editable="true" layout="ResponsiveGridLayout" title="{i18n>AuthorizationDetails}" labelSpanXL="3" labelSpanL="3"
+				labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="2"
+				columnsL="2" columnsM="1" singleContainerFullSize="false">
+				<f:content>
+					<core:Title text=""/>
+					<Label text="{i18n>AuthorizationNo}" visible="{LocalDataModel>/linkToAuth}"/>
+					<Input id="idAuthNum" value="{DataPercetCalculate>/AuthorizationNumber}" enabled="{DateModel>/oFormEdit}"
+						visible="{LocalDataModel>/linkToAuth}"/>
+					<!--<Input id="idClaimNo" value="{DataPercetCalculate>/AuthorizationNumber}" enabled="{DateModel>/oFormEdit}"-->
+					<!--	visible="{LocalDataModel>/linkToAuth}"/>-->
+					<Button text="{i18n>LinktoAuthorization}" press="onPressLinkAuthorization" enabled="{DateModel>/oFormEdit}"
+						visible="{LocalDataModel>/linkToAuth}"/>
+				</f:content>
+			</f:SimpleForm>
+			<f:SimpleForm id="idAuthorizationForm" editable="true" layout="ResponsiveGridLayout" title="" labelSpanXL="6" labelSpanL="6" labelSpanM="12"
+				labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="3" columnsL="3" columnsM="2"
+				singleContainerFullSize="false">
+				<f:content>
+					<core:Title text=""/>
+					<Label text="{i18n>TCIClaim}"/>
+					<Text text="{LocalDataModel>/DataAuthDetails/TCIClaimNo}"/>
+					<Label text="{i18n>AuthorizationType}"/>
+					<Text text="{LocalDataModel>/DataAuthDetails/AuthorizationType}"/>
+					<Label text="{i18n>TotalClaimAmountCAD}"/>
+					<Text text="{LocalDataModel>/DataAuthDetails/TotalClaimAmountCAD}"/>
+					<core:Title text=""/>
+					<Label text="{i18n>TerritoryCode}"/>
+					<Text text="{LocalDataModel>/DataAuthDetails/TerritoryCode}"/>
+					<Label text="{i18n>AuthorizationDate}"/>
+					<Text
+						text="{ path: 'LocalDataModel>/DataAuthDetails/AuthorizationDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium' } }"/>
+					<core:Title text=""/>
+					<Label text="{i18n>DealerAuthorizationLevel}"/>
+					<Text text="{LocalDataModel>/DataAuthDetails/DealerAuthorizationLevel}"/>
+					<Label text="{i18n>ClaimSubmissionType}"/>
+					<Text text="{LocalDataModel>/DataAuthDetails/ClaimSubmissionType}"/>
+					<!--<Button text="Save Claim" press="onPressSave" type="Emphasized"/>-->
+				</f:content>
+			</f:SimpleForm>
+		</VBox>
 		<l:VerticalLayout width="100%" class="gridWrapper">
-			<VBox>
+			<VBox id="idClaimPrOpt">
 				<Text class="sapUiSmallMarginBegin" text="{i18n>PricingOptions}"/>
 				<RadioButtonGroup columns="2" select="onSelectAuthPricingOpt" id="idPricingOpt">
 					<buttons>
