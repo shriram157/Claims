@@ -470,6 +470,7 @@ sap.ui.define([
 							if (oClaimSelectedGroup == "Authorization") {
 								this.getView().byId("idAuthorizationLinkForm").setProperty("visible", true);
 								this.getView().byId("idClaimPrOpt").setProperty("visible", true);
+								this.getView().byId("idAuthorizationForm").setProperty("visible", true);
 								this.getView().byId("idAuthGWCLM").setProperty("visible", false);
 								if (oPartPer != "0" || oLabourPer != "0" || oSubletPer != "0") {
 									this.getView().byId("idPricingOpt").setSelectedIndex(1);
@@ -487,6 +488,7 @@ sap.ui.define([
 								this.getView().byId("idParticiaptionTable").setProperty("visible", true);
 								this.getView().byId("idDiscountTable").setProperty("visible", false);
 								this.getView().byId("idAuthorizationLinkForm").setProperty("visible", false);
+
 							}
 
 							this.getView().getModel("DataPercetCalculate").setProperty("/CustomerPer", ocust);
@@ -511,6 +513,7 @@ sap.ui.define([
 					this.getView().byId("idAuthGWCLM").setProperty("visible", false);
 					this.getView().byId("idClaimPrOpt").setProperty("visible", true);
 					this.getView().byId("idAuthorizationLinkForm").setProperty("visible", true);
+					this.getView().byId("idAuthorizationForm").setProperty("visible", true);
 
 				}
 
