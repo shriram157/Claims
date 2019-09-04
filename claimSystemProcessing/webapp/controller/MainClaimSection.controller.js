@@ -425,6 +425,7 @@ sap.ui.define([
 						this.getModel("LocalDataModel").setProperty("/SaveAuthClaim", oBundle.getText("SaveAuth"));
 						this.getModel("LocalDataModel").setProperty("/copyClaimAuthText", oBundle.getText("CopytoClaim"));
 						this.getView().getModel("DateModel").setProperty("/warrantySubmissionClaim", true);
+						this.getView().byId("idAuthGWCLM").setProperty("visible", false);
 					} else if (oGroupDescription == "ZGGW") {
 						clmNumAuth = "Numberofwarrantyclaim";
 						clmAuthNum = "NumberOfWarrantyClaim";
@@ -465,6 +466,9 @@ sap.ui.define([
 							var oSubletPer = parseInt(data.results[0].SubletPer).toString();
 							// 			this._fncheckClaimWithZGGW(oPartPer, oLabourPer, oSubletPer);
 							if (oClaimSelectedGroup == "Authorization") {
+								this.getView().byId("idAuthorizationLinkForm").setProperty("visible", true);
+								this.getView().byId("idClaimPrOpt").setProperty("visible", true);
+								this.getView().byId("idAuthGWCLM").setProperty("visible", false);
 								if (oPartPer != "0" || oLabourPer != "0" || oSubletPer != "0") {
 									this.getView().byId("idPricingOpt").setSelectedIndex(1);
 									this.getView().byId("idParticiaptionTable").setProperty("visible", false);
@@ -475,9 +479,12 @@ sap.ui.define([
 									this.getView().byId("idDiscountTable").setProperty("visible", false);
 								}
 							} else if (oGroupDescription == "ZGGW") {
+								this.getView().byId("idClaimPrOpt").setProperty("visible", false);
+								this.getView().byId("idAuthGWCLM").setProperty("visible", true);
 								this.getView().byId("idPricingOptGW").setSelectedIndex(0);
 								this.getView().byId("idParticiaptionTable").setProperty("visible", true);
 								this.getView().byId("idDiscountTable").setProperty("visible", false);
+								this.getView().byId("idAuthorizationLinkForm").setProperty("visible", false);
 							}
 
 							this.getView().getModel("DataPercetCalculate").setProperty("/CustomerPer", ocust);
@@ -501,6 +508,7 @@ sap.ui.define([
 					this.getModel("LocalDataModel").setProperty("/WarrantyClaimNumber", oBundle.getText("TCIClaimNumber") + " : " + oClaim);
 					this.getView().byId("idAuthGWCLM").setProperty("visible", false);
 					this.getView().byId("idClaimPrOpt").setProperty("visible", true);
+					this.getView().byId("idAuthorizationLinkForm").setProperty("visible", true);
 
 				}
 
