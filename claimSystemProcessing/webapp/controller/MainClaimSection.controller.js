@@ -435,7 +435,8 @@ sap.ui.define([
 						this.getModel("LocalDataModel").setProperty("/SaveAuthClaim", oBundle.getText("SaveClaim"));
 						this.getModel("LocalDataModel").setProperty("/copyClaimAuthText", oBundle.getText("CopytoAuthorization"));
 						this.getView().getModel("DateModel").setProperty("/warrantySubmissionClaim", false);
-						this.getView().byId("idAuthorizationForm").setProperty("visible", false);
+						this.getView().byId("idAuthorizationForm").setProperty("visible", true);
+						this.getView().byId("idPricingOptGW").setSelectedIndex(0);
 					}
 
 					this.getModel("LocalDataModel").setProperty("/linkToAuth", false);
@@ -8101,11 +8102,14 @@ sap.ui.define([
 			if (oSelectedRadio == 1) {
 
 				this.getView().byId("idAuthorizationLinkForm").setProperty("visible", true);
+				this.getView().byId("idAuthorizationForm").setProperty("visible", true);
+
 				this.getModel("LocalDataModel").setProperty("/linkToAuth", true);
 				this.getModel("LocalDataModel").setProperty("/reCalculate", false);
 				this.getView().byId("idParticiaptionTable").setProperty("visible", false);
 			} else {
 				this.getView().byId("idParticiaptionTable").setProperty("visible", true);
+
 				this.getView().byId("idAuthorizationLinkForm").setProperty("visible", false);
 				this.getModel("LocalDataModel").setProperty("/linkToAuth", false);
 				this.getModel("LocalDataModel").setProperty("/reCalculate", true);
