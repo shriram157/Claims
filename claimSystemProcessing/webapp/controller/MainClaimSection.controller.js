@@ -1520,9 +1520,25 @@ sap.ui.define([
 
 				if (oClaimSelectedGroup == "Authorization") {
 					this.getView().getModel("DateModel").setProperty("/warrantySubmissionClaim", true);
-
-				} else {
+					this.getView().byId("idAuthorizationForm").setProperty("visible", true);
+					this.getView().byId("idAuthorizationLinkForm").setProperty("visible", true);
+					this.getView().byId("idClaimPrOpt").setProperty("visible", true);
+					this.getView().byId("idAuthGWCLM").setProperty("visible", false);
+					this.getModel("LocalDataModel").setProperty("/PercentState", true);
+				} else if (oClaimSelectedGroup == "Claim" && oGroupDescription != "ZGGW") {
+					this.getView().byId("idAuthorizationForm").setProperty("visible", true);
+					this.getView().byId("idClaimPrOpt").setProperty("visible", true);
 					this.getView().getModel("DateModel").setProperty("/warrantySubmissionClaim", false);
+					this.getView().byId("idAuthGWCLM").setProperty("visible", false);
+					this.getModel("LocalDataModel").setProperty("/PercentState", false);
+				} else {
+					this.getView().byId("idAuthorizationForm").setProperty("visible", false);
+					this.getView().byId("idClaimPrOpt").setProperty("visible", false);
+					this.getView().byId("idParticiaptionTable").setProperty("visible", true);
+					this.getView().byId("idDiscountTable").setProperty("visible", false);
+					this.getView().byId("idAuthGWCLM").setProperty("visible", true);
+					this.getModel("LocalDataModel").setProperty("/PercentState", true);
+
 				}
 
 				this.getModel("LocalDataModel").setProperty("/step01Next", false);
@@ -2484,6 +2500,31 @@ sap.ui.define([
 				this.getModel("LocalDataModel").setProperty("/DealerPriceText", oBundle.getText("MSRP"));
 			} else {
 				this.getModel("LocalDataModel").setProperty("/DealerPriceText", oBundle.getText("DealerNetPrice"));
+
+			}
+
+			this._fnClaimAuthvisible(oKey);
+
+		},
+
+		_fnClaimAuthvisible: function (key) {
+			var claimType = this.getModel("LocalDataModel").getProperty("/WarrantyClaimTypeGroup");
+			if (claimType == "Claim" && key != "ZGGW") {
+				this.getView().byId("idAuthorizationForm").setProperty("visible", true);
+				this.getView().byId("idClaimPrOpt").setProperty("visible", true);
+				this.getView().getModel("DateModel").setProperty("/warrantySubmissionClaim", false);
+				this.getView().byId("idAuthGWCLM").setProperty("visible", false);
+				this.getView().byId("idAuthorizationLinkForm").setProperty("visible", true);
+				this.getView().byId("idParticiaptionTable").setProperty("visible", true);
+				this.getModel("LocalDataModel").setProperty("/PercentState", false);
+			} else if (claimType == "Claim" && key == "ZGGW") {
+				this.getView().byId("idClaimPrOpt").setProperty("visible", false);
+				this.getView().byId("idAuthGWCLM").setProperty("visible", true);
+				this.getView().byId("idPricingOptGW").setSelectedIndex(0);
+				this.getView().byId("idParticiaptionTable").setProperty("visible", true);
+				this.getView().byId("idDiscountTable").setProperty("visible", false);
+				this.getView().byId("idAuthorizationLinkForm").setProperty("visible", false);
+				this.getModel("LocalDataModel").setProperty("/PercentState", true);
 
 			}
 
