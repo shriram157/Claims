@@ -426,6 +426,7 @@ sap.ui.define([
 						this.getModel("LocalDataModel").setProperty("/copyClaimAuthText", oBundle.getText("CopytoClaim"));
 						this.getView().getModel("DateModel").setProperty("/warrantySubmissionClaim", true);
 						this.getView().byId("idAuthGWCLM").setProperty("visible", false);
+						this.getView().byId("idAuthorizationForm").setProperty("visible", true);
 					} else if (oGroupDescription == "ZGGW") {
 						clmNumAuth = "Numberofwarrantyclaim";
 						clmAuthNum = "NumberOfWarrantyClaim";
@@ -434,6 +435,7 @@ sap.ui.define([
 						this.getModel("LocalDataModel").setProperty("/SaveAuthClaim", oBundle.getText("SaveClaim"));
 						this.getModel("LocalDataModel").setProperty("/copyClaimAuthText", oBundle.getText("CopytoAuthorization"));
 						this.getView().getModel("DateModel").setProperty("/warrantySubmissionClaim", false);
+						this.getView().byId("idAuthorizationForm").setProperty("visible", false);
 					}
 
 					this.getModel("LocalDataModel").setProperty("/linkToAuth", false);
@@ -1567,16 +1569,14 @@ sap.ui.define([
 					this.getModel("LocalDataModel").setProperty("/WarrantyClaimNumber", oBundle.getText("TCIAuthNumber"));
 					this.getView().getModel("DateModel").setProperty("/copyClaimEnable", false);
 					this.getModel("LocalDataModel").setProperty("/linkToAuth", false);
-					this.getModel("LocalDataModel").setProperty("/reCalculate", true);
-					this.getModel("LocalDataModel").setProperty("/PercentState", true);
+
 				} else {
 					this.getModel("LocalDataModel").setProperty("/WarrantyClaimNumber", oBundle.getText("TCIClaimNumber"));
 					this.getView().getModel("DateModel").setProperty("/copyClaimEnable", true);
 					this.getModel("LocalDataModel").setProperty("/copyClaimAuthText", oBundle.getText("CopytoAuthorization"));
 					this.getModel("LocalDataModel").setProperty("/SaveAuthClaim", oBundle.getText("SaveClaim"));
 					this.getModel("LocalDataModel").setProperty("/linkToAuth", true);
-					this.getModel("LocalDataModel").setProperty("/reCalculate", false);
-					this.getModel("LocalDataModel").setProperty("/PercentState", false);
+
 				}
 				//this.getView().getModel("DateModel").setProperty("/enableTab", false);
 				this.getView().byId("idFilter02").setProperty("enabled", false);
@@ -2524,6 +2524,7 @@ sap.ui.define([
 				this.getView().byId("idParticiaptionTable").setProperty("visible", true);
 				this.getView().byId("idDiscountTable").setProperty("visible", false);
 				this.getView().byId("idAuthorizationLinkForm").setProperty("visible", false);
+
 				this.getModel("LocalDataModel").setProperty("/PercentState", true);
 
 			}
@@ -3361,7 +3362,7 @@ sap.ui.define([
 									this.getModel("LocalDataModel").setProperty("/WarrantyClaimNumber", oBundle.getText("TCIAuthNumber") + " : " + oCLaim);
 									this.getModel("LocalDataModel").setProperty("/linkToAuth", false);
 									this.getModel("LocalDataModel").setProperty("/reCalculate", true);
-									this.getModel("LocalDataModel").setProperty("/PercentState", true);
+
 									oClaimModel.read("/zc_authorization_detailsSet", {
 										urlParameters: {
 											"$filter": "AuthorizationNumber eq '" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") + "'"
@@ -3375,7 +3376,7 @@ sap.ui.define([
 										oCLaim);
 									this.getModel("LocalDataModel").setProperty("/linkToAuth", true);
 									this.getModel("LocalDataModel").setProperty("/reCalculate", false);
-									this.getModel("LocalDataModel").setProperty("/PercentState", false);
+
 								}
 
 								oClaimModel.read("/ZC_CLAIM_SUBLET_CODE", {
@@ -8105,6 +8106,7 @@ sap.ui.define([
 				this.getView().byId("idAuthorizationLinkForm").setProperty("visible", false);
 				this.getModel("LocalDataModel").setProperty("/linkToAuth", false);
 				this.getModel("LocalDataModel").setProperty("/reCalculate", true);
+
 			}
 		},
 		onSelectAuthPricingOpt: function (oEvent) {
