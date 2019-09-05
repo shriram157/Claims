@@ -1531,12 +1531,14 @@ sap.ui.define([
 					this.getView().byId("idClaimPrOpt").setProperty("visible", true);
 					this.getView().byId("idAuthGWCLM").setProperty("visible", false);
 					this.getModel("LocalDataModel").setProperty("/PercentState", true);
+					this.getModel("LocalDataModel").setProperty("/reCalculate", true);
 				} else if (oClaimSelectedGroup == "Claim" && oGroupDescription != "ZGGW") {
 					this.getView().byId("idAuthorizationForm").setProperty("visible", true);
 					this.getView().byId("idClaimPrOpt").setProperty("visible", true);
 					this.getView().getModel("DateModel").setProperty("/warrantySubmissionClaim", false);
 					this.getView().byId("idAuthGWCLM").setProperty("visible", false);
 					this.getModel("LocalDataModel").setProperty("/PercentState", false);
+					this.getModel("LocalDataModel").setProperty("/reCalculate", false);
 				} else {
 					this.getView().byId("idAuthorizationForm").setProperty("visible", false);
 					this.getView().byId("idClaimPrOpt").setProperty("visible", false);
@@ -1544,6 +1546,7 @@ sap.ui.define([
 					this.getView().byId("idDiscountTable").setProperty("visible", false);
 					this.getView().byId("idAuthGWCLM").setProperty("visible", true);
 					this.getModel("LocalDataModel").setProperty("/PercentState", true);
+					this.getModel("LocalDataModel").setProperty("/reCalculate", true);
 
 				}
 
@@ -2521,15 +2524,16 @@ sap.ui.define([
 				this.getView().byId("idAuthorizationLinkForm").setProperty("visible", true);
 				this.getView().byId("idParticiaptionTable").setProperty("visible", true);
 				this.getModel("LocalDataModel").setProperty("/PercentState", false);
+				this.getModel("LocalDataModel").setProperty("/reCalculate", false);
 			} else if (claimType == "Claim" && key == "ZGGW") {
 				this.getView().byId("idClaimPrOpt").setProperty("visible", false);
 				this.getView().byId("idAuthGWCLM").setProperty("visible", true);
 				this.getView().byId("idPricingOptGW").setSelectedIndex(0);
+				this.getModel("LocalDataModel").setProperty("/reCalculate", true);
+				this.getModel("LocalDataModel").setProperty("/PercentState", true);
 				this.getView().byId("idParticiaptionTable").setProperty("visible", true);
 				this.getView().byId("idDiscountTable").setProperty("visible", false);
 				this.getView().byId("idAuthorizationLinkForm").setProperty("visible", false);
-
-				this.getModel("LocalDataModel").setProperty("/PercentState", true);
 
 			}
 
@@ -8106,13 +8110,18 @@ sap.ui.define([
 
 				this.getModel("LocalDataModel").setProperty("/linkToAuth", true);
 				this.getModel("LocalDataModel").setProperty("/reCalculate", false);
-				this.getView().byId("idParticiaptionTable").setProperty("visible", false);
+				this.getView().byId("idClaimPrOpt").setProperty("visible", true);
+				this.getView().byId("idParticiaptionTable").setProperty("visible", true);
+				this.getModel("LocalDataModel").setProperty("/PercentState", false);
+
 			} else {
 				this.getView().byId("idParticiaptionTable").setProperty("visible", true);
-
+				this.getView().byId("idClaimPrOpt").setProperty("visible", false);
 				this.getView().byId("idAuthorizationLinkForm").setProperty("visible", false);
 				this.getModel("LocalDataModel").setProperty("/linkToAuth", false);
 				this.getModel("LocalDataModel").setProperty("/reCalculate", true);
+				this.getModel("LocalDataModel").setProperty("/true", false);
+				this.getModel("LocalDataModel").setProperty("/PercentState", true);
 
 			}
 		},
