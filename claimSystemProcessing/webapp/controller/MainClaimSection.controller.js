@@ -5011,7 +5011,6 @@ sap.ui.define([
 			this.getView().getModel("DateModel").setProperty("/editableSublNumber", true);
 		},
 		onPressRecalculate: function () {
-
 			var oRadioInd = this.getView().byId("idPricingOpt").getSelectedIndex();
 			var oCustomerPer = parseInt(this.getView().getModel("DataPercetCalculate").getProperty("/CustomerPer"));
 			var oDealerPer = parseInt(this.getView().getModel("DataPercetCalculate").getProperty("/DealerPer"));
@@ -5019,17 +5018,26 @@ sap.ui.define([
 			var PartPer = parseInt(this.getView().getModel("DataPercetCalculate").getProperty("/PartPer"));
 			var LabourPer = parseInt(this.getView().getModel("DataPercetCalculate").getProperty("/LabourPer"));
 			var SublPer = parseInt(this.getView().getModel("DataPercetCalculate").getProperty("/SubletPer"));
-
 			var oAuthNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var oClaimModel = this.getModel("ProssingModel");
+
+			var oGroupType = this.getModel("LocalDataModel").getProperty("/WarrantyClaimTypeGroup");
+			var oClaimtype = this.getModel("LocalDataModel").getProperty("/GroupDescriptionName");
+			var oClmType = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType");
+			var auClaimtype;
+			if (oGroupType == "Claim" && oClaimtype == "ZGGW") {
+				auClaimtype = "Numberofwarrantyclaim";
+			} else {
+				auClaimtype = "AuthorizationNumber";
+			}
 
 			if (oRadioInd == 0) {
 				if ((oCustomerPer + oDealerPer + oTciPer) == 100) {
 					this.getModel("LocalDataModel").setProperty("/discountBusyIndicator", true);
 					oClaimModel.read("/zc_authorizationSet", {
 						urlParameters: {
-							"$filter": "PricingOption eq'P'and DBOperation eq 'POST'and AuthorizationNumber eq '" + oAuthNum + "'and DealerPer eq '" +
+							"$filter": "PricingOption eq'P'and DBOperation eq 'POST'and " + auClaimtype + " eq '" + oAuthNum + "'and DealerPer eq '" +
 								oDealerPer +
 								"'and CustomerPer eq '" + oCustomerPer +
 								"'and TCIPer eq '" + oTciPer + "'"
@@ -5046,7 +5054,6 @@ sap.ui.define([
 							this.getView().getModel("DataPercetCalculate").setProperty("/CustomerPer", ocust);
 							this.getView().getModel("DataPercetCalculate").setProperty("/DealerPer", odeal);
 							this.getView().getModel("DataPercetCalculate").setProperty("/TCIPer", otci);
-
 							this.getView().getModel("DataPercetCalculate").setProperty("/PartPer", oPartPer);
 							this.getView().getModel("DataPercetCalculate").setProperty("/LabourPer", oLabourPer);
 							this.getView().getModel("DataPercetCalculate").setProperty("/SubletPer", oSubletPer);
@@ -5070,7 +5077,7 @@ sap.ui.define([
 				this.getModel("LocalDataModel").setProperty("/discountBusyIndicator", true);
 				oClaimModel.read("/zc_authorizationSet", {
 					urlParameters: {
-						"$filter": "PricingOption eq 'D'and DBOperation eq 'POST'and AuthorizationNumber eq '" + oAuthNum + "'and PartPer eq '" +
+						"$filter": "PricingOption eq 'D'and DBOperation eq 'POST'and " + auClaimtype + " eq '" + oAuthNum + "'and PartPer eq '" +
 							PartPer +
 							"'and LabourPer eq '" + LabourPer +
 							"'and SubletPer eq '" + SublPer + "'"
@@ -8104,25 +8111,23 @@ sap.ui.define([
 		onSelectAuthGoodWill: function (oEvent) {
 			var oSelectedRadio = oEvent.getSource().getSelectedIndex();
 			if (oSelectedRadio == 1) {
-
 				this.getView().byId("idAuthorizationLinkForm").setProperty("visible", true);
 				this.getView().byId("idAuthorizationForm").setProperty("visible", true);
-
 				this.getModel("LocalDataModel").setProperty("/linkToAuth", true);
 				this.getModel("LocalDataModel").setProperty("/reCalculate", false);
 				this.getView().byId("idClaimPrOpt").setProperty("visible", true);
 				this.getView().byId("idParticiaptionTable").setProperty("visible", true);
 				this.getModel("LocalDataModel").setProperty("/PercentState", false);
-
+				this.getView().byId("idPricingOpt").setSelectedIndex(0);
 			} else {
 				this.getView().byId("idParticiaptionTable").setProperty("visible", true);
+				this.getView().byId("idDiscountTable").setProperty("visible", false);
 				this.getView().byId("idClaimPrOpt").setProperty("visible", false);
 				this.getView().byId("idAuthorizationLinkForm").setProperty("visible", false);
 				this.getModel("LocalDataModel").setProperty("/linkToAuth", false);
 				this.getModel("LocalDataModel").setProperty("/reCalculate", true);
 				this.getModel("LocalDataModel").setProperty("/true", false);
 				this.getModel("LocalDataModel").setProperty("/PercentState", true);
-
 			}
 		},
 		onSelectAuthPricingOpt: function (oEvent) {
