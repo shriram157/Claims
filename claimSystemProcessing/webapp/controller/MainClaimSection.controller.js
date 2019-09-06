@@ -450,7 +450,9 @@ sap.ui.define([
 							"$filter": clmAuthNum + " eq '" + oClaim + "'"
 						},
 						success: $.proxy(function (oAuthData) {
-							this.getModel("LocalDataModel").setProperty("/DataAuthDetails", oAuthData.results[0]);
+							if (oAuthData.results[0].AuthorizationNumber != "") {
+								this.getModel("LocalDataModel").setProperty("/DataAuthDetails", oAuthData.results[0]);
+							}
 						}, this)
 					});
 
@@ -579,7 +581,9 @@ sap.ui.define([
 										"$filter": "AuthorizationNumber eq '" + data.results[0].AuthorizationNumber + "'"
 									},
 									success: $.proxy(function (oAuthData) {
-										this.getModel("LocalDataModel").setProperty("/DataAuthDetails", oAuthData.results[0]);
+										if (oAuthData.results[0].AuthorizationNumber != "") {
+											this.getModel("LocalDataModel").setProperty("/DataAuthDetails", oAuthData.results[0]);
+										}
 									}, this)
 								});
 
@@ -3366,17 +3370,29 @@ sap.ui.define([
 								this.getView().getModel("HeadSetData").setProperty("/DeliveryDate", response.data.DeliveryDate);
 								var oCLaim = this.getModel("LocalDataModel").getProperty("/ClaimDetails/NumberOfWarrantyClaim");
 								this.getView().getModel("HeadSetData").setProperty("/NumberOfWarrantyClaim", oCLaim);
-								if (oGroupType == "Authorization") {
+								var clmAuthNum;
+								if (oGroupType == "Authorization" || this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") ==
+									"ZGGW") {
+
+									if (oGroupType == "Authorization") {
+										clmAuthNum = "AuthorizationNumber";
+
+									} else if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZGGW") {
+										clmAuthNum = "NumberOfWarrantyClaim";
+									}
+
 									this.getModel("LocalDataModel").setProperty("/WarrantyClaimNumber", oBundle.getText("TCIAuthNumber") + " : " + oCLaim);
 									this.getModel("LocalDataModel").setProperty("/linkToAuth", false);
 									this.getModel("LocalDataModel").setProperty("/reCalculate", true);
 
 									oClaimModel.read("/zc_authorization_detailsSet", {
 										urlParameters: {
-											"$filter": "AuthorizationNumber eq '" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") + "'"
+											"$filter": clmAuthNum + " eq '" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") + "'"
 										},
 										success: $.proxy(function (oAuthData) {
-											this.getModel("LocalDataModel").setProperty("/DataAuthDetails", oAuthData.results[0]);
+											if (oAuthData.results[0].AuthorizationNumber != "") {
+												this.getModel("LocalDataModel").setProperty("/DataAuthDetails", oAuthData.results[0]);
+											}
 										}, this)
 									});
 								} else if (oGroupType == "Claim") {
@@ -3431,7 +3447,9 @@ sap.ui.define([
 									"$filter": "AuthorizationNumber eq '" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") + "'"
 								},
 								success: $.proxy(function (oAuthData) {
-									this.getModel("LocalDataModel").setProperty("/DataAuthDetails", oAuthData.results[0]);
+									if (oAuthData.results[0].AuthorizationNumber != "") {
+										this.getModel("LocalDataModel").setProperty("/DataAuthDetails", oAuthData.results[0]);
+									}
 								}, this)
 							});
 						}
@@ -5266,7 +5284,9 @@ sap.ui.define([
 											"$filter": "AuthorizationNumber eq '" + oAuthNum + "'"
 										},
 										success: $.proxy(function (oAuthData) {
-											this.getModel("LocalDataModel").setProperty("/DataAuthDetails", oAuthData.results[0]);
+											if (oAuthData.results[0].AuthorizationNumber != "") {
+												this.getModel("LocalDataModel").setProperty("/DataAuthDetails", oAuthData.results[0]);
+											}
 										}, this)
 									});
 
@@ -5338,7 +5358,9 @@ sap.ui.define([
 									"$filter": "AuthorizationNumber eq '" + oClaimNum + "'"
 								},
 								success: $.proxy(function (oAuthData) {
-									this.getModel("LocalDataModel").setProperty("/DataAuthDetails", oAuthData.results[0]);
+									if (oAuthData.results[0].AuthorizationNumber != "") {
+										this.getModel("LocalDataModel").setProperty("/DataAuthDetails", oAuthData.results[0]);
+									}
 								}, this)
 							});
 							oClaimModel.read("/zc_authorizationSet", {
@@ -5473,7 +5495,9 @@ sap.ui.define([
 					"$filter": "AuthorizationNumber eq '" + oClaim + "'"
 				},
 				success: $.proxy(function (oAuthData) {
-					this.getModel("LocalDataModel").setProperty("/DataAuthDetails", oAuthData.results[0]);
+					if (oAuthData.results[0].AuthorizationNumber != "") {
+						this.getModel("LocalDataModel").setProperty("/DataAuthDetails", oAuthData.results[0]);
+					}
 				}, this)
 			});
 
