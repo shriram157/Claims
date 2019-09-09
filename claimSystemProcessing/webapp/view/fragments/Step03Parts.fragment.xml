@@ -1,5 +1,5 @@
 <core:FragmentDefinition xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:u="sap.ui.unified" xmlns:l="sap.ui.layout"
-	xmlns="sap.m" xmlns:t="sap.ui.table">
+	xmlns="sap.m" xmlns:t="sap.ui.table" xmlns:custom="zclaimProcessing.control">
 	<VBox class="sapUiSmallMargin clFormTitleGap" id="idPartForm" busy="{DateModel>/SavePWPartIndicator}">
 		<Panel width="auto" class="sapUiSmallMarginBottom" accessibleRole="Region">
 			<headerToolbar>
@@ -24,25 +24,30 @@
 					<f:content>
 						<HBox>
 							<Label text="{i18n>DamageCondition} " class="sapUiSmallMargin" textAlign="Begin" visible="{multiHeaderConfig>/partDamage}"/>
-							<Select valueState="{DateModel>/ddType}" width="15rem" id="DmgCodes" enabled="{DateModel>/partLine}" change="onDDChange"
-								showSecondaryValues="false" items="{DropDownModel>/items}" visible="{multiHeaderConfig>/partDamage}"
-								selectedKey="{HeadSetData>/DamageCondition}">
-								<core:ListItem key="{DropDownModel>DiscreCode}" text="{path:'DropDownModel>ALMDiscreDesc'}" additionalText="{DropDownModel>ALMDiscreCode}"/>
-							</Select>
+							<!--<Select valueState="{DateModel>/ddType}" width="15rem" id="DmgCodes" enabled="{DateModel>/partLine}" change="onDDChange"-->
+							<!--	showSecondaryValues="false" items="{DropDownModel>/items}" visible="{multiHeaderConfig>/partDamage}"-->
+							<!--	selectedKey="{HeadSetData>/DamageCondition}">-->
+							<!--	<core:ListItem key="{DropDownModel>DiscreCode}" text="{path:'DropDownModel>ALMDiscreDesc'}" additionalText="{DropDownModel>ALMDiscreCode}"/>-->
+							<!--</Select>-->
+							<custom:CustomCombo showSecondaryValues="true" id="DmgCodes" enabled="{DateModel>/editPartType}" required="true"
+								items="{DropDownModel>/items}" selectionChange="onDDChange" selectedKey="{HeadSetData>/DamageCondition}" valueState="{DateModel>/ddType}"
+								value="{path:'PartDataModel>/ALMDiscreDesc', type : 'sap.ui.model.type.String' }">
+								<core:ListItem text="{path:'DropDownModel>ALMDiscreDesc'}" key="{DropDownModel>DiscreCode}" additionalText="{DropDownModel>ALMDiscreCode}"/>
+							</custom:CustomCombo>
 							<Label text="{i18n>DiscrepancyType}" class="sapUiSmallMargin" textAlign="Begin" visible="{multiHeaderConfig>/partDiscrepancies}"/>
-							<Select valueState="{DateModel>/ddType}" width="15rem" id="DscpCodes" enabled="{DateModel>/partLine}" change="onDDChange"
+							<Select valueState="{DateModel>/ddType}" width="15rem" id="DscpCodes" enabled="{DateModel>/editPartType}" change="onDDChange"
 								showSecondaryValues="false" items="{DropDownModel>/items}" visible="{multiHeaderConfig>/partDiscrepancies}"
 								selectedKey="{HeadSetData>/DiscrepancyCodes}">
 								<core:ListItem key="{DropDownModel>DiscreCode}" text="{path:'DropDownModel>ALMDiscreDesc'}" additionalText="{DropDownModel>ALMDiscreCode}"/>
 							</Select>
 							<Label text="{i18n>MiscellaneousCode} " class="sapUiSmallMargin" textAlign="Begin" visible="{multiHeaderConfig>/partMiscellanious}"/>
-							<Select valueState="{DateModel>/ddType}" width="15rem" id="MscCodes" enabled="{DateModel>/partLine}" change="onDDChange"
+							<Select valueState="{DateModel>/ddType}" width="15rem" id="MscCodes" enabled="{DateModel>/editPartType}" change="onDDChange"
 								showSecondaryValues="false" items="{DropDownModel>/items}" visible="{multiHeaderConfig>/partMiscellanious}"
 								selectedKey="{HeadSetData>/MiscellaneousCode}">
 								<core:ListItem key="{DropDownModel>DiscreCode}" text="{path:'DropDownModel>ALMDiscreDesc'}" additionalText="{DropDownModel>ALMDiscreCode}"/>
 							</Select>
 							<Label text="{i18n>TransportShortageType} " class="sapUiSmallMargin" textAlign="Begin" visible="{multiHeaderConfig>/partTransportation}"/>
-							<Select valueState="{DateModel>/ddType}" width="15rem" id="TransportCodes" enabled="{DateModel>/partLine}" change="onDDChange"
+							<Select valueState="{DateModel>/ddType}" width="15rem" id="TransportCodes" enabled="{DateModel>/editPartType}" change="onDDChange"
 								showSecondaryValues="false" items="{DropDownModel>/items}" visible="{multiHeaderConfig>/partTransportation}"
 								selectedKey="{HeadSetData>/TranportShortageType}">
 								<core:ListItem key="{DropDownModel>DiscreCode}" text="{path:'DropDownModel>ALMDiscreDesc'}" additionalText="{DropDownModel>ALMDiscreCode}"/>
@@ -95,8 +100,9 @@
 							<Text text="" id="textHeaderLabel"/>
 							<core:Title text=""/>
 							<UploadCollection id="UploadCollection" maximumFilenameLength="50" filenameLengthExceed="onFileNameLengthExceed" maximumFileSize="10"
-								sameFilenameAllowed="false" fileSizeExceed="onFileSizeExceed" uploadEnabled="{LocalDataModel>/UploadEnable}" change="onUploadChangeParts"
-								uploadComplete="onUploadComplete02Parts" fileDeleted="onFileDeleted02" visible="{multiHeaderConfig>/uploader}"
+								sameFilenameAllowed="false" busy="{LocalDataModel>/IndicatorState}" fileSizeExceed="onFileSizeExceed"
+								uploadEnabled="{LocalDataModel>/UploadEnable}" change="onUploadChangeParts" uploadComplete="onUploadComplete02Parts"
+								fileDeleted="onFileDeleted02" visible="{multiHeaderConfig>/uploader}"
 								items="{ path: 'LocalDataModel>/partItemAttachments', templateShareable: false }">
 								<toolbar>
 									<OverflowToolbar>

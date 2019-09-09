@@ -280,12 +280,15 @@ sap.ui.define([
 		},
 		_onRoutMatched: function (oEvent) {
 			this.getModel("LocalDataModel").setProperty("/PartHeadAttachData", []);
+			this.getModel("LocalDataModel").setProperty("/IndicatorState", false);
+
 			var oDateModel = new sap.ui.model.json.JSONModel();
 			oDateModel.setData({
 				dateValueDRS2: new Date(2018, 1, 1),
 				secondDateValueDRS2: new Date(2018, 2, 1),
 				partLine: false,
 				oFormEdit: false,
+				editPartType: false,
 				oFormShipmentEdit: false,
 				claimTypeEn: false,
 				SaveClaim07: false,
@@ -413,6 +416,7 @@ sap.ui.define([
 			this.getModel("LocalDataModel").setProperty("/WarrantyClaimNum", oClaim);
 			this.getModel("LocalDataModel").setProperty("/oErrorSet", "");
 			if (oClaim != "nun" && oClaim != undefined) {
+				this.getView().getModel("DateModel").setProperty("/editPartType", false);
 				this.getView().getModel("DateModel").setProperty("/PWPrintEnable", true);
 				this.getModel("LocalDataModel").setProperty("/CancelEnable", true);
 				this.getModel("LocalDataModel").setProperty("/step01Next", true);
@@ -1072,7 +1076,7 @@ sap.ui.define([
 			} else {
 				this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", false);
 				this.getView().getModel("DateModel").setProperty("/PWPrintEnable", false);
-
+				this.getView().getModel("DateModel").setProperty("/editPartType", false);
 				this.getModel("LocalDataModel").setProperty("/UploadEnableHeader", true);
 				this.getModel("LocalDataModel").setProperty("/step01Next", false);
 				this.getModel("ProssingModel").refresh();
@@ -1808,9 +1812,9 @@ sap.ui.define([
 													return val.ItemType === "MAT";
 												});
 												for (var m = 0; m < oFilteredData.length; m++) {
-													if (oFilteredData[m].ALMDiscreDesc != undefined || oFilteredData[m].ALMDiscreDesc != "") {
-														oFilteredData[m].ALMDiscreDesc = oFilteredData[m].ALMDiscreDesc.split("-")[1];
-													}
+													// 	if (oFilteredData[m].ALMDiscreDesc != undefined || oFilteredData[m].ALMDiscreDesc != "") {
+													// 		oFilteredData[m].ALMDiscreDesc = oFilteredData[m].ALMDiscreDesc.split("-")[1];
+													// 	}
 													// oFilteredData[m].quant = oFilteredData[m].PartQty;
 													oFilteredData[m].quant = oFilteredData[m].PartQty;
 												}
@@ -2670,6 +2674,7 @@ sap.ui.define([
 			oDialogBox.open();
 		},
 		onPressAddPart: function () {
+			this.getView().getModel("DateModel").setProperty("/editPartType", true);
 			this.getView().getModel("DateModel").setProperty("/partLine", true);
 			this.getModel("LocalDataModel").setProperty("/UploadEnable", true);
 			this.getView().getModel("DateModel").setProperty("/editablePartNumber", true);
@@ -2805,6 +2810,8 @@ sap.ui.define([
 					}
 					this.getView().getModel("HeadSetData").setProperty("/RepairAmount", obj.RepairAmt);
 					this.getView().getModel("HeadSetData").setProperty("/DamageCondition", obj.DiscreCode);
+					this.getView().getModel("PartDataModel").setProperty("/ALMDiscreDesc", obj.ALMDiscreDesc);
+
 					this.getView().getModel("HeadSetData").setProperty("/MiscellaneousCode", obj.DiscreCode);
 					this.getView().getModel("HeadSetData").setProperty("/TranportShortageType", obj.DiscreCode);
 					if (obj.URI !== "") {
@@ -3289,6 +3296,7 @@ sap.ui.define([
 		},
 
 		onUploadChangeParts: function (oEvent) {
+			this.getModel("LocalDataModel").setProperty("/IndicatorState", true);
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var that = this;
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
@@ -3375,6 +3383,7 @@ sap.ui.define([
 
 			oClaimModel.create("/zc_headSet", this.obj, {
 				success: $.proxy(function (data, response) {
+					this.getModel("LocalDataModel").setProperty("/IndicatorState", false);
 					MessageToast.show(oBundle.getText("SuccesFullyUploaded"));
 					this.obj.zc_claim_attachmentsSet.results.pop();
 					oClaimModel.read("/zc_claim_attachmentsSet", {
@@ -3383,6 +3392,7 @@ sap.ui.define([
 						},
 						//	startswith(CompanyName, 'Alfr') eq true
 						success: $.proxy(function (odata) {
+
 							var oArr = odata.results;
 							var oAttachSet = oArr.map(function (item) {
 								item.FileName = item.FileName.replace("HEAD@@@", "");
@@ -3394,9 +3404,10 @@ sap.ui.define([
 					});
 
 				}, this),
-				error: function (err) {
+				error: $.proxy(function (err) {
 					console.log(err);
-				}
+					this.getModel("LocalDataModel").setProperty("/IndicatorState", false);
+				}, this)
 			});
 		},
 
@@ -3453,6 +3464,7 @@ sap.ui.define([
 
 			oClaimModel.create("/zc_claim_attachmentsSet", itemObj, {
 				success: $.proxy(function (data, response) {
+					this.getModel("LocalDataModel").setProperty("/IndicatorState", false);
 
 					MessageToast.show(oBundle.getText("SuccesFullyUploaded"));
 					//    var oFileName = "sub" + fileName;
@@ -3472,9 +3484,10 @@ sap.ui.define([
 						}, this)
 					});
 				}, this),
-				error: function (err) {
+				error: $.proxy(function (err) {
 					console.log(err);
-				}
+					this.getModel("LocalDataModel").setProperty("/IndicatorState", false);
+				}, this)
 			});
 		},
 
@@ -4082,8 +4095,7 @@ sap.ui.define([
 					success: $.proxy(function (data, response) {
 						this.getView().getModel("DateModel").setProperty("/SavePWClaimIndicator", false);
 						that.DataRes1 = response.data;
-						this.getView().byId("idFilter02").setProperty("enabled", true);
-						this.getView().byId("idFilter03").setProperty("enabled", true);
+
 						// this.getView().byId("idPartClaimIconBar").setSelectedKey("Tab2");
 						MessageToast.show(that.oBundle.getText("ClaimSuccessMSG"));
 						this.getModel("LocalDataModel").setProperty("/WarrantyClaimNum", response.data.NumberOfWarrantyClaim);

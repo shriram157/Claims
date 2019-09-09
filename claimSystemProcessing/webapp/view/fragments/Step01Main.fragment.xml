@@ -100,7 +100,7 @@
 				<f:content>
 					<UploadCollection id="UploadSupportingDoc" maximumFilenameLength="50" filenameLengthExceed="onFileNameLengthExceed" maximumFileSize="10"
 						sameFilenameAllowed="false" fileSizeExceed="onFileSizeExceed" uploadEnabled="{LocalDataModel>/UploadEnableHeader}"
-						change="onUploadChangeParts" uploadComplete="onUploadCompleteParts" fileDeleted="onFileDeleted"
+						change="onUploadChangeParts" uploadComplete="onUploadCompleteParts" fileDeleted="onFileDeleted" busy="{LocalDataModel>/IndicatorState}"
 						items="{ path: 'LocalDataModel>/PartHeadAttachData', templateShareable: false }">
 						<toolbar>
 							<OverflowToolbar>
