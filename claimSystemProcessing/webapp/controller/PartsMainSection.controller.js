@@ -655,7 +655,7 @@ sap.ui.define([
 
 											for (var m = 0; m < oFilteredData.length; m++) {
 												if (oFilteredData[m].ALMDiscreDesc != undefined || oFilteredData[m].ALMDiscreDesc != "") {
-													oFilteredData[m].ALMDiscreDesc = oFilteredData[m].ALMDiscreDesc.split("-")[1];
+													oFilteredData[m].ALMDiscreDesc = oFilteredData[m].ALMDiscreDesc;
 												}
 												oFilteredData[m].quant = oFilteredData[m].PartQty;
 											}
@@ -980,7 +980,7 @@ sap.ui.define([
 											}
 											var oFilteredData = filteredPriceData;
 											for (var m = 0; m < oFilteredData.length; m++) {
-												oFilteredData[m].ALMDiscreDesc = oFilteredData[m].ALMDiscreDesc.split("-")[1];
+												oFilteredData[m].ALMDiscreDesc = oFilteredData[m].ALMDiscreDesc;
 												if (filteredPriceData[m].DiscreCode == "3A" && filteredPriceData[m].RetainPart == "Y") {
 													filteredPriceData[m].DealerNet = (-(parseFloat(filteredPriceData[m].DealerNet))).toString();
 													filteredPriceData[m].DiffAmt = (-(parseFloat(filteredPriceData[m].DiffAmt))).toString();
@@ -1711,25 +1711,39 @@ sap.ui.define([
 				if (this.claimType.length == 2) {
 					this.claimType = "ZP" + this.claimType;
 				}
-				if (this.updatePartFlag == true) {
-					if (this.getView().byId("DmgCodes")._getSelectedItemText() != "") {
-						this.getView().getModel("PartDataModel").setProperty("/ALMDiscreDesc", this.getView().getModel("PartDataModel").getProperty(
-							"/DiscreCode") + "-" + this.getView().byId("DmgCodes")._getSelectedItemText());
-					}
-					if (this.getView().byId("DscpCodes")._getSelectedItemText() != "") {
-						this.getView().getModel("PartDataModel").setProperty("/ALMDiscreDesc", this.getView().getModel("PartDataModel").getProperty(
-							"/DiscreCode") + "-" + this.getView().byId("DscpCodes")._getSelectedItemText());
-					}
-					if (this.getView().byId("MscCodes")._getSelectedItemText() != "") {
-						this.getView().getModel("PartDataModel").setProperty("/ALMDiscreDesc", this.getView().getModel("PartDataModel").getProperty(
-							"/DiscreCode") + "-" + this.getView().byId("MscCodes")._getSelectedItemText());
-					}
-					if (this.getView().byId("TransportCodes")._getSelectedItemText() != "") {
-						this.getView().getModel("PartDataModel").setProperty("/ALMDiscreDesc", this.getView().getModel("PartDataModel").getProperty(
-							"/DiscreCode") + "-" + this.getView().byId("TransportCodes")._getSelectedItemText());
-					}
+				// if (this.updatePartFlag == true) {
 
-				}
+				// 	if (this.getView().byId("DmgCodes")._getSelectedItemText() != "") {
+				// 		this.getView().getModel("PartDataModel").setProperty("/ALMDiscreDesc", this.getView().byId("DmgCodes")._getSelectedItemText());
+				// 	}
+				// 	if (this.getView().byId("DscpCodes")._getSelectedItemText() != "") {
+				// 		this.getView().getModel("PartDataModel").setProperty("/ALMDiscreDesc", this.getView().byId("DscpCodes")._getSelectedItemText());
+				// 	}
+				// 	if (this.getView().byId("MscCodes")._getSelectedItemText() != "") {
+				// 		this.getView().getModel("PartDataModel").setProperty("/ALMDiscreDesc", this.getView().byId("MscCodes")._getSelectedItemText());
+				// 	}
+				// 	if (this.getView().byId("TransportCodes")._getSelectedItemText() != "") {
+				// 		this.getView().getModel("PartDataModel").setProperty("/ALMDiscreDesc", this.getView().byId("TransportCodes")._getSelectedItemText());
+				// 	}
+
+				// 	if (this.getView().byId("DmgCodes")._getSelectedItemText() != "") {
+				// 		this.getView().getModel("PartDataModel").setProperty("/ALMDiscreDesc", this.getView().getModel("PartDataModel").getProperty(
+				// 			"/DiscreCode") + "-" + this.getView().byId("DmgCodes")._getSelectedItemText());
+				// 	}
+				// 	if (this.getView().byId("DscpCodes")._getSelectedItemText() != "") {
+				// 		this.getView().getModel("PartDataModel").setProperty("/ALMDiscreDesc", this.getView().getModel("PartDataModel").getProperty(
+				// 			"/DiscreCode") + "-" + this.getView().byId("DscpCodes")._getSelectedItemText());
+				// 	}
+				// 	if (this.getView().byId("MscCodes")._getSelectedItemText() != "") {
+				// 		this.getView().getModel("PartDataModel").setProperty("/ALMDiscreDesc", this.getView().getModel("PartDataModel").getProperty(
+				// 			"/DiscreCode") + "-" + this.getView().byId("MscCodes")._getSelectedItemText());
+				// 	}
+				// 	if (this.getView().byId("TransportCodes")._getSelectedItemText() != "") {
+				// 		this.getView().getModel("PartDataModel").setProperty("/ALMDiscreDesc", this.getView().getModel("PartDataModel").getProperty(
+				// 			"/DiscreCode") + "-" + this.getView().byId("TransportCodes")._getSelectedItemText());
+				// 	}
+
+				//}
 				// }
 
 				if (this.claimType != "ZPPD") {
@@ -1798,6 +1812,8 @@ sap.ui.define([
 
 												var pricingData = pricedata.results;
 												this.getView().getModel("DateModel").setProperty("/SavePWPartIndicator", false);
+												this.getView().getModel("PartDataModel").setProperty("/ALMDiscreDesc", "");
+												this.getView().getModel("DateModel").setProperty("/editPartType", false);
 												MessageToast.show(that.oBundle.getText("PartItemSuccessMSG"));
 
 												// if (this.claimType === "ZPDC" && this.getView().getModel("PartDataModel").getProperty("/DiscreCode") === "8A") {
@@ -1962,6 +1978,8 @@ sap.ui.define([
 							oClaimModel.create("/zc_headSet", this.obj, {
 								success: $.proxy(function (data, response) {
 										this.getView().getModel("DateModel").setProperty("/SavePWPartIndicator", false);
+										this.getView().getModel("DateModel").setProperty("/editPartType", false);
+										this.getView().getModel("PartDataModel").setProperty("/ALMDiscreDesc", "");
 										that.headerResponseData = data;
 
 										oClaimModel.read("/zc_claim_item_price_dataSet", {
@@ -2135,7 +2153,7 @@ sap.ui.define([
 													console.log("filteredPriceData", oFilteredData);
 
 													for (var m = 0; m < oFilteredData.length; m++) {
-														oFilteredData[m].ALMDiscreDesc = oFilteredData[m].ALMDiscreDesc.split("-")[1];
+														oFilteredData[m].ALMDiscreDesc = oFilteredData[m].ALMDiscreDesc;
 														if (filteredPriceData[m].DiscreCode == "3A" && filteredPriceData[m].RetainPart == "Y") {
 															filteredPriceData[m].DealerNet = -(parseFloat(filteredPriceData[m].DealerNet));
 															filteredPriceData[m].DiffAmt = -(parseFloat(filteredPriceData[m].DiffAmt));
@@ -2745,6 +2763,7 @@ sap.ui.define([
 			var oPartNo = this.getView().getModel("PartDataModel").getProperty("/matnr");
 
 			if (oTableIndex.length == 1) {
+				this.getView().getModel("DateModel").setProperty("/editPartType", false);
 				var oSelectedRow = oTableIndex.toString();
 				var obj = this.getModel("LocalDataModel").getProperty(oSelectedRow);
 
@@ -2778,7 +2797,7 @@ sap.ui.define([
 					this.getView().getModel("DateModel").setProperty("/editablePartNumber", false);
 					this.getView().getModel("PartDataModel").setProperty("/DiscreCode", obj.DiscreCode);
 					this.getView().getModel("HeadSetData").setProperty("/DiscrepancyCodes", obj.DiscreCode);
-					this.getView().getModel("PartDataModel").setProperty("/ALMDiscreDesc", obj.ALMDiscreDesc.split("-")[1]);
+					this.getView().getModel("PartDataModel").setProperty("/ALMDiscreDesc", obj.ALMDiscreDesc);
 					if (obj.RetainPart == "Y") {
 						this.getView().getModel("PartDataModel").setProperty("/RetainPart", "Yes");
 					} else if (obj.RetainPart == "N") {
@@ -2801,7 +2820,7 @@ sap.ui.define([
 					}
 					// this.getView().getModel("PartDataModel").setProperty("/RetainPart", obj.RetainPart);
 					if (obj.ALMDiscreDesc != undefined) {
-						this.getView().getModel("PartDataModel").setProperty("/ALMDiscreDesc", obj.ALMDiscreDesc.split("-")[1]);
+						this.getView().getModel("PartDataModel").setProperty("/ALMDiscreDesc", obj.ALMDiscreDesc);
 					}
 					if (obj.PartRepaired == "Y") {
 						this.getView().getModel("HeadSetData").setProperty("/PartRepaired", "Yes");
@@ -2904,6 +2923,7 @@ sap.ui.define([
 			}
 
 			if (oTableIndex.length == 1) {
+				this.getView().getModel("DateModel").setProperty("/editPartType", false);
 				var oIndex = oTable._aSelectedPaths.toString().split("/")[2];
 				this.obj.zc_itemSet.results.splice(oIndex, 1);
 				//this.obj.zc_claim_item_price_dataSet.results = [];
@@ -2927,7 +2947,7 @@ sap.ui.define([
 									});
 									for (var m = 0; m < oFilteredData.length; m++) {
 										if (oFilteredData[m].ALMDiscreDesc != undefined || oFilteredData[m].ALMDiscreDesc != "") {
-											oFilteredData[m].ALMDiscreDesc = oFilteredData[m].ALMDiscreDesc.split("-")[1];
+											oFilteredData[m].ALMDiscreDesc = oFilteredData[m].ALMDiscreDesc;
 										}
 										oFilteredData[m].quant = oFilteredData[m].PartQty;
 									}
@@ -3062,7 +3082,7 @@ sap.ui.define([
 									var oFilteredData = filteredPriceData;
 
 									for (var m = 0; m < oFilteredData.length; m++) {
-										oFilteredData[m].ALMDiscreDesc = oFilteredData[m].ALMDiscreDesc.split("-")[1];
+										oFilteredData[m].ALMDiscreDesc = oFilteredData[m].ALMDiscreDesc;
 										if (filteredPriceData[m].DiscreCode == "3A" && filteredPriceData[m].RetainPart == "Y") {
 											filteredPriceData[m].DealerNet = -(parseFloat(filteredPriceData[m].DealerNet));
 											filteredPriceData[m].DiffAmt = -(parseFloat(filteredPriceData[m].DiffAmt));
@@ -3937,7 +3957,7 @@ sap.ui.define([
 																console.log("filteredPriceData", oFilteredData);
 
 																for (var m = 0; m < oFilteredData.length; m++) {
-																	oFilteredData[m].ALMDiscreDesc = oFilteredData[m].ALMDiscreDesc.split("-")[1];
+																	oFilteredData[m].ALMDiscreDesc = oFilteredData[m].ALMDiscreDesc;
 																	if (filteredPriceData[m].DiscreCode == "3A" && filteredPriceData[m].RetainPart == "Y") {
 																		filteredPriceData[m].DealerNet = -(parseFloat(filteredPriceData[m].DealerNet));
 																		filteredPriceData[m].DiffAmt = -(parseFloat(filteredPriceData[m].DiffAmt));
