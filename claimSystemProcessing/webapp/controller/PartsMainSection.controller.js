@@ -4360,6 +4360,7 @@ sap.ui.define([
 			var that = this;
 			// this.obj.zc_claim_vsrSet.results.push(oObj);
 			this.obj.zc_claim_vsrSet.results.push(oObj);
+			this.obj.zc_claim_item_price_dataSet = [];
 			// 
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			//var that = this;
@@ -4493,10 +4494,9 @@ sap.ui.define([
 											}, this)
 										});
 
-										dialog.close();
 									}, this),
 									error: $.proxy(function (err) {
-										dialog.close();
+
 										this.getView().getModel("DateModel").setProperty("/SubmitPWBusyIndicator", false);
 										this.getView().byId("idFilter04").setProperty("enabled", false);
 										this.getView().getModel("DateModel").setProperty("/SaveClaimBTN", true);
