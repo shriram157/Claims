@@ -125,7 +125,7 @@ sap.ui.define([
 
 			var partData = new sap.ui.model.json.JSONModel({
 				"matnr": "",
-				"PartQty": "",
+				"PartQty": "0",
 				"quant": "",
 				"PartDescription": "",
 				"LineNo": "",
