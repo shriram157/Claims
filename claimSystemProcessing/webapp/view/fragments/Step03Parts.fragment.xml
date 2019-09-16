@@ -29,14 +29,14 @@
 							<!--	selectedKey="{HeadSetData>/DamageCondition}">-->
 							<!--	<core:ListItem key="{DropDownModel>DiscreCode}" text="{path:'DropDownModel>ALMDiscreDesc'}" additionalText="{DropDownModel>ALMDiscreCode}"/>-->
 							<!--</Select>-->
-							<custom:CustomCombo showSecondaryValues="true" id="DmgCodes" enabled="{DateModel>/editPartType}" required="true"
+							<custom:CustomCombo showSecondaryValues="true" id="DmgCodes" enabled="{DateModel>/partLine}" required="true"
 								visible="{multiHeaderConfig>/partDamage}" items="{DropDownModel>/items}" selectionChange="onDDChange"
 								selectedKey="{HeadSetData>/DamageCondition}" valueState="{DateModel>/ddType}"
 								value="{path:'PartDataModel>/ALMDiscreDesc', type : 'sap.ui.model.type.String' }">
 								<core:ListItem text="{path:'DropDownModel>ALMDiscreDesc'}" key="{DropDownModel>DiscreCode}" additionalText="{DropDownModel>ALMDiscreCode}"/>
 							</custom:CustomCombo>
 							<Label text="{i18n>DiscrepancyType}" class="sapUiSmallMargin" textAlign="Begin" visible="{multiHeaderConfig>/partDiscrepancies}"/>
-							<custom:CustomCombo showSecondaryValues="true" id="DscpCodes" enabled="{DateModel>/editPartType}" required="true"
+							<custom:CustomCombo showSecondaryValues="true" id="DscpCodes" enabled="{DateModel>/partLine}" required="true"
 								visible="{multiHeaderConfig>/partDiscrepancies}" items="{DropDownModel>/items}" selectionChange="onDDChange"
 								selectedKey="{HeadSetData>/DiscrepancyCodes}" valueState="{DateModel>/ddType}"
 								value="{path:'PartDataModel>/ALMDiscreDesc', type : 'sap.ui.model.type.String' }">
@@ -48,7 +48,7 @@
 							<!--	<core:ListItem key="{DropDownModel>DiscreCode}" text="{path:'DropDownModel>ALMDiscreDesc'}" additionalText="{DropDownModel>ALMDiscreCode}"/>-->
 							<!--</Select>-->
 							<Label text="{i18n>MiscellaneousCode} " class="sapUiSmallMargin" textAlign="Begin" visible="{multiHeaderConfig>/partMiscellanious}"/>
-							<custom:CustomCombo showSecondaryValues="true" id="MscCodes" enabled="{DateModel>/editPartType}" required="true"
+							<custom:CustomCombo showSecondaryValues="true" id="MscCodes" enabled="{DateModel>/partLine}" required="true"
 								visible="{multiHeaderConfig>/partMiscellanious}" items="{DropDownModel>/items}" selectionChange="onDDChange"
 								selectedKey="{HeadSetData>/MiscellaneousCode}" valueState="{DateModel>/ddType}"
 								value="{path:'PartDataModel>/ALMDiscreDesc', type : 'sap.ui.model.type.String' }">
@@ -60,7 +60,7 @@
 							<!--	<core:ListItem key="{DropDownModel>DiscreCode}" text="{path:'DropDownModel>ALMDiscreDesc'}" additionalText="{DropDownModel>ALMDiscreCode}"/>-->
 							<!--</Select>-->
 							<Label text="{i18n>TransportShortageType} " class="sapUiSmallMargin" textAlign="Begin" visible="{multiHeaderConfig>/partTransportation}"/>
-							<custom:CustomCombo showSecondaryValues="true" id="TransportCodes" enabled="{DateModel>/editPartType}" required="true"
+							<custom:CustomCombo showSecondaryValues="true" id="TransportCodes" enabled="{DateModel>/partLine}" required="true"
 								visible="{multiHeaderConfig>/partTransportation}" items="{DropDownModel>/items}" selectionChange="onDDChange"
 								selectedKey="{HeadSetData>/TranportShortageType}" valueState="{DateModel>/ddType}"
 								value="{path:'PartDataModel>/ALMDiscreDesc', type : 'sap.ui.model.type.String' }">

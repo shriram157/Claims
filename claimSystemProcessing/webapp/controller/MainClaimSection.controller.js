@@ -5515,25 +5515,15 @@ sap.ui.define([
 						var oPartPer = parseInt(data.results[0].PartPer).toString();
 						var oLabourPer = parseInt(data.results[0].LabourPer).toString();
 						var oSubletPer = parseInt(data.results[0].SubletPer).toString();
-						this._fncheckClaimWithZGGW(oPartPer, oLabourPer, oSubletPer);
-						// 		if (oClaimSelectedGroup == "Claim") {
-						// 			if (oPartPer != "0" || oLabourPer != "0" || oSubletPer != "0") {
-						// 				this.getView().byId("idPricingOpt").setSelectedIndex(1);
-						// 				this.getView().byId("idParticiaptionTable").setProperty("visible", false);
-						// 				this.getView().byId("idDiscountTable").setProperty("visible", true);
-						// 			} else {
-						// 				this.getView().byId("idPricingOpt").setSelectedIndex(0);
-						// 				this.getView().byId("idParticiaptionTable").setProperty("visible", true);
-						// 				this.getView().byId("idDiscountTable").setProperty("visible", false);
-						// 			}
-
-						// 		} else if (oGroupDescription == "ZGGW") {
-
-						// 			this.getView().byId("idPricingOptGW").setSelectedIndex(0);
-						// 			this.getView().byId("idParticiaptionTable").setProperty("visible", true);
-						// 			this.getView().byId("idDiscountTable").setProperty("visible", false);
-						// 		}
-
+						if (oPartPer != "0" || oLabourPer != "0" || oSubletPer != "0") {
+							this.getView().byId("idPricingOpt").setSelectedIndex(1);
+							this.getView().byId("idParticiaptionTable").setProperty("visible", false);
+							this.getView().byId("idDiscountTable").setProperty("visible", true);
+						} else {
+							this.getView().byId("idPricingOpt").setSelectedIndex(0);
+							this.getView().byId("idParticiaptionTable").setProperty("visible", true);
+							this.getView().byId("idDiscountTable").setProperty("visible", false);
+						}
 						this.getView().getModel("DataPercetCalculate").setProperty("/CustomerPer", ocust);
 						this.getView().getModel("DataPercetCalculate").setProperty("/DealerPer", odeal);
 						this.getView().getModel("DataPercetCalculate").setProperty("/TCIPer", otci);
