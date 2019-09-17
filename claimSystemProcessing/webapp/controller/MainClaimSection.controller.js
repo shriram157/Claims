@@ -5030,12 +5030,12 @@ sap.ui.define([
 		},
 		onPressRecalculate: function () {
 			var oRadioInd = this.getView().byId("idPricingOpt").getSelectedIndex();
-			var oCustomerPer = parseInt(this.getView().getModel("DataPercetCalculate").getProperty("/CustomerPer"));
-			var oDealerPer = parseInt(this.getView().getModel("DataPercetCalculate").getProperty("/DealerPer"));
-			var oTciPer = parseInt(this.getView().getModel("DataPercetCalculate").getProperty("/TCIPer"));
-			var PartPer = parseInt(this.getView().getModel("DataPercetCalculate").getProperty("/PartPer"));
-			var LabourPer = parseInt(this.getView().getModel("DataPercetCalculate").getProperty("/LabourPer"));
-			var SublPer = parseInt(this.getView().getModel("DataPercetCalculate").getProperty("/SubletPer"));
+			var oCustomerPer = parseInt(this.getView().getModel("DataPercetCalculate").getProperty("/CustomerPer") || "0");
+			var oDealerPer = parseInt(this.getView().getModel("DataPercetCalculate").getProperty("/DealerPer") || "0");
+			var oTciPer = parseInt(this.getView().getModel("DataPercetCalculate").getProperty("/TCIPer") || "0");
+			var PartPer = parseInt(this.getView().getModel("DataPercetCalculate").getProperty("/PartPer") || "0");
+			var LabourPer = parseInt(this.getView().getModel("DataPercetCalculate").getProperty("/LabourPer") || "0");
+			var SublPer = parseInt(this.getView().getModel("DataPercetCalculate").getProperty("/SubletPer") || "0");
 			var oAuthNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var oClaimModel = this.getModel("ProssingModel");
