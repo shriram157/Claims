@@ -2526,7 +2526,7 @@ sap.ui.define([
 			if (oEN.getSource().getSelectedButton().getText() == this.oBundle.getText("Damage")) {
 				oVal = this.oBundle.getText("Damage");
 			} else if (oEN.getSource().getSelectedButton().getText() == this.oBundle.getText("MissingPieces")) {
-				oVal = this.oBundle.getText("Missing");
+				oVal = this.oBundle.getText("MissingPieces");
 			} else {
 				oVal = this.oBundle.getText("OptionBoth");
 			}
