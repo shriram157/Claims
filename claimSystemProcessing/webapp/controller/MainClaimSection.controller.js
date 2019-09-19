@@ -1085,8 +1085,13 @@ sap.ui.define([
 							this.getModel("LocalDataModel").setProperty("/UploadEnableSublet", false);
 							this.getView().getModel("DateModel").setProperty("/authAcClm", false);
 							this.getView().getModel("DateModel").setProperty("/authRejClm", false);
-							this.getView().getModel("DateModel").setProperty("/copyClaimEnable", true);
+							this.getView().getModel("DateModel").setProperty("/copyClaimEnable", false);
 							this.getView().getModel("DateModel").setProperty("/oDamageLineBtn", false);
+							if (sap.ui.getCore().getModel("UserDataModel").getProperty(
+									"/LoggedInUser") == "Dealer_Services_Manager" || sap.ui.getCore().getModel("UserDataModel").getProperty(
+									"/LoggedInUser") == "Dealer_Services_Admin") {
+								this.getView().getModel("DateModel").setProperty("/copyClaimEnable", true);
+							}
 
 						} else if (data.results[0].DecisionCode == "ZTMR" && sap.ui.getCore().getModel("UserDataModel").getProperty(
 								"/LoggedInUser") == "Dealer_Services_Manager") {
@@ -7989,7 +7994,7 @@ sap.ui.define([
 				oClaimtype == "ZCSR" || oClaimtype == "ZCLS" || oClaimtype == "ZCWE" || oClaimtype == "ZCER" ||
 				oClaimtype == "ZECP" || oClaimtype == "ZSSE" || oClaimtype == "ZRCR" || oClaimtype == "ZWVE" ||
 				oClaimtype == "ZWP1" || oClaimtype == "ZWP2" || oClaimtype == "ZWMS" || oClaimtype == "ZWAC" ||
-				oClaimtype == "ZGGW" || oClaimtype == "ZWA1" || oClaimtype == "ZWA2") {
+				oClaimtype == "ZGGW" || oClaimtype == "ZWA1" || oClaimtype == "ZWA2" || oClaimtype == "ZAUT" || oClaimtype == "ZACD") {
 
 				var w = window.open(isProxy +
 					"/node/ZDLR_CLAIM_SRV/zc_claim_printSet(NumberOfWarrantyClaim='" + oClaimNum + "',PrintType='WTY')/$value",
