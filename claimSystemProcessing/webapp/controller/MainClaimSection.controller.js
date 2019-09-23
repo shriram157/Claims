@@ -5229,43 +5229,6 @@ sap.ui.define([
 			}
 
 			if (oRadioInd == 0 && oClmType != "ZWP1") {
-
-				oClaimModel.read("/zc_authorizationSet", {
-					urlParameters: {
-						"$filter": "PricingOption eq 'D'and DBOperation eq 'POST'and " + auClaimtype + " eq '" + oAuthNum +
-							"'and PartPer eq '00'and LabourPer eq '00'and SubletPer eq '00'"
-					},
-					success: $.proxy(function (sdata) {
-						this.getModel("LocalDataModel").setProperty("/discountBusyIndicator", false);
-						this.getView().getModel("DataPercetCalculate").setData(sdata.results[0]);
-						var ocust = parseInt(sdata.results[0].CustomerPer).toString();
-						var odeal = parseInt(sdata.results[0].DealerPer).toString();
-						var otci = parseInt(sdata.results[0].TCIPer).toString();
-						var oPartPer = parseInt(sdata.results[0].PartPer).toString();
-						var oLabourPer = parseInt(sdata.results[0].LabourPer).toString();
-						var oSubletPer = parseInt(sdata.results[0].SubletPer).toString();
-						this.getView().getModel("DataPercetCalculate").setProperty("/CustomerPer", ocust);
-						this.getView().getModel("DataPercetCalculate").setProperty("/DealerPer", odeal);
-						this.getView().getModel("DataPercetCalculate").setProperty("/TCIPer", otci);
-						this.getView().getModel("DataPercetCalculate").setProperty("/PartPer", oPartPer);
-						this.getView().getModel("DataPercetCalculate").setProperty("/LabourPer", oLabourPer);
-						this.getView().getModel("DataPercetCalculate").setProperty("/SubletPer", oSubletPer);
-						this._fnClaimSumPercent();
-						this._fnClaimSum();
-						this._fnPricingData(oAuthNum);
-
-						// 	if (oClmType == "ZWP1") {
-						// 		this.getView().byId("RB4-5").setProperty("enabled", true);
-						// 		this.getView().byId("RB4-6").setProperty("editable", false);
-						// 	} else if (oClmType == "ZGGW") {
-						// 		this.getView().byId("RB4-4").setProperty("enabled", true);
-						// 		this.getView().byId("RB4-3").setProperty("editable", false);
-						// 	}
-
-					}, this)
-
-				});
-			} else if (oRadioInd == 1 || oRadioIndP1 == 0 || oClmType == "ZWP1") {
 				oClaimModel.read("/zc_authorizationSet", {
 					urlParameters: {
 						"$filter": "PricingOption eq'P'and DBOperation eq 'POST'and " + auClaimtype + " eq '" + oAuthNum +
@@ -5296,6 +5259,44 @@ sap.ui.define([
 						// 				this.getView().byId("RB4-4").setProperty("enabled", true);
 						// 				this.getView().byId("RB4-3").setProperty("editable", false);
 						// 			}
+
+					}, this)
+
+				});
+
+			} else if (oRadioInd == 1 || oRadioIndP1 == 0 || oClmType == "ZWP1") {
+				oClaimModel.read("/zc_authorizationSet", {
+					urlParameters: {
+						"$filter": "PricingOption eq 'D'and DBOperation eq 'POST'and " + auClaimtype + " eq '" + oAuthNum +
+							"'and PartPer eq '00'and LabourPer eq '00'and SubletPer eq '00'"
+					},
+					success: $.proxy(function (sdata) {
+
+						this.getModel("LocalDataModel").setProperty("/discountBusyIndicator", false);
+						this.getView().getModel("DataPercetCalculate").setData(sdata.results[0]);
+						var ocust = parseInt(sdata.results[0].CustomerPer).toString();
+						var odeal = parseInt(sdata.results[0].DealerPer).toString();
+						var otci = parseInt(sdata.results[0].TCIPer).toString();
+						var oPartPer = parseInt(sdata.results[0].PartPer).toString();
+						var oLabourPer = parseInt(sdata.results[0].LabourPer).toString();
+						var oSubletPer = parseInt(sdata.results[0].SubletPer).toString();
+						this.getView().getModel("DataPercetCalculate").setProperty("/CustomerPer", ocust);
+						this.getView().getModel("DataPercetCalculate").setProperty("/DealerPer", odeal);
+						this.getView().getModel("DataPercetCalculate").setProperty("/TCIPer", otci);
+						this.getView().getModel("DataPercetCalculate").setProperty("/PartPer", oPartPer);
+						this.getView().getModel("DataPercetCalculate").setProperty("/LabourPer", oLabourPer);
+						this.getView().getModel("DataPercetCalculate").setProperty("/SubletPer", oSubletPer);
+						this._fnClaimSumPercent();
+						this._fnClaimSum();
+						this._fnPricingData(oAuthNum);
+
+						// 		if (oClmType == "ZWP1") {
+						// 			this.getView().byId("RB4-5").setProperty("enabled", true);
+						// 			this.getView().byId("RB4-6").setProperty("editable", false);
+						// 		} else if (oClmType == "ZGGW") {
+						// 			this.getView().byId("RB4-4").setProperty("enabled", true);
+						// 			this.getView().byId("RB4-3").setProperty("editable", false);
+						// 		}
 
 					}, this)
 
