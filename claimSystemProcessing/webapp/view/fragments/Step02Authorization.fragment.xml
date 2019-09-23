@@ -67,12 +67,21 @@
 				</f:content>
 			</f:SimpleForm>
 		</Panel>
-		<VBox id="idAuthGWCLM">
+		<VBox id="idAuthGWCLM" visible="{LocalDataModel>/AuthGWVisible}">
 			<!--<Text class="sapUiSmallMarginBegin" text="{i18n>PricingOptions}"/>-->
 			<RadioButtonGroup columns="2" select="onSelectAuthGoodWill" id="idPricingOptGW">
 				<buttons>
 					<RadioButton id="RB4-4" text="{i18n>Participation}"/>
 					<RadioButton id="RB4-3" text="{i18n>LinktoAuthorization}"/>
+				</buttons>
+			</RadioButtonGroup>
+		</VBox>
+		<VBox id="idAuthP1" visible="{LocalDataModel>/AuthP1Visible}">
+			<!--<Text class="sapUiSmallMarginBegin" text="{i18n>PricingOptions}"/>-->
+			<RadioButtonGroup columns="2" select="onSelectAuthP1" id="idPricingOptP1">
+				<buttons>
+					<RadioButton id="RB4-5" text="{i18n>DiscountPercentageOption}"/>
+					<RadioButton id="RB4-6" text="{i18n>LinktoAuthorization}"/>
 				</buttons>
 			</RadioButtonGroup>
 		</VBox>
@@ -87,8 +96,9 @@
 						visible="{LocalDataModel>/linkToAuth}"/>
 					<!--<Input id="idClaimNo" value="{DataPercetCalculate>/AuthorizationNumber}" enabled="{DateModel>/oFormEdit}"-->
 					<!--	visible="{LocalDataModel>/linkToAuth}"/>-->
-					<Button text="{i18n>LinktoAuthorization}" press="onPressLinkAuthorization" enabled="{DateModel>/oFormEdit}"
+					<Button text="{i18n>LinktoAuthorization}" class="sapUiSmallMarginEnd" press="onPressLinkAuthorization" enabled="{DateModel>/oFormEdit}"
 						visible="{LocalDataModel>/linkToAuth}"/>
+					<Button text="{i18n>Clear}" press="onPressClearPartiDisc" enabled="{DateModel>/oFormEdit}" visible="{LocalDataModel>/linkToAuth}"/>
 				</f:content>
 			</f:SimpleForm>
 			<f:SimpleForm id="idAuthorizationForm" editable="true" layout="ResponsiveGridLayout" title="" labelSpanXL="6" labelSpanL="6" labelSpanM="12"
@@ -214,8 +224,11 @@
 					</Table>
 				</html:div>
 				<html:div >
-					<Button text="{i18n>RecalculateClaimAmount}" visible="{LocalDataModel>/reCalculate}" enabled="{DateModel>/oFormEdit}"
-						press="onPressRecalculate" type="Emphasized"/>
+					<HBox>
+						<Button text="{i18n>RecalculateClaimAmount}" class="sapUiSmallMarginEnd" visible="{LocalDataModel>/reCalculate}"
+							enabled="{DateModel>/oFormEdit}" press="onPressRecalculate" type="Emphasized"/>
+						<Button text="{i18n>Clear}" press="onPressClearPartiDisc" enabled="{DateModel>/oFormEdit}" visible="{LocalDataModel>/reCalculate}"/>
+					</HBox>
 				</html:div>
 			</l:Grid>
 		</l:VerticalLayout>
