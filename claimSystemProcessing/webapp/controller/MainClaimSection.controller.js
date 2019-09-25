@@ -5276,13 +5276,12 @@ sap.ui.define([
 						this._fnClaimSumPercent();
 						this._fnClaimSum();
 						this._fnPricingData(oAuthNum);
-						// 			if (oClmType == "ZWP1") {
-						// 				this.getView().byId("RB4-5").setProperty("editable", false);
-						// 				this.getView().byId("RB4-6").setProperty("enabled", true);
-						// 			} else if (oClmType == "ZGGW") {
-						// 				this.getView().byId("RB4-4").setProperty("enabled", true);
-						// 				this.getView().byId("RB4-3").setProperty("editable", false);
-						// 			}
+
+						this.getView().byId("RB4-5").setProperty("editable", true);
+						this.getView().byId("RB4-6").setProperty("enabled", true);
+
+						this.getView().byId("RB4-4").setProperty("enabled", true);
+						this.getView().byId("RB4-3").setProperty("editable", true);
 
 					}, this)
 
@@ -5314,13 +5313,11 @@ sap.ui.define([
 						this._fnClaimSum();
 						this._fnPricingData(oAuthNum);
 
-						// 		if (oClmType == "ZWP1") {
-						// 			this.getView().byId("RB4-5").setProperty("enabled", true);
-						// 			this.getView().byId("RB4-6").setProperty("editable", false);
-						// 		} else if (oClmType == "ZGGW") {
-						// 			this.getView().byId("RB4-4").setProperty("enabled", true);
-						// 			this.getView().byId("RB4-3").setProperty("editable", false);
-						// 		}
+						this.getView().byId("RB4-5").setProperty("editable", true);
+						this.getView().byId("RB4-6").setProperty("enabled", true);
+
+						this.getView().byId("RB4-4").setProperty("enabled", true);
+						this.getView().byId("RB4-3").setProperty("editable", true);
 
 					}, this)
 
