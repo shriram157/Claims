@@ -1359,7 +1359,7 @@ sap.ui.define([
 			};
 			this.obj.NumberOfWarrantyClaim = this.getView().getModel("HeadSetData").getProperty("/NumberOfWarrantyClaim");
 			this.obj.zc_claim_commentSet.results.push(oEntry);
-
+			this.obj.zc_claim_item_price_dataSet = [];
 			oClaimModel.refreshSecurityToken();
 			oClaimModel.create("/zc_headSet", this.obj, {
 				success: $.proxy(function (data, response) {
