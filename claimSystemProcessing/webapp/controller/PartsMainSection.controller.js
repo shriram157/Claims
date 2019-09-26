@@ -562,7 +562,7 @@ sap.ui.define([
 
 						this.getModel("LocalDataModel").setProperty("/ClaimDetails", data.results[0]);
 						this.getModel("LocalDataModel").setProperty("/BPPartner", data.results[0].Partner);
-						BPKey = data.results[0].Partner;
+						BPKey = data.results[0].DeliveringCarrier;
 						var Partner = data.results[0].Partner;
 						this._getBPModel(BPKey);
 						this.getModel("LocalDataModel").setProperty("/NumberOfWarrantyClaim", data.results[0].NumberOfWarrantyClaim);
@@ -2648,6 +2648,7 @@ sap.ui.define([
 			// }
 		},
 		onPressLetterOfIntent: function () {
+
 			console.log("oFilteredDealerData", oFilteredDealerData);
 			var LOIData = new sap.ui.model.json.JSONModel({
 				"claimNumber": "",
