@@ -1572,7 +1572,7 @@ sap.ui.define([
 					this.getModel("LocalDataModel").setProperty("/AuthGWVisible", false);
 					this.getModel("LocalDataModel").setProperty("/PercentState", true);
 					this.getModel("LocalDataModel").setProperty("/reCalculate", true);
-				} else if (oClaimSelectedGroup == "Claim" && oGroupDescription != "ZGGW") {
+				} else if (oClaimSelectedGroup == "Claim") {
 					this.getView().byId("idAuthorizationForm").setProperty("visible", true);
 					this.getView().byId("idClaimPrOpt").setProperty("visible", true);
 					this.getView().getModel("DateModel").setProperty("/warrantySubmissionClaim", false);
@@ -1580,17 +1580,33 @@ sap.ui.define([
 					this.getModel("LocalDataModel").setProperty("/AuthGWVisible", false);
 					this.getModel("LocalDataModel").setProperty("/PercentState", false);
 					this.getModel("LocalDataModel").setProperty("/reCalculate", false);
-				} else {
-					this.getView().byId("idAuthorizationForm").setProperty("visible", false);
-					this.getView().byId("idClaimPrOpt").setProperty("visible", false);
-					this.getView().byId("idParticiaptionTable").setProperty("visible", true);
-					this.getView().byId("idDiscountTable").setProperty("visible", false);
-
-					this.getModel("LocalDataModel").setProperty("/AuthGWVisible", true);
-					this.getModel("LocalDataModel").setProperty("/PercentState", true);
-					this.getModel("LocalDataModel").setProperty("/reCalculate", true);
-
 				}
+
+				// else if (oClaimSelectedGroup == "Claim" && oGroupDescription == "ZGGW") {
+				// 	this.getView().byId("idAuthorizationForm").setProperty("visible", false);
+				// 	this.getView().byId("idClaimPrOpt").setProperty("visible", false);
+				// 	this.getView().byId("idParticiaptionTable").setProperty("visible", true);
+				// 	this.getView().byId("idDiscountTable").setProperty("visible", false);
+
+				// 	this.getModel("LocalDataModel").setProperty("/AuthGWVisible", true);
+				// 	this.getModel("LocalDataModel").setProperty("/AuthP1Visible", false);
+				// 	this.getModel("LocalDataModel").setProperty("/PercentState", true);
+				// 	this.getModel("LocalDataModel").setProperty("/reCalculate", true);
+
+				// } 
+				// else if (oClaimSelectedGroup == "Claim" && oGroupDescription == "ZWP1") {
+				// 	this.getView().byId("idAuthorizationForm").setProperty("visible", false);
+				// 	this.getView().byId("idClaimPrOpt").setProperty("visible", false);
+				// 	this.getView().byId("idParticiaptionTable").setProperty("visible", false);
+				// 	this.getView().byId("idDiscountTable").setProperty("visible", true);
+
+				// 	this.getModel("LocalDataModel").setProperty("/AuthGWVisible", false);
+				// 	this.getModel("LocalDataModel").setProperty("/AuthP1Visible", true);
+
+				// 	this.getModel("LocalDataModel").setProperty("/PercentState", true);
+				// 	this.getModel("LocalDataModel").setProperty("/reCalculate", true);
+
+				// }
 
 				this.getModel("LocalDataModel").setProperty("/step01Next", false);
 				this.getModel("LocalDataModel").setProperty("/CancelEnable", false);
@@ -2565,7 +2581,7 @@ sap.ui.define([
 
 		_fnClaimAuthvisible: function (key) {
 			var claimType = this.getModel("LocalDataModel").getProperty("/WarrantyClaimTypeGroup");
-			if (claimType == "Claim" && key != "ZGGW") {
+			if (claimType == "Claim" && key != "ZGGW" && key != "ZWP1") {
 				this.getView().byId("idAuthorizationForm").setProperty("visible", true);
 				this.getView().byId("idClaimPrOpt").setProperty("visible", true);
 				this.getView().getModel("DateModel").setProperty("/warrantySubmissionClaim", false);
@@ -2574,14 +2590,28 @@ sap.ui.define([
 				this.getView().byId("idParticiaptionTable").setProperty("visible", true);
 				this.getModel("LocalDataModel").setProperty("/PercentState", false);
 				this.getModel("LocalDataModel").setProperty("/reCalculate", false);
+
+				// 	this.getModel("LocalDataModel").setProperty("/linkToAuth", true);
+				// 	this.getModel("LocalDataModel").setProperty("/reCalculate", false);
 			} else if (claimType == "Claim" && key == "ZGGW") {
 				this.getView().byId("idClaimPrOpt").setProperty("visible", false);
 				this.getModel("LocalDataModel").setProperty("/AuthGWVisible", true);
+				this.getModel("LocalDataModel").setProperty("/AuthP1Visible", false);
 				this.getView().byId("idPricingOptGW").setSelectedIndex(0);
 				this.getModel("LocalDataModel").setProperty("/reCalculate", true);
 				this.getModel("LocalDataModel").setProperty("/PercentState", true);
 				this.getView().byId("idParticiaptionTable").setProperty("visible", true);
 				this.getView().byId("idDiscountTable").setProperty("visible", false);
+				this.getView().byId("idAuthorizationLinkForm").setProperty("visible", false);
+			} else if (claimType == "Claim" && key == "ZWP1") {
+				this.getView().byId("idClaimPrOpt").setProperty("visible", false);
+				this.getModel("LocalDataModel").setProperty("/AuthGWVisible", false);
+				this.getModel("LocalDataModel").setProperty("/AuthP1Visible", true);
+				this.getView().byId("idPricingOptP1").setSelectedIndex(0);
+				this.getModel("LocalDataModel").setProperty("/reCalculate", true);
+				this.getModel("LocalDataModel").setProperty("/PercentState", true);
+				this.getView().byId("idParticiaptionTable").setProperty("visible", false);
+				this.getView().byId("idDiscountTable").setProperty("visible", true);
 				this.getView().byId("idAuthorizationLinkForm").setProperty("visible", false);
 			}
 
@@ -3415,19 +3445,23 @@ sap.ui.define([
 								var oCLaim = this.getModel("LocalDataModel").getProperty("/ClaimDetails/NumberOfWarrantyClaim");
 								this.getView().getModel("HeadSetData").setProperty("/NumberOfWarrantyClaim", oCLaim);
 								var clmAuthNum;
-								if (oGroupType == "Authorization" || this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") ==
-									"ZGGW") {
+								if (oGroupType == "Authorization") {
 
 									if (oGroupType == "Authorization") {
 										clmAuthNum = "AuthorizationNumber";
 										this.getModel("LocalDataModel").setProperty("/WarrantyClaimNumber", oBundle.getText("TCIAuthNumber") + " : " +
 											oCLaim);
 
-									} else if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZGGW") {
-										clmAuthNum = "NumberOfWarrantyClaim";
-										this.getModel("LocalDataModel").setProperty("/WarrantyClaimNumber", oBundle.getText("TCIClaimNumber") + " : " +
-											oCLaim);
 									}
+
+									// 	else if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZGGW") {
+									// 		clmAuthNum = "NumberOfWarrantyClaim";
+									// 		this.getModel("LocalDataModel").setProperty("/WarrantyClaimNumber", oBundle.getText("TCIClaimNumber") + " : " +
+									// 			oCLaim);
+									// 	}
+
+									// || this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") ==
+									// 	"ZGGW"
 
 									this.getModel("LocalDataModel").setProperty("/linkToAuth", false);
 									this.getModel("LocalDataModel").setProperty("/reCalculate", true);
@@ -3445,8 +3479,8 @@ sap.ui.define([
 								} else if (oGroupType == "Claim") {
 									this.getModel("LocalDataModel").setProperty("/WarrantyClaimNumber", oBundle.getText("TCIClaimNumber") + " : " +
 										oCLaim);
-									this.getModel("LocalDataModel").setProperty("/linkToAuth", true);
-									this.getModel("LocalDataModel").setProperty("/reCalculate", false);
+									// 	this.getModel("LocalDataModel").setProperty("/linkToAuth", true);
+									// 	this.getModel("LocalDataModel").setProperty("/reCalculate", false);
 
 								}
 
@@ -5277,9 +5311,10 @@ sap.ui.define([
 						this._fnClaimSum();
 						this._fnPricingData(oAuthNum);
 
+						this.getView().byId("RB4-5").setProperty("enabled", true);
 						this.getView().byId("RB4-5").setProperty("editable", true);
-						this.getView().byId("RB4-6").setProperty("enabled", true);
-
+						this.getView().byId("RB4-6").setProperty("editable", true);
+						this.getView().byId("RB4-4").setProperty("editable", true);
 						this.getView().byId("RB4-4").setProperty("enabled", true);
 						this.getView().byId("RB4-3").setProperty("editable", true);
 
@@ -5313,9 +5348,10 @@ sap.ui.define([
 						this._fnClaimSum();
 						this._fnPricingData(oAuthNum);
 
+						this.getView().byId("RB4-5").setProperty("enabled", true);
 						this.getView().byId("RB4-5").setProperty("editable", true);
-						this.getView().byId("RB4-6").setProperty("enabled", true);
-
+						this.getView().byId("RB4-6").setProperty("editable", true);
+						this.getView().byId("RB4-4").setProperty("editable", true);
 						this.getView().byId("RB4-4").setProperty("enabled", true);
 						this.getView().byId("RB4-3").setProperty("editable", true);
 
