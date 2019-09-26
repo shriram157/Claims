@@ -2768,6 +2768,8 @@ sap.ui.define([
 				var oSelectedRow = oTableIndex.toString();
 				var obj = this.getModel("LocalDataModel").getProperty(oSelectedRow);
 
+				this.getModel("LocalDataModel").setProperty("/BaseUnit", obj.Meins);
+
 				var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 				var oClaimModel = this.getModel("ProssingModel");
 				oClaimModel.refreshSecurityToken();
