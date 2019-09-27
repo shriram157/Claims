@@ -8058,6 +8058,12 @@ sap.ui.define([
 													if (GroupType == "Authorization") {
 														this.getView().getModel("DateModel").setProperty("/copyClaimEnable", false);
 														this.getModel("LocalDataModel").setProperty("/PercentState", true);
+													} else if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZWP1") {
+														this.getView().getModel("DateModel").setProperty("/copyClaimEnable", true);
+														this.getModel("LocalDataModel").setProperty("/PercentState", true);
+													} else if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZGGW") {
+														this.getView().getModel("DateModel").setProperty("/copyClaimEnable", true);
+														this.getModel("LocalDataModel").setProperty("/PercentState", true);
 													} else {
 														this.getView().getModel("DateModel").setProperty("/copyClaimEnable", true);
 														this.getModel("LocalDataModel").setProperty("/PercentState", false);
