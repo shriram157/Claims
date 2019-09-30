@@ -3499,33 +3499,39 @@ sap.ui.define([
 
 			oClaimModel.refreshSecurityToken();
 
-			oClaimModel.create("/zc_claim_attachmentsSet", itemObj, {
-				success: $.proxy(function (data, response) {
-					this.getModel("LocalDataModel").setProperty("/IndicatorState", false);
+			if (oPartNo != "") {
+				oClaimModel.create("/zc_claim_attachmentsSet", itemObj, {
+					success: $.proxy(function (data, response) {
+						this.getModel("LocalDataModel").setProperty("/IndicatorState", false);
 
-					MessageToast.show(oBundle.getText("SuccesFullyUploaded"));
-					//    var oFileName = "sub" + fileName;
-					oClaimModel.read("/zc_claim_partattachmentSet", {
-						urlParameters: {
-							"$filter": "NumberOfWarrantyClaim eq'" + oClaimNum + "'and AttachLevel eq 'PART' and FileName eq'" + fileName + "'"
-						},
-						success: $.proxy(function (odata) {
-							var oAttachSet = odata.results.map(function (item) {
-								item.FileName = item.FileName.replace(oPartNo + "@@@", "");
-								return item;
+						MessageToast.show(oBundle.getText("SuccesFullyUploaded"));
+						//    var oFileName = "sub" + fileName;
+						oClaimModel.read("/zc_claim_partattachmentSet", {
+							urlParameters: {
+								"$filter": "NumberOfWarrantyClaim eq'" + oClaimNum + "'and AttachLevel eq 'PART' and FileName eq'" + fileName + "'"
+							},
+							success: $.proxy(function (odata) {
+								var oAttachSet = odata.results.map(function (item) {
+									item.FileName = item.FileName.replace(oPartNo + "@@@", "");
+									return item;
 
-							});
-							this.getModel("LocalDataModel").setProperty("/partItemAttachments", oAttachSet);
-							this.getView().getModel("AttachmentModel").setProperty("/" + "/items", oAttachSet);
-							// this.getModel("LocalDataModel").setProperty("/partItemAttachments", oAttachSet);
-						}, this)
-					});
-				}, this),
-				error: $.proxy(function (err) {
-					console.log(err);
-					this.getModel("LocalDataModel").setProperty("/IndicatorState", false);
-				}, this)
-			});
+								});
+								this.getModel("LocalDataModel").setProperty("/partItemAttachments", oAttachSet);
+								this.getView().getModel("AttachmentModel").setProperty("/" + "/items", oAttachSet);
+								// this.getModel("LocalDataModel").setProperty("/partItemAttachments", oAttachSet);
+							}, this)
+						});
+					}, this),
+					error: $.proxy(function (err) {
+						console.log(err);
+						this.getModel("LocalDataModel").setProperty("/IndicatorState", false);
+					}, this)
+				});
+			} else {
+				MessageToast.show(oBundle.getText("PlsSelectPart"));
+				this.getModel("LocalDataModel").setProperty("/IndicatorState", false);
+			}
+
 		},
 
 		onFileDeleted: function (oEvent) {
