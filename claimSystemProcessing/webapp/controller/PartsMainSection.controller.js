@@ -816,6 +816,17 @@ sap.ui.define([
 													RepairAmount: item.RepairAmt.toString()
 												};
 											});
+
+											var findPartIndex = PartItem.findIndex(function (item) {
+												return item.DiscreCode == "4A" && item.WrongPart == "";
+											});
+
+											if (findPartIndex) {
+												PartItem.splice(findPartIndex, 1);
+											} else {
+												PartItem;
+											}
+
 											this.obj = {
 												"DBOperation": "SAVE",
 												"Message": "",
@@ -4451,17 +4462,6 @@ sap.ui.define([
 									null, null);
 							} else {
 								this.getView().getModel("DateModel").setProperty("/oLetterOfIntent", false);
-								var PartLineitems = this.obj.zc_itemSet.results;
-
-								var findPartIndex = PartLineitems.findIndex(function (item) {
-									return item.DiscreCode == "4A" && item.WrongPart == "";
-								});
-
-								if (findPartIndex) {
-									this.obj.zc_itemSet.results.splice(findPartIndex, 1);
-								} else {
-									this.obj.zc_itemSet.results;
-								}
 
 								oClaimModel.refreshSecurityToken();
 								oClaimModel.create("/zc_headSet", this.obj, {
