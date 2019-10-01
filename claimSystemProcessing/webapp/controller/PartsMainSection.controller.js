@@ -1993,7 +1993,8 @@ sap.ui.define([
 							// 				}
 							// 			});
 
-							if (this.getView().getModel("PartDataModel").getProperty("/matnr") != "") {
+							if (this.getView().getModel("PartDataModel").getProperty("/matnr") != "" &&
+								this.getView().getModel("HeadSetData").getProperty("/PartNumberRc") != undefined) {
 								this.getView().byId("idMainClaimMessage").setProperty("visible", false);
 								this.obj.zc_itemSet.results.push(itemObj2);
 								this.obj.zc_claim_item_price_dataSet.results = [];
