@@ -1802,6 +1802,7 @@ sap.ui.define([
 								if (this.getView().getModel("PartDataModel").getProperty("/matnr") != "") {
 									this.getView().byId("idMainClaimMessage").setProperty("visible", false);
 									this.obj.zc_itemSet.results.push(itemObj);
+									this.obj.zc_claim_item_price_dataSet.results = [];
 									oClaimModel.create("/zc_headSet", this.obj, {
 										success: $.proxy(function (data, response) {
 											oClaimModel.read("/zc_claim_item_price_dataSet", {
@@ -1985,6 +1986,8 @@ sap.ui.define([
 								this.getView().byId("idMainClaimMessage").setProperty("visible", false);
 								this.obj.zc_itemSet.results.push(itemObj2);
 								this.obj.zc_claim_item_price_dataSet.results = [];
+								this.obj.zc_claim_vsrSet.results = [];
+
 								oClaimModel.create("/zc_headSet", this.obj, {
 									success: $.proxy(function (data, response) {
 											this.getView().getModel("DateModel").setProperty("/SavePWPartIndicator", false);
@@ -2948,7 +2951,7 @@ sap.ui.define([
 				//this.obj.zc_claim_item_price_dataSet.results = [];
 				//this.obj.zc_claim_commentSet.results = [];
 				var oClaimModel = this.getModel("ProssingModel");
-
+				this.obj.zc_claim_item_price_dataSet.results = [];
 				oClaimModel.refreshSecurityToken();
 				oClaimModel.create("/zc_headSet", this.obj, {
 					success: $.proxy(function (data, response) {
@@ -4401,8 +4404,10 @@ sap.ui.define([
 			};
 			var that = this;
 			// this.obj.zc_claim_vsrSet.results.push(oObj);
-			this.obj.zc_claim_vsrSet.results.push(oObj);
+
 			this.obj.zc_claim_item_price_dataSet = [];
+
+			this.obj.zc_claim_vsrSet.results.push(oObj);
 			// 
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			//var that = this;
@@ -4446,6 +4451,18 @@ sap.ui.define([
 									null, null);
 							} else {
 								this.getView().getModel("DateModel").setProperty("/oLetterOfIntent", false);
+								var PartLineitems = this.obj.zc_itemSet.results;
+
+								var findPartIndex = PartLineitems.findIndex(function (item) {
+									return item.DiscreCode == "4A" && item.WrongPart == "";
+								});
+
+								if (findPartIndex) {
+									this.obj.zc_itemSet.results.splice(findPartIndex, 1);
+								} else {
+									this.obj.zc_itemSet.results;
+								}
+
 								oClaimModel.refreshSecurityToken();
 								oClaimModel.create("/zc_headSet", this.obj, {
 									success: $.proxy(function (data, response) {
