@@ -8243,6 +8243,7 @@ sap.ui.define([
 				var w = window.open(isProxy +
 					"/node/ZDLR_CLAIM_SRV/zc_claim_printSet(NumberOfWarrantyClaim='" + oClaimNum + "',PrintType='NON_WTY')/$value",
 					'_blank');
+				console.log(w);
 				if (w == null) {
 					console.log("Error");
 					//MessageBox.warning(oBundle.getText("Error.PopUpBloqued"));

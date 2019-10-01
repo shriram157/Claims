@@ -86,8 +86,8 @@
 													press="onPressClaimInquiryDetails"/>
 												<Text text="{LocalDataModel>NumberOfWarrantyClaim}" wrapping="false"/>
 												<Text text="{LocalDataModel>RepairOrderNumberExternal}" wrapping="false"/>
-												<Text text="{path:'LocalDataModel>RepairDate', type: 'sap.ui.model.type.Date'}" wrapping="false"/>
-												<Text text="{path:'LocalDataModel>ReferenceDate', type: 'sap.ui.model.type.Date'}" wrapping="false"/>
+												<Text text="{path:'LocalDataModel>RepairDate', formatter:'zclaimProcessing.utils.formatter.fnDateFormat'}" wrapping="false"/>
+												<Text text="{path:'LocalDataModel>ReferenceDate', formatter:'zclaimProcessing.utils.formatter.fnDateFormat'}" wrapping="false"/>
 												<Text text="{LocalDataModel>WarrantyClaimType}" wrapping="false"/>
 												<Text text="{LocalDataModel>ExternalObjectNumber}" wrapping="false"/>
 												<Text text="{LocalDataModel>DecisionCode}" wrapping="false"/>

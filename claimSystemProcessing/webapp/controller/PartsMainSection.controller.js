@@ -1558,7 +1558,7 @@ sap.ui.define([
 			// 					'X-CSRF-Token': this._oToken
 			// 				}
 			// 			});
-			console.log("Part Item claim Data to be saved", this.obj);
+
 			var that = this;
 			oClaimModel.create("/zc_headSet", this.obj, {
 				success: $.proxy(function (data, response) {
@@ -1574,7 +1574,7 @@ sap.ui.define([
 						}, this),
 						error: $.proxy(function (err) {
 							this.getView().getModel("DateModel").setProperty("/SavePWPartIndicator", false);
-							console.log(err);
+
 							var err = JSON.parse(err.responseText);
 							var msg = err.error.message.value;
 							MessageBox.show(msg, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
@@ -1583,7 +1583,7 @@ sap.ui.define([
 				}, this),
 				error: $.proxy(function (err) {
 					this.getView().getModel("DateModel").setProperty("/SavePWPartIndicator", false);
-					console.log(err);
+
 					var err = JSON.parse(err.responseText);
 					var msg = err.error.message.value;
 					MessageBox.show(msg, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
@@ -1800,6 +1800,7 @@ sap.ui.define([
 									"PartDataModel").getProperty("/DiscreCode") == "2A") {
 
 								if (this.getView().getModel("PartDataModel").getProperty("/matnr") != "") {
+									this.getView().byId("idMainClaimMessage").setProperty("visible", false);
 									this.obj.zc_itemSet.results.push(itemObj);
 									oClaimModel.create("/zc_headSet", this.obj, {
 										success: $.proxy(function (data, response) {
@@ -1981,6 +1982,7 @@ sap.ui.define([
 							// 			});
 
 							if (this.getView().getModel("PartDataModel").getProperty("/matnr") != "") {
+								this.getView().byId("idMainClaimMessage").setProperty("visible", false);
 								this.obj.zc_itemSet.results.push(itemObj2);
 								this.obj.zc_claim_item_price_dataSet.results = [];
 								oClaimModel.create("/zc_headSet", this.obj, {
@@ -3632,6 +3634,21 @@ sap.ui.define([
 			if ((this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZPDC" || this.getView().getModel("HeadSetData").getProperty(
 					"/WarrantyClaimType") == "ZPTS") && this.getView().getModel("HeadSetData").getProperty("/TCIWaybillNumber") == "") {
 				this.getView().getModel("DateModel").setProperty("/waybilltype", "Error");
+			} else if ((this.getView().getModel("HeadSetData").getProperty("/DeliveringCarrier") == "") && (this.getView().getModel(
+						"HeadSetData").getProperty("/WarrantyClaimType") == "ZPDC" ||
+					this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZPTS" ||
+					this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZPPD" ||
+					this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZPMS")) {
+				this.getView().byId("idCarrierName").setValueState("Error");
+
+				this.getModel("LocalDataModel").setProperty("/step01Next", false);
+				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+
+				this.getView().byId("idMainClaimMessage").setText(this.oBundle.getText("FillUpMandatoryField"));
+				this.getView().byId("idMainClaimMessage").setType("Error");
+				this.getView().getModel("DateModel").setProperty("/waybilltype", "None");
+				this.getView().getModel("DateModel").setProperty("/SavePWClaimIndicator", false);
+				return false;
 			} else {
 				var that = this;
 				this.getView().getModel("DateModel").setProperty("/SavePWClaimIndicator", true);
@@ -3790,6 +3807,7 @@ sap.ui.define([
 									at: "center center"
 								});
 								this.getModel("LocalDataModel").setProperty("/CancelEnable", true);
+								this.getView().byId("idMainClaimMessage").setProperty("visible", false);
 
 								oClaimModel.read("/ZC_CLAIM_HEAD_NEW", {
 									urlParameters: {
@@ -4049,10 +4067,11 @@ sap.ui.define([
 					"/WarrantyClaimType") == "ZPTS") && this.getView().getModel("HeadSetData").getProperty("/TCIWaybillNumber") == "") {
 				this.getView().getModel("DateModel").setProperty("/waybilltype", "Error");
 				this.getView().getModel("DateModel").setProperty("/SavePWClaimIndicator", false);
-			} else if (((this.getView().getModel("HeadSetData").getProperty("/DeliveringCarrier") == "") || (this.getView().getModel(
-					"HeadSetData").getProperty(
-					"/DeliveringCarrier") == undefined)) && (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZPDC" ||
-					this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZPTS")) {
+			} else if ((this.getView().getModel("HeadSetData").getProperty("/DeliveringCarrier") == "") && (this.getView().getModel(
+						"HeadSetData").getProperty("/WarrantyClaimType") == "ZPDC" ||
+					this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZPTS" ||
+					this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZPPD" ||
+					this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZPMS")) {
 				this.getView().byId("idCarrierName").setValueState("Error");
 
 				this.getModel("LocalDataModel").setProperty("/step01Next", false);
