@@ -30,15 +30,16 @@
 									</f:content>
 								</f:SimpleForm>
 								<Table id="idClaimInquiryTable" inset="false" class="classRCPTable sapUiSizeCompact sapUiLargeMarginBottom" mode="None"
-									busy="{DateModel>/tableBusyIndicator}" items="{LocalDataModel>/DataResultEnquiry}" growing="true" growingThreshold="30"
-									growingScrollToLoad="false" growingTriggerText="Load more">
-									<!--<headerToolbar>-->
-									<!--	<Toolbar>-->
-									<!--		<Title text="{i18n>ClaimList}" level="H2"/>-->
-									<!--		<ToolbarSpacer/>-->
-									<!--<Button tooltip="View Sort Settings" icon="sap-icon://sort" press="handleSortButtonPressed"/>-->
-									<!--	</Toolbar>-->
-									<!--</headerToolbar>-->
+									busy="{DateModel>/tableBusyIndicator}"
+									items="{path:'LocalDataModel>/DataResultEnquiry', sorter:{path:'NumberOfWarrantyClaim', descending : false}}" growing="true"
+									growingThreshold="30" growingScrollToLoad="false" growingTriggerText="Load more">
+									<headerToolbar>
+										<Toolbar>
+											<Title text="{i18n>ClaimList}" level="H2"/>
+											<ToolbarSpacer/>
+											<Button tooltip="View Sort Settings" icon="sap-icon://sort" press="handleSortButtonPressed"/>
+										</Toolbar>
+									</headerToolbar>
 									<columns>
 										<Column width="9em"><Label text="{i18n>DealerCode}" textAlign="Center" width="100%"/></Column>
 										<Column width="8em" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">

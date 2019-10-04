@@ -1,7 +1,8 @@
 sap.ui.define([
 	"zclaimProcessing/controller/BaseController",
-	'sap/m/MessageToast'
-], function (BaseController, MessageToast) {
+	'sap/m/MessageToast',
+	"sap/ui/model/Sorter",
+], function (BaseController, MessageToast, Sorter) {
 	"use strict";
 
 	return BaseController.extend("zclaimProcessing.controller.ClaimInquiry", {
@@ -27,6 +28,7 @@ sap.ui.define([
 			oDateModel.setDefaultBindingMode("TwoWay");
 			this.getView().setModel(oDateModel, "DateModel");
 			this.getModel("LocalDataModel").setProperty("/LinkEnable", true);
+			this._mViewSettingsDialogs = {};
 		},
 
 		onEnterVIN: function (oEvent) {
@@ -119,6 +121,36 @@ sap.ui.define([
 				this.getView().byId("idNewClaimMsgStrp").setType("Error");
 			}
 
+		},
+		createViewSettingsDialog: function (sDialogFragmentName) {
+			var oDialog = this._mViewSettingsDialogs[sDialogFragmentName];
+
+			if (!oDialog) {
+				oDialog = sap.ui.xmlfragment(sDialogFragmentName, this);
+				this._mViewSettingsDialogs[sDialogFragmentName] = oDialog;
+				this.getView().addDependent(oDialog);
+			}
+
+			return oDialog;
+		},
+
+		handleSortButtonPressed: function () {
+			this.createViewSettingsDialog("zclaimProcessing.view.fragments.SortOrder").open();
+		},
+		handleSortDialogConfirm: function (oEvent) {
+			var oTable = this.byId("idClaimInquiryTable"),
+				mParams = oEvent.getParameters(),
+				oBinding = oTable.getBinding("items"),
+				sPath,
+				bDescending,
+				aSorters = [];
+
+			sPath = mParams.sortItem.getKey();
+			bDescending = mParams.sortDescending;
+			aSorters.push(new Sorter(sPath, bDescending));
+
+			// apply the selected sort and group settings
+			oBinding.sort(aSorters);
 		},
 		onPressClaimInquiryDetails: function (oEvent) {
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
