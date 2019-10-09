@@ -1359,7 +1359,8 @@ sap.ui.define([
 										UnitOfMeasure: item.UnitOfMeasure,
 										MaterialNumber: item.matnr,
 										PartDescription: item.PartDescription,
-										PartQty: item.PartQty
+										PartQty: item.PartQty,
+										Posnr: item.posnr
 									};
 
 								});
@@ -4139,7 +4140,8 @@ sap.ui.define([
 									UnitOfMeasure: item.UnitOfMeasure,
 									MaterialNumber: item.matnr,
 									PartDescription: item.PartDescription,
-									PartQty: item.QtyHrs
+									PartQty: item.QtyHrs,
+									Posnr: item.posnr
 								};
 
 							});
@@ -6288,7 +6290,8 @@ sap.ui.define([
 				"MaterialNumber": this.getView().getModel("PartDataModel").getProperty("/matnr"),
 				"PartQty": this.getView().getModel("PartDataModel").getProperty("/quant"),
 				"PartDescription": this.getView().getModel("PartDataModel").getProperty("/PartDescription"),
-				"UnitOfMeasure": this.getView().getModel("LocalDataModel").getProperty("/BaseUnit")
+				"UnitOfMeasure": this.getView().getModel("LocalDataModel").getProperty("/BaseUnit"),
+				"Posnr": ""
 			};
 
 			var oArrNew = this.obj.zc_itemSet.results.filter(function (val) {
