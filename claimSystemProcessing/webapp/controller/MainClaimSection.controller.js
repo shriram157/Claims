@@ -3253,8 +3253,22 @@ sap.ui.define([
 				// this.getView().byId("idMainClaimMessage").setText(oBundle.getText("FillUpMandatoryField"));
 				// this.getView().byId("idMainClaimMessage").setType("Error");
 				// this.getView().byId("idMainClaimMessage").setProperty("visible", true);
-			} else if (this.getView().getModel("HeadSetData").getProperty("/PreviousROInvoiceDate") > new Date()) {
+			} else if (this.getView().getModel("HeadSetData").getProperty("/PreviousROInvoiceDate") > this.getView().getModel("HeadSetData").getProperty(
+					"/RepairDate")) {
 				this.getView().byId("idPrInvDate").setValueState("Error");
+				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+				this.getView().byId("idMainClaimMessage").setText(oBundle.getText("ROInvoiceDateGreaterThanRPDate"));
+				this.getView().byId("idMainClaimMessage").setType("Error");
+
+			} else if (this.getView().getModel("HeadSetData").getProperty("/AccessoryInstallDate") > this.getView().getModel("HeadSetData").getProperty(
+					"/RepairDate")) {
+				this.getView().byId("idAccDate").setValueState("Error");
+				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+				this.getView().byId("idMainClaimMessage").setText(oBundle.getText("InstallDateGreaterThanRPDate"));
+				this.getView().byId("idMainClaimMessage").setType("Error");
+
+			} else if (this.getView().getModel("HeadSetData").getProperty("/RepairDate") > new Date()) {
+				this.getView().byId("id_Date").setValueState("Error");
 				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
 				this.getView().byId("idMainClaimMessage").setText(oBundle.getText("FutureDateNotallowed"));
 				this.getView().byId("idMainClaimMessage").setType("Error");
@@ -4283,8 +4297,24 @@ sap.ui.define([
 							} else if (this.getModel("LocalDataModel").getProperty("/invalidVinMsg") == "Invalid VIN Number") {
 								this.getView().byId("idMainClaimMessage").setText(oBundle.getText("PleaseEnterValidVIN"));
 								this.getView().byId("idMainClaimMessage").setType("Error");
-							} else if (this.getView().getModel("HeadSetData").getProperty("/PreviousROInvoiceDate") > new Date()) {
+							} else if (this.getView().getModel("HeadSetData").getProperty("/PreviousROInvoiceDate") > this.getView().getModel(
+									"HeadSetData").getProperty(
+									"/RepairDate")) {
 								this.getView().byId("idPrInvDate").setValueState("Error");
+								this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+								this.getView().byId("idMainClaimMessage").setText(oBundle.getText("ROInvoiceDateGreaterThanRPDate"));
+								this.getView().byId("idMainClaimMessage").setType("Error");
+
+							} else if (this.getView().getModel("HeadSetData").getProperty("/AccessoryInstallDate") > this.getView().getModel(
+									"HeadSetData").getProperty(
+									"/RepairDate")) {
+								this.getView().byId("idAccDate").setValueState("Error");
+								this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+								this.getView().byId("idMainClaimMessage").setText(oBundle.getText("InstallDateGreaterThanRPDate"));
+								this.getView().byId("idMainClaimMessage").setType("Error");
+
+							} else if (this.getView().getModel("HeadSetData").getProperty("/RepairDate") > new Date()) {
+								this.getView().byId("id_Date").setValueState("Error");
 								this.getView().byId("idMainClaimMessage").setProperty("visible", true);
 								this.getView().byId("idMainClaimMessage").setText(oBundle.getText("FutureDateNotallowed"));
 								this.getView().byId("idMainClaimMessage").setType("Error");
@@ -7972,6 +8002,28 @@ sap.ui.define([
 								this.getView().byId("idMainClaimMessage").setProperty("visible", true);
 								this.getView().byId("idMainClaimMessage").setText(oBundle.getText("PleaseAddatleastoneDamageLine"));
 								this.getView().byId("idMainClaimMessage").setType("Error");
+							} else if (this.getView().getModel("HeadSetData").getProperty("/PreviousROInvoiceDate") > this.getView().getModel(
+									"HeadSetData").getProperty(
+									"/RepairDate")) {
+								this.getView().byId("idPrInvDate").setValueState("Error");
+								this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+								this.getView().byId("idMainClaimMessage").setText(oBundle.getText("ROInvoiceDateGreaterThanRPDate"));
+								this.getView().byId("idMainClaimMessage").setType("Error");
+
+							} else if (this.getView().getModel("HeadSetData").getProperty("/AccessoryInstallDate") > this.getView().getModel(
+									"HeadSetData").getProperty(
+									"/RepairDate")) {
+								this.getView().byId("idAccDate").setValueState("Error");
+								this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+								this.getView().byId("idMainClaimMessage").setText(oBundle.getText("InstallDateGreaterThanRPDate"));
+								this.getView().byId("idMainClaimMessage").setType("Error");
+
+							} else if (this.getView().getModel("HeadSetData").getProperty("/RepairDate") > new Date()) {
+								this.getView().byId("id_Date").setValueState("Error");
+								this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+								this.getView().byId("idMainClaimMessage").setText(oBundle.getText("FutureDateNotallowed"));
+								this.getView().byId("idMainClaimMessage").setType("Error");
+
 							} else {
 								this.getView().getModel("DateModel").setProperty("/claimTypeState", "None");
 								this.getView().getModel("DateModel").setProperty("/claimTypeState2", "None");
