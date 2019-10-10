@@ -4780,13 +4780,6 @@ sap.ui.define([
 			//var oUploadedFileArr = this.oUploadedFile.name.split(".").reverse();
 			//var oFileExt = oUploadedFileArr[0].length;
 			var oFileName = this.oUploadedFile.name;
-			//oFileName = this.oUploadedFile.name.replace("." + oFileExt, "");
-
-			// if (oFileExt > 3) {
-			// 	oFileName = this.oUploadedFile.name.slice(0, -1);
-			// } else {
-			// 	oFileName = this.oUploadedFile.name;
-			// }
 
 			var fileNamePrior = "HEAD@@@" + oFileName;
 			var fileName = fileNamePrior;
@@ -8003,8 +7996,7 @@ sap.ui.define([
 								this.getView().byId("idMainClaimMessage").setText(oBundle.getText("PleaseAddatleastoneDamageLine"));
 								this.getView().byId("idMainClaimMessage").setType("Error");
 							} else if (this.getView().getModel("HeadSetData").getProperty("/PreviousROInvoiceDate") > this.getView().getModel(
-									"HeadSetData").getProperty(
-									"/RepairDate")) {
+									"HeadSetData").getProperty("/RepairDate")) {
 								this.getView().byId("idPrInvDate").setValueState("Error");
 								this.getView().byId("idMainClaimMessage").setProperty("visible", true);
 								this.getView().byId("idMainClaimMessage").setText(oBundle.getText("ROInvoiceDateGreaterThanRPDate"));
