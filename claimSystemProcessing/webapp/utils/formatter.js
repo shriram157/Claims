@@ -627,11 +627,11 @@ zclaimProcessing.utils.formatter = {
 				var oNum3;
 				if (oNumber == -0) {
 					oNum3 = oNumber;
-					return "0.00$";
+					return "$0.00";
 				} else {
 					oNumber = parseFloat(oNumber);
 					oNum3 = Math.round(oNumber * 100) / 100;
-					return oNum3.toFixed(2) + "$";
+					return "$" + oNum3.toFixed(2);
 				}
 
 			}
