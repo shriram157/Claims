@@ -19,6 +19,7 @@ sap.ui.define([
 			return this.getOwnerComponent().getModel(sName);
 		},
 		handleNavHeaderPress: function (oEvent) {
+
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var oGetText = oEvent.getSource().getText();
 			if (oGetText === oBundle.getText("NewClaim")) {
@@ -102,7 +103,7 @@ sap.ui.define([
 				dataType: "json",
 				success: function (oData) {
 					var userType = oData.loggedUserType[0];
-					//var userType = "Dealer_Services_Admin";
+					//var userType = "TCI_User";
 					//var userType = "Dealer_Parts_Admin";
 					sap.ui.getCore().getModel("UserDataModel").setProperty("/LoggedInUser", userType);
 					sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "");
@@ -142,7 +143,7 @@ sap.ui.define([
 						that.getView().getModel("HeaderLinksModel").setProperty("/DealerLabourRateInquiry", true);
 						sap.ui.getCore().getModel("HeaderLinksModel").updateBindings(true);
 						sap.ui.getCore().getModel("HeaderLinksModel").updateBindings(true);
-						that.getOwnerComponent().getRouter().navTo("QueryCoverageTools");
+						//that.getOwnerComponent().getRouter().navTo("QueryCoverageTools");
 						/*Uncomment for security*/
 						break;
 					case "TCI_Admin":
@@ -170,7 +171,7 @@ sap.ui.define([
 
 						sap.ui.getCore().getModel("HeaderLinksModel").updateBindings(true);
 						sap.ui.getCore().getModel("HeaderLinksModel").updateBindings(true);
-						that.getOwnerComponent().getRouter().navTo("QueryCoverageTools");
+						//that.getOwnerComponent().getRouter().navTo("QueryCoverageTools");
 						/*Uncomment for security*/
 						break;
 					case "Zone_User":

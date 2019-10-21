@@ -16,8 +16,7 @@ sap.ui.define([
 		 */
 		onInit: function () {
 			//Model data set for Header Links visibility as per User login
-			console.log("HeaderLinksModel", sap.ui.getCore().getModel("HeaderLinksModel"));
-			this.getView().setModel(sap.ui.getCore().getModel("HeaderLinksModel"), "HeaderLinksModel");
+
 			var oDateModel = new sap.ui.model.json.JSONModel();
 			that = this;
 			oDateModel.setData({
@@ -35,11 +34,25 @@ sap.ui.define([
 
 			HeadSetData.setDefaultBindingMode("TwoWay");
 			this.getView().setModel(HeadSetData, "HeadSetData");
-			this.getDealer();
+
 			this.getOwnerComponent().getRouter().attachRoutePatternMatched(this._onRoutMatched, this);
 
 		},
-		_onRoutMatched: function (oEvent) {
+		_onRoutMatched: async function (oEvent) {
+
+			try {
+				await this.getDealer();
+				console.log("HeaderLinksModel", sap.ui.getCore().getModel("HeaderLinksModel"));
+				this.getView().setModel(sap.ui.getCore().getModel("HeaderLinksModel"), "HeaderLinksModel");
+				if (sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") == "TCI_User" || sap.ui.getCore().getModel(
+						"UserDataModel").getProperty("/LoggedInUser") == "Dealer_User") {
+					that.getOwnerComponent().getRouter().navTo("QueryCoverageTools");
+
+				}
+			} catch {
+
+			}
+
 			//MessageBox.Action.CLOSE();
 		},
 		onPressForeignVin: function () {

@@ -13,6 +13,7 @@ sap.ui.define([
 		 */
 		onInit: function () {
 			this.getDealer();
+			this.getView().setModel(sap.ui.getCore().getModel("HeaderLinksModel"), "HeaderLinksModel");
 			this.getView().setModel(this.getModel("ProssingModel"));
 			var PriorDate = new Date();
 			var oDateModel = new sap.ui.model.json.JSONModel();
