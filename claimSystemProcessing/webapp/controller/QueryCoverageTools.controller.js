@@ -49,8 +49,8 @@ sap.ui.define([
 					that.getOwnerComponent().getRouter().navTo("QueryCoverageTools");
 
 				}
-			} catch {
-
+			} catch (err) {
+				console.log(err);
 			}
 
 			//MessageBox.Action.CLOSE();
