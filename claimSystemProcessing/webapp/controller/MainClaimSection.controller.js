@@ -1290,19 +1290,19 @@ sap.ui.define([
 								this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", errorData.results[0].zc_claim_read_descriptionSet
 									.results[0].MainOpsCodeDescription);
 
-								this.getView().getModel("HeadSetData").setProperty("/ReferenceDate", errorData.results[0].zc_claim_read_descriptionSet
-									.results[0].ReferenceDate);
+								// this.getView().getModel("HeadSetData").setProperty("/ReferenceDate", errorData.results[0].zc_claim_read_descriptionSet
+								// 	.results[0].ReferenceDate);
 
-								this.getView().getModel("HeadSetData").setProperty("/DateOfApplication", errorData.results[0].zc_claim_read_descriptionSet
-									.results[0].DateOfApplication);
-								this.getView().getModel("HeadSetData").setProperty("/RepairDate", errorData.results[0].zc_claim_read_descriptionSet
-									.results[0].RepairDate);
-								this.getView().getModel("HeadSetData").setProperty("/PreviousROInvoiceDate", errorData.results[0].zc_claim_read_descriptionSet
-									.results[0].PreviousROInvoiceDate);
-								this.getView().getModel("HeadSetData").setProperty("/DeliveryDate", errorData.results[0].zc_claim_read_descriptionSet
-									.results[0].DeliveryDate);
-								this.getView().getModel("HeadSetData").setProperty("/AccessoryInstallDate", errorData.results[0].zc_claim_read_descriptionSet
-									.results[0].AccessoryInstallDate);
+								// this.getView().getModel("HeadSetData").setProperty("/DateOfApplication", errorData.results[0].zc_claim_read_descriptionSet
+								// 	.results[0].DateOfApplication);
+								// this.getView().getModel("HeadSetData").setProperty("/RepairDate", errorData.results[0].zc_claim_read_descriptionSet
+								// 	.results[0].RepairDate);
+								// this.getView().getModel("HeadSetData").setProperty("/PreviousROInvoiceDate", errorData.results[0].zc_claim_read_descriptionSet
+								// 	.results[0].PreviousROInvoiceDate);
+								// this.getView().getModel("HeadSetData").setProperty("/DeliveryDate", errorData.results[0].zc_claim_read_descriptionSet
+								// 	.results[0].DeliveryDate);
+								// this.getView().getModel("HeadSetData").setProperty("/AccessoryInstallDate", errorData.results[0].zc_claim_read_descriptionSet
+								// 	.results[0].AccessoryInstallDate);
 								this.getModel("LocalDataModel").setProperty("/claim_commentSet", errorData.results[0].zc_claim_commentSet.results);
 
 							}, this),
@@ -3451,12 +3451,12 @@ sap.ui.define([
 								}
 								//this.getModel("LocalDataModel").getProperty("/oDealerLabour/WTYNewLabourRate");
 
-								this.getView().getModel("HeadSetData").setProperty("/RepairDate", response.data.RepairDate);
-								this.getView().getModel("HeadSetData").setProperty("/ReferenceDate", response.data.ReferenceDate);
-								this.getView().getModel("HeadSetData").setProperty("/DateOfApplication", response.data.DateOfApplication);
-								this.getView().getModel("HeadSetData").setProperty("/AccessoryInstallDate", response.data.AccessoryInstallDate);
-								this.getView().getModel("HeadSetData").setProperty("/PreviousROInvoiceDate", response.data.PreviousROInvoiceDate);
-								this.getView().getModel("HeadSetData").setProperty("/DeliveryDate", response.data.DeliveryDate);
+								// this.getView().getModel("HeadSetData").setProperty("/RepairDate", response.data.RepairDate);
+								// this.getView().getModel("HeadSetData").setProperty("/ReferenceDate", response.data.ReferenceDate);
+								// this.getView().getModel("HeadSetData").setProperty("/DateOfApplication", response.data.DateOfApplication);
+								// this.getView().getModel("HeadSetData").setProperty("/AccessoryInstallDate", response.data.AccessoryInstallDate);
+								// this.getView().getModel("HeadSetData").setProperty("/PreviousROInvoiceDate", response.data.PreviousROInvoiceDate);
+								// this.getView().getModel("HeadSetData").setProperty("/DeliveryDate", response.data.DeliveryDate);
 								var oCLaim = this.getModel("LocalDataModel").getProperty("/ClaimDetails/NumberOfWarrantyClaim");
 								this.getView().getModel("HeadSetData").setProperty("/NumberOfWarrantyClaim", oCLaim);
 								var clmAuthNum;
@@ -4394,13 +4394,13 @@ sap.ui.define([
 												if (oIndexPaint > -1) {
 													this.getView().byId("idPaintTable").getItems()[oIndexPaint].getCells()[1].setProperty("selected", true);
 												}
-
-												this.getView().getModel("HeadSetData").setProperty("/RepairDate", response.RepairDate);
-												this.getView().getModel("HeadSetData").setProperty("/ReferenceDate", response.ReferenceDate);
-												this.getView().getModel("HeadSetData").setProperty("/DateOfApplication", response.DateOfApplication);
-												this.getView().getModel("HeadSetData").setProperty("/AccessoryInstallDate", response.AccessoryInstallDate);
-												this.getView().getModel("HeadSetData").setProperty("/PreviousROInvoiceDate", response.PreviousROInvoiceDate);
-												this.getView().getModel("HeadSetData").setProperty("/DeliveryDate", response.DeliveryDate);
+												// this.getView().getModel("HeadSetData").setProperty("/RepairDate", moment.utc(val).format("YYYY-MM-DD") sdata.results[0].RepairDate));
+												// this.getView().getModel("HeadSetData").setProperty("/RepairDate", response.RepairDate);
+												// this.getView().getModel("HeadSetData").setProperty("/ReferenceDate", response.ReferenceDate);
+												// this.getView().getModel("HeadSetData").setProperty("/DateOfApplication", response.DateOfApplication);
+												// this.getView().getModel("HeadSetData").setProperty("/AccessoryInstallDate", response.AccessoryInstallDate);
+												// this.getView().getModel("HeadSetData").setProperty("/PreviousROInvoiceDate", response.PreviousROInvoiceDate);
+												// this.getView().getModel("HeadSetData").setProperty("/DeliveryDate", response.DeliveryDate);
 
 												oClaimModel.read("/zc_headSet", {
 													urlParameters: {
@@ -5488,18 +5488,18 @@ sap.ui.define([
 												.results[0].OFPDescription);
 											this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", errorData.results[0].zc_claim_read_descriptionSet
 												.results[0].MainOpsCodeDescription);
-											this.getView().getModel("HeadSetData").setProperty("/ReferenceDate", errorData.results[0].zc_claim_read_descriptionSet
-												.results[0].ReferenceDate);
-											this.getView().getModel("HeadSetData").setProperty("/DateOfApplication", errorData.results[0].zc_claim_read_descriptionSet
-												.results[0].DateOfApplication);
-											this.getView().getModel("HeadSetData").setProperty("/RepairDate", errorData.results[0].zc_claim_read_descriptionSet
-												.results[0].RepairDate);
-											this.getView().getModel("HeadSetData").setProperty("/PreviousROInvoiceDate", errorData.results[0].zc_claim_read_descriptionSet
-												.results[0].PreviousROInvoiceDate);
-											this.getView().getModel("HeadSetData").setProperty("/DeliveryDate", errorData.results[0].zc_claim_read_descriptionSet
-												.results[0].DeliveryDate);
-											this.getView().getModel("HeadSetData").setProperty("/AccessoryInstallDate", errorData.results[0].zc_claim_read_descriptionSet
-												.results[0].AccessoryInstallDate);
+											// 			this.getView().getModel("HeadSetData").setProperty("/ReferenceDate", errorData.results[0].zc_claim_read_descriptionSet
+											// 				.results[0].ReferenceDate);
+											// 			this.getView().getModel("HeadSetData").setProperty("/DateOfApplication", errorData.results[0].zc_claim_read_descriptionSet
+											// 				.results[0].DateOfApplication);
+											// 			this.getView().getModel("HeadSetData").setProperty("/RepairDate", errorData.results[0].zc_claim_read_descriptionSet
+											// 				.results[0].RepairDate);
+											// 			this.getView().getModel("HeadSetData").setProperty("/PreviousROInvoiceDate", errorData.results[0].zc_claim_read_descriptionSet
+											// 				.results[0].PreviousROInvoiceDate);
+											// 			this.getView().getModel("HeadSetData").setProperty("/DeliveryDate", errorData.results[0].zc_claim_read_descriptionSet
+											// 				.results[0].DeliveryDate);
+											// 			this.getView().getModel("HeadSetData").setProperty("/AccessoryInstallDate", errorData.results[0].zc_claim_read_descriptionSet
+											// 				.results[0].AccessoryInstallDate);
 											this.getView().getModel("HeadSetData").setProperty("/HeadText", errorData.results[0].zc_claim_read_descriptionSet
 												.results[0].HeadText);
 										}, this)
@@ -5688,20 +5688,20 @@ sap.ui.define([
 												.results[0].OFPDescription);
 											this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", errorData.results[0].zc_claim_read_descriptionSet
 												.results[0].MainOpsCodeDescription);
-											this.getView().getModel("HeadSetData").setProperty("/ReferenceDate", errorData.results[0].zc_claim_read_descriptionSet
-												.results[0].ReferenceDate);
+											// 			this.getView().getModel("HeadSetData").setProperty("/ReferenceDate", errorData.results[0].zc_claim_read_descriptionSet
+											// 				.results[0].ReferenceDate);
 
-											this.getView().getModel("HeadSetData").setProperty("/DateOfApplication", errorData.results[0].zc_claim_read_descriptionSet
-												.results[0].DateOfApplication);
+											// 			this.getView().getModel("HeadSetData").setProperty("/DateOfApplication", errorData.results[0].zc_claim_read_descriptionSet
+											// 				.results[0].DateOfApplication);
 
-											this.getView().getModel("HeadSetData").setProperty("/RepairDate", errorData.results[0].zc_claim_read_descriptionSet
-												.results[0].RepairDate);
-											this.getView().getModel("HeadSetData").setProperty("/PreviousROInvoiceDate", errorData.results[0].zc_claim_read_descriptionSet
-												.results[0].PreviousROInvoiceDate);
-											this.getView().getModel("HeadSetData").setProperty("/DeliveryDate", errorData.results[0].zc_claim_read_descriptionSet
-												.results[0].DeliveryDate);
-											this.getView().getModel("HeadSetData").setProperty("/AccessoryInstallDate", errorData.results[0].zc_claim_read_descriptionSet
-												.results[0].AccessoryInstallDate);
+											// 			this.getView().getModel("HeadSetData").setProperty("/RepairDate", errorData.results[0].zc_claim_read_descriptionSet
+											// 				.results[0].RepairDate);
+											// 			this.getView().getModel("HeadSetData").setProperty("/PreviousROInvoiceDate", errorData.results[0].zc_claim_read_descriptionSet
+											// 				.results[0].PreviousROInvoiceDate);
+											// 			this.getView().getModel("HeadSetData").setProperty("/DeliveryDate", errorData.results[0].zc_claim_read_descriptionSet
+											// 				.results[0].DeliveryDate);
+											// 			this.getView().getModel("HeadSetData").setProperty("/AccessoryInstallDate", errorData.results[0].zc_claim_read_descriptionSet
+											// 				.results[0].AccessoryInstallDate);
 											this.getView().getModel("HeadSetData").setProperty("/HeadText", errorData.results[0].zc_claim_read_descriptionSet
 												.results[0].HeadText);
 										}, this)
@@ -8049,14 +8049,14 @@ sap.ui.define([
 												this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", errorData.results[0].zc_claim_read_descriptionSet
 													.results[0].MainOpsCodeDescription);
 
-												this.getView().getModel("HeadSetData").setProperty("/RepairDate", errorData.results[0].zc_claim_read_descriptionSet
-													.results[0].RepairDate);
-												this.getView().getModel("HeadSetData").setProperty("/PreviousROInvoiceDate", errorData.results[0].zc_claim_read_descriptionSet
-													.results[0].PreviousROInvoiceDate);
-												this.getView().getModel("HeadSetData").setProperty("/DeliveryDate", errorData.results[0].zc_claim_read_descriptionSet
-													.results[0].DeliveryDate);
-												this.getView().getModel("HeadSetData").setProperty("/AccessoryInstallDate", errorData.results[0].zc_claim_read_descriptionSet
-													.results[0].AccessoryInstallDate);
+												// this.getView().getModel("HeadSetData").setProperty("/RepairDate", errorData.results[0].zc_claim_read_descriptionSet
+												// 	.results[0].RepairDate);
+												// this.getView().getModel("HeadSetData").setProperty("/PreviousROInvoiceDate", errorData.results[0].zc_claim_read_descriptionSet
+												// 	.results[0].PreviousROInvoiceDate);
+												// this.getView().getModel("HeadSetData").setProperty("/DeliveryDate", errorData.results[0].zc_claim_read_descriptionSet
+												// 	.results[0].DeliveryDate);
+												// this.getView().getModel("HeadSetData").setProperty("/AccessoryInstallDate", errorData.results[0].zc_claim_read_descriptionSet
+												// 	.results[0].AccessoryInstallDate);
 												this.getView().getModel("HeadSetData").setProperty("/HeadText", errorData.results[0].zc_claim_read_descriptionSet
 													.results[0].HeadText);
 
