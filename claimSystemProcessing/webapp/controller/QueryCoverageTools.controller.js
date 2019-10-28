@@ -38,20 +38,22 @@ sap.ui.define([
 			this.getOwnerComponent().getRouter().attachRoutePatternMatched(this._onRoutMatched, this);
 
 		},
-		_onRoutMatched: async function (oEvent) {
+		_onRoutMatched: function (oEvent) {
 
-			try {
-				await this.getDealer();
-				console.log("HeaderLinksModel", sap.ui.getCore().getModel("HeaderLinksModel"));
-				this.getView().setModel(sap.ui.getCore().getModel("HeaderLinksModel"), "HeaderLinksModel");
-				if (sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") == "TCI_User" || sap.ui.getCore().getModel(
-						"UserDataModel").getProperty("/LoggedInUser") == "Dealer_User") {
-					that.getOwnerComponent().getRouter().navTo("QueryCoverageTools");
+			this.getView().setModel(sap.ui.getCore().getModel("HeaderLinksModel"), "HeaderLinksModel");
 
-				}
-			} catch (err) {
-				console.log(err);
-			}
+			// 	try {
+			// 		await this.getDealer();
+			// 		console.log("HeaderLinksModel", sap.ui.getCore().getModel("HeaderLinksModel"));
+			// 		this.getView().setModel(sap.ui.getCore().getModel("HeaderLinksModel"), "HeaderLinksModel");
+			// 		if (sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") == "TCI_User" || sap.ui.getCore().getModel(
+			// 				"UserDataModel").getProperty("/LoggedInUser") == "Dealer_User") {
+			// 			that.getOwnerComponent().getRouter().navTo("QueryCoverageTools");
+
+			// 		}
+			// 	} catch (err) {
+			// 		console.log(err);
+			// 	}
 
 			//MessageBox.Action.CLOSE();
 		},

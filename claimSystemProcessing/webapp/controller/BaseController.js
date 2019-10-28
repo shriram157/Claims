@@ -19,7 +19,6 @@ sap.ui.define([
 			return this.getOwnerComponent().getModel(sName);
 		},
 		handleNavHeaderPress: function (oEvent) {
-
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var oGetText = oEvent.getSource().getText();
 			if (oGetText === oBundle.getText("NewClaim")) {
@@ -103,7 +102,7 @@ sap.ui.define([
 				dataType: "json",
 				success: function (oData) {
 					var userType = oData.loggedUserType[0];
-					//var userType = "Dealer_Services_Admin";
+					//var userType = "TCI_User";
 					//var userType = "Dealer_Parts_Admin";
 					sap.ui.getCore().getModel("UserDataModel").setProperty("/LoggedInUser", userType);
 					sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "");

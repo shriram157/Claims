@@ -195,3 +195,7 @@ html.sap-desktop .clCommentFix .sapMFeedListItemHasFigure {
 .btnPaddings {
     padding: 0 10rem 1rem;
 }
+
+.clCoverageTool {
+    /*min-height: 300rem;*/
+}

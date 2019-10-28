@@ -3,6 +3,8 @@
 	xmlns:table="sap.ui.table" xmlns:custom="zclaimProcessing.control">
 	<core:Fragment fragmentName="zclaimProcessing.view.fragments.ToolHeader" type="XML"/>
 	<uxap:ObjectPageLayout id="ObjectPageLayout" enableLazyLoading="true">
+		<!--<uxap:headerContent>-->
+		<!--</uxap:headerContent>-->
 		<uxap:sections>
 			<uxap:ObjectPageSection title="{i18n>QuickCoverageTool}">
 				<uxap:subSections>
@@ -95,7 +97,7 @@
 					</uxap:ObjectPageSubSection>
 					<uxap:ObjectPageSubSection >
 						<uxap:blocks>
-							<VBox>
+							<VBox >
 								<Table id="idECPAGR" visible="{DateModel>/oAgrTable}" headerText="{i18n>ActiveAgreeement}" mode="SingleSelectLeft"
 									items="{path:'LocalDataModel>/AgreementDataECP'}" selectionChange="onNavigate">
 									<columns>
@@ -201,27 +203,25 @@
 								<!--		</table:Column>-->
 								<!--	</table:columns>-->
 								<!--</table:Table>-->
+								<f:SimpleForm editable="true" layout="ResponsiveGridLayout" title="" labelSpanXL="6" labelSpanL="6" labelSpanM="12" labelSpanS="12"
+									emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="3" columnsL="3" columnsM="3">
+									<f:content>
+										<core:Title text=""/>
+										<Label text="{i18n>PartOFP}" textAlign="Left" required="true"/>
+										<Input value="" id='partofp'/>
+										<core:Title text=""/>
+										<Label text="{i18n>MainOp}" textAlign="Left" required="true"/>
+										<Input value="" id='mainop'/>
+										<core:Title text=""/>
+										<Button text="{i18n>LookUp}" type="Emphasized" press="onPressLookUp">
+											<layoutData>
+												<l:GridData span="XL3 L3 "/>
+											</layoutData>
+										</Button>
+									</f:content>
+								</f:SimpleForm>
 								<table:Table class="classRCPTable sapUiSmallMarginBottom" selectionMode="Single" rows="{LocalDataModel>/CoverageSet}"
 									visibleRowCountMode="Auto" id='ofptable' selectionBehavior="Row" showNoData="true" threshold="20" enableBusyIndicator="true">
-									<table:toolbar>
-										<f:SimpleForm editable="true" layout="ResponsiveGridLayout" title="" labelSpanXL="6" labelSpanL="6" labelSpanM="12" labelSpanS="12"
-											emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="3" columnsL="3" columnsM="3">
-											<f:content>
-												<core:Title text=""/>
-												<Label text="{i18n>PartOFP}" textAlign="Left" required="true"/>
-												<Input value="" id='partofp'/>
-												<core:Title text=""/>
-												<Label text="{i18n>MainOp}" textAlign="Left" required="true"/>
-												<Input value="" id='mainop'/>
-												<core:Title text=""/>
-												<Button text="{i18n>LookUp}" type="Emphasized" press="onPressLookUp">
-													<layoutData>
-														<l:GridData span="XL3 L3 "/>
-													</layoutData>
-												</Button>
-											</f:content>
-										</f:SimpleForm>
-									</table:toolbar>
 									<table:columns autoResizable="true">
 										<table:Column width="17rem">
 											<table:multiLabels>
