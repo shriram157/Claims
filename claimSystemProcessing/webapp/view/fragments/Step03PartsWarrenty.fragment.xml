@@ -77,8 +77,8 @@
 				<Button text="{i18n>UpdatePartLine}" visible="{DateModel>/oUpdatePartLine}" press="onPressUpdatePart" enabled="{DateModel>/oFormEdit}"/>
 				<core:Title text=""/>
 				<Button text="{i18n>DeletePartLine}" type="Reject" press="onPressDeletePart" enabled="{DateModel>/oFormEdit}"/>
-				<core:Title text=""/>
-				<Button text="{i18n>GeneratePackingSlip}" press="onPressPackingSlip" visible="{DateModel>/oSlipVisible}"/>
+				<!--<core:Title text=""/>-->
+				<!--<Button text="{i18n>GeneratePackingSlip}" press="onPressPackingSlip" visible="{DateModel>/oSlipVisible}"/>-->
 				<core:Title text=""/>
 				<Label text="{i18n>PartsMarkup}"/>
 				<Text text="{path:'LocalDataModel>/PricingDataModel/0/PartPer', formatter:'zclaimProcessing.utils.formatter.fnFormatPercent'}"/>

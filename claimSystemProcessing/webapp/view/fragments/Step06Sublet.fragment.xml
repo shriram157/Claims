@@ -119,7 +119,7 @@
 						<Input maxLength="35" value="{SubletDataModel>/InvoiceNo}" enabled="{DateModel>/subletLine}"/>
 						<core:Title text=""/>
 						<Label text="{i18n>Description}" textAlign="Left"/>
-						<Input maxLength="60" value="{SubletDataModel>/description}" enabled="{DateModel>/subletLine}"/>
+						<Input maxLength="40" value="{SubletDataModel>/description}" enabled="{DateModel>/subletLine}"/>
 						<core:Title text=""/>
 						<Label text="{i18n>Amount}" textAlign="Left"/>
 						<custom:CustomInputDecimal maxLength="9" value="{SubletDataModel>/Amount}" enabled="{DateModel>/subletLine}"/>
