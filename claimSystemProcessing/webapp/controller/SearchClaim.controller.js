@@ -52,7 +52,6 @@ sap.ui.define([
 			var oModel = new sap.ui.model.json.JSONModel();
 			sap.ui.getCore().setModel(oModel, "UserDataModel");
 			var that = this;
-			//this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 
 			$.ajax({
 				url: this.sPrefix + "/userDetails/currentScopesForUser",
