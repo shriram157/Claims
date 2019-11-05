@@ -35,9 +35,6 @@ sap.ui.define([
 				this.getModel("ProssingModel").refresh();
 			}
 
-			// 			else if (oGetText === oBundle.getText("DealerLabourRateInquiry")) {
-
-			// 			}
 		},
 
 		handleDealerLabourInq: function (oEvent) {
