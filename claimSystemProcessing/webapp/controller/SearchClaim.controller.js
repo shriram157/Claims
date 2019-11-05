@@ -9,11 +9,6 @@ sap.ui.define([
 
 	return BaseController.extend("zclaimProcessing.controller.SearchClaim", {
 
-		/**
-		 * Called when a controller is instantiated and its View controls (if available) are already created.
-		 * Can be used to modify the View before it is displayed, to bind event handlers and do other one-time initialization.
-		 * @memberOf zclaimProcessing.view.SearchClaim
-		 */
 		onInit: function () {
 			this.getModel("LocalDataModel").setProperty("/oVisibleRowTR", 0);
 			var sSelectedLocale;
