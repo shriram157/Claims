@@ -6,11 +6,6 @@ sap.ui.define([
 	"use strict";
 
 	return Controller.extend("zclaimProcessing.controller.BaseController", {
-		/**
-		 * Convenience method for accessing the router in every controller of the application.
-		 * @public
-		 * @returns {sap.ui.core.routing.Router} the router for this component
-		 */
 
 		getRouter: function () {
 			return this.getOwnerComponent().getRouter();
