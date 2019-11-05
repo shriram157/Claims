@@ -116,13 +116,13 @@
 						</ComboBox>
 						<core:Title text=""/>
 						<Label text="{i18n>Invoice}" textAlign="Left"/>
-						<Input value="{SubletDataModel>/InvoiceNo}" enabled="{DateModel>/subletLine}"/>
+						<Input maxLength="35" value="{SubletDataModel>/InvoiceNo}" enabled="{DateModel>/subletLine}"/>
 						<core:Title text=""/>
 						<Label text="{i18n>Description}" textAlign="Left"/>
-						<Input value="{SubletDataModel>/description}" enabled="{DateModel>/subletLine}"/>
+						<Input maxLength="60" value="{SubletDataModel>/description}" enabled="{DateModel>/subletLine}"/>
 						<core:Title text=""/>
 						<Label text="{i18n>Amount}" textAlign="Left"/>
-						<custom:CustomInputDecimal value="{SubletDataModel>/Amount}" enabled="{DateModel>/subletLine}"/>
+						<custom:CustomInputDecimal maxLength="9" value="{SubletDataModel>/Amount}" enabled="{DateModel>/subletLine}"/>
 						<core:Title text=""/>
 						<Label text=" " class="clTextIndent"/>
 						<Button text="{i18n>SaveSublet}" type="Emphasized" press="onPressSaveClaimItemSublet" enabled="{DateModel>/subletLine}">
@@ -158,7 +158,7 @@
 						</UploadCollection>
 						<core:Title text=""/>
 						<Label text="{i18n>Days}" textAlign="Left"/>
-						<custom:CustomInput value="{SubletDataModel>/days}" enabled="{DateModel>/subletLine}" visible="{DateModel>/disableBrandDays}"/>
+						<custom:CustomInput maxLength="15" value="{SubletDataModel>/days}" enabled="{DateModel>/subletLine}" visible="{DateModel>/disableBrandDays}"/>
 						<core:Title text=""/>
 						<Label text="{i18n>VehicleBrand}" textAlign="Left"/>
 						<Select forceSelection="false" selectedKey="{SubletDataModel>/brand}" enabled="{DateModel>/subletLine}"
