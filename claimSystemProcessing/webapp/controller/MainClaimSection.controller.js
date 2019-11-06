@@ -1179,6 +1179,7 @@ sap.ui.define([
 								"UserDataModel").getProperty("/LoggedInUser") != "Zone_User" &&
 							sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") != "TCI_Admin") {
 
+							this.getView().getModel("DateModel").setProperty("/copyClaimEnable", true);
 							if (oClaimSelectedGroup == "Authorization") {
 								this.getView().getModel("DateModel").setProperty("/copyClaimEnable", false);
 								this.getModel("LocalDataModel").setProperty("/PercentState", true);
@@ -1241,9 +1242,11 @@ sap.ui.define([
 						}
 
 						if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZACD" &&
+							this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZAUT" &&
 							this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") == "ZWVE") {
 							this.getView().getModel("DateModel").setProperty("/oFieldActionInput", true);
 						}
+
 						if (oClaimTypeDetail == "ZSSM") {
 							this.getView().getModel("DateModel").setProperty("/oUpdatePartLine", false);
 							this.getView().getModel("DateModel").setProperty("/oAddPartLine", false);
@@ -1900,9 +1903,6 @@ sap.ui.define([
 					this.getView().getModel("DateModel").setProperty("/AcA1", false);
 					this.getView().getModel("DateModel").setProperty("/P1p2", false);
 					this.getView().getModel("DateModel").setProperty("/oMainOpsReq", true);
-				} else {
-					this.getView().getModel("DateModel").setProperty("/oFieldActionInput", false);
-
 				}
 
 				if (oGroupDescription == "ECP") {
@@ -1933,8 +1933,6 @@ sap.ui.define([
 					this.getView().getModel("DateModel").setProperty("/oMainOpsReq", true);
 					this.getView().getModel("DateModel").setProperty("/authHide", false);
 
-				} else {
-					this.getView().getModel("DateModel").setProperty("/oECPfields", false);
 				}
 
 				if (oGroupDescription == "SCR") {
@@ -2091,6 +2089,7 @@ sap.ui.define([
 				this.getView().getModel("DateModel").setProperty("/oBatteryTestEnable", true);
 				this.getView().getModel("DateModel").setProperty("/ofpRequired", false);
 				this.getView().getModel("DateModel").setProperty("/authHide", true);
+				this.getView().getModel("DateModel").setProperty("/oFieldActionInput", true);
 
 			} else if (this.getModel("LocalDataModel").getProperty("/oFieldAction") == "STR" ||
 				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZSSE") {
@@ -2557,6 +2556,7 @@ sap.ui.define([
 			}
 			this.onP2Claim(oKey);
 			if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZACD" &&
+				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZAUT" &&
 				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") == "ZWVE") {
 				this.getView().getModel("DateModel").setProperty("/oFieldActionInput", true);
 			}
