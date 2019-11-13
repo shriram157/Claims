@@ -2073,7 +2073,6 @@ sap.ui.define([
 
 		_fnOFPenabled: function () {
 			if (
-				this.getModel("LocalDataModel").getProperty("/oFieldAction") == "FAC" ||
 				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZCSR" ||
 				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZCER" ||
 
@@ -2544,8 +2543,8 @@ sap.ui.define([
 				this.getView().getModel("DateModel").setProperty("/oPrevInvNumReq", false);
 				this.getView().getModel("DateModel").setProperty("/oPrevInvDateReq", false);
 				this.getView().getModel("DateModel").setProperty("/PreroOdometerVisible", false);
-				this.getView().getModel("DateModel").setProperty("/ofpEnabled", true);
-				this.getView().getModel("DateModel").setProperty("/ofpRequired", true);
+				// this.getView().getModel("DateModel").setProperty("/ofpEnabled", true);
+				//this.getView().getModel("DateModel").setProperty("/ofpRequired", true);
 				this.getView().getModel("DateModel").setProperty("/oBatteryTestEnable", false);
 				this.getView().getModel("DateModel").setProperty("/authHide", true);
 				this.getView().getModel("DateModel").setProperty("/oMainOpsReq", false);
