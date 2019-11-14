@@ -323,7 +323,8 @@ sap.ui.define([
 				OdometerReqMan: true,
 				RadioSelectedOFP: false,
 				NameOfPersonRespWhoChangedObj: "",
-				ShipmentVisible: false
+				ShipmentVisible: false,
+				oECPfields: false
 			});
 			this.getView().setModel(oDateModel, "DateModel");
 			this.getModel("LocalDataModel").setProperty("/SubletAtchmentData", []);
@@ -2569,8 +2570,10 @@ sap.ui.define([
 
 			if (oKey == "ZECP") {
 				this.getModel("LocalDataModel").setProperty("/DealerPriceText", oBundle.getText("MSRP"));
+				this.getView().getModel("DateModel").setProperty("/oECPfields", true);
 			} else {
 				this.getModel("LocalDataModel").setProperty("/DealerPriceText", oBundle.getText("DealerNetPrice"));
+				this.getView().getModel("DateModel").setProperty("/oECPfields", false);
 
 			}
 
