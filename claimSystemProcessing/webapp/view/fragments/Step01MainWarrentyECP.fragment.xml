@@ -437,26 +437,11 @@
 					editable="{DateModel>/oFormEdit}"/>
 				<core:Title text=""/>
 				<Label text="{i18n>ROOdometer}"/>
-				<Input visible="{DateModel>/PreroOdometerVisible}" value="{path:'HeadSetData>/PreviousROOdometer'}" editable="{DateModel>/oFormEdit}"/>
+				<Input id="idPrvOdomtr" required="{DateModel>/oPrvOdomtrReq}" visible="{DateModel>/PreroOdometerVisible}"
+					value="{path:'HeadSetData>/PreviousROOdometer', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 6 }}"
+					editable="{DateModel>/oFormEdit}"/>
 			</f:content>
 		</f:SimpleForm>
-		<!--<f:SimpleForm editable="{DateModel>/oFormEdit}" title="{i18n>ClaimComments}" layout="ResponsiveGridLayout" labelSpanXL="3" labelSpanL="3"-->
-		<!--	labelSpanM="3" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="1" emptySpanL="1" emptySpanM="1" emptySpanS="0" columnsXL="1"-->
-		<!--	columnsL="1" columnsM="1" singleContainerFullSize="false">-->
-		<!--	<f:content>-->
-		<!--		<core:Title text=""/>-->
-		<!--		<TextArea height="8rem" value="{HeadSetData>/HeadText}" editable="{DateModel>/commentEditable}" enabled="{DateModel>/oFormEdit}">-->
-		<!--			<layoutData>-->
-		<!--				<l:GridData span="XL8 L8 M8 S12"/>-->
-		<!--			</layoutData>-->
-		<!--		</TextArea>-->
-		<!--		<Button text="Add" press="onAddComment" enabled="{DateModel>/oFormEdit}">-->
-		<!--			<layoutData>-->
-		<!--				<l:GridData span="XL2 L2 M3 S4"/>-->
-		<!--			</layoutData>-->
-		<!--		</Button>-->
-		<!--	</f:content>-->
-		<!--</f:SimpleForm>-->
 		<Panel backgroundDesign="Transparent" headerText="{i18n>ClaimComments}" expandable="true" class="sapUiSizeCompact clCommentFix">
 			<content>
 				<FeedInput post=".onPost" enabled="{LocalDataModel>/FeedEnabled}"/>
@@ -479,10 +464,6 @@
 					labelSpanS="12" adjustLabelSpan="false" emptySpanXL="4" emptySpanL="4" emptySpanM="0" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1"
 					singleContainerFullSize="false">
 					<f:content>
-						<!--<UploadCollection sameFilenameAllowed="false" instantUpload="true" uploadEnabled="{LocalDataModel>/UploadEnable}" -->
-						<!--change="onUplaodChange" id="UploadSupportingDoc" multiple="false" -->
-						<!--uploadComplete="onUploadComplete" fileDeleted="onFileDeleted"-->
-						<!-- items="{ path: 'LocalDataModel>/HeadAtchmentData'}">-->
 						<UploadCollection id="idHeadAttachment" maximumFileSize="10" maximumFilenameLength="50" fileSizeExceed="onFileSizeExceed"
 							filenameLengthExceed="onFileNameLengthExceed" uploadEnabled="{LocalDataModel>/UploadEnable}" change="onUplaodChange"
 							uploadComplete="onUploadComplete" fileDeleted="onFileDeleted" instantUpload="true" busy="{LocalDataModel>/IndicatorState}"
