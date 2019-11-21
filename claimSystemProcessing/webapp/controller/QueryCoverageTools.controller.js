@@ -191,7 +191,7 @@ sap.ui.define([
 			if (window.document.domain == "localhost") {
 				isProxy = "proxy";
 			}
-
+			console.log(this.getModel("LocalDataModel").getProperty("/oECPURL"));
 			var w = window.open(this.getModel("LocalDataModel").getProperty("/oECPURL") + "?Division=" + sDivision + "&Language=" +
 				sSelectedLocale +
 				"#/AgreementInquiry/" + oECPAgr + "",

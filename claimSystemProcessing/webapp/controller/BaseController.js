@@ -211,10 +211,14 @@ sap.ui.define([
 				type: "GET",
 				dataType: "json",
 				success: $.proxy(function (appData) {
+					console.log(appData);
 					this.getModel("LocalDataModel").setProperty("/oECPURL", appData.ecpSalesAppUrl);
 					this.getModel("LocalDataModel").setProperty("/oCICURL", appData.cicUrl);
 					this.getModel("LocalDataModel").setProperty("/oCVSHURL", appData.cvshUrl);
-				}, this)
+				}, this),
+				error: function (err) {
+					console.log(err);
+				}
 			});
 
 			// get the attributes and BP Details - Minakshi to confirm if BP details needed		// TODO: 
