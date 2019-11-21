@@ -91,7 +91,7 @@ sap.ui.define([
 					case "Dealer_User":
 						console.log("Dealer_User");
 						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ReadOnlyCoverageClaimLabour");
-						/*Uncomment for security*/
+
 						that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", false);
 						that.getView().getModel("HeaderLinksModel").setProperty("/ViewUpdateClaims", false);
 						that.getView().getModel("HeaderLinksModel").setProperty("/QuickCoverageTool", true);
