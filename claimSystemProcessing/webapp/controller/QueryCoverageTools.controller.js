@@ -108,6 +108,7 @@ sap.ui.define([
 		onEnterVIN: function (oEvent) {
 
 			var oVin = oEvent.getParameters().value.toUpperCase();
+
 			this.getView().getModel("DateModel").setProperty("/VIN", oVin);
 			var oProssingModel = this.getModel("ProssingModel");
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
@@ -216,10 +217,10 @@ sap.ui.define([
 			if (window.document.domain == "localhost") {
 				isProxy = "proxy";
 			}
-			console.log(this.getModel("LocalDataModel").getProperty("/oECPURL"));
+			console.log(this.getView().getModel("DateModel").getProperty("/VIN"));
 			var w = window.open(this.getModel("LocalDataModel").getProperty("/oECPURL") + "?Division=" + sDivision + "&Language=" +
 				sSelectedLocale +
-				"#/AgreementInquiry/" + oECPAgr + "",
+				"#/AgreementInquiry/" + oECPAgr + "/" + this.getView().getModel("DateModel").getProperty("/VIN") + "",
 				'_blank');
 
 			if (w == null) {
