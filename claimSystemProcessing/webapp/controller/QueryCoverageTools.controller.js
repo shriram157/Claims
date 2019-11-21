@@ -42,6 +42,31 @@ sap.ui.define([
 
 			this.getView().setModel(sap.ui.getCore().getModel("HeaderLinksModel"), "HeaderLinksModel");
 
+			var sLocation = window.location.host;
+			var sLocation_conf = sLocation.search("webide");
+			if (sLocation_conf == 0) {
+				this.sPrefix = "/Claim_Destination";
+				this.attributeUrl = "/userDetails/attributesforlocaltesting";
+			} else {
+				this.sPrefix = "";
+				this.attributeUrl = "/userDetails/attributes";
+			}
+
+			$.ajax({
+				url: this.sPrefix + "/app-config",
+				type: "GET",
+				dataType: "json",
+				success: $.proxy(function (appData) {
+					console.log(appData);
+					this.getModel("LocalDataModel").setProperty("/oECPURL", appData.ecpSalesAppUrl);
+					this.getModel("LocalDataModel").setProperty("/oCICURL", appData.cicUrl);
+					this.getModel("LocalDataModel").setProperty("/oCVSHURL", appData.cvshUrl);
+				}, this),
+				error: function (err) {
+					console.log(err);
+				}
+			});
+
 			// 	try {
 			// 		await this.getDealer();
 			// 		console.log("HeaderLinksModel", sap.ui.getCore().getModel("HeaderLinksModel"));
