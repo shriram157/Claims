@@ -2894,7 +2894,7 @@ sap.ui.define([
 
 			var w = window.open(this.getModel("LocalDataModel").getProperty("/oECPURL") + "?Division=" + sDivision + "&Language=" +
 				sSelectedLocale +
-				"#/AgreementInquiry/" + oECPAgr + "",
+				"#/AgreementInquiry/" + oECPAgr + "/" + this.getView().getModel("HeadSetData").getProperty("/ExternalObjectNumber") + "",
 				'_blank');
 
 			if (w == null) {
