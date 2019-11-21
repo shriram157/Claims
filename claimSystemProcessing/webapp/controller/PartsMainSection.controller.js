@@ -1088,7 +1088,7 @@ sap.ui.define([
 				this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", false);
 				this.getView().getModel("DateModel").setProperty("/PWPrintEnable", false);
 				this.getView().getModel("DateModel").setProperty("/editPartType", false);
-				this.getModel("LocalDataModel").setProperty("/UploadEnableHeader", true);
+				this.getModel("LocalDataModel").setProperty("/UploadEnableHeader", false);
 				this.getModel("LocalDataModel").setProperty("/step01Next", false);
 				this.getModel("ProssingModel").refresh();
 				this.getModel("LocalDataModel").setProperty("/PricingDataModel", "");
@@ -3397,6 +3397,7 @@ sap.ui.define([
 		onUploadCompleteParts: function (oEvent) {
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			var fileType = this.oUploadedFile.type;
+			this.obj.NumberOfWarrantyClaim = oClaimNum;
 			// var oUploadedFileArr = this.oUploadedFile.name.split(".").reverse();
 			// var oFileExt = oUploadedFileArr[0].length;
 			// var oFileName = "";
@@ -4193,6 +4194,7 @@ sap.ui.define([
 								var oPartner = sdata.results[0].Partner;
 								this.getView().getModel("DateModel").setProperty("/FeedEnabled", true);
 								this.getModel("LocalDataModel").setProperty("/ClaimDetails", sdata.results[0]);
+								this.getModel("LocalDataModel").setProperty("/UploadEnableHeader", true);
 								this.getView().getModel("HeadSetData").setData(sdata.results[0]);
 								this.getView().getModel("HeadSetData").setProperty("/DeliveryDate", that.DataRes1.DeliveryDate);
 								this.getView().getModel("HeadSetData").setProperty("/ShipmentReceivedDate", that.DataRes1.ShipmentReceivedDate);
