@@ -438,7 +438,7 @@
 				<core:Title text=""/>
 				<Label text="{i18n>ROOdometer}"/>
 				<Input id="idPrvOdomtr" required="{DateModel>/oPrvOdomtrReq}" visible="{DateModel>/PreroOdometerVisible}"
-					value="{path:'HeadSetData>/PreviousROOdometer', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 6 }}"
+					value="{path:'HeadSetData>/PreviousROOdometer', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 7 }}"
 					editable="{DateModel>/oFormEdit}"/>
 			</f:content>
 		</f:SimpleForm>
