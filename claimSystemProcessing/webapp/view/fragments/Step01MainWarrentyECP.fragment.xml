@@ -416,7 +416,7 @@
 					editable="{DateModel>/oFormEdit}"/>
 				<core:Title text=""/>
 				<Label text="{i18n>InstallOdometer}"/>
-				<Input id="idInsOdo" required="{DateModel>/AcA1}" visible="{DateModel>/AcA1}" editable="{DateModel>/oFormEdit}"
+				<Input id="idInsOdo" maxLength="7" required="{DateModel>/AcA1}" visible="{DateModel>/AcA1}" editable="{DateModel>/oFormEdit}"
 					value="{path:'HeadSetData>/AccessoryInstallOdometer', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 7}}"/>
 				<core:Title text=""/>
 			</f:content>
@@ -427,7 +427,7 @@
 			<f:content>
 				<core:Title text=""/>
 				<Label text="{i18n>PreviousROInvoice}"/>
-				<Input required="{DateModel>/oPrevInvNumReq}" id="idPreInvNum"
+				<Input maxLength="20" required="{DateModel>/oPrevInvNumReq}" id="idPreInvNum"
 					value="{path:'HeadSetData>/PreviousROInvoice', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 20 }}"
 					editable="{DateModel>/oFormEdit}"/>
 				<core:Title text=""/>
@@ -437,7 +437,7 @@
 					editable="{DateModel>/oFormEdit}"/>
 				<core:Title text=""/>
 				<Label text="{i18n>ROOdometer}"/>
-				<Input id="idPrvOdomtr" required="{DateModel>/oPrvOdomtrReq}" visible="{DateModel>/PreroOdometerVisible}"
+				<Input maxLength="7" id="idPrvOdomtr" required="{DateModel>/oPrvOdomtrReq}" visible="{DateModel>/PreroOdometerVisible}"
 					value="{path:'HeadSetData>/PreviousROOdometer', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 7 }}"
 					editable="{DateModel>/oFormEdit}"/>
 			</f:content>
