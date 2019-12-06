@@ -228,19 +228,6 @@ sap.ui.define([
 				var sDate = "";
 				var oResult = [];
 
-				// var oProssingModel = that.getModel("ProssingModel");
-				// oProssingModel.read("/ZC_CLAIM_HEAD_NEW", {
-				// 	urlParameters: {
-				// 		"$filter": "Partner eq '" + issueDealer + "'and ReferenceDate ge datetime'" + FromDateFormat +
-				// 			"'and ReferenceDate le datetime'" + ToDateFormat +
-				// 			"'"
-				// 	},
-				// 	success: $.proxy(function (data) {
-				// 		that.getModel("LocalDataModel").setProperty("/ZcClaimHeadNewData", data.results);
-				// 	}, that)
-
-				// });
-
 				var oRouter = sap.ui.core.UIComponent.getRouterFor(that);
 				oRouter.attachRouteMatched(that._onObjectMatched, that);
 			});
