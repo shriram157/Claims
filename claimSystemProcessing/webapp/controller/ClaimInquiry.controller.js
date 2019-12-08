@@ -30,6 +30,50 @@ sap.ui.define([
 			this.getView().setModel(oDateModel, "DateModel");
 			this.getModel("LocalDataModel").setProperty("/LinkEnable", true);
 			this._mViewSettingsDialogs = {};
+
+			var isProxy = "";
+			if (window.document.domain == "localhost") {
+				isProxy = "proxy";
+			}
+
+			// 			$.ajax({
+			// 				url: isProxy + "//maps.googleapis.com/maps/api/distancematrix/json",
+			// 				type: "GET",
+			// 				data: {
+			// 					origins: "Washington,DC",
+			// 					destination: "New+York+City,NY",
+			// 					mode: "driving",
+			// 					key: "AIzaSyAz7irkOJQ4ydE2dHYrg868QV5jUQ-5FaY"
+			// 				},
+			// 				success: function (data) {
+			// 					console.log(data);
+			// 				}
+			// 			});
+
+			const http = new XMLHttpRequest();
+			const url =
+				'https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=Washington,DC&destinations=New+York+City,NY&key=AIzaSyAz7irkOJQ4ydE2dHYrg868QV5jUQ-5FaY';
+
+			http.onreadystatechange = e => {
+				// console.log(http.status);
+				// console.log(http.readyState);
+				if (http.readyState == 4 && http.status == 200) {
+					const data = JSON.parse(http.responseText);
+					console.log(data);
+				}
+			}
+
+			http.open('GET', url);
+			http.send();
+
+			// 			var url =
+			// 				"/GoogleMapPattern?units=metric&origins=Washington,DC&destinations=New+York+City,NY&key=AIzaSyAz7irkOJQ4ydE2dHYrg868QV5jUQ-5FaY";
+
+			// 			$.getJSON(url, function (data) {
+			// 				//set data to model here
+			// 				console.log(data);
+			// 			});
+
 		},
 
 		onEnterVIN: function (oEvent) {

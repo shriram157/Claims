@@ -32,6 +32,14 @@
 			"name": "ecpSales_node_secured"
 		},
 		"description": "ecp Sales Secured"
+	}, {
+		"path": "/GoogleMapPattern",
+		"target": {
+			"type": "destination",
+			"name": "GoogleMapPattern",
+			"entryPath": "/"
+		},
+		"description": "GoogleMapPattern"
 	}],
 	"sendWelcomeFileRedirect": true
 }
