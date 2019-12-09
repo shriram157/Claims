@@ -34,7 +34,7 @@ sap.ui.define([
 					"$filter": "LanguageKey eq '" + sSelectedLocale.toUpperCase() + "'"
 				},
 				success: $.proxy(function (data) {
-					var oClaimData = data.results;
+					oClaimData = data.results;
 
 					var elements = oClaimData.reduce(function (previous, current) {
 
@@ -57,6 +57,13 @@ sap.ui.define([
 							return val.ClaimGroup == "STR" || val.ClaimGroup == "WTY" || val.ClaimGroup == "CRC" || val.ClaimGroup == "VLC" || val.ClaimGroup ==
 								"ECP" ||
 								val.ClaimGroup == "FAC";
+						});
+					} else if (sap.ui.getCore().getModel("UserDataModel").getProperty("/UserScope") == "ManageAllWarrantyParts") {
+						oClaimGroup = elements.filter(function (val) {
+							return val.ClaimGroup == "SCR" || val.ClaimGroup == "SSM" || val.ClaimGroup == "PWD" || val.ClaimGroup == "STR" ||
+								val.ClaimGroup == "WTY" || val.ClaimGroup == "CRC" || val.ClaimGroup == "VLC" || val.ClaimGroup ==
+								"ECP" || val.ClaimGroup == "FAC";
+
 						});
 					} else {
 						oClaimGroup = elements;

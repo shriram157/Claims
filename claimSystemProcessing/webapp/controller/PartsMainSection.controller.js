@@ -80,15 +80,6 @@ sap.ui.define([
 			var oProssingModel = this.getModel("ProssingModel");
 			this.setModel(this.getModel("ProductMaster"), "ProductMasterModel");
 			var oArr = [];
-			var warrantyClaimNumber = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
-			oProssingModel.read("/ZC_CLAIM_SUM(p_clmno='" + warrantyClaimNumber + "')/Set", {
-				success: $.proxy(function (data) {
-					var oFilteredData = data.results.filter(function (val) {
-						return val.ItemType === "MAT" || val.ItemType === "TOTL";
-					});
-					this.getModel("LocalDataModel").setProperty("/ClaimSum", oFilteredData);
-				}, this)
-			});
 
 			var HeadSetData = new sap.ui.model.json.JSONModel({
 				"WarrantyClaimType": "",
@@ -422,6 +413,16 @@ sap.ui.define([
 				this.getModel("LocalDataModel").setProperty("/step01Next", true);
 				this.claimType = oEvent.getParameters().arguments.oKey;
 
+				var warrantyClaimNumber = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
+				oProssingModel.read("/ZC_CLAIM_SUM(p_clmno='" + warrantyClaimNumber + "')/Set", {
+					success: $.proxy(function (data) {
+						var oFilteredData = data.results.filter(function (val) {
+							return val.ItemType === "MAT" || val.ItemType === "TOTL";
+						});
+						this.getModel("LocalDataModel").setProperty("/ClaimSum", oFilteredData);
+					}, this)
+				});
+
 				if (this.claimType === "ZPDC") {
 					this.SelectedClaimType = "ZPDC";
 					this.getView().getModel("DateModel").setProperty("/DelDateEdit", false);
@@ -583,10 +584,18 @@ sap.ui.define([
 							this.getView().getModel("LocalDataModel").setProperty("/CancelEnable", true);
 							this.getView().getModel("DateModel").setProperty("/SaveClaim07", true);
 						} else {
-							if (this.ClaimStatus == "ZTRC" &&
+							if (
+
+								this.ClaimStatus == "ZTRC" &&
 								sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") == "Dealer_Parts_Admin" ||
 								this.ClaimStatus == "ZTIC" && sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") ==
-								"Dealer_Parts_Admin") {
+								"Dealer_Parts_Admin" ||
+								this.ClaimStatus == "ZTRC" &&
+								sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") == "Dealer_Service_Parts_Admin" ||
+								this.ClaimStatus == "ZTIC" && sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") ==
+								"Dealer_Service_Parts_Admin"
+
+							) {
 								//code here
 								this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
 								this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", true);
@@ -4287,8 +4296,15 @@ sap.ui.define([
 					this.getView().getModel("DateModel").setProperty("/submitTCIBtn", false);
 					this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
 				} else {
-					if (this.ClaimStatus == "ZTRC" && sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") == "Dealer_Parts_Admin" ||
-						this.ClaimStatus == "ZTIC" && sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") == "Dealer_Parts_Admin") {
+					if (
+						this.ClaimStatus == "ZTRC" && sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") == "Dealer_Parts_Admin" ||
+						this.ClaimStatus == "ZTIC" && sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") == "Dealer_Parts_Admin" ||
+						this.ClaimStatus == "ZTRC" && sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") ==
+						"Dealer_Service_Parts_Admin" ||
+						this.ClaimStatus == "ZTIC" && sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") ==
+						"Dealer_Service_Parts_Admin"
+
+					) {
 
 						this.getView().getModel("DateModel").setProperty("/submitTCIBtn", true);
 						this.getView().getModel("DateModel").setProperty("/SaveClaim07", true);
@@ -4647,7 +4663,13 @@ sap.ui.define([
 					that.getView().getModel("HeadSetData").getProperty("/DecisionCode") == "ZTIC" &&
 					sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") == "Dealer_Parts_Admin" ||
 					that.getView().getModel("HeadSetData").getProperty("/DecisionCode") == "ZTRC" &&
-					sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") == "Dealer_Parts_Admin") {
+					sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") == "Dealer_Parts_Admin" ||
+					that.getView().getModel("HeadSetData").getProperty("/DecisionCode") == "ZTIC" &&
+					sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") == "Dealer_Service_Parts_Admin" ||
+					that.getView().getModel("HeadSetData").getProperty("/DecisionCode") == "ZTRC" &&
+					sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") == "Dealer_Service_Parts_Admin"
+
+				) {
 					var dialog = new Dialog({
 						title: oBundle.getText("SaveChanges"),
 						type: "Message",

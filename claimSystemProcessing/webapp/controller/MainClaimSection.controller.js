@@ -512,13 +512,11 @@ sap.ui.define([
 
 							} else if (oGroupDescription == "ZWP1") {
 								this.getView().byId("idClaimPrOpt").setProperty("visible", false);
-
 								this.getModel("LocalDataModel").setProperty("/AuthP1Visible", true);
 								this.getView().byId("idPricingOptP1").setSelectedIndex(0);
 								this.getView().byId("idParticiaptionTable").setProperty("visible", false);
 								this.getView().byId("idDiscountTable").setProperty("visible", true);
 								this.getView().byId("idAuthorizationLinkForm").setProperty("visible", false);
-
 							}
 
 							this.getView().getModel("DataPercetCalculate").setProperty("/CustomerPer", ocust);
@@ -574,7 +572,8 @@ sap.ui.define([
 
 						var oTextUser = sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser");
 
-						if (data.results[0].WarrantyClaimType == "ZECP") {
+						if (data.results[0].WarrantyClaimType == "ZECP" || submissionType == "ZECP") {
+
 							this.getModel("LocalDataModel").setProperty("/oCurrentDealerLabour", this.getModel("LocalDataModel").getProperty(
 								"/oDealerLabour/ECPNewLabourRate"));
 
@@ -736,7 +735,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/specialVinInd", false);
 						}
 
-						if (oClaimTypeDetail == "ZECP") {
+						if (data.results[0].WarrantyClaimType == "ZECP" || submissionType == "ZECP") {
 							this.getView().getModel("DateModel").setProperty("/oECPfields", true);
 
 							oProssingModel.read("/zc_cliam_agreement", {
@@ -1120,8 +1119,9 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/copyClaimEnable", false);
 							this.getView().getModel("DateModel").setProperty("/oDamageLineBtn", false);
 							if (sap.ui.getCore().getModel("UserDataModel").getProperty(
-									"/LoggedInUser") == "Dealer_Services_Manager" || sap.ui.getCore().getModel("UserDataModel").getProperty(
-									"/LoggedInUser") == "Dealer_Services_Admin") {
+									"/LoggedInUser") == "Dealer_Services_Manager" || sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") ==
+								"Dealer_Services_Admin" || sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") ==
+								"Dealer_Service_Parts_Admin") {
 								this.getView().getModel("DateModel").setProperty("/copyClaimEnable", true);
 							}
 
@@ -1524,11 +1524,7 @@ sap.ui.define([
 						"$filter": "NumberOfWarrantyClaim eq '" + oClaim + "'"
 					},
 					success: $.proxy(function (odata) {
-						// var oFilteredItem = odata.results.filter(function (item) {
-						// 	return !item.FileName.startsWith("sub");
 
-						// });
-						// this.getModel("LocalDataModel").setProperty("/oAttachmentSet", );
 						var oArr = odata.results;
 						var oAttachSet = oArr.map(function (item) {
 							item.FileName = item.FileName.replace("HEAD@@@", "");
@@ -2135,7 +2131,8 @@ sap.ui.define([
 
 		onChangeDate: function (oEvent) {
 			var oClaimModel = this.getModel("ProssingModel");
-			if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZECP") {
+			if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZECP" ||
+				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") == "ZECP") {
 				oClaimModel.read("/zc_cliam_agreement", {
 					urlParameters: {
 						"$filter": "VIN eq '" + this.getView().getModel("HeadSetData").getProperty("/ExternalObjectNumber") +
@@ -2724,13 +2721,13 @@ sap.ui.define([
 
 			if (oVin != "") {
 
-				if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZECP") {
+				if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZECP" ||
+					this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") == "ZECP") {
 					oProssingModel.read("/zc_cliam_agreement", {
 						urlParameters: {
 							"$filter": "VIN eq '" + oVin + "'"
 						},
 						success: $.proxy(function (data) {
-
 							this.getModel("LocalDataModel").setProperty("/AgreementDataECP", data.results);
 							var oTable = this.getView().byId("idECPAGR");
 							var oLength = data.results.filter(function (item) {
@@ -3473,7 +3470,8 @@ sap.ui.define([
 								this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", sdata.results[0].OfpDescription);
 								this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", sdata.results[0].Main_opsDescription);
 								this.getView().getModel("HeadSetData").setData(sdata.results[0]);
-								if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZECP") {
+								if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZECP" ||
+									this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") == "ZECP") {
 									this.getModel("LocalDataModel").setProperty("/oCurrentDealerLabour", this.getModel("LocalDataModel").getProperty(
 										"/oDealerLabour/ECPNewLabourRate"));
 								} else {
@@ -4012,7 +4010,7 @@ sap.ui.define([
 			} else if (oClmType == "ZCWE" || oClmSubType == "ZCWE") {
 				oView.byId("idDealerContact").addStyleClass("clNotReq");
 				return aInputs = aInputsFieldActZCWE;
-			} else if (oClmType == "ZECP") {
+			} else if (oClmType == "ZECP" || oClmSubType == "ZECP") {
 				oView.byId("idOFP").addStyleClass("clNotReq");
 				oView.byId("idDealerContact").addStyleClass("clNotReq");
 				oView.byId("idFieldActionInput").addStyleClass("clNotReq");
@@ -4463,7 +4461,8 @@ sap.ui.define([
 													}, this)
 												});
 
-												if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZECP") {
+												if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZECP" ||
+													this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") == "ZECP") {
 													oClaimModel.read("/zc_cliam_agreement", {
 														urlParameters: {
 															"$filter": "VIN eq '" + this.getView().getModel("HeadSetData").getProperty("/ExternalObjectNumber") +
@@ -5934,8 +5933,9 @@ sap.ui.define([
 				.getModel(
 					"HeadSetData").getProperty("/WarrantyClaimSubType") != "ZWAC" && this.getView().getModel("HeadSetData").getProperty(
 					"/WarrantyClaimSubType") != "ZWP1" &&
-				this.getModel("LocalDataModel").getProperty("/oFieldAction") != "FAC" && this.getView().getModel("HeadSetData").getProperty(
-					"/WarrantyClaimType") != "ZECP" &&
+				this.getModel("LocalDataModel").getProperty("/oFieldAction") != "FAC" &&
+				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZECP" &&
+				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") != "ZECP" &&
 				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZCSR" &&
 				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZCER" &&
 				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZCWE" &&
@@ -5973,11 +5973,10 @@ sap.ui.define([
 				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") != "ZWMS" && this.getView().getModel("HeadSetData")
 				.getProperty(
 					"/WarrantyClaimSubType") != "ZWA1" && this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") != "ZWA2" &&
-				this.getView()
-				.getModel(
-					"HeadSetData").getProperty("/WarrantyClaimSubType") != "ZWAC" &&
-				this.getModel("LocalDataModel").getProperty(
-					"/oFieldAction") != "FAC" && this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZECP" &&
+				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") != "ZWAC" &&
+				this.getModel("LocalDataModel").getProperty("/oFieldAction") != "FAC" &&
+				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZECP" &&
+				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") != "ZECP" &&
 				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZCSR" &&
 				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZCER" &&
 				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZCWE" &&
@@ -6022,6 +6021,7 @@ sap.ui.define([
 					"HeadSetData").getProperty("/WarrantyClaimType") != "ZSSE" &&
 
 				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZECP" &&
+				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") != "ZECP" &&
 				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZCSR" &&
 
 				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZSSM" &&
@@ -6068,7 +6068,8 @@ sap.ui.define([
 				this.getView().byId("mainSectionTitle").setTitle(this.oBundle.getText("ClaimLabourSection"));
 			}
 
-			if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZECP") {
+			if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZECP" ||
+				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") == "ZECP") {
 				this.getView().byId("idFilter04").setProperty("enabled", true);
 				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab4");
 				this.getView().byId("mainSectionTitle").setTitle(this.oBundle.getText("ClaimLabourSection"));
@@ -6137,7 +6138,7 @@ sap.ui.define([
 				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") != "ZWAC" &&
 
 				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZECP" &&
-
+				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") == "ZECP" &&
 				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZSCR" &&
 				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZLDC" &&
 				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZSSM") {
@@ -6191,8 +6192,10 @@ sap.ui.define([
 						"/LoggedInUser") == "Dealer_Services_Manager" ||
 					that.getView().getModel("HeadSetData").getProperty("/DecisionCode") == "ZTRC" && sap.ui.getCore().getModel("UserDataModel").getProperty(
 						"/LoggedInUser") == "Dealer_Services_Manager" ||
-					that.getView().getModel("HeadSetData").getProperty("/DecisionCode") == "ZTRC" && sap.ui.getCore().getModel("UserDataModel").getProperty(
-						"/LoggedInUser") == "Dealer_Services_Admin") {
+					that.getView().getModel("HeadSetData").getProperty("/DecisionCode") == "ZTIC" && sap.ui.getCore().getModel("UserDataModel").getProperty(
+						"/LoggedInUser") == "Dealer_Service_Parts_Admin"
+
+				) {
 					var dialog = new Dialog({
 						title: oBundle.getText("SaveChanges"),
 						type: "Message",
@@ -8266,8 +8269,7 @@ sap.ui.define([
 				isProxy = "proxy";
 			}
 			if (oClaimtype == "FAC" || oClaimtype == "ECP" || oClaimtype == "STR" || oClaimtype == "CRC" ||
-				oClaimtype ==
-				"WTY" ||
+				oClaimtype == "WTY" ||
 				oClaimtype == "ZCSR" || oClaimtype == "ZCLS" || oClaimtype == "ZCWE" || oClaimtype == "ZCER" ||
 				oClaimtype == "ZECP" || oClaimtype == "ZSSE" || oClaimtype == "ZRCR" || oClaimtype == "ZWVE" ||
 				oClaimtype == "ZWP1" || oClaimtype == "ZWP2" || oClaimtype == "ZWMS" || oClaimtype == "ZWAC" ||
