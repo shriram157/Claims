@@ -24,55 +24,29 @@ sap.ui.define([
 				vinState: "None",
 				tableBusyIndicator: false,
 				searchEnabled: false,
-				VIN: ""
+				VIN: "",
+				oUri: "https://maps.googleapis.com/maps/api/distancematrix/json"
 			});
 			oDateModel.setDefaultBindingMode("TwoWay");
 			this.getView().setModel(oDateModel, "DateModel");
 			this.getModel("LocalDataModel").setProperty("/LinkEnable", true);
 			this._mViewSettingsDialogs = {};
 
-			var isProxy = "";
-			if (window.document.domain == "localhost") {
-				isProxy = "proxy";
-			}
+			var url = this.getView().getModel("DateModel").getProperty("/oUri") +
+				'?units=metric&origins=Washington,DC&destinations=New+York+City,NY&key=AIzaSyAz7irkOJQ4ydE2dHYrg868QV5jUQ-5FaY';
 
-			// 			$.ajax({
-			// 				url: isProxy + "//maps.googleapis.com/maps/api/distancematrix/json",
-			// 				type: "GET",
-			// 				data: {
-			// 					origins: "Washington,DC",
-			// 					destination: "New+York+City,NY",
-			// 					mode: "driving",
-			// 					key: "AIzaSyAz7irkOJQ4ydE2dHYrg868QV5jUQ-5FaY"
-			// 				},
-			// 				success: function (data) {
-			// 					console.log(data);
-			// 				}
-			// 			});
+			fetch(url)
+				.then(response => {
+					return response.json();
+				})
+				.then(data => {
 
-			const http = new XMLHttpRequest();
-			const url =
-				'https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=Washington,DC&destinations=New+York+City,NY&key=AIzaSyAz7irkOJQ4ydE2dHYrg868QV5jUQ-5FaY';
-
-			http.onreadystatechange = e => {
-				// console.log(http.status);
-				// console.log(http.readyState);
-				if (http.readyState == 4 && http.status == 200) {
-					const data = JSON.parse(http.responseText);
 					console.log(data);
-				}
-			}
+				})
+				.catch(err => {
+					console.log(err);
 
-			http.open('GET', url);
-			http.send();
-
-			// 			var url =
-			// 				"/GoogleMapPattern?units=metric&origins=Washington,DC&destinations=New+York+City,NY&key=AIzaSyAz7irkOJQ4ydE2dHYrg868QV5jUQ-5FaY";
-
-			// 			$.getJSON(url, function (data) {
-			// 				//set data to model here
-			// 				console.log(data);
-			// 			});
+				})
 
 		},
 
