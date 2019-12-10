@@ -779,11 +779,11 @@ sap.ui.define([
 							});
 
 							this.getView().getModel("DateModel").setProperty("/Paint", false);
-							this.getView().getModel("DateModel").setProperty("/Authorization", false);
+							this.getView().getModel("DateModel").setProperty("/Authorization", true);
 							this.getView().getModel("DateModel").setProperty("/Sublet", true);
 							this.getView().getModel("DateModel").setProperty("/Labour", true);
 							this.getView().getModel("DateModel").setProperty("/Parts", true);
-							this.getView().getModel("DateModel").setProperty("/authHide", false);
+							this.getView().getModel("DateModel").setProperty("/authHide", true);
 							this.getView().getModel("DateModel").setProperty("/oECPfields", true);
 							this.getView().getModel("DateModel").setProperty("/P1p2", false);
 							this.getView().getModel("DateModel").setProperty("/AcA1", false);
@@ -1923,14 +1923,14 @@ sap.ui.define([
 					this.getView().getModel("DateModel").setProperty("/Parts", true);
 					this.getView().getModel("DateModel").setProperty("/Labour", true);
 					this.getView().getModel("DateModel").setProperty("/oFieldActionInput", false);
-					this.getView().getModel("DateModel").setProperty("/Authorization", false);
+					this.getView().getModel("DateModel").setProperty("/Authorization", true);
 					this.getView().getModel("DateModel").setProperty("/oECPfields", true);
 					this.getView().getModel("DateModel").setProperty("/RepairdDetailVisible", true);
 					this.getView().getModel("DateModel").setProperty("/ShipmentVisible", false);
 					this.getView().getModel("DateModel").setProperty("/AcA1", false);
 					this.getView().getModel("DateModel").setProperty("/P1p2", false);
 					this.getView().getModel("DateModel").setProperty("/oMainOpsReq", true);
-					this.getView().getModel("DateModel").setProperty("/authHide", false);
+					this.getView().getModel("DateModel").setProperty("/authHide", true);
 
 				}
 
@@ -2579,6 +2579,7 @@ sap.ui.define([
 
 			if (oKey == "ZECP") {
 				this.getModel("LocalDataModel").setProperty("/DealerPriceText", oBundle.getText("MSRP"));
+				this.getView().getModel("DateModel").setProperty("/authHide", true);
 				this.getView().getModel("DateModel").setProperty("/oECPfields", true);
 			} else {
 				this.getModel("LocalDataModel").setProperty("/DealerPriceText", oBundle.getText("DealerNetPrice"));
@@ -6020,8 +6021,6 @@ sap.ui.define([
 				this.getView().getModel(
 					"HeadSetData").getProperty("/WarrantyClaimType") != "ZSSE" &&
 
-				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZECP" &&
-				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") != "ZECP" &&
 				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZCSR" &&
 
 				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZSSM" &&
@@ -8245,7 +8244,6 @@ sap.ui.define([
 
 		},
 		onPressPackingSlip: function () {
-
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			var isProxy = "";
 			if (window.document.domain == "localhost") {
