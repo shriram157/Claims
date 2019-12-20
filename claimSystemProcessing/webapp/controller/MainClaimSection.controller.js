@@ -1555,16 +1555,6 @@ sap.ui.define([
 				this._fnClaimSumPercent();
 
 			} else {
-				// var oPartner = this.getModel("LocalDataModel").getProperty("/BpDealerModel/0/BusinessPartnerKey");
-				// var oBusinessModel = this.getModel("ApiBusinessModel");
-				// oBusinessModel.read("/A_BusinessPartner", {
-				// 	urlParameters: {
-				// 		"$filter": "BusinessPartner eq '" + oPartner + "'"
-				// 	},
-				// 	success: $.proxy(function (sdata) {
-				// 		this.getModel("LocalDataModel").setProperty("/BPOrgName", sdata.results[0].OrganizationBPName1);
-				// 	}, this)
-				// });
 
 				if (oClaimSelectedGroup == "Authorization") {
 					this.getView().getModel("DateModel").setProperty("/warrantySubmissionClaim", true);
