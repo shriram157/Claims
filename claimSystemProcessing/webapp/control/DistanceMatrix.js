@@ -59,7 +59,7 @@ sap.ui.define(
 									var from = origins[i];
 									var to = destinations[j];
 									console.log(distance, duration);
-									//this.setProperty("distance", distance, true);
+									this.setProperty("distance", distance, true);
 								}
 							}
 						}
