@@ -1,6 +1,6 @@
 sap.ui.define(
-	["sap/ui/core/Control"],
-	function (Control) {
+	["sap/ui/core/Control", "sap/ui/core/Text"],
+	function (Control, Text) {
 		"use strict";
 		return Control.extend("zclaimProcessing.control.DistanceMatrix", {
 			metadata: {
@@ -70,7 +70,10 @@ sap.ui.define(
 			},
 
 			renderer: function (oRm, oControl) {
-				//Loading Style : we can externalise these Styles
+				console.log(oControl.getProperty("distance"), $ {
+						oControl.getDistance()
+					}, oRM.renderControl(oControl.getProperty("distance")))
+					//Loading Style : we can externalise these Styles
 
 				/**
 				 * Target
