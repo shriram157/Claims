@@ -1,6 +1,6 @@
 sap.ui.define(
-	["sap/ui/core/Control", "sap/ui/core/Text"],
-	function (Control, Text) {
+	["sap/ui/core/Control"],
+	function (Control) {
 		"use strict";
 		return Control.extend("zclaimProcessing.control.DistanceMatrix", {
 			metadata: {
