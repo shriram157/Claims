@@ -44,7 +44,7 @@ sap.ui.define(
 						origins: [from, fromName],
 						destinations: [destName, dest],
 						travelMode: 'DRIVING'
-					}, function (response, status) {
+					}, $.proxy(function (response, status) {
 						if (status == 'OK') {
 							var origins = response.originAddresses;
 							var destinations = response.destinationAddresses;
@@ -59,11 +59,11 @@ sap.ui.define(
 									var from = origins[i];
 									var to = destinations[j];
 									console.log(distance, duration);
-									this.setProperty("distance", distance, true);
+									this.setProperty("distance", distance);
 								}
 							}
 						}
-					});
+					}, this));
 				}, this));
 
 			},
