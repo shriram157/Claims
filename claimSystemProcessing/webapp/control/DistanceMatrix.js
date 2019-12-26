@@ -17,6 +17,7 @@ sap.ui.define(
 			},
 			init: function () {},
 			onAfterRendering: function () {
+				var that = this;
 				var sBaseUrl = `https://maps.googleapis.com/maps/api/js?key=${this.getKey()}&sensor=false`;
 				// fetch(sBaseUrl, {
 				// 		header: 'Access-Control-Allow-Origin'
@@ -33,7 +34,7 @@ sap.ui.define(
 
 				// 	});
 				//var oCallBack = this.callback().bind(this);
-				this._loadScript(sBaseUrl).then($.proxy(function () {
+				this._loadScript(sBaseUrl).then(function () {
 					var from = new google.maps.LatLng(46.5610058, 26.9098054);
 					var fromName = 'Bacau';
 					var dest = new google.maps.LatLng(44.391403, 26.1157184);
@@ -44,7 +45,7 @@ sap.ui.define(
 						origins: [from, fromName],
 						destinations: [destName, dest],
 						travelMode: 'DRIVING'
-					}, $.proxy(function (response, status) {
+					}, function (response, status) {
 						if (status == 'OK') {
 							var origins = response.originAddresses;
 							var destinations = response.destinationAddresses;
@@ -59,12 +60,12 @@ sap.ui.define(
 									var from = origins[i];
 									var to = destinations[j];
 									console.log(distance, duration);
-									this.setProperty("distance", distance);
+									that.setProperty("distance", distance);
 								}
 							}
 						}
-					}, this));
-				}, this));
+					});
+				});
 
 			},
 
