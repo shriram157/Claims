@@ -7,7 +7,8 @@ sap.ui.define(
 				properties: {
 					"key": "string",
 					"origin": "string",
-					"destination": "string"
+					"destination": "string",
+					"distance": "string"
 
 				},
 				events: {},
@@ -15,7 +16,7 @@ sap.ui.define(
 
 			},
 			init: function () {},
-			onAfterRendering: function () {
+			onAfterRendering: $.proxy(function () {
 				var sBaseUrl = `https://maps.googleapis.com/maps/api/js?key=${this.getKey()}&sensor=false`;
 				// fetch(sBaseUrl, {
 				// 		header: 'Access-Control-Allow-Origin'
@@ -58,13 +59,14 @@ sap.ui.define(
 									var from = origins[i];
 									var to = destinations[j];
 									console.log(distance, duration);
+									this.setProperty("distance", distance, true);
 								}
 							}
 						}
 					});
 				});
 
-			},
+			}, this),
 
 			renderer: function (oRm, oControl) {
 				//Loading Style : we can externalise these Styles
@@ -75,7 +77,7 @@ sap.ui.define(
 				 *	<h1>Loading ....</h1>
 				 * </div>
 				 * */
-				oRm.write("Minakshi");
+				oRm.write(oControl.getProperty("distance"));
 
 			},
 			_loadScript: function (sUrl) {
