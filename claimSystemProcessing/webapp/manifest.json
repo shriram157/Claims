@@ -81,12 +81,15 @@
 			"viewName": "zclaimProcessing.view.App",
 			"type": "XML"
 		},
+		
 		"dependencies": {
 			"minUI5Version": "1.30.0",
+			
 			"libs": {
 				"sap.ui.layout": {},
 				"sap.ui.core": {},
 				"sap.m": {}
+				
 			}
 		},
 		"contentDensities": {
@@ -160,6 +163,9 @@
 		"resources": {
 			"js": [
 			    {
+				    "uri": "//maps.googleapis.com/maps/api/js?key=AIzaSyAz7irkOJQ4ydE2dHYrg868QV5jUQ-5FaY"
+				},
+			    {
 					"uri": "libs/moment.js"
 				},
 				{
@@ -169,6 +175,7 @@
 				{
 					"uri": "utils/changeFabicon.js"
 				}
+			
 			],
 			"css": [
 				{

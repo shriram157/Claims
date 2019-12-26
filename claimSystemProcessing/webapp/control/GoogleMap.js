@@ -1,6 +1,6 @@
 sap.ui.define(
-	["sap/ui/core/Control", "sap/m/MessageBox"],
-	function (Control, MessageBox) {
+	["sap/ui/core/Control", "sap/m/Input"],
+	function (Control, Input) {
 		"use strict";
 		return Control.extend("zclaimProcessing.control.GoogleMap", {
 			metadata: {

@@ -1,6 +1,6 @@
 <mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" controllerName="zclaimProcessing.controller.ClaimInquiry"
 	xmlns:html="http://www.w3.org/1999/xhtml" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:uxap="sap.uxap"
-	xmlns:table="sap.ui.table">
+	xmlns:table="sap.ui.table" xmlns:raprincis="zclaimProcessing.control">
 	<!--xmlns:raprincis="zclaimProcessing.control"-->
 	<core:Fragment fragmentName="zclaimProcessing.view.fragments.ToolHeader" type="XML"/>
 	<uxap:ObjectPageLayout id="ObjectPageLayout" enableLazyLoading="true">
@@ -16,6 +16,7 @@
 									emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="3" columnsL="3" columnsM="1" singleContainerFullSize="false">
 									<f:content>
 										<!--<raprincis:GoogleMap key="AIzaSyAz7irkOJQ4ydE2dHYrg868QV5jUQ-5FaY" address="Place du Capitole 31000 Toulouse"/>-->
+										<raprincis:DistanceMatrix key="AIzaSyAz7irkOJQ4ydE2dHYrg868QV5jUQ-5FaY"/>
 										<core:Title text=""/>
 										<Label text="{i18n>VIN}" textAlign="Begin"/>
 										<Input liveChange="onEnterVIN" maxLength="17" value="{DateModel>/VIN}" id="idVin" required="true" valueState="{DateModel>/vinState}"/>

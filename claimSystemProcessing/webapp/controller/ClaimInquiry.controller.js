@@ -11,6 +11,7 @@ sap.ui.define([
 		 * Can be used to modify the View before it is displayed, to bind event handlers and do other one-time initialization.
 		 * @memberOf zclaimProcessing.view.ClaimInquiry
 		 */
+
 		onInit: function () {
 			this.getDealer();
 			this.getView().setModel(sap.ui.getCore().getModel("HeaderLinksModel"), "HeaderLinksModel");
@@ -24,30 +25,82 @@ sap.ui.define([
 				vinState: "None",
 				tableBusyIndicator: false,
 				searchEnabled: false,
-				VIN: "",
-				oUri: "https://maps.googleapis.com/maps/api/distancematrix/json"
+				VIN: ""
 			});
 			oDateModel.setDefaultBindingMode("TwoWay");
 			this.getView().setModel(oDateModel, "DateModel");
 			this.getModel("LocalDataModel").setProperty("/LinkEnable", true);
 			this._mViewSettingsDialogs = {};
 
-			var url = this.getView().getModel("DateModel").getProperty("/oUri") +
-				'?units=metric&origins=Washington,DC&destinations=New+York+City,NY&key=AIzaSyAz7irkOJQ4ydE2dHYrg868QV5jUQ-5FaY';
+			// 			var url = this.getView().getModel("DateModel").getProperty("/oUri") +
+			// 				'?units=metric&origins=Washington,DC&destinations=New+York+City,NY&key=AIzaSyAz7irkOJQ4ydE2dHYrg868QV5jUQ-5FaY';
 
-			fetch(url)
-				.then(response => {
-					return response.json();
-				})
-				.then(data => {
+			// 			fetch(url)
+			// 				.then(response => {
+			// 					return response.json();
+			// 				})
+			// 				.then(data => {
 
-					console.log(data);
-				})
-				.catch(err => {
-					console.log(err);
+			// 					console.log(data);
+			// 				})
+			// 				.catch(err => {
+			// 					console.log(err);
 
-				})
+			// 				})
+			//this.initialize();
+		},
+		onAfterRendering: function () {
 
+		},
+
+		initialize: function () {
+			var directionDisplay;
+			var directionsService = new google.maps.DirectionsService();
+			var map;
+			directionsDisplay = new google.maps.DirectionsRenderer();
+			var chicago = new google.maps.LatLng(41.850033, -87.6500523);
+			var myOptions = {
+				zoom: 6,
+				mapTypeId: google.maps.MapTypeId.ROADMAP,
+				center: chicago
+			}
+			map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+			directionsDisplay.setMap(map);
+			calcRoute();
+		},
+
+		calcRoute: function () {
+			var directionDisplay;
+			var directionsService = new google.maps.DirectionsService();
+			var map;
+			var request = {
+				origin: "1521 NW 54th St, Seattle, WA 98107 ",
+				destination: "San Diego, CA",
+				waypoints: [{
+					location: new google.maps.LatLng(42.496403, -124.413128),
+					stopover: false
+				}],
+				optimizeWaypoints: true,
+				travelMode: google.maps.DirectionsTravelMode.WALKING
+			};
+			directionsService.route(request, function (response, status) {
+				if (status == google.maps.DirectionsStatus.OK) {
+					directionsDisplay.setDirections(response);
+					var route = response.routes[0];
+					var summaryPanel = document.getElementById("directions_panel");
+					summaryPanel.innerHTML = "";
+					// For each route, display summary information.
+					for (var i = 0; i < route.legs.length; i++) {
+						var routeSegment = i + 1;
+						summaryPanel.innerHTML += "<b>Route Segment: " + routeSegment + "</b><br />";
+						summaryPanel.innerHTML += route.legs[i].start_address + " to ";
+						summaryPanel.innerHTML += route.legs[i].end_address + "<br />";
+						summaryPanel.innerHTML += route.legs[i].distance.text + "<br /><br />";
+					}
+				} else {
+					alert("directions response " + status);
+				}
+			});
 		},
 
 		onEnterVIN: function (oEvent) {

@@ -33,7 +33,6 @@ sap.ui.define([
 
 			this._initSessionDialogs();
 
-
 			this.setModel(models.createLocalDataModel(), "LocalDataModel");
 
 			var mConfig = this.getMetadata().getManifestEntry("/sap.app/dataSources/ZDLR_CLAIM_SRV");
