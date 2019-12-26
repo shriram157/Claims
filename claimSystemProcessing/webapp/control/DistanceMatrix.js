@@ -16,7 +16,7 @@ sap.ui.define(
 
 			},
 			init: function () {},
-			onAfterRendering: $.proxy(function () {
+			onAfterRendering: function () {
 				var sBaseUrl = `https://maps.googleapis.com/maps/api/js?key=${this.getKey()}&sensor=false`;
 				// fetch(sBaseUrl, {
 				// 		header: 'Access-Control-Allow-Origin'
@@ -33,7 +33,7 @@ sap.ui.define(
 
 				// 	});
 				//var oCallBack = this.callback().bind(this);
-				this._loadScript(sBaseUrl).then(function () {
+				this._loadScript(sBaseUrl).then($.proxy(function () {
 					var from = new google.maps.LatLng(46.5610058, 26.9098054);
 					var fromName = 'Bacau';
 					var dest = new google.maps.LatLng(44.391403, 26.1157184);
@@ -44,7 +44,7 @@ sap.ui.define(
 						origins: [from, fromName],
 						destinations: [destName, dest],
 						travelMode: 'DRIVING'
-					}, function (response, status) {
+					}, $.proxy(function (response, status) {
 						if (status == 'OK') {
 							var origins = response.originAddresses;
 							var destinations = response.destinationAddresses;
@@ -63,10 +63,10 @@ sap.ui.define(
 								}
 							}
 						}
-					});
-				});
+					}), this);
+				}), this);
 
-			}, this),
+			},
 
 			renderer: function (oRm, oControl) {
 				//Loading Style : we can externalise these Styles
@@ -77,7 +77,10 @@ sap.ui.define(
 				 *	<h1>Loading ....</h1>
 				 * </div>
 				 * */
-				oRm.write(oControl.getProperty("distance"));
+
+				oRm.write($ {
+					oControl.getDistance()
+				});
 
 			},
 			_loadScript: function (sUrl) {
