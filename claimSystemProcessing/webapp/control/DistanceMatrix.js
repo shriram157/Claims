@@ -8,7 +8,10 @@ sap.ui.define(
 					"key": "string",
 					"origin": "string",
 					"destination": "string",
-					"distance": "string"
+					"distance": {
+						type: "string"
+
+					}
 
 				},
 				events: {},
@@ -70,7 +73,7 @@ sap.ui.define(
 			},
 
 			renderer: function (oRm, oControl) {
-				console.log(oControl);
+				//console.log(oControl);
 				//oControl.getProperty("distance"), oRM.renderControl(oControl.getProperty("distance"))
 				//Loading Style : we can externalise these Styles
 
