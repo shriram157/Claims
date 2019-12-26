@@ -78,7 +78,7 @@ sap.ui.define(
 				 * </div>
 				 * */
 
-				oRm.write("Mina");
+				oRm.write(oControl.getProperty("distance"));
 
 			},
 			_loadScript: function (sUrl) {
