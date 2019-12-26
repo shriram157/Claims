@@ -33,7 +33,7 @@ sap.ui.define(
 
 				// 	});
 				//var oCallBack = this.callback().bind(this);
-				this._loadScript(sBaseUrl).then(function () {
+				this._loadScript(sBaseUrl).then($.proxy(function () {
 					var from = new google.maps.LatLng(46.5610058, 26.9098054);
 					var fromName = 'Bacau';
 					var dest = new google.maps.LatLng(44.391403, 26.1157184);
@@ -64,7 +64,7 @@ sap.ui.define(
 							}
 						}
 					});
-				});
+				}, this));
 
 			},
 
