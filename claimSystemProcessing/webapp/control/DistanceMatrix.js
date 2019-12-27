@@ -72,24 +72,24 @@ sap.ui.define(
 
 			},
 
-			renderer: {
-				render: function (oRm, oControl) {
-					console.log(oControl);
-					console.log(oControl.getDistance());
-					console.log(oControl.mProperties.distance);
-					//oControl.getProperty("distance"), oRM.renderControl(oControl.getProperty("distance"))
-					//Loading Style : we can externalise these Styles
+			renderer: function (oRm, oControl) {
 
-					/**
-					 * Target
-					 * <div id='idoFThis' style='width:100%;height:400px;background:#C6BEBE'>
-					 *	<h1>Loading ....</h1>
-					 * </div>
-					 * */
-					oRm.write(oControl.getDistance());
+				console.log(oControl);
+				//console.log(oControl.getDistance());
+				//console.log(oControl.mProperties.distance);
+				//oControl.getProperty("distance"), oRM.renderControl(oControl.getProperty("distance"))
+				//Loading Style : we can externalise these Styles
 
-					// oRm.write(oControl.getProperty("distance"));
-				}
+				/**
+				 * Target
+				 * <div id='idoFThis' style='width:100%;height:400px;background:#C6BEBE'>
+				 *	<h1>Loading ....</h1>
+				 * </div>
+				 * */
+				oRm.write(oControl.getDistance());
+
+				//oRm.write("Distance");
+
 			},
 			_loadScript: function (sUrl) {
 				return new Promise(function (resolve, reject) {

@@ -61,6 +61,14 @@ sap.ui.define([
 					} else {
 						oClaimGroup = elements;
 					}
+
+					oClaimGroup.push({
+
+						ClaimGroupDes: "PRICE MATCH",
+
+						ClaimGroup: "PMP"
+
+					});
 					this.getModel("LocalDataModel").setProperty("/oClaimGroupData", oClaimGroup);
 					console.log(sap.ui.getCore().getModel("UserDataModel").getProperty("/UserScope"), oClaimGroup);
 
@@ -117,6 +125,14 @@ sap.ui.define([
 				this.getRouter().navTo("PartsMainSection", {
 					claimNum: oClaimNum,
 					oKey: "PWD",
+					oClaimGroup: this.oSelectedClaimGroup,
+					oClaimNav: "New"
+				});
+				this.getView().byId("idRequestType").setSelectedIndex(0);
+			} else if (oSelectedKey === "PMP") {
+				this.getRouter().navTo("PMPMainSection", {
+					claimNum: oClaimNum,
+					oKey: "PMP",
 					oClaimGroup: this.oSelectedClaimGroup,
 					oClaimNav: "New"
 				});

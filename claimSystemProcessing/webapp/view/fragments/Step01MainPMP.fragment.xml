@@ -1,0 +1,252 @@
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:u="sap.ui.unified" xmlns:l="sap.ui.layout"
+	xmlns="sap.m" xmlns:table="sap.ui.table" xmlns:custom="zclaimProcessing.control">
+	<VBox class="sapUiSmallMargin clFormTitleGap" busy="{LocalDataModel>/oSavePartIndicator}" busyIndicatorDelay="100" id="idpart01Form">
+		<Panel width="auto" class="sapUiSmallMarginBottom" accessibleRole="Region">
+			<headerToolbar>
+				<Toolbar height="3rem">
+					<Title text="{i18n>ClaimDetails}"/>
+					<ToolbarSpacer/>
+					<Title text="{LocalDataModel>/WarrantyClaimNumber}" textAlign="End"/>
+				</Toolbar>
+			</headerToolbar>
+			<f:SimpleForm editable="true" layout="ResponsiveGridLayout" title="" labelSpanXL="6" labelSpanL="6" labelSpanM="12" labelSpanS="12"
+				emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="4" columnsL="4" columnsM="6">
+				<f:content>
+					<core:Title text=""/>
+					<Label text="{i18n>ClaimType}"/>
+					<custom:CustomCombo showSecondaryValues="true" id="idClaimType" required="true" items="{path:'LocalDataModel>/ClaimGroupSet'}"
+						selectionChange="onSelectClaimTpe" selectedKey="{HeadSetData>/WarrantyClaimType}" enabled="{DateModel>/claimTypeEn}"
+						valueState="{DateModel>/claimTypeState}"
+						value="{path:'HeadSetData>/WarrantyClaimType', type : 'sap.ui.model.type.String', constraints : { minLength : 2, maxLength : 50 } }">
+						<core:ListItem text="{LocalDataModel>TMCClaimType}" key="{LocalDataModel>TMCClaimType}" additionalText="{LocalDataModel>ALMClaimTypeDes}"/>
+					</custom:CustomCombo>
+					<core:Title text=""/>
+					<Label text="{i18n>FirstSubmissionDate}"/>
+					<Text text="{ path: 'HeadSetData>/ReferenceDate', formatter:'zclaimProcessing.utils.formatter.fnDateFormat'}"/>
+					<Label text="{i18n>ClaimAge}"/>
+					<Text text="{HeadSetData>/ClaimAge}"/>
+					<Label text="{i18n>LastModifiedby}"/>
+					<Text text="{HeadSetData>/NameOfPersonRespWhoChangedObj}"/>
+					<core:Title text=""/>
+					<Label text="{i18n>LastSubmissionDate}"/>
+					<Text text="{ path: 'HeadSetData>/DateOfApplication', formatter:'zclaimProcessing.utils.formatter.fnDateFormat'}"/>
+					<Label text="{i18n>FinalProcessedDate}"/>
+					<Text text="{ path: 'HeadSetData>/FinalProcdDate', formatter:'zclaimProcessing.utils.formatter.fnDateFormat' }"/>
+					<!--<Label text="{i18n>Status}"/>-->
+					<!--<Text text="{HeadSetData>/ProcessingStatusOfWarrantyClm}"/>-->
+					<core:Title text=""/>
+					<Button text="Save" class="sapUiSmallMarginEnd" type="Emphasized" press="onSaveClaim" visible="{DateModel>/saveClaimSt}">
+						<layoutData>
+							<l:GridData span="XL8 L8 M12 S12"/>
+						</layoutData>
+					</Button>
+				</f:content>
+			</f:SimpleForm>
+		</Panel>
+		<f:SimpleForm id="idClaimMainForm" editable="{DateModel>/oFormEdit}" title="Dealer Invoice Information" layout="ResponsiveGridLayout"
+			labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0"
+			emptySpanS="0" columnsXL="3" columnsL="3" columnsM="3" singleContainerFullSize="false">
+			<f:content>
+				<core:Title text=""/>
+				<Label text="{i18n>DealerName}"/>
+				<Text text="{LocalDataModel>/BPOrgName}"/>
+				<core:Title text=""/>
+				<Label text="Part Manager Name"/>
+				<Input maxLength="40"
+					value="{path:'HeadSetData>/ExternalNumberOfClaim', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 40 } }"
+					required="true" id="idDealerClaim" editable="{DateModel>/oFormEdit}"/>
+				<Label text="Dealer Invoice"/>
+				<Input required="{DateModel>/oDealerContactReq}" maxLength="30"
+					value="{path:'HeadSetData>/DealerContact', type : 'sap.ui.model.type.String', constraints : { minLength : 2, maxLength : 30 }}"
+					id="idDealerContact" editable="{DateModel>/oFormEdit}" enabled="{DateModel>/oDealerContactReq}"/>
+				<!--constraints: { displayFormat: 'Date' }-->
+				<core:Title text=""/>
+				<Label text="Dealer RO"/>
+				<Input required="true" maxLength="10"
+					value="{path:'HeadSetData>/RepairOrderNumberExternal', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 10 }}"
+					id="idRepairOrder" editable="{DateModel>/oFormEdit}" visible="{DateModel>/oVisibleReOrder}"/>
+				<Label text="Dealer Invoice Date"/>
+				<!--<DatePicker class="clDatePicker" required="true" value="{path:'HeadSetData>/RepairDate',type : 'sap.ui.model.type.Date'}" editable="{DateModel>/oFormEdit}"/>-->
+				<DatePicker class="clDatePicker" id="id_Date" required="true" change="onChangeDate"
+					value="{path:'HeadSetData>/RepairDate', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'yyyy-MM-dd', strictParsing: true, UTC: true}}"
+					editable="{DateModel>/oFormEdit}" visible="{DateModel>/oVisibleRepDate}"/>
+			</f:content>
+		</f:SimpleForm>
+		<f:SimpleForm editable="" id="idVehicleInfo" title="Competitor Information" layout="ResponsiveGridLayout" labelSpanXL="12" labelSpanL="12"
+			labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="5"
+			columnsL="5" columnsM="3" singleContainerFullSize="false">
+			<f:content >
+				<core:Title text=""/>
+				<Label text="Name"/>
+				<Input maxLength="40"
+					value="{path:'HeadSetData>/ExternalNumberOfClaim', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 40 } }"
+					required="true" editable="{DateModel>/oFormEdit}"/>
+				<core:Title text=""/>
+				<Label text="Address"/>
+				<Input maxLength="40"
+					value="{path:'HeadSetData>/ExternalNumberOfClaim', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 40 } }"
+					required="true" editable="{DateModel>/oFormEdit}"/>
+				<core:Title text=""/>
+				<Label text="City"/>
+				<Input maxLength="40"
+					value="{path:'HeadSetData>/ExternalNumberOfClaim', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 40 } }"
+					required="true" editable="{DateModel>/oFormEdit}"/>
+				<core:Title text=""/>
+				<Label text="Postal Code"/>
+				<Input maxLength="40"
+					value="{path:'HeadSetData>/ExternalNumberOfClaim', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 40 } }"
+					required="true" editable="{DateModel>/oFormEdit}"/>
+				<core:Title text=""/>
+				<Label text="Quote Date"/>
+				<DatePicker class="clDatePicker" required="true" change="onChangeDate"
+					value="{path:'HeadSetData>/RepairDate', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'yyyy-MM-dd', strictParsing: true, UTC: true}}"
+					editable="{DateModel>/oFormEdit}" visible="{DateModel>/oVisibleRepDate}"/>
+			</f:content>
+		</f:SimpleForm>
+		<Panel backgroundDesign="Transparent" headerText="{i18n>ClaimComments}" expandable="true" class="sapUiSizeCompact clCommentFix">
+			<content>
+				<FeedInput post=".onPost" enabled="{LocalDataModel>/FeedEnabled}"/>
+				<List class="sapUiSizeCompact" busy="{LocalDataModel>/commentIndicator}" id="idCommentsList" noDataText="{i18n>ObjectCommentNoData}"
+					showSeparators="Inner" items="{ path: 'LocalDataModel>/claim_commentSet'}">
+					<FeedListItem text="{LocalDataModel>HeadText}"/>
+				</List>
+			</content>
+		</Panel>
+	</VBox>
+	<VBox>
+		<Panel width="auto" class="sapUiSmallMarginBottom" accessibleRole="Region">
+			<headerToolbar>
+				<Toolbar height="3rem">
+					<Title text="{i18n>SupportingDocuments}"/>
+				</Toolbar>
+			</headerToolbar>
+			<content>
+				<f:SimpleForm editable="{DateModel>/oFormEdit}" title="" layout="ResponsiveGridLayout" labelSpanXL="3" labelSpanL="3" labelSpanM="3"
+					labelSpanS="12" adjustLabelSpan="false" emptySpanXL="4" emptySpanL="4" emptySpanM="0" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1"
+					singleContainerFullSize="false">
+					<f:content>
+						<UploadCollection id="idHeadAttachment" maximumFileSize="10" maximumFilenameLength="50" fileSizeExceed="onFileSizeExceed"
+							filenameLengthExceed="onFileNameLengthExceed" uploadEnabled="{LocalDataModel>/UploadEnable}" change="onUplaodChange"
+							uploadComplete="onUploadComplete" fileDeleted="onFileDeleted" instantUpload="true" busy="{LocalDataModel>/IndicatorState}"
+							sameFilenameAllowed="false" items="{ path: 'LocalDataModel>/HeadAtchmentData', templateShareable: false }">
+							<toolbar>
+								<OverflowToolbar>
+									<Breadcrumbs id="breadcrumbsSupportingDoc" currentLocationText="{LocalDataModel>/currentLocationText}" links="{LocalDataModel>/history}">
+										<Link press="onBreadcrumbPress" text="{LocalDataModel>fileName}"/>
+									</Breadcrumbs>
+									<ToolbarSpacer/>
+									<UploadCollectionToolbarPlaceholder/>
+								</OverflowToolbar>
+							</toolbar>
+							<items>
+								<UploadCollectionItem documentId="{LocalDataModel>DOC_ID}" fileName="{LocalDataModel>FileName}" mimeType="{LocalDataModel>MIMETYPE}"
+									thumbnailUrl="{LocalDataModel>url}" url="{LocalDataModel>URI}" enableEdit="false" enableDelete="{LocalDataModel>/UploadEnable}"
+									visibleDelete="{settings>/visibleDelete}" visibleEdit="false"></UploadCollectionItem>
+							</items>
+						</UploadCollection>
+					</f:content>
+				</f:SimpleForm>
+			</content>
+		</Panel>
+		<Panel width="auto" class="sapUiSmallMarginBottom" accessibleRole="Region">
+			<content>
+				<table:Table class="classRCPTable" selectionMode="Single" rows="{path:'LocalDataModel>/ClaimSum'}" visibleRowCount="5"
+					rowSelectionChange="onNavigate" selectionBehavior="Row" showNoData="true" threshold="5" enableBusyIndicator="true">
+					<table:toolbar>
+						<Toolbar>
+							<Title text="{i18n>ClaimAmountSummary}" level="H2"/>
+							<ToolbarSpacer/>
+							<!--<Button tooltip="View Settings" icon="sap-icon://drop-down-list" press="handleViewSettingsDialogButtonPressed"/>-->
+						</Toolbar>
+					</table:toolbar>
+					<table:columns autoResizable="true">
+						<table:Column width="17rem">
+							<table:multiLabels>
+								<Label text="{i18n>Totalsincludedmarkupdiscounts}" textAlign="Center" width="100%"/>
+							</table:multiLabels>
+							<table:template>
+								<Text text="{path:'LocalDataModel>ItemType', formatter: 'zclaimProcessing.utils.formatter.fnFormatText'}" wrapping="false"/>
+							</table:template>
+						</table:Column>
+						<table:Column width="11rem">
+							<table:multiLabels>
+								<Label text="{i18n>DealerClaimedAmount}" textAlign="Center" width="100%"/>
+							</table:multiLabels>
+							<table:template>
+								<Text text="${path:'LocalDataModel>DealerClaim', formatter:'zclaimProcessing.utils.formatter.fnFormatDecimal'}" wrapping="false"/>
+							</table:template>
+						</table:Column>
+						<table:Column width="11rem">
+							<table:multiLabels>
+								<Label text="{i18n>TCIApprovedAmount}" textAlign="Center" width="100%"/>
+							</table:multiLabels>
+							<table:template>
+								<Text text="${path:'LocalDataModel>TCIAppr', formatter:'zclaimProcessing.utils.formatter.fnFormatDecimal'}" wrapping="false"/>
+							</table:template>
+						</table:Column>
+						<table:Column width="11rem">
+							<table:multiLabels>
+								<Label text="{i18n>DifferenceCAD}" textAlign="Center" width="100%"/>
+							</table:multiLabels>
+							<table:template>
+								<Text text="${path:'LocalDataModel>Diff', formatter:'zclaimProcessing.utils.formatter.fnFormatDecimal'}" wrapping="false"/>
+							</table:template>
+						</table:Column>
+						<table:Column width="8rem" headerSpan="{multiHeaderConfig>/multiheader2}">
+							<table:multiLabels>
+								<Label text="{i18n>GSTHST}" textAlign="Center" width="100%"/>
+								<Label text="{i18n>Amount}" textAlign="Center" width="100%"/>
+							</table:multiLabels>
+							<table:template>
+								<Text text="${path:'LocalDataModel>GSTHSTAmt', formatter:'zclaimProcessing.utils.formatter.fnFormatDecimal'}" wrapping="false"/>
+							</table:template>
+						</table:Column>
+						<table:Column width="8rem">
+							<table:multiLabels>
+								<Label text="{i18n>GSTHST}" textAlign="Center" width="100%"/>
+								<Label text="{i18n>Tax}" textAlign="Center" width="100%"/>
+							</table:multiLabels>
+							<table:template>
+								<Text text="{LocalDataModel>GSTHSTRate}" wrapping="false"/>
+							</table:template>
+						</table:Column>
+						<table:Column width="8rem" headerSpan="{multiHeaderConfig>/multiheader2}">
+							<table:multiLabels>
+								<Label text="{i18n>PSTQST}" textAlign="Center" width="100%"/>
+								<Label text="Amount" textAlign="Center" width="100%"/>
+							</table:multiLabels>
+							<table:template>
+								<Text text="${path:'LocalDataModel>PSTQSTAmt', formatter:'zclaimProcessing.utils.formatter.fnFormatDecimal'}" wrapping="false"/>
+							</table:template>
+						</table:Column>
+						<table:Column width="8rem">
+							<table:multiLabels>
+								<Label text="{i18n>PSTQST}" textAlign="Center" width="100%"/>
+								<Label text="{i18n>Tax}" textAlign="Center" width="100%"/>
+							</table:multiLabels>
+							<table:template>
+								<Text text="{LocalDataModel>PSTQSTRate}" wrapping="false"/>
+							</table:template>
+						</table:Column>
+						<table:Column width="17rem">
+							<table:multiLabels>
+								<Label text="{i18n>TCIApprovedAmountIncludingTax}" textAlign="Center" width="100%"/>
+							</table:multiLabels>
+							<table:template>
+								<Text text="${path:'LocalDataModel>TCIApprInclTax', formatter:'zclaimProcessing.utils.formatter.fnFormatDecimal'}" wrapping="false"/>
+							</table:template>
+						</table:Column>
+					</table:columns>
+				</table:Table>
+			</content>
+			<HBox alignContent="Center" justifyContent="Center" class="sapUiTinyMarginTop sapUiTinyMarginBottom">
+				<Button class="sapUiTinyMarginBeginEnd" press="onPressBack" text="{i18n>BackList}" type="Back"/>
+				<Button class="sapUiTinyMarginBeginEnd" press="onCancelClaim" enabled="{LocalDataModel>/CancelEnable}" text="{i18n>CancelClaim}"
+					type="Reject"/>
+				<Button class="sapUiTinyMarginBeginEnd" text="{i18n>Print}" enabled="{LocalDataModel>/PrintEnable}" press="onPressPrint"/>
+				<Button class="sapUiTinyMarginBeginEnd" press="onStep01Next" enabled="{LocalDataModel>/step01Next}" text="{i18n>Next}" type="Emphasized"/>
+			</HBox>
+		</Panel>
+	</VBox>
+	<!--<VBox width="100%" class="classCheck"></VBox>-->
+</core:FragmentDefinition>
