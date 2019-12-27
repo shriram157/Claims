@@ -83,9 +83,11 @@ sap.ui.define(
 				 *	<h1>Loading ....</h1>
 				 * </div>
 				 * */
-				//             oRm.write("<div>");
-				//             oRm.writeControlData(oControl);
-				//             oRm.write("</div>");
+				oRm.write("<div");
+				oRm.writeControlData(oControl);
+				oRm.write(">");
+				oRm.renderControl(oControl.getProperty("distance"));
+				oRm.write("</div>");
 				// oRm.write(oControl.getProperty("distance"));
 
 			},
