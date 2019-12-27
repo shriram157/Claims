@@ -1,6 +1,6 @@
 sap.ui.define(
-	["sap/ui/core/Control"],
-	function (Control) {
+	["sap/ui/core/Control", "sap/m/Label"],
+	function (Control, Label) {
 		"use strict";
 		return Control.extend("zclaimProcessing.control.DistanceMatrix", {
 			metadata: {
@@ -10,12 +10,16 @@ sap.ui.define(
 					"destination": "string",
 					"distance": {
 						type: "string"
-
 					}
 
 				},
 				events: {},
-				aggregations: {}
+				aggregations: {
+					_label: {
+						type: "sap.m.Label",
+						multiple: false
+					}
+				}
 
 			},
 			init: function () {},
@@ -63,7 +67,8 @@ sap.ui.define(
 									var from = origins[i];
 									var to = destinations[j];
 									console.log(distance, duration);
-									that.setProperty("distance", distance);
+									//that.setProperty("distance", distance);
+									that.getAggregation("_label").setText(distance);
 								}
 							}
 						}
@@ -74,8 +79,7 @@ sap.ui.define(
 
 			renderer: function (oRm, oControl) {
 				console.log(oControl);
-				console.log(oControl.getDistance());
-				console.log(oControl.mProperties.distance);
+
 				//oControl.getProperty("distance"), oRM.renderControl(oControl.getProperty("distance"))
 				//Loading Style : we can externalise these Styles
 
@@ -85,11 +89,14 @@ sap.ui.define(
 				 *	<h1>Loading ....</h1>
 				 * </div>
 				 * */
-				oRm.write("<h2");
+				oRM.write("<div");
+				oRM.writeControlData(oControl);
 
-				oRm.write(">");
-				oRm.write(oControl.getDistance());
-				oRm.write("</h2>");
+				oRM.write(">");
+
+				oRM.renderControl(oControl.getAggregation("_label"));
+
+				oRM.write("</div>");
 				// oRm.write(oControl.getProperty("distance"));
 
 			},
