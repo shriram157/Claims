@@ -77,7 +77,7 @@ sap.ui.define(
 
 			},
 
-			renderer: function (oRm, oControl) {
+			renderer: function (oRM, oControl) {
 				console.log(oControl);
 
 				//oControl.getProperty("distance"), oRM.renderControl(oControl.getProperty("distance"))
