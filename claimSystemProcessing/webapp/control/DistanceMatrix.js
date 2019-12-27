@@ -10,13 +10,12 @@ sap.ui.define(
 					"destination": "string",
 					"distance": {
 						type: "string"
+
 					}
 
 				},
 				events: {},
-				aggregations: {
-
-				}
+				aggregations: {}
 
 			},
 			init: function () {},
@@ -65,7 +64,6 @@ sap.ui.define(
 									var to = destinations[j];
 									console.log(distance, duration);
 									that.setProperty("distance", distance);
-									//that.getAggregation("_label").setText(distance);
 								}
 							}
 						}
@@ -75,12 +73,10 @@ sap.ui.define(
 			},
 
 			renderer: {
-
-				render: function (oRM, oControl) {
+				render: function (oRm, oControl) {
 					console.log(oControl);
-					console.log(oControl.getDistance().toString());
-					console.log(oControl.getKey().toString());
-
+					console.log(oControl.getDistance());
+					console.log(oControl.mProperties.distance);
 					//oControl.getProperty("distance"), oRM.renderControl(oControl.getProperty("distance"))
 					//Loading Style : we can externalise these Styles
 
@@ -90,15 +86,9 @@ sap.ui.define(
 					 *	<h1>Loading ....</h1>
 					 * </div>
 					 * */
-					// oRM.write("<div");
-					// oRM.writeControlData(oControl);
-
-					// oRM.write(">");
-
-					// oRM.renderControl(oControl.getAggregation("_label"));
-
-					// oRM.write("</div>");
 					oRm.write(oControl.getDistance());
+
+					// oRm.write(oControl.getProperty("distance"));
 				}
 			},
 			_loadScript: function (sUrl) {
