@@ -1,6 +1,6 @@
 sap.ui.define(
-	["sap/ui/core/Control", "sap/m/Label"],
-	function (Control, Label) {
+	["sap/ui/core/Control"],
+	function (Control) {
 		"use strict";
 		return Control.extend("zclaimProcessing.control.DistanceMatrix", {
 			metadata: {
@@ -15,10 +15,7 @@ sap.ui.define(
 				},
 				events: {},
 				aggregations: {
-					_label: {
-						type: "sap.m.Label",
-						multiple: false
-					}
+
 				}
 
 			},
@@ -77,30 +74,32 @@ sap.ui.define(
 
 			},
 
-			renderer: function (oRM, oControl) {
-				console.log(oControl);
-				console.log(oControl.getDistance().toString());
-				console.log(oControl.getKey().toString());
+			renderer: {
 
-				//oControl.getProperty("distance"), oRM.renderControl(oControl.getProperty("distance"))
-				//Loading Style : we can externalise these Styles
+				render: function (oRM, oControl) {
+					console.log(oControl);
+					console.log(oControl.getDistance().toString());
+					console.log(oControl.getKey().toString());
 
-				/**
-				 * Target
-				 * <div id='idoFThis' style='width:100%;height:400px;background:#C6BEBE'>
-				 *	<h1>Loading ....</h1>
-				 * </div>
-				 * */
-				// oRM.write("<div");
-				// oRM.writeControlData(oControl);
+					//oControl.getProperty("distance"), oRM.renderControl(oControl.getProperty("distance"))
+					//Loading Style : we can externalise these Styles
 
-				// oRM.write(">");
+					/**
+					 * Target
+					 * <div id='idoFThis' style='width:100%;height:400px;background:#C6BEBE'>
+					 *	<h1>Loading ....</h1>
+					 * </div>
+					 * */
+					// oRM.write("<div");
+					// oRM.writeControlData(oControl);
 
-				// oRM.renderControl(oControl.getAggregation("_label"));
+					// oRM.write(">");
 
-				// oRM.write("</div>");
-				oRm.write(oControl.getDistance().toString());
+					// oRM.renderControl(oControl.getAggregation("_label"));
 
+					// oRM.write("</div>");
+					oRm.write(oControl.getDistance());
+				}
 			},
 			_loadScript: function (sUrl) {
 				return new Promise(function (resolve, reject) {
