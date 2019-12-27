@@ -74,7 +74,7 @@ sap.ui.define(
 
 			renderer: function (oRm, oControl) {
 				console.log(oControl);
-				console.log(oControl.getProperty("distance"));
+				console.log(oControl.mProperties.distance);
 				//oControl.getProperty("distance"), oRM.renderControl(oControl.getProperty("distance"))
 				//Loading Style : we can externalise these Styles
 
@@ -87,7 +87,7 @@ sap.ui.define(
 				oRm.write("<h2");
 
 				oRm.write(">");
-				oControl.getProperty("distance");
+				oControl.getDistance();
 				oRm.write("</h2>");
 				// oRm.write(oControl.getProperty("distance"));
 
