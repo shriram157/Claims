@@ -1,8 +1,8 @@
 sap.ui.define(
-	["sap/ui/core/Control"],
-	function (Control) {
+	["sap/m/Input"],
+	function (Input) {
 		"use strict";
-		return Control.extend("zclaimProcessing.control.DistanceMatrix", {
+		return Input.extend("zclaimProcessing.control.DistanceMatrix", {
 			metadata: {
 				properties: {
 					"key": "string",
@@ -15,10 +15,12 @@ sap.ui.define(
 
 				},
 				events: {},
-				aggregations: {}
+				aggregations: {
+
+				}
 
 			},
-			init: function () {},
+
 			onAfterRendering: function () {
 				var that = this;
 				var sBaseUrl = `https://maps.googleapis.com/maps/api/js?key=${this.getKey()}&sensor=false`;
@@ -63,7 +65,8 @@ sap.ui.define(
 									var from = origins[i];
 									var to = destinations[j];
 									console.log(distance, duration);
-									that.setProperty("distance", distance);
+									that.setValue(distance);
+
 								}
 							}
 						}
@@ -72,25 +75,7 @@ sap.ui.define(
 
 			},
 
-			renderer: function (oRm, oControl) {
-
-				console.log(oControl);
-				//console.log(oControl.getDistance());
-				//console.log(oControl.mProperties.distance);
-				//oControl.getProperty("distance"), oRM.renderControl(oControl.getProperty("distance"))
-				//Loading Style : we can externalise these Styles
-
-				/**
-				 * Target
-				 * <div id='idoFThis' style='width:100%;height:400px;background:#C6BEBE'>
-				 *	<h1>Loading ....</h1>
-				 * </div>
-				 * */
-				oRm.write(oControl.getDistance());
-
-				//oRm.write("Distance");
-
-			},
+			renderer: "sap.m.InputRenderer",
 			_loadScript: function (sUrl) {
 				return new Promise(function (resolve, reject) {
 					try {
