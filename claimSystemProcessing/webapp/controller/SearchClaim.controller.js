@@ -79,7 +79,7 @@ sap.ui.define([
 					case "Dealer_Service_Parts_Admin":
 						console.log("Dealer service part");
 						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ManageAllWarrantyParts");
-						/*Uncomment for security*/
+
 						that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", true);
 						that.getView().getModel("HeaderLinksModel").setProperty("/ViewUpdateClaims", true);
 						that.getView().getModel("HeaderLinksModel").setProperty("/QuickCoverageTool", true);
