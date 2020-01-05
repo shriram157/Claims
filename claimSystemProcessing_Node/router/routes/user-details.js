@@ -7,8 +7,10 @@ module.exports = function (appContext) {
 	var express = require("express");
 	var request = require("request");
 	var xsenv = require("@sap/xsenv");
-
+	var canada = require("canada");
 	var router = express.Router();
+
+	console.log(canada.cities);
 
 	var mockUserMode = false;
 	if (process.env.MOCK_USER_MODE === "true" || process.env.MOCK_USER_MODE === "TRUE") {
@@ -60,7 +62,8 @@ module.exports = function (appContext) {
 			"userProfile": userProfile,
 			"samlAttributes": [userAttributes],
 			legacyDealer: "",
-			legacyDealerName: ""
+			legacyDealerName: "",
+			"cities": []
 		};
 
 		var userType = userAttributes.UserType[0];
@@ -213,12 +216,14 @@ module.exports = function (appContext) {
 							resBody.legacyDealer = bpAttributes.BusinessPartner;
 							resBody.legacyDealerName = bpAttributes.BusinessPartnerName;
 							resBody.attributes.push(bpAttributes);
+							resBody.cities.push("app");
 
 							// Dealer should only return one BP result anyway, but break here just in case
 							break;
 						}
 					} else {
 						resBody.attributes.push(bpAttributes);
+						resBody.cities.push("app");
 					}
 				}
 				tracer.debug("Response body: %s", JSON.stringify(resBody));

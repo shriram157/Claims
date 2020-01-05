@@ -228,6 +228,7 @@ sap.ui.define([
 				dataType: "json",
 
 				success: function (oData) {
+					console.log(oData);
 					var BpDealer = [];
 					var userAttributes = [];
 					that.getModel("LocalDataModel").setProperty("/LoginId", oData.userProfile.id);

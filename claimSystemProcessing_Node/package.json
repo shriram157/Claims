@@ -5,12 +5,14 @@
 		"@sap/xssec": "^2.1.16",
 		"cors": "^2.8.5",
 		"express": "^4.16.4",
-		"passport": "^0.4.0"
+		"passport": "^0.4.0",
+		"canada": "^0.1.0"
 	},
 	"description": "Node.js module for claims consolidated app",
 	"devDependencies": {
 		"jest": "^24.1.0",
 		"jest-junit": "^6.3.0"
+
 	},
 	"files": [],
 	"main": "server.js",

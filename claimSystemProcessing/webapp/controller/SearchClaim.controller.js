@@ -59,8 +59,8 @@ sap.ui.define([
 				dataType: "json",
 				success: function (oData) {
 					//var userType = oData.loggedUserType[0];
-					//var userType = "Dealer_Services_Admin";
-					var userType = "Dealer_Service_Parts_Admin";
+					var userType = "Dealer_Services_Admin";
+					//var userType = "Dealer_Service_Parts_Admin";
 					sap.ui.getCore().getModel("UserDataModel").setProperty("/LoggedInUser", userType);
 					sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "");
 					switch (userType) {
