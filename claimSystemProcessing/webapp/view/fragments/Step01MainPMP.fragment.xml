@@ -83,19 +83,16 @@
 					required="true" editable="{DateModel>/oFormEdit}"/>
 				<core:Title text=""/>
 				<Label text="Address"/>
-				<Input maxLength="40"
-					value="{path:'HeadSetData>/ExternalNumberOfClaim', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 40 } }"
-					required="true" editable="{DateModel>/oFormEdit}"/>
+				<!--<Input maxLength="40"-->
+				<!--	value="{path:'HeadSetData>/ExternalNumberOfClaim', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 40 } }"-->
+				<!--	required="true" editable="{DateModel>/oFormEdit}"/>-->
+				<custom:AddressAutoComplete key="AIzaSyAz7irkOJQ4ydE2dHYrg868QV5jUQ-5FaY" id="autocomplete" liveChange="initAutocomplete"/>
 				<core:Title text=""/>
 				<Label text="City"/>
-				<Input maxLength="40"
-					value="{path:'HeadSetData>/ExternalNumberOfClaim', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 40 } }"
-					required="true" editable="{DateModel>/oFormEdit}"/>
+				<Input maxLength="40" id="locality" value="" required="true" editable="{DateModel>/oFormEdit}"/>
 				<core:Title text=""/>
 				<Label text="Postal Code"/>
-				<Input maxLength="40"
-					value="{path:'HeadSetData>/ExternalNumberOfClaim', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 40 } }"
-					required="true" editable="{DateModel>/oFormEdit}"/>
+				<Input maxLength="40" id="postal_code" value="" required="true" editable="{DateModel>/oFormEdit}"/>
 				<core:Title text=""/>
 				<Label text="Quote Date"/>
 				<DatePicker class="clDatePicker" required="true" change="onChangeDate"
