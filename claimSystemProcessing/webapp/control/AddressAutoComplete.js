@@ -26,30 +26,28 @@ sap.ui.define(
 			},
 			onAfterRendering: function () {
 				var that = this;
-				var oCallBack = this.initAutocomplete().bind(this);
-				var sBaseUrl = "https://maps.googleapis.com/maps/api/js?key=${this.getKey()}&libraries=places";
-				this._loadScript(sBaseUrl).then(oCallBack);
-			},
+				//var oCallBack = this.initAutocomplete().bind(this);
+				var sBaseUrl = "https://maps.googleapis.com/maps/api/js?key=AIzaSyAz7irkOJQ4ydE2dHYrg868QV5jUQ-5FaY&libraries=places";
+				this._loadScript(sBaseUrl).then(function () {
 
-			initAutocomplete: function () {
-				var that = this;
-				// Create the autocomplete object, restricting the search predictions to
-				// geographical location types.
-				var options = {
-					componentRestrictions: {
-						country: 'ca'
-					}
-				};
-				autocomplete = new google.maps.places.Autocomplete(
-					this.getId(), options);
+					// Create the autocomplete object, restricting the search predictions to
+					// geographical location types.
+					var options = {
+						componentRestrictions: {
+							country: 'ca'
+						}
+					};
+					autocomplete = new google.maps.places.Autocomplete(
+						that.getId(), options);
 
-				// Avoid paying for data that you don't need by restricting the set of
-				// place fields that are returned to just the address components.
-				autocomplete.setFields(['address_component']);
+					// Avoid paying for data that you don't need by restricting the set of
+					// place fields that are returned to just the address components.
+					autocomplete.setFields(['address_component']);
 
-				// When the user selects an address from the drop-down, populate the
-				// address fields in the form.
-				autocomplete.addListener('place_changed', fillInAddress);
+					// When the user selects an address from the drop-down, populate the
+					// address fields in the form.
+					autocomplete.addListener('place_changed', that.fillInAddress);
+				});
 			},
 
 			fillInAddress: function () {
@@ -58,36 +56,53 @@ sap.ui.define(
 				var that = this;
 
 				for (var component in componentForm) {
-					that.getView().byId(component).value = '';
-					that.getView().byId(component).disabled = false;
+					// 	that.getView().byId(component).value = '';
+					// 	that.getView().byId(component).disabled = false;
 				}
 
 				// Get each component of the address from the place details,
 				// and then fill-in the corresponding field on the form.
 				for (var i = 0; i < place.address_components.length; i++) {
 					var addressType = place.address_components[i].types[0];
-					if (componentForm[addressType]) {
-						var val = place.address_components[i][componentForm[addressType]];
-						that.getView().byId(addressType).value = val;
-					}
+					console.log(addressType);
+					// 	if (componentForm[addressType]) {
+					// 		var val = place.address_components[i][componentForm[addressType]];
+					// 		that.getView().byId(addressType).value = val;
+					// 	}
 				}
 			},
 
-			geolocate: function () {
+			onkeyup: function () {
 				if (navigator.geolocation) {
 					navigator.geolocation.getCurrentPosition(function (position) {
-						var geolocation = {
+						var Ogeolocation = {
 							lat: position.coords.latitude,
 							lng: position.coords.longitude
 						};
 						var circle = new google.maps.Circle({
-							center: geolocation,
+							center: Ogeolocation,
 							radius: position.coords.accuracy
 						});
 						autocomplete.setBounds(circle.getBounds());
 					});
 				}
 			},
+
+			// 			geolocate: function () {
+			// 				if (navigator.geolocation) {
+			// 					navigator.geolocation.getCurrentPosition(function (position) {
+			// 						var geolocation = {
+			// 							lat: position.coords.latitude,
+			// 							lng: position.coords.longitude
+			// 						};
+			// 						var circle = new google.maps.Circle({
+			// 							center: geolocation,
+			// 							radius: position.coords.accuracy
+			// 						});
+			// 						autocomplete.setBounds(circle.getBounds());
+			// 					});
+			// 				}
+			// 			},
 
 			// 			onAfterRendering: function () {
 			// 				var that = this;
