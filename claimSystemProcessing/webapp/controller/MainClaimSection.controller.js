@@ -1554,6 +1554,12 @@ sap.ui.define([
 				//this._fnDealerContact();
 				this._fnClaimSumPercent();
 
+				if (oGroupDescription == "ZRCR" || oGroupDescription == "ZLDC") {
+					this.getView().getModel("DateModel").setProperty("/nonVinHide", false);
+				} else {
+					this.getView().getModel("DateModel").setProperty("/nonVinHide", true);
+				}
+
 			} else {
 
 				if (oClaimSelectedGroup == "Authorization") {
@@ -2640,7 +2646,7 @@ sap.ui.define([
 		},
 
 		onP2Claim: function (elm) {
-			if (elm == "ZLDC") {
+			if (elm == "ZLDC" || elm == "ZRCR") {
 				this.getView().getModel("DateModel").setProperty("/nonVinHide", false);
 			} else {
 				this.getView().getModel("DateModel").setProperty("/nonVinHide", true);
