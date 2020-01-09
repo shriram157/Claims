@@ -15,7 +15,8 @@ sap.ui.define(
 		return Input.extend("zclaimProcessing.control.AddressAutoComplete", {
 			metadata: {
 				properties: {
-					"key": "string"
+					"key": "string",
+					"id": "string"
 
 				},
 				events: {},
@@ -181,7 +182,7 @@ sap.ui.define(
 						}
 					}
 				})
-			},
+			}
 		});
 	});
 

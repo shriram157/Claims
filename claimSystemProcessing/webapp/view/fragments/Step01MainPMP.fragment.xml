@@ -86,7 +86,7 @@
 				<!--<Input maxLength="40"-->
 				<!--	value="{path:'HeadSetData>/ExternalNumberOfClaim', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 40 } }"-->
 				<!--	required="true" editable="{DateModel>/oFormEdit}"/>-->
-				<custom:AddressAutoComplete id="autocomplete"/>
+				<custom:AddressAutoComplete placeholder="Enter your address" id="autocomplete"/>
 				<core:Title text=""/>
 				<Label text="City"/>
 				<Input maxLength="40" id="locality" value="" required="true" editable="{DateModel>/oFormEdit}"/>

@@ -2,7 +2,8 @@ sap.ui.define([
 	"zclaimProcessing/controller/BaseController",
 	'sap/m/MessageToast',
 	"sap/ui/model/Sorter",
-], function (BaseController, MessageToast, Sorter) {
+	"zclaimProcessing/control/SearchAddressInput"
+], function (BaseController, MessageToast, Sorter, SearchAddressInput) {
 	"use strict";
 
 	return BaseController.extend("zclaimProcessing.controller.ClaimInquiry", {
@@ -48,6 +49,11 @@ sap.ui.define([
 
 			// 				})
 			//this.initialize();
+
+			var oCtrl = new SearchAddressInput({
+				GoogleAPI: "AIzaSyAz7irkOJQ4ydE2dHYrg868QV5jUQ-5FaY"
+			});
+			this.getView().byId("oControlId").addItem(oCtrl);
 		},
 		onAfterRendering: function () {
 
