@@ -1,6 +1,8 @@
 sap.ui.define(
-	["sap/m/Input"],
-	function (Input) {
+	['sap/m/SearchField',
+		'sap/m/SearchFieldRenderer'
+	],
+	function (SearchField, SearchFieldRenderer) {
 		"use strict";
 		var placeSearch, autocomplete;
 
@@ -12,7 +14,7 @@ sap.ui.define(
 			//country: 'long_name',
 			postal_code: 'short_name'
 		};
-		return Input.extend("zclaimProcessing.control.AddressAutoComplete", {
+		return SearchField.extend("zclaimProcessing.control.AddressAutoComplete", {
 			metadata: {
 				properties: {
 					"key": "string",
@@ -25,10 +27,16 @@ sap.ui.define(
 				}
 
 			},
-			onAfterRendering: function () {
-				var that = this;
+			init: function () {
+				var oControl = this;
+				SearchField.prototype.init.apply(oControl, arguments);
+
+				/** Event override **/
+				//	oControl.attachSuggest("suggest", oControl._onSuggest);
+				oControl.attachSearch("search", oControl._onSearch);
+
 				//var oCallBack = this.initAutocomplete().bind(this);
-				var sBaseUrl = "https://maps.googleapis.com/maps/api/js?key=AIzaSyAz7irkOJQ4ydE2dHYrg868QV5jUQ-5FaY&libraries=places";
+				var sBaseUrl = "https://maps.googleapis.com/maps/api/js?key=AIzaSyAz7irkOJQ4ydE2dHYrg868QV5jUQ-5FaY&libraries=places&sensor=false";
 				this._loadScript(sBaseUrl).then(function () {
 
 					// Create the autocomplete object, restricting the search predictions to
@@ -39,7 +47,7 @@ sap.ui.define(
 						}
 					};
 					autocomplete = new google.maps.places.Autocomplete(
-						that.getId(), options);
+						oControl.getId(), options);
 
 					// Avoid paying for data that you don't need by restricting the set of
 					// place fields that are returned to just the address components.
@@ -47,7 +55,7 @@ sap.ui.define(
 
 					// When the user selects an address from the drop-down, populate the
 					// address fields in the form.
-					autocomplete.addListener('place_changed', that.fillInAddress);
+					autocomplete.addListener('place_changed', oControl.fillInAddress);
 				});
 			},
 
@@ -73,7 +81,7 @@ sap.ui.define(
 				}
 			},
 
-			onkeyup: function () {
+			_onSearch: function () {
 				if (navigator.geolocation) {
 					navigator.geolocation.getCurrentPosition(function (position) {
 						var Ogeolocation = {
@@ -159,7 +167,7 @@ sap.ui.define(
 
 			// 			},
 
-			renderer: "sap.m.InputRenderer",
+			renderer: "sap.m.SearchFieldRenderer",
 			_loadScript: function (sUrl) {
 				return new Promise(function (resolve, reject) {
 					try {

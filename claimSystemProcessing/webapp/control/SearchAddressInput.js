@@ -1,90 +1,198 @@
 sap.ui.define(
-	[
-		'sap/m/SearchField',
-		'sap/m/SearchFieldRenderer',
-		'sap/m/SuggestionItem',
-		'sap/ui/model/json/JSONModel'
+	['sap/m/Input'
+
 	],
-	function (SearchField, SearchFieldRenderer, SuggestionItem, JSONModel) {
-		return SearchField.extend("zclaimProcessing.control.SearchAddressInput", {
-			_GoogleAPIUrl: "/maps/api/place/autocomplete/json",
+	function (Input) {
+		"use strict";
+		var placeSearch, autocomplete;
 
-			init: function () {
-				var oControl = this;
-				SearchField.prototype.init.apply(oControl, arguments);
-
-				/** Event override **/
-				oControl.attachSuggest("suggest", oControl._onSuggest);
-				oControl.attachSearch("search", oControl._onSearch);
-
-				/** Propertiesy **/
-				oControl.setEnableSuggestions(true);
-				oControl.setModel(new JSONModel({
-					Value: null,
-					Autocomplete: []
-				}), "GoogleAPI");
-				//oControl.bindValue("GoogleAPI>/Value");
-
-				/** Aggregation **/
-				var oItemListTemplate = new SuggestionItem({
-					description: "{GoogleAPI>description}"
-				});
-				oControl.bindAggregation("suggestionItems", {
-					path: 'GoogleAPI>/Autocomplete',
-					template: oItemListTemplate
-				});
-
-			},
-
-			_onSearch: function (oEvent) {
-				var oModel = this.getModel("GoogleAPI");
-				var sValue = oEvent.getParameter("suggestionItem").getDescription();
-
-				oModel.setProperty("/Value", sValue);
-				this.setValue(sValue);
-			},
-
-			renderer: "sap.m.SearchFieldRenderer",
+		var componentForm = {
+			//street_number: 'short_name',
+			//route: 'long_name',
+			locality: 'long_name',
+			//administrative_area_level_1: 'short_name',
+			//country: 'long_name',
+			postal_code: 'short_name'
+		};
+		return Input.extend("zclaimProcessing.control.SearchAddressInput", {
 			metadata: {
 				properties: {
-					"GoogleAPI": "string",
-					"ProxyPattern": "string"
+					"key": "string",
+					"id": "string"
+
+				},
+				events: {},
+				aggregations: {
+
+				}
+
+			},
+			onAfterRendering: function () {
+				var oControl = this;
+				var map_input = oControl.getId();
+				// SearchField.prototype.init.apply(oControl, arguments);
+
+				/** Event override **/
+				//	oControl.attachSuggest("suggest", oControl._onSuggest);
+				// oControl.attachSearch("search", oControl._onSearch);
+
+				//var oCallBack = this.initAutocomplete().bind(this);
+				var sBaseUrl = "https://maps.googleapis.com/maps/api/js?key=AIzaSyAz7irkOJQ4ydE2dHYrg868QV5jUQ-5FaY&libraries=places&sensor=false";
+				this._loadScript(sBaseUrl).then(function () {
+
+					// Create the autocomplete object, restricting the search predictions to
+					// geographical location types.
+					var options = {
+						componentRestrictions: {
+							country: 'ca'
+						}
+					};
+					autocomplete = new google.maps.places.Autocomplete(
+						map_input, options);
+
+					// Avoid paying for data that you don't need by restricting the set of
+					// place fields that are returned to just the address components.
+					autocomplete.setFields(['address_component']);
+
+					// When the user selects an address from the drop-down, populate the
+					// address fields in the form.
+					autocomplete.addListener('place_changed', oControl.fillInAddress);
+				});
+			},
+
+			fillInAddress: function () {
+				// Get the place details from the autocomplete object.
+				var place = autocomplete.getPlace();
+				var that = this;
+
+				for (var component in componentForm) {
+					// 	that.getView().byId(component).value = '';
+					// 	that.getView().byId(component).disabled = false;
+				}
+
+				// Get each component of the address from the place details,
+				// and then fill-in the corresponding field on the form.
+				for (var i = 0; i < place.address_components.length; i++) {
+					var addressType = place.address_components[i].types[0];
+					console.log(addressType);
+					// 	if (componentForm[addressType]) {
+					// 		var val = place.address_components[i][componentForm[addressType]];
+					// 		that.getView().byId(addressType).value = val;
+					// 	}
 				}
 			},
 
-			_onSuggest: function (oEvent) {
-				var value = oEvent.getParameter("suggestValue");
-				var oInput = oEvent.getSource();
-				var jModel = new sap.ui.model.json.JSONModel();
-
-				jModel.attachRequestCompleted(function (event) {
-					var jResponse = event.getSource().getData();
-					var oInput = this;
-
-					if (jResponse.status !== "INVALID_REQUEST") {
-						var jData = {
-							'Autocomplete': jResponse.predictions
+			geolocate: function () {
+				if (navigator.geolocation) {
+					navigator.geolocation.getCurrentPosition(function (position) {
+						var Ogeolocation = {
+							lat: position.coords.latitude,
+							lng: position.coords.longitude
 						};
-						var jGoogleAPIModel = this.getModel("GoogleAPI"); //new sap.ui.model.json.JSONModel(jData);
-						jGoogleAPIModel.setData(jData);
-						this.setModel(jGoogleAPIModel, "GoogleAPI");
-					}
-
-				}.bind(this));
-
-				jModel.loadData(this._getURL(), {
-					"key": this.getGoogleAPI(),
-					"input": value
-				}, false);
-
-				oInput.suggest();
+						var circle = new google.maps.Circle({
+							center: Ogeolocation,
+							radius: position.coords.accuracy
+						});
+						autocomplete.setBounds(circle.getBounds());
+					});
+				}
 			},
 
-			_getURL: function () {
-				var sPrefix = this.getProxyPattern() ? "/" + this.getProxyPattern() : 'https://maps.googleapis.com';
+			// 			geolocate: function () {
+			// 				if (navigator.geolocation) {
+			// 					navigator.geolocation.getCurrentPosition(function (position) {
+			// 						var geolocation = {
+			// 							lat: position.coords.latitude,
+			// 							lng: position.coords.longitude
+			// 						};
+			// 						var circle = new google.maps.Circle({
+			// 							center: geolocation,
+			// 							radius: position.coords.accuracy
+			// 						});
+			// 						autocomplete.setBounds(circle.getBounds());
+			// 					});
+			// 				}
+			// 			},
 
-				return sPrefix + this._GoogleAPIUrl;
+			// 			onAfterRendering: function () {
+			// 				var that = this;
+			// 				var sBaseUrl = `https://maps.googleapis.com/maps/api/js?key=${this.getKey()}&sensor=false`;
+			// 				// fetch(sBaseUrl, {
+			// 				// 		header: 'Access-Control-Allow-Origin'
+			// 				// 	})
+			// 				// 	.then(response => {
+			// 				// 		return response.json();
+			// 				// 	})
+			// 				// 	.then(data => {
+
+			// 				// 		console.log(data);
+			// 				// 	})
+			// 				// 	.catch(err => {
+			// 				// 		console.log(err);
+
+			// 				// 	});
+			// 				//var oCallBack = this.callback().bind(this);
+			// 				this._loadScript(sBaseUrl).then(function () {
+			// 					var from = new google.maps.LatLng(46.5610058, 26.9098054);
+			// 					var fromName = 'Bacau';
+			// 					var dest = new google.maps.LatLng(44.391403, 26.1157184);
+			// 					var destName = 'Bucuresti';
+
+			// 					var service = new google.maps.DistanceMatrixService();
+			// 					service.getDistanceMatrix({
+			// 						origins: [from, fromName],
+			// 						destinations: [destName, dest],
+			// 						travelMode: 'DRIVING'
+			// 					}, function (response, status) {
+			// 						if (status == 'OK') {
+			// 							var origins = response.originAddresses;
+			// 							var destinations = response.destinationAddresses;
+
+			// 							for (var i = 0; i < origins.length; i++) {
+			// 								var results = response.rows[i].elements;
+			// 								console.log(results);
+			// 								for (var j = 0; j < results.length; j++) {
+			// 									var element = results[j];
+			// 									var distance = element.distance.text;
+			// 									var duration = element.duration.text;
+			// 									var from = origins[i];
+			// 									var to = destinations[j];
+			// 									console.log(distance, duration);
+			// 									that.setValue(distance);
+
+			// 								}
+			// 							}
+			// 						}
+			// 					});
+			// 				});
+
+			// 			},
+
+			renderer: "sap.m.InputRenderer",
+			_loadScript: function (sUrl) {
+				return new Promise(function (resolve, reject) {
+					try {
+						//Load only once
+						if (google) {
+							resolve();
+						}
+					} catch (e) {
+						/**
+						 * If Google library was not loaded we have something like 'ReferenceError'
+						 * */
+						if (e instanceof ReferenceError) {
+							$.getScript(sUrl)
+								.done(function (script, textStatus) {
+									resolve();
+								})
+								.fail(function (jqxhr, settings, exception) {
+									reject('Error while loading Google Maps');
+								});
+						}
+					}
+				})
 			}
 		});
-	}
-);
+	});
+
+///https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=Washington,DC&destinations=New+York+City,NY&key=AIzaSyAzgEq829IUC9PJEo5DqpYUyvY1Iu6fhew

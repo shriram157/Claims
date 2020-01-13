@@ -35,7 +35,6 @@ if (isLocaleSent) {
 }
 
 if (isDivisionSent) {
-	addScript("'http://maps.google.com/maps/api/js?key=AIzaSyCxitB5jQcw7weQdg9MqBRfxr6mj81wT7I'");
 
 	this.sDivision = window.location.search.match(/Division=([^&]*)/i)[1];
 
@@ -49,7 +48,7 @@ if (isDivisionSent) {
 
 } else {
 	changeFavicon("images/favicon-16x16.png");
-	addScript("'http://maps.google.com/maps/api/js?key=AIzaSyCxitB5jQcw7weQdg9MqBRfxr6mj81wT7I'");
+
 }
 
 if (sSelectedLocale === "en") {

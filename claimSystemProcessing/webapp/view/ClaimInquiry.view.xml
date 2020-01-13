@@ -18,7 +18,7 @@
 									<f:content>
 										<!--<raprincis:GoogleMap key="AIzaSyAz7irkOJQ4ydE2dHYrg868QV5jUQ-5FaY" address="Place du Capitole 31000 Toulouse"/>-->
 										<!--<raprincis:DistanceMatrix key="AIzaSyAz7irkOJQ4ydE2dHYrg868QV5jUQ-5FaY"/>-->
-										<!--<custom:AddressAutoComplete type="text" placeholder="Enter your address" id="autocomplete"/>-->
+										<custom:AddressAutoComplete type="text" placeholder="Enter your address" id="autocomplete"/>
 										<core:Title text=""/>
 										<Label text="{i18n>VIN}" textAlign="Begin"/>
 										<Input liveChange="onEnterVIN" maxLength="17" value="{DateModel>/VIN}" id="idVin" required="true" valueState="{DateModel>/vinState}"/>

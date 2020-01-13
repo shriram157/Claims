@@ -1,5 +1,5 @@
 <core:FragmentDefinition xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:u="sap.ui.unified" xmlns:l="sap.ui.layout"
-	xmlns="sap.m" xmlns:table="sap.ui.table" xmlns:custom="zclaimProcessing.control">
+	xmlns="sap.m" xmlns:table="sap.ui.table" xmlns:custom="zclaimProcessing.control" xmlns:html="http://www.w3.org/1999/xhtml">
 	<VBox class="sapUiSmallMargin clFormTitleGap" busy="{LocalDataModel>/oSavePartIndicator}" busyIndicatorDelay="100" id="idpart01Form">
 		<Panel width="auto" class="sapUiSmallMarginBottom" accessibleRole="Region">
 			<headerToolbar>
@@ -9,6 +9,9 @@
 					<Title text="{LocalDataModel>/WarrantyClaimNumber}" textAlign="End"/>
 				</Toolbar>
 			</headerToolbar>
+			<html:div id="locationField">
+				<html:input id="autocomplete" placeholder="Enter your address" onFocus="geolocate()" type="text"/>
+			</html:div>
 			<f:SimpleForm editable="true" layout="ResponsiveGridLayout" title="" labelSpanXL="6" labelSpanL="6" labelSpanM="12" labelSpanS="12"
 				emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="4" columnsL="4" columnsM="6">
 				<f:content>
@@ -86,7 +89,9 @@
 				<!--<Input maxLength="40"-->
 				<!--	value="{path:'HeadSetData>/ExternalNumberOfClaim', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 40 } }"-->
 				<!--	required="true" editable="{DateModel>/oFormEdit}"/>-->
-				<custom:AddressAutoComplete placeholder="Enter your address" id="autocomplete"/>
+				<!--<VBox id="oSearchId"></VBox>-->
+				<!--<custom:SearchAddressInput id="autocomplete"/>-->
+				<!--<html:Input id="autocomplete" placeholder="Enter your address" onFocus="geolocate()" type="text"/>-->
 				<core:Title text=""/>
 				<Label text="City"/>
 				<Input maxLength="40" id="locality" value="" required="true" editable="{DateModel>/oFormEdit}"/>
