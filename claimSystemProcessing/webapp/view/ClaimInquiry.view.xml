@@ -72,6 +72,9 @@
 										<Column width="8em" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
 											<Label text="{i18n>MainOpCode}" wrapping="true" textAlign="Center" width="100%"/>
 										</Column>
+										<Column width="8em" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+											<Label text="{i18n>FieldActionCode}" wrapping="true" textAlign="Center" width="100%"/>
+										</Column>
 										<Column width="6em" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
 											<Label text="{i18n>ClaimAge}" wrapping="true" textAlign="Center" width="100%"/>
 										</Column>
@@ -94,6 +97,7 @@
 												<Text text="{LocalDataModel>DecisionCode}" wrapping="false"/>
 												<Text text="{LocalDataModel>OFP}" wrapping="false"/>
 												<Text text="{LocalDataModel>MainOpsCode}" wrapping="false"/>
+												<Text text="{LocalDataModel>FieldActionReference}" wrapping="false"/>
 												<Text text="{LocalDataModel>ClaimAge}" wrapping="false"/>
 												<Text text="{LocalDataModel>ClaimAmountSum}" wrapping="false"/>
 											</cells>

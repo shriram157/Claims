@@ -11,7 +11,7 @@
 							<VBox>
 								<MessageStrip id="idNewClaimMsgStrp" text="" showIcon="true" showCloseButton="true" class="sapUiMediumMarginBottom" visible="false"></MessageStrip>
 								<f:SimpleForm id="SimpleFormChange354" editable="true" layout="ResponsiveGridLayout" title="{i18n>Entertheapplicationdaterange}"
-									labelSpanXL="4" labelSpanL="4" labelSpanM="3" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0"
+									labelSpanXL="3" labelSpanL="3" labelSpanM="3" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0"
 									emptySpanS="0" columnsXL="3" columnsL="3" columnsM="1" singleContainerFullSize="false">
 									<f:content>
 										<core:Title text=""/>
@@ -32,8 +32,23 @@
 										<Label text="{i18n>SearchText}" textAlign="Begin"/>
 										<Input value="" id="idSearchText" change="onEnterSearchText"/>
 										<Label text="{i18n>ClaimSubDate}" textAlign="Begin" id="idCLREDate"/>
-										<DateRangeSelection id="DRS2" dateValue="{path:'DateModel>/dateValueDRS2'}" secondDateValue="{path:'DateModel>/secondDateValueDRS2'}"
-											minDate="" maxDate="" change="handleChange"/>
+										<!--<DateRangeSelection id="DRS2" dateValue="{path:'DateModel>/dateValueDRS2'}" secondDateValue="{path:'DateModel>/secondDateValueDRS2'}"-->
+										<!--	minDate="" maxDate="" change="handleChange"/>-->
+										<DatePicker id="DRS2" dateValue="{path:'DateModel>/dateValueDRS2'}">
+											<layoutData>
+												<l:GridData span="XL4 L6 M3 S12"/>
+											</layoutData>
+										</DatePicker>
+										<Text text="to" textAlign="Center">
+											<layoutData>
+												<l:GridData span="XL1 L1 M3 S12"/>
+											</layoutData>
+										</Text>
+										<DatePicker id="DRS3" dateValue="{path:'DateModel>/secondDateValueDRS2'}">
+											<layoutData>
+												<l:GridData span="XL4 L6 M3 S12"/>
+											</layoutData>
+										</DatePicker>
 										<core:Title text=""/>
 										<Label text="{i18n>ClaimTypeGroup}" textAlign="Begin"/>
 										<custom:CustomCombo items="{path:'LocalDataModel>/oClaimGroupsDataResult'}" id="idClaimGroup" selectionChange="onSelectGroup">

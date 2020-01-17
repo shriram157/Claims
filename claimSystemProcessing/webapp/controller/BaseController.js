@@ -95,13 +95,25 @@ sap.ui.define([
 				success: function (oData) {
 					var userType = oData.loggedUserType[0];
 					//var userType = "Dealer_Services_Admin";
-					//var userType = "Dealer_Parts_Admin";
+					//var userType = "Dealer_Service_Parts_Admin";
 					sap.ui.getCore().getModel("UserDataModel").setProperty("/LoggedInUser", userType);
 					sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "");
 					switch (userType) {
 					case "Dealer_Parts_Admin":
 
 						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ManageAllParts");
+						/*Uncomment for security*/
+						that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", true);
+						that.getView().getModel("HeaderLinksModel").setProperty("/ViewUpdateClaims", true);
+						that.getView().getModel("HeaderLinksModel").setProperty("/QuickCoverageTool", true);
+						that.getView().getModel("HeaderLinksModel").setProperty("/ClaimInquiry", true);
+						that.getView().getModel("HeaderLinksModel").setProperty("/DealerLabourRateInquiry", true);
+						sap.ui.getCore().getModel("HeaderLinksModel").updateBindings(true);
+						/*Uncomment for security*/
+						break;
+					case "Dealer_Service_Parts_Admin":
+						console.log("Dealer service part");
+						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ManageAllWarrantyParts");
 						/*Uncomment for security*/
 						that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", true);
 						that.getView().getModel("HeaderLinksModel").setProperty("/ViewUpdateClaims", true);
