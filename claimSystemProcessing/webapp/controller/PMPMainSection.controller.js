@@ -158,28 +158,29 @@ sap.ui.define([
 			// 				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
 			// 			} else {
 			this.getView().byId("idMainClaimMessage").setProperty("visible", false);
-			this.getView().byId("id_Date").setValueState("None");
-			this.getView().byId("idPrInvDate").setValueState("None");
-			this.getView().byId("idPreInvNum").setValueState("None");
-			this.getView().byId("idT2Field").setValueState("None");
-			this.getView().byId("idT1Field").setValueState("None");
-			this.getView().byId("idOFP").setValueState("None");
-			this.getView().byId("idMainOps").setValueState("None");
-			this.getView().byId("idDealerContact").setValueState("None");
-			this.getView().byId("idFieldActionInput").setValueState("None");
-			var oActionCode = "";
-			if (this.getView().getModel("DateModel").getProperty("/oztac") == true) {
-				oActionCode = "ZTEA";
-			} else {
-				oActionCode = "";
-			}
-			this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", true);
-			this.getView().getModel("DateModel").setProperty("/claimTypeState", "None");
-			this.getView().getModel("DateModel").setProperty("/claimTypeState2", "None");
+			// 			this.getView().byId("id_Date").setValueState("None");
+			// 			this.getView().byId("idPrInvDate").setValueState("None");
+			// 			this.getView().byId("idPreInvNum").setValueState("None");
+			// 			this.getView().byId("idT2Field").setValueState("None");
+			// 			this.getView().byId("idT1Field").setValueState("None");
+			// 			this.getView().byId("idOFP").setValueState("None");
+			// 			this.getView().byId("idMainOps").setValueState("None");
+			// 			this.getView().byId("idDealerContact").setValueState("None");
+			// 			this.getView().byId("idFieldActionInput").setValueState("None");
+			// 			var oActionCode = "";
+			// 			if (this.getView().getModel("DateModel").getProperty("/oztac") == true) {
+			// 				oActionCode = "ZTEA";
+			// 			} else {
+			// 				oActionCode = "";
+			// 			}
+			//"ActionCode": oActionCode,
+			// 			this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", true);
+			// 			this.getView().getModel("DateModel").setProperty("/claimTypeState", "None");
+			// 			this.getView().getModel("DateModel").setProperty("/claimTypeState2", "None");
 			this.obj = {
 				"DBOperation": "SAVE",
 				"Message": "",
-				"ActionCode": oActionCode,
+
 				"WarrantyClaimType": this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType"),
 				"Partner": this.getModel("LocalDataModel").getProperty("/BpDealerModel/0/BusinessPartnerKey"),
 				"PartnerRole": "AS",
