@@ -58,9 +58,9 @@ sap.ui.define([
 				type: "GET",
 				dataType: "json",
 				success: function (oData) {
-					//var userType = oData.loggedUserType[0];
-					var userType = "Dealer_Services_Admin";
-					//var userType = "Dealer_Service_Parts_Admin";
+					//	var userType = oData.loggedUserType[0];
+					//	var userType = "Dealer_Parts_Admin";
+					var userType = "Dealer_Service_Parts_Admin";
 					sap.ui.getCore().getModel("UserDataModel").setProperty("/LoggedInUser", userType);
 					sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "");
 					switch (userType) {
@@ -177,6 +177,7 @@ sap.ui.define([
 						that.getView().getModel("HeaderLinksModel").setProperty("/ClaimInquiry", true);
 						that.getView().getModel("HeaderLinksModel").setProperty("/DealerLabourRateInquiry", true);
 						sap.ui.getCore().getModel("HeaderLinksModel").updateBindings(true);
+
 						/*Uncomment for security*/
 					}
 					// console.log(sap.ui.getCore().getModel("UserDataModel"));
@@ -313,7 +314,7 @@ sap.ui.define([
 						oClaimGroup = elements.filter(function (val) {
 							return val.ClaimGroup == "SCR" || val.ClaimGroup == "SSM" || val.ClaimGroup == "PWD" || val.ClaimGroup == "STR" || val.ClaimGroup ==
 								"WTY" || val.ClaimGroup == "CRC" || val.ClaimGroup == "VLC" || val.ClaimGroup ==
-								"ECP" ||
+								"ECP" || val.ClaimGroup == "PMP" ||
 								val.ClaimGroup == "FAC";
 						});
 					} else {

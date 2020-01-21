@@ -55,20 +55,27 @@ sap.ui.define([
 							"UserDataModel").getProperty("/UserScope") == "ManageAllShowAuthorization") {
 						oClaimGroup = elements.filter(function (val) {
 							return val.ClaimGroup == "STR" || val.ClaimGroup == "WTY" || val.ClaimGroup == "CRC" || val.ClaimGroup == "VLC" || val.ClaimGroup ==
-								"ECP" || val.ClaimGroup == "PMP" ||
+								"ECP" ||
 								val.ClaimGroup == "FAC";
+						});
+					} else if (sap.ui.getCore().getModel("UserDataModel").getProperty("/UserScope") == "ManageAllWarrantyParts") {
+						oClaimGroup = elements.filter(function (val) {
+							return val.ClaimGroup == "SCR" || val.ClaimGroup == "SSM" || val.ClaimGroup == "PWD" || val.ClaimGroup == "STR" ||
+								val.ClaimGroup == "WTY" || val.ClaimGroup == "CRC" || val.ClaimGroup == "VLC" || val.ClaimGroup ==
+								"ECP" || val.ClaimGroup == "PMP" || val.ClaimGroup == "FAC";
+
 						});
 					} else {
 						oClaimGroup = elements;
 					}
 
-					oClaimGroup.push({
+					// 	oClaimGroup.push({
 
-						ClaimGroupDes: "PRICE MATCH",
+					// 		ClaimGroupDes: "PRICE MATCH",
 
-						ClaimGroup: "PMP"
+					// 		ClaimGroup: "PMP"
 
-					});
+					// 	});
 					this.getModel("LocalDataModel").setProperty("/oClaimGroupData", oClaimGroup);
 					console.log(sap.ui.getCore().getModel("UserDataModel").getProperty("/UserScope"), oClaimGroup);
 

@@ -26,14 +26,6 @@
 		},
 		"description": "Claim_Destination"
 	}, {
-		"path": "/sap/opu/odata",
-		"target": {
-			"type": "destination",
-			"name": "S4HANA_GW",
-			"entryPath": "/sap/opu/odata"
-		},
-		"description": "DG1 200"
-	}, {
 		"path": "/ecpSales_node_secured",
 		"target": {
 			"type": "destination",
