@@ -206,17 +206,17 @@ sap.ui.define([
 				"ExternalObjectNumber": this.getView().getModel("HeadSetData").getProperty("/ExternalObjectNumber"),
 				"Odometer": this.getView().getModel("HeadSetData").getProperty("/Odometer"),
 				"TCIWaybillNumber": "",
-				"NameOfPersonRespWhoChangedObj": this.getModel("LocalDataModel").getProperty("/LoginId").substr(0, 12),
+				"NameOfPersonRespWhoChangedObj": this.getModel("LocalDataModel").getProperty("/LoginId"),
 				"ShipmentReceivedDate": null,
 				"DealerContact": this.getView().getModel("HeadSetData").getProperty("/DealerContact"),
 				"HeadText": this.getView().getModel("HeadSetData").getProperty("/HeadText"),
-				"OFP": this.getView().getModel("HeadSetData").getProperty("/OFP").toUpperCase(),
+				"OFP": this.getView().getModel("HeadSetData").getProperty("/OFP"),
 				"WTYClaimRecoverySource": "",
 				"MainOpsCode": this.getView().getModel("HeadSetData").getProperty("/MainOpsCode"),
 				"T1WarrantyCodes": this.getView().getModel("HeadSetData").getProperty("/T1WarrantyCodes"),
 				"BatteryTestCode": this.getView().getModel("HeadSetData").getProperty("/BatteryTestCode"),
 				"T2WarrantyCodes": this.getView().getModel("HeadSetData").getProperty("/T2WarrantyCodes"),
-				"FieldActionReference": this.getView().getModel("HeadSetData").getProperty("/FieldActionReference").toUpperCase(),
+				"FieldActionReference": this.getView().getModel("HeadSetData").getProperty("/FieldActionReference"),
 				"ZCondition": this.getView().getModel("HeadSetData").getProperty("/ZCondition"),
 				"Cause": this.getView().getModel("HeadSetData").getProperty("/Cause"),
 				"Remedy": this.getView().getModel("HeadSetData").getProperty("/Remedy"),
@@ -226,7 +226,7 @@ sap.ui.define([
 				"AccessoryInstallOdometer": this.getView().getModel("HeadSetData").getProperty("/AccessoryInstallOdometer"),
 				"AccessoryInstallDate": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/AccessoryInstallDate")),
 				"AgreementNumber": this.getView().getModel("HeadSetData").getProperty("/AgreementNumber"),
-				"CustomerPostalCode": this.getView().getModel("HeadSetData").getProperty("/CustomerPostalCode").toUpperCase(),
+				"CustomerPostalCode": this.getView().getModel("HeadSetData").getProperty("/CustomerPostalCode"),
 				"CustomerFullName": this.getView().getModel("HeadSetData").getProperty("/CustomerFullName"),
 				"ProbillNum": this.getView().getModel("HeadSetData").getProperty("/ProbillNum"),
 				"Delivery": this.getView().getModel("HeadSetData").getProperty("/Delivery"),
@@ -241,67 +241,11 @@ sap.ui.define([
 				"CompetitorAddr": this.getView().getModel("HeadSetData").getProperty("/CompetitorAddr"),
 				"CompetitorCity": this.getView().getModel("HeadSetData").getProperty("/CompetitorCity"),
 				"CompetitorProv": this.getView().getModel("HeadSetData").getProperty("/CompetitorProv"),
-				"CompetitorPost": this.getView().getModel("HeadSetData").getProperty("/CompetitorPost").toUpperCase(),
+				"CompetitorPost": this.getView().getModel("HeadSetData").getProperty("/CompetitorPost"),
 				"QuoteDate": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/QuoteDate")),
 				"PartManufacturer": this.getView().getModel("HeadSetData").getProperty("/PartManufacturer"),
-				"PartType": this.getView().getModel("HeadSetData").getProperty("/PartType"),
-				"zc_itemSet": {
-					"results": []
-				},
-				"zc_claim_item_labourSet": {
-					"results": []
-				},
-				"zc_claim_item_paintSet": {
-					"results": []
-				},
-				"zc_item_subletSet": {
-					"results": []
-				},
-				"zc_claim_attachmentsSet": {
-					"results": []
-				},
-				"zc_claim_item_damageSet": {
-					"results": []
-				},
-				"zc_claim_commentSet": {
-					"results": []
-				},
-				"zc_claim_vsrSet": {
-					"results": []
-				},
-				"zc_claim_item_price_dataSet": {
-					"results": [{
-						"PartQty": "0.000",
-						"AmtClaimed": "0.000",
-						"clmno": "",
-						"DealerNet": "0.000",
-						"DiffAmt": "0.000",
-						"ExtendedValue": "0.000",
-						"ItemType": "",
-						"kappl": "",
-						"kateg": "",
-						"kawrt": "0.000",
-						"kbetr": "0.000",
-						"knumv": "",
-						"kposn": "",
-						"kschl": "",
-						"kvsl1": "",
-						"kwert": "0.000",
-						"MarkUp": "0.000",
-						"matnr": "",
-						"posnr": "",
-						"QtyHrs": "0.000",
-						"quant": "0.000",
-						"TCIApprAmt": "0.000",
-						"TCIApprQty": "0.000",
-						"TotalAfterDisct": "0.000",
-						"v_rejcd": "",
-						"valic": "0.000",
-						"valoc": "0.000",
-						"verknumv": "",
-						"versn": ""
-					}]
-				}
+				"PartType": this.getView().getModel("HeadSetData").getProperty("/PartType")
+
 			};
 
 			oClaimModel.refreshSecurityToken();

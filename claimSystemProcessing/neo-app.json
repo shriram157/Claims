@@ -26,6 +26,13 @@
 		},
 		"description": "Claim_Destination"
 	}, {
+		"path": "Claim_Destination2",
+		"target": {
+			"type": "destination",
+			"name": "Claim_Destination2"
+		},
+		"description": "Claim_Destination2"
+	}, {
 		"path": "/ecpSales_node_secured",
 		"target": {
 			"type": "destination",
