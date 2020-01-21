@@ -1,7 +1,8 @@
 sap.ui.define([
 	"zclaimProcessing/controller/BaseController",
-	"sap/m/MessageToast"
-], function (BaseController, MessageToast) {
+	"sap/m/MessageToast",
+	"sap/ui/core/format/DateFormat"
+], function (BaseController, MessageToast, DateFormat) {
 	"use strict";
 
 	return BaseController.extend("zclaimProcessing.controller.PMPMainSection", {
@@ -106,6 +107,18 @@ sap.ui.define([
 					});
 
 				}
+			}
+
+		},
+		_fnDateFormat: function (elm) {
+			if (elm != "" && elm != null && elm != NaN) {
+				// var oNumTime = Date.UTC(elm.getFullYear(), elm.getMonth(), elm.getDate(),
+				// 	elm.getHours(), elm.getMinutes(), elm.getSeconds(), elm.getMilliseconds());
+				var oNumTime = moment.utc(new Date(elm)).valueOf();
+				var oTime = "\/Date(" + oNumTime + ")\/";
+				return oTime;
+			} else {
+				return null;
 			}
 
 		},
