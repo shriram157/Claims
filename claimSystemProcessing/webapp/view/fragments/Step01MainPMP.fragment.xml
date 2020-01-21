@@ -56,19 +56,19 @@
 					value="{path:'HeadSetData>/ExternalNumberOfClaim', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 40 } }"
 					required="true" id="idDealerClaim" editable="{DateModel>/oFormEdit}"/>
 				<Label text="Dealer Invoice"/>
-				<Input required="{DateModel>/oDealerContactReq}" maxLength="30"
-					value="{path:'HeadSetData>/DealerContact', type : 'sap.ui.model.type.String', constraints : { minLength : 2, maxLength : 30 }}"
-					id="idDealerContact" editable="{DateModel>/oFormEdit}" enabled="{DateModel>/oDealerContactReq}"/>
+				<Input maxLength="30"
+					value="{path:'HeadSetData>/DealerInvoice', type : 'sap.ui.model.type.String', constraints : { minLength : 2, maxLength : 30 }}"
+					id="idDealerInvoice" editable="{DateModel>/oFormEdit}" enabled="{DateModel>/oDealerContactReq}"/>
 				<!--constraints: { displayFormat: 'Date' }-->
 				<core:Title text=""/>
 				<Label text="Dealer RO"/>
 				<Input required="true" maxLength="10"
-					value="{path:'HeadSetData>/RepairOrderNumberExternal', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 10 }}"
-					id="idRepairOrder" editable="{DateModel>/oFormEdit}" visible="{DateModel>/oVisibleReOrder}"/>
+					value="{path:'HeadSetData>/DealerRO', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 10 }}" id="idDealerRO"
+					editable="{DateModel>/oFormEdit}"/>
 				<Label text="Dealer Invoice Date"/>
 				<!--<DatePicker class="clDatePicker" required="true" value="{path:'HeadSetData>/RepairDate',type : 'sap.ui.model.type.Date'}" editable="{DateModel>/oFormEdit}"/>-->
-				<DatePicker class="clDatePicker" id="id_Date" required="true" change="onChangeDate"
-					value="{path:'HeadSetData>/RepairDate', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'yyyy-MM-dd', strictParsing: true, UTC: true}}"
+				<DatePicker class="clDatePicker" id="idDealerINVDate" required="true" change="onChangeDate"
+					value="{path:'HeadSetData>/DealerInvoiceDate', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'yyyy-MM-dd', strictParsing: true, UTC: true}}"
 					editable="{DateModel>/oFormEdit}" visible="{DateModel>/oVisibleRepDate}"/>
 			</f:content>
 		</f:SimpleForm>
@@ -79,31 +79,35 @@
 				<core:Title text=""/>
 				<Label text="Name"/>
 				<Input maxLength="40"
-					value="{path:'HeadSetData>/ExternalNumberOfClaim', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 40 } }"
+					value="{path:'HeadSetData>/CompetitorName', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 40 } }"
 					required="true" editable="{DateModel>/oFormEdit}"/>
 				<core:Title text=""/>
 				<Label text="Address"/>
-				<!--<Input maxLength="40"-->
-				<!--	value="{path:'HeadSetData>/ExternalNumberOfClaim', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 40 } }"-->
-				<!--	required="true" editable="{DateModel>/oFormEdit}"/>-->
+				<Input maxLength="40"
+					value="{path:'HeadSetData>/CompetitorAddr', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 40 } }"
+					required="true" editable="{DateModel>/oFormEdit}"/>
 				<!--<VBox id="oSearchId"></VBox>-->
-				<custom:SearchAddressInput id="autocomplete"/>
+				<!--<custom:SearchAddressInput id="autocomplete"/>-->
 				<!--<html:Input id="autocomplete" placeholder="Enter your address" onFocus="geolocate()" type="text"/>-->
 				<core:Title text=""/>
 				<Label text="City"/>
-				<Input maxLength="40" id="locality" value="" required="true" editable="{DateModel>/oFormEdit}"/>
+				<Input maxLength="40" id="idCity"
+					value="{path:'HeadSetData>/CompetitorCity', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 60 } }"
+					required="true" editable="{DateModel>/oFormEdit}"/>
 				<core:Title text=""/>
 				<Label text="Province"/>
-				<Input maxLength="40" id="province" value="" required="true" editable="{DateModel>/oFormEdit}"/>
+				<Input maxLength="40" id="province"
+					value="{path:'HeadSetData>/CompetitorProv', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 60 } }"
+					required="true" editable="{DateModel>/oFormEdit}"/>
 				<core:Title text=""/>
 				<Label text="Postal Code"/>
 				<Input maxLength="8" id="postal_code" change="onEnterPostalCode"
-					value="{path:'HeadSetData>/PostalCode', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 8 } }" required="true"
-					editable="{DateModel>/oFormEdit}"/>
+					value="{path:'HeadSetData>/CompetitorPost', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 8 } }"
+					required="true" editable="{DateModel>/oFormEdit}"/>
 				<core:Title text=""/>
 				<Label text="Quote Date"/>
-				<DatePicker class="clDatePicker" required="true" change="onChangeDate"
-					value="{path:'HeadSetData>/RepairDate', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'yyyy-MM-dd', strictParsing: true, UTC: true}}"
+				<DatePicker class="clDatePicker" required="true"
+					value="{path:'HeadSetData>/QuoteDate', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'yyyy-MM-dd', strictParsing: true, UTC: true}}"
 					editable="{DateModel>/oFormEdit}" visible="{DateModel>/oVisibleRepDate}"/>
 			</f:content>
 		</f:SimpleForm>
