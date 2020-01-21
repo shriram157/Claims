@@ -159,6 +159,10 @@ sap.ui.define([
 
 			this.getOwnerComponent().getRouter().attachRoutePatternMatched(this._onRoutMatched, this);
 			this.getModel("LocalDataModel").setProperty("/oErrorSet", "");
+
+			var oPMPModel = this.getModel("zDLRCLAIMPMPSRV");
+			console.log(oPMPModel);
+
 		},
 
 		_getBPList: function () {

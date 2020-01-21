@@ -16,19 +16,19 @@
 					<Label text="{i18n>TCIClaim}"/>
 					<Text text="{HeadSetData>/NumberOfWarrantyClaim}"/>
 					<core:Title text=""/>
-					<Label text="Dealer Invoice#"/>
-					<Text text="{HeadSetData>/NumberOfWarrantyClaim}"/>
-					<Label text="Dealer Invoice Date"/>
-					<Text text="{HeadSetData>/NumberOfWarrantyClaim}"/>
+					<Label text="{i18n>DealerInvoice}"/>
+					<Text text="{HeadSetData>/ExternalNumberOfClaim}"/>
+					<Label text="{i18n>DealerInvoiceDate}"/>
+					<Text text="{HeadSetData>/ExternalNumberOfClaim}"/>
 					<core:Title text=""/>
 					<Label text="{i18n>Type}"/>
 					<Text text="{HeadSetData>/WarrantyClaimType}"/>
 					<Label text="{i18n>Status}"/>
 					<Text text="{HeadSetData>/DecisionCode}"/>
 					<core:Title text=""/>
-					<Label text="Price Match Claim"/>
+					<Label text="{i18n>ClaimTypeDescription}"/>
 					<Text text="{HeadSetData>/WarrantyClaimType}"/>
-					<Label text="Incomplete"/>
+					<Label text="{i18n>StatusDescription}"/>
 					<Text text="{HeadSetData>/DecisionCode}"/>
 				</f:content>
 			</f:SimpleForm>

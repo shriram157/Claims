@@ -1,7 +1,5 @@
 sap.ui.define(
-	['sap/m/Input'
-
-	],
+	['sap/m/Input'],
 	function (Input) {
 		"use strict";
 		var placeSearch, autocomplete;
@@ -66,8 +64,8 @@ sap.ui.define(
 				var that = this;
 
 				for (var component in componentForm) {
-					// 	that.getView().byId(component).value = '';
-					// 	that.getView().byId(component).disabled = false;
+					that.getView().byId(component).value = '';
+					that.getView().byId(component).disabled = false;
 				}
 
 				// Get each component of the address from the place details,
@@ -75,10 +73,10 @@ sap.ui.define(
 				for (var i = 0; i < place.address_components.length; i++) {
 					var addressType = place.address_components[i].types[0];
 					console.log(addressType);
-					// 	if (componentForm[addressType]) {
-					// 		var val = place.address_components[i][componentForm[addressType]];
-					// 		that.getView().byId(addressType).value = val;
-					// 	}
+					if (componentForm[addressType]) {
+						var val = place.address_components[i][componentForm[addressType]];
+						that.getView().byId(addressType).value = val;
+					}
 				}
 			},
 

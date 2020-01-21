@@ -103,6 +103,22 @@ sap.ui.define([
 
 			this.setModel(oDataModel04, "ZVehicleMasterModel");
 
+			// CR Model
+
+			var mConfig06 = this.getMetadata().getManifestEntry("/sap.app/dataSources/ZDLR_CLAIM_PMP_SRV");
+			if (sLocation_conf == 0) {
+				mConfig04.uri = "/Claim_Destination" + mConfig06.uri;
+			}
+			var oDataModel06 = new ODataModel(mConfig04.uri, {
+				useBatch: false,
+				json: true,
+				headers: {
+					"X-Requested-With": "XMLHttpRequest"
+				}
+			});
+
+			this.setModel(oDataModel06, "zDLRCLAIMPMPSRV");
+
 			/// ecp model
 
 			var mConfig05 = this.getMetadata().getManifestEntry("/sap.app/dataSources/ZECP_SALES_ODATA_SERVICE_SRV");
@@ -186,7 +202,7 @@ sap.ui.define([
 						}
 					}, 3600000); // 60 minutes
 				}
-			}
+			};
 
 			// Attach XHR event handler to detect or reset timeouts on AJAX calls
 			var origOpen = XMLHttpRequest.prototype.open;

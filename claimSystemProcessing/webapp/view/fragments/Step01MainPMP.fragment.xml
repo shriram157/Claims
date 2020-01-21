@@ -9,9 +9,6 @@
 					<Title text="{LocalDataModel>/WarrantyClaimNumber}" textAlign="End"/>
 				</Toolbar>
 			</headerToolbar>
-			<html:div id="locationField">
-				<html:input id="autocomplete" placeholder="Enter your address" onFocus="geolocate()" type="text"/>
-			</html:div>
 			<f:SimpleForm editable="true" layout="ResponsiveGridLayout" title="" labelSpanXL="6" labelSpanL="6" labelSpanM="12" labelSpanS="12"
 				emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="4" columnsL="4" columnsM="6">
 				<f:content>
@@ -76,8 +73,8 @@
 			</f:content>
 		</f:SimpleForm>
 		<f:SimpleForm editable="" id="idVehicleInfo" title="Competitor Information" layout="ResponsiveGridLayout" labelSpanXL="12" labelSpanL="12"
-			labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="5"
-			columnsL="5" columnsM="3" singleContainerFullSize="false">
+			labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="6"
+			columnsL="6" columnsM="3" singleContainerFullSize="false">
 			<f:content >
 				<core:Title text=""/>
 				<Label text="Name"/>
@@ -90,14 +87,19 @@
 				<!--	value="{path:'HeadSetData>/ExternalNumberOfClaim', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 40 } }"-->
 				<!--	required="true" editable="{DateModel>/oFormEdit}"/>-->
 				<!--<VBox id="oSearchId"></VBox>-->
-				<!--<custom:SearchAddressInput id="autocomplete"/>-->
+				<custom:SearchAddressInput id="autocomplete"/>
 				<!--<html:Input id="autocomplete" placeholder="Enter your address" onFocus="geolocate()" type="text"/>-->
 				<core:Title text=""/>
 				<Label text="City"/>
 				<Input maxLength="40" id="locality" value="" required="true" editable="{DateModel>/oFormEdit}"/>
 				<core:Title text=""/>
+				<Label text="Province"/>
+				<Input maxLength="40" id="province" value="" required="true" editable="{DateModel>/oFormEdit}"/>
+				<core:Title text=""/>
 				<Label text="Postal Code"/>
-				<Input maxLength="40" id="postal_code" value="" required="true" editable="{DateModel>/oFormEdit}"/>
+				<Input maxLength="8" id="postal_code" change="onEnterPostalCode"
+					value="{path:'HeadSetData>/PostalCode', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 8 } }" required="true"
+					editable="{DateModel>/oFormEdit}"/>
 				<core:Title text=""/>
 				<Label text="Quote Date"/>
 				<DatePicker class="clDatePicker" required="true" change="onChangeDate"

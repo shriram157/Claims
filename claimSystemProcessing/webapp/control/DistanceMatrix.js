@@ -24,31 +24,16 @@ sap.ui.define(
 			onAfterRendering: function () {
 				var that = this;
 				var sBaseUrl = `https://maps.googleapis.com/maps/api/js?key=${this.getKey()}&sensor=false`;
-				// fetch(sBaseUrl, {
-				// 		header: 'Access-Control-Allow-Origin'
-				// 	})
-				// 	.then(response => {
-				// 		return response.json();
-				// 	})
-				// 	.then(data => {
-
-				// 		console.log(data);
-				// 	})
-				// 	.catch(err => {
-				// 		console.log(err);
-
-				// 	});
-				//var oCallBack = this.callback().bind(this);
 				this._loadScript(sBaseUrl).then(function () {
-					var from = new google.maps.LatLng(46.5610058, 26.9098054);
-					var fromName = 'Bacau';
-					var dest = new google.maps.LatLng(44.391403, 26.1157184);
-					var destName = 'Bucuresti';
+					//var from = new google.maps.LatLng(46.5610058, 26.9098054);
+					var fromName = that.getOrigin();
+					//var dest = new google.maps.LatLng(44.391403, 26.1157184);
+					var destName = that.getDestination();
 
 					var service = new google.maps.DistanceMatrixService();
 					service.getDistanceMatrix({
-						origins: [from, fromName],
-						destinations: [destName, dest],
+						origins: [fromName],
+						destinations: [destName],
 						travelMode: 'DRIVING'
 					}, function (response, status) {
 						if (status == 'OK') {

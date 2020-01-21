@@ -1,0 +1,163 @@
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:u="sap.ui.unified" xmlns:l="sap.ui.layout"
+	xmlns="sap.m" xmlns:table="sap.ui.table" xmlns:customPart="zclaimProcessing.control">
+	<VBox class="sapUiSmallMargin clFormTitleGap" busy="{LocalDataModel>/oSavePartIndicator}">
+		<Panel width="100%" class="sapUiSmallMarginBottom">
+			<headerToolbar>
+				<Toolbar height="3rem">
+					<Title text="{i18n>ClaimDetails}"/>
+					<ToolbarSpacer/>
+					<Title text="{LocalDataModel>/WarrantyClaimNumber}" textAlign="End"/>
+				</Toolbar>
+			</headerToolbar>
+			<f:SimpleForm editable="true" layout="ResponsiveGridLayout" title="" labelSpanXL="6" labelSpanL="6" labelSpanM="12" labelSpanS="12"
+				adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="4" columnsL="4" columnsM="4"
+				singleContainerFullSize="false">
+				<f:content>
+					<core:Title text=""/>
+					<Label text="{i18n>TCIClaim}"/>
+					<Text text="{HeadSetData>/NumberOfWarrantyClaim}"/>
+					<core:Title text=""/>
+					<Label text="{i18n>DealerInvoice}"/>
+					<Text text="{HeadSetData>/ExternalNumberOfClaim}"/>
+					<Label text="{i18n>DealerInvoiceDate}"/>
+					<Text text="{HeadSetData>/ExternalNumberOfClaim}"/>
+					<core:Title text=""/>
+					<Label text="{i18n>Type}"/>
+					<Text text="{HeadSetData>/WarrantyClaimType}"/>
+					<Label text="{i18n>Status}"/>
+					<Text text="{HeadSetData>/DecisionCode}"/>
+					<core:Title text=""/>
+					<Label text="{i18n>ClaimTypeDescription}"/>
+					<Text text="{HeadSetData>/WarrantyClaimType}"/>
+					<Label text="{i18n>StatusDescription}"/>
+					<Text text="{HeadSetData>/DecisionCode}"/>
+				</f:content>
+			</f:SimpleForm>
+		</Panel>
+		<f:SimpleForm editable="true" class=" sapUiTinyMarginBottom" layout="ResponsiveGridLayout" title="{i18n>PartsDetails}" labelSpanXL="7"
+			labelSpanL="7" labelSpanM="12" labelSpanS="12" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="6" columnsL="6"
+			columnsM="6">
+			<f:content>
+				<core:Title text=""/>
+				<Button text="{i18n>AddPartLine}" visible="{DateModel>/oAddPartLine}" press="onPressAddPart" enabled="{DateModel>/oFormEdit}"/>
+				<core:Title text=""/>
+				<Button text="{i18n>UpdatePartLine}" visible="{DateModel>/oUpdatePartLine}" press="onPressUpdatePart" enabled="{DateModel>/oFormEdit}"/>
+				<core:Title text=""/>
+				<Button text="{i18n>DeletePartLine}" type="Reject" press="onPressDeletePart" enabled="{DateModel>/oFormEdit}"/>
+				<!--<core:Title text=""/>-->
+				<!--<Button text="{i18n>GeneratePackingSlip}" press="onPressPackingSlip" visible="{DateModel>/oSlipVisible}"/>-->
+				<core:Title text=""/>
+				<Label text="{i18n>PartsMarkup}"/>
+				<Text text="{path:'LocalDataModel>/PricingDataModel/0/PartPer', formatter:'zclaimProcessing.utils.formatter.fnFormatPercent'}"/>
+				<core:Title text=""/>
+				<Button text="{i18n>SaveClaim}" type="Emphasized" press="onPressSavePart" enabled="{DateModel>/partLine}"/>
+			</f:content>
+		</f:SimpleForm>
+		<!--<HBox justifyContent="End" width="100%">-->
+		<!--<Button text="Add Part Line" type="Emphasized" press="onPressAddLabour"/>-->
+		<!--	<Button text="Save Claim" type="Emphasized" press="onPressSaveClaimItem"/>-->
+		<!--</HBox>-->
+		<l:Grid containerQuery="true" defaultSpan="XL12 L12 M12 S12">
+			<VBox class="clBgColor" wrap="Wrap" displayInline="true" alignContent="Center" visible="true" width="100%">
+				<f:SimpleForm editable="true" class="sapUiResponsiveMargin ClsubHeadingLineHeight" width="100%" layout="ResponsiveGridLayout" title=""
+					labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="5"
+					columnsL="6" columnsM="5">
+					<f:content>
+						<core:Title text=""/>
+						<Label text="Line" textAlign="Left">
+							<layoutData>
+								<l:GridData span="XL3 L3 M6 "/>
+							</layoutData>
+						</Label>
+						<Text text="">
+							<layoutData>
+								<l:GridData span="XL3 L3 M6 "/>
+							</layoutData>
+						</Text>
+						<core:Title text=""/>
+						<Label text="{i18n>PartNumber}" textAlign="Left"/>
+						<Input value="{PartDataModel>/matnr}" editable="{DateModel>/editablePartNumber}" required="true" id="idPartNumber" showValueHelp="true"
+							valueHelpOnly="true" valueHelpRequest="handleValueHelp" enabled="{DateModel>/partLine}"/>
+						<Label text="{i18n>CompetitorPrice}" textAlign="Left"/>
+						<Input value="{PartDataModel>/CompetitorPrice}" editable="{DateModel>/editablePartNumber}"/>
+						<core:Title text=""/>
+						<Label text="{i18n>PartDescription}" textAlign="Left"/>
+						<Input value="{PartDataModel>/PartDescription}" editable="false" id="idPartDes"/>
+						<Label text="{i18n>Quantity}" textAlign="Left"/>
+						<customPart:CustomInput id="idPartQty" value="{PartDataModel>/quant}" enabled="{DateModel>/partLine}"/>
+						<Text text="{LocalDataModel>/BaseUnit}"/>
+						<core:Title text=""/>
+						<Label text="{i18n>PartManufacturer}" textAlign="Left"/>
+						<Input value="{PartDataModel>/PartManufacturer}" editable="false"/>
+						<Label text=" " class="clTextIndent"/>
+						<Button text="{i18n>SavePart}" type="Emphasized" press="onPressSavePart" enabled="{DateModel>/partLine}"></Button>
+						<core:Title text=""/>
+						<Label text="{i18n>PartType}" textAlign="Left"/>
+						<Input value="{PartDataModel>/PartType}" editable="false"/>
+						<Label text=" " class="clTextIndent"/>
+						<Button text="{i18n>Clear}" type="Default" press="onPressCancelPart" enabled="{DateModel>/partLine}">
+							<layoutData>
+								<l:GridData span="XL7 L8"/>
+							</layoutData>
+						</Button>
+						<!--<core:Title text=""/>-->
+						<!--<Label text="{i18n>DealerNetPrice}" textAlign="Left"/>-->
+						<!--<Input value="" editable="false"/>-->
+						<!--<layoutData>-->
+						<!--	<l:GridData span="XL10 L10 "/>-->
+						<!--</layoutData>-->
+					</f:content>
+				</f:SimpleForm>
+			</VBox>
+		</l:Grid>
+		<Table id="idTableParts" mode="SingleSelectLeft" items="{path: 'LocalDataModel>/PricingDataModel'}" growing="true" growingThreshold="20"
+			noDataText="No Data" showNoData="true">
+			<columns>
+				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Begin"><Text text="{i18n>Line}"/></Column>
+				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center"><Text text="{i18n>PartNumber}" textAlign="Center"/></Column>
+				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center"><Text text="{i18n>Description}" textAlign="Center"/></Column>
+				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center"><Text text="{i18n>Manufacturer}" textAlign="Center"/></Column>
+				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center"><Text text="{i18n>Type}" textAlign="Center"/></Column>
+				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+					<Text text="{LocalDataModel>/DealerPriceText}" textAlign="Center"/>
+				</Column>
+				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center"><Text text="{i18n>MSRP}" textAlign="Center"/></Column>
+				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center"><Text text="{i18n>CompetitorPrice}" textAlign="Center"/></Column>
+				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center"><Text text="{i18n>DifferenceTire}"/>
+					<footer><Text text="{path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnDiffVal'}" textAlign="Center"/></footer>
+				</Column>
+				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center"><Text text="{i18n>Quantity}" textAlign="Center"/>
+					<footer><Text text="{i18n>Subtotal}" textAlign="Center"/></footer>
+				</Column>
+				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center"><Text text="{i18n>TotalDifferences}" textAlign="Center"/></Column>
+				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center"><Text text="{i18n>TCIAmountApproved}" textAlign="Center"/>
+					<footer><Text text="{path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnTCIAmtVal'}" textAlign="Center"/></footer>
+				</Column>
+			</columns>
+			<items>
+				<ColumnListItem vAlign="Middle">
+					<cells>
+						<Text text="{LocalDataModel>posnr}" textAlign="Center"/>
+						<Text text="{LocalDataModel>matnr}" wrapping="true" textAlign="Center"/>
+						<Text text="{LocalDataModel>PartDescription}" wrapping="true" textAlign="Center"/>
+						<Text text="${LocalDataModel>DealerNet}" wrapping="true" textAlign="Center"/>
+						<Text text="{path:'LocalDataModel>QtyHrs', formatter:'zclaimProcessing.utils.formatter.fnFormatDecimal'}" wrapping="true" textAlign="Center"/>
+						<Text text="${LocalDataModel>ExtendedValue}" wrapping="true" textAlign="Center"/>
+						<Text text="${LocalDataModel>MarkUp}" wrapping="true" textAlign="Center"/>
+						<Text text="${LocalDataModel>AmtClaimed}" wrapping="true" textAlign="Center"/>
+						<Text text="${LocalDataModel>TotalAfterDisct}" wrapping="true" textAlign="Center"/>
+						<Button visible="{DateModel>/oTciQtyAppr}" iconFirst="false" text="{LocalDataModel>TCIApprQty}" icon="sap-icon://notification"
+							type="Transparent" press="onPressTCIQty"/>
+						<!--<Text visible="{DateModel>/oTciQtyAppr}" text="{LocalDataModel>TCIApprQty}" wrapping="true" textAlign="Center"  />-->
+						<Text text="${LocalDataModel>TCIApprAmt}" wrapping="true" textAlign="Center"/>
+						<Text text="${LocalDataModel>DiffAmt}" wrapping="true" textAlign="Center"/>
+					</cells>
+				</ColumnListItem>
+			</items>
+		</Table>
+		<HBox alignContent="Center" justifyContent="Center" class="sapUiTinyMarginTop">
+			<Button class="sapUiTinyMarginBeginEnd" type="Back" press="onStep03Back" text="{i18n>Back}"/>
+			<Button class="sapUiTinyMarginBeginEnd" press="onStep03Next" text="{i18n>Next}" type="Emphasized"/>
+		</HBox>
+	</VBox>
+</core:FragmentDefinition>

@@ -26,7 +26,7 @@
 										</IconTabFilter>
 										<IconTabSeparator icon="sap-icon://open-command-field" visible="true"/>
 										<IconTabFilter icon="sap-icon://shelf" text="{i18n>Parts}" enabled="true" visible="true" id="idFilter03" key="Tab3">
-											<core:Fragment fragmentName="zclaimProcessing.view.fragments.Step03PartsWarrenty" type="XML"/>
+											<core:Fragment fragmentName="zclaimProcessing.view.fragments.Step03PartsPMP" type="XML"/>
 										</IconTabFilter>
 										<IconTabSeparator icon="sap-icon://open-command-field" visible="true"/>
 										<IconTabFilter icon="sap-icon://lead-outdated" text="{i18n>Rebate}" enabled="true" visible="true" id="idFilter04" key="Tab4">

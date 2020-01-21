@@ -55,7 +55,7 @@ sap.ui.define([
 							"UserDataModel").getProperty("/UserScope") == "ManageAllShowAuthorization") {
 						oClaimGroup = elements.filter(function (val) {
 							return val.ClaimGroup == "STR" || val.ClaimGroup == "WTY" || val.ClaimGroup == "CRC" || val.ClaimGroup == "VLC" || val.ClaimGroup ==
-								"ECP" ||
+								"ECP" || val.ClaimGroup == "PMP" ||
 								val.ClaimGroup == "FAC";
 						});
 					} else {
