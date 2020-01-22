@@ -193,7 +193,6 @@ sap.ui.define([
 			this.obj = {
 				"DBOperation": "SAVE",
 				"Message": "",
-
 				"WarrantyClaimType": this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType"),
 				"Partner": this.getModel("LocalDataModel").getProperty("/BpDealerModel/0/BusinessPartnerKey"),
 				"PartnerRole": "AS",
