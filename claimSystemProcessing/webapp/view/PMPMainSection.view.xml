@@ -33,7 +33,7 @@
 											<core:Fragment fragmentName="zclaimProcessing.view.fragments.Rebate" type="XML"/>
 										</IconTabFilter>
 										<IconTabSeparator icon="sap-icon://open-command-field"/>
-										<IconTabFilter icon="sap-icon://validate" text="{i18n>Validate}" enabled="false" id="idFilter07" key="Tab7">
+										<IconTabFilter icon="sap-icon://validate" text="{i18n>Validate}" enabled="true" id="idFilter07" key="Tab7">
 											<core:Fragment fragmentName="zclaimProcessing.view.fragments.Step07ValidateSubmit" type="XML"/>
 										</IconTabFilter>
 										<IconTabSeparator icon="sap-icon://open-command-field"/>
