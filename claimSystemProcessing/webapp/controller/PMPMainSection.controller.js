@@ -24,6 +24,26 @@ sap.ui.define([
 			partData.setDefaultBindingMode("TwoWay");
 			this.getView().setModel(partData, "PartDataModel");
 			this.getOwnerComponent().getRouter().attachRoutePatternMatched(this._onRoutMatched, this);
+			var oClaimModel = this.getModel("zDLRCLAIMPMPSRV");
+			oClaimModel.read("/zc_company_detailSet", {
+				success: $.proxy(function (data) {
+					this.getModel("LocalDataModel").setProperty("/company_detailSet", data.results);
+				}, this),
+				error: function (err) {
+					console.log(err);
+				}
+			});
+
+			var jsonTemplate = new sap.ui.model.json.JSONModel(jQuery.sap.getModulePath("zclaimProcessing/utils", "/Nodes.json"));
+			jsonTemplate.attachRequestCompleted($.proxy(function (oEvent) {
+				var ModelNEW = oEvent.getSource();
+				this.getModel("LocalDataModel").setProperty("/cities", ModelNEW.getData());
+
+			}, this));
+			console.log(jsonTemplate);
+			this.getView().setModel(jsonTemplate, "CityModel");
+			this.getView().getModel("CityModel").setSizeLimit(6000);
+
 		},
 		_onRoutMatched: function (oEvent) {
 			var HeadSetData = new sap.ui.model.json.JSONModel();
@@ -108,6 +128,10 @@ sap.ui.define([
 
 				}
 			}
+
+		},
+
+		onSelectCompetitorName: function (oEvent) {
 
 		},
 		_fnDateFormat: function (elm) {

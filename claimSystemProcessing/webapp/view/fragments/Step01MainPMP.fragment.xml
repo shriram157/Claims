@@ -54,9 +54,9 @@
 				<Label text="Part Manager Name"/>
 				<Input maxLength="40"
 					value="{path:'HeadSetData>/DealerContact', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 40 } }"
-					required="true" id="idDealerClaim" editable="{DateModel>/oFormEdit}"/>
+					id="idDealerClaim" editable="{DateModel>/oFormEdit}"/>
 				<Label text="Dealer Invoice"/>
-				<Input maxLength="30"
+				<Input maxLength="30" required="true"
 					value="{path:'HeadSetData>/DealerInvoice', type : 'sap.ui.model.type.String', constraints : { minLength : 2, maxLength : 30 }}"
 					id="idDealerInvoice" editable="{DateModel>/oFormEdit}" enabled="{DateModel>/oDealerContactReq}"/>
 				<!--constraints: { displayFormat: 'Date' }-->
@@ -78,35 +78,53 @@
 			<f:content >
 				<core:Title text=""/>
 				<Label text="Name"/>
-				<Input maxLength="40"
-					value="{path:'HeadSetData>/CompetitorName', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 40 } }"
-					required="true" editable="{DateModel>/oFormEdit}"/>
+				<!--<Input maxLength="40"-->
+				<!--	value="{path:'HeadSetData>/CompetitorName', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 40 } }"-->
+				<!--	required="true" editable="{DateModel>/oFormEdit}"/>-->
+				<custom:CustomCombo showSecondaryValues="true" id="idCompetitorName" items="{path:'LocalDataModel>/company_detailSet'}"
+					selectionChange="onSelectCompetitorName" selectedKey="HeadSetData>/CompetitorName" enabled="{DateModel>/claimTypeEn}"
+					valueState="{DateModel>/claimTypeState}"
+					value="{path:'HeadSetData>/CompetitorName', type : 'sap.ui.model.type.String', constraints : { minLength : 2, maxLength : 50 } }">
+					<core:ListItem text="{LocalDataModel>CompetitorName}" key="{LocalDataModel>CompetitorName}"/>
+				</custom:CustomCombo>
 				<core:Title text=""/>
 				<Label text="Address"/>
 				<Input maxLength="40"
 					value="{path:'HeadSetData>/CompetitorAddr', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 40 } }"
-					required="true" editable="{DateModel>/oFormEdit}"/>
+					editable="{DateModel>/oFormEdit}"/>
 				<!--<VBox id="oSearchId"></VBox>-->
 				<!--<custom:SearchAddressInput id="autocomplete"/>-->
 				<!--<html:Input id="autocomplete" placeholder="Enter your address" onFocus="geolocate()" type="text"/>-->
 				<core:Title text=""/>
 				<Label text="City"/>
-				<Input maxLength="40" id="idCity"
-					value="{path:'HeadSetData>/CompetitorCity', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 60 } }"
-					required="true" editable="{DateModel>/oFormEdit}"/>
+				<!--<Input maxLength="40" id="idCity"-->
+				<!--	value="{path:'HeadSetData>/CompetitorCity', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 60 } }"-->
+				<!--	required="true" editable="{DateModel>/oFormEdit}"/>-->
+				<custom:CustomCombo showSecondaryValues="true" id="idCompetitorCities" items="{path:'LocalDataModel>/cities'}"
+					selectionChange="onSelectCompetitorName" selectedKey="HeadSetData>/CompetitorCity" enabled="{DateModel>/claimTypeEn}"
+					valueState="{DateModel>/claimTypeState}"
+					value="{path:'HeadSetData>/CompetitorCity', type : 'sap.ui.model.type.String', constraints : { minLength : 2, maxLength : 50 } }">
+					<core:ListItem text="{LocalDataModel>city}" key="{LocalDataModel>city}"/>
+				</custom:CustomCombo>
 				<core:Title text=""/>
 				<Label text="Province"/>
-				<Input maxLength="40" id="province"
-					value="{path:'HeadSetData>/CompetitorProv', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 60 } }"
-					required="true" editable="{DateModel>/oFormEdit}"/>
+				<!--<Input maxLength="40" id="province"-->
+				<!--	value="{path:'HeadSetData>/CompetitorProv', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 60 } }"-->
+				<!--	required="true" editable="{DateModel>/oFormEdit}"/>-->
+				<custom:CustomCombo showSecondaryValues="true" id="idCompetitorProvince" items="{path:'LocalDataModel>/cities'}"
+					selectionChange="onSelectCompetitorName" selectedKey="HeadSetData>/CompetitorProv" enabled="{DateModel>/claimTypeEn}"
+					valueState="{DateModel>/claimTypeState}"
+					value="{path:'HeadSetData>/CompetitorProv', type : 'sap.ui.model.type.String', constraints : { minLength : 2, maxLength : 50 } }">
+					<core:ListItem text="{LocalDataModel>admin}" key="{LocalDataModel>admin}"/>
+				</custom:CustomCombo>
 				<core:Title text=""/>
 				<Label text="Postal Code"/>
 				<Input maxLength="8" id="postal_code" change="onEnterPostalCode"
 					value="{path:'HeadSetData>/CompetitorPost', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 8 } }"
-					required="true" editable="{DateModel>/oFormEdit}"/>
+					editable="{DateModel>/oFormEdit}"/>
 				<core:Title text=""/>
 				<Label text="Quote Date"/>
-				<DatePicker class="clDatePicker" required="true"
+				<DatePicker class="clDatePicker"
 					value="{path:'HeadSetData>/QuoteDate', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'yyyy-MM-dd', strictParsing: true, UTC: true}}"
 					editable="{DateModel>/oFormEdit}" visible="{DateModel>/oVisibleRepDate}"/>
 			</f:content>
