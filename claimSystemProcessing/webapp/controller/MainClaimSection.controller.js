@@ -1122,7 +1122,7 @@ sap.ui.define([
 							if (sap.ui.getCore().getModel("UserDataModel").getProperty(
 									"/LoggedInUser") == "Dealer_Services_Manager" || sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") ==
 								"Dealer_Services_Admin" || sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") ==
-								"Dealer_Service_Parts_Admin") {
+								"Dealer_Parts_Services_Admin") {
 								this.getView().getModel("DateModel").setProperty("/copyClaimEnable", true);
 							}
 
@@ -6167,7 +6167,7 @@ sap.ui.define([
 					that.getView().getModel("HeadSetData").getProperty("/DecisionCode") == "ZTRC" && sap.ui.getCore().getModel("UserDataModel").getProperty(
 						"/LoggedInUser") == "Dealer_Services_Manager" ||
 					that.getView().getModel("HeadSetData").getProperty("/DecisionCode") == "ZTIC" && sap.ui.getCore().getModel("UserDataModel").getProperty(
-						"/LoggedInUser") == "Dealer_Service_Parts_Admin"
+						"/LoggedInUser") == "Dealer_Parts_Services_Admin"
 
 				) {
 					var dialog = new Dialog({
