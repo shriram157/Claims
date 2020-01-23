@@ -591,9 +591,9 @@ sap.ui.define([
 								this.ClaimStatus == "ZTIC" && sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") ==
 								"Dealer_Parts_Admin" ||
 								this.ClaimStatus == "ZTRC" &&
-								sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") == "Dealer_Service_Parts_Admin" ||
+								sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") == "Dealer_Parts_Services_Admin" ||
 								this.ClaimStatus == "ZTIC" && sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") ==
-								"Dealer_Service_Parts_Admin"
+								"Dealer_Parts_Services_Admin"
 
 							) {
 								//code here
@@ -4300,9 +4300,9 @@ sap.ui.define([
 						this.ClaimStatus == "ZTRC" && sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") == "Dealer_Parts_Admin" ||
 						this.ClaimStatus == "ZTIC" && sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") == "Dealer_Parts_Admin" ||
 						this.ClaimStatus == "ZTRC" && sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") ==
-						"Dealer_Service_Parts_Admin" ||
+						"Dealer_Parts_Services_Admin" ||
 						this.ClaimStatus == "ZTIC" && sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") ==
-						"Dealer_Service_Parts_Admin"
+						"Dealer_Parts_Services_Admin"
 
 					) {
 
@@ -4665,9 +4665,9 @@ sap.ui.define([
 					that.getView().getModel("HeadSetData").getProperty("/DecisionCode") == "ZTRC" &&
 					sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") == "Dealer_Parts_Admin" ||
 					that.getView().getModel("HeadSetData").getProperty("/DecisionCode") == "ZTIC" &&
-					sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") == "Dealer_Service_Parts_Admin" ||
+					sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") == "Dealer_Parts_Services_Admin" ||
 					that.getView().getModel("HeadSetData").getProperty("/DecisionCode") == "ZTRC" &&
-					sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") == "Dealer_Service_Parts_Admin"
+					sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") == "Dealer_Parts_Services_Admin"
 
 				) {
 					var dialog = new Dialog({
