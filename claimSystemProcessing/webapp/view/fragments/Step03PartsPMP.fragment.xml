@@ -6,7 +6,7 @@
 				<Toolbar height="3rem">
 					<Title text="{i18n>ClaimDetails}"/>
 					<ToolbarSpacer/>
-					<Title text="{LocalDataModel>/WarrantyClaimNumber}" textAlign="End"/>
+					<Title text="{HeadSetData>/NumberOfWarrantyClaim}" textAlign="End"/>
 				</Toolbar>
 			</headerToolbar>
 			<f:SimpleForm editable="true" layout="ResponsiveGridLayout" title="" labelSpanXL="6" labelSpanL="6" labelSpanM="12" labelSpanS="12"
@@ -78,22 +78,22 @@
 						<Label text="{i18n>PartNumber}" textAlign="Left"/>
 						<Input value="{PartDataModel>/matnr}" editable="{DateModel>/editablePartNumber}" required="true" id="idPartNumber" showValueHelp="true"
 							valueHelpOnly="true" valueHelpRequest="handleValueHelp" enabled="{DateModel>/partLine}"/>
-						<Label text="{i18n>CompetitorPrice}" textAlign="Left"/>
-						<Input value="{PartDataModel>/CompetitorPrice}" editable="{DateModel>/editablePartNumber}"/>
+						<Label text="{i18n>CompetitorPriceTire}" textAlign="Left"/>
+						<Input value="{PartDataModel>/CompetitorPrice}" editable="{DateModel>/editablePartNumber}" enabled="{DateModel>/partLine}"/>
 						<core:Title text=""/>
 						<Label text="{i18n>PartDescription}" textAlign="Left"/>
-						<Input value="{PartDataModel>/PartDescription}" editable="false" id="idPartDes"/>
+						<Input value="{PartDataModel>/PartDescription}" id="idPartDes" enabled="{DateModel>/partLine}"/>
 						<Label text="{i18n>Quantity}" textAlign="Left"/>
 						<customPart:CustomInput id="idPartQty" value="{PartDataModel>/quant}" enabled="{DateModel>/partLine}"/>
 						<Text text="{LocalDataModel>/BaseUnit}"/>
 						<core:Title text=""/>
 						<Label text="{i18n>PartManufacturer}" textAlign="Left"/>
-						<Input value="{PartDataModel>/PartManufacturer}" editable="false"/>
+						<Input value="{PartDataModel>/PartManufacturer}" enabled="{DateModel>/partLine}"/>
 						<Label text=" " class="clTextIndent"/>
 						<Button text="{i18n>SavePart}" type="Emphasized" press="onPressSavePart" enabled="{DateModel>/partLine}"></Button>
 						<core:Title text=""/>
 						<Label text="{i18n>PartType}" textAlign="Left"/>
-						<Input value="{PartDataModel>/PartType}" editable="false"/>
+						<Input value="{PartDataModel>/PartType}" enabled="{DateModel>/partLine}"/>
 						<Label text=" " class="clTextIndent"/>
 						<Button text="{i18n>Clear}" type="Default" press="onPressCancelPart" enabled="{DateModel>/partLine}">
 							<layoutData>
@@ -119,15 +119,15 @@
 				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center"><Text text="{i18n>Manufacturer}" textAlign="Center"/></Column>
 				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center"><Text text="{i18n>Type}" textAlign="Center"/></Column>
 				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
-					<Text text="{LocalDataModel>/DealerPriceText}" textAlign="Center"/>
+					<Text text="{i18n>DealerNetPrice}" textAlign="Center"/>
+				</Column>
+				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center"><Text text="{i18n>Quantity}" textAlign="Center"/>
+					<footer><Text text="{i18n>Subtotal}" textAlign="Center"/></footer>
 				</Column>
 				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center"><Text text="{i18n>MSRP}" textAlign="Center"/></Column>
 				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center"><Text text="{i18n>CompetitorPrice}" textAlign="Center"/></Column>
 				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center"><Text text="{i18n>DifferenceTire}"/>
 					<footer><Text text="{path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnDiffVal'}" textAlign="Center"/></footer>
-				</Column>
-				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center"><Text text="{i18n>Quantity}" textAlign="Center"/>
-					<footer><Text text="{i18n>Subtotal}" textAlign="Center"/></footer>
 				</Column>
 				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center"><Text text="{i18n>TotalDifferences}" textAlign="Center"/></Column>
 				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center"><Text text="{i18n>TCIAmountApproved}" textAlign="Center"/>
@@ -140,17 +140,25 @@
 						<Text text="{LocalDataModel>posnr}" textAlign="Center"/>
 						<Text text="{LocalDataModel>matnr}" wrapping="true" textAlign="Center"/>
 						<Text text="{LocalDataModel>PartDescription}" wrapping="true" textAlign="Center"/>
+						<Text text="{LocalDataModel>PartManufacturer}" wrapping="true" textAlign="Center"/>
+						<Text text="{LocalDataModel>PartType}" wrapping="true" textAlign="Center"/>
 						<Text text="${LocalDataModel>DealerNet}" wrapping="true" textAlign="Center"/>
 						<Text text="{path:'LocalDataModel>QtyHrs', formatter:'zclaimProcessing.utils.formatter.fnFormatDecimal'}" wrapping="true" textAlign="Center"/>
 						<Text text="${LocalDataModel>ExtendedValue}" wrapping="true" textAlign="Center"/>
 						<Text text="${LocalDataModel>MarkUp}" wrapping="true" textAlign="Center"/>
-						<Text text="${LocalDataModel>AmtClaimed}" wrapping="true" textAlign="Center"/>
-						<Text text="${LocalDataModel>TotalAfterDisct}" wrapping="true" textAlign="Center"/>
-						<Button visible="{DateModel>/oTciQtyAppr}" iconFirst="false" text="{LocalDataModel>TCIApprQty}" icon="sap-icon://notification"
-							type="Transparent" press="onPressTCIQty"/>
-						<!--<Text visible="{DateModel>/oTciQtyAppr}" text="{LocalDataModel>TCIApprQty}" wrapping="true" textAlign="Center"  />-->
-						<Text text="${LocalDataModel>TCIApprAmt}" wrapping="true" textAlign="Center"/>
+						<Text text="${LocalDataModel>DealerNet}" wrapping="true" textAlign="Center"/>
 						<Text text="${LocalDataModel>DiffAmt}" wrapping="true" textAlign="Center"/>
+						<Text text="${LocalDataModel>TCIApprAmt}" wrapping="true" textAlign="Center"/>
+						<!--<Text text="{path:'LocalDataModel>QtyHrs', formatter:'zclaimProcessing.utils.formatter.fnFormatDecimal'}" wrapping="true" textAlign="Center"/>-->
+						<!--<Text text="${LocalDataModel>ExtendedValue}" wrapping="true" textAlign="Center"/>-->
+						<!--<Text text="${LocalDataModel>MarkUp}" wrapping="true" textAlign="Center"/>-->
+						<!--<Text text="${LocalDataModel>AmtClaimed}" wrapping="true" textAlign="Center"/>-->
+						<!--<Text text="${LocalDataModel>TotalAfterDisct}" wrapping="true" textAlign="Center"/>-->
+						<!--<Button visible="{DateModel>/oTciQtyAppr}" iconFirst="false" text="{LocalDataModel>TCIApprQty}" icon="sap-icon://notification"-->
+						<!--	type="Transparent" press="onPressTCIQty"/>-->
+						<!--<Text visible="{DateModel>/oTciQtyAppr}" text="{LocalDataModel>TCIApprQty}" wrapping="true" textAlign="Center"  />-->
+						<!--<Text text="${LocalDataModel>TCIApprAmt}" wrapping="true" textAlign="Center"/>-->
+						<!--<Text text="${LocalDataModel>DiffAmt}" wrapping="true" textAlign="Center"/>-->
 					</cells>
 				</ColumnListItem>
 			</items>

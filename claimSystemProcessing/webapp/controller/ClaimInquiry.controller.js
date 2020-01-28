@@ -14,6 +14,8 @@ sap.ui.define([
 		 */
 
 		onInit: function () {
+			var input = $("#autocomplete")[0];
+			var complete = new google.maps.places.Autocomplete(input);
 			this.getDealer();
 			this.getView().setModel(sap.ui.getCore().getModel("HeaderLinksModel"), "HeaderLinksModel");
 			this.getView().setModel(this.getModel("ProssingModel"));

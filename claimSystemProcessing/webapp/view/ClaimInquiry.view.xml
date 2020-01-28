@@ -1,8 +1,9 @@
 <mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" controllerName="zclaimProcessing.controller.ClaimInquiry"
 	xmlns:html="http://www.w3.org/1999/xhtml" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:uxap="sap.uxap"
-	xmlns:table="sap.ui.table" xmlns:raprincis="zclaimProcessing.control">
+	xmlns:table="sap.ui.table">
 	<!--xmlns:raprincis="zclaimProcessing.control"-->
 	<core:Fragment fragmentName="zclaimProcessing.view.fragments.ToolHeader" type="XML"/>
+	<html:Input id="autocomplete"/>
 	<uxap:ObjectPageLayout id="ObjectPageLayout" enableLazyLoading="true">
 		<uxap:sections>
 			<uxap:ObjectPageSection title="{i18n>ClaimInquiry}">
@@ -17,7 +18,7 @@
 									emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="3" columnsL="3" columnsM="1" singleContainerFullSize="false">
 									<f:content>
 										<!--<raprincis:GoogleMap key="AIzaSyAz7irkOJQ4ydE2dHYrg868QV5jUQ-5FaY" address="Place du Capitole 31000 Toulouse"/>-->
-										<raprincis:DistanceMatrix origin="M4C4Y7" destination="H1A0A2" key="AIzaSyAz7irkOJQ4ydE2dHYrg868QV5jUQ-5FaY"/>
+										<!--<raprincis:DistanceMatrix origin="M4C4Y7" destination="H1A0A2" key="AIzaSyAz7irkOJQ4ydE2dHYrg868QV5jUQ-5FaY"/>-->
 										<!--<custom:AddressAutoComplete type="text" placeholder="Enter your address" id="autocomplete"/>-->
 										<core:Title text=""/>
 										<Label text="{i18n>VIN}" textAlign="Begin"/>

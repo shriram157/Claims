@@ -6,7 +6,7 @@
 				<Toolbar height="3rem">
 					<Title text="{i18n>ClaimDetails}"/>
 					<ToolbarSpacer/>
-					<Title text="{LocalDataModel>/WarrantyClaimNumber}" textAlign="End"/>
+					<Title text="{HeadSetData>/NumberOfWarrantyClaim}" textAlign="End"/>
 				</Toolbar>
 			</headerToolbar>
 			<f:SimpleForm editable="true" layout="ResponsiveGridLayout" title="" labelSpanXL="6" labelSpanL="6" labelSpanM="12" labelSpanS="12"
@@ -40,6 +40,12 @@
 							<l:GridData span="XL8 L8 M12 S12"/>
 						</layoutData>
 					</Button>
+					<Button text="Save" id="idUpdateBtn" class="sapUiSmallMarginEnd" enabled="{DateModel>/updateEnable}" type="Emphasized" press="onUpdateClaim"
+						visible="{DateModel>/updateClaimSt}">
+						<layoutData>
+							<l:GridData span="XL8 L8 M12 S12"/>
+						</layoutData>
+					</Button>
 				</f:content>
 			</f:SimpleForm>
 		</Panel>
@@ -55,9 +61,9 @@
 				<Input maxLength="40"
 					value="{path:'HeadSetData>/DealerContact', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 40 } }"
 					id="idDealerClaim" editable="{DateModel>/oFormEdit}"/>
-				<Label text="Dealer Invoice"/>
-				<Input maxLength="30" required="true"
-					value="{path:'HeadSetData>/DealerInvoice', type : 'sap.ui.model.type.String', constraints : { minLength : 2, maxLength : 30 }}"
+				<Label text="{i18n>DealerInvoice}"/>
+				<Input maxLength="15" required="true"
+					value="{path:'HeadSetData>/DealerInvoice', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 15 }}"
 					id="idDealerInvoice" editable="{DateModel>/oFormEdit}" enabled="{DateModel>/oDealerContactReq}"/>
 				<!--constraints: { displayFormat: 'Date' }-->
 				<core:Title text=""/>
@@ -65,7 +71,7 @@
 				<Input required="true" maxLength="10"
 					value="{path:'HeadSetData>/DealerRO', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 10 }}" id="idDealerRO"
 					editable="{DateModel>/oFormEdit}"/>
-				<Label text="Dealer Invoice Date"/>
+				<Label text="{i18n>DealerInvoiceDate}"/>
 				<!--<DatePicker class="clDatePicker" required="true" value="{path:'HeadSetData>/RepairDate',type : 'sap.ui.model.type.Date'}" editable="{DateModel>/oFormEdit}"/>-->
 				<DatePicker class="clDatePicker" id="idDealerINVDate" required="true" change="onChangeDate"
 					value="{path:'HeadSetData>/DealerInvoiceDate', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'yyyy-MM-dd', strictParsing: true, UTC: true}}"
@@ -82,16 +88,13 @@
 				<!--	value="{path:'HeadSetData>/CompetitorName', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 40 } }"-->
 				<!--	required="true" editable="{DateModel>/oFormEdit}"/>-->
 				<custom:CustomCombo showSecondaryValues="true" id="idCompetitorName" items="{path:'LocalDataModel>/company_detailSet'}"
-					selectionChange="onSelectCompetitorName" selectedKey="HeadSetData>/CompetitorName" enabled="{DateModel>/claimTypeEn}"
-					valueState="{DateModel>/claimTypeState}"
-					value="{path:'HeadSetData>/CompetitorName', type : 'sap.ui.model.type.String', constraints : { minLength : 2, maxLength : 50 } }">
+					selectionChange="onSelectCompetitorName" selectedKey="HeadSetData>/CompetitorName"
+					value="{path:'HeadSetData>/CompetitorName', type : 'sap.ui.model.type.String'}">
 					<core:ListItem text="{LocalDataModel>CompetitorName}" key="{LocalDataModel>CompetitorName}"/>
 				</custom:CustomCombo>
 				<core:Title text=""/>
 				<Label text="Address"/>
-				<Input maxLength="40"
-					value="{path:'HeadSetData>/CompetitorAddr', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 40 } }"
-					editable="{DateModel>/oFormEdit}"/>
+				<Input value="{path:'HeadSetData>/CompetitorAddr', type : 'sap.ui.model.type.String' }" editable="{DateModel>/oFormEdit}"/>
 				<!--<VBox id="oSearchId"></VBox>-->
 				<!--<custom:SearchAddressInput id="autocomplete"/>-->
 				<!--<html:Input id="autocomplete" placeholder="Enter your address" onFocus="geolocate()" type="text"/>-->
@@ -100,28 +103,25 @@
 				<!--<Input maxLength="40" id="idCity"-->
 				<!--	value="{path:'HeadSetData>/CompetitorCity', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 60 } }"-->
 				<!--	required="true" editable="{DateModel>/oFormEdit}"/>-->
-				<custom:CustomCombo showSecondaryValues="true" id="idCompetitorCities" items="{path:'LocalDataModel>/cities'}"
-					selectionChange="onSelectCompetitorName" selectedKey="HeadSetData>/CompetitorCity" enabled="{DateModel>/claimTypeEn}"
-					valueState="{DateModel>/claimTypeState}"
-					value="{path:'HeadSetData>/CompetitorCity', type : 'sap.ui.model.type.String', constraints : { minLength : 2, maxLength : 50 } }">
+				<ComboBox showSecondaryValues="true" id="idCompetitorCities" items="{path:'LocalDataModel>/cities'}"
+					selectionChange="onSelectCompetitorCity" selectedKey="HeadSetData>/CompetitorCity" enabled="{DateModel>/claimTypeEn}"
+					value="{path:'HeadSetData>/CompetitorCity', type : 'sap.ui.model.type.String'}">
 					<core:ListItem text="{LocalDataModel>city}" key="{LocalDataModel>city}"/>
-				</custom:CustomCombo>
+				</ComboBox>
 				<core:Title text=""/>
 				<Label text="Province"/>
 				<!--<Input maxLength="40" id="province"-->
 				<!--	value="{path:'HeadSetData>/CompetitorProv', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 60 } }"-->
 				<!--	required="true" editable="{DateModel>/oFormEdit}"/>-->
-				<custom:CustomCombo showSecondaryValues="true" id="idCompetitorProvince" items="{path:'LocalDataModel>/cities'}"
-					selectionChange="onSelectCompetitorName" selectedKey="HeadSetData>/CompetitorProv" enabled="{DateModel>/claimTypeEn}"
-					valueState="{DateModel>/claimTypeState}"
-					value="{path:'HeadSetData>/CompetitorProv', type : 'sap.ui.model.type.String', constraints : { minLength : 2, maxLength : 50 } }">
+				<ComboBox showSecondaryValues="true" id="idCompetitorProvince" items="{path:'LocalDataModel>/ProviceSet'}"
+					selectedKey="HeadSetData>/CompetitorProv" enabled="{DateModel>/claimTypeEn}"
+					value="{path:'HeadSetData>/CompetitorProv', type : 'sap.ui.model.type.String' }">
 					<core:ListItem text="{LocalDataModel>admin}" key="{LocalDataModel>admin}"/>
-				</custom:CustomCombo>
+				</ComboBox>
 				<core:Title text=""/>
 				<Label text="Postal Code"/>
 				<Input maxLength="8" id="postal_code" change="onEnterPostalCode"
-					value="{path:'HeadSetData>/CompetitorPost', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 8 } }"
-					editable="{DateModel>/oFormEdit}"/>
+					value="{path:'HeadSetData>/CompetitorPost', type : 'sap.ui.model.type.String'}" editable="{DateModel>/oFormEdit}"/>
 				<core:Title text=""/>
 				<Label text="Quote Date"/>
 				<DatePicker class="clDatePicker"
@@ -129,6 +129,16 @@
 					editable="{DateModel>/oFormEdit}" visible="{DateModel>/oVisibleRepDate}"/>
 			</f:content>
 		</f:SimpleForm>
+		<VBox id="idAddressAuto"></VBox>
+		<VBox>
+			<HBox id="idDist" justifyContent="Center">
+				<!--<Label text="Distance Between Dealer Competitor :" class="sapUiSmallMarginEnd" visible="{DateModel>/lableVisible}"/>-->
+				<custom:DistanceMatrix id="idPostalDistInput" origin="{LocalDataModel>/dealerPostalCode}" destination="{HeadSetData>/CompetitorPost}"
+					key="AIzaSyAz7irkOJQ4ydE2dHYrg868QV5jUQ-5FaY" class="sapUiSmallMarginEnd" text=""/>
+				<!--<Text class="clTextSize" text="(Note : Competitor must be within 80KM of your dealership)" textAlign="Center"-->
+				<!--	visible="{DateModel>/lableVisible}"/>-->
+			</HBox>
+		</VBox>
 		<Panel backgroundDesign="Transparent" headerText="{i18n>ClaimComments}" expandable="true" class="sapUiSizeCompact clCommentFix">
 			<content>
 				<FeedInput post=".onPost" enabled="{LocalDataModel>/FeedEnabled}"/>

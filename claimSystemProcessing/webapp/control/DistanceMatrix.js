@@ -1,11 +1,14 @@
 sap.ui.define(
-	["sap/m/Input"],
-	function (Input) {
+	["sap/m/Text"],
+	function (Text) {
 		"use strict";
-		return Input.extend("zclaimProcessing.control.DistanceMatrix", {
+		return Text.extend("zclaimProcessing.control.DistanceMatrix", {
 			metadata: {
 				properties: {
-					"key": "string",
+					"key": {
+						type: "string"
+
+					},
 					"origin": "string",
 					"destination": "string",
 					"distance": {
@@ -50,7 +53,11 @@ sap.ui.define(
 									var from = origins[i];
 									var to = destinations[j];
 									console.log(distance, duration);
-									that.setValue(distance);
+									if (origins != "" && destinations != "") {
+										that.setText(distance);
+									} else {
+										that.setText("");
+									}
 
 								}
 							}
@@ -60,7 +67,7 @@ sap.ui.define(
 
 			},
 
-			renderer: "sap.m.InputRenderer",
+			renderer: "sap.m.TextRenderer",
 			_loadScript: function (sUrl) {
 				return new Promise(function (resolve, reject) {
 					try {

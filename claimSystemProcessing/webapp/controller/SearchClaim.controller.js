@@ -862,6 +862,15 @@ sap.ui.define([
 							oClaimNav: "Details"
 
 						});
+					}
+					if (oClaimType == "ZSPM") {
+						this.getOwnerComponent().getRouter().navTo("PMPMainSection", {
+							claimNum: oClaimNum,
+							oKey: oClaimType,
+							oClaimGroup: this.oSelectedClaimGroup,
+							oClaimNav: "Details"
+
+						});
 					} else {
 						this.getOwnerComponent().getRouter().navTo("MainClaimSection", {
 							claimNum: oClaimNum,
