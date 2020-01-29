@@ -42,7 +42,7 @@ sap.ui.define([
 			var sLocation_conf = sLocation.search("webide");
 
 			if (sLocation_conf == 0) {
-				mConfig.uri = "/Claim_Destination2" + mConfig.uri;
+				mConfig.uri = "/Claim_Destination" + mConfig.uri;
 			} else {
 
 			}
@@ -59,7 +59,7 @@ sap.ui.define([
 			var mConfig01 = this.getMetadata().getManifestEntry("/sap.app/dataSources/API_BUSINESS_PARTNER");
 
 			if (sLocation_conf == 0) {
-				mConfig01.uri = "/Claim_Destination2" + mConfig01.uri;
+				mConfig01.uri = "/Claim_Destination" + mConfig01.uri;
 			} else {
 
 			} // facilitate local testing.
@@ -75,7 +75,7 @@ sap.ui.define([
 
 			var mConfig02 = this.getMetadata().getManifestEntry("/sap.app/dataSources/MD_PRODUCT_FS_SRV");
 			if (sLocation_conf == 0) {
-				mConfig02.uri = "/Claim_Destination2" + mConfig02.uri;
+				mConfig02.uri = "/Claim_Destination" + mConfig02.uri;
 			} else {
 
 			} // facilitate local testing.
@@ -89,27 +89,27 @@ sap.ui.define([
 			});
 			this.setModel(oDataModel02, "ProductMaster");
 
-			var mConfig04 = this.getMetadata().getManifestEntry("/sap.app/dataSources/Z_VEHICLE_MASTER_SRV");
-			if (sLocation_conf == 0) {
-				mConfig04.uri = "/Claim_Destination2" + mConfig04.uri;
-			}
-			var oDataModel04 = new ODataModel(mConfig04.uri, {
-				useBatch: false,
-				json: true,
-				headers: {
-					"X-Requested-With": "XMLHttpRequest"
-				}
-			});
+			// 			var mConfig04 = this.getMetadata().getManifestEntry("/sap.app/dataSources/Z_VEHICLE_MASTER_SRV");
+			// 			if (sLocation_conf == 0) {
+			// 				mConfig04.uri = "/Claim_Destination2" + mConfig04.uri;
+			// 			}
+			// 			var oDataModel04 = new ODataModel(mConfig04.uri, {
+			// 				useBatch: false,
+			// 				json: true,
+			// 				headers: {
+			// 					"X-Requested-With": "XMLHttpRequest"
+			// 				}
+			// 			});
 
-			this.setModel(oDataModel04, "ZVehicleMasterModel");
+			// 			this.setModel(oDataModel04, "ZVehicleMasterModel");
 
 			// CR Model
 
 			var mConfig06 = this.getMetadata().getManifestEntry("/sap.app/dataSources/ZDLR_CLAIM_PMP_SRV");
 			if (sLocation_conf == 0) {
-				mConfig04.uri = "/Claim_Destination2" + mConfig06.uri;
+				mConfig06.uri = "/Claim_Destination" + mConfig06.uri;
 			}
-			var oDataModel06 = new ODataModel(mConfig04.uri, {
+			var oDataModel06 = new ODataModel(mConfig06.uri, {
 				useBatch: false,
 				json: true,
 				headers: {

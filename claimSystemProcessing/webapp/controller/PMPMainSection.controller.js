@@ -273,10 +273,34 @@ sap.ui.define([
 		},
 
 		onUpdateClaim: function (oEvent) {
-			_fnUpdateClaim(oEvent);
+			this._fnUpdateClaim();
 		},
 
-		_fnUpdateClaim: function (oEvent) {
+		_fnUpdateClaim: function () {
+			var oClaimModel = this.getModel("zDLRCLAIMPMPSRV");
+			oClaimModel.refreshSecurityToken();
+			oClaimModel.create("/ZC_HEAD_PMPSet", this.obj, {
+				success: $.proxy(function (data, response) {
+					this.getModel("LocalDataModel").setProperty("/commentIndicator", false);
+					oClaimModel.read("/ZC_CLAIM_HEAD_PMP", {
+						urlParameters: {
+							"$filter": "NumberOfWarrantyClaim eq '" + this.getView().getModel("HeadSetData").getProperty("/NumberOfWarrantyClaim") +
+								"'"
+
+						},
+						success: $.proxy(function (sdata) {
+							this.getView().getModel("HeadSetData").setData(sdata.results[0]);
+						}, this)
+					});
+				}, this)
+			});
+		},
+
+		onRecalculate: function (oEvent) {
+			this.obj.NumberOfWarrantyClaim = this.getView().getModel("HeadSetData").getProperty("/NumberOfWarrantyClaim");
+			this.obj.RebateAmount = this.getView().getModel("HeadSetData").getProperty("/RebateAmount");
+
+			this._fnUpdateClaim();
 
 		},
 
