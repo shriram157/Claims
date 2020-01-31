@@ -93,30 +93,38 @@
 					<core:ListItem text="{LocalDataModel>CompetitorName}" key="{LocalDataModel>CompetitorName}"/>
 				</custom:CustomCombo>
 				<core:Title text=""/>
-				<Label text="Address"/>
-				<Input value="{path:'HeadSetData>/CompetitorAddr', type : 'sap.ui.model.type.String' }" editable="{DateModel>/oFormEdit}"/>
+				<Label text="Enter Location"/>
+				<!--<Input value="{path:'HeadSetData>/CompetitorAddr', type : 'sap.ui.model.type.String' }" editable="{DateModel>/oFormEdit}"/>-->
+				<custom:AddressAutoComplete id="autocomplete"/>
 				<!--<VBox id="oSearchId"></VBox>-->
 				<!--<custom:SearchAddressInput id="autocomplete"/>-->
 				<!--<html:Input id="autocomplete" placeholder="Enter your address" onFocus="geolocate()" type="text"/>-->
+				<core:Title text=""/>
+				<Label text="Street Address"/>
+				<Input id="street_number" enabled="false" value="{path:'HeadSetData>/CompetitorAddr', type : 'sap.ui.model.type.String'}"
+					editable="{DateModel>/oFormEdit}"/>
 				<core:Title text=""/>
 				<Label text="City"/>
 				<!--<Input maxLength="40" id="idCity"-->
 				<!--	value="{path:'HeadSetData>/CompetitorCity', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 60 } }"-->
 				<!--	required="true" editable="{DateModel>/oFormEdit}"/>-->
-				<ComboBox showSecondaryValues="true" id="idCompetitorCities" items="{path:'LocalDataModel>/cities'}"
-					selectionChange="onSelectCompetitorCity" selectedKey="HeadSetData>/CompetitorCity"
-					value="{path:'HeadSetData>/CompetitorCity', type : 'sap.ui.model.type.String'}">
-					<core:ListItem text="{LocalDataModel>city}" key="{LocalDataModel>city}"/>
-				</ComboBox>
+				<!--<ComboBox showSecondaryValues="true" id="idCompetitorCities" items="{path:'LocalDataModel>/cities'}"-->
+				<!--	selectionChange="onSelectCompetitorCity" selectedKey="HeadSetData>/CompetitorCity"-->
+				<!--	value="{path:'HeadSetData>/CompetitorCity', type : 'sap.ui.model.type.String'}">-->
+				<!--	<core:ListItem text="{LocalDataModel>city}" key="{LocalDataModel>city}"/>-->
+				<!--</ComboBox>-->
+				<Input id="locality"
+					value="{path:'HeadSetData>/CompetitorCity', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 60 } }"
+					editable="{DateModel>/oFormEdit}" enabled="false"/>
 				<core:Title text=""/>
 				<Label text="Province"/>
-				<!--<Input maxLength="40" id="province"-->
-				<!--	value="{path:'HeadSetData>/CompetitorProv', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 60 } }"-->
-				<!--	required="true" editable="{DateModel>/oFormEdit}"/>-->
-				<ComboBox showSecondaryValues="true" id="idCompetitorProvince" items="{path:'LocalDataModel>/ProviceSet'}"
-					selectedKey="HeadSetData>/CompetitorProv" value="{path:'HeadSetData>/CompetitorProv', type : 'sap.ui.model.type.String' }">
-					<core:ListItem text="{LocalDataModel>admin}" key="{LocalDataModel>admin}"/>
-				</ComboBox>
+				<Input id="administrative_area_level_1" enabled="false"
+					value="{path:'HeadSetData>/CompetitorProv', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 60 } }"
+					editable="{DateModel>/oFormEdit}"/>
+				<!--<ComboBox showSecondaryValues="true" id="idCompetitorProvince" items="{path:'LocalDataModel>/ProviceSet'}"-->
+				<!--	selectedKey="HeadSetData>/CompetitorProv" value="{path:'HeadSetData>/CompetitorProv', type : 'sap.ui.model.type.String' }">-->
+				<!--	<core:ListItem text="{LocalDataModel>admin}" key="{LocalDataModel>admin}"/>-->
+				<!--</ComboBox>-->
 				<core:Title text=""/>
 				<Label text="Postal Code"/>
 				<Input maxLength="8" id="postal_code" change="onEnterPostalCode"
@@ -128,7 +136,7 @@
 					editable="{DateModel>/oFormEdit}" visible="{DateModel>/oVisibleRepDate}"/>
 			</f:content>
 		</f:SimpleForm>
-		<VBox id="idAddressAuto"></VBox>
+		<!--<VBox id="idAddressAuto"></VBox>-->
 		<VBox>
 			<HBox id="idDist" justifyContent="Center">
 				<!--<Label text="Distance Between Dealer Competitor :" class="sapUiSmallMarginEnd" visible="{DateModel>/lableVisible}"/>-->
