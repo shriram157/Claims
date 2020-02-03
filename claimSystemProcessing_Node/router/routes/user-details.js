@@ -294,6 +294,9 @@ module.exports = function (appContext) {
 		if (managePartsClaims && !manageServiceClaims && !submitServiceClaims && viewClaimInquiry && viewDealerLaborRate && !viewPartsClaims &&
 			viewQuickCoverageTool && !viewServiceClaims) {
 			role = "Dealer_Parts_Admin";
+		} else if (managePartsClaims && manageServiceClaims && !submitServiceClaims && viewClaimInquiry && viewDealerLaborRate &&
+			!viewPartsClaims && viewQuickCoverageTool && !viewServiceClaims) {
+			role = "Dealer_Parts_Services_Admin";
 		} else if (!managePartsClaims && manageServiceClaims && !submitServiceClaims && viewClaimInquiry && viewDealerLaborRate &&
 			!viewPartsClaims && viewQuickCoverageTool && !viewServiceClaims) {
 			role = "Dealer_Services_Admin";

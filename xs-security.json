@@ -59,6 +59,21 @@
 			"UserType"
 		]
 	}, {
+		"name": "Dealer_Parts_Services_Admin",
+		"description": "Dealer Parts and Services Admin",
+		"scope-references": [
+			"$XSAPPNAME.Manage_Parts_Claims",
+			"$XSAPPNAME.Manage_Service_Claims",
+			"$XSAPPNAME.View_Claim_Inquiry",
+			"$XSAPPNAME.View_Dealer_Labor_Rate",
+			"$XSAPPNAME.View_Quick_Coverage_Tool"
+		],
+		"attribute-references": [
+			"DealerCode",
+			"Language",
+			"UserType"
+		]
+	}, {
 		"name": "Dealer_Services_Admin",
 		"description": "Dealer Services Admin",
 		"scope-references": [

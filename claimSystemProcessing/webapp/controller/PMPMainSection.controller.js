@@ -5,10 +5,12 @@ sap.ui.define([
 	"sap/ui/core/ValueState",
 	"zclaimProcessing/utils/Validator",
 	'sap/ui/model/Filter',
-	'sap/m/Dialog',
-	'sap/m/Button'
+	"sap/m/Dialog",
+	"sap/m/Button",
+	'sap/m/Label',
+	'sap/m/Text'
 
-], function (BaseController, MessageToast, DateFormat, ValueState, Validator, Filter, SearchAddressInput, Dialog, Button) {
+], function (BaseController, MessageToast, DateFormat, ValueState, Validator, Filter, Dialog, Button, Label, Text) {
 	"use strict";
 
 	var oCurrentDt = new Date();
@@ -205,7 +207,8 @@ sap.ui.define([
 				nonVinHide: true,
 				errorBusyIndicator: false,
 				VisiblePageLine: false,
-				CopareDistanceText: ""
+				CopareDistanceText: "",
+				oSlipVisible: false
 			});
 			this.getView().setModel(oDateModel, "DateModel");
 
@@ -361,7 +364,7 @@ sap.ui.define([
 									"AccessoryInstallDate": null,
 									"AgreementNumber": "",
 									"CustomerPostalCode": "",
-									"CustomerFullName": "",
+									"CustomerFullName": this.getView().getModel("HeadSetData").getProperty("/CustomerFullName"),
 									"ProbillNum": "",
 									"Delivery": "",
 									"DeliveryDate": null,
@@ -377,6 +380,7 @@ sap.ui.define([
 									"CompetitorProv": this.getView().getModel("HeadSetData").getProperty("/CompetitorProv"),
 									"CompetitorPost": this.getView().getModel("HeadSetData").getProperty("/CompetitorPost"),
 									"QuoteDate": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/QuoteDate")),
+									"RebateAmount": this.getView().getModel("HeadSetData").getProperty("/RebateAmount"),
 									"zc_itemSet": {
 										"results": PartItem
 									},
@@ -406,21 +410,21 @@ sap.ui.define([
 					}
 				})
 			} else {
-				// if (oGroupDescription == "PMP") {
-				// 	oProssingModel.read("/zc_claim_groupSet", {
-				// 		urlParameters: {
-				// 			"$filter": "ClaimGroup eq 'PMP'and LanguageKey eq '" + sSelectedLocale.toUpperCase() + "'"
-				// 		},
-				// 		success: $.proxy(function (data) {
-				// 			this.oFilteredData = data.results;
-				// 			this.getModel("LocalDataModel").setProperty("/ClaimGroupSet", this.oFilteredData);
-				// 		}, this),
-				// 		error: function () {
-				// 			console.log("Error");
-				// 		}
-				// 	});
+				if (oGroupDescription == "PMP") {
+					oProssingModel.read("/zc_claim_groupSet", {
+						urlParameters: {
+							"$filter": "ClaimGroup eq 'PMP'and LanguageKey eq '" + sSelectedLocale.toUpperCase() + "'"
+						},
+						success: $.proxy(function (data) {
+							this.oFilteredData = data.results;
+							this.getModel("LocalDataModel").setProperty("/ClaimGroupSet", this.oFilteredData);
+						}, this),
+						error: function () {
+							console.log("Error");
+						}
+					});
 
-				// }
+				}
 			}
 
 		},
@@ -513,7 +517,7 @@ sap.ui.define([
 						"AccessoryInstallDate": null,
 						"AgreementNumber": "",
 						"CustomerPostalCode": "",
-						"CustomerFullName": "",
+						"CustomerFullName": this.getView().getModel("HeadSetData").getProperty("/CustomerFullName"),
 						"ProbillNum": "",
 						"Delivery": "",
 						"DeliveryDate": null,
@@ -523,12 +527,13 @@ sap.ui.define([
 						"DealerInvoice": this.getView().getModel("HeadSetData").getProperty("/DealerInvoice"),
 						"DealerInvoiceDate": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/DealerInvoiceDate")),
 						"DealerRO": this.getView().getModel("HeadSetData").getProperty("/DealerRO"),
-						"CompetitorName": this.getView().getModel("HeadSetData").getProperty("/CompetitorName"),
+						"CompetitorName": this.getView().getModel("HeadSetData").getProperty("/CustomerFullName"),
 						"CompetitorAddr": this.getView().byId("street_number").getValue() || "",
 						"CompetitorCity": this.getView().byId("locality").getValue() || "",
 						"CompetitorProv": this.getView().byId("administrative_area_level_1").getValue() || "",
 						"CompetitorPost": this.getView().byId("postal_code").getValue() || "",
 						"QuoteDate": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/QuoteDate")),
+						"RebateAmount": this.getView().getModel("HeadSetData").getProperty("/RebateAmount"),
 						"zc_itemSet": {
 							"results": PartItem
 						},
@@ -958,7 +963,7 @@ sap.ui.define([
 					"AccessoryInstallDate": null,
 					"AgreementNumber": "",
 					"CustomerPostalCode": "",
-					"CustomerFullName": "",
+					"CustomerFullName": this.getView().getModel("HeadSetData").getProperty("/CustomerFullName"),
 					"ProbillNum": "",
 					"Delivery": "",
 					"DeliveryDate": null,
@@ -968,11 +973,13 @@ sap.ui.define([
 					"DealerInvoice": this.getView().getModel("HeadSetData").getProperty("/DealerInvoice"),
 					"DealerInvoiceDate": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/DealerInvoiceDate")),
 					"DealerRO": this.getView().getModel("HeadSetData").getProperty("/DealerRO"),
+					"CompetitorName": this.getView().getModel("HeadSetData").getProperty("/CustomerFullName"),
 					"CompetitorAddr": this.getView().byId("street_number").getValue() || "",
 					"CompetitorCity": this.getView().byId("locality").getValue() || "",
 					"CompetitorProv": this.getView().byId("administrative_area_level_1").getValue() || "",
 					"CompetitorPost": this.getView().byId("postal_code").getValue() || "",
 					"QuoteDate": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/QuoteDate")),
+					"RebateAmount": this.getView().getModel("HeadSetData").getProperty("/RebateAmount"),
 					"zc_itemSet": {
 						"results": []
 					},
@@ -1469,20 +1476,21 @@ sap.ui.define([
 		},
 
 		onSubmitTci: function (oEvent) {
-
+			var oBundle = this.getView().getModel("i18n").getResourceBundle();
+			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var sSelectedLocale, bValidationError;
 
 			var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
 
 			var that = this;
 
-			// 			jQuery.each(that._modelValidate(), function (i, oInput) {
-			// 				if (oInput.getVisible() == true && oInput.mProperties.enabled == true) {
-			// 					bValidationError = that._validateInput(oInput) || bValidationError;
-			// 				} else {
-			// 					oInput.setValueState("None");
-			// 				}
-			// 			});
+			// 	jQuery.each(that._modelValidate(), function (i, oInput) {
+			// 		if (oInput.getVisible() == true && oInput.mProperties.enabled == true) {
+			// 			bValidationError = that._validateInput(oInput) || bValidationError;
+			// 		} else {
+			// 			oInput.setValueState("None");
+			// 		}
+			// 	});
 
 			if (isLocaleSent) {
 				sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
@@ -1512,10 +1520,10 @@ sap.ui.define([
 			//oEvent.getSource().getParent().getParent().addStyleClass("clMinHeight");
 
 			var dialog = new Dialog({
-				title: oBundle.getText("SubmitClaimTCI"),
+				title: that.oBundle.getText("SubmitClaimTCI"),
 				type: "Message",
 				content: new Text({
-					text: oBundle.getText("AresubmitClaimTCI?")
+					text: that.oBundle.getText("AresubmitClaimTCI?")
 				}),
 
 				buttons: [
@@ -1523,14 +1531,14 @@ sap.ui.define([
 						text: oBundle.getText("Yes"),
 						press: $.proxy(function () {
 							dialog.close();
-							// 			if (bValidationError) {
-							// 				this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", false);
-							// 				this.getView().byId("idMainClaimMessage").setText(oBundle.getText("FillUpMandatoryField"));
-							// 				this.getView().byId("idMainClaimMessage").setType("Error");
-							// 				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
-							// 			} else {
-							this.getView().getModel("DateModel").setProperty("/claimTypeState", "None");
-							this.getView().getModel("DateModel").setProperty("/claimTypeState2", "None");
+							// 		if (bValidationError) {
+							// 			this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", false);
+							// 			this.getView().byId("idMainClaimMessage").setText(oBundle.getText("FillUpMandatoryField"));
+							// 			this.getView().byId("idMainClaimMessage").setType("Error");
+							// 			this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+							// 		} else {
+							// 		this.getView().getModel("DateModel").setProperty("/claimTypeState", "None");
+							// 		this.getView().getModel("DateModel").setProperty("/claimTypeState2", "None");
 							this.getView().getModel("DateModel").setProperty("/errorBusyIndicator", true);
 							oClaimModel.refreshSecurityToken();
 							oClaimModel.create("/ZC_HEAD_PMPSet", this.obj, {
@@ -1561,7 +1569,7 @@ sap.ui.define([
 
 									oClaimModel.read("/ZC_CLAIM_HEAD_PMP", {
 										urlParameters: {
-											"$filter": "NumberOfWarrantyClaim eq '" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") +
+											"$filter": "NumberOfWarrantyClaim eq '" + oClaimNum +
 												"'"
 										},
 										success: $.proxy(function (sdata) {
@@ -1616,6 +1624,20 @@ sap.ui.define([
 			dialog.open();
 
 		},
+
+		onStep01Next: function (oEvent) {
+			this.getView().byId("idFilter02").setProperty("enabled", true);
+			this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab2");
+			this.getView().byId("mainSectionTitle").setTitle(oBundle.getText("ClaimPartsSection"));
+			this.getView().byId("idMainClaimMessage").setProperty("visible", false);
+		},
+
+		onStep02Next: function (oEvent) {
+			this.getView().byId("idFilter03").setProperty("enabled", true);
+			this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab3");
+			this.getView().byId("mainSectionTitle").setTitle(oBundle.getText("ClaimPartsSection"));
+			this.getView().byId("idMainClaimMessage").setProperty("visible", false);
+		}
 
 		/**
 		 * Similar to onAfterRendering, but this hook is invoked before the controller's View is re-rendered
