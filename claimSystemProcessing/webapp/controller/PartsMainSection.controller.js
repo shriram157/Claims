@@ -830,7 +830,7 @@ sap.ui.define([
 												return item.DiscreCode == "4A" && item.WrongPart == "";
 											});
 
-											if (findPartIndex) {
+											if (findPartIndex > -1) {
 												PartItem.splice(findPartIndex, 1);
 											} else {
 												PartItem;
