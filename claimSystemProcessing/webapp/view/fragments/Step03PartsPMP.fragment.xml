@@ -165,7 +165,7 @@
 		</Table>
 		<HBox alignContent="Center" justifyContent="Center" class="sapUiTinyMarginTop">
 			<Button class="sapUiTinyMarginBeginEnd" type="Back" press="onStep03Back" text="{i18n>Back}"/>
-			<Button class="sapUiTinyMarginBeginEnd" press="onStep03Next" text="{i18n>Next}" type="Emphasized"/>
+			<Button class="sapUiTinyMarginBeginEnd" press="onStep02Next" text="{i18n>Next}" type="Emphasized"/>
 		</HBox>
 	</VBox>
 </core:FragmentDefinition>

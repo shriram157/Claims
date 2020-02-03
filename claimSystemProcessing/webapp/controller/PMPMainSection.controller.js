@@ -1637,6 +1637,12 @@ sap.ui.define([
 			this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab3");
 			this.getView().byId("mainSectionTitle").setTitle(oBundle.getText("ClaimPartsSection"));
 			this.getView().byId("idMainClaimMessage").setProperty("visible", false);
+		},
+		onStep03Next: function (oEvent) {
+			this.getView().byId("idFilter07").setProperty("enabled", true);
+			this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab7");
+			this.getView().byId("mainSectionTitle").setTitle(oBundle.getText("ClaimPartsSection"));
+			this.getView().byId("idMainClaimMessage").setProperty("visible", false);
 		}
 
 		/**
