@@ -393,7 +393,7 @@ sap.ui.define([
 										"results": this.getModel("LocalDataModel").getProperty("/claim_commentSet")
 									},
 									"zc_claim_vsrSet": {
-										"results": this.getModel("LocalDataModel").getProperty("/oErrorSet")
+										"results": this.getModel("LocalDataModel").getProperty("/oErrorSet") || []
 									},
 									"zc_claim_item_price_dataSet": {
 										"results": pricinghData
@@ -451,16 +451,55 @@ sap.ui.define([
 		},
 
 		_fnUpdateClaim: function () {
+			var oFinalDistanceNum;
+			if (this.getView().byId("postal_code").getValue() != "") {
 
-			var oGetDistance = this.getView().byId("idPostalDistInput").getText();
-			var oDistanceRemoveComma = oGetDistance.replace(/,/g, '');
-			var oDistanceRemoveKM = oDistanceRemoveComma.replace(/km/g, '');
-			var oFinalDistanceNum = parseInt(oDistanceRemoveKM);
-			var oClaimModel = this.getModel("zDLRCLAIMPMPSRV");
+				var oGetDistance = document.getElementById("idPostalDistInput").innerHTML;
+				var oDistanceRemoveComma = oGetDistance.replace(/,/g, '');
+				var oDistanceRemoveKM = oDistanceRemoveComma.replace(/km/g, '');
+				oFinalDistanceNum = parseInt(oDistanceRemoveKM);
+			} else {
+				oFinalDistanceNum = "";
+			}
+
+			var sSelectedLocale;
+			//  get the locale to determine the language.
+			var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
+			if (isLocaleSent) {
+				sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
+			} else {
+				sSelectedLocale = "en"; // default is english
+			}
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
+			var oClaimModel = this.getModel("zDLRCLAIMPMPSRV");
 
-			if (this.getView().byId("postal_code").getValue() != "" && oFinalDistanceNum > 80) {
+			var oClaimtype = this.getModel("LocalDataModel").getProperty("/GroupDescriptionName");
+			var oClmType = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType");
+			var oClmSubType = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType");
+			var oGroupType = this.getModel("LocalDataModel").getProperty("/WarrantyClaimTypeGroup");
+			var that = this;
+			var oView = this.getView();
+			// 			var aInputs;
+			var aInputsArr = [
+				oView.byId("idClaimType"),
+				oView.byId("idDealerRO"),
+				oView.byId("idDealerINVDate"),
+				oView.byId("idDealerInvoice")
+			];
 
+			var bValidationError;
+			jQuery.each(aInputsArr, function (i, oInput) {
+				if (oInput.getVisible() == true) {
+					bValidationError = that._validateInput(oInput) || bValidationError;
+				}
+			});
+
+			if (bValidationError) {
+				// this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", false);
+				this.getView().byId("idMainClaimMessage").setText(oBundle.getText("FillUpMandatoryField"));
+				this.getView().byId("idMainClaimMessage").setType("Error");
+				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+			} else if (oFinalDistanceNum > 80 && this.getView().byId("postal_code").getValue() != "") {
 				this.getView().byId("idMainClaimMessage").setText(oBundle.getText("CompareDistanceError"));
 				this.getView().byId("idMainClaimMessage").setType("Error");
 				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
@@ -907,17 +946,17 @@ sap.ui.define([
 
 		_fnSaveClaim: async function () {
 
-			// 			await this._fnDistanceMatrix();
+			var oFinalDistanceNum;
+			if (this.getView().byId("postal_code").getValue() != "") {
 
-			var oGetDistance = document.getElementById("idPostalDistInput").innerHTML;
-			var oDistanceRemoveComma = oGetDistance.replace(/,/g, '');
-			var oDistanceRemoveKM = oDistanceRemoveComma.replace(/km/g, '');
-			var oFinalDistanceNum = parseInt(oDistanceRemoveKM);
-			//	var oValidator = new Validator();
-			//var oValid = oValidator.validate(this.getView().byId("idClaimMainForm"));
-			// var oValid01 = oValidator.validate(this.getView().byId("idVehicleInfo"));
-			// 			var oValid02 = oValidator.validate(this.getView().byId("idpart01Form"));
-			// 			oValidator.validate(!(this.getView().byId("id_Date")));
+				var oGetDistance = document.getElementById("idPostalDistInput").innerHTML;
+				var oDistanceRemoveComma = oGetDistance.replace(/,/g, '');
+				var oDistanceRemoveKM = oDistanceRemoveComma.replace(/km/g, '');
+				oFinalDistanceNum = parseInt(oDistanceRemoveKM);
+			} else {
+				oFinalDistanceNum = "";
+			}
+
 			var sSelectedLocale;
 			//  get the locale to determine the language.
 			var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
