@@ -78,24 +78,27 @@
 					editable="{DateModel>/oFormEdit}" visible="{DateModel>/oVisibleRepDate}"/>
 			</f:content>
 		</f:SimpleForm>
-		<f:SimpleForm editable="" id="idVehicleInfo" title="Competitor Information" layout="ResponsiveGridLayout" labelSpanXL="12" labelSpanL="12"
-			labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="6"
-			columnsL="6" columnsM="3" singleContainerFullSize="false">
+		<f:SimpleForm editable="" title="Competitor Information" layout="ResponsiveGridLayout" labelSpanXL="12" labelSpanL="12" labelSpanM="12"
+			labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="4" columnsL="4" columnsM="3"
+			singleContainerFullSize="false">
 			<f:content >
 				<core:Title text=""/>
-				<Label text="Name"/>
-				<!--<Input maxLength="40"-->
-				<!--	value="{path:'HeadSetData>/CompetitorName', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 40 } }"-->
-				<!--	required="true" editable="{DateModel>/oFormEdit}"/>-->
-				<custom:CustomCombo showSecondaryValues="true" id="idCompetitorName" items="{path:'LocalDataModel>/company_detailSet'}"
-					selectionChange="onSelectCompetitorName" selectedKey="HeadSetData>/CompetitorName"
-					value="{path:'HeadSetData>/CustomerFullName', type : 'sap.ui.model.type.String'}">
-					<core:ListItem text="{LocalDataModel>CompetitorName}" key="{LocalDataModel>CompetitorName}"/>
-				</custom:CustomCombo>
-				<core:Title text=""/>
-				<Label text="Enter Location"/>
 				<!--<Input value="{path:'HeadSetData>/CompetitorAddr', type : 'sap.ui.model.type.String' }" editable="{DateModel>/oFormEdit}"/>-->
-				<custom:AddressAutoComplete id="autocomplete"/>
+				<custom:AddressAutoComplete id="autocomplete" change="onAfterAutoComplete"/>
+				<core:Title text=""/>
+				<Button text="Calculate Distance" press="onCalculateDistance">
+					<layoutData>
+						<l:GridData span="XL8 L8 M12 S12"/>
+					</layoutData>
+				</Button>
+				<core:Title text=""/>
+				<HBox id="idDist" justifyContent="Center"></HBox>
+			</f:content>
+		</f:SimpleForm>
+		<f:SimpleForm editable="" id="idVehicleInfo" title="" layout="ResponsiveGridLayout" labelSpanXL="12" labelSpanL="12" labelSpanM="12"
+			labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="6" columnsL="6" columnsM="3"
+			singleContainerFullSize="false">
+			<f:content >
 				<!--<VBox id="oSearchId"></VBox>-->
 				<!--<custom:SearchAddressInput id="autocomplete"/>-->
 				<!--<html:Input id="autocomplete" placeholder="Enter your address" onFocus="geolocate()" type="text"/>-->
@@ -130,6 +133,13 @@
 				<Input maxLength="8" id="postal_code" change="onEnterPostalCode"
 					value="{path:'HeadSetData>/CompetitorPost', type : 'sap.ui.model.type.String'}" editable="{DateModel>/oFormEdit}"/>
 				<core:Title text=""/>
+				<Label text="Name"/>
+				<custom:CustomCombo showSecondaryValues="true" id="idCompetitorName" items="{path:'LocalDataModel>/company_detailSet'}"
+					selectionChange="onSelectCompetitorName" selectedKey="HeadSetData>/CompetitorName"
+					value="{path:'HeadSetData>/CustomerFullName', type : 'sap.ui.model.type.String'}">
+					<core:ListItem text="{LocalDataModel>CompetitorName}" key="{LocalDataModel>CompetitorName}"/>
+				</custom:CustomCombo>
+				<core:Title text=""/>
 				<Label text="Quote Date"/>
 				<DatePicker class="clDatePicker"
 					value="{path:'HeadSetData>/QuoteDate', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'yyyy-MM-dd', strictParsing: true, UTC: true}}"
@@ -137,15 +147,7 @@
 			</f:content>
 		</f:SimpleForm>
 		<!--<VBox id="idAddressAuto"></VBox>-->
-		<VBox>
-			<HBox id="idDist" justifyContent="Center">
-				<!--<Label text="Distance Between Dealer Competitor :" class="sapUiSmallMarginEnd" visible="{DateModel>/lableVisible}"/>-->
-				<custom:DistanceMatrix id="idPostalDistInput" origin="{LocalDataModel>/dealerPostalCode}" destination="{HeadSetData>/CompetitorPost}"
-					key="AIzaSyAz7irkOJQ4ydE2dHYrg868QV5jUQ-5FaY" class="sapUiSmallMarginEnd" text=""/>
-				<!--<Text class="clTextSize" text="(Note : Competitor must be within 80KM of your dealership)" textAlign="Center"-->
-				<!--	visible="{DateModel>/lableVisible}"/>-->
-			</HBox>
-		</VBox>
+		<VBox></VBox>
 		<Panel backgroundDesign="Transparent" headerText="{i18n>ClaimComments}" expandable="true" class="sapUiSizeCompact clCommentFix">
 			<content>
 				<FeedInput post=".onPost" enabled="{LocalDataModel>/FeedEnabled}"/>
@@ -283,7 +285,7 @@
 				</table:Table>
 			</content>
 			<HBox alignContent="Center" justifyContent="Center" class="sapUiTinyMarginTop sapUiTinyMarginBottom">
-				<Button class="sapUiTinyMarginBeginEnd" press="onPressBack" text="{i18n>BackList}" type="Back"/>
+				<Button class="sapUiTinyMarginBeginEnd" press="onStep01Back" text="{i18n>BackList}" type="Back"/>
 				<Button class="sapUiTinyMarginBeginEnd" press="onCancelClaim" enabled="{LocalDataModel>/CancelEnable}" text="{i18n>CancelClaim}"
 					type="Reject"/>
 				<Button class="sapUiTinyMarginBeginEnd" text="{i18n>Print}" enabled="{LocalDataModel>/PrintEnable}" press="onPressPrint"/>

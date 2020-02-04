@@ -144,8 +144,8 @@
 						<Text text="{LocalDataModel>PartType}" wrapping="true" textAlign="Center"/>
 						<Text text="${LocalDataModel>DealerNet}" wrapping="true" textAlign="Center"/>
 						<Text text="{path:'LocalDataModel>QtyHrs', formatter:'zclaimProcessing.utils.formatter.fnFormatDecimal'}" wrapping="true" textAlign="Center"/>
+						<Text text="${LocalDataModel>PartTotal}" wrapping="true" textAlign="Center"/>
 						<Text text="${LocalDataModel>ExtendedValue}" wrapping="true" textAlign="Center"/>
-						<Text text="${LocalDataModel>MarkUp}" wrapping="true" textAlign="Center"/>
 						<Text text="${LocalDataModel>DealerNet}" wrapping="true" textAlign="Center"/>
 						<Text text="${LocalDataModel>DiffAmt}" wrapping="true" textAlign="Center"/>
 						<Text text="${LocalDataModel>TCIApprAmt}" wrapping="true" textAlign="Center"/>

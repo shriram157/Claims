@@ -310,7 +310,7 @@ sap.ui.define([
 
 		},
 
-		geOnlyDealer: function () {
+		getOnlyDealer: function () {
 			var that = this;
 			var sLocation = window.location.host;
 			var sLocation_conf = sLocation.search("webide");

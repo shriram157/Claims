@@ -14,7 +14,8 @@ sap.ui.define(
 					"distance": {
 						type: "string"
 
-					}
+					},
+					"id": "string"
 
 				},
 				events: {},
@@ -24,7 +25,7 @@ sap.ui.define(
 
 			},
 
-			onAfterRendering: function () {
+			init: function () {
 				var that = this;
 				var sBaseUrl = `https://maps.googleapis.com/maps/api/js?key=${this.getKey()}&sensor=false`;
 				this._loadScript(sBaseUrl).then(function () {
