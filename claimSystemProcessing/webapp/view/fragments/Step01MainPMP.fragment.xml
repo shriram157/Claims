@@ -92,7 +92,7 @@
 					</layoutData>
 				</Button>
 				<core:Title text=""/>
-				<HBox id="idDist" justifyContent="Center"></HBox>
+				<l:HorizontalLayout id="idDist"></l:HorizontalLayout>
 			</f:content>
 		</f:SimpleForm>
 		<f:SimpleForm editable="" id="idVehicleInfo" title="" layout="ResponsiveGridLayout" labelSpanXL="12" labelSpanL="12" labelSpanM="12"

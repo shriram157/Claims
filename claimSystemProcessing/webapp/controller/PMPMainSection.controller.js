@@ -435,7 +435,13 @@ sap.ui.define([
 		},
 
 		onCalculateDistance: function (oEvent) {
-			this._fnDistanceMatrix();
+			if (this.getView().byId("idDist").getContent().length == 0) {
+				this._fnDistanceMatrix();
+			} else {
+				this.getView().byId("idDist").removeAllContent();
+				this._fnDistanceMatrix();
+			}
+
 		},
 
 		fnReturnLanguage: function () {
@@ -454,7 +460,7 @@ sap.ui.define([
 			var oFinalDistanceNum;
 			if (this.getView().byId("postal_code").getValue() != "") {
 
-				var oGetDistance = document.getElementById("idPostalDistInput").innerHTML;
+				var oGetDistance = this.getView().byId("idDist").getContent()[0].getText();
 				var oDistanceRemoveComma = oGetDistance.replace(/,/g, '');
 				var oDistanceRemoveKM = oDistanceRemoveComma.replace(/km/g, '');
 				oFinalDistanceNum = parseInt(oDistanceRemoveKM);
@@ -933,23 +939,28 @@ sap.ui.define([
 			return bValidationError;
 		},
 
-		_fnDistanceMatrix: function () {
+		_fnMatrixControl: function () {
 			var oControl = new DistanceMatrix({
 				origin: this.getModel("LocalDataModel").getProperty("/dealerPostalCode"),
 				destination: this.getView().byId("postal_code").getValue(),
 				key: "AIzaSyAz7irkOJQ4ydE2dHYrg868QV5jUQ-5FaY",
-				id: "idPostalDistInput"
-			});
 
-			this.getView().byId("idDist").addItem(oControl);
+			});
+			return oControl;
+
 		},
 
-		_fnSaveClaim: async function () {
+		_fnDistanceMatrix: function () {
+
+			this.getView().byId("idDist").addContent(this._fnMatrixControl());
+		},
+
+		_fnSaveClaim: function () {
 
 			var oFinalDistanceNum;
 			if (this.getView().byId("postal_code").getValue() != "") {
 
-				var oGetDistance = document.getElementById("idPostalDistInput").innerHTML;
+				var oGetDistance = this.getView().byId("idDist").getContent()[0].getText();;
 				var oDistanceRemoveComma = oGetDistance.replace(/,/g, '');
 				var oDistanceRemoveKM = oDistanceRemoveComma.replace(/km/g, '');
 				oFinalDistanceNum = parseInt(oDistanceRemoveKM);

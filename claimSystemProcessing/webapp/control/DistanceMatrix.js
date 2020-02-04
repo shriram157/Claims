@@ -15,7 +15,7 @@ sap.ui.define(
 						type: "string"
 
 					},
-					"id": "string"
+					"class": "string"
 
 				},
 				events: {},
