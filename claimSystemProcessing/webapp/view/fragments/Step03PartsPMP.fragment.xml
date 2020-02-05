@@ -82,18 +82,18 @@
 						<Input value="{PartDataModel>/CompetitorPrice}" editable="{DateModel>/editablePartNumber}" enabled="{DateModel>/partLine}"/>
 						<core:Title text=""/>
 						<Label text="{i18n>PartDescription}" textAlign="Left"/>
-						<Input value="{PartDataModel>/PartDescription}" id="idPartDes" enabled="{DateModel>/partLine}"/>
+						<Input value="{PartDataModel>/PartDescription}" id="idPartDes" editable="false" enabled="{DateModel>/partLine}"/>
 						<Label text="{i18n>Quantity}" textAlign="Left"/>
 						<customPart:CustomInput id="idPartQty" value="{PartDataModel>/quant}" enabled="{DateModel>/partLine}"/>
 						<Text text="{LocalDataModel>/BaseUnit}"/>
 						<core:Title text=""/>
 						<Label text="{i18n>PartManufacturer}" textAlign="Left"/>
-						<Input value="{PartDataModel>/PartManufacturer}" enabled="{DateModel>/partLine}"/>
+						<Input value="{PartDataModel>/PartManufacturer}" editable="false" enabled="{DateModel>/partLine}"/>
 						<Label text=" " class="clTextIndent"/>
 						<Button text="{i18n>SavePart}" type="Emphasized" press="onPressSavePart" enabled="{DateModel>/partLine}"></Button>
 						<core:Title text=""/>
 						<Label text="{i18n>PartType}" textAlign="Left"/>
-						<Input value="{PartDataModel>/PartType}" enabled="{DateModel>/partLine}"/>
+						<Input value="{PartDataModel>/PartType}" editable="false" enabled="{DateModel>/partLine}"/>
 						<Label text=" " class="clTextIndent"/>
 						<Button text="{i18n>Clear}" type="Default" press="onPressCancelPart" enabled="{DateModel>/partLine}">
 							<layoutData>
