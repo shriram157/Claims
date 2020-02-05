@@ -121,17 +121,23 @@
 				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
 					<Text text="{i18n>DealerNetPrice}" textAlign="Center"/>
 				</Column>
-				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center"><Text text="{i18n>Quantity}" textAlign="Center"/>
-					<footer><Text text="{i18n>Subtotal}" textAlign="Center"/></footer>
+				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+					<Text text="{i18n>MSRP}" textAlign="Center"/>
 				</Column>
-				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center"><Text text="{i18n>MSRP}" textAlign="Center"/></Column>
-				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center"><Text text="{i18n>CompetitorPrice}" textAlign="Center"/></Column>
-				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center"><Text text="{i18n>DifferenceTire}"/>
-					<footer><Text text="{path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnDiffVal'}" textAlign="Center"/></footer>
+				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+					<Text text="{i18n>CompetitorPrice}" textAlign="Center"/>
 				</Column>
-				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center"><Text text="{i18n>TotalDifferences}" textAlign="Center"/></Column>
-				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center"><Text text="{i18n>TCIAmountApproved}" textAlign="Center"/>
-					<footer><Text text="{path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnTCIAmtVal'}" textAlign="Center"/></footer>
+				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+					<Text text="{i18n>DifferenceTire}"/>
+				</Column>
+				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+					<Text text="{i18n>Quantity}" textAlign="Center"/>
+				</Column>
+				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+					<Text text="{i18n>TotalDifferences}" textAlign="Center"/>
+				</Column>
+				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+					<Text text="{i18n>TCIAmountApproved}" textAlign="Center"/>
 				</Column>
 			</columns>
 			<items>
@@ -143,10 +149,10 @@
 						<Text text="{LocalDataModel>PartManufacturer}" wrapping="true" textAlign="Center"/>
 						<Text text="{LocalDataModel>PartType}" wrapping="true" textAlign="Center"/>
 						<Text text="${LocalDataModel>DealerNet}" wrapping="true" textAlign="Center"/>
-						<Text text="{path:'LocalDataModel>QtyHrs', formatter:'zclaimProcessing.utils.formatter.fnFormatDecimal'}" wrapping="true" textAlign="Center"/>
 						<Text text="${LocalDataModel>MSRP}" wrapping="true" textAlign="Center"/>
 						<Text text="${LocalDataModel>CompetitorPrice}" wrapping="true" textAlign="Center"/>
 						<Text text="${LocalDataModel>DiffPerTire}" wrapping="true" textAlign="Center"/>
+						<Text text="{path:'LocalDataModel>QtyHrs', formatter:'zclaimProcessing.utils.formatter.fnFormatDecimal'}" wrapping="true" textAlign="Center"/>
 						<Text text="${LocalDataModel>TotalDiff}" wrapping="true" textAlign="Center"/>
 						<Text text="${LocalDataModel>TCIApprAmt}" wrapping="true" textAlign="Center"/>
 						<!--<Text text="{path:'LocalDataModel>QtyHrs', formatter:'zclaimProcessing.utils.formatter.fnFormatDecimal'}" wrapping="true" textAlign="Center"/>-->

@@ -213,14 +213,6 @@ sap.ui.define([
 			});
 			this.getView().setModel(oDateModel, "DateModel");
 
-			var sSelectedLocale;
-			var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
-			if (isLocaleSent) {
-				sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
-			} else {
-				sSelectedLocale = "en"; // default is english
-			}
-
 			var oClaim = oEvent.getParameters().arguments.claimNum;
 			var oGroupDescription = oEvent.getParameters().arguments.oKey;
 			var oProssingModel = this.getModel("ProssingModel");
@@ -258,7 +250,7 @@ sap.ui.define([
 						oPMPModel.read("/ZC_HEAD_PMPSet", {
 							urlParameters: {
 								"$filter": "NumberOfWarrantyClaim eq '" + oClaim +
-									"'and LanguageKey eq '" + sSelectedLocale.toUpperCase() + "'",
+									"'and LanguageKey eq '" + this.fnReturnLanguage() + "'",
 								"$expand": "zc_claim_commentSet,zc_claim_vsrSet"
 							},
 							success: $.proxy(function (errorData) {
@@ -414,7 +406,7 @@ sap.ui.define([
 				if (oGroupDescription == "PMP") {
 					oProssingModel.read("/zc_claim_groupSet", {
 						urlParameters: {
-							"$filter": "ClaimGroup eq 'PMP'and LanguageKey eq '" + sSelectedLocale.toUpperCase() + "'"
+							"$filter": "ClaimGroup eq 'PMP'and LanguageKey eq '" + this.fnReturnLanguage() + "'"
 						},
 						success: $.proxy(function (data) {
 							this.oFilteredData = data.results;
@@ -468,14 +460,6 @@ sap.ui.define([
 				oFinalDistanceNum = "";
 			}
 
-			var sSelectedLocale;
-			//  get the locale to determine the language.
-			var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
-			if (isLocaleSent) {
-				sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
-			} else {
-				sSelectedLocale = "en"; // default is english
-			}
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var oClaimModel = this.getModel("zDLRCLAIMPMPSRV");
 
@@ -681,14 +665,6 @@ sap.ui.define([
 
 			var oClaimModel = this.getModel("zDLRCLAIMPMPSRV");
 
-			var sSelectedLocale;
-			//  get the locale to determine the language.
-			var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
-			if (isLocaleSent) {
-				sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
-			} else {
-				sSelectedLocale = "en"; // default is english
-			}
 			var oFormat = DateFormat.getDateTimeInstance({
 				style: "medium"
 			});
@@ -704,7 +680,7 @@ sap.ui.define([
 
 				"HeadText": this.getModel("LocalDataModel").getProperty("/BPOrgName") + "(" + oDate + ") " + " : " + sValue,
 				"NumberOfWarrantyClaim": this.getView().getModel("HeadSetData").getProperty("/NumberOfWarrantyClaim"),
-				"LanguageKey": sSelectedLocale.toUpperCase(),
+				"LanguageKey": this.fnReturnLanguage(),
 				"User": "",
 				"Date": null
 			};
@@ -719,7 +695,7 @@ sap.ui.define([
 					oClaimModel.read("/ZC_HEAD_PMPSet", {
 						urlParameters: {
 							"$filter": "NumberOfWarrantyClaim eq '" + this.getView().getModel("HeadSetData").getProperty("/NumberOfWarrantyClaim") +
-								"'and LanguageKey eq '" + sSelectedLocale.toUpperCase() + "'",
+								"'and LanguageKey eq '" + this.fnReturnLanguage() + "'",
 							"$expand": "zc_claim_commentSet"
 						},
 						success: $.proxy(function (sdata) {
@@ -1356,10 +1332,11 @@ sap.ui.define([
 						// 		} else {
 						// 			this.getView().getModel("LocalDataModel").setProperty("/BaseUnit", oBaseUint);
 						// 		}
-
+						this.getView().getModel("LocalDataModel").setProperty("/BaseUnit", oBaseUint);
 					} else {
 						this.getView().getModel("PartDataModel").setProperty("/PartManufacturer", "");
 						this.getView().getModel("PartDataModel").setProperty("/PartType", "");
+						this.getView().getModel("LocalDataModel").setProperty("/BaseUnit", oBaseUint);
 					}
 
 				}, this)
@@ -1383,25 +1360,6 @@ sap.ui.define([
 			this.getView().getModel("DateModel").setProperty("/partLine", true);
 			this.getView().getModel("DateModel").setProperty("/editablePartNumber", true);
 
-			var sSelectedLocale;
-			var sDivision;
-
-			var isDivisionSent = window.location.search.match(/Division=([^&]*)/i);
-			if (isDivisionSent) {
-				sDivision = window.location.search.match(/Division=([^&]*)/i)[1];
-			} else {
-				sDivision = 10;
-			}
-			//  get the locale to determine the language.
-			var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
-			if (isLocaleSent) {
-				sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
-			} else {
-				sSelectedLocale = "en"; // default is english
-			}
-			var oClaimModel = this.getModel("ProssingModel");
-			var productModel = this.getModel("ProductMaster");
-
 		},
 		onPressUpdatePart: function (oEvent) {
 			var oTable = this.getView().byId("idTableParts");
@@ -1419,7 +1377,10 @@ sap.ui.define([
 
 				this.getView().getModel("PartDataModel").setProperty("/matnr", obj.matnr);
 				this.getView().getModel("PartDataModel").setProperty("/quant", obj.QtyHrs);
-				this.getView().getModel("PartDataModel").setProperty("/PartDescription", obj.PartDescription);
+				this.getView().getModel("PartDataModel").setProperty("/PartDescription", obj.ALMDiscreDesc);
+				this.getView().getModel("PartDataModel").setProperty("/PartType", obj.PartType);
+				this.getView().getModel("PartDataModel").setProperty("/CompetitorPrice", obj.CompetitorPrice);
+				this.getView().getModel("PartDataModel").setProperty("/PartManufacturer", obj.PartManufacturer);
 				this.getView().getModel("LocalDataModel").setProperty("/BaseUnit", obj.Meins);
 				//this.getView().getModel("LocalDataModel").setProperty("/BaseUnit"
 				this.getView().getModel("DateModel").setProperty("/partLine", true);
@@ -1432,8 +1393,20 @@ sap.ui.define([
 				oTable.removeSelections("true");
 			}
 		},
-		onPressDeletePart: function () {
 
+		onPressCancelPart: function () {
+			this.getView().getModel("PartDataModel").setProperty("/matnr", "");
+			this.getView().getModel("PartDataModel").setProperty("/quant", "");
+			this.getView().getModel("PartDataModel").setProperty("/PartDescription", "");
+			this.getView().getModel("LocalDataModel").setProperty("/BaseUnit", "");
+			this.getView().getModel("PartDataModel").setProperty("/PartType", "");
+			this.getView().getModel("PartDataModel").setProperty("/CompetitorPrice", "");
+			this.getView().getModel("PartDataModel").setProperty("/PartManufacturer", "");
+		},
+
+		onPressDeletePart: function () {
+			var oClaimNum = this.getView().getModel("HeadSetData").getProperty("/NumberOfWarrantyClaim");
+			this.obj.NumberOfWarrantyClaim = oClaimNum;
 			var oTable = this.getView().byId("idTableParts");
 			var oTableIndex = oTable._aSelectedPaths;
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
@@ -1464,12 +1437,12 @@ sap.ui.define([
 								var oIndex = parseInt(oTable._aSelectedPaths.toString().split("/")[2]);
 								this.obj.zc_itemSet.results.splice(oFindIndexOfSelectedObj, 1);
 
-								var oClaimModel = this.getModel("ProssingModel");
+								var oClaimModel = this.getModel("zDLRCLAIMPMPSRV");
 
 								this.obj.DBOperation = "SAVE";
 								this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", true);
 								oClaimModel.refreshSecurityToken();
-								oClaimModel.create("/zc_headSet", this.obj, {
+								oClaimModel.create("/ZC_HEAD_PMPSet", this.obj, {
 									success: $.proxy(function (data, response) {
 										this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", false);
 
@@ -1564,8 +1537,6 @@ sap.ui.define([
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var sSelectedLocale, bValidationError;
 
-			var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
-
 			var that = this;
 
 			// 	jQuery.each(that._modelValidate(), function (i, oInput) {
@@ -1575,12 +1546,6 @@ sap.ui.define([
 			// 			oInput.setValueState("None");
 			// 		}
 			// 	});
-
-			if (isLocaleSent) {
-				sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
-			} else {
-				sSelectedLocale = "en"; // default is english
-			}
 
 			//this.fnDisableLine();
 			var oClaimModel = this.getModel("zDLRCLAIMPMPSRV");
@@ -1628,22 +1593,24 @@ sap.ui.define([
 							oClaimModel.create("/ZC_HEAD_PMPSet", this.obj, {
 								success: $.proxy(function (data, response) {
 									this.getView().byId("idMainClaimMessage").setProperty("visible", false);
-									var pricinghData = response.data.zc_claim_item_price_dataSet.results;
 
-									var oFilteredData = pricinghData.filter(function (val) {
-										return val.ItemType === "MAT";
-									});
-
-									this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
-
-									this.getView().getModel("DateModel").setProperty("/claimTypeEn", false);
 									oClaimModel.read("/ZC_HEAD_PMPSet", {
 										urlParameters: {
 											"$filter": "NumberOfWarrantyClaim eq '" + oClaimNum +
-												"'and LanguageKey eq '" + sSelectedLocale.toUpperCase() + "'",
+												"'and LanguageKey eq '" + this.fnReturnLanguage() + "'",
 											"$expand": "zc_claim_vsrSet"
 										},
 										success: $.proxy(function (errorData) {
+
+											var pricinghData = errorData.results[0].zc_claim_item_price_dataSet.results;
+
+											var oFilteredData = pricinghData.filter(function (val) {
+												return val.ItemType === "MAT";
+											});
+
+											this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
+
+											this.getView().getModel("DateModel").setProperty("/claimTypeEn", false);
 											this.getModel("LocalDataModel").setProperty("/oErrorSet", errorData.results[0].zc_claim_vsrSet.results);
 
 											this.getView().getModel("DateModel").setProperty("/errorBusyIndicator", false);
