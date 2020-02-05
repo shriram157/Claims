@@ -145,7 +145,7 @@
 					<cells>
 						<Text text="{LocalDataModel>posnr}" textAlign="Center"/>
 						<Text text="{LocalDataModel>matnr}" wrapping="true" textAlign="Center"/>
-						<Text text="{LocalDataModel>PartDescription}" wrapping="true" textAlign="Center"/>
+						<Text text="{LocalDataModel>ALMDiscreDesc}" wrapping="true" textAlign="Center"/>
 						<Text text="{LocalDataModel>PartManufacturer}" wrapping="true" textAlign="Center"/>
 						<Text text="{LocalDataModel>PartType}" wrapping="true" textAlign="Center"/>
 						<Text text="${LocalDataModel>DealerNet}" wrapping="true" textAlign="Center"/>

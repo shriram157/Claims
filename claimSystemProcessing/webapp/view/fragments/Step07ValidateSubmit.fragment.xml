@@ -46,7 +46,7 @@
 			<table:columns autoResizable="true">
 				<table:Column width="17rem">
 					<table:multiLabels>
-						<Label text="{i18n>Totalsincludedmarkupdiscounts}" textAlign="Center" width="100%"/>
+						<Label text="{i18n>TotalsincludingRebate}" textAlign="Center" width="100%"/>
 					</table:multiLabels>
 					<table:template>
 						<Text text="{path:'LocalDataModel>ItemType', formatter: 'zclaimProcessing.utils.formatter.fnFormatText'}" wrapping="false"/>
