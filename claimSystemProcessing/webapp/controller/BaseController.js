@@ -233,7 +233,7 @@ sap.ui.define([
 				}
 			});
 
-			// get the attributes and BP Details - Minakshi to confirm if BP details needed		// TODO: 
+			// get the attributes and BP Details - Minakshi to confirm if BP details needed	
 			$.ajax({
 				url: this.sPrefix + this.attributeUrl,
 				type: "GET",
@@ -269,10 +269,7 @@ sap.ui.define([
 
 				that.getModel("LocalDataModel").setProperty("/BPDealerDetails", data.attributes[0]);
 				that.getModel("LocalDataModel").setProperty("/LoginId", data.userProfile.id);
-				//----------------------------------
-				//Code of Dealer Labour--------------
-				//------------------------------------
-				//that.getDealerlabour(data.attributes[0]);
+
 			});
 
 		},
