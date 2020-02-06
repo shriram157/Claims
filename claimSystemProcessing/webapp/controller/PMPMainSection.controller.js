@@ -411,6 +411,7 @@ sap.ui.define([
 						success: $.proxy(function (data) {
 							this.oFilteredData = data.results;
 							this.getModel("LocalDataModel").setProperty("/ClaimGroupSet", this.oFilteredData);
+							this.getView().getModel("HeadSetData").setProperty("//WarrantyClaimType", data.results[0].TMCClaimType)
 						}, this),
 						error: function () {
 							console.log("Error");
@@ -434,6 +435,18 @@ sap.ui.define([
 				this._fnDistanceMatrix();
 			}
 
+		},
+
+		_fnClaimSum: function (e) {
+			var oClaimModel = this.getModel("zDLRCLAIMPMPSRV");
+			oClaimModel.read("/ZC_CLAIM_SUM(p_clmno='" + this.getView().getModel("HeadSetData").getProperty("/NumberOfWarrantyClaim") +
+				"')/Set", {
+					success: $.proxy(function (data) {
+
+						this.getModel("LocalDataModel").setProperty("/ClaimSum", data.results);
+
+					}, this)
+				});
 		},
 
 		fnReturnLanguage: function () {
@@ -617,6 +630,7 @@ sap.ui.define([
 								});
 
 								this.getModel("LocalDataModel").setProperty("/commentIndicator", false);
+								this._fnClaimSum();
 								oClaimModel.read("/ZC_CLAIM_HEAD_PMP", {
 									urlParameters: {
 										"$filter": "NumberOfWarrantyClaim eq '" + this.getView().getModel("HeadSetData").getProperty(
@@ -775,6 +789,8 @@ sap.ui.define([
 
 					success: $.proxy(function (data, response) {
 						this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", false);
+
+						this._fnClaimSum();
 
 						oPMPModel.read("/zc_claim_item_price_dataSet", {
 							urlParameters: {
@@ -1088,6 +1104,8 @@ sap.ui.define([
 						this.getModel("LocalDataModel").setProperty("/UploadEnable", true);
 						this.getModel("LocalDataModel").setProperty("/UploadEnableSublet", true);
 						this.getView().getModel("DateModel").setProperty("/oDamageLineBtn", true);
+
+						this._fnClaimSum();
 
 						oClaimModel.read("/ZC_CLAIM_HEAD_PMP", {
 							urlParameters: {
@@ -1460,6 +1478,8 @@ sap.ui.define([
 											at: "center center"
 										});
 
+										this._fnClaimSum();
+
 									}, this),
 									error: $.proxy(function (err) {
 										MessageToast.show(oBundle.getText("SystemInternalError"));
@@ -1593,6 +1613,8 @@ sap.ui.define([
 							oClaimModel.create("/ZC_HEAD_PMPSet", this.obj, {
 								success: $.proxy(function (data, response) {
 									this.getView().byId("idMainClaimMessage").setProperty("visible", false);
+
+									this._fnClaimSum();
 
 									oClaimModel.read("/ZC_HEAD_PMPSet", {
 										urlParameters: {
