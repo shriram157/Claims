@@ -359,6 +359,15 @@ sap.ui.define([
 
 					});
 
+					oBusinessModel.read("/A_BusinessPartner", {
+						urlParameters: {
+							"$filter": "BusinessPartner eq '" + BpDealer[0].BusinessPartnerKey + "'"
+						},
+						success: $.proxy(function (dBp) {
+							this.getModel("LocalDataModel").setProperty("/BPOrgName", dBp.results[0].OrganizationBPName1);
+						}, this)
+					});
+
 					//that.getModel("LocalDataModel").setProperty("/BpDealerKey", BpDealer[0].BusinessPartnerKey);
 					//that.getView().setModel(new sap.ui.model.json.JSONModel(BpDealer), "BpDealerModel");
 					// read the saml attachments the same way 
