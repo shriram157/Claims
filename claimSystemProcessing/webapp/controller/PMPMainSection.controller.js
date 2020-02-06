@@ -57,34 +57,34 @@ sap.ui.define([
 			});
 
 			var jsonTemplate = new sap.ui.model.json.JSONModel(jQuery.sap.getModulePath("zclaimProcessing/utils", "/Nodes.json"));
-			jsonTemplate.attachRequestCompleted($.proxy(function (oEvent) {
-				var ModelNEW = oEvent.getSource().getData();
-				var unionArr = [];
-				var unionSet = [];
+			// 			jsonTemplate.attachRequestCompleted($.proxy(function (oEvent) {
+			// 				var ModelNEW = oEvent.getSource().getData();
+			// 				var unionArr = [];
+			// 				var unionSet = [];
 
-				this.getModel("LocalDataModel").setProperty("/cities", ModelNEW);
-				this.getModel("LocalDataModel").setProperty("/itemList", ModelNEW);
-				for (var i in ModelNEW) {
+			// 				this.getModel("LocalDataModel").setProperty("/cities", ModelNEW);
+			// 				this.getModel("LocalDataModel").setProperty("/itemList", ModelNEW);
+			// 				for (var i in ModelNEW) {
 
-					if (unionArr.indexOf(ModelNEW[i].admin) == -1) {
-						unionArr.push(ModelNEW[i].admin);
-						console.log(unionArr);
-					}
+			// 					if (unionArr.indexOf(ModelNEW[i].admin) == -1) {
+			// 						unionArr.push(ModelNEW[i].admin);
+			// 						console.log(unionArr);
+			// 					}
 
-				}
+			// 				}
 
-				for (var j in unionArr) {
-					unionSet.push({
-						"admin": unionArr[j]
-					});
-				}
+			// 				for (var j in unionArr) {
+			// 					unionSet.push({
+			// 						"admin": unionArr[j]
+			// 					});
+			// 				}
 
-				this.getModel("LocalDataModel").setProperty("/ProviceSet", unionSet);
+			// 				this.getModel("LocalDataModel").setProperty("/ProviceSet", unionSet);
 
-			}, this));
-			console.log(jsonTemplate);
-			this.getView().setModel(jsonTemplate, "CityModel");
-			this.getView().getModel("CityModel").setSizeLimit(6000);
+			// 			}, this));
+			// 			console.log(jsonTemplate);
+			// 			this.getView().setModel(jsonTemplate, "CityModel");
+			// 			this.getView().getModel("CityModel").setSizeLimit(6000);
 
 			sap.ui.getCore().attachValidationError(function (oEvent) {
 				oEvent.getParameter("element").setValueState(ValueState.Error);
@@ -235,6 +235,9 @@ sap.ui.define([
 						// console.log(sdata);
 						this.getModel("LocalDataModel").setProperty("/ClaimDetails", sdata.results[0]);
 
+						this.getView().getModel("HeadSetData").setData(sdata.results[0]);
+						this._fnStatusCheck();
+
 						var oPartner = this.getModel("LocalDataModel").getProperty("/ClaimDetails/Partner");
 
 						var oBusinessModel = this.getModel("ApiBusinessModel");
@@ -283,8 +286,6 @@ sap.ui.define([
 								this.getModel("LocalDataModel").setProperty("/HeadAtchmentData", oAttachSet);
 							}, this)
 						});
-
-						this.getView().getModel("HeadSetData").setData(sdata.results[0]);
 
 						var oCLaim = this.getModel("LocalDataModel").getProperty("/ClaimDetails/NumberOfWarrantyClaim");
 						this.getView().getModel("HeadSetData").setProperty("/NumberOfWarrantyClaim", oCLaim);
@@ -382,7 +383,7 @@ sap.ui.define([
 									},
 
 									"zc_claim_commentSet": {
-										"results": this.getModel("LocalDataModel").getProperty("/claim_commentSet")
+										"results": this.getModel("LocalDataModel").getProperty("/claim_commentSet") || []
 									},
 									"zc_claim_vsrSet": {
 										"results": this.getModel("LocalDataModel").getProperty("/oErrorSet") || []
@@ -403,6 +404,80 @@ sap.ui.define([
 					}
 				})
 			} else {
+
+				this.obj = {
+					"DBOperation": "",
+					"Message": "",
+					"WarrantyClaimType": "",
+					"Partner": "",
+					"PartnerRole": "",
+					"ReferenceDate": null,
+					"DateOfApplication": null,
+					"FinalProcdDate": null,
+					"RepairDate": null,
+					"RepairOrderNumberExternal": "",
+					"ExternalNumberOfClaim": "",
+					"ExternalObjectNumber": "",
+					"Odometer": "",
+					"TCIWaybillNumber": "",
+					"NameOfPersonRespWhoChangedObj": "",
+					"ShipmentReceivedDate": null,
+					"DealerContact": "",
+					"HeadText": "",
+					"OFP": "",
+					"WTYClaimRecoverySource": "",
+					"MainOpsCode": "",
+					"T1WarrantyCodes": "",
+					"BatteryTestCode": "",
+					"T2WarrantyCodes": "",
+					"FieldActionReference": "",
+					"ZCondition": "",
+					"Cause": "",
+					"Remedy": "",
+					"PreviousROInvoiceDate": null,
+					"PreviousROOdometer": "",
+					"PreviousROInvoice": "",
+					"AccessoryInstallOdometer": "",
+					"AccessoryInstallDate": null,
+					"AgreementNumber": "",
+					"CustomerPostalCode": "",
+					"CustomerFullName": "",
+					"ProbillNum": "",
+					"Delivery": "",
+					"DeliveryDate": null,
+					"DeliveringCarrier": "",
+					"WarrantyClaimSubType": "",
+					"DeliveryType": "",
+					"DealerInvoice": "",
+					"DealerInvoiceDate": null,
+					"DealerRO": "",
+					"CompetitorName": "",
+					"CompetitorAddr": "",
+					"CompetitorCity": "",
+					"CompetitorProv": "",
+					"CompetitorPost": "",
+					"QuoteDate": "",
+					"PartManufacturer": "",
+					"PartType": "",
+					"zc_itemSet": {
+						"results": []
+					},
+
+					"zc_claim_item_price_dataSet": {
+						"results": []
+					},
+
+					"zc_claim_attachmentsSet": {
+						"results": []
+					},
+					"zc_claim_commentSet": {
+						"results": []
+					},
+					"zc_claim_vsrSet": {
+						"results": []
+					}
+				};
+
 				if (oGroupDescription == "PMP") {
 					oProssingModel.read("/zc_claim_groupSet", {
 						urlParameters: {
@@ -435,6 +510,32 @@ sap.ui.define([
 				this._fnDistanceMatrix();
 			}
 
+		},
+		onClearAddress: function (oEvent) {
+
+			this.getView().byId("street_number").setValue("");
+			this.getView().byId("locality").setValue("");
+			this.getView().byId("administrative_area_level_1").setValue("");
+			this.getView().byId("autocomplete").setValue("");
+			this.getView().byId("postal_code").setValue("");
+
+		},
+
+		_fnStatusCheck: function () {
+			var oStatus = this.getView().getModel("HeadSetData").getProperty("/DecisionCode");
+			if (oStatus == "ZTIC") {
+				this.getModel("LocalDataModel").setProperty("/StatusDes", "Incomplete");
+			} else if (oStatus == "ZTCD") {
+				this.getModel("LocalDataModel").setProperty("/StatusDes", "Cancelled by Dealer");
+			} else if (oStatus == "ZTRC") {
+				this.getModel("LocalDataModel").setProperty("/StatusDes", "Returned to Dealer");
+			} else if (oStatus == "ZTSM") {
+				this.getModel("LocalDataModel").setProperty("/StatusDes", "Submitted to TCI");
+			} else if (oStatus == "ZTAC") {
+				this.getModel("LocalDataModel").setProperty("/StatusDes", "Accepted");
+			} else if (oStatus == "ZTPD") {
+				this.getModel("LocalDataModel").setProperty("/StatusDes", "Paid to Dealer");
+			}
 		},
 
 		_fnClaimSum: function (e) {
@@ -1114,6 +1215,9 @@ sap.ui.define([
 							},
 							success: $.proxy(function (sdata) {
 								// console.log(sdata);
+								this.getView().getModel("HeadSetData").setData(sdata.results[0]);
+
+								this._fnStatusCheck();
 								this.getModel("LocalDataModel").setProperty("/ClaimDetails", sdata.results[0]);
 
 								var oPartner = this.getModel("LocalDataModel").getProperty("/ClaimDetails/Partner");
@@ -1127,8 +1231,6 @@ sap.ui.define([
 										this.getModel("LocalDataModel").setProperty("/BPOrgName", dBp.results[0].OrganizationBPName1);
 									}, this)
 								});
-
-								this.getView().getModel("HeadSetData").setData(sdata.results[0]);
 
 								var oCLaim = this.getView().getModel("HeadSetData").getProperty("/NumberOfWarrantyClaim");
 								this.getView().getModel("HeadSetData").setProperty("/NumberOfWarrantyClaim", oCLaim);
@@ -1584,6 +1686,8 @@ sap.ui.define([
 
 			this.obj.zc_claim_vsrSet.results.push(oObj);
 
+			//this.obj.zc_claim_item_price_dataSet.results.push(this.getModel("LocalDataModel").getProperty("/PricingDataModel"));
+
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			//var GroupType = this.getModel("LocalDataModel").getProperty("/WarrantyClaimTypeGroup");
 			//oEvent.getSource().getParent().getParent().addStyleClass("clMinHeight");
@@ -1614,17 +1718,38 @@ sap.ui.define([
 								success: $.proxy(function (data, response) {
 									this.getView().byId("idMainClaimMessage").setProperty("visible", false);
 
-									this.getView().byId("idMainClaimMessage").setProperty("visible", false);
-									var pricinghData = response.data.zc_claim_item_price_dataSet.results;
+									//this.getView().byId("idMainClaimMessage").setProperty("visible", false);
+									//var pricinghData = response.data.zc_claim_item_price_dataSet.results;
 
-									var oFilteredData = pricinghData.filter(function (val) {
-										return val.ItemType === "MAT";
-									});
+									// 	var oFilteredData = pricinghData.filter(function (val) {
+									// 		return val.ItemType === "MAT";
+									// 	});
 
-									this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
-									this.getView().getModel("DateModel").setProperty("/claimTypeEn", false);
+									// 	this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
+									// 	this.getView().getModel("DateModel").setProperty("/claimTypeEn", false);
 
 									this._fnClaimSum();
+
+									oClaimModel.read("/zc_claim_item_price_dataSet", {
+										urlParameters: {
+											"$filter": "NumberOfWarrantyClaim eq '" + oClaimNum + "' "
+
+										},
+
+										success: $.proxy(function (pricingData) {
+											var pricinghData = pricingData.results;
+											var oFilteredData = pricinghData.filter(function (val) {
+												return val.ItemType === "MAT";
+											});
+
+											this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
+
+										}, this),
+										error: $.proxy(function (err) {
+											MessageToast.show(oBundle.getText("SystemInternalError"));
+											this.getView().getModel("DateModel").setProperty("/errorBusyIndicator", false);
+										}, this)
+									});
 
 									oClaimModel.read("/ZC_HEAD_PMPSet", {
 										urlParameters: {
@@ -1657,6 +1782,8 @@ sap.ui.define([
 										success: $.proxy(function (sdata) {
 
 											this.getView().getModel("HeadSetData").setProperty("/DecisionCode", sdata.results[0].DecisionCode);
+
+											this._fnStatusCheck();
 
 											if (sdata.results[0].DecisionCode == "ZTIC") {
 												MessageToast.show(

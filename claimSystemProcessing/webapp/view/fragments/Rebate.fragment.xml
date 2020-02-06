@@ -9,17 +9,18 @@
 					<Title text="{i18n>ClaimNumber} : {HeadSetData>/NumberOfWarrantyClaim}" textAlign="End"/>
 				</Toolbar>
 			</headerToolbar>
-			<f:SimpleForm editable="true" layout="ResponsiveGridLayout" title="" labelSpanXL="8" labelSpanL="8" labelSpanM="12" labelSpanS="12"
-				emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="4" columnsL="4" columnsM="6">
+			<f:SimpleForm editable="true" layout="ResponsiveGridLayout" title="" labelSpanXL="6" labelSpanL="6" labelSpanM="12" labelSpanS="12"
+				adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="4" columnsL="4" columnsM="4"
+				singleContainerFullSize="false">
 				<f:content>
 					<core:Title text=""/>
 					<Label text="{i18n>TCIClaim}"/>
 					<Text text="{HeadSetData>/NumberOfWarrantyClaim}"/>
 					<core:Title text=""/>
 					<Label text="{i18n>DealerInvoice}"/>
-					<Text text="{HeadSetData>/ExternalNumberOfClaim}"/>
+					<Text text="{HeadSetData>/DealerInvoice}"/>
 					<Label text="{i18n>DealerInvoiceDate}"/>
-					<Text text="{HeadSetData>/ExternalNumberOfClaim}"/>
+					<Text text="{path:'HeadSetData>/DealerInvoiceDate', formatter:'zclaimProcessing.utils.formatter.fnDateFormat'}"/>
 					<core:Title text=""/>
 					<Label text="{i18n>Type}"/>
 					<Text text="{HeadSetData>/WarrantyClaimType}"/>
@@ -27,9 +28,9 @@
 					<Text text="{HeadSetData>/DecisionCode}"/>
 					<core:Title text=""/>
 					<Label text="{i18n>ClaimTypeDescription}"/>
-					<Text text="{HeadSetData>/WarrantyClaimType}"/>
+					<Text text="Price Match Claim"/>
 					<Label text="{i18n>StatusDescription}"/>
-					<Text text="{HeadSetData>/DecisionCode}"/>
+					<Text text="{LocalDataModel>/StatusDes}"/>
 				</f:content>
 			</f:SimpleForm>
 		</Panel>

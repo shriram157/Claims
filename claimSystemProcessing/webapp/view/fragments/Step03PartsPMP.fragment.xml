@@ -18,9 +18,9 @@
 					<Text text="{HeadSetData>/NumberOfWarrantyClaim}"/>
 					<core:Title text=""/>
 					<Label text="{i18n>DealerInvoice}"/>
-					<Text text="{HeadSetData>/ExternalNumberOfClaim}"/>
+					<Text text="{HeadSetData>/DealerInvoice}"/>
 					<Label text="{i18n>DealerInvoiceDate}"/>
-					<Text text="{HeadSetData>/ExternalNumberOfClaim}"/>
+					<Text text="{path:'HeadSetData>/DealerInvoiceDate', formatter:'zclaimProcessing.utils.formatter.fnDateFormat'}"/>
 					<core:Title text=""/>
 					<Label text="{i18n>Type}"/>
 					<Text text="{HeadSetData>/WarrantyClaimType}"/>
@@ -28,9 +28,9 @@
 					<Text text="{HeadSetData>/DecisionCode}"/>
 					<core:Title text=""/>
 					<Label text="{i18n>ClaimTypeDescription}"/>
-					<Text text="{HeadSetData>/WarrantyClaimType}"/>
+					<Text text="Price Match Claim"/>
 					<Label text="{i18n>StatusDescription}"/>
-					<Text text="{HeadSetData>/DecisionCode}"/>
+					<Text text="{LocalDataModel>/StatusDes}"/>
 				</f:content>
 			</f:SimpleForm>
 		</Panel>

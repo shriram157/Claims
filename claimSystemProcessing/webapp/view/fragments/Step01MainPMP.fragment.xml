@@ -94,6 +94,12 @@
 					</layoutData>
 				</Button>
 				<core:Title text=""/>
+				<Button text="Clear" press="onClearAddress">
+					<layoutData>
+						<l:GridData span="XL8 L8 M12 S12"/>
+					</layoutData>
+				</Button>
+				<core:Title text=""/>
 				<l:HorizontalLayout id="idDist"></l:HorizontalLayout>
 			</f:content>
 		</f:SimpleForm>
