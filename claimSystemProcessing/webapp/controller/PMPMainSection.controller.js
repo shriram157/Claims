@@ -411,7 +411,7 @@ sap.ui.define([
 						success: $.proxy(function (data) {
 							this.oFilteredData = data.results;
 							this.getModel("LocalDataModel").setProperty("/ClaimGroupSet", this.oFilteredData);
-							this.getView().getModel("HeadSetData").setProperty("//WarrantyClaimType", data.results[0].TMCClaimType)
+							this.getView().getModel("HeadSetData").setProperty("//WarrantyClaimType", data.results[0].TMCClaimType);
 						}, this),
 						error: function () {
 							console.log("Error");
@@ -1614,6 +1614,16 @@ sap.ui.define([
 								success: $.proxy(function (data, response) {
 									this.getView().byId("idMainClaimMessage").setProperty("visible", false);
 
+									this.getView().byId("idMainClaimMessage").setProperty("visible", false);
+									var pricinghData = response.data.zc_claim_item_price_dataSet.results;
+
+									var oFilteredData = pricinghData.filter(function (val) {
+										return val.ItemType === "MAT";
+									});
+
+									this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
+									this.getView().getModel("DateModel").setProperty("/claimTypeEn", false);
+
 									this._fnClaimSum();
 
 									oClaimModel.read("/ZC_HEAD_PMPSet", {
@@ -1624,15 +1634,14 @@ sap.ui.define([
 										},
 										success: $.proxy(function (errorData) {
 
-											var pricinghData = errorData.results[0].zc_claim_item_price_dataSet.results;
+											// 			var pricinghData = errorData.results[0].zc_claim_item_price_dataSet.results;
 
-											var oFilteredData = pricinghData.filter(function (val) {
-												return val.ItemType === "MAT";
-											});
+											// 			var oFilteredData = pricinghData.filter(function (val) {
+											// 				return val.ItemType === "MAT";
+											// 			});
 
-											this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
+											// 			this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
 
-											this.getView().getModel("DateModel").setProperty("/claimTypeEn", false);
 											this.getModel("LocalDataModel").setProperty("/oErrorSet", errorData.results[0].zc_claim_vsrSet.results);
 
 											this.getView().getModel("DateModel").setProperty("/errorBusyIndicator", false);

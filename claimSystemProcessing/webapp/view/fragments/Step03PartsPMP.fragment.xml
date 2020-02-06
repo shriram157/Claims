@@ -47,9 +47,6 @@
 				<!--<core:Title text=""/>-->
 				<!--<Button text="{i18n>GeneratePackingSlip}" press="onPressPackingSlip" visible="{DateModel>/oSlipVisible}"/>-->
 				<core:Title text=""/>
-				<Label text="{i18n>PartsMarkup}"/>
-				<Text text="{path:'LocalDataModel>/PricingDataModel/0/PartPer', formatter:'zclaimProcessing.utils.formatter.fnFormatPercent'}"/>
-				<core:Title text=""/>
 				<Button text="{i18n>SaveClaim}" type="Emphasized" press="onPressSavePart" enabled="{DateModel>/partLine}"/>
 			</f:content>
 		</f:SimpleForm>

@@ -51,16 +51,17 @@
 		</Panel>
 		<f:SimpleForm id="idClaimMainForm" editable="{DateModel>/oFormEdit}" title="Dealer Invoice Information" layout="ResponsiveGridLayout"
 			labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0"
-			emptySpanS="0" columnsXL="3" columnsL="3" columnsM="3" singleContainerFullSize="false">
+			emptySpanS="0" columnsXL="4" columnsL="4" columnsM="3" singleContainerFullSize="false">
 			<f:content>
 				<core:Title text=""/>
 				<Label text="{i18n>DealerName}"/>
 				<Text text="{LocalDataModel>/BPOrgName}"/>
+				<!--<core:Title text=""/>-->
+				<!--<Label text="Part Manager Name"/>-->
+				<!--<Input maxLength="40"-->
+				<!--	value="{path:'HeadSetData>/DealerContact', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 40 } }"-->
+				<!--	id="idDealerClaim" editable="{DateModel>/oFormEdit}"/>-->
 				<core:Title text=""/>
-				<Label text="Part Manager Name"/>
-				<Input maxLength="40"
-					value="{path:'HeadSetData>/DealerContact', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 40 } }"
-					id="idDealerClaim" editable="{DateModel>/oFormEdit}"/>
 				<Label text="{i18n>DealerInvoice}"/>
 				<Input maxLength="15" required="true"
 					value="{path:'HeadSetData>/DealerInvoice', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 15 }}"
@@ -71,6 +72,7 @@
 				<Input required="true" maxLength="10"
 					value="{path:'HeadSetData>/DealerRO', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 10 }}" id="idDealerRO"
 					editable="{DateModel>/oFormEdit}"/>
+				<core:Title text=""/>
 				<Label text="{i18n>DealerInvoiceDate}"/>
 				<!--<DatePicker class="clDatePicker" required="true" value="{path:'HeadSetData>/RepairDate',type : 'sap.ui.model.type.Date'}" editable="{DateModel>/oFormEdit}"/>-->
 				<DatePicker class="clDatePicker" id="idDealerINVDate" required="true" change="onChangeDate"
