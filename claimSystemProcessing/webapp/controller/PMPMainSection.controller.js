@@ -223,7 +223,19 @@ sap.ui.define([
 			// 			var oClaimTypeDetail = oEvent.getParameters().arguments.oKey;
 			// 			var oNavList = oEvent.getParameters().arguments.oClaimNav;
 
+			this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab1");
+			//this.getView().byId("mainSectionTitle").setTitle(this.oBundle.getText("MainSection"));
+			this.getView().byId("idFilter02").setProperty("enabled", false);
+			this.getView().byId("idFilter03").setProperty("enabled", false);
+			this.getView().byId("idFilter07").setProperty("enabled", false);
+			this.getView().byId("idFilter08").setProperty("enabled", false);
+
 			if (oClaim != "nun" && oClaim != undefined) {
+				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab1");
+				this.getView().byId("idFilter02").setProperty("enabled", true);
+				this.getView().byId("idFilter03").setProperty("enabled", true);
+				this.getView().byId("idFilter07").setProperty("enabled", true);
+				this.getView().byId("idFilter08").setProperty("enabled", false);
 				this.getModel("LocalDataModel").setProperty("/UploadEnable", true);
 				this.getModel("LocalDataModel").setProperty("/step01Next", true);
 				this.getModel("LocalDataModel").setProperty("/FeedEnabled", true);
@@ -477,6 +489,13 @@ sap.ui.define([
 						"results": []
 					}
 				};
+
+				this.getModel("LocalDataModel").setProperty("/PricingDataModel", "");
+				this.getModel("LocalDataModel").setProperty("/ClaimDetails", "");
+				this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
+				this.getView().getModel("DateModel").setProperty("/SaveClaim07", true);
+				this.getModel("LocalDataModel").setProperty("/step01Next", false);
+				this.getModel("LocalDataModel").setProperty("/CancelEnable", false);
 
 				if (oGroupDescription == "PMP") {
 					oProssingModel.read("/zc_claim_groupSet", {
@@ -1854,6 +1873,10 @@ sap.ui.define([
 			this.getView().byId("idMainClaimMessage").setProperty("visible", false);
 		},
 
+		onPressBack: function () {
+			this.getRouter().navTo("SearchClaim");
+		},
+
 		onStep01Back: function (oEvent) {
 			this.getView().byId("idFilter01").setProperty("enabled", true);
 			this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab1");
@@ -1862,15 +1885,15 @@ sap.ui.define([
 		},
 
 		onStep02Back: function (oEvent) {
-			this.getView().byId("idFilter01").setProperty("enabled", true);
-			this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab1");
+			this.getView().byId("idFilter02").setProperty("enabled", true);
+			this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab2");
 			this.getView().byId("mainSectionTitle").setTitle(oBundle.getText("ClaimPartsSection"));
 			this.getView().byId("idMainClaimMessage").setProperty("visible", false);
 		},
 
 		onStep03Back: function (oEvent) {
-			this.getView().byId("idFilter02").setProperty("enabled", true);
-			this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab2");
+			this.getView().byId("idFilter03").setProperty("enabled", true);
+			this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab3");
 			this.getView().byId("mainSectionTitle").setTitle(oBundle.getText("ClaimPartsSection"));
 			this.getView().byId("idMainClaimMessage").setProperty("visible", false);
 		}

@@ -84,6 +84,18 @@
 			labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="4" columnsL="4" columnsM="3"
 			singleContainerFullSize="false">
 			<f:content >
+				<Label text="Name"/>
+				<custom:CustomCombo showSecondaryValues="true" id="idCompetitorName" items="{path:'LocalDataModel>/company_detailSet'}"
+					selectionChange="onSelectCompetitorName" selectedKey="HeadSetData>/CompetitorName"
+					value="{path:'HeadSetData>/CustomerFullName', type : 'sap.ui.model.type.String'}">
+					<core:ListItem text="{LocalDataModel>CompetitorName}" key="{LocalDataModel>CompetitorName}"/>
+				</custom:CustomCombo>
+			</f:content>
+		</f:SimpleForm>
+		<f:SimpleForm editable="" layout="ResponsiveGridLayout" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12"
+			adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="4" columnsL="4" columnsM="3"
+			singleContainerFullSize="false">
+			<f:content >
 				<core:Title text=""/>
 				<!--<Input value="{path:'HeadSetData>/CompetitorAddr', type : 'sap.ui.model.type.String' }" editable="{DateModel>/oFormEdit}"/>-->
 				<custom:AddressAutoComplete id="autocomplete" change="onAfterAutoComplete"/>
@@ -107,13 +119,6 @@
 			labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="6" columnsL="6" columnsM="3"
 			singleContainerFullSize="false">
 			<f:content >
-				<core:Title text=""/>
-				<Label text="Name"/>
-				<custom:CustomCombo showSecondaryValues="true" id="idCompetitorName" items="{path:'LocalDataModel>/company_detailSet'}"
-					selectionChange="onSelectCompetitorName" selectedKey="HeadSetData>/CompetitorName"
-					value="{path:'HeadSetData>/CustomerFullName', type : 'sap.ui.model.type.String'}">
-					<core:ListItem text="{LocalDataModel>CompetitorName}" key="{LocalDataModel>CompetitorName}"/>
-				</custom:CustomCombo>
 				<!--<VBox id="oSearchId"></VBox>-->
 				<!--<custom:SearchAddressInput id="autocomplete"/>-->
 				<!--<html:Input id="autocomplete" placeholder="Enter your address" onFocus="geolocate()" type="text"/>-->
@@ -293,7 +298,7 @@
 				</table:Table>
 			</content>
 			<HBox alignContent="Center" justifyContent="Center" class="sapUiTinyMarginTop sapUiTinyMarginBottom">
-				<Button class="sapUiTinyMarginBeginEnd" press="onStep01Back" text="{i18n>BackList}" type="Back"/>
+				<Button class="sapUiTinyMarginBeginEnd" press="onPressBack" text="{i18n>BackList}" type="Back"/>
 				<Button class="sapUiTinyMarginBeginEnd" press="onCancelClaim" enabled="{LocalDataModel>/CancelEnable}" text="{i18n>CancelClaim}"
 					type="Reject"/>
 				<Button class="sapUiTinyMarginBeginEnd" text="{i18n>Print}" enabled="{LocalDataModel>/PrintEnable}" press="onPressPrint"/>

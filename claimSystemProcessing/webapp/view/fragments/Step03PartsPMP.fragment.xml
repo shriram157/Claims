@@ -76,7 +76,7 @@
 						<Input value="{PartDataModel>/matnr}" editable="{DateModel>/editablePartNumber}" required="true" id="idPartNumber" showValueHelp="true"
 							valueHelpOnly="true" valueHelpRequest="handleValueHelp" enabled="{DateModel>/partLine}"/>
 						<Label text="{i18n>CompetitorPriceTire}" textAlign="Left"/>
-						<Input value="{PartDataModel>/CompetitorPrice}" editable="{DateModel>/editablePartNumber}" enabled="{DateModel>/partLine}"/>
+						<Input value="{PartDataModel>/CompetitorPrice}" enabled="{DateModel>/partLine}"/>
 						<core:Title text=""/>
 						<Label text="{i18n>PartDescription}" textAlign="Left"/>
 						<Input value="{PartDataModel>/PartDescription}" id="idPartDes" editable="false" enabled="{DateModel>/partLine}"/>
@@ -167,7 +167,7 @@
 			</items>
 		</Table>
 		<HBox alignContent="Center" justifyContent="Center" class="sapUiTinyMarginTop">
-			<Button class="sapUiTinyMarginBeginEnd" type="Back" press="onStep03Back" text="{i18n>Back}"/>
+			<Button class="sapUiTinyMarginBeginEnd" type="Back" press="onStep01Back" text="{i18n>Back}"/>
 			<Button class="sapUiTinyMarginBeginEnd" press="onStep02Next" text="{i18n>Next}" type="Emphasized"/>
 		</HBox>
 	</VBox>
