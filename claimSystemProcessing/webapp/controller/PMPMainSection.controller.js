@@ -542,19 +542,33 @@ sap.ui.define([
 
 		_fnStatusCheck: function () {
 			var oStatus = this.getView().getModel("HeadSetData").getProperty("/DecisionCode");
-			if (oStatus == "ZTIC") {
-				this.getModel("LocalDataModel").setProperty("/StatusDes", "Incomplete");
-			} else if (oStatus == "ZTCD") {
-				this.getModel("LocalDataModel").setProperty("/StatusDes", "Cancelled by Dealer");
-			} else if (oStatus == "ZTRC") {
-				this.getModel("LocalDataModel").setProperty("/StatusDes", "Returned to Dealer");
-			} else if (oStatus == "ZTSM") {
-				this.getModel("LocalDataModel").setProperty("/StatusDes", "Submitted to TCI");
-			} else if (oStatus == "ZTAC") {
-				this.getModel("LocalDataModel").setProperty("/StatusDes", "Accepted");
-			} else if (oStatus == "ZTPD") {
-				this.getModel("LocalDataModel").setProperty("/StatusDes", "Paid to Dealer");
-			}
+			var oClaimModel = this.getModel("ProssingModel");
+
+			oClaimModel.read("/ZC_CLAIM_STATUS_DESC", {
+				urlParameters: {
+					"$filter": "LanguageKey eq '" + this.fnReturnLanguage() + "'and Status eq '" + oStatus + "'"
+				},
+				success: $.proxy(function (data) {
+					this.getModel("LocalDataModel").setProperty("/StatusDes", data.results[0].Description);
+				}, this),
+				error: function () {
+
+				}
+			})
+
+			// 			if (oStatus == "ZTIC") {
+			// 				this.getModel("LocalDataModel").setProperty("/StatusDes", "Incomplete");
+			// 			} else if (oStatus == "ZTCD") {
+			// 				this.getModel("LocalDataModel").setProperty("/StatusDes", "Cancelled by Dealer");
+			// 			} else if (oStatus == "ZTRC") {
+			// 				this.getModel("LocalDataModel").setProperty("/StatusDes", "Returned to Dealer");
+			// 			} else if (oStatus == "ZTSM") {
+			// 				this.getModel("LocalDataModel").setProperty("/StatusDes", "Submitted to TCI");
+			// 			} else if (oStatus == "ZTAC") {
+			// 				this.getModel("LocalDataModel").setProperty("/StatusDes", "Accepted");
+			// 			} else if (oStatus == "ZTPD") {
+			// 				this.getModel("LocalDataModel").setProperty("/StatusDes", "Paid to Dealer");
+			// 			}
 		},
 
 		_fnClaimSum: function (e) {

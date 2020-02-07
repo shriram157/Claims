@@ -5,7 +5,7 @@
 		<uxap:headerContent>
 			<VBox width="100%" class="sapUiSmallMarginTop">
 				<HBox width="100%" justifyContent="End" displayInline="true">
-					<Text text="{i18n>Status} : {HeadSetData>/DecisionCode}" class="sapUiSmallMarginEnd clFont01"/>
+					<Text text="{i18n>Status} : {HeadSetData>/DecisionCode} ({LocalDataModel>/StatusDes})" class="sapUiSmallMarginEnd clFont01"/>
 				</HBox>
 			</VBox>
 		</uxap:headerContent>
