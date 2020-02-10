@@ -1948,63 +1948,71 @@ sap.ui.define([
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var that = this;
 			//this.getView().getModel("DateModel").setProperty("/errorBusyIndicator", false);
-			var oClaimModel = this.getModel("zDLRCLAIMPMPSRV");
-			oClaimModel.read("/ZC_COMPTREBATE", {
-				urlParameters: {
-					"$filter": "CompetitorName eq '" + this.getView().getModel("HeadSetData").getProperty("/CustomerFullName") + "'"
-				},
-				success: $.proxy(function (data) {
-					if (data.results[0].RebateApply == "Y") {
+			if (this.getView().getModel("HeadSetData").getProperty("/CustomerFullName") != "") {
+				var oClaimModel = this.getModel("zDLRCLAIMPMPSRV");
+				oClaimModel.read("/ZC_COMPTREBATE", {
+					urlParameters: {
+						"$filter": "CompetitorName eq '" + this.getView().getModel("HeadSetData").getProperty("/CustomerFullName") + "'"
+					},
+					success: $.proxy(function (data) {
+						if (data.results[0].RebateApply == "Y") {
 
-						var dialog = new Dialog({
-							title: oBundle.getText("EnterRebate"),
-							type: "Message",
-							content: new Text({
-								text: oBundle.getText("DoyouwishApplyManufacturerRebate")
-							}),
-
-							buttons: [
-								new Button({
-									text: oBundle.getText("Yes"),
-									press: $.proxy(function () {
-										this.getView().getModel("DateModel").setProperty("/errorBusyIndicator", false);
-
-										dialog.close();
-										document.getElementById(this.getView().byId("idRebateAmt").sId + "-inner").focus();
-
-									}, this)
+							var dialog = new Dialog({
+								title: oBundle.getText("EnterRebate"),
+								type: "Message",
+								content: new Text({
+									text: oBundle.getText("DoyouwishApplyManufacturerRebate")
 								}),
-								new Button({
-									text: oBundle.getText("No"),
-									press: $.proxy(function () {
-										this.getView().getModel("DateModel").setProperty("/errorBusyIndicator", false);
-										this.getView().byId("idFilter07").setProperty("enabled", true);
-										this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab7");
-										this.getView().byId("mainSectionTitle").setTitle(oBundle.getText("ClaimPartsSection"));
-										this.getView().byId("idMainClaimMessage").setProperty("visible", false);
-										dialog.close();
-									}, this)
-								})
 
-							],
+								buttons: [
+									new Button({
+										text: oBundle.getText("Yes"),
+										press: $.proxy(function () {
+											this.getView().getModel("DateModel").setProperty("/errorBusyIndicator", false);
 
-							afterClose: function () {
-								dialog.destroy();
-							}
-						});
+											dialog.close();
+											document.getElementById(this.getView().byId("idRebateAmt").sId + "-inner").focus();
 
-						dialog.open();
+										}, this)
+									}),
+									new Button({
+										text: oBundle.getText("No"),
+										press: $.proxy(function () {
+											this.getView().getModel("DateModel").setProperty("/errorBusyIndicator", false);
+											this.getView().byId("idFilter07").setProperty("enabled", true);
+											this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab7");
+											this.getView().byId("mainSectionTitle").setTitle(oBundle.getText("ClaimPartsSection"));
+											this.getView().byId("idMainClaimMessage").setProperty("visible", false);
+											dialog.close();
+										}, this)
+									})
 
-						//this.getView().byId("idRebateAmt").focus();
+								],
 
-					} else {
-						this.getView().byId("idFilter07").setProperty("enabled", true);
-						this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab7");
-						this.getView().byId("mainSectionTitle").setTitle(oBundle.getText("ClaimPartsSection"));
-						this.getView().byId("idMainClaimMessage").setProperty("visible", false);
-					}
-				}, this)
-			});
+								afterClose: function () {
+									dialog.destroy();
+								}
+							});
+
+							dialog.open();
+
+							//this.getView().byId("idRebateAmt").focus();
+
+						} else {
+							this.getView().byId("idFilter07").setProperty("enabled", true);
+							this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab7");
+							this.getView().byId("mainSectionTitle").setTitle(oBundle.getText("ClaimPartsSection"));
+							this.getView().byId("idMainClaimMessage").setProperty("visible", false);
+						}
+					}, this)
+				});
+			} else {
+				this.getView().getModel("DateModel").setProperty("/errorBusyIndicator", false);
+				this.getView().byId("idFilter07").setProperty("enabled", true);
+				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab7");
+				this.getView().byId("mainSectionTitle").setTitle(oBundle.getText("ClaimPartsSection"));
+				this.getView().byId("idMainClaimMessage").setProperty("visible", false);
+			}
 
 		},
 
