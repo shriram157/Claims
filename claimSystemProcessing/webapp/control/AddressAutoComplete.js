@@ -41,6 +41,8 @@ sap.ui.define(
 				oControl = this;
 				Input.prototype.init.apply(oControl, arguments);
 
+				document.getElementById(oControl.getId() + "-inner").addEventListener("focus", this.geolocate());
+
 				/** Event override **/
 				//	oControl.attachSuggest("suggest", oControl._onSuggest);
 
@@ -66,9 +68,9 @@ sap.ui.define(
 					autocomplete.addListener('place_changed', oControl.fillInAddress);
 				});
 			},
-			onkeyup: function () {
-				this.geolocate();
-			},
+			// 			onFocus: function () {
+			// 				this.geolocate();
+			// 			},
 
 			fillInAddress: function () {
 				var opage = oControl.getId();
