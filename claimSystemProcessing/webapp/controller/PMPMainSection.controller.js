@@ -213,6 +213,8 @@ sap.ui.define([
 			});
 			this.getView().setModel(oDateModel, "DateModel");
 
+			this.getView().byId("idMainClaimMessage").setProperty("visible", false);
+
 			var oClaim = oEvent.getParameters().arguments.claimNum;
 			var oGroupDescription = oEvent.getParameters().arguments.oKey;
 			var oProssingModel = this.getModel("ProssingModel");
@@ -253,21 +255,38 @@ sap.ui.define([
 						this.getView().getModel("HeadSetData").setData(sdata.results[0]);
 						this._fnStatusCheck();
 
-						if (sdata.results[0].DecisionCode == "ZTAC" || sdata.results[0].DecisionCode == "ZTSM") {
-							this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
-							this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
-							this.getModel("LocalDataModel").setProperty("/CancelEnable", false);
-							this.getView().getModel("DateModel").setProperty("/claimEditSt", true);
-							this.getView().getModel("DateModel").setProperty("/updateEnable", false);
-							this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
+						// 		if (sdata.results[0].DecisionCode == "ZTAC" || sdata.results[0].DecisionCode == "ZTSM") {
+						// 			this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
+						// 			this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
+						// 			this.getModel("LocalDataModel").setProperty("/CancelEnable", false);
+						// 			this.getView().getModel("DateModel").setProperty("/claimEditSt", true);
+						// 			this.getView().getModel("DateModel").setProperty("/updateEnable", false);
+						// 			this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
 
-						} else {
+						// 		} else {
+						// 			this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
+						// 			this.getView().getModel("DateModel").setProperty("/SaveClaim07", true);
+						// 			this.getModel("LocalDataModel").setProperty("/CancelEnable", true);
+						// 			this.getView().getModel("DateModel").setProperty("/claimEditSt", true);
+						// 			this.getView().getModel("DateModel").setProperty("/updateEnable", true);
+						// 			this.getModel("LocalDataModel").setProperty("/UploadEnable", true);
+
+						// 		}
+
+						if (sdata.results[0].DecisionCode == "ZTIC" || sdata.results[0].DecisionCode == "ZTRC") {
 							this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
 							this.getView().getModel("DateModel").setProperty("/SaveClaim07", true);
 							this.getModel("LocalDataModel").setProperty("/CancelEnable", true);
 							this.getView().getModel("DateModel").setProperty("/claimEditSt", true);
 							this.getView().getModel("DateModel").setProperty("/updateEnable", true);
 							this.getModel("LocalDataModel").setProperty("/UploadEnable", true);
+						} else {
+							this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
+							this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
+							this.getModel("LocalDataModel").setProperty("/CancelEnable", false);
+							this.getView().getModel("DateModel").setProperty("/claimEditSt", false);
+							this.getView().getModel("DateModel").setProperty("/updateEnable", false);
+							this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
 
 						}
 
@@ -1880,21 +1899,21 @@ sap.ui.define([
 
 												}
 
-												if (sdata.results[0].DecisionCode == "ZTAC" || sdata.results[0].DecisionCode == "ZTSM") {
-													this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
-													this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
-													this.getModel("LocalDataModel").setProperty("/CancelEnable", false);
-													this.getView().getModel("DateModel").setProperty("/claimEditSt", true);
-													this.getView().getModel("DateModel").setProperty("/updateEnable", false);
-													this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
-
-												} else {
+												if (sdata.results[0].DecisionCode == "ZTIC" || sdata.results[0].DecisionCode == "ZTRC") {
 													this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
 													this.getView().getModel("DateModel").setProperty("/SaveClaim07", true);
 													this.getModel("LocalDataModel").setProperty("/CancelEnable", true);
 													this.getView().getModel("DateModel").setProperty("/claimEditSt", true);
 													this.getView().getModel("DateModel").setProperty("/updateEnable", true);
 													this.getModel("LocalDataModel").setProperty("/UploadEnable", true);
+												} else {
+													this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
+													this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
+													this.getModel("LocalDataModel").setProperty("/CancelEnable", false);
+													this.getView().getModel("DateModel").setProperty("/claimEditSt", false);
+													this.getView().getModel("DateModel").setProperty("/updateEnable", false);
+													this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
+
 												}
 
 											}, this)
