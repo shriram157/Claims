@@ -1494,7 +1494,7 @@ sap.ui.define([
 			// create value help dialog
 			if (!this._valueHelpDialog) {
 				this._valueHelpDialog = sap.ui.xmlfragment(
-					"zclaimProcessing.view.fragments.partList",
+					"zclaimProcessing.view.fragments.partListPMP",
 					this
 				);
 				this.getView().addDependent(this._valueHelpDialog);
@@ -1507,7 +1507,7 @@ sap.ui.define([
 		_handleValueHelpClose: function (evt) {
 			var oSelectedItem = evt.getParameter("selectedItem");
 			this.oSelectedTitle = evt.mParameters.selectedItems[0].getCells()[0].getText();
-			var oBaseUint = evt.mParameters.selectedItems[0].getCells()[2].getText();
+			//var oBaseUint = evt.mParameters.selectedItems[0].getCells()[2].getText();
 			var oDescription = evt.mParameters.selectedItems[0].getCells()[1].getText();
 			var oProductModel = this.getModel("ProductMaster");
 			oProductModel.read("/ZC_Characteristic_InfoSet", {
@@ -1540,11 +1540,11 @@ sap.ui.define([
 						// 		} else {
 						// 			this.getView().getModel("LocalDataModel").setProperty("/BaseUnit", oBaseUint);
 						// 		}
-						this.getView().getModel("LocalDataModel").setProperty("/BaseUnit", oBaseUint);
+						this.getView().getModel("LocalDataModel").setProperty("/BaseUnit", "EA");
 					} else {
 						this.getView().getModel("PartDataModel").setProperty("/PartManufacturer", "");
 						this.getView().getModel("PartDataModel").setProperty("/PartType", "");
-						this.getView().getModel("LocalDataModel").setProperty("/BaseUnit", oBaseUint);
+						this.getView().getModel("LocalDataModel").setProperty("/BaseUnit", "EA");
 					}
 
 				}, this)
