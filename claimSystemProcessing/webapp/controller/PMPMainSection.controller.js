@@ -107,79 +107,7 @@ sap.ui.define([
 			this.getModel("LocalDataModel").setProperty("/enableEnterComment", false);
 			this.getModel("LocalDataModel").setProperty("/FeedEnabled", false);
 			this.getModel("LocalDataModel").setProperty("/commentIndicator", false);
-
-			this.obj = {
-				"DBOperation": "",
-				"Message": "",
-				"WarrantyClaimType": "",
-				"Partner": "",
-				"PartnerRole": "",
-				"ReferenceDate": null,
-				"DateOfApplication": null,
-				"FinalProcdDate": null,
-				"RepairDate": null,
-				"RepairOrderNumberExternal": "",
-				"ExternalNumberOfClaim": "",
-				"ExternalObjectNumber": "",
-				"Odometer": "",
-				"TCIWaybillNumber": "",
-				"NameOfPersonRespWhoChangedObj": "",
-				"ShipmentReceivedDate": null,
-				"DealerContact": "",
-				"HeadText": "",
-				"OFP": "",
-				"WTYClaimRecoverySource": "",
-				"MainOpsCode": "",
-				"T1WarrantyCodes": "",
-				"BatteryTestCode": "",
-				"T2WarrantyCodes": "",
-				"FieldActionReference": "",
-				"ZCondition": "",
-				"Cause": "",
-				"Remedy": "",
-				"PreviousROInvoiceDate": null,
-				"PreviousROOdometer": "",
-				"PreviousROInvoice": "",
-				"AccessoryInstallOdometer": "",
-				"AccessoryInstallDate": null,
-				"AgreementNumber": "",
-				"CustomerPostalCode": "",
-				"CustomerFullName": "",
-				"ProbillNum": "",
-				"Delivery": "",
-				"DeliveryDate": null,
-				"DeliveringCarrier": "",
-				"WarrantyClaimSubType": "",
-				"DeliveryType": "",
-				"DealerInvoice": "",
-				"DealerInvoiceDate": null,
-				"DealerRO": "",
-				"CompetitorName": "",
-				"CompetitorAddr": "",
-				"CompetitorCity": "",
-				"CompetitorProv": "",
-				"CompetitorPost": "",
-				"QuoteDate": "",
-				"PartManufacturer": "",
-				"PartType": "",
-				"zc_itemSet": {
-					"results": []
-				},
-
-				"zc_claim_item_price_dataSet": {
-					"results": []
-				},
-
-				"zc_claim_attachmentsSet": {
-					"results": []
-				},
-				"zc_claim_commentSet": {
-					"results": []
-				},
-				"zc_claim_vsrSet": {
-					"results": []
-				}
-			};
+			this.getView().byId("autocomplete").setValue("");
 
 			oDateModel.setData({
 				Parts: true,
@@ -828,6 +756,103 @@ sap.ui.define([
 				});
 
 			}
+
+		},
+
+		onCancelClaim: function () {
+			var sSelectedLocale;
+			this.getModel("LocalDataModel").setProperty("/PrintEnable", true);
+			//  get the locale to determine the language.
+			var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
+			if (isLocaleSent) {
+				sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
+			} else {
+				sSelectedLocale = "en"; // default is english
+			}
+			var oBundle = this.getView().getModel("i18n").getResourceBundle();
+			var oClaimModel = this.getModel("ProssingModel");
+			var oClaimPMPModel = this.getModel("zDLRCLAIMPMPSRV");
+			var oClaimNum = this.getView().getModel("HeadSetData").getProperty("/NumberOfWarrantyClaim");
+			// 			this.obj.NumberOfWarrantyClaim = oClaimNum;
+			// 			this.obj.DBOperation = "ZTCD";
+			var obj = {
+				NumberOfWarrantyClaim: oClaimNum,
+				DBOperation: "ZTCD"
+			};
+			var dialog = new Dialog({
+				title: oBundle.getText("CancelClaim"),
+				type: "Message",
+				content: new Text({
+					text: oBundle.getText("AreyouSureWanttoCancelClaim")
+				}),
+
+				buttons: [
+					new Button({
+						text: oBundle.getText("Yes"),
+						press: $.proxy(function () {
+							this._oToken = oClaimModel.getHeaders()['x-csrf-token'];
+							$.ajaxSetup({
+								headers: {
+									'X-CSRF-Token': this._oToken
+								}
+							});
+
+							//oClaimModel.refreshSecurityToken();
+
+							oClaimModel.create("/zc_headSet", obj, {
+
+								success: $.proxy(function (response) {
+									this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
+									this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
+									this.getView().getModel("DateModel").setProperty("/claimEditSt", false);
+									this.getView().getModel("DateModel").setProperty("/updateEnable", false);
+									this.getModel("LocalDataModel").setProperty("/CancelEnable", false);
+									this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
+									// 	this.getModel("LocalDataModel").setProperty("/UploadEnableSublet", false);
+									// 	this.getView().getModel("DateModel").setProperty("/copyClaimEnable", false);
+									// 	this.getView().getModel("DateModel").setProperty("/authRejClm", false);
+									// 	this.getView().getModel("DateModel").setProperty("/authAcClm", false);
+									// 	this.getModel("LocalDataModel").setProperty("/PercentState", false);
+
+									oClaimPMPModel.read("/ZC_CLAIM_HEAD_PMP", {
+										urlParameters: {
+											"$filter": "NumberOfWarrantyClaim eq '" + oClaimNum +
+												"'"
+										},
+										success: $.proxy(function (sdata) {
+											this.getView().getModel("HeadSetData").setProperty("/DecisionCode", sdata.results[0].DecisionCode);
+										}, this)
+									});
+									MessageToast.show(oBundle.getText("Claimcancelledsuccessfully"), {
+										my: "center center",
+										at: "center center"
+									});
+
+									this._fnClaimSum();
+									this.getView().getModel("LocalDataModel").setProperty("/CancelEnable", false);
+								}, this),
+								error: function () {
+
+								}
+							});
+							dialog.close();
+						}, this)
+					}),
+					new Button({
+						text: "No",
+						press: function () {
+							dialog.close();
+						}
+					})
+
+				],
+
+				afterClose: function () {
+					dialog.destroy();
+				}
+			});
+
+			dialog.open();
 
 		},
 

@@ -15,7 +15,7 @@
 					<core:Title text=""/>
 					<Label text="{i18n>ClaimType}"/>
 					<custom:CustomCombo showSecondaryValues="true" id="idClaimType" required="true" items="{path:'LocalDataModel>/ClaimGroupSet'}"
-						selectionChange="onSelectClaimTpe" selectedKey="{HeadSetData>/WarrantyClaimType}" enabled="{DateModel>/claimTypeEn}"
+						selectionChange="onSelectClaimTpe" selectedKey="{HeadSetData>/WarrantyClaimType}" enabled="{DateModel>/oFormEdit}"
 						valueState="{DateModel>/claimTypeState}"
 						value="{path:'HeadSetData>/WarrantyClaimType', type : 'sap.ui.model.type.String', constraints : { minLength : 2, maxLength : 50 } }">
 						<core:ListItem text="{LocalDataModel>TMCClaimType}" key="{LocalDataModel>TMCClaimType}" additionalText="{LocalDataModel>ALMClaimTypeDes}"/>
@@ -87,7 +87,7 @@
 				<Label text="Name"/>
 				<custom:CustomCombo showSecondaryValues="true" id="idCompetitorName" items="{path:'LocalDataModel>/company_detailSet'}"
 					selectionChange="onSelectCompetitorName" selectedKey="HeadSetData>/CompetitorName"
-					value="{path:'HeadSetData>/CustomerFullName', type : 'sap.ui.model.type.String'}">
+					value="{path:'HeadSetData>/CustomerFullName', type : 'sap.ui.model.type.String'}" enabled="{DateModel>/oFormEdit}">
 					<core:ListItem text="{LocalDataModel>CompetitorName}" key="{LocalDataModel>CompetitorName}"/>
 				</custom:CustomCombo>
 			</f:content>
