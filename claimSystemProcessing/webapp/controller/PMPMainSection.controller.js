@@ -160,8 +160,9 @@ sap.ui.define([
 			this.getView().byId("idFilter07").setProperty("enabled", false);
 			this.getView().byId("idFilter08").setProperty("enabled", false);
 			this.getView().byId("idDist").removeAllContent();
-			this.getModel("LocalDataModel").setProperty("/claim_commentSet", "");
-			this.getModel("LocalDataModel").setProperty("/HeadAtchmentData", "");
+			this.getModel("LocalDataModel").setProperty("/claim_commentSet", []);
+			this.getModel("LocalDataModel").setProperty("/HeadAtchmentData", []);
+			this.getModel("LocalDataModel").setProperty("/ClaimSum", []);
 
 			if (oClaim != "nun" && oClaim != undefined) {
 				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab1");
@@ -264,6 +265,7 @@ sap.ui.define([
 							success: $.proxy(function (data) {
 
 								this._fnDistanceCalculate();
+								this._fnClaimSum();
 
 								var pricinghData = data.results;
 								var oFilteredData = pricinghData.filter(function (val) {
