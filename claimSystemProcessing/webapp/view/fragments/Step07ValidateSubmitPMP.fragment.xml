@@ -1,0 +1,145 @@
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:u="sap.ui.unified" xmlns:l="sap.ui.layout"
+	xmlns="sap.m" xmlns:table="sap.ui.table">
+	<VBox class="sapUiSmallMargin clFormTitleGap" busy="{LocalDataModel>/oSavePartIndicator}">
+		<Panel width="100%" class="sapUiSmallMarginBottom">
+			<headerToolbar>
+				<Toolbar height="3rem">
+					<Title text="{i18n>ClaimDetails}"/>
+					<ToolbarSpacer/>
+					<Title text="{i18n>ClaimNumber} : {HeadSetData>/NumberOfWarrantyClaim}" textAlign="End"/>
+				</Toolbar>
+			</headerToolbar>
+			<f:SimpleForm editable="true" layout="ResponsiveGridLayout" title="" labelSpanXL="6" labelSpanL="6" labelSpanM="12" labelSpanS="12"
+				adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="4" columnsL="4" columnsM="4"
+				singleContainerFullSize="false">
+				<f:content>
+					<core:Title text=""/>
+					<Label text="{i18n>TCIClaim}"/>
+					<Text text="{HeadSetData>/NumberOfWarrantyClaim}"/>
+					<core:Title text=""/>
+					<Label text="{i18n>DealerInvoice}"/>
+					<Text text="{HeadSetData>/DealerInvoice}"/>
+					<Label text="{i18n>DealerInvoiceDate}"/>
+					<Text text="{path:'HeadSetData>/DealerInvoiceDate', formatter:'zclaimProcessing.utils.formatter.fnDateFormat'}"/>
+					<core:Title text=""/>
+					<Label text="{i18n>Type}"/>
+					<Text text="{HeadSetData>/WarrantyClaimType}"/>
+					<Label text="{i18n>Status}"/>
+					<Text text="{HeadSetData>/DecisionCode}"/>
+					<core:Title text=""/>
+					<Label text="{i18n>ClaimTypeDescription}"/>
+					<Text text="Price Match Claim"/>
+					<Label text="{i18n>StatusDescription}"/>
+					<Text text="{LocalDataModel>/StatusDes}"/>
+				</f:content>
+			</f:SimpleForm>
+		</Panel>
+		<table:Table class="classRCPTable" selectionMode="Single" rows="{path:'LocalDataModel>/ClaimSum'}" visibleRowCount="5"
+			rowSelectionChange="onNavigate" selectionBehavior="Row" showNoData="true" threshold="5" enableBusyIndicator="true">
+			<table:toolbar>
+				<Toolbar>
+					<Title text="{i18n>ClaimAmountSummary}" level="H2"/>
+					<ToolbarSpacer/>
+					<!--<Button tooltip="View Settings" icon="sap-icon://drop-down-list" press="handleViewSettingsDialogButtonPressed"/>-->
+				</Toolbar>
+			</table:toolbar>
+			<table:columns autoResizable="true">
+				<table:Column width="17rem">
+					<table:multiLabels>
+						<Label text="{i18n>TotalsincludingRebate}" textAlign="Center" width="100%"/>
+					</table:multiLabels>
+					<table:template>
+						<Text text="{path:'LocalDataModel>ItemType', formatter: 'zclaimProcessing.utils.formatter.fnFormatText'}" wrapping="false"/>
+					</table:template>
+				</table:Column>
+				<table:Column width="11rem">
+					<table:multiLabels>
+						<Label text="{i18n>DealerClaimedAmount}" textAlign="Center" width="100%"/>
+					</table:multiLabels>
+					<table:template>
+						<Text text="${path:'LocalDataModel>DealerClaim', formatter:'zclaimProcessing.utils.formatter.fnFormatDecimal'}" wrapping="false"/>
+					</table:template>
+				</table:Column>
+				<table:Column width="11rem">
+					<table:multiLabels>
+						<Label text="{i18n>TCIApprovedAmount}" textAlign="Center" width="100%"/>
+					</table:multiLabels>
+					<table:template>
+						<Text text="${path:'LocalDataModel>TCIAppr', formatter:'zclaimProcessing.utils.formatter.fnFormatDecimal'}" wrapping="false"/>
+					</table:template>
+				</table:Column>
+				<table:Column width="11rem">
+					<table:multiLabels>
+						<Label text="{i18n>DifferenceCAD}" textAlign="Center" width="100%"/>
+					</table:multiLabels>
+					<table:template>
+						<Text text="${path:'LocalDataModel>Diff', formatter:'zclaimProcessing.utils.formatter.fnFormatDecimal'}" wrapping="false"/>
+					</table:template>
+				</table:Column>
+				<table:Column width="8rem" headerSpan="{multiHeaderConfig>/multiheader2}">
+					<table:multiLabels>
+						<Label text="{i18n>GSTHST}" textAlign="Center" width="100%"/>
+						<Label text="{i18n>Amount}" textAlign="Center" width="100%"/>
+					</table:multiLabels>
+					<table:template>
+						<Text text="${path:'LocalDataModel>GSTHSTAmt', formatter:'zclaimProcessing.utils.formatter.fnFormatDecimal'}" wrapping="false"/>
+					</table:template>
+				</table:Column>
+				<table:Column width="8rem">
+					<table:multiLabels>
+						<Label text="{i18n>GSTHST}" textAlign="Center" width="100%"/>
+						<Label text="{i18n>Tax}" textAlign="Center" width="100%"/>
+					</table:multiLabels>
+					<table:template>
+						<Text text="{LocalDataModel>GSTHSTRate}" wrapping="false"/>
+					</table:template>
+				</table:Column>
+				<table:Column width="8rem" headerSpan="{multiHeaderConfig>/multiheader2}">
+					<table:multiLabels>
+						<Label text="{i18n>PSTQST}" textAlign="Center" width="100%"/>
+						<Label text="Amount" textAlign="Center" width="100%"/>
+					</table:multiLabels>
+					<table:template>
+						<Text text="${path:'LocalDataModel>PSTQSTAmt', formatter:'zclaimProcessing.utils.formatter.fnFormatDecimal'}" wrapping="false"/>
+					</table:template>
+				</table:Column>
+				<table:Column width="8rem">
+					<table:multiLabels>
+						<Label text="{i18n>PSTQST}" textAlign="Center" width="100%"/>
+						<Label text="{i18n>Tax}" textAlign="Center" width="100%"/>
+					</table:multiLabels>
+					<table:template>
+						<Text text="{LocalDataModel>PSTQSTRate}" wrapping="false"/>
+					</table:template>
+				</table:Column>
+				<table:Column width="17rem">
+					<table:multiLabels>
+						<Label text="{i18n>TCIApprovedAmountIncludingTax}" textAlign="Center"/>
+					</table:multiLabels>
+					<table:template>
+						<Text text="${path:'LocalDataModel>TCIApprInclTax', formatter:'zclaimProcessing.utils.formatter.fnFormatDecimal'}" wrapping="false"/>
+					</table:template>
+				</table:Column>
+			</table:columns>
+		</table:Table>
+		<VBox class="clMinHeight">
+			<List headerText="{i18n>Validations}" items="{ path: 'LocalDataModel>/oErrorSet' }" busy="{DateModel>/errorBusyIndicator}">
+				<CustomListItem>
+					<HBox class="sapUiSmallMargin">
+						<Text text="{i18n>Error} : {LocalDataModel>NUMBER}" class="sapUiTinyMarginEnd"/>
+						<Text text="{i18n>ErrorType} : {LocalDataModel>TYPE}" class="sapUiTinyMarginEnd"/>
+						<Text text="{path:'LocalDataModel>ItemType', formatter : 'zclaimProcessing.utils.formatter.fnItemFormat'}" class="sapUiTinyMarginEnd"/>
+						<Text text="{path : 'LocalDataModel>POSNR', formatter : 'zclaimProcessing.utils.formatter.fnPosnrFormat'}"/>
+					</HBox>
+					<HBox class="sapUiSmallMargin"><Text text="{i18n>ErrorDescription}: {LocalDataModel>MESSAGE}"/></HBox>
+				</CustomListItem>
+			</List>
+			<HBox alignContent="Center" justifyContent="Center" class="sapUiTinyMarginTop">
+				<Button class="sapUiTinyMarginBeginEnd" type="Back" press="onStep03Back" text="{i18n>Back}"/>
+				<Button class="sapUiTinyMarginBeginEnd" press="onRevalidate" text="{i18n>SaveClaim}" enabled="{DateModel>/SaveClaim07}"/>
+				<Button class="sapUiTinyMarginBeginEnd" press="onSubmitTci" text="{i18n>SubmitToTCI}" type="Emphasized" enabled="{DateModel>/oFormEdit}"/>
+				<Button text="{i18n>GeneratePackingSlip}" press="onPressPackingSlip" visible="{DateModel>/oSlipVisible}"/>
+			</HBox>
+		</VBox>
+	</VBox>
+</core:FragmentDefinition>

@@ -159,6 +159,9 @@ sap.ui.define([
 			this.getView().byId("idFilter03").setProperty("enabled", false);
 			this.getView().byId("idFilter07").setProperty("enabled", false);
 			this.getView().byId("idFilter08").setProperty("enabled", false);
+			this.getView().byId("idDist").removeAllContent();
+			this.getModel("LocalDataModel").setProperty("/claim_commentSet", "");
+			this.getModel("LocalDataModel").setProperty("/HeadAtchmentData", "");
 
 			if (oClaim != "nun" && oClaim != undefined) {
 				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab1");
