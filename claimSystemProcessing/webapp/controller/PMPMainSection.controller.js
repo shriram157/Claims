@@ -2086,7 +2086,7 @@ sap.ui.define([
 			}
 			if (oClaimtype == "ZSPM") {
 				var w = window.open(isProxy +
-					"/node/ZDLR_CLAIM_SRV/zc_claim_printSet(NumberOfWarrantyClaim='" + oClaimNum + "',PrintType='')/$value",
+					"/node/ZDLR_CLAIM_PMP_SRV/zc_claim_printSet(NumberOfWarrantyClaim='" + oClaimNum + "',PrintType='')/$value",
 					'_blank');
 
 				if (w == null) {
