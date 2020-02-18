@@ -2074,6 +2074,26 @@ sap.ui.define([
 			this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab3");
 			this.getView().byId("mainSectionTitle").setTitle(oBundle.getText("ClaimPartsSection"));
 			this.getView().byId("idMainClaimMessage").setProperty("visible", false);
+		},
+
+		onPressPrint: function () {
+
+			var oClaimtype = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType");
+			var oClaimNum = this.getView().getModel("HeadSetData").getProperty("/NumberOfWarrantyClaim");
+			var isProxy = "";
+			if (window.document.domain == "localhost") {
+				isProxy = "proxy";
+			}
+			if (oClaimtype == "ZSPM") {
+				var w = window.open(isProxy +
+					"/node/ZDLR_CLAIM_SRV/zc_claim_printSet(NumberOfWarrantyClaim='" + oClaimNum + "',PrintType='')/$value",
+					'_blank');
+
+				if (w == null) {
+					console.log("Error");
+					//MessageBox.warning(oBundle.getText("Error.PopUpBloqued"));
+				}
+			}
 		}
 
 		/**
