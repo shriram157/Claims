@@ -255,6 +255,7 @@ sap.ui.define([
 
 						var oCLaim = this.getModel("LocalDataModel").getProperty("/ClaimDetails/NumberOfWarrantyClaim");
 						this.getView().getModel("HeadSetData").setProperty("/NumberOfWarrantyClaim", oCLaim);
+						this.getModel("LocalDataModel").setProperty("/WarrantyClaimNum", oCLaim);
 
 						oPMPModel.read("/zc_claim_item_price_dataSet", {
 							urlParameters: {
@@ -691,13 +692,13 @@ sap.ui.define([
 								"results": []
 							},
 							"zc_claim_item_price_dataSet": {
-								"results": []
+								"results": oFilteredData || []
 							},
 							"zc_claim_attachmentsSet": {
-								"results": []
+								"results": this.getModel("LocalDataModel").getProperty("/HeadAtchmentData") || []
 							},
 							"zc_claim_commentSet": {
-								"results": []
+								"results": this.getModel("LocalDataModel").getProperty("/claim_commentSet") || []
 							},
 							"zc_claim_vsrSet": {
 								"results": []
@@ -882,6 +883,7 @@ sap.ui.define([
 			this.obj.NumberOfWarrantyClaim = this.getView().getModel("HeadSetData").getProperty("/NumberOfWarrantyClaim");
 
 			this.obj.zc_claim_commentSet.results.push(oEntry);
+			this.obj.DBOperation = "SAVE";
 
 			oClaimModel.refreshSecurityToken();
 			oClaimModel.create("/ZC_HEAD_PMPSet", this.obj, {
@@ -1184,18 +1186,18 @@ sap.ui.define([
 					"WarrantyClaimType": this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType"),
 					"Partner": this.getModel("LocalDataModel").getProperty("/BpDealerModel/0/BusinessPartnerKey"),
 					"PartnerRole": "AS",
-					"ReferenceDate": this._fnDateFormat(oCurrentDt),
-					"DateOfApplication": this._fnDateFormat(oCurrentDt),
+					"ReferenceDate": this._fnDateFormat(oCurrentDt) || null,
+					"DateOfApplication": this._fnDateFormat(oCurrentDt) || null,
 					"FinalProcdDate": null,
-					"RepairDate": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairDate")),
-					"RepairOrderNumberExternal": this.getView().getModel("HeadSetData").getProperty("/RepairOrderNumberExternal"),
-					"ExternalNumberOfClaim": this.getView().getModel("HeadSetData").getProperty("/ExternalNumberOfClaim"),
-					"ExternalObjectNumber": this.getView().getModel("HeadSetData").getProperty("/ExternalObjectNumber"),
-					"Odometer": this.getView().getModel("HeadSetData").getProperty("/Odometer"),
+					"RepairDate": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairDate")) || null,
+					"RepairOrderNumberExternal": this.getView().getModel("HeadSetData").getProperty("/RepairOrderNumberExternal") || "",
+					"ExternalNumberOfClaim": this.getView().getModel("HeadSetData").getProperty("/ExternalNumberOfClaim") || "",
+					"ExternalObjectNumber": this.getView().getModel("HeadSetData").getProperty("/ExternalObjectNumber") || "",
+					"Odometer": this.getView().getModel("HeadSetData").getProperty("/Odometer") || "000000",
 					"TCIWaybillNumber": "",
 					"NameOfPersonRespWhoChangedObj": "",
 					"ShipmentReceivedDate": null,
-					"DealerContact": this.getView().getModel("HeadSetData").getProperty("/DealerContact"),
+					"DealerContact": this.getView().getModel("HeadSetData").getProperty("/DealerContact") || "",
 					"HeadText": "",
 					"OFP": "",
 					"WTYClaimRecoverySource": "",
@@ -1267,6 +1269,7 @@ sap.ui.define([
 						this.getModel("LocalDataModel").setProperty("/step01Next", true);
 						this.getModel("LocalDataModel").setProperty("/FeedEnabled", true);
 						this.getView().getModel("HeadSetData").setProperty("/NumberOfWarrantyClaim", data.NumberOfWarrantyClaim);
+						this.getModel("LocalDataModel").setProperty("/WarrantyClaimNum", data.NumberOfWarrantyClaim);
 						MessageToast.show(oBundle.getText("Claimhasbeensavedsuccessfully"), {
 							my: "center center",
 							at: "center center"
@@ -1308,6 +1311,7 @@ sap.ui.define([
 
 								var oCLaim = this.getView().getModel("HeadSetData").getProperty("/NumberOfWarrantyClaim");
 								this.getView().getModel("HeadSetData").setProperty("/NumberOfWarrantyClaim", oCLaim);
+								this.getModel("LocalDataModel").setProperty("/WarrantyClaimNum", oCLaim);
 
 							}, this),
 							error: function (Error) {
@@ -1365,6 +1369,7 @@ sap.ui.define([
 			// 			}, this.obj);
 			this.obj.NumberOfWarrantyClaim = oClaimNum;
 			this.obj.zc_claim_attachmentsSet.results.push(itemObj);
+			this.obj.DBOperation = "SAVE";
 
 			//var oClaimModel = this.getModel("ProssingModel");
 			var oClaimModel = this.getModel("zDLRCLAIMPMPSRV");

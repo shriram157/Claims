@@ -553,46 +553,46 @@ sap.ui.define([
 
 		// 		},
 
-		onFileDeleted: function (oEvent) {
-			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
-			var oBundle = this.getView().getModel("i18n").getResourceBundle();
+		// 		onFileDeleted: function (oEvent) {
+		// 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
+		// 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 
-			var oClaimModel = this.getModel("ProssingModel");
+		// 			var oClaimModel = this.getModel("ProssingModel");
 
-			var oLine = oEvent.getSource()._oItemForDelete._iLineNumber;
-			var oFileName = this.getModel("LocalDataModel").getProperty("/HeadAtchmentData/" + oLine + "/FileName");
-			var oFileToDelete = "HEAD@@@" + oFileName;
+		// 			var oLine = oEvent.getSource()._oItemForDelete._iLineNumber;
+		// 			var oFileName = this.getModel("LocalDataModel").getProperty("/HeadAtchmentData/" + oLine + "/FileName");
+		// 			var oFileToDelete = "HEAD@@@" + oFileName;
 
-			oClaimModel.refreshSecurityToken();
+		// 			oClaimModel.refreshSecurityToken();
 
-			oClaimModel.remove("/zc_claim_attachmentsSet(NumberOfWarrantyClaim='" + oClaimNum + "',FileName='" + oFileToDelete + "')", {
-				method: "DELETE",
-				success: $.proxy(function () {
-					MessageToast.show(oBundle.getText("Filedeletedsuccessfully"), {
-						my: "center center",
-						at: "center center"
-					});
-					oClaimModel.read("/zc_claim_attachmentsSet", {
-						urlParameters: {
-							"$filter": "NumberOfWarrantyClaim eq '" + oClaimNum + "'and AttachLevel eq 'HEAD' and FileName  eq ''"
-						},
+		// 			oClaimModel.remove("/zc_claim_attachmentsSet(NumberOfWarrantyClaim='" + oClaimNum + "',FileName='" + oFileToDelete + "')", {
+		// 				method: "DELETE",
+		// 				success: $.proxy(function () {
+		// 					MessageToast.show(oBundle.getText("Filedeletedsuccessfully"), {
+		// 						my: "center center",
+		// 						at: "center center"
+		// 					});
+		// 					oClaimModel.read("/zc_claim_attachmentsSet", {
+		// 						urlParameters: {
+		// 							"$filter": "NumberOfWarrantyClaim eq '" + oClaimNum + "'and AttachLevel eq 'HEAD' and FileName  eq ''"
+		// 						},
 
-						success: $.proxy(function (odata) {
-							var oArr = odata.results;
-							var oAttachSet = oArr.map(function (item) {
-								item.FileName = item.FileName.replace("HEAD@@@", "");
-								return item;
+		// 						success: $.proxy(function (odata) {
+		// 							var oArr = odata.results;
+		// 							var oAttachSet = oArr.map(function (item) {
+		// 								item.FileName = item.FileName.replace("HEAD@@@", "");
+		// 								return item;
 
-							});
-							// this.getView().getModel("ClaimModel").setProperty("/" + "/items", oArr);
-							this.getModel("LocalDataModel").setProperty("/HeadAtchmentData", oAttachSet);
+		// 							});
+		// 							// this.getView().getModel("ClaimModel").setProperty("/" + "/items", oArr);
+		// 							this.getModel("LocalDataModel").setProperty("/HeadAtchmentData", oAttachSet);
 
-						}, this)
-					});
-				}, this)
-			});
+		// 						}, this)
+		// 					});
+		// 				}, this)
+		// 			});
 
-		},
+		// 		},
 		onPost: function (oEvent) {
 
 			var oBusinessModel = this.getModel("ApiBusinessModel");
