@@ -278,37 +278,37 @@ sap.ui.define([
 			});
 
 		},
-		onPressAddPart: function () {
-			this.getView().getModel("PartDataModel").setProperty("/matnr", "");
-			this.getView().getModel("PartDataModel").setProperty("/quant", "");
-			this.getView().getModel("PartDataModel").setProperty("/PartDescription", "");
-			this.getView().getModel("LocalDataModel").setProperty("/BaseUnit", "");
+		// 		onPressAddPart: function () {
+		// 			this.getView().getModel("PartDataModel").setProperty("/matnr", "");
+		// 			this.getView().getModel("PartDataModel").setProperty("/quant", "");
+		// 			this.getView().getModel("PartDataModel").setProperty("/PartDescription", "");
+		// 			this.getView().getModel("LocalDataModel").setProperty("/BaseUnit", "");
 
-			var oTable = this.getView().byId("idTableParts");
-			oTable.removeSelections("true");
-			this.getView().getModel("DateModel").setProperty("/partLine", true);
-			this.getView().getModel("DateModel").setProperty("/editablePartNumber", true);
+		// 			var oTable = this.getView().byId("idTableParts");
+		// 			oTable.removeSelections("true");
+		// 			this.getView().getModel("DateModel").setProperty("/partLine", true);
+		// 			this.getView().getModel("DateModel").setProperty("/editablePartNumber", true);
 
-			var sSelectedLocale;
-			var sDivision;
+		// 			var sSelectedLocale;
+		// 			var sDivision;
 
-			var isDivisionSent = window.location.search.match(/Division=([^&]*)/i);
-			if (isDivisionSent) {
-				sDivision = window.location.search.match(/Division=([^&]*)/i)[1];
-			} else {
-				sDivision = 10;
-			}
-			//  get the locale to determine the language.
-			var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
-			if (isLocaleSent) {
-				sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
-			} else {
-				sSelectedLocale = "en"; // default is english
-			}
-			var oClaimModel = this.getModel("ProssingModel");
-			var productModel = this.getModel("ProductMaster");
+		// 			var isDivisionSent = window.location.search.match(/Division=([^&]*)/i);
+		// 			if (isDivisionSent) {
+		// 				sDivision = window.location.search.match(/Division=([^&]*)/i)[1];
+		// 			} else {
+		// 				sDivision = 10;
+		// 			}
+		// 			//  get the locale to determine the language.
+		// 			var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
+		// 			if (isLocaleSent) {
+		// 				sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
+		// 			} else {
+		// 				sSelectedLocale = "en"; // default is english
+		// 			}
+		// 			var oClaimModel = this.getModel("ProssingModel");
+		// 			var productModel = this.getModel("ProductMaster");
 
-		},
+		// 		},
 
 		getOnlyDealer: function () {
 			var that = this;

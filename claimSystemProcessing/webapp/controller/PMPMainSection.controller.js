@@ -1644,23 +1644,36 @@ sap.ui.define([
 								oClaimModel.refreshSecurityToken();
 								oClaimModel.create("/ZC_HEAD_PMPSet", this.obj, {
 									success: $.proxy(function (data, response) {
-										this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", false);
 
-										var pricinghData = response.data.zc_claim_item_price_dataSet.results;
-										var oFilteredData = pricinghData.filter(function (val) {
-											return val.ItemType === "MAT";
+										this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", false);
+										oClaimModel.read("/zc_claim_item_price_dataSet", {
+											urlParameters: {
+												"$filter": "NumberOfWarrantyClaim eq '" + oClaimNum + "' "
+
+											},
+
+											success: $.proxy(function (pricingData) {
+												var pricinghData = pricingData.results;
+												var oFilteredData = pricinghData.filter(function (val) {
+													return val.ItemType === "MAT";
+												});
+
+												this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
+
+												this._fnClaimSum();
+
+											}, this),
+											error: $.proxy(function (err) {
+												MessageToast.show(oBundle.getText("SystemInternalError"));
+												this.getView().getModel("DateModel").setProperty("/errorBusyIndicator", false);
+											}, this)
 										});
 
-										this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", response.data.MainOpsCodeDescription);
-
-										this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
 										oTable.removeSelections("true");
 										MessageToast.show(oBundle.getText("ItemDeletedSuccessfully"), {
 											my: "center center",
 											at: "center center"
 										});
-
-										this._fnClaimSum();
 
 									}, this),
 									error: $.proxy(function (err) {
