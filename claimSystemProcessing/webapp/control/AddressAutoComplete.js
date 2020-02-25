@@ -103,21 +103,27 @@ sap.ui.define(
 				// 		}
 				// 	}
 				// }
-				if (place.address_components[1].short_name) {
+				if (place.address_components[1] != undefined) {
 					document.getElementById(prefix + "--street_number" + "-inner").value = place.address_components[0].short_name + " " +
 						place.address_components[1].short_name;
 				}
 
-				if (place.address_components[2].short_name) {
-					document.getElementById(prefix + "--locality" + "-inner").value = place.address_components[2].short_name;
+				if (place.address_components[2] != undefined) {
+					document.getElementById(prefix + "--locality" + "-inner").value = place.address_components[2].short_name || "";
+				} else {
+					document.getElementById(prefix + "--locality" + "-inner").value = "";
 				}
 
-				if (place.address_components[5].short_name) {
-					document.getElementById(prefix + "--administrative_area_level_1" + "-inner").value = place.address_components[5].short_name;
+				if (place.address_components[5] != undefined) {
+					document.getElementById(prefix + "--administrative_area_level_1" + "-inner").value = place.address_components[5].short_name || "";
+				} else {
+					document.getElementById(prefix + "--administrative_area_level_1" + "-inner").value = "";
 				}
 
-				if (place.address_components[7].short_name) {
-					document.getElementById(prefix + "--postal_code" + "-inner").value = place.address_components[7].short_name;
+				if (place.address_components[7] != undefined) {
+					document.getElementById(prefix + "--postal_code" + "-inner").value = place.address_components[7].short_name || "";
+				} else {
+					document.getElementById(prefix + "--postal_code" + "-inner").value = "";
 				}
 
 			},

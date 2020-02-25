@@ -15,6 +15,7 @@ sap.ui.define([
 	"use strict";
 
 	var oCurrentDt = new Date();
+	var oFinalDistanceNum;
 
 	return BaseController.extend("zclaimProcessing.controller.PMPMainSection", {
 
@@ -489,6 +490,7 @@ sap.ui.define([
 			this.getView().byId("administrative_area_level_1").setValue("");
 			this.getView().byId("autocomplete").setValue("");
 			this.getView().byId("postal_code").setValue("");
+			this.getView().byId("idDist").getContent()[0].setText("");
 
 		},
 
@@ -548,18 +550,8 @@ sap.ui.define([
 		},
 
 		_fnUpdateClaim: function () {
-			// 			var oFinalDistanceNum;
-			// 			if (this.getView().byId("postal_code").getValue() != "") {
 
-			// 				var oGetDistance = this.getView().byId("idDist").getContent()[0].getText();
-			// 				var oDistanceRemoveComma = oGetDistance.replace(/,/g, '');
-			// 				var oDistanceRemoveKM = oDistanceRemoveComma.replace(/km/g, '');
-			// 				oFinalDistanceNum = parseInt(oDistanceRemoveKM);
-			// 			} else {
-			// 				oFinalDistanceNum = "";
-			// 			}
-
-			this._fnDistanceCalculate();
+			//this._fnDistanceCalculate();
 
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var oClaimModel = this.getModel("zDLRCLAIMPMPSRV");
@@ -570,6 +562,7 @@ sap.ui.define([
 			var oGroupType = this.getModel("LocalDataModel").getProperty("/WarrantyClaimTypeGroup");
 			var that = this;
 			var oView = this.getView();
+			var oCurrentDate = new Date();
 			// 			var aInputs;
 			var aInputsArr = [
 				oView.byId("idClaimType"),
@@ -585,9 +578,19 @@ sap.ui.define([
 				}
 			});
 
+			this._fnDistanceValidation();
+
 			if (bValidationError) {
 				// this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", false);
 				this.getView().byId("idMainClaimMessage").setText(oBundle.getText("FillUpMandatoryField"));
+				this.getView().byId("idMainClaimMessage").setType("Error");
+				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+			} else if (this.getView().getModel("HeadSetData").getProperty("/DealerInvoiceDate") > oCurrentDate) {
+				this.getView().byId("idMainClaimMessage").setText(oBundle.getText("InvDateCanNotGreaterThanCurDate"));
+				this.getView().byId("idMainClaimMessage").setType("Error");
+				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+			} else if (oFinalDistanceNum > 80 && this.getView().byId("postal_code").getValue() != "") {
+				this.getView().byId("idMainClaimMessage").setText(oBundle.getText("CompareDistanceError"));
 				this.getView().byId("idMainClaimMessage").setType("Error");
 				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
 			} else {
@@ -1140,7 +1143,7 @@ sap.ui.define([
 		},
 
 		_fnSaveClaim: function () {
-			this._fnDistanceCalculate();
+
 			var sSelectedLocale;
 			//  get the locale to determine the language.
 			var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
@@ -1149,6 +1152,9 @@ sap.ui.define([
 			} else {
 				sSelectedLocale = "en"; // default is english
 			}
+
+			this._fnDistanceValidation();
+
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var oClaimModel = this.getModel("zDLRCLAIMPMPSRV");
 
@@ -1156,6 +1162,7 @@ sap.ui.define([
 			var oClmType = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType");
 			var oClmSubType = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType");
 			var oGroupType = this.getModel("LocalDataModel").getProperty("/WarrantyClaimTypeGroup");
+			var oCurrentDate = new Date();
 			var that = this;
 			var oView = this.getView();
 			// 			var aInputs;
@@ -1176,6 +1183,14 @@ sap.ui.define([
 			if (bValidationError) {
 				// this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", false);
 				this.getView().byId("idMainClaimMessage").setText(oBundle.getText("FillUpMandatoryField"));
+				this.getView().byId("idMainClaimMessage").setType("Error");
+				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+			} else if (this.getView().getModel("HeadSetData").getProperty("/DealerInvoiceDate") > oCurrentDate) {
+				this.getView().byId("idMainClaimMessage").setText(oBundle.getText("InvDateCanNotGreaterThanCurDate"));
+				this.getView().byId("idMainClaimMessage").setType("Error");
+				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+			} else if (oFinalDistanceNum > 80 && this.getView().byId("postal_code").getValue() != "") {
+				this.getView().byId("idMainClaimMessage").setText(oBundle.getText("CompareDistanceError"));
 				this.getView().byId("idMainClaimMessage").setType("Error");
 				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
 			} else {
@@ -1747,18 +1762,22 @@ sap.ui.define([
 			return postalCodeRegex.test(postalCode);
 		},
 
-		onSubmitTci: function (oEvent) {
-			var oFinalDistanceNum;
+		_fnDistanceValidation: function () {
+
 			if (this.getView().byId("postal_code").getValue() != "") {
 
-				var oGetDistance = this.getView().byId("idDist").getContent()[0].getText();;
+				var oGetDistance = this.getView().byId("idDist").getContent()[0].getText();
 				var oDistanceRemoveComma = oGetDistance.replace(/,/g, '');
 				var oDistanceRemoveKM = oDistanceRemoveComma.replace(/km/g, '');
 				oFinalDistanceNum = parseInt(oDistanceRemoveKM);
 			} else {
 				oFinalDistanceNum = "";
 			}
+		},
 
+		onSubmitTci: function (oEvent) {
+
+			this._fnDistanceValidation();
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var sSelectedLocale, bValidationError;
@@ -2112,6 +2131,19 @@ sap.ui.define([
 					//MessageBox.warning(oBundle.getText("Error.PopUpBloqued"));
 				}
 			}
+		},
+		onAfterAutoComplete: function () {
+
+			setTimeout($.proxy(function () {
+				var oPostalCode = this.getView().byId("postal_code");
+				var oPostalVal = oPostalCode.getValue();
+				if (oPostalVal != "") {
+					oPostalCode.setProperty("enabled", false);
+				} else {
+					oPostalCode.setProperty("enabled", true);
+				}
+				this._fnDistanceCalculate();
+			}, this), 2000)
 		}
 
 		/**
