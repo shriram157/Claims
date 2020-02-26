@@ -491,6 +491,7 @@ sap.ui.define([
 			this.getView().byId("autocomplete").setValue("");
 			this.getView().byId("postal_code").setValue("");
 			this.getView().byId("idDist").getContent()[0].setText("");
+			this.getModel("LocalDataModel").setProperty("/addEnbAutoCom", true);
 
 		},
 
@@ -2172,8 +2173,11 @@ sap.ui.define([
 			}
 		},
 		onAfterAutoComplete: function () {
+			
+			
 
 			setTimeout($.proxy(function () {
+				this.getModel("LocalDataModel").setProperty("/addEnbAutoCom", false);
 				var oPostalCode = this.getView().byId("postal_code");
 				var oPostalVal = oPostalCode.getValue();
 				if (oPostalVal != "") {
@@ -2181,6 +2185,13 @@ sap.ui.define([
 				} else {
 					oPostalCode.setProperty("enabled", true);
 				}
+				this.getView().getModel("HeadSetData").setProperty("/CompetitorProv", this.getView().byId("administrative_area_level_1").getValue() || "");
+				//this.getView().getModel("HeadSetData").setProperty("", this.getView().byId("administrative_area_level_1").getValue());
+				 this.getView().getModel("HeadSetData").setProperty("/CompetitorAddr", this.getView().byId("street_number").getValue() ||"");
+				 this.getView().getModel("HeadSetData").setProperty("/CompetitorCity", this.getView().byId("locality").getValue() || "");
+				
+			    this.getView().getModel("HeadSetData").setProperty("/CompetitorPost", this.getView().byId("postal_code").getValue() || "");
+				
 				this._fnDistanceCalculate();
 			}, this), 2000)
 		}
