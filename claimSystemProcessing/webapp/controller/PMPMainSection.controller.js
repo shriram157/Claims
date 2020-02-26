@@ -548,6 +548,38 @@ sap.ui.define([
 			}
 			return sSelectedLocale.toUpperCase();
 		},
+		
+		_fnUpdateHeaderProp : function(){
+			
+						
+							this.obj.NumberOfWarrantyClaim = this.getView().getModel("HeadSetData").getProperty("/NumberOfWarrantyClaim");
+							this.obj.WarrantyClaimType = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType");
+							this.obj.Partner = this.getModel("LocalDataModel").getProperty("/BpDealerModel/0/BusinessPartnerKey");
+							
+							this.obj.ReferenceDate = this._fnDateFormat(oCurrentDt);
+							this.obj.DateOfApplication = this._fnDateFormat(oCurrentDt);
+							
+							this.obj.RepairDate = this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairDate"));
+							this.obj.RepairOrderNumberExternal = this.getView().getModel("HeadSetData").getProperty("/RepairOrderNumberExternal");
+							this.obj.ExternalNumberOfClaim = this.getView().getModel("HeadSetData").getProperty("/ExternalNumberOfClaim");
+							this.obj.ExternalObjectNumber = this.getView().getModel("HeadSetData").getProperty("/ExternalObjectNumber");
+							this.obj.Odometer = this.getView().getModel("HeadSetData").getProperty("/Odometer");
+						
+							this.obj.DealerContact = this.getView().getModel("HeadSetData").getProperty("/DealerContact");
+						
+							this.obj.CustomerFullName = this.getView().getModel("HeadSetData").getProperty("/CustomerFullName");
+							
+							this.obj.DealerInvoice = this.getView().getModel("HeadSetData").getProperty("/DealerInvoice");
+							this.obj.DealerInvoiceDate = this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/DealerInvoiceDate"));
+							this.obj.DealerRO = this.getView().getModel("HeadSetData").getProperty("/DealerRO");
+					    	this.obj.CompetitorName = this.getView().getModel("HeadSetData").getProperty("/CustomerFullName");
+							this.obj.CompetitorAddr = this.getView().byId("street_number").getValue() || "";
+							this.obj.CompetitorCity = this.getView().byId("locality").getValue() || "";
+							this.obj.CompetitorProv = this.getView().byId("administrative_area_level_1").getValue() || "";
+							this.obj.CompetitorPost = this.getView().byId("postal_code").getValue() || "";
+							this.obj.QuoteDate = this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/QuoteDate"));
+							this.obj.RebateAmount = this.getView().getModel("HeadSetData").getProperty("/RebateAmount");
+		},
 
 		_fnUpdateClaim: function () {
 
@@ -587,10 +619,6 @@ sap.ui.define([
 				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
 			} else if (this.getView().getModel("HeadSetData").getProperty("/DealerInvoiceDate") > oCurrentDate) {
 				this.getView().byId("idMainClaimMessage").setText(oBundle.getText("InvDateCanNotGreaterThanCurDate"));
-				this.getView().byId("idMainClaimMessage").setType("Error");
-				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
-			} else if (oFinalDistanceNum > 80 && this.getView().byId("postal_code").getValue() != "") {
-				this.getView().byId("idMainClaimMessage").setText(oBundle.getText("CompareDistanceError"));
 				this.getView().byId("idMainClaimMessage").setType("Error");
 				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
 			} else {
@@ -719,6 +747,13 @@ sap.ui.define([
 
 								this.getModel("LocalDataModel").setProperty("/commentIndicator", false);
 								this._fnClaimSum();
+								if (oFinalDistanceNum > 80 && this.getView().byId("postal_code").getValue() != "") {
+						this.getView().byId("idMainClaimMessage").setText(oBundle.getText("CompareDistanceError"));
+						this.getView().byId("idMainClaimMessage").setType("Warning");
+						this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+					}else{
+						this.getView().byId("idMainClaimMessage").setProperty("visible", false);
+					}
 								oClaimModel.read("/ZC_CLAIM_HEAD_PMP", {
 									urlParameters: {
 										"$filter": "NumberOfWarrantyClaim eq '" + this.getView().getModel("HeadSetData").getProperty(
@@ -914,9 +949,8 @@ sap.ui.define([
 			// this.obj.Message = "";
 			this.obj.NumberOfWarrantyClaim = oClaimNum;
 			this.obj.DBOperation = "SAVE";
-			this.obj.OFP = this.getView().getModel("HeadSetData").getProperty("/OFP");
-			this.obj.MainOpsCode = this.getView().getModel("HeadSetData").getProperty("/MainOpsCode");
-
+			this._fnUpdateHeaderProp();
+		
 			var itemObj = {
 				"Type": "PART",
 				"ItemType": "",
@@ -1189,11 +1223,7 @@ sap.ui.define([
 				this.getView().byId("idMainClaimMessage").setText(oBundle.getText("InvDateCanNotGreaterThanCurDate"));
 				this.getView().byId("idMainClaimMessage").setType("Error");
 				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
-			} else if (oFinalDistanceNum > 80 && this.getView().byId("postal_code").getValue() != "") {
-				this.getView().byId("idMainClaimMessage").setText(oBundle.getText("CompareDistanceError"));
-				this.getView().byId("idMainClaimMessage").setType("Error");
-				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
-			} else {
+			}  else {
 				this.getView().byId("idMainClaimMessage").setProperty("visible", false);
 				this.obj = {
 					"DBOperation": "SAVE",
@@ -1297,6 +1327,14 @@ sap.ui.define([
 						this.getModel("LocalDataModel").setProperty("/UploadEnable", true);
 						this.getModel("LocalDataModel").setProperty("/UploadEnableSublet", true);
 						this.getView().getModel("DateModel").setProperty("/oDamageLineBtn", true);
+						
+					if (oFinalDistanceNum > 80 && this.getView().byId("postal_code").getValue() != "") {
+						this.getView().byId("idMainClaimMessage").setText(oBundle.getText("CompareDistanceError"));
+						this.getView().byId("idMainClaimMessage").setType("Warning");
+						this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+					}else{
+						this.getView().byId("idMainClaimMessage").setProperty("visible", false);
+					}
 
 						this._fnClaimSum();
 
@@ -1795,6 +1833,7 @@ sap.ui.define([
 			//this.fnDisableLine();
 			var oClaimModel = this.getModel("zDLRCLAIMPMPSRV");
 			var oClaimNum = this.getView().getModel("HeadSetData").getProperty("/NumberOfWarrantyClaim");
+			this._fnUpdateHeaderProp();
 
 			this.obj.Message = "";
 			this.obj.DBOperation = "SUB";
