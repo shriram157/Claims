@@ -299,8 +299,8 @@ sap.ui.define([
 									"WarrantyClaimType": this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType"),
 									"Partner": this.getModel("LocalDataModel").getProperty("/BpDealerModel/0/BusinessPartnerKey"),
 									"PartnerRole": "AS",
-									"ReferenceDate": this._fnDateFormat(oCurrentDt),
-									"DateOfApplication": this._fnDateFormat(oCurrentDt),
+									"ReferenceDate": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/ReferenceDate")),
+									"DateOfApplication": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/DateOfApplication")),
 									"FinalProcdDate": null,
 									"RepairDate": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairDate")),
 									"RepairOrderNumberExternal": this.getView().getModel("HeadSetData").getProperty("/RepairOrderNumberExternal"),
@@ -557,7 +557,7 @@ sap.ui.define([
 							this.obj.WarrantyClaimType = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType");
 							this.obj.Partner = this.getModel("LocalDataModel").getProperty("/BpDealerModel/0/BusinessPartnerKey");
 							
-							this.obj.ReferenceDate = this._fnDateFormat(oCurrentDt);
+							this.obj.ReferenceDate = this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/ReferenceDate"));
 							this.obj.DateOfApplication = this._fnDateFormat(oCurrentDt);
 							
 							this.obj.RepairDate = this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairDate"));
@@ -664,7 +664,7 @@ sap.ui.define([
 							"WarrantyClaimType": this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType"),
 							"Partner": this.getModel("LocalDataModel").getProperty("/BpDealerModel/0/BusinessPartnerKey"),
 							"PartnerRole": "AS",
-							"ReferenceDate": this._fnDateFormat(oCurrentDt),
+							"ReferenceDate": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/ReferenceDate")),
 							"DateOfApplication": this._fnDateFormat(oCurrentDt),
 							"FinalProcdDate": null,
 							"RepairDate": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairDate")),
