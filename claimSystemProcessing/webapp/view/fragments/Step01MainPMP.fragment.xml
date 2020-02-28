@@ -88,7 +88,7 @@
 				<custom:CustomCombo showSecondaryValues="true" id="idCompetitorName" items="{path:'LocalDataModel>/company_detailSet'}"
 					selectionChange="onSelectCompetitorName" selectedKey="HeadSetData>/CompetitorName"
 					value="{path:'HeadSetData>/CustomerFullName', type : 'sap.ui.model.type.String'}" enabled="{DateModel>/oFormEdit}">
-					<core:ListItem text="{LocalDataModel>CompetitorName}" key="{LocalDataModel>CompetitorName}"/>
+					<core:ListItem text="{LocalDataModel>CompetitorName}" key="{LocalDataModel>CompetitorName}" additionalText="{LocalDataModel>Priority}"/>
 				</custom:CustomCombo>
 			</f:content>
 		</f:SimpleForm>

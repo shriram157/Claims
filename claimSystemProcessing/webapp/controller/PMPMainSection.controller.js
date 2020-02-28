@@ -50,7 +50,18 @@ sap.ui.define([
 			var oClaimModel = this.getModel("zDLRCLAIMPMPSRV");
 			oClaimModel.read("/zc_company_detailSet", {
 				success: $.proxy(function (data) {
-					this.getModel("LocalDataModel").setProperty("/company_detailSet", data.results);
+					var vData = data.results;
+					var sFilterBlankPriority = vData.filter(function(item){return item.Priority == "" || item.Priority == "0"});
+					var sFilterPriority = vData.filter(function(item){return item.Priority != "" &&  item.Priority != "0"});
+					
+				
+					
+					var sortedData = sFilterPriority.sort(this.compareValues('Priority'));
+					
+						var concatArray = sortedData.concat(sFilterBlankPriority);
+					
+					this.getModel("LocalDataModel").setProperty("/company_detailSet", concatArray);
+					
 				}, this),
 				error: function (err) {
 					console.log(err);
@@ -95,6 +106,32 @@ sap.ui.define([
 			});
 
 		},
+		
+		compareValues : function(key, order = 'asc') {
+				  return function innerSort(a, b) {
+		    if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
+		      // property doesn't exist on either object
+		      return "";
+		    }
+		
+		    const varA = (typeof a[key] === 'string')
+		      ? a[key].toUpperCase() : a[key];
+		    const varB = (typeof b[key] === 'string')
+		      ? b[key].toUpperCase() : b[key];
+		
+		    let comparison = 0;
+		    if (varA > varB) {
+		      comparison = 1;
+		    } else if (varA < varB) {
+		      comparison = -1;
+		    }
+		    return (
+		      (order === 'desc') ? (comparison * -1) : comparison
+		    );
+		  };
+		},
+		
+	
 		_onRoutMatched: function (oEvent) {
 			var oValidator = new Validator();
 			oValidator.validate("");
