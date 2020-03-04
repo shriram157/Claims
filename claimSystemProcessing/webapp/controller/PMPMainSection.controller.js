@@ -1823,6 +1823,8 @@ sap.ui.define([
 						my: "center center",
 						at: "center center"
 					});
+			}else{
+				this._fnDistanceCalculate();
 			}
 		},
 
