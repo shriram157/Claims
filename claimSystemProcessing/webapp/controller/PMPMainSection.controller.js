@@ -225,6 +225,14 @@ sap.ui.define([
 
 						this.getView().getModel("HeadSetData").setData(sdata.results[0]);
 						this._fnStatusCheck();
+						
+							var oPostalCode = this.getView().byId("postal_code");
+							var oPostalVal = this.getView().getModel("HeadSetData").getProperty("/CompetitorPost);
+							if (oPostalVal != "") {
+								oPostalCode.setProperty("enabled", false);
+							} else {
+								oPostalCode.setProperty("enabled", true);
+							}
 
 						if (sdata.results[0].DecisionCode == "ZTIC" || sdata.results[0].DecisionCode == "ZTRC") {
 							this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
