@@ -227,7 +227,7 @@ sap.ui.define([
 						this._fnStatusCheck();
 						
 							var oPostalCode = this.getView().byId("postal_code");
-							var oPostalVal = this.getView().getModel("HeadSetData").getProperty("/CompetitorPost);
+							var oPostalVal = this.getView().getModel("HeadSetData").getProperty("/CompetitorPost");
 							if (oPostalVal != "") {
 								oPostalCode.setProperty("enabled", false);
 							} else {
