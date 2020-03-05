@@ -146,6 +146,7 @@ sap.ui.define([
 			this.getModel("LocalDataModel").setProperty("/FeedEnabled", false);
 			this.getModel("LocalDataModel").setProperty("/commentIndicator", false);
 			this.getView().byId("autocomplete").setValue("");
+			this.getModel("LocalDataModel").setProperty("/oErrorSet", []);
 
 			oDateModel.setData({
 				Parts: true,
@@ -1608,12 +1609,12 @@ sap.ui.define([
 							return item.CHARAC == "TIRE_CATEGORY"
 						});
 						var oPartTypeValue = oPartType[0].VALUE;
-						if (oManuFactureValue != "") {
+						if (oManuFactureValue != "" && oManuFactureValue != "?") {
 							this.getView().getModel("PartDataModel").setProperty("/PartManufacturer", oManuFactureValue);
 
 						}
 
-						if (oManuFactureValue != "") {
+						if (oPartTypeValue != "" && oPartTypeValue != "?") {
 							this.getView().getModel("PartDataModel").setProperty("/PartType", oPartTypeValue);
 
 						}
@@ -1825,6 +1826,10 @@ sap.ui.define([
 					});
 			}else{
 				this._fnDistanceCalculate();
+				setTimeout($.proxy(function () {
+					var oPostalCode = this.getView().byId("postal_code");
+						oPostalCode.setProperty("enabled", false);
+				}, this), 2000)
 			}
 		},
 
