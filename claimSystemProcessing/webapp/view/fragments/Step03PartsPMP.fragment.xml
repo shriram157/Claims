@@ -111,7 +111,7 @@
 			noDataText="No Data" showNoData="true">
 			<columns>
 				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Begin"><Text text="{i18n>Line}"/></Column>
-				<Column minScreenWidth="Tablet" width="1.5rem" demandPopin="true" hAlign="Center"><Text text="{i18n>PartNumber}" textAlign="Center"/></Column>
+				<Column minScreenWidth="Tablet" width="8rem" demandPopin="true" hAlign="Center"><Text text="{i18n>PartNumber}" textAlign="Center"/></Column>
 				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center"><Text text="{i18n>Description}" textAlign="Center"/></Column>
 				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center"><Text text="{i18n>Manufacturer}" textAlign="Center"/></Column>
 				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center"><Text text="{i18n>Type}" textAlign="Center"/></Column>
