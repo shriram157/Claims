@@ -13,7 +13,7 @@ function(Input){
 		// 	this.setValue(this.getValue().replace(/^[+-=]*[A-Z_]*$/gi, ""));
 		// },
 		onkeyup : function(){
-			var patt = /^\d{1,14}(\.\d{1,1})?$/;
+			var patt = /^\d{1,14}(\.\d{1,2})?$/;
 			var validateNum = patt.test(Number(this.getValue()));
 			if(!validateNum){
 				this.setValue("");
@@ -27,7 +27,7 @@ function(Input){
 		
 	});
 	CustomInput.prototype.onAfterRendering = function(){
-		var patt = /^\d{1,10}(\.\d{1,1})?$/;
+		var patt = /^\d{1,14}(\.\d{1,2})?$/;
 			var validateNum = patt.test(Number(this.getValue()));
 			if(!validateNum){
 				this.setValue("");
