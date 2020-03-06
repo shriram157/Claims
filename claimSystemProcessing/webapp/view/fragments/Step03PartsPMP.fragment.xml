@@ -76,7 +76,7 @@
 						<Input value="{PartDataModel>/matnr}" editable="{DateModel>/editablePartNumber}" required="true" id="idPartNumber" showValueHelp="true"
 							valueHelpOnly="true" valueHelpRequest="handleValueHelp" enabled="{DateModel>/partLine}"/>
 						<Label text="{i18n>CompetitorPriceTire}" textAlign="Left"/>
-						<customPart:CustomInput value="{PartDataModel>/CompetitorPrice}" enabled="{DateModel>/partLine}"/>
+						<customPart:CustomInputDecimal value="{PartDataModel>/CompetitorPrice}" enabled="{DateModel>/partLine}"/>
 						<core:Title text=""/>
 						<Label text="{i18n>PartDescription}" textAlign="Left"/>
 						<Input value="{PartDataModel>/PartDescription}" id="idPartDes" editable="false" enabled="{DateModel>/partLine}"/>
