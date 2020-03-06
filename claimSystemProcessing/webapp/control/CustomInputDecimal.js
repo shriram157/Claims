@@ -13,14 +13,27 @@ function(Input){
 		// 	this.setValue(this.getValue().replace(/^[+-=]*[A-Z_]*$/gi, ""));
 		// },
 		onkeyup : function(){
-			this.setValue(this.getValue().replace(/^[+-]*[A-Z_]*$/gi, ""));
+			var patt = /^\d{1,14}(\.\d{1,1})?$/;
+			var validateNum = patt.test(Number(this.getValue()));
+			if(!validateNum){
+				this.setValue("");
+			}else{
+				this.setValue(this.getValue());
+			}
+			//this.setValue(this.getValue().replace(/^[+-]*[A-Z_]*$/gi, ""));
 		},
 	
 		renderer :"sap.m.InputRenderer"	
 		
 	});
 	CustomInput.prototype.onAfterRendering = function(){
-		this.setValue(this.getValue().replace(/^[+-]*[A-Z_]*$/gi, ""));
+		var patt = /^\d{1,10}(\.\d{1,1})?$/;
+			var validateNum = patt.test(Number(this.getValue()));
+			if(!validateNum){
+				this.setValue("");
+			}else{
+				this.setValue(this.getValue());
+			}
 	};
 	return CustomInput;
 });

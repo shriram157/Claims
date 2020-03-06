@@ -14,6 +14,7 @@
 									labelSpanXL="4" labelSpanL="4" labelSpanM="3" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0"
 									emptySpanS="0" columnsXL="3" columnsL="3" columnsM="1" singleContainerFullSize="false">
 									<f:content>
+										
 										<core:Title text=""/>
 										<Label text="{i18n>DealerCode}" textAlign="Begin"/>
 										<Select showSecondaryValues="true" id="idDealerCode" change="onSelectiDealer" items="{path:'LocalDataModel>/BpDealerModel', length:300}">
@@ -48,6 +49,8 @@
 											selectionChange="handleSelectClaimGroup" selectionFinish="handleSelectClaimGroupFinish" id="idClaimStatus">
 											<core:Item key="{LocalDataModel>Status}" text="{LocalDataModel>Description}"/>
 										</MultiComboBox>
+										
+										
 										<core:Title text=""/>
 										<Button text="{i18n>Search}" press="onPressSearch" type="Emphasized"/>
 										<Button text="{i18n>Clear}" press="onPressClear"/>

@@ -1571,7 +1571,7 @@ sap.ui.define([
 					sap.ui.model.FilterOperator.StartsWith, sValue
 				);
 				//console.log(oFilter);
-				evt.getSource().getBinding("items").filter([oFilter]);
+				evt.getSource().getBinding("items").filter([oFilter], true);
 			} else {
 				evt.getSource().getBinding("items").filter([]);
 			}
