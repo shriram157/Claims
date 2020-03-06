@@ -1567,7 +1567,7 @@ sap.ui.define([
 
 			if (sValue) {
 				var oFilter = new Filter(
-					"Material",
+					"MATNR",
 					sap.ui.model.FilterOperator.StartsWith, sValue
 				);
 				//console.log(oFilter);
