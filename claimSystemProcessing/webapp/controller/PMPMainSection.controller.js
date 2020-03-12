@@ -382,9 +382,9 @@ sap.ui.define([
 									"DeliveringCarrier": "",
 									"WarrantyClaimSubType": "",
 									"DeliveryType": "",
-									"DealerInvoice": this.getView().getModel("HeadSetData").getProperty("/DealerInvoice"),
+									"DealerInvoice": this.getView().getModel("HeadSetData").getProperty("/DealerInvoice").toUpperCase(),
 									"DealerInvoiceDate": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/DealerInvoiceDate")),
-									"DealerRO": this.getView().getModel("HeadSetData").getProperty("/DealerRO"),
+									"DealerRO": this.getView().getModel("HeadSetData").getProperty("/DealerRO").toUpperCase(),
 									"CompetitorName": this.getView().getModel("HeadSetData").getProperty("/CompetitorName"),
 									"CompetitorAddr": this.getView().getModel("HeadSetData").getProperty("/CompetitorAddr"),
 									"CompetitorCity": this.getView().getModel("HeadSetData").getProperty("/CompetitorCity"),
@@ -616,9 +616,9 @@ sap.ui.define([
 						
 							this.obj.CustomerFullName = this.getView().getModel("HeadSetData").getProperty("/CustomerFullName");
 							
-							this.obj.DealerInvoice = this.getView().getModel("HeadSetData").getProperty("/DealerInvoice");
+							this.obj.DealerInvoice = this.getView().getModel("HeadSetData").getProperty("/DealerInvoice").toUpperCase();
 							this.obj.DealerInvoiceDate = this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/DealerInvoiceDate"));
-							this.obj.DealerRO = this.getView().getModel("HeadSetData").getProperty("/DealerRO");
+							this.obj.DealerRO = this.getView().getModel("HeadSetData").getProperty("/DealerRO").toUpperCase();
 					    	this.obj.CompetitorName = this.getView().getModel("HeadSetData").getProperty("/CustomerFullName");
 							this.obj.CompetitorAddr = this.getView().byId("street_number").getValue() || "";
 							this.obj.CompetitorCity = this.getView().byId("locality").getValue() || "";
@@ -747,9 +747,9 @@ sap.ui.define([
 							"DeliveringCarrier": "",
 							"WarrantyClaimSubType": "",
 							"DeliveryType": "",
-							"DealerInvoice": this.getView().getModel("HeadSetData").getProperty("/DealerInvoice"),
+							"DealerInvoice": this.getView().getModel("HeadSetData").getProperty("/DealerInvoice").toUpperCase(),
 							"DealerInvoiceDate": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/DealerInvoiceDate")),
-							"DealerRO": this.getView().getModel("HeadSetData").getProperty("/DealerRO"),
+							"DealerRO": this.getView().getModel("HeadSetData").getProperty("/DealerRO").toUpperCase(),
 							"CompetitorName": this.getView().getModel("HeadSetData").getProperty("/CustomerFullName"),
 							"CompetitorAddr": this.getView().byId("street_number").getValue() || "",
 							"CompetitorCity": this.getView().byId("locality").getValue() || "",
@@ -1010,7 +1010,7 @@ sap.ui.define([
 				"Posnr": "",
 				"PartManufacturer": this.getView().getModel("PartDataModel").getProperty("/PartManufacturer"),
 				"PartType": this.getView().getModel("PartDataModel").getProperty("/PartType"),
-				"CompetitorPrice": this.getView().getModel("PartDataModel").getProperty("/CompetitorPrice")
+				"CompetitorPrice": this.getView().getModel("PartDataModel").getProperty("/CompetitorPrice").toString()
 			};
 
 			var oArrNew = this.obj.zc_itemSet.results.filter(function (val) {
@@ -1315,9 +1315,9 @@ sap.ui.define([
 					"DeliveringCarrier": "",
 					"WarrantyClaimSubType": "",
 					"DeliveryType": "",
-					"DealerInvoice": this.getView().getModel("HeadSetData").getProperty("/DealerInvoice"),
+					"DealerInvoice": this.getView().getModel("HeadSetData").getProperty("/DealerInvoice").toUpperCase(),
 					"DealerInvoiceDate": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/DealerInvoiceDate")),
-					"DealerRO": this.getView().getModel("HeadSetData").getProperty("/DealerRO"),
+					"DealerRO": this.getView().getModel("HeadSetData").getProperty("/DealerRO").toUpperCase(),
 					"CompetitorName": this.getView().getModel("HeadSetData").getProperty("/CustomerFullName"),
 					"CompetitorAddr": this.getView().byId("street_number").getValue() || "",
 					"CompetitorCity": this.getView().byId("locality").getValue() || "",
@@ -1679,7 +1679,7 @@ sap.ui.define([
 				this.getView().getModel("PartDataModel").setProperty("/quant", obj.QtyHrs);
 				this.getView().getModel("PartDataModel").setProperty("/PartDescription", obj.ALMDiscreDesc);
 				this.getView().getModel("PartDataModel").setProperty("/PartType", obj.PartType);
-				this.getView().getModel("PartDataModel").setProperty("/CompetitorPrice", obj.CompetitorPrice);
+				this.getView().getModel("PartDataModel").setProperty("/CompetitorPrice", Number(obj.CompetitorPrice/obj.QtyHrs));
 				this.getView().getModel("PartDataModel").setProperty("/PartManufacturer", obj.PartManufacturer);
 				this.getView().getModel("LocalDataModel").setProperty("/BaseUnit", obj.Meins);
 				//this.getView().getModel("LocalDataModel").setProperty("/BaseUnit"

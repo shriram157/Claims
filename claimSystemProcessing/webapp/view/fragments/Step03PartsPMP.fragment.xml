@@ -117,6 +117,9 @@
 				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center"><Text text="{i18n>Manufacturer}" textAlign="Center"/></Column>
 				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center"><Text text="{i18n>Type}" textAlign="Center"/></Column>
 				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+					<Text text="{i18n>Quantity}" textAlign="Center"/>
+				</Column>
+				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
 					<Text text="{i18n>DealerNetPrice}" textAlign="Center"/>
 				</Column>
 				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
@@ -128,9 +131,7 @@
 				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
 					<Text text="{i18n>DifferenceTire}"/>
 				</Column>
-				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
-					<Text text="{i18n>Quantity}" textAlign="Center"/>
-				</Column>
+			
 				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
 					<Text text="{i18n>TotalDifferences}" textAlign="Center"/>
 				</Column>
@@ -146,11 +147,12 @@
 						<Text text="{LocalDataModel>ALMDiscreDesc}" wrapping="true" textAlign="Center"/>
 						<Text text="{LocalDataModel>PartManufacturer}" wrapping="true" textAlign="Center"/>
 						<Text text="{LocalDataModel>PartType}" wrapping="true" textAlign="Center"/>
+						<Text text="{path:'LocalDataModel>QtyHrs', formatter:'zclaimProcessing.utils.formatter.fnFormatDecimal'}" wrapping="true" textAlign="Center"/>
 						<Text text="${LocalDataModel>DealerNet}" wrapping="true" textAlign="Center"/>
 						<Text text="${LocalDataModel>MSRP}" wrapping="true" textAlign="Center"/>
 						<Text text="${LocalDataModel>CompetitorPrice}" wrapping="true" textAlign="Center"/>
 						<Text text="${LocalDataModel>DiffPerTire}" wrapping="true" textAlign="Center"/>
-						<Text text="{path:'LocalDataModel>QtyHrs', formatter:'zclaimProcessing.utils.formatter.fnFormatDecimal'}" wrapping="true" textAlign="Center"/>
+						
 						<Text text="${LocalDataModel>TotalDiff}" wrapping="true" textAlign="Center"/>
 						<Text text="${LocalDataModel>TCIApprAmt}" wrapping="true" textAlign="Center"/>
 						<!--<Text text="{path:'LocalDataModel>QtyHrs', formatter:'zclaimProcessing.utils.formatter.fnFormatDecimal'}" wrapping="true" textAlign="Center"/>-->
