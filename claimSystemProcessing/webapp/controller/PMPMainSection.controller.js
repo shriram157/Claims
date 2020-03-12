@@ -2022,7 +2022,14 @@ sap.ui.define([
 
 												this._fnStatusCheck();
 
-												if (sdata.results[0].DecisionCode == "ZTIC") {
+												if (sdata.results[0].DecisionCode == "ZTIC" || sdata.results[0].DecisionCode == "ZTRC") {
+													this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
+													this.getView().getModel("DateModel").setProperty("/SaveClaim07", true);
+													this.getModel("LocalDataModel").setProperty("/CancelEnable", true);
+													this.getView().getModel("DateModel").setProperty("/claimEditSt", true);
+													this.getView().getModel("DateModel").setProperty("/updateEnable", true);
+													this.getModel("LocalDataModel").setProperty("/UploadEnable", true);
+													
 													MessageToast.show(
 														oBundle.getText("ClaimNumber") + " " + oClaimNum + " " + oBundle.getText(
 															"RejectedTCIValidationResultsdetails"), {
@@ -2031,6 +2038,12 @@ sap.ui.define([
 														});
 
 												} else {
+													this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
+													this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
+													this.getModel("LocalDataModel").setProperty("/CancelEnable", false);
+													this.getView().getModel("DateModel").setProperty("/claimEditSt", false);
+													this.getView().getModel("DateModel").setProperty("/updateEnable", false);
+													this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
 													this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
 													MessageToast.show(oBundle.getText("ClaimNumber") + " " + oClaimNum + " " + oBundle.getText(
 														"successfullysubmittedTCI"), {
@@ -2040,23 +2053,7 @@ sap.ui.define([
 
 												}
 
-												if (sdata.results[0].DecisionCode == "ZTIC" || sdata.results[0].DecisionCode == "ZTRC") {
-													this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
-													this.getView().getModel("DateModel").setProperty("/SaveClaim07", true);
-													this.getModel("LocalDataModel").setProperty("/CancelEnable", true);
-													this.getView().getModel("DateModel").setProperty("/claimEditSt", true);
-													this.getView().getModel("DateModel").setProperty("/updateEnable", true);
-													this.getModel("LocalDataModel").setProperty("/UploadEnable", true);
-												} else {
-													this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
-													this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
-													this.getModel("LocalDataModel").setProperty("/CancelEnable", false);
-													this.getView().getModel("DateModel").setProperty("/claimEditSt", false);
-													this.getView().getModel("DateModel").setProperty("/updateEnable", false);
-													this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
-
-												}
-
+											
 											}, this)
 										});
 
