@@ -233,6 +233,14 @@ sap.ui.define([
 							} else {
 								oPostalCode.setProperty("enabled", true);
 							}
+							
+							if(this.getView().getModel("HeadSetData").getProperty("/CompetitorAddr") != "" ){
+								this.getModel("LocalDataModel").setProperty("/addEnbAutoCom", false);
+							}else{
+								this.getModel("LocalDataModel").setProperty("/addEnbAutoCom", true);
+							}
+							
+							
 
 						if (sdata.results[0].DecisionCode == "ZTIC" || sdata.results[0].DecisionCode == "ZTRC") {
 							this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
@@ -421,6 +429,8 @@ sap.ui.define([
 					}
 				})
 			} else {
+				
+				this.getModel("LocalDataModel").setProperty("/addEnbAutoCom", true);
 
 				this.obj = {
 					"DBOperation": "",
