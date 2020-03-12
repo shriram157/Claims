@@ -334,7 +334,7 @@ sap.ui.define([
 										"ItemKey": "",
 										PartManufacturer: item.PartManufacturer,
 										PartType: item.PartType,
-										CompetitorPrice: item.CompetitorPrice
+										CompetitorPrice: Number(item.CompetitorPrice/item.QtyHrs).toString()
 									};
 
 								});
@@ -698,7 +698,7 @@ sap.ui.define([
 								ItemKey: "",
 								PartManufacturer: item.PartManufacturer,
 								PartType: item.PartType,
-								CompetitorPrice: item.CompetitorPrice
+								CompetitorPrice: Number(item.CompetitorPrice/item.QtyHrs).toString()
 							};
 
 						});
