@@ -128,9 +128,9 @@
 				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
 					<Text text="{i18n>CompetitorPrice}" textAlign="Center"/>
 				</Column>
-				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
-					<Text text="{i18n>DifferenceTire}"/>
-				</Column>
+				<!--<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center">-->
+				<!--	<Text text="{i18n>DifferenceTire}"/>-->
+				<!--</Column>-->
 			
 				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
 					<Text text="{i18n>TotalDifferences}" textAlign="Center"/>
@@ -151,7 +151,7 @@
 						<Text text="${LocalDataModel>DealerNet}" wrapping="true" textAlign="Center"/>
 						<Text text="${LocalDataModel>MSRP}" wrapping="true" textAlign="Center"/>
 						<Text text="${LocalDataModel>CompetitorPrice}" wrapping="true" textAlign="Center"/>
-						<Text text="${LocalDataModel>DiffPerTire}" wrapping="true" textAlign="Center"/>
+						<!--<Text text="${LocalDataModel>DiffPerTire}" wrapping="true" textAlign="Center"/>-->
 						
 						<Text text="${LocalDataModel>TotalDiff}" wrapping="true" textAlign="Center"/>
 						<Text text="${LocalDataModel>TCIApprAmt}" wrapping="true" textAlign="Center"/>
