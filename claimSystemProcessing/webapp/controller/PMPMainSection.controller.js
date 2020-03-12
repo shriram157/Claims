@@ -931,7 +931,12 @@ sap.ui.define([
 
 		onRecalculate: function (oEvent) {
 			this.obj.NumberOfWarrantyClaim = this.getView().getModel("HeadSetData").getProperty("/NumberOfWarrantyClaim");
-			this.obj.RebateAmount = this.getView().getModel("HeadSetData").getProperty("/RebateAmount");
+			if(this.getView().getModel("HeadSetData").getProperty("/RebateAmount") == ""){
+				this.obj.RebateAmount = "0.00";
+				this.getView().getModel("HeadSetData").setProperty("/RebateAmount", "0.00");
+			}else{
+				this.obj.RebateAmount = this.getView().getModel("HeadSetData").getProperty("/RebateAmount");
+			}
 
 			this._fnUpdateClaim();
 
