@@ -548,6 +548,7 @@ sap.ui.define([
 			this.getView().byId("postal_code").setValue("");
 			this.getView().byId("idDist").getContent()[0].setText("");
 			this.getModel("LocalDataModel").setProperty("/addEnbAutoCom", true);
+			
 
 		},
 
@@ -1941,7 +1942,7 @@ sap.ui.define([
 							// 			this.getView().byId("idMainClaimMessage").setProperty("visible", true);
 							// 		} else {
 							// 		this.getView().getModel("DateModel").setProperty("/claimTypeState", "None");
-							// 		this.getView().getModel("DateModel").setProperty("/claimTypeState2", "None");
+						  this.getView().getModel("DateModel").setProperty("/partLine", false);
 
 							if (oFinalDistanceNum > 80 && this.getView().byId("postal_code").getValue() != "") {
 								this.getView().byId("idMainClaimMessage").setText(oBundle.getText("CompareDistanceError"));
