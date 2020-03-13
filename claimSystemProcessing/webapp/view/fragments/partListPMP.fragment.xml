@@ -1,12 +1,12 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
 	<TableSelectDialog noDataText="No data Found" title="{i18n>SelectPartNumber}" search="_handleValueHelpSearch" liveChange="_handleLiveSearch"
 		confirm="_handleValueHelpClose" cancel="_handleValueHelpClose"
-		items="{path:'ProductMasterModel>/ZC_Product_CategorySet', filters: [ { filters: [ { path: 'PRODH', operator: 'EQ', value1: 'PARP05F15' }, { path:'LANGUAGE', operator: 'EQ', value1: 'E'} ], and: true } ]}">
+		items="{path:'ProductMasterModel>/C_Product_Fs', filters: [ { filters: [ { path: 'ProductType', operator: 'NE', value1: 'VERP' }, { path: 'ProductType', operator: 'NE', value1: 'DIEN' }, { path: 'ProductType', operator: 'NE', value1: 'VEHI' } ], and: true } ]}">
 		<ColumnListItem>
 			<cells>
-				<Text text="{ProductMasterModel>MATNR}"/>
-				<Text text="{ProductMasterModel>MATNR_DESC}"/>
-				<!--<Text text="{ProductMasterModel>BaseUnit}"/>-->
+				<Text text="{ProductMasterModel>Material}"/>
+				<Text text="{ProductMasterModel>Material_Text}"/>
+				<Text text="{ProductMasterModel>BaseUnit}"/>
 			</cells>
 		</ColumnListItem>
 		<columns>
@@ -20,11 +20,11 @@
 					<Text text="Description"/>
 				</header>
 			</Column>
-			<!--<Column minScreenWidth="Desktop" demandPopin="true" hAlign="End">-->
-			<!--	<header>-->
-			<!--		<Text text="Unit"/>-->
-			<!--	</header>-->
-			<!--</Column>-->
+			<Column minScreenWidth="Desktop" demandPopin="true" hAlign="End">
+				<header>
+					<Text text="Unit"/>
+				</header>
+			</Column>
 		</columns>
 	</TableSelectDialog>
 </core:FragmentDefinition>

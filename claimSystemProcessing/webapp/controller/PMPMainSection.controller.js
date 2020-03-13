@@ -1583,11 +1583,11 @@ sap.ui.define([
 
 			if (sValue) {
 				var oFilter = new Filter(
-					"MATNR",
+					"Material",
 					sap.ui.model.FilterOperator.StartsWith, sValue
 				);
 				//console.log(oFilter);
-				evt.getSource().getBinding("items").filter([oFilter], true);
+				evt.getSource().getBinding("items").filter([oFilter]);
 			} else {
 				evt.getSource().getBinding("items").filter([]);
 			}
