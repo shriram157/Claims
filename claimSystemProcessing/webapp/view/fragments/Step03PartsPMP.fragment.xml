@@ -133,7 +133,7 @@
 				<!--</Column>-->
 			
 				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
-					<Text text="{i18n>TotalDifferences}" textAlign="Center"/>
+					<Text text="{i18n>TotalDifference}" textAlign="Center"/>
 				</Column>
 				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
 					<Text text="{i18n>TCIAmountApproved}" textAlign="Center"/>
