@@ -4480,6 +4480,10 @@ sap.ui.define([
 							var enabledIntent = oPartItemData.findIndex(function (item) {
 								return item.DiscreCode == "8A";
 							});
+							
+							var oPartDiscDes = oPartItemData.findIndex(function (item) {
+								return item.DiscreCode == "WINDSHIELD" || "PARE-BRISE";
+							});
 
 							var oAttachmentList = this.getModel("LocalDataModel").getProperty("/PartHeadAttachData");
 							console.log(oAttachmentList);
@@ -4487,14 +4491,21 @@ sap.ui.define([
 								return item.FileName == "Letter Of Intent.pdf";
 							});
 
-							if (enabledIntent > -1 && this.claimType === "ZPDC" && oAttachmentCheck == -1 || this.claimType == "ZPTS" &&
+							if (enabledIntent > -1 && this.claimType === "ZPDC" && oAttachmentCheck == -1 && oPartDiscDes == -1  || this.claimType == "ZPTS" &&
 								oAttachmentCheck == -1) {
 								this.getView().getModel("DateModel").setProperty("/oLetterOfIntent", true);
 								this.getView().getModel("DateModel").setProperty("/SubmitPWBusyIndicator", false);
 								MessageBox.show(oBundle.getText("LOIMandatoryBeforeTCISubmit"), MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK,
 									null, null);
 							} else {
-								this.getView().getModel("DateModel").setProperty("/oLetterOfIntent", false);
+								
+								if(oPartDiscDes > -1){
+									this.getView().getModel("DateModel").setProperty("/oLetterOfIntent", true);
+								}else{
+									this.getView().getModel("DateModel").setProperty("/oLetterOfIntent", false);
+								}
+								
+								
 
 								oClaimModel.refreshSecurityToken();
 								oClaimModel.create("/zc_headSet", this.obj, {
