@@ -28,7 +28,7 @@
 					<Text text="{HeadSetData>/DecisionCode}"/>
 					<core:Title text=""/>
 					<Label text="{i18n>ClaimTypeDescription}"/>
-					<Text text="Price Match Claim"/>
+					<Text text="{i18n>PriceMatchClaim}"/>
 					<Label text="{i18n>StatusDescription}"/>
 					<Text text="{LocalDataModel>/StatusDes}"/>
 				</f:content>

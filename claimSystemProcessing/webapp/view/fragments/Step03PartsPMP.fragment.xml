@@ -28,7 +28,7 @@
 					<Text text="{HeadSetData>/DecisionCode}"/>
 					<core:Title text=""/>
 					<Label text="{i18n>ClaimTypeDescription}"/>
-					<Text text="Price Match Claim"/>
+					<Text text="{i18n>PriceMatchClaim}"/>
 					<Label text="{i18n>StatusDescription}"/>
 					<Text text="{LocalDataModel>/StatusDes}"/>
 				</f:content>
@@ -109,7 +109,7 @@
 			</VBox>
 		</l:Grid>
 		<Table id="idTableParts" mode="SingleSelectLeft" items="{path: 'LocalDataModel>/PricingDataModel'}" growing="true" growingThreshold="20"
-			noDataText="No Data" showNoData="true">
+			noDataText="{i18n>NoData}" showNoData="true">
 			<columns>
 				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Begin"><Text text="{i18n>Line}"/></Column>
 				<Column minScreenWidth="Tablet" width="8rem" demandPopin="true" hAlign="Center"><Text text="{i18n>PartNumber}" textAlign="Center"/></Column>
