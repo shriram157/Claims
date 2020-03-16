@@ -88,7 +88,7 @@
 				<table:Column width="8rem">
 					<table:multiLabels>
 						<Label text="{i18n>GSTHST}" textAlign="Center" width="100%"/>
-						<Label text="{i18n>Tax}" textAlign="Center" width="100%"/>
+						<Label text="{i18n>Taxes}" textAlign="Center" width="100%"/>
 					</table:multiLabels>
 					<table:template>
 						<Text text="{LocalDataModel>GSTHSTRate}" wrapping="false"/>
@@ -97,7 +97,7 @@
 				<table:Column width="8rem" headerSpan="{multiHeaderConfig>/multiheader2}">
 					<table:multiLabels>
 						<Label text="{i18n>PSTQST}" textAlign="Center" width="100%"/>
-						<Label text="Amount" textAlign="Center" width="100%"/>
+						<Label text="{i18n>Amount}" textAlign="Center" width="100%"/>
 					</table:multiLabels>
 					<table:template>
 						<Text text="${path:'LocalDataModel>PSTQSTAmt', formatter:'zclaimProcessing.utils.formatter.fnFormatDecimal'}" wrapping="false"/>
@@ -106,7 +106,7 @@
 				<table:Column width="8rem">
 					<table:multiLabels>
 						<Label text="{i18n>PSTQST}" textAlign="Center" width="100%"/>
-						<Label text="{i18n>Tax}" textAlign="Center" width="100%"/>
+						<Label text="{i18n>Taxes}" textAlign="Center" width="100%"/>
 					</table:multiLabels>
 					<table:template>
 						<Text text="{LocalDataModel>PSTQSTRate}" wrapping="false"/>
