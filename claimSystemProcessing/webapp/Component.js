@@ -59,7 +59,7 @@ sap.ui.define([
 			var mConfig01 = this.getMetadata().getManifestEntry("/sap.app/dataSources/API_BUSINESS_PARTNER");
 
 			if (sLocation_conf == 0) {
-				mConfig01.uri = "/Claim_Destination2" + mConfig01.uri;
+				mConfig01.uri = "/Claim_Destination" + mConfig01.uri;
 			} else {
 
 			} // facilitate local testing.
