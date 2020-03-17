@@ -123,7 +123,7 @@
 			</table:columns>
 		</table:Table>
 		<VBox class="clMinHeight">
-			<List headerText="{i18n>Validations}" items="{ path: 'LocalDataModel>/oErrorSet' }" busy="{DateModel>/errorBusyIndicator}">
+			<List noDataText="{i18n>NoData}" headerText="{i18n>Validations}" items="{ path: 'LocalDataModel>/oErrorSet' }" busy="{DateModel>/errorBusyIndicator}">
 				<CustomListItem>
 					<HBox class="sapUiSmallMargin">
 						<Text text="{i18n>Error} : {LocalDataModel>NUMBER}" class="sapUiTinyMarginEnd"/>
