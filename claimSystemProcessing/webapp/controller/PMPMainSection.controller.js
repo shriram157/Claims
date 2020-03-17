@@ -1540,6 +1540,7 @@ sap.ui.define([
 		onFileDeleted: function (oEvent) {
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
+		
 
 			var oPMPModel = this.getModel("zDLRCLAIMPMPSRV");
 
@@ -1881,12 +1882,17 @@ sap.ui.define([
 				oFinalDistanceNum = "";
 			}
 		},
+		
+		_fnScrollTop : function(){
+			this.byId("idsubmitPage").scrollTo(0);
+		
+		},
 
 		onSubmitTci: function (oEvent) {
 
 			this._fnDistanceValidation();
-			var oBundle = this.getView().getModel("i18n").getResourceBundle();
-			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
+			
+			
 			var sSelectedLocale, bValidationError;
 
 			var that = this;
@@ -1916,18 +1922,20 @@ sap.ui.define([
 			};
 
 			this.obj.zc_claim_vsrSet.results.push(oObj);
+			
+			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 
 			//this.obj.zc_claim_item_price_dataSet.results.push(this.getModel("LocalDataModel").getProperty("/PricingDataModel"));
 
-			var oBundle = this.getView().getModel("i18n").getResourceBundle();
+			
 			//var GroupType = this.getModel("LocalDataModel").getProperty("/WarrantyClaimTypeGroup");
 			//oEvent.getSource().getParent().getParent().addStyleClass("clMinHeight");
 
 			var dialog = new Dialog({
-				title: that.oBundle.getText("SubmitClaimTCI"),
+				title: oBundle.getText("SubmitClaimTCI"),
 				type: "Message",
 				content: new Text({
-					text: that.oBundle.getText("AresubmitClaimTCI?")
+					text: oBundle.getText("AresubmitClaimTCI?")
 				}),
 
 				buttons: [
@@ -1948,10 +1956,12 @@ sap.ui.define([
 								this.getView().byId("idMainClaimMessage").setText(oBundle.getText("CompareDistanceError"));
 								this.getView().byId("idMainClaimMessage").setType("Error");
 								this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+								this._fnScrollTop();
 							} else if (this.getModel("LocalDataModel").getProperty("/HeadAtchmentData").length == 0) {
 								this.getView().byId("idMainClaimMessage").setText(oBundle.getText("PMPSupportingDocumentErr"));
 								this.getView().byId("idMainClaimMessage").setType("Error");
 								this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+								this._fnScrollTop();
 							} else if (
 								this.getView().getModel("HeadSetData").getProperty("/CompetitorAddr") == "" ||
 								this.getView().getModel("HeadSetData").getProperty("/CompetitorCity") == "" ||
@@ -1964,6 +1974,7 @@ sap.ui.define([
 								this.getView().byId("idMainClaimMessage").setText(oBundle.getText("Competitorinformationcannotblank"));
 								this.getView().byId("idMainClaimMessage").setType("Error");
 								this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+								this._fnScrollTop();
 							} else {
 								this.getView().getModel("DateModel").setProperty("/errorBusyIndicator", true);
 								oClaimModel.refreshSecurityToken();

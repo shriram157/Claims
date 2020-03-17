@@ -3,7 +3,7 @@
 	<core:Fragment fragmentName="zclaimProcessing.view.fragments.ToolHeader" type="XML"/>
 	<uxap:ObjectPageLayout id="ObjectPageLayout">
 		<uxap:headerContent>
-			<VBox width="100%" class="sapUiSmallMarginTop">
+			<VBox width="100%" class="sapUiSmallMarginTop" >
 				<HBox width="100%" justifyContent="End" displayInline="true">
 					<Text text="{i18n>Status} : {HeadSetData>/DecisionCode} ({LocalDataModel>/StatusDes})" class="sapUiSmallMarginEnd clFont01"/>
 				</HBox>
@@ -32,7 +32,9 @@
 										</IconTabFilter>
 										<IconTabSeparator icon="sap-icon://open-command-field"/>
 										<IconTabFilter icon="sap-icon://validate" text="{i18n>Validate}" enabled="true" id="idFilter07" key="Tab7">
+											<ScrollContainer id="idScrollContainer" vertical="true">
 											<core:Fragment fragmentName="zclaimProcessing.view.fragments.Step07ValidateSubmitPMP" type="XML"/>
+											</ScrollContainer>
 										</IconTabFilter>
 										<IconTabSeparator icon="sap-icon://open-command-field"/>
 										<IconTabFilter icon="sap-icon://complete" text="{i18n>Submit}" enabled="false" id="idFilter08" key="Tab8">
