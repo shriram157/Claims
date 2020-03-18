@@ -26,6 +26,7 @@ sap.ui.define([
 		 */
 
 		onInit: function () {
+			$(this).attr("title","");
 
 			// 			var oCtrl = new SearchAddressInput({
 			// 				GoogleAPI: "AIzaSyAz7irkOJQ4ydE2dHYrg868QV5jUQ-5FaY"
@@ -1539,6 +1540,11 @@ sap.ui.define([
 		},
 
 		onFileDeleted: function (oEvent) {
+			MessageToast.show("Delete trigger", {
+						my: "center center",
+						at: "center center"
+					});
+					
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 		
@@ -2268,8 +2274,9 @@ sap.ui.define([
 				} else {
 					oPostalCode.setProperty("enabled", true);
 				}
-				if(oProvince.getValue().length > 3){
+				if(oProvince.getValue().length > 3 || oProvince.getValue() == ""){
 					this.getView().getModel("HeadSetData").setProperty("/CompetitorProv", "");
+					this.getView().byId("administrative_area_level_1").setValue("");
 					this.getView().getModel("DateModel").setProperty("/provinceEnable", true);
 				}else{
 					this.getView().getModel("HeadSetData").setProperty("/CompetitorProv", this.getView().byId("administrative_area_level_1").getValue() || "");
