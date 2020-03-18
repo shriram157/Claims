@@ -1,5 +1,5 @@
 <mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" controllerName="zclaimProcessing.controller.PMPMainSection"
-	xmlns:html="http://www.w3.org/1999/xhtml" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:uxap="sap.uxap" xmlns:tnt="sap.tnt">
+	xmlns:html="http://www.w3.org/1999/xhtml" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:uxap="sap.uxap" xmlns:tnt="sap.tnt" >
 	<core:Fragment fragmentName="zclaimProcessing.view.fragments.ToolHeader" type="XML"/>
 	<uxap:ObjectPageLayout id="ObjectPageLayout">
 		<uxap:headerContent>
@@ -13,7 +13,7 @@
 			<uxap:ObjectPageSection title="{i18n>MainSection}" id="mainSectionTitle">
 				<uxap:subSections>
 					<uxap:ObjectPageSubSection title=" ">
-						<uxap:blocks >
+						<uxap:blocks>
 							<VBox>
 								<MessageStrip id="idMainClaimMessage" text="" showIcon="true" showCloseButton="true" class="sapUiMediumMarginBottom" visible="false"></MessageStrip>
 								<IconTabBar select="onSelectTab" expandable="false" id="idIconTabMainClaim" expanded="{device>/isNoPhone}"

@@ -176,7 +176,10 @@ sap.ui.define([
 				errorBusyIndicator: false,
 				VisiblePageLine: false,
 				CopareDistanceText: "",
-				oSlipVisible: false
+				oSlipVisible: false,
+				streetEnable: false,
+				localityEnable: false,
+				provinceEnable: false
 			});
 			this.getView().setModel(oDateModel, "DateModel");
 
@@ -608,8 +611,6 @@ sap.ui.define([
 		},
 		
 		_fnUpdateHeaderProp : function(){
-			
-						
 							this.obj.NumberOfWarrantyClaim = this.getView().getModel("HeadSetData").getProperty("/NumberOfWarrantyClaim");
 							this.obj.WarrantyClaimType = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType");
 							this.obj.Partner = this.getModel("LocalDataModel").getProperty("/BpDealerModel/0/BusinessPartnerKey");
@@ -1884,7 +1885,12 @@ sap.ui.define([
 		},
 		
 		_fnScrollTop : function(){
-			this.byId("idsubmitPage").scrollTo(0);
+			
+			var oId = this.byId("mainSectionTitle").sId;
+			document.getElementById(oId).scrollIntoView(true);
+			
+			// var msgtrip = this.byId("idMainClaimMessage").sId;
+			// $('#'+msgtrip).focus();
 		
 		},
 
@@ -2255,13 +2261,21 @@ sap.ui.define([
 			setTimeout($.proxy(function () {
 				this.getModel("LocalDataModel").setProperty("/addEnbAutoCom", false);
 				var oPostalCode = this.getView().byId("postal_code");
+				var oProvince = this.byId("administrative_area_level_1");
 				var oPostalVal = oPostalCode.getValue();
 				if (oPostalVal != "") {
 					oPostalCode.setProperty("enabled", false);
 				} else {
 					oPostalCode.setProperty("enabled", true);
 				}
-				this.getView().getModel("HeadSetData").setProperty("/CompetitorProv", this.getView().byId("administrative_area_level_1").getValue() || "");
+				if(oProvince.getValue().length > 3){
+					this.getView().getModel("HeadSetData").setProperty("/CompetitorProv", "");
+					this.getView().getModel("DateModel").setProperty("/provinceEnable", true);
+				}else{
+					this.getView().getModel("HeadSetData").setProperty("/CompetitorProv", this.getView().byId("administrative_area_level_1").getValue() || "");
+					this.getView().getModel("DateModel").setProperty("/provinceEnable", false);
+				}
+				
 				//this.getView().getModel("HeadSetData").setProperty("", this.getView().byId("administrative_area_level_1").getValue());
 				 this.getView().getModel("HeadSetData").setProperty("/CompetitorAddr", this.getView().byId("street_number").getValue() ||"");
 				 this.getView().getModel("HeadSetData").setProperty("/CompetitorCity", this.getView().byId("locality").getValue() || "");

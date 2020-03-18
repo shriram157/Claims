@@ -125,7 +125,7 @@
 				<!--<html:Input id="autocomplete" placeholder="Enter your address" onFocus="geolocate()" type="text"/>-->
 				<core:Title text=""/>
 				<Label text="{i18n>Address}"/>
-				<Input id="street_number" maxLength="60" enabled="false" value="{path:'HeadSetData>/CompetitorAddr', type : 'sap.ui.model.type.String'}"
+				<Input id="street_number" maxLength="60" enabled="{DateModel>/streetEnable}" value="{path:'HeadSetData>/CompetitorAddr', type : 'sap.ui.model.type.String'}"
 					editable="{DateModel>/oFormEdit}"/>
 				<core:Title text=""/>
 				<Label text="{i18n>City}"/>
@@ -139,10 +139,10 @@
 				<!--</ComboBox>-->
 				<Input id="locality" maxLength="40"
 					value="{path:'HeadSetData>/CompetitorCity', type : 'sap.ui.model.type.String' }"
-					editable="{DateModel>/oFormEdit}" enabled="false"/>
+					editable="{DateModel>/oFormEdit}" enabled="{DateModel>/localityEnable}"/>
 				<core:Title text=""/>
 				<Label text="{i18n>Province}"/>
-				<Input id="administrative_area_level_1" enabled="false" maxLength="3"
+				<Input id="administrative_area_level_1" enabled="{DateModel>/provinceEnable}" maxLength="3"
 					value="{path:'HeadSetData>/CompetitorProv', type : 'sap.ui.model.type.String'}"
 					editable="{DateModel>/oFormEdit}"/>
 				<!--<ComboBox showSecondaryValues="true" id="idCompetitorProvince" items="{path:'LocalDataModel>/ProviceSet'}"-->
@@ -209,94 +209,7 @@
 		</Panel>
 		<Panel width="auto" class="sapUiSmallMarginBottom" accessibleRole="Region">
 			<content>
-				<table:Table class="classRCPTable" selectionMode="Single" rows="{path:'LocalDataModel>/ClaimSum'}" visibleRowCount="5"
-					rowSelectionChange="onNavigate" selectionBehavior="Row" showNoData="true" threshold="5" enableBusyIndicator="true" >
-					<table:toolbar>
-						<Toolbar>
-							<Title text="{i18n>ClaimAmountSummary}" level="H2"/>
-							<ToolbarSpacer/>
-							<!--<Button tooltip="View Settings" icon="sap-icon://drop-down-list" press="handleViewSettingsDialogButtonPressed"/>-->
-						</Toolbar>
-					</table:toolbar>
-					<table:columns autoResizable="true">
-						<table:Column width="17rem">
-							<table:multiLabels>
-								<Label text="{i18n>TotalsincludingRebate}" textAlign="Center" width="100%"/>
-							</table:multiLabels>
-							<table:template>
-								<Text text="{path:'LocalDataModel>ItemType', formatter: 'zclaimProcessing.utils.formatter.fnFormatText'}" wrapping="false"/>
-							</table:template>
-						</table:Column>
-						<table:Column width="11rem">
-							<table:multiLabels>
-								<Label text="{i18n>DealerClaimedAmount}" textAlign="Center" width="100%"/>
-							</table:multiLabels>
-							<table:template>
-								<Text text="${path:'LocalDataModel>DealerClaim', formatter:'zclaimProcessing.utils.formatter.fnFormatDecimal'}" wrapping="false"/>
-							</table:template>
-						</table:Column>
-						<table:Column width="11rem">
-							<table:multiLabels>
-								<Label text="{i18n>TCIApprovedAmount}" textAlign="Center" width="100%"/>
-							</table:multiLabels>
-							<table:template>
-								<Text text="${path:'LocalDataModel>TCIAppr', formatter:'zclaimProcessing.utils.formatter.fnFormatDecimal'}" wrapping="false"/>
-							</table:template>
-						</table:Column>
-						<table:Column width="11rem">
-							<table:multiLabels>
-								<Label text="{i18n>DifferenceCAD}" textAlign="Center" width="100%"/>
-							</table:multiLabels>
-							<table:template>
-								<Text text="${path:'LocalDataModel>Diff', formatter:'zclaimProcessing.utils.formatter.fnFormatDecimal'}" wrapping="false"/>
-							</table:template>
-						</table:Column>
-						<table:Column width="8rem" headerSpan="{multiHeaderConfig>/multiheader2}">
-							<table:multiLabels>
-								<Label text="{i18n>GSTHST}" textAlign="Center" width="100%"/>
-								<Label text="{i18n>Amount}" textAlign="Center" width="100%"/>
-							</table:multiLabels>
-							<table:template>
-								<Text text="${path:'LocalDataModel>GSTHSTAmt', formatter:'zclaimProcessing.utils.formatter.fnFormatDecimal'}" wrapping="false"/>
-							</table:template>
-						</table:Column>
-						<table:Column width="8rem">
-							<table:multiLabels>
-								<Label text="{i18n>GSTHST}" textAlign="Center" width="100%"/>
-								<Label text="{i18n>Taxes}" textAlign="Center" width="100%"/>
-							</table:multiLabels>
-							<table:template>
-								<Text text="{LocalDataModel>GSTHSTRate}" wrapping="false"/>
-							</table:template>
-						</table:Column>
-						<table:Column width="8rem" headerSpan="{multiHeaderConfig>/multiheader2}">
-							<table:multiLabels>
-								<Label text="{i18n>PSTQST}" textAlign="Center" width="100%"/>
-								<Label text="{i18n>Amount}" textAlign="Center" width="100%"/>
-							</table:multiLabels>
-							<table:template>
-								<Text text="${path:'LocalDataModel>PSTQSTAmt', formatter:'zclaimProcessing.utils.formatter.fnFormatDecimal'}" wrapping="false"/>
-							</table:template>
-						</table:Column>
-						<table:Column width="8rem">
-							<table:multiLabels>
-								<Label text="{i18n>PSTQST}" textAlign="Center" width="100%"/>
-								<Label text="{i18n>Taxes}" textAlign="Center" width="100%"/>
-							</table:multiLabels>
-							<table:template>
-								<Text text="{LocalDataModel>PSTQSTRate}" wrapping="false"/>
-							</table:template>
-						</table:Column>
-						<table:Column width="17rem">
-							<table:multiLabels>
-								<Label text="{i18n>TCIApprovedAmountIncludingTax}" textAlign="Center" width="100%"/>
-							</table:multiLabels>
-							<table:template>
-								<Text text="${path:'LocalDataModel>TCIApprInclTax', formatter:'zclaimProcessing.utils.formatter.fnFormatDecimal'}" wrapping="false"/>
-							</table:template>
-						</table:Column>
-					</table:columns>
-				</table:Table>
+				<core:Fragment fragmentName="zclaimProcessing.view.fragments.ClaimAmountSummery" type="XML"/>
 			</content>
 			<HBox alignContent="Center" justifyContent="Center" class="sapUiTinyMarginTop sapUiTinyMarginBottom">
 				<Button class="sapUiTinyMarginBeginEnd" press="onPressBack" text="{i18n>BackList}" type="Back"/>
