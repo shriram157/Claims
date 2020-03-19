@@ -4981,8 +4981,8 @@ sap.ui.define([
 
 			var oClaimModel = this.getModel("ProssingModel");
 
-			var oLine = oEvent.getSource()._oItemForDelete._iLineNumber;
-			var oFileName = this.getModel("LocalDataModel").getProperty("/HeadAtchmentData/" + oLine + "/FileName");
+			//var oLine = oEvent.getSource()._oItemForDelete._iLineNumber;
+			var oFileName = oEvent.getSource().getFileName();
 			var oFileToDelete = "HEAD@@@" + oFileName;
 
 			oClaimModel.refreshSecurityToken();
