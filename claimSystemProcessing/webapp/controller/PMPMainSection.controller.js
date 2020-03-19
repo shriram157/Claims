@@ -12,7 +12,8 @@ sap.ui.define([
 	"zclaimProcessing/control/DistanceMatrix",
 	"sap/m/MessageBox"
 
-], function (BaseController, MessageToast, DateFormat, ValueState, Validator, Filter, Dialog, Button, Label, Text, DistanceMatrix, MessageBox) {
+], function (BaseController, MessageToast, DateFormat, ValueState, Validator, Filter, Dialog, Button, Label, Text, DistanceMatrix,
+	MessageBox) {
 	"use strict";
 
 	var oCurrentDt = new Date();
@@ -27,7 +28,6 @@ sap.ui.define([
 		 */
 
 		onInit: function () {
-
 
 			this.getOnlyDealer();
 			this.setModel(this.getModel("ProssingModel"));
@@ -66,7 +66,6 @@ sap.ui.define([
 					console.log(err);
 				}
 			});
-
 
 			sap.ui.getCore().attachValidationError(function (oEvent) {
 				oEvent.getParameter("element").setValueState(ValueState.Error);
@@ -1528,42 +1527,76 @@ sap.ui.define([
 		onFileDeleted: function (oEvent) {
 			
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
-			var oBundle = this.getView().getModel("i18n").getResourceBundle();
+							var oBundle = this.getView().getModel("i18n").getResourceBundle();
 
-			var oPMPModel = this.getModel("zDLRCLAIMPMPSRV");
+							var oPMPModel = this.getModel("zDLRCLAIMPMPSRV");
 
-			var oFileName = oEvent.getSource().getFileName();
-		
-			var oFileToDelete = "HEAD@@@" + oFileName;
+							var oFileName = oEvent.getSource().getFileName();
 
-			oPMPModel.refreshSecurityToken();
+							var oFileToDelete = "HEAD@@@" + oFileName;
 
-			oPMPModel.remove("/zc_claim_attachmentsSet(NumberOfWarrantyClaim='" + oClaimNum + "',FileName='" + oFileToDelete + "')", {
-				method: "DELETE",
-				success: $.proxy(function () {
-					MessageToast.show(oBundle.getText("Filedeletedsuccessfully"), {
-						my: "center center",
-						at: "center center"
-					});
-					oPMPModel.read("/zc_claim_attachmentsSet", {
-						urlParameters: {
-							"$filter": "NumberOfWarrantyClaim eq '" + oClaimNum + "'and AttachLevel eq 'HEAD' and FileName  eq ''"
-						},
 
-						success: $.proxy(function (odata) {
-							var oArr = odata.results;
-							var oAttachSet = oArr.map(function (item) {
-								item.FileName = item.FileName.replace("HEAD@@@", "");
-								return item;
+			var dialog = new Dialog({
+				title: oBundle.getText("SubmitClaimTCI"),
+				type: "Message",
+				content: new Text({
+					text: oBundle.getText("AreyouSureDeleteFile")+" "+oFileName + "?"
+				}),
 
+				buttons: [
+					new Button({
+						text: oBundle.getText("Yes"),
+						press: $.proxy(function () {
+							
+							oPMPModel.refreshSecurityToken();
+
+							oPMPModel.remove("/zc_claim_attachmentsSet(NumberOfWarrantyClaim='" + oClaimNum + "',FileName='" + oFileToDelete + "')", {
+								method: "DELETE",
+								success: $.proxy(function () {
+									MessageToast.show(oBundle.getText("Filedeletedsuccessfully"), {
+										my: "center center",
+										at: "center center"
+									});
+									oPMPModel.read("/zc_claim_attachmentsSet", {
+										urlParameters: {
+											"$filter": "NumberOfWarrantyClaim eq '" + oClaimNum + "'and AttachLevel eq 'HEAD' and FileName  eq ''"
+										},
+
+										success: $.proxy(function (odata) {
+											var oArr = odata.results;
+											var oAttachSet = oArr.map(function (item) {
+												item.FileName = item.FileName.replace("HEAD@@@", "");
+												return item;
+
+											});
+											// this.getView().getModel("ClaimModel").setProperty("/" + "/items", oArr);
+											this.getModel("LocalDataModel").setProperty("/HeadAtchmentData", oAttachSet);
+
+										}, this)
+									});
+								}, this)
 							});
-							// this.getView().getModel("ClaimModel").setProperty("/" + "/items", oArr);
-							this.getModel("LocalDataModel").setProperty("/HeadAtchmentData", oAttachSet);
+
+							dialog.close();
 
 						}, this)
-					});
-				}, this)
+					}),
+					new Button({
+						text: oBundle.getText("Cancel"),
+						press: $.proxy(function () {
+							this.getView().getModel("DateModel").setProperty("/errorBusyIndicator", false);
+							dialog.close();
+						}, this)
+					})
+
+				],
+
+				afterClose: function () {
+					dialog.destroy();
+				}
 			});
+
+			dialog.open();
 
 		},
 
@@ -1953,17 +1986,16 @@ sap.ui.define([
 									at: "center center"
 								});
 
-								
 							} else if (this.getModel("LocalDataModel").getProperty("/HeadAtchmentData").length == 0) {
 								// this.getView().byId("idMainClaimMessage").setText(oBundle.getText("PMPSupportingDocumentErr"));
 								// this.getView().byId("idMainClaimMessage").setType("Error");
 								// this.getView().byId("idMainClaimMessage").setProperty("visible", true);
-								
+
 								MessageBox.error(oBundle.getText("PMPSupportingDocumentErr"), {
 									my: "center center",
 									at: "center center"
 								});
-							
+
 							} else if (
 								this.getView().getModel("HeadSetData").getProperty("/CompetitorAddr") == "" ||
 								this.getView().getModel("HeadSetData").getProperty("/CompetitorCity") == "" ||
@@ -1976,12 +2008,12 @@ sap.ui.define([
 								// this.getView().byId("idMainClaimMessage").setText(oBundle.getText("Competitorinformationcannotblank"));
 								// this.getView().byId("idMainClaimMessage").setType("Error");
 								// this.getView().byId("idMainClaimMessage").setProperty("visible", true);
-								
+
 								MessageBox.error(oBundle.getText("Competitorinformationcannotblank"), {
 									my: "center center",
 									at: "center center"
 								});
-								
+
 							} else {
 								this.getView().getModel("DateModel").setProperty("/errorBusyIndicator", true);
 								oClaimModel.refreshSecurityToken();
@@ -2301,7 +2333,6 @@ sap.ui.define([
 		 * @memberOf zclaimProcessing.view.PMPMainSection
 		 */
 		// onAfterRendering: function () {
-		
 
 		// }
 
