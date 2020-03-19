@@ -28,13 +28,6 @@ sap.ui.define([
 
 		onInit: function () {
 
-			//$(this).attr("title","");
-
-			// 			var oCtrl = new SearchAddressInput({
-			// 				GoogleAPI: "AIzaSyAz7irkOJQ4ydE2dHYrg868QV5jUQ-5FaY"
-			// 			});
-
-			// 			this.getView().byId("idAddressAuto").addItem(oCtrl);
 
 			this.getOnlyDealer();
 			this.setModel(this.getModel("ProssingModel"));
@@ -74,35 +67,6 @@ sap.ui.define([
 				}
 			});
 
-			var jsonTemplate = new sap.ui.model.json.JSONModel(jQuery.sap.getModulePath("zclaimProcessing/utils", "/Nodes.json"));
-			// 			jsonTemplate.attachRequestCompleted($.proxy(function (oEvent) {
-			// 				var ModelNEW = oEvent.getSource().getData();
-			// 				var unionArr = [];
-			// 				var unionSet = [];
-
-			// 				this.getModel("LocalDataModel").setProperty("/cities", ModelNEW);
-			// 				this.getModel("LocalDataModel").setProperty("/itemList", ModelNEW);
-			// 				for (var i in ModelNEW) {
-
-			// 					if (unionArr.indexOf(ModelNEW[i].admin) == -1) {
-			// 						unionArr.push(ModelNEW[i].admin);
-			// 						console.log(unionArr);
-			// 					}
-
-			// 				}
-
-			// 				for (var j in unionArr) {
-			// 					unionSet.push({
-			// 						"admin": unionArr[j]
-			// 					});
-			// 				}
-
-			// 				this.getModel("LocalDataModel").setProperty("/ProviceSet", unionSet);
-
-			// 			}, this));
-			// 			console.log(jsonTemplate);
-			// 			this.getView().setModel(jsonTemplate, "CityModel");
-			// 			this.getView().getModel("CityModel").setSizeLimit(6000);
 
 			sap.ui.getCore().attachValidationError(function (oEvent) {
 				oEvent.getParameter("element").setValueState(ValueState.Error);
@@ -2336,21 +2300,10 @@ sap.ui.define([
 		 * This hook is the same one that SAPUI5 controls get after being rendered.
 		 * @memberOf zclaimProcessing.view.PMPMainSection
 		 */
-		onAfterRendering: function () {
-			function changeLanguage() {
-				var jObj = $('.goog-te-combo');
-				var db = jObj.get(0);
-				var lang = "fr"
-				jObj.val(lang);
-				var evt = document.createEvent("HTMLEvents");
-				evt.initEvent('change', true, true);
-				//             jObj.dispatchEvent(evt);
-				db.dispatchEvent(evt);
-			}
+		// onAfterRendering: function () {
+		
 
-			setTimeout(changeLanguage, 3000)
-
-		}
+		// }
 
 		/**
 		 * Called when the Controller is destroyed. Use this one to free resources and finalize activities.
