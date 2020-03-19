@@ -283,12 +283,7 @@ sap.ui.define([
 				},
 				success: $.proxy(function (data) {
 					var oClaimData = data.results;
-					// 	for (var i = 0; i < oClaimData.length; i++) {
-					// 		if (oClaimGroup.indexOf(oClaimData[i].ClaimGroupDes) == -1) {
-					// 			oClaimGroup.push(oClaimData[i]);
-					// 		}
-					// 	}
-
+				
 					var elements = oClaimData.reduce(function (previous, current) {
 
 						var object = previous.filter(object => object.ClaimGroupDes === current.ClaimGroupDes);
@@ -300,7 +295,7 @@ sap.ui.define([
 
 					if (sap.ui.getCore().getModel("UserDataModel").getProperty("/UserScope") == "ManageAllParts") {
 						oClaimGroup = elements.filter(function (val) {
-							return val.ClaimGroup == "SCR" || val.ClaimGroup == "SSM" || val.ClaimGroup == "PWD";
+							return val.ClaimGroup == "SCR" || val.ClaimGroup == "SSM" || val.ClaimGroup == "PWD" || val.ClaimGroup == "PMP";
 						});
 					} else if (sap.ui.getCore().getModel("UserDataModel").getProperty("/UserScope") == "ManageAllServices" || sap.ui.getCore().getModel(
 							"UserDataModel").getProperty("/UserScope") == "ManageAllShowAuthorization") {
@@ -313,7 +308,7 @@ sap.ui.define([
 						oClaimGroup = elements.filter(function (val) {
 							return val.ClaimGroup == "SCR" || val.ClaimGroup == "SSM" || val.ClaimGroup == "PWD" || val.ClaimGroup == "STR" || val.ClaimGroup ==
 								"WTY" || val.ClaimGroup == "CRC" || val.ClaimGroup == "VLC" || val.ClaimGroup ==
-								"ECP" ||
+								"ECP" || val.ClaimGroup == "PMP" ||
 								val.ClaimGroup == "FAC";
 						});
 					} else {
@@ -845,7 +840,7 @@ sap.ui.define([
 				success: $.proxy(function (sdata) {
 					//console.log(sdata);
 					//this.getModel("LocalDataModel").setProperty("/ClaimDetails", sdata.results[0]);
-					var oClaimType = sdata.results[0].WarrantyClaimType;
+						var oClaimType = sdata.results[0].WarrantyClaimType;
 					var oClaimGroup = sdata.results[0].WarrantyClaimGroupDes;
 
 					if (oClaimType == "ZACD" || oClaimType == "ZAUT") {
@@ -855,6 +850,14 @@ sap.ui.define([
 					}
 					if (oClaimType == "ZPDC" || oClaimType == "ZPMS" || oClaimType == "ZPPD" || oClaimType == "ZPTS") {
 						this.getOwnerComponent().getRouter().navTo("PartsMainSection", {
+							claimNum: oClaimNum,
+							oKey: oClaimType,
+							oClaimGroup: this.oSelectedClaimGroup,
+							oClaimNav: "Details"
+
+						});
+					}else if (oClaimType == "ZSPM") {
+						this.getOwnerComponent().getRouter().navTo("PMPMainSection", {
 							claimNum: oClaimNum,
 							oKey: oClaimType,
 							oClaimGroup: this.oSelectedClaimGroup,
