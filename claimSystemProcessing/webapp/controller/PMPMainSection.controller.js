@@ -9,9 +9,10 @@ sap.ui.define([
 	"sap/m/Button",
 	'sap/m/Label',
 	'sap/m/Text',
-	"zclaimProcessing/control/DistanceMatrix"
+	"zclaimProcessing/control/DistanceMatrix",
+	"sap/m/MessageBox"
 
-], function (BaseController, MessageToast, DateFormat, ValueState, Validator, Filter, Dialog, Button, Label, Text, DistanceMatrix) {
+], function (BaseController, MessageToast, DateFormat, ValueState, Validator, Filter, Dialog, Button, Label, Text, DistanceMatrix, MessageBox) {
 	"use strict";
 
 	var oCurrentDt = new Date();
@@ -26,8 +27,7 @@ sap.ui.define([
 		 */
 
 		onInit: function () {
-			
-         
+
 			//$(this).attr("title","");
 
 			// 			var oCtrl = new SearchAddressInput({
@@ -44,7 +44,8 @@ sap.ui.define([
 				"quant": "",
 				"PartDescription": "",
 				"PartManufacturer": "",
-				"PartType": ""
+				"PartType": "",
+				"CompetitorPrice": ""
 			});
 
 			partData.setDefaultBindingMode("TwoWay");
@@ -54,17 +55,19 @@ sap.ui.define([
 			oClaimModel.read("/zc_company_detailSet", {
 				success: $.proxy(function (data) {
 					var vData = data.results;
-					var sFilterBlankPriority = vData.filter(function(item){return item.Priority == "" || item.Priority == "0"});
-					var sFilterPriority = vData.filter(function(item){return item.Priority != "" &&  item.Priority != "0"});
-					
-				
-					
+					var sFilterBlankPriority = vData.filter(function (item) {
+						return item.Priority == "" || item.Priority == "0"
+					});
+					var sFilterPriority = vData.filter(function (item) {
+						return item.Priority != "" && item.Priority != "0"
+					});
+
 					var sortedData = sFilterPriority.sort(this.compareValues('Priority'));
-					
-						var concatArray = sortedData.concat(sFilterBlankPriority);
-					
+
+					var concatArray = sortedData.concat(sFilterBlankPriority);
+
 					this.getModel("LocalDataModel").setProperty("/company_detailSet", concatArray);
-					
+
 				}, this),
 				error: function (err) {
 					console.log(err);
@@ -109,32 +112,29 @@ sap.ui.define([
 			});
 
 		},
-		
-		compareValues : function(key, order = 'asc') {
-				  return function innerSort(a, b) {
-		    if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
-		      // property doesn't exist on either object
-		      return "";
-		    }
-		
-		    const varA = (typeof a[key] === 'string')
-		      ? a[key].toUpperCase() : a[key];
-		    const varB = (typeof b[key] === 'string')
-		      ? b[key].toUpperCase() : b[key];
-		
-		    let comparison = 0;
-		    if (varA > varB) {
-		      comparison = 1;
-		    } else if (varA < varB) {
-		      comparison = -1;
-		    }
-		    return (
-		      (order === 'desc') ? (comparison * -1) : comparison
-		    );
-		  };
+
+		compareValues: function (key, order = 'asc') {
+			return function innerSort(a, b) {
+				if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
+					// property doesn't exist on either object
+					return "";
+				}
+
+				const varA = (typeof a[key] === 'string') ? a[key].toUpperCase() : a[key];
+				const varB = (typeof b[key] === 'string') ? b[key].toUpperCase() : b[key];
+
+				let comparison = 0;
+				if (varA > varB) {
+					comparison = 1;
+				} else if (varA < varB) {
+					comparison = -1;
+				}
+				return (
+					(order === 'desc') ? (comparison * -1) : comparison
+				);
+			};
 		},
-		
-	
+
 		_onRoutMatched: function (oEvent) {
 			var oValidator = new Validator();
 			oValidator.validate("");
@@ -182,7 +182,10 @@ sap.ui.define([
 				oSlipVisible: false,
 				streetEnable: false,
 				localityEnable: false,
-				provinceEnable: false
+				provinceEnable: false,
+				partQtyValState: "None",
+				PartValState: "None",
+				competitorValueState: "None"
 			});
 			this.getView().setModel(oDateModel, "DateModel");
 
@@ -231,22 +234,20 @@ sap.ui.define([
 
 						this.getView().getModel("HeadSetData").setData(sdata.results[0]);
 						this._fnStatusCheck();
-						
-							var oPostalCode = this.getView().byId("postal_code");
-							var oPostalVal = this.getView().getModel("HeadSetData").getProperty("/CompetitorPost");
-							if (oPostalVal != "") {
-								oPostalCode.setProperty("enabled", false);
-							} else {
-								oPostalCode.setProperty("enabled", true);
-							}
-							
-							if(this.getView().getModel("HeadSetData").getProperty("/CompetitorAddr") != "" ){
-								this.getModel("LocalDataModel").setProperty("/addEnbAutoCom", false);
-							}else{
-								this.getModel("LocalDataModel").setProperty("/addEnbAutoCom", true);
-							}
-							
-							
+
+						var oPostalCode = this.getView().byId("postal_code");
+						var oPostalVal = this.getView().getModel("HeadSetData").getProperty("/CompetitorPost");
+						if (oPostalVal != "") {
+							oPostalCode.setProperty("enabled", false);
+						} else {
+							oPostalCode.setProperty("enabled", true);
+						}
+
+						if (this.getView().getModel("HeadSetData").getProperty("/CompetitorAddr") != "") {
+							this.getModel("LocalDataModel").setProperty("/addEnbAutoCom", false);
+						} else {
+							this.getModel("LocalDataModel").setProperty("/addEnbAutoCom", true);
+						}
 
 						if (sdata.results[0].DecisionCode == "ZTIC" || sdata.results[0].DecisionCode == "ZTRC") {
 							this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
@@ -348,7 +349,7 @@ sap.ui.define([
 										"ItemKey": "",
 										PartManufacturer: item.PartManufacturer,
 										PartType: item.PartType,
-										CompetitorPrice: Number(item.CompetitorPrice/item.QtyHrs).toString()
+										CompetitorPrice: Number(item.CompetitorPrice / item.QtyHrs).toString()
 									};
 
 								});
@@ -435,7 +436,7 @@ sap.ui.define([
 					}
 				})
 			} else {
-				
+
 				this.getModel("LocalDataModel").setProperty("/addEnbAutoCom", true);
 
 				this.obj = {
@@ -554,7 +555,6 @@ sap.ui.define([
 			this.getView().byId("postal_code").setValue("");
 			this.getView().byId("idDist").getContent()[0].setText("");
 			this.getModel("LocalDataModel").setProperty("/addEnbAutoCom", true);
-			
 
 		},
 
@@ -612,35 +612,35 @@ sap.ui.define([
 			}
 			return sSelectedLocale.toUpperCase();
 		},
-		
-		_fnUpdateHeaderProp : function(){
-							this.obj.NumberOfWarrantyClaim = this.getView().getModel("HeadSetData").getProperty("/NumberOfWarrantyClaim");
-							this.obj.WarrantyClaimType = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType");
-							this.obj.Partner = this.getModel("LocalDataModel").getProperty("/BpDealerModel/0/BusinessPartnerKey");
-							
-							this.obj.ReferenceDate = this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/ReferenceDate"));
-							this.obj.DateOfApplication = this._fnDateFormat(oCurrentDt);
-							
-							this.obj.RepairDate = this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/DealerInvoiceDate"));
-							this.obj.RepairOrderNumberExternal = this.getView().getModel("HeadSetData").getProperty("/RepairOrderNumberExternal");
-							this.obj.ExternalNumberOfClaim = this.getView().getModel("HeadSetData").getProperty("/ExternalNumberOfClaim");
-							this.obj.ExternalObjectNumber = this.getView().getModel("HeadSetData").getProperty("/ExternalObjectNumber");
-							this.obj.Odometer = this.getView().getModel("HeadSetData").getProperty("/Odometer");
-						
-							this.obj.DealerContact = this.getView().getModel("HeadSetData").getProperty("/DealerContact");
-						
-							this.obj.CustomerFullName = this.getView().getModel("HeadSetData").getProperty("/CustomerFullName");
-							
-							this.obj.DealerInvoice = this.getView().getModel("HeadSetData").getProperty("/DealerInvoice").toUpperCase();
-							this.obj.DealerInvoiceDate = this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/DealerInvoiceDate"));
-							this.obj.DealerRO = this.getView().getModel("HeadSetData").getProperty("/DealerRO").toUpperCase();
-					    	this.obj.CompetitorName = this.getView().getModel("HeadSetData").getProperty("/CustomerFullName");
-							this.obj.CompetitorAddr = this.getView().byId("street_number").getValue() || "";
-							this.obj.CompetitorCity = this.getView().byId("locality").getValue() || "";
-							this.obj.CompetitorProv = this.getView().byId("administrative_area_level_1").getValue() || "";
-							this.obj.CompetitorPost = this.getView().byId("postal_code").getValue() || "";
-							this.obj.QuoteDate = this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/QuoteDate"));
-							this.obj.RebateAmount = this.getView().getModel("HeadSetData").getProperty("/RebateAmount");
+
+		_fnUpdateHeaderProp: function () {
+			this.obj.NumberOfWarrantyClaim = this.getView().getModel("HeadSetData").getProperty("/NumberOfWarrantyClaim");
+			this.obj.WarrantyClaimType = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType");
+			this.obj.Partner = this.getModel("LocalDataModel").getProperty("/BpDealerModel/0/BusinessPartnerKey");
+
+			this.obj.ReferenceDate = this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/ReferenceDate"));
+			this.obj.DateOfApplication = this._fnDateFormat(oCurrentDt);
+
+			this.obj.RepairDate = this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/DealerInvoiceDate"));
+			this.obj.RepairOrderNumberExternal = this.getView().getModel("HeadSetData").getProperty("/RepairOrderNumberExternal");
+			this.obj.ExternalNumberOfClaim = this.getView().getModel("HeadSetData").getProperty("/ExternalNumberOfClaim");
+			this.obj.ExternalObjectNumber = this.getView().getModel("HeadSetData").getProperty("/ExternalObjectNumber");
+			this.obj.Odometer = this.getView().getModel("HeadSetData").getProperty("/Odometer");
+
+			this.obj.DealerContact = this.getView().getModel("HeadSetData").getProperty("/DealerContact");
+
+			this.obj.CustomerFullName = this.getView().getModel("HeadSetData").getProperty("/CustomerFullName");
+
+			this.obj.DealerInvoice = this.getView().getModel("HeadSetData").getProperty("/DealerInvoice").toUpperCase();
+			this.obj.DealerInvoiceDate = this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/DealerInvoiceDate"));
+			this.obj.DealerRO = this.getView().getModel("HeadSetData").getProperty("/DealerRO").toUpperCase();
+			this.obj.CompetitorName = this.getView().getModel("HeadSetData").getProperty("/CustomerFullName");
+			this.obj.CompetitorAddr = this.getView().byId("street_number").getValue() || "";
+			this.obj.CompetitorCity = this.getView().byId("locality").getValue() || "";
+			this.obj.CompetitorProv = this.getView().byId("administrative_area_level_1").getValue() || "";
+			this.obj.CompetitorPost = this.getView().byId("postal_code").getValue() || "";
+			this.obj.QuoteDate = this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/QuoteDate"));
+			this.obj.RebateAmount = this.getView().getModel("HeadSetData").getProperty("/RebateAmount");
 		},
 
 		_fnUpdateClaim: function () {
@@ -713,7 +713,7 @@ sap.ui.define([
 								ItemKey: "",
 								PartManufacturer: item.PartManufacturer,
 								PartType: item.PartType,
-								CompetitorPrice: Number(item.CompetitorPrice/item.QtyHrs).toString()
+								CompetitorPrice: Number(item.CompetitorPrice / item.QtyHrs).toString()
 							};
 
 						});
@@ -810,12 +810,12 @@ sap.ui.define([
 								this.getModel("LocalDataModel").setProperty("/commentIndicator", false);
 								this._fnClaimSum();
 								if (oFinalDistanceNum > 80 && this.getView().byId("postal_code").getValue() != "") {
-						this.getView().byId("idMainClaimMessage").setText(oBundle.getText("CompareDistanceError"));
-						this.getView().byId("idMainClaimMessage").setType("Warning");
-						this.getView().byId("idMainClaimMessage").setProperty("visible", true);
-					}else{
-						this.getView().byId("idMainClaimMessage").setProperty("visible", false);
-					}
+									this.getView().byId("idMainClaimMessage").setText(oBundle.getText("CompareDistanceError"));
+									this.getView().byId("idMainClaimMessage").setType("Warning");
+									this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+								} else {
+									this.getView().byId("idMainClaimMessage").setProperty("visible", false);
+								}
 								oClaimModel.read("/ZC_CLAIM_HEAD_PMP", {
 									urlParameters: {
 										"$filter": "NumberOfWarrantyClaim eq '" + this.getView().getModel("HeadSetData").getProperty(
@@ -946,10 +946,10 @@ sap.ui.define([
 
 		onRecalculate: function (oEvent) {
 			this.obj.NumberOfWarrantyClaim = this.getView().getModel("HeadSetData").getProperty("/NumberOfWarrantyClaim");
-			if(this.getView().getModel("HeadSetData").getProperty("/RebateAmount") == ""){
+			if (this.getView().getModel("HeadSetData").getProperty("/RebateAmount") == "") {
 				this.obj.RebateAmount = "0.00";
 				this.getView().getModel("HeadSetData").setProperty("/RebateAmount", "0.00");
-			}else{
+			} else {
 				this.obj.RebateAmount = this.getView().getModel("HeadSetData").getProperty("/RebateAmount");
 			}
 
@@ -1009,6 +1009,7 @@ sap.ui.define([
 		},
 
 		onPressSavePart: function (oEvent) {
+			var that = this;
 			var oClaimNum = this.getView().getModel("HeadSetData").getProperty("/NumberOfWarrantyClaim");
 
 			var oTable = this.getView().byId("idTableParts");
@@ -1017,33 +1018,17 @@ sap.ui.define([
 			this.obj.NumberOfWarrantyClaim = oClaimNum;
 			this.obj.DBOperation = "SAVE";
 			this._fnUpdateHeaderProp();
-		
-			var itemObj = {
-				"Type": "PART",
-				"ItemType": "",
-				"ControllingItemType": "MAT",
-				"ItemKey": "",
-				"MaterialNumber": this.getView().getModel("PartDataModel").getProperty("/matnr"),
-				"PartQty": this.getView().getModel("PartDataModel").getProperty("/quant"),
-				"PartDescription": this.getView().getModel("PartDataModel").getProperty("/PartDescription"),
-				"UnitOfMeasure": this.getView().getModel("LocalDataModel").getProperty("/BaseUnit"),
-				"Posnr": "",
-				"PartManufacturer": this.getView().getModel("PartDataModel").getProperty("/PartManufacturer"),
-				"PartType": this.getView().getModel("PartDataModel").getProperty("/PartType"),
-				"CompetitorPrice": this.getView().getModel("PartDataModel").getProperty("/CompetitorPrice").toString()
-			};
 
-			var oArrNew = this.obj.zc_itemSet.results.filter(function (val) {
-				return val.MaterialNumber === itemObj.MaterialNumber;
-			}).length;
+			// var oArrNew = this.obj.zc_itemSet.results.filter(function (val) {
+			// 	return val.MaterialNumber === itemObj.MaterialNumber;
+			// }).length;
 
 			var oTableIndex = oTable._aSelectedPaths;
 
 			var oPMPModel = this.getModel("zDLRCLAIMPMPSRV");
 
 			if (oTableIndex.length == 1) {
-				// var oIndex = parseInt(oTableIndex.toString().split("/")[2]);
-				// this.obj.zc_itemSet.results.splice(oIndex, 1);
+
 				var oIndex = this.obj.zc_itemSet.results.findIndex(({
 					MaterialNumber
 				}) => MaterialNumber == this.getView().getModel("PartDataModel").getProperty("/matnr"));
@@ -1054,9 +1039,26 @@ sap.ui.define([
 				MaterialNumber
 			}) => MaterialNumber == this.getView().getModel("PartDataModel").getProperty("/matnr"));
 
-			if (this.getView().getModel("PartDataModel").getProperty("/quant") == "") {
-				this.getView().byId("idPartQty").setValueState("Error");
+			var aInputsArr = [
+				this.byId("idPartNumber"),
+				this.byId("idComPr"),
+				this.byId("idPartQty")
+			];
+
+			var bValidationError;
+			jQuery.each(aInputsArr, function (i, oInput) {
+				if (oInput.getVisible() == true) {
+					bValidationError = that._validateInput(oInput) || bValidationError;
+				}
+			});
+
+			if (bValidationError) {
+				// this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", false);
+				this.getView().byId("idMainClaimMessage").setText(oBundle.getText("FillUpMandatoryField"));
+				this.getView().byId("idMainClaimMessage").setType("Error");
+				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
 			} else if (oGetIndex > -1) {
+				this.getView().byId("idMainClaimMessage").setProperty("visible", false);
 				this.getView().getModel("PartDataModel").setProperty("/matnr", "");
 				this.getView().getModel("PartDataModel").setProperty("/quant", "");
 				this.getView().getModel("PartDataModel").setProperty("/PartDescription", "");
@@ -1069,6 +1071,24 @@ sap.ui.define([
 					at: "center center"
 				});
 			} else {
+				this.getView().byId("idMainClaimMessage").setProperty("visible", false);
+				var itemObj = {
+					"Type": "PART",
+					"ItemType": "",
+					"ControllingItemType": "MAT",
+					"ItemKey": "",
+					"MaterialNumber": this.getView().getModel("PartDataModel").getProperty("/matnr"),
+					"PartQty": this.getView().getModel("PartDataModel").getProperty("/quant"),
+					"PartDescription": this.getView().getModel("PartDataModel").getProperty("/PartDescription"),
+					"UnitOfMeasure": this.getView().getModel("LocalDataModel").getProperty("/BaseUnit"),
+					"Posnr": "",
+					"PartManufacturer": this.getView().getModel("PartDataModel").getProperty("/PartManufacturer"),
+					"PartType": this.getView().getModel("PartDataModel").getProperty("/PartType"),
+					"CompetitorPrice": this.getView().getModel("PartDataModel").getProperty("/CompetitorPrice").toString()
+				};
+				this.getView().getModel("DateModel").setProperty("/partQtyValState", "None");
+				this.getView().getModel("DateModel").setProperty("/PartValState", "None");
+				this.getView().getModel("DateModel").setProperty("/competitorValueState", "None");
 				this.obj.zc_itemSet.results.push(itemObj);
 				this.getView().byId("idPartQty").setValueState("None");
 				this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", true);
@@ -1290,7 +1310,7 @@ sap.ui.define([
 				this.getView().byId("idMainClaimMessage").setText(oBundle.getText("InvDateCanNotGreaterThanCurDate"));
 				this.getView().byId("idMainClaimMessage").setType("Error");
 				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
-			}  else {
+			} else {
 				this.getView().byId("idMainClaimMessage").setProperty("visible", false);
 				this.obj = {
 					"DBOperation": "SAVE",
@@ -1394,14 +1414,14 @@ sap.ui.define([
 						this.getModel("LocalDataModel").setProperty("/UploadEnable", true);
 						this.getModel("LocalDataModel").setProperty("/UploadEnableSublet", true);
 						this.getView().getModel("DateModel").setProperty("/oDamageLineBtn", true);
-						
-					if (oFinalDistanceNum > 80 && this.getView().byId("postal_code").getValue() != "") {
-						this.getView().byId("idMainClaimMessage").setText(oBundle.getText("CompareDistanceError"));
-						this.getView().byId("idMainClaimMessage").setType("Warning");
-						this.getView().byId("idMainClaimMessage").setProperty("visible", true);
-					}else{
-						this.getView().byId("idMainClaimMessage").setProperty("visible", false);
-					}
+
+						if (oFinalDistanceNum > 80 && this.getView().byId("postal_code").getValue() != "") {
+							this.getView().byId("idMainClaimMessage").setText(oBundle.getText("CompareDistanceError"));
+							this.getView().byId("idMainClaimMessage").setType("Warning");
+							this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+						} else {
+							this.getView().byId("idMainClaimMessage").setProperty("visible", false);
+						}
 
 						this._fnClaimSum();
 
@@ -1542,19 +1562,14 @@ sap.ui.define([
 		},
 
 		onFileDeleted: function (oEvent) {
-			MessageToast.show("Delete trigger", {
-						my: "center center",
-						at: "center center"
-					});
-					
+			
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
-		
 
 			var oPMPModel = this.getModel("zDLRCLAIMPMPSRV");
 
-			var oLine = oEvent.getSource()._oItemForDelete._iLineNumber;
-			var oFileName = this.getModel("LocalDataModel").getProperty("/HeadAtchmentData/" + oLine + "/FileName");
+			var oFileName = oEvent.getSource().getFileName();
+		
 			var oFileToDelete = "HEAD@@@" + oFileName;
 
 			oPMPModel.refreshSecurityToken();
@@ -1705,7 +1720,7 @@ sap.ui.define([
 				this.getView().getModel("PartDataModel").setProperty("/quant", obj.QtyHrs);
 				this.getView().getModel("PartDataModel").setProperty("/PartDescription", obj.ALMDiscreDesc);
 				this.getView().getModel("PartDataModel").setProperty("/PartType", obj.PartType);
-				this.getView().getModel("PartDataModel").setProperty("/CompetitorPrice", Number(obj.CompetitorPrice/obj.QtyHrs));
+				this.getView().getModel("PartDataModel").setProperty("/CompetitorPrice", Number(obj.CompetitorPrice / obj.QtyHrs));
 				this.getView().getModel("PartDataModel").setProperty("/PartManufacturer", obj.PartManufacturer);
 				this.getView().getModel("LocalDataModel").setProperty("/BaseUnit", obj.Meins);
 				//this.getView().getModel("LocalDataModel").setProperty("/BaseUnit"
@@ -1858,11 +1873,11 @@ sap.ui.define([
 						my: "center center",
 						at: "center center"
 					});
-			}else{
+			} else {
 				this._fnDistanceCalculate();
 				setTimeout($.proxy(function () {
 					var oPostalCode = this.getView().byId("postal_code");
-						oPostalCode.setProperty("enabled", false);
+					oPostalCode.setProperty("enabled", false);
 				}, this), 2000)
 			}
 		},
@@ -1891,22 +1906,21 @@ sap.ui.define([
 				oFinalDistanceNum = "";
 			}
 		},
-		
-		_fnScrollTop : function(){
-			
+
+		_fnScrollTop: function () {
+
 			var oId = this.byId("mainSectionTitle").sId;
 			document.getElementById(oId).scrollIntoView(true);
-			
+
 			// var msgtrip = this.byId("idMainClaimMessage").sId;
 			// $('#'+msgtrip).focus();
-		
+
 		},
 
 		onSubmitTci: function (oEvent) {
 
 			this._fnDistanceValidation();
-			
-			
+
 			var sSelectedLocale, bValidationError;
 
 			var that = this;
@@ -1936,12 +1950,11 @@ sap.ui.define([
 			};
 
 			this.obj.zc_claim_vsrSet.results.push(oObj);
-			
+
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 
 			//this.obj.zc_claim_item_price_dataSet.results.push(this.getModel("LocalDataModel").getProperty("/PricingDataModel"));
 
-			
 			//var GroupType = this.getModel("LocalDataModel").getProperty("/WarrantyClaimTypeGroup");
 			//oEvent.getSource().getParent().getParent().addStyleClass("clMinHeight");
 
@@ -1964,18 +1977,29 @@ sap.ui.define([
 							// 			this.getView().byId("idMainClaimMessage").setProperty("visible", true);
 							// 		} else {
 							// 		this.getView().getModel("DateModel").setProperty("/claimTypeState", "None");
-						  this.getView().getModel("DateModel").setProperty("/partLine", false);
+							this.getView().getModel("DateModel").setProperty("/partLine", false);
 
 							if (oFinalDistanceNum > 80 && this.getView().byId("postal_code").getValue() != "") {
-								this.getView().byId("idMainClaimMessage").setText(oBundle.getText("CompareDistanceError"));
-								this.getView().byId("idMainClaimMessage").setType("Error");
-								this.getView().byId("idMainClaimMessage").setProperty("visible", true);
-								this._fnScrollTop();
+								// this.getView().byId("idMainClaimMessage").setText(oBundle.getText("CompareDistanceError"));
+								// this.getView().byId("idMainClaimMessage").setType("Error");
+								// this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+
+								MessageBox.error(oBundle.getText("CompareDistanceError"), {
+									my: "center center",
+									at: "center center"
+								});
+
+								
 							} else if (this.getModel("LocalDataModel").getProperty("/HeadAtchmentData").length == 0) {
-								this.getView().byId("idMainClaimMessage").setText(oBundle.getText("PMPSupportingDocumentErr"));
-								this.getView().byId("idMainClaimMessage").setType("Error");
-								this.getView().byId("idMainClaimMessage").setProperty("visible", true);
-								this._fnScrollTop();
+								// this.getView().byId("idMainClaimMessage").setText(oBundle.getText("PMPSupportingDocumentErr"));
+								// this.getView().byId("idMainClaimMessage").setType("Error");
+								// this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+								
+								MessageBox.error(oBundle.getText("PMPSupportingDocumentErr"), {
+									my: "center center",
+									at: "center center"
+								});
+							
 							} else if (
 								this.getView().getModel("HeadSetData").getProperty("/CompetitorAddr") == "" ||
 								this.getView().getModel("HeadSetData").getProperty("/CompetitorCity") == "" ||
@@ -1985,10 +2009,15 @@ sap.ui.define([
 								this.getView().getModel("HeadSetData").getProperty("/CustomerFullName") == ""
 
 							) {
-								this.getView().byId("idMainClaimMessage").setText(oBundle.getText("Competitorinformationcannotblank"));
-								this.getView().byId("idMainClaimMessage").setType("Error");
-								this.getView().byId("idMainClaimMessage").setProperty("visible", true);
-								this._fnScrollTop();
+								// this.getView().byId("idMainClaimMessage").setText(oBundle.getText("Competitorinformationcannotblank"));
+								// this.getView().byId("idMainClaimMessage").setType("Error");
+								// this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+								
+								MessageBox.error(oBundle.getText("Competitorinformationcannotblank"), {
+									my: "center center",
+									at: "center center"
+								});
+								
 							} else {
 								this.getView().getModel("DateModel").setProperty("/errorBusyIndicator", true);
 								oClaimModel.refreshSecurityToken();
@@ -2070,7 +2099,7 @@ sap.ui.define([
 													this.getView().getModel("DateModel").setProperty("/claimEditSt", true);
 													this.getView().getModel("DateModel").setProperty("/updateEnable", true);
 													this.getModel("LocalDataModel").setProperty("/UploadEnable", true);
-													
+
 													MessageToast.show(
 														oBundle.getText("ClaimNumber") + " " + oClaimNum + " " + oBundle.getText(
 															"RejectedTCIValidationResultsdetails"), {
@@ -2094,7 +2123,6 @@ sap.ui.define([
 
 												}
 
-											
 											}, this)
 										});
 
@@ -2263,8 +2291,6 @@ sap.ui.define([
 			}
 		},
 		onAfterAutoComplete: function () {
-			
-			
 
 			setTimeout($.proxy(function () {
 				this.getModel("LocalDataModel").setProperty("/addEnbAutoCom", false);
@@ -2276,21 +2302,22 @@ sap.ui.define([
 				} else {
 					oPostalCode.setProperty("enabled", true);
 				}
-				if(oProvince.getValue().length > 3 || oProvince.getValue() == ""){
+				if (oProvince.getValue().length > 3 || oProvince.getValue() == "") {
 					this.getView().getModel("HeadSetData").setProperty("/CompetitorProv", "");
 					this.getView().byId("administrative_area_level_1").setValue("");
 					this.getView().getModel("DateModel").setProperty("/provinceEnable", true);
-				}else{
-					this.getView().getModel("HeadSetData").setProperty("/CompetitorProv", this.getView().byId("administrative_area_level_1").getValue() || "");
+				} else {
+					this.getView().getModel("HeadSetData").setProperty("/CompetitorProv", this.getView().byId("administrative_area_level_1").getValue() ||
+						"");
 					this.getView().getModel("DateModel").setProperty("/provinceEnable", false);
 				}
-				
+
 				//this.getView().getModel("HeadSetData").setProperty("", this.getView().byId("administrative_area_level_1").getValue());
-				 this.getView().getModel("HeadSetData").setProperty("/CompetitorAddr", this.getView().byId("street_number").getValue() ||"");
-				 this.getView().getModel("HeadSetData").setProperty("/CompetitorCity", this.getView().byId("locality").getValue() || "");
-				
-			    this.getView().getModel("HeadSetData").setProperty("/CompetitorPost", this.getView().byId("postal_code").getValue() || "");
-				
+				this.getView().getModel("HeadSetData").setProperty("/CompetitorAddr", this.getView().byId("street_number").getValue() || "");
+				this.getView().getModel("HeadSetData").setProperty("/CompetitorCity", this.getView().byId("locality").getValue() || "");
+
+				this.getView().getModel("HeadSetData").setProperty("/CompetitorPost", this.getView().byId("postal_code").getValue() || "");
+
 				this._fnDistanceCalculate();
 			}, this), 2000)
 		},
@@ -2309,21 +2336,21 @@ sap.ui.define([
 		 * This hook is the same one that SAPUI5 controls get after being rendered.
 		 * @memberOf zclaimProcessing.view.PMPMainSection
 		 */
-			onAfterRendering: function() {
-				function changeLanguage() {
-            var jObj = $('.goog-te-combo');
-             var db = jObj.get(0);
-             var lang = "fr"
-             jObj.val(lang);
-             var evt = document.createEvent("HTMLEvents");
-             evt.initEvent('change', true, true );
-//             jObj.dispatchEvent(evt);
-             db.dispatchEvent(evt);
-        }
-       
-         setTimeout(changeLanguage, 3000)
-         
+		onAfterRendering: function () {
+			function changeLanguage() {
+				var jObj = $('.goog-te-combo');
+				var db = jObj.get(0);
+				var lang = "fr"
+				jObj.val(lang);
+				var evt = document.createEvent("HTMLEvents");
+				evt.initEvent('change', true, true);
+				//             jObj.dispatchEvent(evt);
+				db.dispatchEvent(evt);
 			}
+
+			setTimeout(changeLanguage, 3000)
+
+		}
 
 		/**
 		 * Called when the Controller is destroyed. Use this one to free resources and finalize activities.

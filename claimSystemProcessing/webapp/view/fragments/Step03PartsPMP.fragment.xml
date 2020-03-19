@@ -73,16 +73,18 @@
 						</Text>
 						<core:Title text=""/>
 						<Label text="{i18n>PartNumber}" textAlign="Left"/>
-						<Input value="{PartDataModel>/matnr}" editable="{DateModel>/editablePartNumber}" required="true" id="idPartNumber" showValueHelp="true"
+						<Input value="{path:'PartDataModel>/matnr',  type : 'sap.ui.model.type.String', constraints : { minLength : 2, maxLength : 20 }}" valueState="{DateModel>/PartValState}" editable="{DateModel>/editablePartNumber}" required="true" id="idPartNumber" showValueHelp="true"
 							valueHelpOnly="true" valueHelpRequest="handleValueHelp" enabled="{DateModel>/partLine}"/>
 						<Label text="{i18n>CompetitorPriceTire}" textAlign="Left"/>
-						<customPart:CustomInputDecimal maxLength="15" value="{PartDataModel>/CompetitorPrice}" enabled="{DateModel>/partLine}"/>
+						<customPart:CustomInputDecimal id="idComPr" required="true" maxLength="15" valueState="{DateModel>/competitorValueState}" 
+						value="{path:'PartDataModel>/CompetitorPrice',  type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 15 }}" enabled="{DateModel>/partLine}"/>
 					
 						<core:Title text=""/>
 						<Label text="{i18n>PartDescription}" textAlign="Left"/>
-						<Input value="{PartDataModel>/PartDescription}" id="idPartDes" editable="false" enabled="{DateModel>/partLine}"/>
+						<Input value="{PartDataModel>/PartDescription}"  id="idPartDes" editable="false" enabled="{DateModel>/partLine}"/>
 						<Label text="{i18n>Quantity}" textAlign="Left"/>
-						<customPart:CustomInput id="idPartQty" value="{PartDataModel>/quant}" enabled="{DateModel>/partLine}"/>
+						<customPart:CustomInput id="idPartQty"  valueState="{DateModel>/partQtyValState}" required="true" 
+						value="{path:'PartDataModel>/quant',  type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 15 }}" enabled="{DateModel>/partLine}"/>
 						<Text text="{LocalDataModel>/BaseUnit}"/>
 						<core:Title text=""/>
 						<Label text="{i18n>PartManufacturer}" textAlign="Left"/>
