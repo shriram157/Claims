@@ -33,7 +33,6 @@ sap.ui.define([
 
 			this._initSessionDialogs();
 
-
 			this.setModel(models.createLocalDataModel(), "LocalDataModel");
 
 			var mConfig = this.getMetadata().getManifestEntry("/sap.app/dataSources/ZDLR_CLAIM_SRV");
@@ -90,11 +89,27 @@ sap.ui.define([
 			});
 			this.setModel(oDataModel02, "ProductMaster");
 
-			var mConfig04 = this.getMetadata().getManifestEntry("/sap.app/dataSources/Z_VEHICLE_MASTER_SRV");
+			// 			var mConfig04 = this.getMetadata().getManifestEntry("/sap.app/dataSources/Z_VEHICLE_MASTER_SRV");
+			// 			if (sLocation_conf == 0) {
+			// 				mConfig04.uri = "/Claim_Destination2" + mConfig04.uri;
+			// 			}
+			// 			var oDataModel04 = new ODataModel(mConfig04.uri, {
+			// 				useBatch: false,
+			// 				json: true,
+			// 				headers: {
+			// 					"X-Requested-With": "XMLHttpRequest"
+			// 				}
+			// 			});
+
+			// 			this.setModel(oDataModel04, "ZVehicleMasterModel");
+
+			// CR Model
+
+			var mConfig06 = this.getMetadata().getManifestEntry("/sap.app/dataSources/ZDLR_CLAIM_PMP_SRV");
 			if (sLocation_conf == 0) {
-				mConfig04.uri = "/Claim_Destination" + mConfig04.uri;
+				mConfig06.uri = "/Claim_Destination" + mConfig06.uri;
 			}
-			var oDataModel04 = new ODataModel(mConfig04.uri, {
+			var oDataModel06 = new ODataModel(mConfig06.uri, {
 				useBatch: false,
 				json: true,
 				headers: {
@@ -102,7 +117,7 @@ sap.ui.define([
 				}
 			});
 
-			this.setModel(oDataModel04, "ZVehicleMasterModel");
+			this.setModel(oDataModel06, "zDLRCLAIMPMPSRV");
 
 			/// ecp model
 
@@ -187,7 +202,7 @@ sap.ui.define([
 						}
 					}, 3600000); // 60 minutes
 				}
-			}
+			};
 
 			// Attach XHR event handler to detect or reset timeouts on AJAX calls
 			var origOpen = XMLHttpRequest.prototype.open;

@@ -406,15 +406,42 @@ zclaimProcessing.utils.formatter = {
 		}
 	},
 	fnFormatText: function (val) {
+		var sSelectedLocale;
+		var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
+		if (isLocaleSent) {
+			sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
+		} else {
+			sSelectedLocale = "en"; // default is english
+		}
 		var oText = "";
 		if (val == "MAT") {
-			oText = "Parts:";
+			if (sSelectedLocale == "fr") {
+				oText = "Pièces:";
+			} else {
+				oText = "Parts:";
+			}
+
 		} else if (val == "FR") {
-			oText = "Labour:";
+			if (sSelectedLocale == "fr") {
+				oText = "Main-d’œuvre:";
+			} else {
+				oText = "Labour:";
+			}
+
 		} else if (val == "SUBL") {
-			oText = "Sublet:";
+			if (sSelectedLocale == "fr") {
+				oText = "Sous-traitance:";
+			} else {
+				oText = "Sublet:";
+			}
+
 		} else if (val == "TOTL") {
-			oText = "Total:";
+			if (sSelectedLocale == "fr") {
+				oText = "Totale:";
+			} else {
+				oText = "Total:";
+			}
+
 		}
 		return oText;
 	},

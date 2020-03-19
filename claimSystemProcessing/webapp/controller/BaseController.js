@@ -1,8 +1,9 @@
 sap.ui.define([
 	"sap/ui/core/mvc/Controller",
 	"sap/ui/core/routing/History",
-	"sap/ui/Device"
-], function (Controller, History, Device) {
+	"sap/ui/Device",
+	'sap/m/MessageToast'
+], function (Controller, History, Device, MessageToast) {
 	"use strict";
 
 	return Controller.extend("zclaimProcessing.controller.BaseController", {
@@ -100,7 +101,7 @@ sap.ui.define([
 					sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "");
 					switch (userType) {
 					case "Dealer_Parts_Admin":
-
+						console.log("Dealer Parts");
 						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ManageAllParts");
 						/*Uncomment for security*/
 						that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", true);
@@ -124,7 +125,7 @@ sap.ui.define([
 						/*Uncomment for security*/
 						break;
 					case "Dealer_Services_Admin":
-						// console.log("Dealer_Services_Admin");
+						console.log("Dealer_Services_Admin");
 						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ManageAllServices");
 						/*Uncomment for security*/
 						that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", true);
@@ -136,9 +137,9 @@ sap.ui.define([
 						/*Uncomment for security*/
 						break;
 					case "Dealer_User":
-						// console.log("Dealer_User");
+						console.log("Dealer_User");
 						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ReadOnlyCoverageClaimLabour");
-						/*Uncomment for security*/
+
 						that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", false);
 						that.getView().getModel("HeaderLinksModel").setProperty("/ViewUpdateClaims", false);
 						that.getView().getModel("HeaderLinksModel").setProperty("/QuickCoverageTool", true);
@@ -146,11 +147,11 @@ sap.ui.define([
 						that.getView().getModel("HeaderLinksModel").setProperty("/DealerLabourRateInquiry", true);
 						sap.ui.getCore().getModel("HeaderLinksModel").updateBindings(true);
 						sap.ui.getCore().getModel("HeaderLinksModel").updateBindings(true);
-						//that.getOwnerComponent().getRouter().navTo("QueryCoverageTools");
+						that.getOwnerComponent().getRouter().navTo("QueryCoverageTools");
 						/*Uncomment for security*/
 						break;
 					case "TCI_Admin":
-						// console.log("TCI_Admin");
+						console.log("TCI_Admin");
 						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ReadOnlyViewAll");
 						/*Uncomment for security*/
 						that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", false);
@@ -163,7 +164,7 @@ sap.ui.define([
 						/*Uncomment for security*/
 						break;
 					case "TCI_User":
-						// console.log("TCI_User");
+						console.log("TCI_User");
 						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ReadOnlyCoverageClaim");
 						/*Uncomment for security*/
 						that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", false);
@@ -174,11 +175,11 @@ sap.ui.define([
 
 						sap.ui.getCore().getModel("HeaderLinksModel").updateBindings(true);
 						sap.ui.getCore().getModel("HeaderLinksModel").updateBindings(true);
-						//that.getOwnerComponent().getRouter().navTo("QueryCoverageTools");
+						that.getOwnerComponent().getRouter().navTo("QueryCoverageTools");
 						/*Uncomment for security*/
 						break;
 					case "Zone_User":
-						// console.log("Zone_User");
+						console.log("Zone_User");
 						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ReadOnlyViewAll");
 						/*Uncomment for security*/
 						that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", false);
@@ -191,7 +192,7 @@ sap.ui.define([
 						// /*Uncomment for security*/
 						break;
 					case "Dealer_Services_Manager":
-						// console.log("Dealer_Services_Manager");
+						console.log("Dealer_Services_Manager");
 						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ManageAllShowAuthorization");
 						/*Uncomment for security*/
 						that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", true);
@@ -240,6 +241,7 @@ sap.ui.define([
 				dataType: "json",
 
 				success: function (oData) {
+					console.log(oData);
 					var BpDealer = [];
 					var userAttributes = [];
 					that.getModel("LocalDataModel").setProperty("/LoginId", oData.userProfile.id);
@@ -273,6 +275,114 @@ sap.ui.define([
 			});
 
 		},
+		// 		onPressAddPart: function () {
+		// 			this.getView().getModel("PartDataModel").setProperty("/matnr", "");
+		// 			this.getView().getModel("PartDataModel").setProperty("/quant", "");
+		// 			this.getView().getModel("PartDataModel").setProperty("/PartDescription", "");
+		// 			this.getView().getModel("LocalDataModel").setProperty("/BaseUnit", "");
+
+		// 			var oTable = this.getView().byId("idTableParts");
+		// 			oTable.removeSelections("true");
+		// 			this.getView().getModel("DateModel").setProperty("/partLine", true);
+		// 			this.getView().getModel("DateModel").setProperty("/editablePartNumber", true);
+
+		// 			var sSelectedLocale;
+		// 			var sDivision;
+
+		// 			var isDivisionSent = window.location.search.match(/Division=([^&]*)/i);
+		// 			if (isDivisionSent) {
+		// 				sDivision = window.location.search.match(/Division=([^&]*)/i)[1];
+		// 			} else {
+		// 				sDivision = 10;
+		// 			}
+		// 			//  get the locale to determine the language.
+		// 			var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
+		// 			if (isLocaleSent) {
+		// 				sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
+		// 			} else {
+		// 				sSelectedLocale = "en"; // default is english
+		// 			}
+		// 			var oClaimModel = this.getModel("ProssingModel");
+		// 			var productModel = this.getModel("ProductMaster");
+
+		// 		},
+
+		getOnlyDealer: function () {
+			var that = this;
+			var sLocation = window.location.host;
+			var sLocation_conf = sLocation.search("webide");
+			if (sLocation_conf == 0) {
+				this.sPrefix = "/Claim_Destination";
+				this.attributeUrl = "/userDetails/attributesforlocaltesting";
+			} else {
+				this.sPrefix = "";
+				this.attributeUrl = "/userDetails/attributes";
+			}
+			$.ajax({
+				url: this.sPrefix + this.attributeUrl,
+				type: "GET",
+				dataType: "json",
+
+				success: function (oData) {
+					console.log(oData);
+					var BpDealer = [];
+					var userAttributes = [];
+					that.getModel("LocalDataModel").setProperty("/LoginId", oData.userProfile.id);
+					$.each(oData.attributes, function (i, item) {
+						var BpLength = item.BusinessPartner.length;
+
+						BpDealer.push({
+							"BusinessPartnerKey": item.BusinessPartnerKey,
+							"BusinessPartner": item.BusinessPartner, //.substring(5, BpLength),
+							"BusinessPartnerName": item.BusinessPartnerName, //item.OrganizationBPName1 //item.BusinessPartnerFullName
+							"Division": item.Division,
+							"BusinessPartnerType": item.BusinessPartnerType,
+							"searchTermReceivedDealerName": item.SearchTerm2
+						});
+
+					});
+					that.getModel("LocalDataModel").setProperty("/BpDealerModel", BpDealer);
+					that.getModel("LocalDataModel").setProperty("/dealerCode", BpDealer[0].BusinessPartnerKey);
+
+					var oBusinessModel = that.getModel("ApiBusinessModel");
+					oBusinessModel.read("/A_BusinessPartnerAddress", {
+						urlParameters: {
+							"$filter": "BusinessPartner eq '" + BpDealer[0].BusinessPartnerKey + "' "
+						},
+						success: $.proxy(function (bpData) {
+
+							that.getModel("LocalDataModel").setProperty("/dealerPostalCode", bpData.results[0].PostalCode);
+						}, this)
+
+					});
+
+					oBusinessModel.read("/A_BusinessPartner", {
+						urlParameters: {
+							"$filter": "BusinessPartner eq '" + BpDealer[0].BusinessPartnerKey + "'"
+						},
+						success: $.proxy(function (dBp) {
+							this.getModel("LocalDataModel").setProperty("/BPOrgName", dBp.results[0].OrganizationBPName1);
+						}, this)
+					});
+
+					//that.getModel("LocalDataModel").setProperty("/BpDealerKey", BpDealer[0].BusinessPartnerKey);
+					//that.getView().setModel(new sap.ui.model.json.JSONModel(BpDealer), "BpDealerModel");
+					// read the saml attachments the same way 
+
+				}.bind(this),
+				error: function (response) {
+					sap.ui.core.BusyIndicator.hide();
+				}
+			}).done(function (data, textStatus, jqXHR) {
+
+				that.getModel("LocalDataModel").setProperty("/BPDealerDetails", data.attributes[0]);
+				that.getModel("LocalDataModel").setProperty("/LoginId", data.userProfile.id);
+				//----------------------------------
+				//Code of Dealer Labour--------------
+				//------------------------------------
+				//that.getDealerlabour(data.attributes[0]);
+			});
+		},
 
 		/**
 		 * Event handler for navigating back.
@@ -294,7 +404,69 @@ sap.ui.define([
 		},
 		onCloseDialogDealer: function (Oevent) {
 			Oevent.getSource().getParent().close();
+		},
+		onUplaodChange: function (oEvent) {
+			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
+			this.getModel("LocalDataModel").setProperty("/IndicatorState", true);
+			var oBundle = this.getView().getModel("i18n").getResourceBundle();
+			//this.obj.Message = "";
+			this.obj.NumberOfWarrantyClaim = oClaimNum;
+			var reader = new FileReader();
+
+			if (oClaimNum != "" && oClaimNum != undefined) {
+				this.oUploadedFile = oEvent.getParameter("files")[0];
+				if (FileReader.prototype.readAsBinaryString === undefined) {
+					FileReader.prototype.readAsBinaryString = function (fileData) {
+						var binary = "";
+						var pt = this;
+
+						reader.onload = function (e) {
+							var bytes = new Uint8Array(reader.result);
+							var length = bytes.byteLength;
+							for (var i = 0; i < length; i++) {
+								binary += String.fromCharCode(bytes[i]);
+							}
+							//pt.result  - readonly so assign content to another property
+							pt.content = binary;
+							pt.onload(); // thanks to @Denis comment
+						};
+						reader.readAsArrayBuffer(fileData);
+					};
+				}
+				reader.readAsBinaryString(this.oUploadedFile);
+
+				reader.onload = $.proxy(function (e) {
+					var strCSV = e.target.result;
+					if (reader.result) reader.content = reader.result;
+					this.oBase = btoa(reader.content);
+
+				}, this);
+
+			} else {
+				MessageToast.show(oBundle.getText("PleaseSaveClaimtryAttachments"), {
+					my: "center center",
+					at: "center center"
+				});
+			}
+
+		},
+
+		onFileSizeExceed: function () {
+			var oBundle = this.getView().getModel("i18n").getResourceBundle();
+			MessageToast.show(oBundle.getText("FileSizeExceed"), {
+				my: "center center",
+				at: "center center"
+			});
+		},
+		onFileNameLengthExceed: function () {
+			var oBundle = this.getView().getModel("i18n").getResourceBundle();
+			MessageToast.show(oBundle.getText("FileNameExceed"), {
+				my: "center center",
+				at: "center center"
+			});
 		}
+		
+		
 
 	});
 });

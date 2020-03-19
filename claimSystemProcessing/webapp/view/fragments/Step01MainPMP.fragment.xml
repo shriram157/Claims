@@ -1,0 +1,224 @@
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:u="sap.ui.unified" xmlns:l="sap.ui.layout"
+	xmlns="sap.m" xmlns:table="sap.ui.table" xmlns:custom="zclaimProcessing.control" xmlns:html="http://www.w3.org/1999/xhtml">
+	<VBox class="sapUiSmallMargin clFormTitleGap" busy="{LocalDataModel>/oSavePartIndicator}" busyIndicatorDelay="100" id="idpart01Form">
+		<Panel width="auto" class="sapUiSmallMarginBottom" accessibleRole="Region">
+			<headerToolbar>
+				<Toolbar height="3rem">
+					<Title text="{i18n>ClaimDetails}"/>
+					<ToolbarSpacer/>
+					<Title text="{i18n>ClaimNumber} : {HeadSetData>/NumberOfWarrantyClaim}" textAlign="End"/>
+				</Toolbar>
+			</headerToolbar>
+			<f:SimpleForm editable="true" layout="ResponsiveGridLayout" title="" labelSpanXL="6" labelSpanL="6" labelSpanM="12" labelSpanS="12"
+				emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="4" columnsL="4" columnsM="6">
+				<f:content>
+					<core:Title text=""/>
+					<Label text="{i18n>ClaimType}"/>
+					<custom:CustomCombo showSecondaryValues="true" id="idClaimType" required="true" items="{path:'LocalDataModel>/ClaimGroupSet'}"
+						selectionChange="onSelectClaimTpe" selectedKey="{HeadSetData>/WarrantyClaimType}" enabled="{DateModel>/oFormEdit}"
+						valueState="{DateModel>/claimTypeState}"
+						value="{path:'HeadSetData>/WarrantyClaimType', type : 'sap.ui.model.type.String', constraints : { minLength : 2, maxLength : 50 } }">
+						<core:ListItem text="{LocalDataModel>TMCClaimType}" key="{LocalDataModel>TMCClaimType}" additionalText="{LocalDataModel>ALMClaimTypeDes}"/>
+					</custom:CustomCombo>
+					<core:Title text=""/>
+					<Label text="{i18n>FirstSubmissionDate}"/>
+					<Text text="{ path: 'HeadSetData>/ReferenceDate', formatter:'zclaimProcessing.utils.formatter.fnDateFormat'}"/>
+					<Label text="{i18n>ClaimAge}"/>
+					<Text text="{HeadSetData>/ClaimAge}"/>
+					<Label text="{i18n>LastModifiedby}"/>
+					<Text text="{HeadSetData>/NameOfPersonRespWhoChangedObj}"/>
+					<core:Title text=""/>
+					<Label text="{i18n>LastSubmissionDate}"/>
+					<Text text="{ path: 'HeadSetData>/DateOfApplication', formatter:'zclaimProcessing.utils.formatter.fnDateFormat'}"/>
+					<Label text="{i18n>FinalProcessedDate}"/>
+					<Text text="{ path: 'HeadSetData>/FinalProcdDate', formatter:'zclaimProcessing.utils.formatter.fnDateFormat' }"/>
+					<!--<Label text="{i18n>Status}"/>-->
+					<!--<Text text="{HeadSetData>/ProcessingStatusOfWarrantyClm}"/>-->
+					<core:Title text=""/>
+					<Button text="{i18n>Save}" class="sapUiSmallMarginEnd" type="Emphasized" press="onSaveClaim" visible="{DateModel>/saveClaimSt}">
+						<layoutData>
+							<l:GridData span="XL8 L8 M12 S12"/>
+						</layoutData>
+					</Button>
+					<Button text="{i18n>Save}" id="idUpdateBtn" class="sapUiSmallMarginEnd" enabled="{DateModel>/updateEnable}" type="Emphasized" press="onUpdateClaim"
+						visible="{DateModel>/updateClaimSt}">
+						<layoutData>
+							<l:GridData span="XL8 L8 M12 S12"/>
+						</layoutData>
+					</Button>
+				</f:content>
+			</f:SimpleForm>
+		</Panel>
+		<f:SimpleForm id="idClaimMainForm" editable="{DateModel>/oFormEdit}" title="Dealer Invoice Information" layout="ResponsiveGridLayout"
+			labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0"
+			emptySpanS="0" columnsXL="4" columnsL="4" columnsM="3" singleContainerFullSize="false">
+			<f:content>
+				<core:Title text=""/>
+				<Label text="{i18n>DealerName}"/>
+				<Text text="{LocalDataModel>/BPOrgName}"/>
+				<!--<core:Title text=""/>-->
+				<!--<Label text="Part Manager Name"/>-->
+				<!--<Input maxLength="40"-->
+				<!--	value="{path:'HeadSetData>/DealerContact', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 40 } }"-->
+				<!--	id="idDealerClaim" editable="{DateModel>/oFormEdit}"/>-->
+				<core:Title text=""/>
+				<Label text="{i18n>DealerInvoice}"/>
+				<Input maxLength="15" required="true"
+					value="{path:'HeadSetData>/DealerInvoice', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 15 }}"
+					id="idDealerInvoice" editable="{DateModel>/oFormEdit}" enabled="{DateModel>/oDealerContactReq}"/>
+				<!--constraints: { displayFormat: 'Date' }-->
+				<core:Title text=""/>
+				<Label text="{i18n>DealerRO}"/>
+				<Input required="true" maxLength="10"
+					value="{path:'HeadSetData>/DealerRO', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 10 }}" id="idDealerRO"
+					editable="{DateModel>/oFormEdit}"/>
+				<core:Title text=""/>
+				<Label text="{i18n>DealerInvoiceDate}"/>
+				<!--<DatePicker class="clDatePicker" required="true" value="{path:'HeadSetData>/RepairDate',type : 'sap.ui.model.type.Date'}" editable="{DateModel>/oFormEdit}"/>-->
+				<DatePicker class="clDatePicker" id="idDealerINVDate" required="true" change="onChangeDate" 
+					value="{path:'HeadSetData>/DealerInvoiceDate', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'yyyy-MM-dd', strictParsing: true, UTC: true}}"
+					editable="{DateModel>/oFormEdit}" visible="{DateModel>/oVisibleRepDate}"/>
+			</f:content>
+		</f:SimpleForm>
+		<f:SimpleForm editable="" title="{i18n>CompetitorInformation}" layout="ResponsiveGridLayout" labelSpanXL="12" labelSpanL="12" labelSpanM="12"
+			labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="4" columnsL="4" columnsM="3"
+			singleContainerFullSize="false">
+			<f:content >
+				<Label text="{i18n>Name}"/>
+				<custom:CustomCombo showSecondaryValues="true"  id="idCompetitorName" items="{path:'LocalDataModel>/company_detailSet'}"
+					selectionChange="onSelectCompetitorName" selectedKey="HeadSetData>/CompetitorName"
+					value="{path:'HeadSetData>/CustomerFullName', type : 'sap.ui.model.type.String'}" editable="{LocalDataModel>/addEnbAutoCom}" enabled="{DateModel>/oFormEdit}">
+					<core:ListItem text="{LocalDataModel>CompetitorName}" key="{LocalDataModel>CompetitorName}"/>
+				</custom:CustomCombo>
+			
+			</f:content>
+		</f:SimpleForm>
+		<f:SimpleForm editable="" layout="ResponsiveGridLayout" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12"
+			adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="4" columnsL="4" columnsM="3"
+			singleContainerFullSize="false">
+			<f:content >
+				<core:Title text=""/>
+				<!--<Input value="{path:'HeadSetData>/CompetitorAddr', type : 'sap.ui.model.type.String' }" editable="{DateModel>/oFormEdit}"/>-->
+				<custom:AddressAutoComplete placeholder="{i18n>EnterAddress}" id="autocomplete" change="onAfterAutoComplete" enabled="{LocalDataModel>/addEnbAutoCom}" editable="{DateModel>/oFormEdit}"/>
+				<!--<core:Title text=""/>-->
+				<!--<Button text="Calculate Distance" press="onCalculateDistance">-->
+				<!--	<layoutData>-->
+				<!--		<l:GridData span="XL8 L8 M12 S12"/>-->
+				<!--	</layoutData>-->
+				<!--</Button>-->
+				<core:Title text=""/>
+				<Button text="{i18n>Clear}" enabled="{DateModel>/oFormEdit}" press="onClearAddress">
+					<layoutData>
+						<l:GridData span="XL8 L8 M12 S12"/>
+					</layoutData>
+				</Button>
+				<core:Title text=""/>
+				<l:HorizontalLayout id="idDist"></l:HorizontalLayout>
+			</f:content>
+		</f:SimpleForm>
+		<f:SimpleForm editable="" id="idVehicleInfo" title="" layout="ResponsiveGridLayout" labelSpanXL="12" labelSpanL="12" labelSpanM="12"
+			labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="6" columnsL="6" columnsM="3"
+			singleContainerFullSize="false">
+			<f:content >
+				<!--<VBox id="oSearchId"></VBox>-->
+				<!--<custom:SearchAddressInput id="autocomplete"/>-->
+				<!--<html:Input id="autocomplete" placeholder="Enter your address" onFocus="geolocate()" type="text"/>-->
+				<core:Title text=""/>
+				<Label text="{i18n>Address}"/>
+				<Input id="street_number" maxLength="60" enabled="{DateModel>/streetEnable}" value="{path:'HeadSetData>/CompetitorAddr', type : 'sap.ui.model.type.String'}"
+					editable="{DateModel>/oFormEdit}"/>
+				<core:Title text=""/>
+				<Label text="{i18n>City}"/>
+				<!--<Input maxLength="40" id="idCity"-->
+				<!--	value="{path:'HeadSetData>/CompetitorCity', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 60 } }"-->
+				<!--	required="true" editable="{DateModel>/oFormEdit}"/>-->
+				<!--<ComboBox showSecondaryValues="true" id="idCompetitorCities" items="{path:'LocalDataModel>/cities'}"-->
+				<!--	selectionChange="onSelectCompetitorCity" selectedKey="HeadSetData>/CompetitorCity"-->
+				<!--	value="{path:'HeadSetData>/CompetitorCity', type : 'sap.ui.model.type.String'}">-->
+				<!--	<core:ListItem text="{LocalDataModel>city}" key="{LocalDataModel>city}"/>-->
+				<!--</ComboBox>-->
+				<Input id="locality" maxLength="40"
+					value="{path:'HeadSetData>/CompetitorCity', type : 'sap.ui.model.type.String' }"
+					editable="{DateModel>/oFormEdit}" enabled="{DateModel>/localityEnable}"/>
+				<core:Title text=""/>
+				<Label text="{i18n>Province}"/>
+				<Input id="administrative_area_level_1" enabled="{DateModel>/provinceEnable}" maxLength="3"
+					value="{path:'HeadSetData>/CompetitorProv', type : 'sap.ui.model.type.String'}"
+					editable="{DateModel>/oFormEdit}"/>
+				<!--<ComboBox showSecondaryValues="true" id="idCompetitorProvince" items="{path:'LocalDataModel>/ProviceSet'}"-->
+				<!--	selectedKey="HeadSetData>/CompetitorProv" value="{path:'HeadSetData>/CompetitorProv', type : 'sap.ui.model.type.String' }">-->
+				<!--	<core:ListItem text="{LocalDataModel>admin}" key="{LocalDataModel>admin}"/>-->
+				<!--</ComboBox>-->
+				<core:Title text=""/>
+				<Label text="{i18n>postalCode}"/>
+				<Input maxLength="10" id="postal_code" change="onEnterPostalCode"
+					value="{path:'HeadSetData>/CompetitorPost', type : 'sap.ui.model.type.String'}" editable="{DateModel>/oFormEdit}"/>
+				<core:Title text=""/>
+				<Label text="{i18n>QuoteDate}"/>
+				<DatePicker class="clDatePicker"
+					value="{path:'HeadSetData>/QuoteDate', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'yyyy-MM-dd', strictParsing: true, UTC: true}}"
+					editable="{DateModel>/oFormEdit}" visible="{DateModel>/oVisibleRepDate}"/>
+			</f:content>
+		</f:SimpleForm>
+		<!--<VBox id="idAddressAuto"></VBox>-->
+		<VBox></VBox>
+		<Panel backgroundDesign="Transparent" headerText="{i18n>ClaimComments}" expandable="true" class="sapUiSizeCompact clCommentFix">
+			<content>
+				<FeedInput post=".onPost" enabled="{LocalDataModel>/FeedEnabled}"/>
+				<List class="sapUiSizeCompact" busy="{LocalDataModel>/commentIndicator}" id="idCommentsList" noDataText="{i18n>ObjectCommentNoData}"
+					showSeparators="Inner" items="{ path: 'LocalDataModel>/claim_commentSet'}">
+					<FeedListItem text="{LocalDataModel>HeadText}"/>
+				</List>
+			</content>
+		</Panel>
+	</VBox>
+	<VBox>
+		<Panel width="auto" class="sapUiSmallMarginBottom" accessibleRole="Region">
+			<headerToolbar>
+				<Toolbar height="3rem">
+					<Title text="{i18n>SupportingDocuments}"/>
+				</Toolbar>
+			</headerToolbar>
+			<content>
+				<f:SimpleForm editable="{DateModel>/oFormEdit}" title="" layout="ResponsiveGridLayout" labelSpanXL="3" labelSpanL="3" labelSpanM="3"
+					labelSpanS="12" adjustLabelSpan="false" emptySpanXL="4" emptySpanL="4" emptySpanM="0" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1"
+					singleContainerFullSize="false">
+					<f:content>
+						<UploadCollection id="idHeadAttachment" maximumFileSize="10" maximumFilenameLength="50" fileSizeExceed="onFileSizeExceed"
+							filenameLengthExceed="onFileNameLengthExceed" noDataText="{i18n>NoFileFound}" noDataDescription="{i18n>NoFileFound}" uploadEnabled="{LocalDataModel>/UploadEnable}" change="onUplaodChange"
+							uploadComplete="onUploadComplete"   instantUpload="true" busy="{LocalDataModel>/IndicatorState}"
+							sameFilenameAllowed="false" items="{ path: 'LocalDataModel>/HeadAtchmentData', templateShareable: false }">
+							<toolbar>
+								<OverflowToolbar>
+									<Breadcrumbs id="breadcrumbsSupportingDoc" currentLocationText="{LocalDataModel>/currentLocationText}" links="{LocalDataModel>/history}">
+										<Link press="onBreadcrumbPress" text="{LocalDataModel>fileName}"/>
+									</Breadcrumbs>
+									<ToolbarSpacer/>
+									<UploadCollectionToolbarPlaceholder/>
+								</OverflowToolbar>
+							</toolbar>
+							<items>
+								<UploadCollectionItem  deletePress="onFileDeleted" documentId="{LocalDataModel>DOC_ID}" fileName="{LocalDataModel>FileName}" mimeType="{LocalDataModel>MIMETYPE}"
+									thumbnailUrl="{LocalDataModel>url}" url="{LocalDataModel>URI}" enableEdit="false" enableDelete="{LocalDataModel>/UploadEnable}"
+									visibleEdit="false"></UploadCollectionItem>
+							</items>
+						</UploadCollection>
+					</f:content>
+				</f:SimpleForm>
+			</content>
+		</Panel>
+		<Panel width="auto" class="sapUiSmallMarginBottom" accessibleRole="Region">
+			<content>
+				<core:Fragment fragmentName="zclaimProcessing.view.fragments.ClaimAmountSummery" type="XML"/>
+			</content>
+			<HBox alignContent="Center" justifyContent="Center" class="sapUiTinyMarginTop sapUiTinyMarginBottom">
+				<Button class="sapUiTinyMarginBeginEnd" press="onPressBack" text="{i18n>BackList}" type="Back"/>
+				<Button class="sapUiTinyMarginBeginEnd" press="onCancelClaim" enabled="{LocalDataModel>/CancelEnable}" text="{i18n>CancelClaim}"
+					type="Reject"/>
+				<Button class="sapUiTinyMarginBeginEnd" text="{i18n>Print}" enabled="{LocalDataModel>/PrintEnable}" press="onPressPrint"/>
+				<Button class="sapUiTinyMarginBeginEnd" press="onStep01Next" enabled="{LocalDataModel>/step01Next}" text="{i18n>Next}" type="Emphasized"/>
+			</HBox>
+		</Panel>
+	</VBox>
+	<!--<VBox width="100%" class="classCheck"></VBox>-->
+</core:FragmentDefinition>

@@ -1,7 +1,7 @@
 <mvc:View controllerName="zclaimProcessing.controller.App" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:mvc="sap.ui.core.mvc"
 	displayBlock="true" xmlns="sap.m">
 	<App >
-		<Page showFooter="true">
+		<Page showFooter="true"  enableScrolling="true" >
 			<customHeader>
 				<Bar class="sapUiSmallPaddingBeginEnd clCustomHeaderBg">
 					<contentLeft>

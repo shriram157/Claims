@@ -59,9 +59,9 @@
 											<core:Item key="{LocalDataModel>TMCClaimType}" text="{LocalDataModel>TMCClaimType} - {LocalDataModel>ALMClaimTypeDes}"/>
 										</custom:CustomCombo>
 										<Label text="{i18n>ClaimStatus}" textAlign="Begin"/>
-										<MultiComboBox items="{ path: 'LocalDataModel>/OModelClaimGroupStatus'}" selectedKeys="{LocalDataModel>/oSelectedStatusKeys}"
+										<MultiComboBox items="{path: 'LocalDataModel>/OModelClaimGroupStatus'}" selectedKeys="{LocalDataModel>/oSelectedStatusKeys}"
 											selectionChange="handleSelectClaimGroup" selectionFinish="handleSelectClaimGroupFinish" id="idClaimStatus">
-											<core:Item key="{LocalDataModel>Status}" text="{LocalDataModel>Description}"/>
+											<core:Item key="{LocalDataModel>Status}" text="{LocalDataModel>Description}" textDirection="LTR"/>
 										</MultiComboBox>
 										<core:Title text=""/>
 										<Button text="{i18n>Search}" press="onPressSearch" type="Emphasized"/>
@@ -144,7 +144,7 @@
 												<Text text="{LocalDataModel>OFP}"/>
 												<Text text="{LocalDataModel>MainOpsCode}"/>
 												<Text text="{LocalDataModel>ClaimAge}"/>
-												<Text text="{LocalDataModel>ClaimAmountSum}"/>
+												<Text text="{path:'LocalDataModel>ClaimAmountSum', formatter : 'zclaimProcessing.utils.formatter.fnFormatDecimal'}"/>
 												<Text text="{LocalDataModel>AuthorizationNumber}"/>
 												<Text text="{LocalDataModel>ClaimGroup}"/>
 											</cells>

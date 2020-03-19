@@ -1,0 +1,23 @@
+[
+
+	{
+		"status": "ZTIC",
+		"statusDesc": "Incomplete"
+	}, {
+		"status": "ZTCD",
+		"statusDesc": "Cancelled by Dealer"
+	}, {
+		"status": "ZTRC",
+		"statusDesc": "Returned to Dealer"
+	}, {
+		"status": "ZTSM",
+		"statusDesc": "Submitted to TCI"
+	}, {
+		"status": "ZTAC",
+		"statusDesc": "Accepted"
+	}, {
+		"status": "ZTPD",
+		"statusDesc": "Paid to Dealer"
+	}
+
+]

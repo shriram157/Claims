@@ -49,7 +49,7 @@ sap.ui.define([
 
 					if (sap.ui.getCore().getModel("UserDataModel").getProperty("/UserScope") == "ManageAllParts") {
 						oClaimGroup = elements.filter(function (val) {
-							return val.ClaimGroup == "SCR" || val.ClaimGroup == "SSM" || val.ClaimGroup == "PWD";
+							return val.ClaimGroup == "SCR" || val.ClaimGroup == "SSM" || val.ClaimGroup == "PWD" || val.ClaimGroup == "PMP";
 						});
 					} else if (sap.ui.getCore().getModel("UserDataModel").getProperty("/UserScope") == "ManageAllServices" || sap.ui.getCore().getModel(
 							"UserDataModel").getProperty("/UserScope") == "ManageAllShowAuthorization") {
@@ -65,9 +65,24 @@ sap.ui.define([
 								"ECP" || val.ClaimGroup == "FAC";
 
 						});
+					} else if (sap.ui.getCore().getModel("UserDataModel").getProperty("/UserScope") == "ManageAllWarrantyParts") {
+						oClaimGroup = elements.filter(function (val) {
+							return val.ClaimGroup == "SCR" || val.ClaimGroup == "SSM" || val.ClaimGroup == "PWD" || val.ClaimGroup == "STR" ||
+								val.ClaimGroup == "WTY" || val.ClaimGroup == "CRC" || val.ClaimGroup == "VLC" || val.ClaimGroup ==
+								"ECP" || val.ClaimGroup == "PMP" || val.ClaimGroup == "FAC";
+
+						});
 					} else {
 						oClaimGroup = elements;
 					}
+
+					// 	oClaimGroup.push({
+
+					// 		ClaimGroupDes: "PRICE MATCH",
+
+					// 		ClaimGroup: "PMP"
+
+					// 	});
 					this.getModel("LocalDataModel").setProperty("/oClaimGroupData", oClaimGroup);
 					console.log(sap.ui.getCore().getModel("UserDataModel").getProperty("/UserScope"), oClaimGroup);
 
@@ -124,6 +139,14 @@ sap.ui.define([
 				this.getRouter().navTo("PartsMainSection", {
 					claimNum: oClaimNum,
 					oKey: "PWD",
+					oClaimGroup: this.oSelectedClaimGroup,
+					oClaimNav: "New"
+				});
+				this.getView().byId("idRequestType").setSelectedIndex(0);
+			} else if (oSelectedKey === "PMP") {
+				this.getRouter().navTo("PMPMainSection", {
+					claimNum: oClaimNum,
+					oKey: "PMP",
 					oClaimGroup: this.oSelectedClaimGroup,
 					oClaimNav: "New"
 				});

@@ -1,0 +1,58 @@
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:u="sap.ui.unified" xmlns:l="sap.ui.layout"
+	xmlns="sap.m" xmlns:table="sap.ui.table">
+	<VBox class="sapUiSmallMargin clFormTitleGap" busy="{LocalDataModel>/oSavePartIndicator}" >
+		<Panel width="100%" class="sapUiSmallMarginBottom">
+			<headerToolbar>
+				<Toolbar height="3rem">
+					<Title text="{i18n>ClaimDetails}"/>
+					<ToolbarSpacer/>
+					<Title text="{i18n>ClaimNumber} : {HeadSetData>/NumberOfWarrantyClaim}" textAlign="End"/>
+				</Toolbar>
+			</headerToolbar>
+			<f:SimpleForm editable="true" layout="ResponsiveGridLayout" title="" labelSpanXL="6" labelSpanL="6" labelSpanM="12" labelSpanS="12"
+				adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="4" columnsL="4" columnsM="4"
+				singleContainerFullSize="false">
+				<f:content>
+					<core:Title text=""/>
+					<Label text="{i18n>TCIClaim}"/>
+					<Text text="{HeadSetData>/NumberOfWarrantyClaim}"/>
+					<core:Title text=""/>
+					<Label text="{i18n>DealerInvoice}"/>
+					<Text text="{HeadSetData>/DealerInvoice}"/>
+					<Label text="{i18n>DealerInvoiceDate}"/>
+					<Text text="{path:'HeadSetData>/DealerInvoiceDate', formatter:'zclaimProcessing.utils.formatter.fnDateFormat'}"/>
+					<core:Title text=""/>
+					<Label text="{i18n>Type}"/>
+					<Text text="{HeadSetData>/WarrantyClaimType}"/>
+					<Label text="{i18n>Status}"/>
+					<Text text="{HeadSetData>/DecisionCode}"/>
+					<core:Title text=""/>
+					<Label text="{i18n>ClaimTypeDescription}"/>
+					<Text text="{i18n>PriceMatchClaim}"/>
+					<Label text="{i18n>StatusDescription}"/>
+					<Text text="{LocalDataModel>/StatusDes}"/>
+				</f:content>
+			</f:SimpleForm>
+		</Panel>
+	<core:Fragment fragmentName="zclaimProcessing.view.fragments.ClaimAmountSummery" type="XML"/>
+		<VBox class="clMinHeight">
+			<List noDataText="{i18n>NoData}" headerText="{i18n>Validations}" items="{path: 'LocalDataModel>/oErrorSet'}" busy="{DateModel>/errorBusyIndicator}">
+				<CustomListItem>
+					<HBox class="sapUiSmallMargin">
+						<Text text="{i18n>Error} : {LocalDataModel>NUMBER}" class="sapUiTinyMarginEnd"/>
+						<Text text="{i18n>ErrorType} : {LocalDataModel>TYPE}" class="sapUiTinyMarginEnd"/>
+						<Text text="{path:'LocalDataModel>ItemType', formatter : 'zclaimProcessing.utils.formatter.fnItemFormat'}" class="sapUiTinyMarginEnd"/>
+						<Text text="{path : 'LocalDataModel>POSNR', formatter : 'zclaimProcessing.utils.formatter.fnPosnrFormat'}"/>
+					</HBox>
+					<HBox class="sapUiSmallMargin"><Text text="{i18n>ErrorDescription}: {LocalDataModel>MESSAGE}"/></HBox>
+				</CustomListItem>
+			</List>
+			<HBox alignContent="Center" justifyContent="Center" class="sapUiTinyMarginTop">
+				<Button class="sapUiTinyMarginBeginEnd" type="Back" press="onStep03Back" text="{i18n>Back}"/>
+				<Button class="sapUiTinyMarginBeginEnd" press="onUpdateClaim" text="{i18n>SaveClaim}" enabled="{DateModel>/SaveClaim07}"/>
+				<Button class="sapUiTinyMarginBeginEnd" press="onSubmitTci" text="{i18n>SubmitToTCI}" type="Emphasized" enabled="{DateModel>/oFormEdit}"/>
+				<Button text="{i18n>GeneratePackingSlip}" press="onPressPackingSlip" visible="{DateModel>/oSlipVisible}"/>
+			</HBox>
+		</VBox>
+	</VBox>
+</core:FragmentDefinition>
