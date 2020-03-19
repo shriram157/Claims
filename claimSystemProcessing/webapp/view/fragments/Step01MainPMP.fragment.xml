@@ -49,7 +49,7 @@
 				</f:content>
 			</f:SimpleForm>
 		</Panel>
-		<f:SimpleForm id="idClaimMainForm" editable="{DateModel>/oFormEdit}" title="Dealer Invoice Information" layout="ResponsiveGridLayout"
+		<f:SimpleForm id="idClaimMainForm" editable="{DateModel>/oFormEdit}" title="{i18n>DealerInvoiceInformation}" layout="ResponsiveGridLayout"
 			labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0"
 			emptySpanS="0" columnsXL="4" columnsL="4" columnsM="3" singleContainerFullSize="false">
 			<f:content>
