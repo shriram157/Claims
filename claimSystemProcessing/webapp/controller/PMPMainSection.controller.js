@@ -26,7 +26,9 @@ sap.ui.define([
 		 */
 
 		onInit: function () {
-			$(this).attr("title","");
+			
+         
+			//$(this).attr("title","");
 
 			// 			var oCtrl = new SearchAddressInput({
 			// 				GoogleAPI: "AIzaSyAz7irkOJQ4ydE2dHYrg868QV5jUQ-5FaY"
@@ -2291,7 +2293,7 @@ sap.ui.define([
 				
 				this._fnDistanceCalculate();
 			}, this), 2000)
-		}
+		},
 
 		/**
 		 * Similar to onAfterRendering, but this hook is invoked before the controller's View is re-rendered
@@ -2307,9 +2309,21 @@ sap.ui.define([
 		 * This hook is the same one that SAPUI5 controls get after being rendered.
 		 * @memberOf zclaimProcessing.view.PMPMainSection
 		 */
-		//	onAfterRendering: function() {
-		//
-		//	},
+			onAfterRendering: function() {
+				function changeLanguage() {
+            var jObj = $('.goog-te-combo');
+             var db = jObj.get(0);
+             var lang = "fr"
+             jObj.val(lang);
+             var evt = document.createEvent("HTMLEvents");
+             evt.initEvent('change', true, true );
+//             jObj.dispatchEvent(evt);
+             db.dispatchEvent(evt);
+        }
+       
+         setTimeout(changeLanguage, 3000)
+         
+			}
 
 		/**
 		 * Called when the Controller is destroyed. Use this one to free resources and finalize activities.
