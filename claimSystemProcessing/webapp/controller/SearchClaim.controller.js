@@ -284,12 +284,7 @@ sap.ui.define([
 				},
 				success: $.proxy(function (data) {
 					var oClaimData = data.results;
-					// 	for (var i = 0; i < oClaimData.length; i++) {
-					// 		if (oClaimGroup.indexOf(oClaimData[i].ClaimGroupDes) == -1) {
-					// 			oClaimGroup.push(oClaimData[i]);
-					// 		}
-					// 	}
-
+				
 					var elements = oClaimData.reduce(function (previous, current) {
 
 						var object = previous.filter(object => object.ClaimGroupDes === current.ClaimGroupDes);

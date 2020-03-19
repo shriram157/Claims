@@ -2,8 +2,7 @@ sap.ui.define([
 	"zclaimProcessing/controller/BaseController",
 	'sap/m/MessageToast',
 	"sap/ui/model/Sorter",
-	"zclaimProcessing/control/SearchAddressInput"
-], function (BaseController, MessageToast, Sorter, SearchAddressInput) {
+], function (BaseController, MessageToast, Sorter) {
 	"use strict";
 
 	return BaseController.extend("zclaimProcessing.controller.ClaimInquiry", {
@@ -12,10 +11,7 @@ sap.ui.define([
 		 * Can be used to modify the View before it is displayed, to bind event handlers and do other one-time initialization.
 		 * @memberOf zclaimProcessing.view.ClaimInquiry
 		 */
-
 		onInit: function () {
-			var input = $("#autocomplete")[0];
-			var complete = new google.maps.places.Autocomplete(input);
 			this.getDealer();
 			this.getView().setModel(sap.ui.getCore().getModel("HeaderLinksModel"), "HeaderLinksModel");
 			this.getView().setModel(this.getModel("ProssingModel"));
@@ -34,31 +30,6 @@ sap.ui.define([
 			this.getView().setModel(oDateModel, "DateModel");
 			this.getModel("LocalDataModel").setProperty("/LinkEnable", true);
 			this._mViewSettingsDialogs = {};
-
-			// 			var url = this.getView().getModel("DateModel").getProperty("/oUri") +
-			// 				'?units=metric&origins=Washington,DC&destinations=New+York+City,NY&key=AIzaSyAz7irkOJQ4ydE2dHYrg868QV5jUQ-5FaY';
-
-			// 			fetch(url)
-			// 				.then(response => {
-			// 					return response.json();
-			// 				})
-			// 				.then(data => {
-
-			// 					console.log(data);
-			// 				})
-			// 				.catch(err => {
-			// 					console.log(err);
-
-			// 				})
-			//this.initialize();
-
-			// 			var oCtrl = new SearchAddressInput({
-			// 				GoogleAPI: "AIzaSyAz7irkOJQ4ydE2dHYrg868QV5jUQ-5FaY"
-			// 			});
-			// 			this.getView().byId("oControlId").addItem(oCtrl);
-		},
-		onAfterRendering: function () {
-
 		},
 
 		onEnterVIN: function (oEvent) {
