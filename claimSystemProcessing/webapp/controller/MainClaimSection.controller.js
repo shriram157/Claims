@@ -152,7 +152,7 @@ sap.ui.define([
 
 		},
 
-		_onRoutMatched: function (oEvent) {
+		_onRoutMatched: function (oEvent){
 			this.getModel("LocalDataModel").setProperty("/AuthGWVisible", false);
 			this.getModel("LocalDataModel").setProperty("/AuthP1Visible", false);
 			var HeadSetData = new sap.ui.model.json.JSONModel();
@@ -2681,7 +2681,12 @@ sap.ui.define([
 		},
 		onChangeLabourOp: function (oEvent) {
 			var oLabourOp = oEvent.getParameters().value;
-			this.getView().getModel("LabourDataModel").setProperty("/LabourOp", oLabourOp.toUpperCase());
+			if(oLabourOp[0] != "P"){
+				this.getView().getModel("LabourDataModel").setProperty("/LabourOp", oLabourOp.toUpperCase());
+			}else{
+				this.getView().getModel("LabourDataModel").setProperty("/LabourOp", "");
+			}
+			
 		},
 
 		onEnterVIN: function (oEvent) {
