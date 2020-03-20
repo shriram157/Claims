@@ -1525,29 +1525,28 @@ sap.ui.define([
 		},
 
 		onFileDeleted: function (oEvent) {
-			
+
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
-							var oBundle = this.getView().getModel("i18n").getResourceBundle();
+			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 
-							var oPMPModel = this.getModel("zDLRCLAIMPMPSRV");
+			var oPMPModel = this.getModel("zDLRCLAIMPMPSRV");
 
-							var oFileName = oEvent.getSource().getFileName();
+			var oFileName = oEvent.getSource().getFileName();
 
-							var oFileToDelete = "HEAD@@@" + oFileName;
-
+			var oFileToDelete = "HEAD@@@" + oFileName;
 
 			var dialog = new Dialog({
 				title: oBundle.getText("SubmitClaimTCI"),
 				type: "Message",
 				content: new Text({
-					text: oBundle.getText("AreyouSureDeleteFile")+" "+oFileName + "?"
+					text: oBundle.getText("AreyouSureDeleteFile") + " " + oFileName + "?"
 				}),
 
 				buttons: [
 					new Button({
 						text: oBundle.getText("Yes"),
 						press: $.proxy(function () {
-							
+
 							oPMPModel.refreshSecurityToken();
 
 							oPMPModel.remove("/zc_claim_attachmentsSet(NumberOfWarrantyClaim='" + oClaimNum + "',FileName='" + oFileToDelete + "')", {
@@ -2323,18 +2322,25 @@ sap.ui.define([
 		 * (NOT before the first rendering! onInit() is used for that one!).
 		 * @memberOf zclaimProcessing.view.PMPMainSection
 		 */
-		//	onBeforeRendering: function() {
-		//
-		//	},
-
+		
 		/**
 		 * Called when the View has been rendered (so its HTML is part of the document). Post-rendering manipulations of the HTML could be done here.
 		 * This hook is the same one that SAPUI5 controls get after being rendered.
 		 * @memberOf zclaimProcessing.view.PMPMainSection
 		 */
-		// onAfterRendering: function () {
-
-		// }
+		onAfterRendering: function () {
+			var that = this;
+			setTimeout(function(){
+					if(that.fnReturnLanguage() == "FR"){
+						$(".clDatePicker .sapUiIconPointer").attr('title', "Ouvrir le sélecteur");
+					}else{
+						$(".clDatePicker .sapUiIconPointer").attr('title', "Open Picker");
+					}
+					
+			}, 3000);
+		
+		
+		}
 
 		/**
 		 * Called when the Controller is destroyed. Use this one to free resources and finalize activities.
