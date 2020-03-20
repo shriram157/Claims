@@ -99,6 +99,15 @@ sap.ui.define([
 		},
 
 		_onRoutMatched: function (oEvent) {
+			var that = this;
+			setTimeout(function(){
+					if(that.fnReturnLanguage() == "FR"){
+						$(".clDatePicker .sapUiIconPointer").attr('title', "Ouvrir le sélecteur");
+					}else{
+						$(".clDatePicker .sapUiIconPointer").attr('title', "Open Picker");
+					}
+					
+			}, 3000);
 			var oValidator = new Validator();
 			oValidator.validate("");
 			var HeadSetData = new sap.ui.model.json.JSONModel();
@@ -2329,15 +2338,7 @@ sap.ui.define([
 		 * @memberOf zclaimProcessing.view.PMPMainSection
 		 */
 		onAfterRendering: function () {
-			var that = this;
-			setTimeout(function(){
-					if(that.fnReturnLanguage() == "FR"){
-						$(".clDatePicker .sapUiIconPointer").attr('title', "Ouvrir le sélecteur");
-					}else{
-						$(".clDatePicker .sapUiIconPointer").attr('title', "Open Picker");
-					}
-					
-			}, 3000);
+			
 		
 		
 		}
