@@ -62,7 +62,7 @@ module.exports = function (appContext) {
 			legacyDealer: "",
 			legacyDealerName: ""
 		};
-
+		console.log(resBody);
 		var userType = userAttributes.UserType[0];
 		var dealerCode = null;
 		var zone = null;
@@ -219,6 +219,7 @@ module.exports = function (appContext) {
 						}
 					} else {
 						resBody.attributes.push(bpAttributes);
+
 					}
 				}
 				tracer.debug("Response body: %s", JSON.stringify(resBody));

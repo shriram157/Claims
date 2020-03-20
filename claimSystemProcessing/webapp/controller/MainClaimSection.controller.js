@@ -4976,43 +4976,77 @@ sap.ui.define([
 			}
 		},
 		onFileDeleted: function (oEvent) {
-			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
-			var oBundle = this.getView().getModel("i18n").getResourceBundle();
+				var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
+							var oBundle = this.getView().getModel("i18n").getResourceBundle();
 
-			var oClaimModel = this.getModel("ProssingModel");
+							var oPMPModel = this.getModel("zDLRCLAIMPMPSRV");
 
-			//var oLine = oEvent.getSource()._oItemForDelete._iLineNumber;
-			var oFileName = oEvent.getSource().getFileName();
-			var oFileToDelete = "HEAD@@@" + oFileName;
+							var oFileName = oEvent.getSource().getFileName();
 
-			oClaimModel.refreshSecurityToken();
+							var oFileToDelete = "HEAD@@@" + oFileName;
 
-			oClaimModel.remove("/zc_claim_attachmentsSet(NumberOfWarrantyClaim='" + oClaimNum + "',FileName='" + oFileToDelete + "')", {
-				method: "DELETE",
-				success: $.proxy(function () {
-					MessageToast.show(oBundle.getText("Filedeletedsuccessfully"), {
-						my: "center center",
-						at: "center center"
-					});
-					oClaimModel.read("/zc_claim_attachmentsSet", {
-						urlParameters: {
-							"$filter": "NumberOfWarrantyClaim eq '" + oClaimNum + "'and AttachLevel eq 'HEAD' and FileName  eq ''"
-						},
 
-						success: $.proxy(function (odata) {
-							var oArr = odata.results;
-							var oAttachSet = oArr.map(function (item) {
-								item.FileName = item.FileName.replace("HEAD@@@", "");
-								return item;
+			var dialog = new Dialog({
+				title: oBundle.getText("SubmitClaimTCI"),
+				type: "Message",
+				content: new Text({
+					text: oBundle.getText("AreyouSureDeleteFile")+" "+oFileName + "?"
+				}),
 
+				buttons: [
+					new Button({
+						text: oBundle.getText("Yes"),
+						press: $.proxy(function () {
+							
+							oPMPModel.refreshSecurityToken();
+
+							oPMPModel.remove("/zc_claim_attachmentsSet(NumberOfWarrantyClaim='" + oClaimNum + "',FileName='" + oFileToDelete + "')", {
+								method: "DELETE",
+								success: $.proxy(function () {
+									MessageToast.show(oBundle.getText("Filedeletedsuccessfully"), {
+										my: "center center",
+										at: "center center"
+									});
+									oPMPModel.read("/zc_claim_attachmentsSet", {
+										urlParameters: {
+											"$filter": "NumberOfWarrantyClaim eq '" + oClaimNum + "'and AttachLevel eq 'HEAD' and FileName  eq ''"
+										},
+
+										success: $.proxy(function (odata) {
+											var oArr = odata.results;
+											var oAttachSet = oArr.map(function (item) {
+												item.FileName = item.FileName.replace("HEAD@@@", "");
+												return item;
+
+											});
+											// this.getView().getModel("ClaimModel").setProperty("/" + "/items", oArr);
+											this.getModel("LocalDataModel").setProperty("/HeadAtchmentData", oAttachSet);
+
+										}, this)
+									});
+								}, this)
 							});
-							// this.getView().getModel("ClaimModel").setProperty("/" + "/items", oArr);
-							this.getModel("LocalDataModel").setProperty("/HeadAtchmentData", oAttachSet);
+
+							dialog.close();
 
 						}, this)
-					});
-				}, this)
+					}),
+					new Button({
+						text: oBundle.getText("Cancel"),
+						press: $.proxy(function () {
+							this.getView().getModel("DateModel").setProperty("/errorBusyIndicator", false);
+							dialog.close();
+						}, this)
+					})
+
+				],
+
+				afterClose: function () {
+					dialog.destroy();
+				}
 			});
+
+			dialog.open();
 
 		},
 		onFileSubletDeleted: function (oEvent) {

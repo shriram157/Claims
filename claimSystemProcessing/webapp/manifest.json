@@ -5,7 +5,7 @@
 		"type": "application",
 		"i18n": "i18n/i18n.properties",
 		"applicationVersion": {
-			"version": "1.0.0"
+			"version": "2.0.0"
 		},
 		"title": "{{appTitle}}",
 		"description": "{{appDescription}}",
@@ -22,6 +22,17 @@
 					"localUri": "localService/ZDLR_CLAIM_SRV/metadata.xml"
 				}
 			},
+			"ZDLR_CLAIM_PMP_SRV": {
+				"uri": "/node/ZDLR_CLAIM_PMP_SRV/",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "2.0",
+					"localUri": "localService/ZDLR_CLAIM_PMP_SRV/metadata.xml"
+				}
+			},
+			
+			
+			
 			"API_BUSINESS_PARTNER": {
 				"uri": "/node/API_BUSINESS_PARTNER/",
 				"type": "OData",
@@ -142,6 +153,20 @@
 				"dataSource": "Z_VEHICLE_MASTER_SRV",
 				"preload": false
 			},
+			"ZDLR_CLAIM_PMP_SRV": {
+				"uri": "/node/ZDLR_CLAIM_PMP_SRV/",
+				"type": "sap.ui.model.odata.v2.ODataModel",
+				"settings": {
+					"defaultOperationMode": "Server",
+					"defaultBindingMode": "OneWay",
+					"defaultCountMode": "Request",
+					"headers": {
+						"X-Requested-With": "XMLHttpRequest"
+					}
+				},
+				"dataSource": "ZDLR_CLAIM_PMP_SRV",
+				"preload": false
+			},
 			"ECPModel": {
 				"uri": "/node/ZECP_SALES_ODATA_SERVICE_SRV/",
 				"type": "sap.ui.model.odata.v2.ODataModel",
@@ -159,13 +184,13 @@
 		},
 		"resources": {
 			"js": [
-			    {
+			
+				{
 					"uri": "libs/moment.js"
 				},
 				{
 					"uri": "utils/formatter.js"
 				},
-				
 				{
 					"uri": "utils/changeFabicon.js"
 				}
@@ -206,6 +231,12 @@
 					"pattern": "MainClaim/{claimNum}/{oKey}/{oClaimGroup}/{oClaimNav}",
 					"target": [
 						"MainClaimSection"
+					]
+				},{
+					"name": "PMPMainSection",
+					"pattern": "PMPMain/{claimNum}/{oKey}/{oClaimGroup}/{oClaimNav}",
+					"target": [
+						"PMPMainSection"
 					]
 				},
 				{
@@ -261,6 +292,7 @@
 					"controlId": "idAppControl",
 					"clearControlAggregation": false
 				},
+				
 				"PartsMainSection": {
 					"viewType": "XML",
 					"viewName": "PartsMainSection"
@@ -276,6 +308,10 @@
 				"ClaimInquiryDetails": {
 					"viewType": "XML",
 					"viewName": "ClaimInquiryDetails"
+				},
+				"PMPMainSection": {
+					"viewType": "XML",
+					"viewName": "PMPMainSection"
 				}
 			}
 		}
