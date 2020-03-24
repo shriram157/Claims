@@ -546,19 +546,7 @@ sap.ui.define([
 				}
 			})
 
-			// 			if (oStatus == "ZTIC") {
-			// 				this.getModel("LocalDataModel").setProperty("/StatusDes", "Incomplete");
-			// 			} else if (oStatus == "ZTCD") {
-			// 				this.getModel("LocalDataModel").setProperty("/StatusDes", "Cancelled by Dealer");
-			// 			} else if (oStatus == "ZTRC") {
-			// 				this.getModel("LocalDataModel").setProperty("/StatusDes", "Returned to Dealer");
-			// 			} else if (oStatus == "ZTSM") {
-			// 				this.getModel("LocalDataModel").setProperty("/StatusDes", "Submitted to TCI");
-			// 			} else if (oStatus == "ZTAC") {
-			// 				this.getModel("LocalDataModel").setProperty("/StatusDes", "Accepted");
-			// 			} else if (oStatus == "ZTPD") {
-			// 				this.getModel("LocalDataModel").setProperty("/StatusDes", "Paid to Dealer");
-			// 			}
+		
 		},
 
 		_fnClaimSum: function (e) {
