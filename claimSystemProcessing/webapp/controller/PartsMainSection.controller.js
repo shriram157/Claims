@@ -4482,7 +4482,7 @@ sap.ui.define([
 							});
 							
 							var oPartDiscDes = oPartItemData.findIndex(function (item) {
-								return item.DiscreCode == "WINDSHIELD" || "PARE-BRISE";
+								return item.ALMDiscreDesc == "WINDSHIELD" || item.ALMDiscreDesc == "PARE-BRISE";
 							});
 
 							var oAttachmentList = this.getModel("LocalDataModel").getProperty("/PartHeadAttachData");
@@ -4491,8 +4491,8 @@ sap.ui.define([
 								return item.FileName == "Letter Of Intent.pdf";
 							});
 
-							if (enabledIntent > -1 && this.claimType === "ZPDC" && oAttachmentCheck == -1 && oPartDiscDes == -1  || this.claimType == "ZPTS" &&
-								oAttachmentCheck == -1) {
+							if ((enabledIntent > -1 && this.claimType === "ZPDC" && oAttachmentCheck == -1 && oPartDiscDes == -1)  || 
+							(this.claimType == "ZPTS" && oAttachmentCheck == -1)) {
 								this.getView().getModel("DateModel").setProperty("/oLetterOfIntent", true);
 								this.getView().getModel("DateModel").setProperty("/SubmitPWBusyIndicator", false);
 								MessageBox.show(oBundle.getText("LOIMandatoryBeforeTCISubmit"), MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK,
