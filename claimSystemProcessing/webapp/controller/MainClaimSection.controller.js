@@ -152,7 +152,7 @@ sap.ui.define([
 
 		},
 
-		_onRoutMatched: function (oEvent){
+		_onRoutMatched: function (oEvent) {
 			this.getModel("LocalDataModel").setProperty("/AuthGWVisible", false);
 			this.getModel("LocalDataModel").setProperty("/AuthP1Visible", false);
 			var HeadSetData = new sap.ui.model.json.JSONModel();
@@ -2680,13 +2680,13 @@ sap.ui.define([
 			}
 		},
 		onChangeLabourOp: function (oEvent) {
-			var oLabourOp = oEvent.getParameters().value;
-			if(oLabourOp[0] != "P"){
-				this.getView().getModel("LabourDataModel").setProperty("/LabourOp", oLabourOp.toUpperCase());
-			}else{
+			var oLabourOp = oEvent.getParameters().value.toUpperCase();
+			if (oLabourOp[0] != "P") {
+				this.getView().getModel("LabourDataModel").setProperty("/LabourOp", oLabourOp);
+			} else {
 				this.getView().getModel("LabourDataModel").setProperty("/LabourOp", "");
 			}
-			
+
 		},
 
 		onEnterVIN: function (oEvent) {
@@ -4981,28 +4981,27 @@ sap.ui.define([
 			}
 		},
 		onFileDeleted: function (oEvent) {
-				var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
-							var oBundle = this.getView().getModel("i18n").getResourceBundle();
+			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
+			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 
-							var oPMPModel = this.getModel("zDLRCLAIMPMPSRV");
+			var oPMPModel = this.getModel("zDLRCLAIMPMPSRV");
 
-							var oFileName = oEvent.getSource().getFileName();
+			var oFileName = oEvent.getSource().getFileName();
 
-							var oFileToDelete = "HEAD@@@" + oFileName;
-
+			var oFileToDelete = "HEAD@@@" + oFileName;
 
 			var dialog = new Dialog({
 				title: oBundle.getText("SubmitClaimTCI"),
 				type: "Message",
 				content: new Text({
-					text: oBundle.getText("AreyouSureDeleteFile")+" "+oFileName + "?"
+					text: oBundle.getText("AreyouSureDeleteFile") + " " + oFileName + "?"
 				}),
 
 				buttons: [
 					new Button({
 						text: oBundle.getText("Yes"),
 						press: $.proxy(function () {
-							
+
 							oPMPModel.refreshSecurityToken();
 
 							oPMPModel.remove("/zc_claim_attachmentsSet(NumberOfWarrantyClaim='" + oClaimNum + "',FileName='" + oFileToDelete + "')", {
@@ -6957,39 +6956,39 @@ sap.ui.define([
 			this.obj.MainOpsCode = this.getView().getModel("HeadSetData").getProperty("/MainOpsCode");
 			this.obj.DBOperation = "SAVE";
 			this.obj.WarrantyClaimSubType = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType");
-			var oClaimHr = this.getView().getModel("LabourDataModel").getProperty("/ClaimedHours");
-			if (oClaimHr == "") {
-				oClaimHr = "0.0";
-			}
-
-			if (oTableIndex.length == 1) {
-
-				var oIndex = this.obj.zc_claim_item_labourSet.results.findIndex(({
-					LabourNumber
-				}) => LabourNumber == this.getView().getModel("LabourDataModel").getProperty("/LabourOp"));
-				this.obj.zc_claim_item_labourSet.results.splice(oIndex, 1);
-			}
-
-			var itemObj = {
-				"Type": "LABOUR",
-				"ItemType": "FR",
-				"LabourNumber": this.getView().getModel("LabourDataModel").getProperty("/LabourOp"),
-				"ClaimedHours": oClaimHr,
-				"LabourDescription": this.getView().getModel("LabourDataModel").getProperty("/LabourDescription")
-			};
-
-			var oIndexItem = this.obj.zc_claim_item_labourSet.results.findIndex(function (item) {
-				return item.LabourNumber == itemObj.LabourNumber;
-			});
-
-			if (oIndexItem == -1) {
-				this.obj.zc_claim_item_labourSet.results.push(itemObj);
-			}
 
 			var oClaimModel = this.getModel("ProssingModel");
 
 			oClaimModel.refreshSecurityToken();
-			if (itemObj.LabourNumber != "") {
+			if (this.getView().getModel("LabourDataModel").getProperty("/LabourOp") != "") {
+				var oClaimHr = this.getView().getModel("LabourDataModel").getProperty("/ClaimedHours");
+				if (oClaimHr == "") {
+					oClaimHr = "0.0";
+				}
+
+				if (oTableIndex.length == 1) {
+
+					var oIndex = this.obj.zc_claim_item_labourSet.results.findIndex(({
+						LabourNumber
+					}) => LabourNumber == this.getView().getModel("LabourDataModel").getProperty("/LabourOp"));
+					this.obj.zc_claim_item_labourSet.results.splice(oIndex, 1);
+				}
+
+				var itemObj = {
+					"Type": "LABOUR",
+					"ItemType": "FR",
+					"LabourNumber": this.getView().getModel("LabourDataModel").getProperty("/LabourOp"),
+					"ClaimedHours": oClaimHr,
+					"LabourDescription": this.getView().getModel("LabourDataModel").getProperty("/LabourDescription")
+				};
+
+				var oIndexItem = this.obj.zc_claim_item_labourSet.results.findIndex(function (item) {
+					return item.LabourNumber == itemObj.LabourNumber;
+				});
+
+				if (oIndexItem == -1) {
+					this.obj.zc_claim_item_labourSet.results.push(itemObj);
+				}
 				this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", true);
 				oClaimModel.create("/zc_headSet", this.obj, {
 					success: $.proxy(function (data, response) {
