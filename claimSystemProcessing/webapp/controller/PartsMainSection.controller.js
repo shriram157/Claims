@@ -414,7 +414,7 @@ sap.ui.define([
 				this.claimType = oEvent.getParameters().arguments.oKey;
 
 				var warrantyClaimNumber = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
-				oProssingModel.read("/ZC_CLAIM_SUM(p_clmno='" + warrantyClaimNumber + "')/Set", {
+				oProssingModel.read("/ZC_CLAIM_SUM('" + warrantyClaimNumber + "')/Set", {
 					success: $.proxy(function (data) {
 						var oFilteredData = data.results.filter(function (val) {
 							return val.ItemType === "MAT" || val.ItemType === "TOTL";
@@ -3196,7 +3196,7 @@ sap.ui.define([
 		//To fetch Claims Account Summary
 		_fnClaimSum: function (e) {
 			var oClaimModel = this.getModel("ProssingModel");
-			oClaimModel.read("/ZC_CLAIM_SUM(p_clmno='" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") + "')/Set", {
+			oClaimModel.read("/ZC_CLAIM_SUM('" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") + "')/Set", {
 				success: $.proxy(function (data) {
 					var oFilteredData = data.results.filter(function (val) {
 						return val.ItemType === "MAT" || val.ItemType === "TOTL";

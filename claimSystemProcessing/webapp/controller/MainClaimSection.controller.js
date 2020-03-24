@@ -4628,7 +4628,7 @@ sap.ui.define([
 
 		_fnClaimSum: function (e) {
 			var oClaimModel = this.getModel("ProssingModel");
-			oClaimModel.read("/ZC_CLAIM_SUM(p_clmno='" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") + "')/Set", {
+			oClaimModel.read("/ZC_CLAIM_SUM('" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") + "')/Set", {
 				success: $.proxy(function (data) {
 
 					this.getModel("LocalDataModel").setProperty("/ClaimSum", data.results);

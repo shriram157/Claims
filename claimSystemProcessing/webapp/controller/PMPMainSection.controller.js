@@ -563,7 +563,7 @@ sap.ui.define([
 
 		_fnClaimSum: function (e) {
 			var oClaimModel = this.getModel("zDLRCLAIMPMPSRV");
-			oClaimModel.read("/ZC_CLAIM_SUM(p_clmno='" + this.getView().getModel("HeadSetData").getProperty("/NumberOfWarrantyClaim") +
+			oClaimModel.read("/ZC_CLAIM_SUM('" + this.getView().getModel("HeadSetData").getProperty("/NumberOfWarrantyClaim") +
 				"')/Set", {
 					success: $.proxy(function (data) {
 
