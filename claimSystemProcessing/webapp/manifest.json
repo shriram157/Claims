@@ -119,7 +119,7 @@
 					"defaultCountMode": "Request",
 					"defaultBindingMode": "TwoWay",
 					"defaultUpdateMethod": "PATCH",
-					"useBatch": true
+					"useBatch": false
 				}
 			},
 			"ApiBusinessModel": {
@@ -157,7 +157,7 @@
 					"defaultCountMode": "Request",
 					"defaultBindingMode": "TwoWay",
 					"defaultUpdateMethod": "PATCH",
-					"useBatch": true
+					"useBatch": false
 				}
 			},
 			"EcpSalesModel": {
@@ -169,7 +169,7 @@
 					"defaultCountMode": "Request",
 					"defaultBindingMode": "TwoWay",
 					"defaultUpdateMethod": "PATCH",
-					"useBatch": true
+					"useBatch": false
 				}
 			},
 			"ProductMaster": {
