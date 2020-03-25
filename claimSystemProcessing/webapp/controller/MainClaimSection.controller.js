@@ -3691,7 +3691,7 @@ sap.ui.define([
 
 			};
 			this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", true);
-			oClaimModel.update("/zc_headSet('" + oClaimNum + "')", obj, {
+			oClaimModel.update("/zc_headSet", obj, {
 				method: "PUT",
 				success: $.proxy(function (response) {
 					this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", false);
@@ -3761,7 +3761,7 @@ sap.ui.define([
 						text: oBundle.getText("Yes"),
 						press: $.proxy(function () {
 							this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", true);
-							oClaimModel.update("/zc_headSet('" + oClaimNum + "')", obj, {
+							oClaimModel.update("/zc_headSet", obj, {
 								method: "PUT",
 								success: $.proxy(function (response) {
 									this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", false);
