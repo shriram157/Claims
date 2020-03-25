@@ -110,7 +110,7 @@
 				}
 			},
 			"ProssingModel": {
-				
+
 				"type": "sap.ui.model.odata.v2.ODataModel",
 				"dataSource": "ZDLR_CLAIM_SRV",
 				"preload": true,
@@ -118,13 +118,12 @@
 					"defaultOperationMode": "Server",
 					"defaultCountMode": "Request",
 					"defaultBindingMode": "TwoWay",
-					"defaultUpdateMethod": "PATCH",
 					"useBatch": false
 				}
 			},
 			"ApiBusinessModel": {
-				
-					"type": "sap.ui.model.odata.v2.ODataModel",
+
+				"type": "sap.ui.model.odata.v2.ODataModel",
 				"dataSource": "API_BUSINESS_PARTNER",
 				"preload": true,
 				"settings": {
@@ -136,7 +135,7 @@
 				}
 			},
 			"ZVehicleMasterModel": {
-				
+
 				"type": "sap.ui.model.odata.v2.ODataModel",
 				"dataSource": "Z_VEHICLE_MASTER_SRV",
 				"preload": true,
@@ -156,7 +155,7 @@
 					"defaultOperationMode": "Server",
 					"defaultCountMode": "Request",
 					"defaultBindingMode": "TwoWay",
-					"defaultUpdateMethod": "PATCH",
+
 					"useBatch": false
 				}
 			},
@@ -168,7 +167,7 @@
 					"defaultOperationMode": "Server",
 					"defaultCountMode": "Request",
 					"defaultBindingMode": "TwoWay",
-					"defaultUpdateMethod": "PATCH",
+
 					"useBatch": false
 				}
 			},
