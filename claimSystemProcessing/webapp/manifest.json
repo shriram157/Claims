@@ -144,7 +144,7 @@
 					"defaultCountMode": "Request",
 					"defaultBindingMode": "TwoWay",
 					"defaultUpdateMethod": "PATCH",
-					"useBatch": true
+					"useBatch": false
 				}
 			},
 			"zDLRCLAIMPMPSRV": {
@@ -167,7 +167,6 @@
 					"defaultOperationMode": "Server",
 					"defaultCountMode": "Request",
 					"defaultBindingMode": "TwoWay",
-
 					"useBatch": false
 				}
 			},
