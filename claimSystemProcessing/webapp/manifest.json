@@ -117,7 +117,11 @@
 				"settings": {
 					"defaultOperationMode": "Server",
 					"defaultBindingMode": "TwoWay",
-					"useBatch": false
+					"useBatch": false,
+					"defaultUpdateMethod": "PUT",
+					"headers": {
+						"X-Requested-With": "XMLHttpRequest"
+					}
 				}
 			},
 			"ApiBusinessModel": {
@@ -155,6 +159,7 @@
 					"defaultCountMode": "Request",
 					"defaultBindingMode": "TwoWay",
 					"useBatch": false
+					
 				}
 			},
 			"EcpSalesModel": {
