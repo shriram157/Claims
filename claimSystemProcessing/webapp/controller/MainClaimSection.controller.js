@@ -4639,7 +4639,7 @@ sap.ui.define([
 
 		_fnClaimSumPercent: function (e) {
 			var oClaimModel = this.getModel("ProssingModel");
-			oClaimModel.read("/ZC_CLAIM_AUTH_SUM(p_clmno='" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") + "')/Set", {
+			oClaimModel.read("/ZC_CLAIM_AUTH_SUM('" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") + "')/Set", {
 				success: $.proxy(function (data) {
 					this.getModel("LocalDataModel").setProperty("/ClaimSumAuth", data.results);
 					var oRepAmt = data.results[data.results.length - 1].SubtotalAmt;
