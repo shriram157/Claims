@@ -79,6 +79,12 @@
 									<l:GridData span="XL1 L1 M3 S4"/>
 								</layoutData>
 							</Button>
+							<Label text=" " class="clTextIndent"/>
+							<Button text="{i18n>Clear}" type="Default" press="onPressCancelPart" enabled="{DateModel>/partLine}">
+								<layoutData>
+									<l:GridData span="XL7 L8"/>
+								</layoutData>
+							</Button>
 						</HBox>
 					</f:content>
 				</f:SimpleForm>
@@ -176,7 +182,7 @@
 							<!--<Label text="Dealer Net Price" visible="{multiHeaderConfig>/DealerNetPrcV}"></Label>-->
 							<!--<Input id="idDealerNetPrc" visible="{multiHeaderConfig>/DealerNetPrcV}" editable="{multiHeaderConfig>/DealerNetPrcEdt}" maxLength="3"></Input>-->
 							<Label text="{i18n>RepairAmount}" visible="{multiHeaderConfig>/RepairAmtV}"></Label>
-							<Input id="idReceivedAmt" value="{HeadSetData>/RepairAmount}" type="Number" visible="{multiHeaderConfig>/RepairAmtV}"
+							<Input id="idReceivedAmt" value="{HeadSetData>/RepairAmount}" type="Number" required="{DateModel>/reqRepairAmt}" visible="{multiHeaderConfig>/RepairAmtV}"
 								enabled="{DateModel>/partLine}"></Input>
 							<core:Title text=""/>
 							<Label text="{i18n>Quantity}"></Label>

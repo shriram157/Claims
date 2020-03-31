@@ -39,35 +39,6 @@ sap.ui.define([
 			});
 			this.getView().setModel(oAttachments, "AttachmentModel");
 
-			var oMultiHeaderConfig = {
-				multiheader1: [3, 1],
-				multiheader2: [2, 1],
-				multiheader3: [6, 1],
-				multiheader5: 6,
-				partDamage: true,
-				partMiscellanious: false,
-				partDiscrepancies: false,
-				partTransportation: false,
-				uploader: true,
-				OrderedPartDesc: false,
-				RetainPartV: false,
-				PartNumberRcV: false,
-				PartDescriptionOrdRcv: false,
-				RepairAmtV: true,
-				PartRepaired: false,
-				DiscrepancyCol: false,
-				DamageConditionCol: true,
-				MiscellaneousCol: false,
-				TransportCol: false,
-				PartRepCol: true,
-				RepAmountCol: true,
-				RetainPartCol: false,
-				AttachmentCol: false,
-				PartNumberEdit: true,
-				flagIncorrectPart: false
-			};
-
-			this.getView().setModel(new sap.ui.model.json.JSONModel(oMultiHeaderConfig), "multiHeaderConfig");
 			this.oUploadCollection = this.byId("UploadSupportingDoc");
 			this.oUploadCollection01 = this.byId("UploadCollection");
 			BpDealerModel = new sap.ui.model.json.JSONModel();
@@ -273,6 +244,36 @@ sap.ui.define([
 			this.getModel("LocalDataModel").setProperty("/PartHeadAttachData", []);
 			this.getModel("LocalDataModel").setProperty("/IndicatorState", false);
 
+			var oMultiHeaderConfig = {
+				multiheader1: [3, 1],
+				multiheader2: [2, 1],
+				multiheader3: [6, 1],
+				multiheader5: 6,
+				partDamage: true,
+				partMiscellanious: false,
+				partDiscrepancies: false,
+				partTransportation: false,
+				uploader: true,
+				OrderedPartDesc: false,
+				RetainPartV: false,
+				PartNumberRcV: false,
+				PartDescriptionOrdRcv: false,
+				RepairAmtV: false,
+				PartRepaired: false,
+				DiscrepancyCol: false,
+				DamageConditionCol: true,
+				MiscellaneousCol: false,
+				TransportCol: false,
+				PartRepCol: true,
+				RepAmountCol: true,
+				RetainPartCol: false,
+				AttachmentCol: false,
+				PartNumberEdit: true,
+				flagIncorrectPart: false
+			};
+
+			this.getView().setModel(new sap.ui.model.json.JSONModel(oMultiHeaderConfig), "multiHeaderConfig");
+
 			var oDateModel = new sap.ui.model.json.JSONModel();
 			oDateModel.setData({
 				dateValueDRS2: new Date(2018, 1, 1),
@@ -302,7 +303,8 @@ sap.ui.define([
 				SubmitPWBusyIndicator: false,
 				LOIBusyIndicator: false,
 				editablePartNumber: true,
-				PWPrintEnable: false
+				PWPrintEnable: false,
+				reqRepairAmt: false
 			});
 			this.getView().setModel(oDateModel, "DateModel");
 
@@ -438,7 +440,7 @@ sap.ui.define([
 					this.getView().getModel("multiHeaderConfig").setProperty("/RetainPartV", false);
 					this.getView().getModel("multiHeaderConfig").setProperty("/PartNumberRcV", false);
 					this.getView().getModel("multiHeaderConfig").setProperty("/PartDescriptionOrdRcv", false);
-					this.getView().getModel("multiHeaderConfig").setProperty("/RepairAmtV", true);
+					//this.getView().getModel("multiHeaderConfig").setProperty("/RepairAmtV", true);
 					this.getView().getModel("multiHeaderConfig").setProperty("/RepAmountCol", true);
 					this.getView().getModel("multiHeaderConfig").setProperty("/PartRepaired", true);
 					this.getView().getModel("multiHeaderConfig").setProperty("/PartRepCol", true);
@@ -470,7 +472,7 @@ sap.ui.define([
 					this.getView().getModel("multiHeaderConfig").setProperty("/RetainPartV", false);
 					this.getView().getModel("multiHeaderConfig").setProperty("/PartNumberRcV", false);
 					this.getView().getModel("multiHeaderConfig").setProperty("/PartDescriptionOrdRcv", false);
-					this.getView().getModel("multiHeaderConfig").setProperty("/RepairAmtV", true);
+					//this.getView().getModel("multiHeaderConfig").setProperty("/RepairAmtV", true);
 					this.getView().getModel("multiHeaderConfig").setProperty("/RepAmountCol", true);
 
 					this.getView().getModel("multiHeaderConfig").setProperty("/PartRepaired", true);
@@ -502,7 +504,7 @@ sap.ui.define([
 					this.getView().getModel("multiHeaderConfig").setProperty("/RetainPartV", false);
 					this.getView().getModel("multiHeaderConfig").setProperty("/PartNumberRcV", false);
 					this.getView().getModel("multiHeaderConfig").setProperty("/PartDescriptionOrdRcv", false);
-					this.getView().getModel("multiHeaderConfig").setProperty("/RepairAmtV", false);
+					//this.getView().getModel("multiHeaderConfig").setProperty("/RepairAmtV", false);
 					this.getView().getModel("multiHeaderConfig").setProperty("/RepAmountCol", false);
 					this.getView().getModel("multiHeaderConfig").setProperty("/PartRepaired", false);
 					this.getView().getModel("multiHeaderConfig").setProperty("/PartRepCol", false);
@@ -535,7 +537,7 @@ sap.ui.define([
 					this.getView().getModel("multiHeaderConfig").setProperty("/RetainPartV", true);
 					this.getView().getModel("multiHeaderConfig").setProperty("/PartNumberRcV", true);
 					this.getView().getModel("multiHeaderConfig").setProperty("/PartDescriptionOrdRcv", true);
-					this.getView().getModel("multiHeaderConfig").setProperty("/RepairAmtV", false);
+					//this.getView().getModel("multiHeaderConfig").setProperty("/RepairAmtV", false);
 					this.getView().getModel("multiHeaderConfig").setProperty("/RepAmountCol", false);
 
 					this.getView().getModel("multiHeaderConfig").setProperty("/PartRepaired", false);
@@ -1616,8 +1618,11 @@ sap.ui.define([
 			if (oVal.getParameters().selectedItem.getText() == "No") {
 				this.getView().getModel("multiHeaderConfig").setProperty("/RepairAmtV", false);
 				this.getView().getModel("HeadSetData").setProperty("/RepairAmount", "");
+				this.getView().getModel("DateModel").setProperty("/reqRepairAmt", false);
 			} else if (oVal.getParameters().selectedItem.getText() == "Yes") {
 				this.getView().getModel("multiHeaderConfig").setProperty("/RepairAmtV", true);
+
+				this.getView().getModel("DateModel").setProperty("/reqRepairAmt", true);
 			}
 		},
 
@@ -1696,6 +1701,11 @@ sap.ui.define([
 				this.getView().byId("idMainClaimMessage").setText(this.oBundle.getText("FillUpMandatoryField"));
 				this.getView().byId("idMainClaimMessage").setType("Error");
 				this.getView().getModel("DateModel").setProperty("/partTypeState", "None");
+			}else if (this.getView().getModel("DateModel").getProperty("/reqRepairAmt") == true &&
+				this.getView().getModel("HeadSetData").getProperty("/RepairAmount") == "") {
+				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+				this.getView().byId("idMainClaimMessage").setText(this.oBundle.getText("FillUpMandatoryField"));
+				this.getView().byId("idMainClaimMessage").setType("Error");
 			} else {
 				this.getView().getModel("DateModel").setProperty("/SavePWPartIndicator", true);
 				this.getView().getModel("DateModel").setProperty("/RetainPartType", "None");
@@ -1768,8 +1778,8 @@ sap.ui.define([
 				// }
 
 				if (this.claimType != "ZPPD") {
-					if (this.getModel("LocalDataModel").getProperty("/partItemAttachments") != undefined && this.getModel("LocalDataModel").getProperty(
-							"/partItemAttachments") != "") {
+					// if (this.getModel("LocalDataModel").getProperty("/partItemAttachments") != undefined && this.getModel("LocalDataModel").getProperty(
+					// 		"/partItemAttachments") != "") {
 						// this.URI = this.getModel("LocalDataModel").getProperty("/partItemAttachments")[0].URI;
 						if (this.addPartFlag == true || this.updatePartFlag == true) {
 							if (this.getView().getModel("HeadSetData").getProperty("/RepairAmount") == "" || this.getView().getModel("HeadSetData").getProperty(
@@ -1949,10 +1959,10 @@ sap.ui.define([
 						}
 						// this.obj.zc_itemSet.results[0].ItemKey;
 
-					} else {
-						this.getView().getModel("DateModel").setProperty("/SavePWPartIndicator", false);
-						MessageToast.show("Attachment is required.");
-					}
+					// } else {
+					// 	this.getView().getModel("DateModel").setProperty("/SavePWPartIndicator", false);
+					// 	MessageToast.show("Attachment is required.");
+					// }
 				} else {
 					if (this.addPartFlag == true || this.updatePartFlag == true) {
 
@@ -3255,7 +3265,7 @@ sap.ui.define([
 				this.getView().getModel("multiHeaderConfig").setProperty("/RetainPartV", false);
 				this.getView().getModel("multiHeaderConfig").setProperty("/PartNumberRcV", false);
 				this.getView().getModel("multiHeaderConfig").setProperty("/PartDescriptionOrdRcv", false);
-				this.getView().getModel("multiHeaderConfig").setProperty("/RepairAmtV", true);
+				//	this.getView().getModel("multiHeaderConfig").setProperty("/RepairAmtV", true);
 				this.getView().getModel("multiHeaderConfig").setProperty("/RepAmountCol", true);
 				this.getView().getModel("multiHeaderConfig").setProperty("/PartRepaired", true);
 				this.getView().getModel("multiHeaderConfig").setProperty("/PartRepCol", true);
@@ -3283,7 +3293,7 @@ sap.ui.define([
 				this.getView().getModel("multiHeaderConfig").setProperty("/RetainPartV", false);
 				this.getView().getModel("multiHeaderConfig").setProperty("/PartNumberRcV", false);
 				this.getView().getModel("multiHeaderConfig").setProperty("/PartDescriptionOrdRcv", false);
-				this.getView().getModel("multiHeaderConfig").setProperty("/RepairAmtV", true);
+				//this.getView().getModel("multiHeaderConfig").setProperty("/RepairAmtV", true);
 				this.getView().getModel("multiHeaderConfig").setProperty("/RepAmountCol", true);
 				this.getView().getModel("multiHeaderConfig").setProperty("/PartRepaired", true);
 				this.getView().getModel("multiHeaderConfig").setProperty("/PartRepCol", true);
@@ -3309,7 +3319,7 @@ sap.ui.define([
 				this.getView().getModel("multiHeaderConfig").setProperty("/RetainPartV", false);
 				this.getView().getModel("multiHeaderConfig").setProperty("/PartNumberRcV", false);
 				this.getView().getModel("multiHeaderConfig").setProperty("/PartDescriptionOrdRcv", false);
-				this.getView().getModel("multiHeaderConfig").setProperty("/RepairAmtV", false);
+				//this.getView().getModel("multiHeaderConfig").setProperty("/RepairAmtV", false);
 				this.getView().getModel("multiHeaderConfig").setProperty("/RepAmountCol", false);
 				this.getView().getModel("multiHeaderConfig").setProperty("/PartRepaired", false);
 				this.getView().getModel("multiHeaderConfig").setProperty("/PartRepCol", false);
@@ -3340,7 +3350,7 @@ sap.ui.define([
 				this.getView().getModel("multiHeaderConfig").setProperty("/RetainPartV", true);
 				this.getView().getModel("multiHeaderConfig").setProperty("/PartNumberRcV", true);
 				this.getView().getModel("multiHeaderConfig").setProperty("/PartDescriptionOrdRcv", true);
-				this.getView().getModel("multiHeaderConfig").setProperty("/RepairAmtV", false);
+				//this.getView().getModel("multiHeaderConfig").setProperty("/RepairAmtV", false);
 				this.getView().getModel("multiHeaderConfig").setProperty("/RepAmountCol", false);
 				this.getView().getModel("multiHeaderConfig").setProperty("/PartRepaired", false);
 				this.getView().getModel("multiHeaderConfig").setProperty("/PartRepCol", false);
@@ -4480,7 +4490,7 @@ sap.ui.define([
 							var enabledIntent = oPartItemData.findIndex(function (item) {
 								return item.DiscreCode == "8A";
 							});
-							
+
 							var oPartDiscDes = oPartItemData.findIndex(function (item) {
 								return item.ALMDiscreDesc == "WINDSHIELD" || item.ALMDiscreDesc == "PARE-BRISE";
 							});
@@ -4491,21 +4501,19 @@ sap.ui.define([
 								return item.FileName == "Letter Of Intent.pdf";
 							});
 
-							if ((enabledIntent > -1 && this.claimType === "ZPDC" && oAttachmentCheck == -1 && oPartDiscDes == -1)  || 
-							(this.claimType == "ZPTS" && oAttachmentCheck == -1)) {
+							if ((enabledIntent > -1 && this.claimType === "ZPDC" && oAttachmentCheck == -1 && oPartDiscDes == -1) ||
+								(this.claimType == "ZPTS" && oAttachmentCheck == -1)) {
 								this.getView().getModel("DateModel").setProperty("/oLetterOfIntent", true);
 								this.getView().getModel("DateModel").setProperty("/SubmitPWBusyIndicator", false);
 								MessageBox.show(oBundle.getText("LOIMandatoryBeforeTCISubmit"), MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK,
 									null, null);
 							} else {
-								
-								if(oPartDiscDes > -1){
+
+								if (oPartDiscDes > -1) {
 									this.getView().getModel("DateModel").setProperty("/oLetterOfIntent", true);
-								}else{
+								} else {
 									this.getView().getModel("DateModel").setProperty("/oLetterOfIntent", false);
 								}
-								
-								
 
 								oClaimModel.refreshSecurityToken();
 								oClaimModel.create("/zc_headSet", this.obj, {
@@ -4893,6 +4901,11 @@ sap.ui.define([
 			this.getView().getModel("HeadSetData").setProperty("/RepairAmount", "");
 			this.getView().getModel("HeadSetData").setProperty("/PartRepaired", "");
 			this.getView().getModel("HeadSetData").setProperty("/PartNumberRc", "");
+			this.getView().getModel("PartDataModel").setProperty("/ALMDiscreDesc", "");
+		},
+		onPressCancelPart: function () {
+
+			this.fnClearLine();
 		},
 
 		onExit: function () {
