@@ -288,7 +288,7 @@ sap.ui.define([
 				claimTypeState2: "None",
 				warrantySubmissionClaim: false,
 				LabourBtnVsbl: true,
-				copyClaimEnable: true,
+				copyClaimEnable: false,
 				authAcClm: false,
 				authRejClm: false,
 				ofpEnabled: true,
@@ -311,7 +311,7 @@ sap.ui.define([
 				oTciQtyAppr: false,
 				oAddPartLine: true,
 				oUpdatePartLine: true,
-				authHide: true,
+				authHide: false,
 				oVisibleURL: "",
 				nonVinHide: true,
 				errorBusyIndicator: false,
@@ -1605,12 +1605,12 @@ sap.ui.define([
 					this.getModel("LocalDataModel").setProperty("/SaveAuthClaim", oBundle.getText("SaveAuth"));
 					this.getModel("LocalDataModel").setProperty("/copyClaimAuthText", oBundle.getText("CopytoClaim"));
 					this.getModel("LocalDataModel").setProperty("/WarrantyClaimNumber", oBundle.getText("TCIAuthNumber"));
-					this.getView().getModel("DateModel").setProperty("/copyClaimEnable", false);
+					//this.getView().getModel("DateModel").setProperty("/copyClaimEnable", false);
 					this.getModel("LocalDataModel").setProperty("/linkToAuth", false);
 
 				} else {
 					this.getModel("LocalDataModel").setProperty("/WarrantyClaimNumber", oBundle.getText("TCIClaimNumber"));
-					this.getView().getModel("DateModel").setProperty("/copyClaimEnable", true);
+					//this.getView().getModel("DateModel").setProperty("/copyClaimEnable", true);
 					this.getModel("LocalDataModel").setProperty("/copyClaimAuthText", oBundle.getText("CopytoAuthorization"));
 					this.getModel("LocalDataModel").setProperty("/SaveAuthClaim", oBundle.getText("SaveClaim"));
 					this.getModel("LocalDataModel").setProperty("/linkToAuth", true);
@@ -3446,6 +3446,15 @@ sap.ui.define([
 								this.getModel("LocalDataModel").setProperty("/ClaimDetails", sdata.results[0]);
 
 								var oPartner = this.getModel("LocalDataModel").getProperty("/ClaimDetails/Partner");
+								var oClaimTypeDetail = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType");
+								
+								if(oClaimTypeDetail != "ZRCR" && oClaimTypeDetail != "ZSCR" && oClaimTypeDetail != "ZSSE" && oClaimTypeDetail != "ZSSM" &&
+								oClaimTypeDetail != "ZWMS"){
+									this.getView().getModel("DateModel").setProperty("/copyClaimEnable", true);
+									this.getView().getModel("DateModel").setProperty("/authHide", true);
+								}else{
+									this.getView().getModel("DateModel").setProperty("/authHide", false);
+								}
 
 								var oBusinessModel = this.getModel("ApiBusinessModel");
 								oBusinessModel.read("/A_BusinessPartner", {
