@@ -684,8 +684,7 @@ sap.ui.define([
 												return item.FileName === "Letter Of Intent.pdf";
 											});
 
-											// var oAttachmentList = this.getModel("LocalDataModel").getProperty("/PartHeadAttachData");
-											// var oAttachmentCheck = oAttachmentList.some((item) => item.FileName == "Letter Of Intent.pdf");
+											
 
 											if (enabledIntent > -1 && this.claimType === "ZPDC" && oAttachmentCheck == -1 || this.claimType == "ZPTS" &&
 												oAttachmentCheck == -1) {
