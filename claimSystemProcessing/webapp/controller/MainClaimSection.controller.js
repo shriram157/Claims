@@ -3997,6 +3997,13 @@ sap.ui.define([
 				oView.byId("idCause"),
 				oView.byId("idCondition")
 			];
+			
+			var aInputSmartPart = [
+				oView.byId("idDealerClaim"),
+				oView.byId("id_Date"),
+				oView.byId("idRepairOrder")
+
+			];
 
 			var bValidationError = false;
 
@@ -4063,6 +4070,9 @@ sap.ui.define([
 			} else if (oClmType == "ZSCR") {
 				oView.byId("idDealerContact").addStyleClass("clNotReq");
 				return aInputs = aInputsArrCoreRet;
+			}else if(oClmType == "ZSSM"){
+				oView.byId("idDealerContact").addStyleClass("clNotReq");
+				return aInputs = aInputSmartPart;
 			}
 
 		},
