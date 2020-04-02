@@ -30,9 +30,7 @@
 					"localUri": "localService/ZDLR_CLAIM_PMP_SRV/metadata.xml"
 				}
 			},
-			
-			
-			
+
 			"API_BUSINESS_PARTNER": {
 				"uri": "/node/API_BUSINESS_PARTNER/",
 				"type": "OData",
@@ -111,95 +109,97 @@
 					"bundleName": "zclaimProcessing.i18n.i18n"
 				}
 			},
-			"": {
-				"uri": "/node/ZDLR_CLAIM_SRV/",
+			"ProssingModel": {
+
 				"type": "sap.ui.model.odata.v2.ODataModel",
-				"settings": {
-					"defaultOperationMode": "Server",
-					"defaultBindingMode": "OneWay",
-					"defaultCountMode": "Request",
-					"headers": {
-						"X-Requested-With": "XMLHttpRequest"
-					}
-				},
 				"dataSource": "ZDLR_CLAIM_SRV",
-				"preload": false
-			},
-			"API_BUSINESS_PARTNER": {
-				"uri": "/node/API_BUSINESS_PARTNER/",
-				"type": "sap.ui.model.odata.v2.ODataModel",
+				"preload": true,
 				"settings": {
 					"defaultOperationMode": "Server",
-					"defaultBindingMode": "OneWay",
-					"defaultCountMode": "Request",
+					"defaultBindingMode": "TwoWay",
+					"useBatch": false,
+					"defaultUpdateMethod": "PUT",
 					"headers": {
 						"X-Requested-With": "XMLHttpRequest"
 					}
-				},
+				}
+			},
+			"ApiBusinessModel": {
+
+				"type": "sap.ui.model.odata.v2.ODataModel",
 				"dataSource": "API_BUSINESS_PARTNER",
-				"preload": false
-			},
-			"Z_VEHICLE_MASTER_SRV": {
-				"uri": "/node/Z_VEHICLE_MASTER_SRV/",
-				"type": "sap.ui.model.odata.v2.ODataModel",
+				"preload": true,
 				"settings": {
 					"defaultOperationMode": "Server",
-					"defaultBindingMode": "OneWay",
 					"defaultCountMode": "Request",
-					"headers": {
-						"X-Requested-With": "XMLHttpRequest"
-					}
-				},
+					"defaultBindingMode": "TwoWay",
+					"defaultUpdateMethod": "PATCH",
+					"useBatch": true
+				}
+			},
+			"ZVehicleMasterModel": {
+
+				"type": "sap.ui.model.odata.v2.ODataModel",
 				"dataSource": "Z_VEHICLE_MASTER_SRV",
-				"preload": false
-			},
-			"ZDLR_CLAIM_PMP_SRV": {
-				"uri": "/node/ZDLR_CLAIM_PMP_SRV/",
-				"type": "sap.ui.model.odata.v2.ODataModel",
+				"preload": true,
 				"settings": {
 					"defaultOperationMode": "Server",
-					"defaultBindingMode": "OneWay",
 					"defaultCountMode": "Request",
-					"headers": {
-						"X-Requested-With": "XMLHttpRequest"
-					}
-				},
+					"defaultBindingMode": "TwoWay",
+					"defaultUpdateMethod": "PATCH",
+					"useBatch": false
+				}
+			},
+			"zDLRCLAIMPMPSRV": {
+				"type": "sap.ui.model.odata.v2.ODataModel",
 				"dataSource": "ZDLR_CLAIM_PMP_SRV",
-				"preload": false
-			},
-			"ECPModel": {
-				"uri": "/node/ZECP_SALES_ODATA_SERVICE_SRV/",
-				"type": "sap.ui.model.odata.v2.ODataModel",
+				"preload": true,
 				"settings": {
 					"defaultOperationMode": "Server",
-					"defaultBindingMode": "OneWay",
 					"defaultCountMode": "Request",
-					"headers": {
-						"X-Requested-With": "XMLHttpRequest"
-					}
-				},
+					"defaultBindingMode": "TwoWay",
+					"useBatch": false
+					
+				}
+			},
+			"EcpSalesModel": {
+				"type": "sap.ui.model.odata.v2.ODataModel",
 				"dataSource": "ZECP_SALES_ODATA_SERVICE_SRV",
-				"preload": true
+				"preload": true,
+				"settings": {
+					"defaultOperationMode": "Server",
+					"defaultCountMode": "Request",
+					"defaultBindingMode": "TwoWay",
+					"useBatch": false
+				}
+			},
+			"ProductMaster": {
+				"type": "sap.ui.model.odata.v2.ODataModel",
+				"dataSource": "MD_PRODUCT_FS_SRV",
+				"preload": true,
+				"settings": {
+					"defaultOperationMode": "Server",
+					"defaultCountMode": "Request",
+					"defaultBindingMode": "TwoWay",
+					"defaultUpdateMethod": "PATCH",
+					"useBatch": true
+				}
 			}
 		},
 		"resources": {
 			"js": [
-			
+
 				{
 					"uri": "libs/moment.js"
-				},
-				{
+				}, {
 					"uri": "utils/formatter.js"
-				},
-				{
+				}, {
 					"uri": "utils/changeFabicon.js"
 				}
 			],
-			"css": [
-				{
-					"uri": "css/style.css"
-				}
-			]
+			"css": [{
+				"uri": "css/style.css"
+			}]
 		},
 		"routing": {
 			"config": {
@@ -211,56 +211,49 @@
 				"controlId": "idAppControl",
 				"clearControlAggregation": false
 			},
-			"routes": [
-				{
-					"name": "SearchClaim",
-					"pattern": "",
-					"target": [
-						"SearchClaim"
-					]
-				},
-				{
-					"name": "NewClaimSelectGroup",
-					"pattern": "NewClaim",
-					"target": [
-						"NewClaimSelectGroup"
-					]
-				},
-				{
-					"name": "MainClaimSection",
-					"pattern": "MainClaim/{claimNum}/{oKey}/{oClaimGroup}/{oClaimNav}",
-					"target": [
-						"MainClaimSection"
-					]
-				},{
-					"name": "PMPMainSection",
-					"pattern": "PMPMain/{claimNum}/{oKey}/{oClaimGroup}/{oClaimNav}",
-					"target": [
-						"PMPMainSection"
-					]
-				},
-				{
-					"name": "PartsMainSection",
-					"pattern": "PartsMain/{claimNum}/{oKey}/{oClaimGroup}/{oClaimNav}",
-					"target": [
-						"PartsMainSection"
-					]
-				},
-				{
-					"name": "QueryCoverageTools",
-					"pattern": "QueryCoverage",
-					"target": [
-						"QueryCoverageTools"
-					]
-				},
-				{
-					"name": "ClaimInquiry",
-					"pattern": "Inquiry",
-					"target": [
-						"ClaimInquiry"
-					]
-				}
-			],
+			"routes": [{
+				"name": "SearchClaim",
+				"pattern": "",
+				"target": [
+					"SearchClaim"
+				]
+			}, {
+				"name": "NewClaimSelectGroup",
+				"pattern": "NewClaim",
+				"target": [
+					"NewClaimSelectGroup"
+				]
+			}, {
+				"name": "MainClaimSection",
+				"pattern": "MainClaim/{claimNum}/{oKey}/{oClaimGroup}/{oClaimNav}",
+				"target": [
+					"MainClaimSection"
+				]
+			}, {
+				"name": "PMPMainSection",
+				"pattern": "PMPMain/{claimNum}/{oKey}/{oClaimGroup}/{oClaimNav}",
+				"target": [
+					"PMPMainSection"
+				]
+			}, {
+				"name": "PartsMainSection",
+				"pattern": "PartsMain/{claimNum}/{oKey}/{oClaimGroup}/{oClaimNav}",
+				"target": [
+					"PartsMainSection"
+				]
+			}, {
+				"name": "QueryCoverageTools",
+				"pattern": "QueryCoverage",
+				"target": [
+					"QueryCoverageTools"
+				]
+			}, {
+				"name": "ClaimInquiry",
+				"pattern": "Inquiry",
+				"target": [
+					"ClaimInquiry"
+				]
+			}],
 			"targets": {
 				"SearchClaim": {
 					"viewType": "XML",
@@ -292,7 +285,7 @@
 					"controlId": "idAppControl",
 					"clearControlAggregation": false
 				},
-				
+
 				"PartsMainSection": {
 					"viewType": "XML",
 					"viewName": "PartsMainSection"

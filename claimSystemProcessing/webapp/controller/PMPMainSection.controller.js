@@ -546,24 +546,12 @@ sap.ui.define([
 				}
 			})
 
-			// 			if (oStatus == "ZTIC") {
-			// 				this.getModel("LocalDataModel").setProperty("/StatusDes", "Incomplete");
-			// 			} else if (oStatus == "ZTCD") {
-			// 				this.getModel("LocalDataModel").setProperty("/StatusDes", "Cancelled by Dealer");
-			// 			} else if (oStatus == "ZTRC") {
-			// 				this.getModel("LocalDataModel").setProperty("/StatusDes", "Returned to Dealer");
-			// 			} else if (oStatus == "ZTSM") {
-			// 				this.getModel("LocalDataModel").setProperty("/StatusDes", "Submitted to TCI");
-			// 			} else if (oStatus == "ZTAC") {
-			// 				this.getModel("LocalDataModel").setProperty("/StatusDes", "Accepted");
-			// 			} else if (oStatus == "ZTPD") {
-			// 				this.getModel("LocalDataModel").setProperty("/StatusDes", "Paid to Dealer");
-			// 			}
+		
 		},
 
 		_fnClaimSum: function (e) {
 			var oClaimModel = this.getModel("zDLRCLAIMPMPSRV");
-			oClaimModel.read("/ZC_CLAIM_SUM(p_clmno='" + this.getView().getModel("HeadSetData").getProperty("/NumberOfWarrantyClaim") +
+			oClaimModel.read("/ZC_CLAIM_SUM('" + this.getView().getModel("HeadSetData").getProperty("/NumberOfWarrantyClaim") +
 				"')/Set", {
 					success: $.proxy(function (data) {
 

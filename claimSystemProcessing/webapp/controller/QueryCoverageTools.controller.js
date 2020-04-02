@@ -281,6 +281,7 @@ sap.ui.define([
 			var oProssingModel = this.getModel("ProssingModel");
 			if (oVin != "" && this.getView().getModel("LocalDataModel").getProperty("/oVinDetisl/0/Message") != "Invalid VIN Number" &&
 				this.getView().byId('Odometer').getValue() != "") {
+				this.getView().byId("idMainClaimMessage").setProperty("visible", false);
 				oProssingModel.read("/zc_cliam_agreement", {
 					urlParameters: {
 						"$filter": "VIN eq '" + oVin + "'"
@@ -348,6 +349,9 @@ sap.ui.define([
 				});
 
 			} else {
+				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+				this.getView().byId("idMainClaimMessage").setText(Bundle.getText("FillUpMandatoryField"));
+				this.getView().byId("idMainClaimMessage").setType("Error");
 				this.getModel("LocalDataModel").setProperty("/AgreementDataECP", "");
 				this.getModel("LocalDataModel").setProperty("/DataVinDetails", "");
 				this.getModel("LocalDataModel").setProperty("/DataSpecialHandlingSet", "");

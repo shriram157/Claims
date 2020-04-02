@@ -1,94 +1,17 @@
 <core:FragmentDefinition xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:u="sap.ui.unified" xmlns:l="sap.ui.layout"
 	xmlns="sap.m" xmlns:table="sap.ui.table">
-	<VBox class="sapUiSmallMargin clFormTitleGap partsOnly" busy="{DateModel>/SubmitPWBusyIndicator}">
-		<table:Table class="classRCPTable" selectionMode="Single" rows="{path:'LocalDataModel>/ClaimSum'}" id="idPartstb2" visibleRowCount="5"
-			rowSelectionChange="onNavigate" selectionBehavior="Row" showNoData="true" threshold="5" enableBusyIndicator="true">
-			<table:toolbar>
-				<Toolbar>
-					<Title text="{i18n>ClaimAmountSummary}" level="H2"/>
+	<VBox class="sapUiSmallMargin clFormTitleGap">
+		<Panel width="auto" class="sapUiSmallMarginBottom" accessibleRole="Region">
+	<headerToolbar>
+				<Toolbar height="3rem">
+					<Title text="{i18n>PartsDetails}"/>
 					<ToolbarSpacer/>
-					<!--<Button tooltip="View Settings" icon="sap-icon://drop-down-list" press="handleViewSettingsDialogButtonPressed"/>-->
+					<Title text="{i18n>TCIClaimNumber}: {HeadSetData>/NumberOfWarrantyClaim}" textAlign="End"/>
 				</Toolbar>
-			</table:toolbar>
-			<table:columns autoResizable="true">
-				<table:Column width="17rem">
-					<table:multiLabels>
-						<Label text="{i18n>Totalsincludedmarkupdiscounts}" textAlign="Center" width="100%"/>
-					</table:multiLabels>
-					<table:template>
-						<Text text="{path:'LocalDataModel>ItemType', formatter: 'zclaimProcessing.utils.formatter.fnFormatText'}" wrapping="false"/>
-					</table:template>
-				</table:Column>
-				<table:Column width="11rem">
-					<table:multiLabels>
-						<Label text="{i18n>DealerClaimedAmount}" textAlign="Center" width="100%"/>
-					</table:multiLabels>
-					<table:template>
-						<Text text="{path: 'LocalDataModel>DealerClaim', formatter: 'zclaimProcessing.utils.formatter.roundedDecimals'}" wrapping="false"/>
-					</table:template>
-				</table:Column>
-				<table:Column width="11rem">
-					<table:multiLabels>
-						<Label text="{i18n>TCIApprovedAmount}" textAlign="Center" width="100%"/>
-					</table:multiLabels>
-					<table:template>
-						<Text text="{path: 'LocalDataModel>TCIAppr', formatter: 'zclaimProcessing.utils.formatter.roundedDecimals'}" wrapping="false"/>
-					</table:template>
-				</table:Column>
-				<table:Column width="11rem">
-					<table:multiLabels>
-						<Label text="{LocalDataModel>DifferenceCAD}" textAlign="Center" width="100%"/>
-					</table:multiLabels>
-					<table:template>
-						<Text text="{path: 'LocalDataModel>Diff', formatter: 'zclaimProcessing.utils.formatter.roundedDecimals'}" wrapping="false"/>
-					</table:template>
-				</table:Column>
-				<table:Column width="8rem" headerSpan="{multiHeaderConfig>/multiheader2}">
-					<table:multiLabels>
-						<Label text="{i18n>GSTHST}" textAlign="Center" width="100%"/>
-						<Label text="{i18n>Amount}" textAlign="Center" width="100%"/>
-					</table:multiLabels>
-					<table:template>
-						<Text text="{path: 'LocalDataModel>GSTHSTAmt', formatter: 'zclaimProcessing.utils.formatter.roundedDecimals'}" wrapping="false"/>
-					</table:template>
-				</table:Column>
-				<table:Column width="8rem">
-					<table:multiLabels>
-						<Label text="{i18n>GSTHST}" textAlign="Center" width="100%"/>
-						<Label text="{i18n>Tax}" textAlign="Center" width="100%"/>
-					</table:multiLabels>
-					<table:template>
-						<Text text="{LocalDataModel>GSTHSTRate}" wrapping="false"/>
-					</table:template>
-				</table:Column>
-				<table:Column width="8rem" headerSpan="{multiHeaderConfig>/multiheader2}">
-					<table:multiLabels>
-						<Label text="{i18n>PSTQST}" textAlign="Center" width="100%"/>
-						<Label text="{i18n>Amount}" textAlign="Center" width="100%"/>
-					</table:multiLabels>
-					<table:template>
-						<Text text="{path: 'LocalDataModel>PSTQSTAmt', formatter: 'zclaimProcessing.utils.formatter.roundedDecimals'}" wrapping="false"/>
-					</table:template>
-				</table:Column>
-				<table:Column width="8rem">
-					<table:multiLabels>
-						<Label text="{i18n>PSTQST}" textAlign="Center" width="100%"/>
-						<Label text="{i18n>Tax}" textAlign="Center" width="100%"/>
-					</table:multiLabels>
-					<table:template>
-						<Text text="{LocalDataModel>PSTQSTRate}" wrapping="false"/>
-					</table:template>
-				</table:Column>
-				<table:Column width="17rem">
-					<table:multiLabels>
-						<Label text="{i18n>TCIApprovedAmountIncludingTax}" textAlign="Center" width="100%"/>
-					</table:multiLabels>
-					<table:template>
-						<Text text="{path: 'LocalDataModel>TCIApprInclTax', formatter: 'zclaimProcessing.utils.formatter.roundedDecimals'}" wrapping="false"/>
-					</table:template>
-				</table:Column>
-			</table:columns>
-		</table:Table>
+			</headerToolbar>
+			
+	<VBox class="sapUiSmallMargin clFormTitleGap partsOnly" busy="{DateModel>/SubmitPWBusyIndicator}">
+		<core:Fragment fragmentName="zclaimProcessing.view.fragments.WarrantyPartClaimAmountSummery" type="XML"/>
 		<!--path: 'LocalDataModel>TCIApprInclTax', formatter: 'zclaimProcessing.utils.formatter.roundedDecimals'-->
 		<List headerText="{i18n>Validations}" items="{ path: 'LocalDataModel>/oErrorSet' }">
 			<CustomListItem>
@@ -111,5 +34,7 @@
 			<Button class="sapUiTinyMarginBeginEnd" press="onRevalidate" text="{i18n>SaveClaim}" enabled="{DateModel>/SaveClaim07}"/>
 			<Button class="sapUiTinyMarginBeginEnd" press="onSubmitTci" text="{i18n>SubmitToTCI}" type="Emphasized" enabled="{DateModel>/submitTCIBtn}"/>
 		</HBox>
+	</VBox>
+	</Panel>
 	</VBox>
 </core:FragmentDefinition>
