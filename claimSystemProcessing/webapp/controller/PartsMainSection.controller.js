@@ -4418,11 +4418,11 @@ sap.ui.define([
 
 		},
 		onRevalidate: function () {
-			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
+			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var that = this;
 			var oClaimModel = this.getModel("ProssingModel");
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
-			this.obj.Message = "";
+			
 			this.obj.DBOperation = "SAVE";
 			this.obj.NumberOfWarrantyClaim = oClaimNum;
 
@@ -4438,7 +4438,7 @@ sap.ui.define([
 				}, this),
 				error: $.proxy(function () {
 					this.getView().getModel("DateModel").setProperty("/SavePWClaimIndicator", false);
-					MessageToast.show(that.oBundle.getText("ClaimNotSavedMSG"));
+					MessageToast.show(oBundle.getText("ClaimNotSavedMSG"));
 				}, this)
 			});
 
