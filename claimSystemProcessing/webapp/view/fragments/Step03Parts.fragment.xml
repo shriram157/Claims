@@ -293,7 +293,7 @@
 							<Text text="{LocalDataModel>PartRepaired}"/>
 							<Text text="{path: 'LocalDataModel>RepairAmt', formatter: 'zclaimProcessing.utils.formatter.roundedDecimals'}"/>
 							<Text text="{path: 'LocalDataModel>AmtClaimed', formatter: 'zclaimProcessing.utils.formatter.roundedDecimals'}"/>
-							<Link visible="{multiHeaderConfig>/AttachmentCol}" press="onClickURIParts" href="{LocalDataModel>URI}" text="{i18n>viewattachment}"
+							<Link visible="{multiHeaderConfig>/AttachmentCol}" press="onClickURIPart" href="{LocalDataModel>URI}" text="{i18n>viewattachment}"
 								target="_blank" textAlign="Center" width="100%"/>
 							<!--<Text text="{LocalDataModel>URI}"/>-->
 							<Text text="{path: 'LocalDataModel>TCIApprovedAmount', formatter: 'zclaimProcessing.utils.formatter.roundedDecimals'}"/>

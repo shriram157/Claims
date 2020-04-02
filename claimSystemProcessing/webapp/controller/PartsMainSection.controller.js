@@ -2267,17 +2267,17 @@ sap.ui.define([
 			}
 		},
 
-		onClickURIParts: function (oEvent) {
-			// if (!this._oPopover) {
-			// 	this._oPopover = sap.ui.xmlfragment("zclaimProcessing.view.fragments.partsViewAttachment", this);
-			// 	this.getView().addDependent(this._oPopover);
-			// 	this._oPopover.setModel(this.getModel("LocalDataModel"), "LocalDataModel"); 
-			// 	// this._oPopover.setModel("LocalDataModel");
-			// }
+		// onClickURIParts: function (oEvent) {
+		// 	// if (!this._oPopover) {
+		// 	// 	this._oPopover = sap.ui.xmlfragment("zclaimProcessing.view.fragments.partsViewAttachment", this);
+		// 	// 	this.getView().addDependent(this._oPopover);
+		// 	// 	this._oPopover.setModel(this.getModel("LocalDataModel"), "LocalDataModel"); 
+		// 	// 	// this._oPopover.setModel("LocalDataModel");
+		// 	// }
 
-			// this._oPopover.openBy(oEvent.getSource());
+		// 	// this._oPopover.openBy(oEvent.getSource());
 
-		},
+		// },
 		// pressCloseAttachment: function (oEvent) {
 		// 	this._oPopover.close();
 		// 	// if (this._oPopover) {
@@ -4688,6 +4688,16 @@ sap.ui.define([
 				this.getView().byId("mainSectionTitle").setTitle(this.oBundle.getText("ValidatePartsSection"));
 			} else {
 				this.getView().byId("mainSectionTitle").setTitle(this.oBundle.getText("MainSection"));
+			}
+		},
+		
+		onClickURIPart: function (oEvent) {
+			var oBundle = this.getView().getModel("i18n").getResourceBundle();
+			if (oEvent.getSource().getHref() == "") {
+				MessageToast.show(oBundle.getText("Noattachmentsexists"), {
+					my: "center center",
+					at: "center center"
+				});
 			}
 		},
 
