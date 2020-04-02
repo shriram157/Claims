@@ -7788,7 +7788,7 @@ sap.ui.define([
 				this.getView().getModel("HeadSetData").setProperty("/DmgTypeCode", oDmgTypeCode);
 				this.getView().getModel("HeadSetData").setProperty("/DmgSevrCode", oDmgSevrCode);
 
-				this.getView().getModel("DateModel").setProperty("/subletLine", true);
+				this.getView().getModel("DateModel").setProperty("/damageLine", true);
 
 				var oIndex = parseInt(oTable._aSelectedPaths.toString().split("/")[2]);
 				this.obj.zc_claim_item_damageSet.results.splice(oIndex, 1);

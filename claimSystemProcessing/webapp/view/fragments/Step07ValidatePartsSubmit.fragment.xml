@@ -1,5 +1,15 @@
 <core:FragmentDefinition xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:u="sap.ui.unified" xmlns:l="sap.ui.layout"
 	xmlns="sap.m" xmlns:table="sap.ui.table">
+	<VBox class="sapUiSmallMargin clFormTitleGap">
+		<Panel width="auto" class="sapUiSmallMarginBottom" accessibleRole="Region">
+	<headerToolbar>
+				<Toolbar height="3rem">
+					<Title text="{i18n>PartsDetails}"/>
+					<ToolbarSpacer/>
+					<Title text="{i18n>TCIClaimNumber}: {HeadSetData>/NumberOfWarrantyClaim}" textAlign="End"/>
+				</Toolbar>
+			</headerToolbar>
+			
 	<VBox class="sapUiSmallMargin clFormTitleGap partsOnly" busy="{DateModel>/SubmitPWBusyIndicator}">
 		<core:Fragment fragmentName="zclaimProcessing.view.fragments.WarrantyPartClaimAmountSummery" type="XML"/>
 		<!--path: 'LocalDataModel>TCIApprInclTax', formatter: 'zclaimProcessing.utils.formatter.roundedDecimals'-->
@@ -24,5 +34,7 @@
 			<Button class="sapUiTinyMarginBeginEnd" press="onRevalidate" text="{i18n>SaveClaim}" enabled="{DateModel>/SaveClaim07}"/>
 			<Button class="sapUiTinyMarginBeginEnd" press="onSubmitTci" text="{i18n>SubmitToTCI}" type="Emphasized" enabled="{DateModel>/submitTCIBtn}"/>
 		</HBox>
+	</VBox>
+	</Panel>
 	</VBox>
 </core:FragmentDefinition>
