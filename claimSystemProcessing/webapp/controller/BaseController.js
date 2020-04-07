@@ -58,6 +58,53 @@ sap.ui.define([
 		},
 
 		getDealer: function () {
+			var that = this;
+			this.getUser();
+
+			// get the attributes and BP Details - Minakshi to confirm if BP details needed	
+			$.ajax({
+				url: this.sPrefix + this.attributeUrl,
+				type: "GET",
+				dataType: "json",
+
+				success: function (oData) {
+					console.log(oData);
+					var BpDealer = [];
+					var userAttributes = [];
+					that.getModel("LocalDataModel").setProperty("/LoginId", oData.userProfile.id);
+					$.each(oData.attributes, function (i, item) {
+						var BpLength = item.BusinessPartner.length;
+
+						BpDealer.push({
+							"BusinessPartnerKey": item.BusinessPartnerKey,
+							"BusinessPartner": item.BusinessPartner, //.substring(5, BpLength),
+							"BusinessPartnerName": item.BusinessPartnerName, //item.OrganizationBPName1 //item.BusinessPartnerFullName
+							"Division": item.Division,
+							"BusinessPartnerType": item.BusinessPartnerType,
+							"searchTermReceivedDealerName": item.SearchTerm2
+						});
+
+					});
+					that.getModel("LocalDataModel").setProperty("/BpDealerModel", BpDealer);
+					//that.getModel("LocalDataModel").setProperty("/BpDealerKey", BpDealer[0].BusinessPartnerKey);
+					//that.getView().setModel(new sap.ui.model.json.JSONModel(BpDealer), "BpDealerModel");
+					// read the saml attachments the same way 
+
+				}.bind(this),
+				error: function (response) {
+					sap.ui.core.BusyIndicator.hide();
+				}
+			}).done(function (data, textStatus, jqXHR) {
+
+				that.getModel("LocalDataModel").setProperty("/BPDealerDetails", data.attributes[0]);
+				that.getModel("LocalDataModel").setProperty("/LoginId", data.userProfile.id);
+
+			});
+
+		},
+
+		getUser: function () {
+
 			var sLocation = window.location.host;
 			var sLocation_conf = sLocation.search("webide");
 			if (sLocation_conf == 0) {
@@ -96,6 +143,7 @@ sap.ui.define([
 				success: function (oData) {
 					var userType = oData.loggedUserType[0];
 					//var userType = "Dealer_Parts_Admin";
+					//var userType = "TCI_Admin";
 					//var userType = "Dealer_Parts_Services_Admin";
 					sap.ui.getCore().getModel("UserDataModel").setProperty("/LoggedInUser", userType);
 					sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "");
@@ -233,80 +281,7 @@ sap.ui.define([
 					console.log(err);
 				}
 			});
-
-			// get the attributes and BP Details - Minakshi to confirm if BP details needed	
-			$.ajax({
-				url: this.sPrefix + this.attributeUrl,
-				type: "GET",
-				dataType: "json",
-
-				success: function (oData) {
-					console.log(oData);
-					var BpDealer = [];
-					var userAttributes = [];
-					that.getModel("LocalDataModel").setProperty("/LoginId", oData.userProfile.id);
-					$.each(oData.attributes, function (i, item) {
-						var BpLength = item.BusinessPartner.length;
-
-						BpDealer.push({
-							"BusinessPartnerKey": item.BusinessPartnerKey,
-							"BusinessPartner": item.BusinessPartner, //.substring(5, BpLength),
-							"BusinessPartnerName": item.BusinessPartnerName, //item.OrganizationBPName1 //item.BusinessPartnerFullName
-							"Division": item.Division,
-							"BusinessPartnerType": item.BusinessPartnerType,
-							"searchTermReceivedDealerName": item.SearchTerm2
-						});
-
-					});
-					that.getModel("LocalDataModel").setProperty("/BpDealerModel", BpDealer);
-					//that.getModel("LocalDataModel").setProperty("/BpDealerKey", BpDealer[0].BusinessPartnerKey);
-					//that.getView().setModel(new sap.ui.model.json.JSONModel(BpDealer), "BpDealerModel");
-					// read the saml attachments the same way 
-
-				}.bind(this),
-				error: function (response) {
-					sap.ui.core.BusyIndicator.hide();
-				}
-			}).done(function (data, textStatus, jqXHR) {
-
-				that.getModel("LocalDataModel").setProperty("/BPDealerDetails", data.attributes[0]);
-				that.getModel("LocalDataModel").setProperty("/LoginId", data.userProfile.id);
-
-			});
-
 		},
-		// 		onPressAddPart: function () {
-		// 			this.getView().getModel("PartDataModel").setProperty("/matnr", "");
-		// 			this.getView().getModel("PartDataModel").setProperty("/quant", "");
-		// 			this.getView().getModel("PartDataModel").setProperty("/PartDescription", "");
-		// 			this.getView().getModel("LocalDataModel").setProperty("/BaseUnit", "");
-
-		// 			var oTable = this.getView().byId("idTableParts");
-		// 			oTable.removeSelections("true");
-		// 			this.getView().getModel("DateModel").setProperty("/partLine", true);
-		// 			this.getView().getModel("DateModel").setProperty("/editablePartNumber", true);
-
-		// 			var sSelectedLocale;
-		// 			var sDivision;
-
-		// 			var isDivisionSent = window.location.search.match(/Division=([^&]*)/i);
-		// 			if (isDivisionSent) {
-		// 				sDivision = window.location.search.match(/Division=([^&]*)/i)[1];
-		// 			} else {
-		// 				sDivision = 10;
-		// 			}
-		// 			//  get the locale to determine the language.
-		// 			var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
-		// 			if (isLocaleSent) {
-		// 				sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
-		// 			} else {
-		// 				sSelectedLocale = "en"; // default is english
-		// 			}
-		// 			var oClaimModel = this.getModel("ProssingModel");
-		// 			var productModel = this.getModel("ProductMaster");
-
-		// 		},
-
 		getOnlyDealer: function () {
 			var that = this;
 			var sLocation = window.location.host;
@@ -365,9 +340,7 @@ sap.ui.define([
 						}, this)
 					});
 
-					//that.getModel("LocalDataModel").setProperty("/BpDealerKey", BpDealer[0].BusinessPartnerKey);
-					//that.getView().setModel(new sap.ui.model.json.JSONModel(BpDealer), "BpDealerModel");
-					// read the saml attachments the same way 
+				
 
 				}.bind(this),
 				error: function (response) {
@@ -465,8 +438,6 @@ sap.ui.define([
 				at: "center center"
 			});
 		}
-		
-		
 
 	});
 });

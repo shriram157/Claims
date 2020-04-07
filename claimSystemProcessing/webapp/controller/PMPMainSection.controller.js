@@ -28,10 +28,11 @@ sap.ui.define([
 		 */
 
 		onInit: function () {
-
+			this.getUser();
 			this.getOnlyDealer();
 			this.setModel(this.getModel("ProssingModel"));
 			this.setModel(this.getModel("ProductMaster"), "ProductMasterModel");
+			sap.ui.getCore().getModel("UserDataModel").getProperty("/UserScope");
 			var partData = new sap.ui.model.json.JSONModel({
 				"matnr": "",
 				"quant": "",
@@ -100,13 +101,13 @@ sap.ui.define([
 
 		_onRoutMatched: function (oEvent) {
 			var that = this;
-			setTimeout(function(){
-					if(that.fnReturnLanguage() == "FR"){
-						$(".clDatePicker .sapUiIconPointer").attr('title', "Ouvrir le sélecteur");
-					}else{
-						$(".clDatePicker .sapUiIconPointer").attr('title', "Open Picker");
-					}
-					
+			setTimeout(function () {
+				if (that.fnReturnLanguage() == "FR") {
+					$(".clDatePicker .sapUiIconPointer").attr('title', "Ouvrir le sélecteur");
+				} else {
+					$(".clDatePicker .sapUiIconPointer").attr('title', "Open Picker");
+				}
+
 			}, 3000);
 			var oValidator = new Validator();
 			oValidator.validate("");
@@ -221,13 +222,27 @@ sap.ui.define([
 							this.getModel("LocalDataModel").setProperty("/addEnbAutoCom", true);
 						}
 
-						if (sdata.results[0].DecisionCode == "ZTIC" || sdata.results[0].DecisionCode == "ZTRC") {
+						if (
+							sdata.results[0].DecisionCode == "ZTRC" &&
+							sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") == "Dealer_Parts_Admin" ||
+							sdata.results[0].DecisionCode == "ZTIC" && sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") ==
+							"Dealer_Parts_Admin" ||
+							sdata.results[0].DecisionCode == "ZTRC" &&
+							sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") == "Dealer_Parts_Services_Admin" ||
+							sdata.results[0].DecisionCode == "ZTIC" && sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") ==
+							"Dealer_Parts_Services_Admin"
+
+						) {
 							this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
 							this.getView().getModel("DateModel").setProperty("/SaveClaim07", true);
 							this.getModel("LocalDataModel").setProperty("/CancelEnable", true);
 							this.getView().getModel("DateModel").setProperty("/claimEditSt", true);
 							this.getView().getModel("DateModel").setProperty("/updateEnable", true);
 							this.getModel("LocalDataModel").setProperty("/UploadEnable", true);
+							this.getView().getModel("DateModel").setProperty("/submitTCIBtn", true);
+
+							this.getModel("LocalDataModel").setProperty("/FeedEnabled", true);
+
 						} else {
 							this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
 							this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
@@ -235,6 +250,8 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/claimEditSt", false);
 							this.getView().getModel("DateModel").setProperty("/updateEnable", false);
 							this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
+							this.getView().getModel("DateModel").setProperty("/submitTCIBtn", false);
+							this.getModel("LocalDataModel").setProperty("/FeedEnabled", false);
 
 						}
 
@@ -272,7 +289,7 @@ sap.ui.define([
 						oPMPModel.read("/zc_claim_attachmentsSet", {
 							urlParameters: {
 								// "$filter": "NumberOfWarrantyClaim eq '" + oClaim + "'"
-								"$filter": "NumberOfWarrantyClaim eq '" + oClaim + "'"
+								"$filter": "NumberOfWarrantyClaim eq '" + oClaim + "'and AttachLevel eq 'HEAD' and FileName  eq ''"
 							},
 							success: $.proxy(function (odata) {
 
@@ -546,7 +563,6 @@ sap.ui.define([
 				}
 			})
 
-		
 		},
 
 		_fnClaimSum: function (e) {
@@ -2319,16 +2335,14 @@ sap.ui.define([
 		 * (NOT before the first rendering! onInit() is used for that one!).
 		 * @memberOf zclaimProcessing.view.PMPMainSection
 		 */
-		
+
 		/**
 		 * Called when the View has been rendered (so its HTML is part of the document). Post-rendering manipulations of the HTML could be done here.
 		 * This hook is the same one that SAPUI5 controls get after being rendered.
 		 * @memberOf zclaimProcessing.view.PMPMainSection
 		 */
 		onAfterRendering: function () {
-			
-		
-		
+
 		}
 
 		/**
