@@ -425,6 +425,7 @@ sap.ui.define([
 				if(oGroupDescription == "ZSSM"){
 						this.getView().getModel("DateModel").setProperty("/oRepOrdReq", false);
 						this.getView().getModel("DateModel").setProperty("/oRepOrdDateReq", false);
+						this.getView().byId("idRepairOrder").setValueState("None");
 				}
 				if (oClaimSelectedGroup == "Authorization" || oGroupDescription == "ZGGW" || oGroupDescription == "ZWP1") {
 					if (oClaimSelectedGroup == "Authorization") {
@@ -4082,6 +4083,7 @@ sap.ui.define([
 				return aInputs = aInputsArrCoreRet;
 			} else if (oClmType == "ZSSM") {
 				oView.byId("idDealerContact").addStyleClass("clNotReq");
+				oView.byId("idRepairOrder").addStyleClass("clNotReq");
 				return aInputs = aInputSmartPart;
 			}
 
@@ -4393,6 +4395,7 @@ sap.ui.define([
 										at: "center center"
 									});
 							} else {
+								this.getView().byId("idRepairOrder").setValueState("None");
 								this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", true);
 								this.getView().byId("idMainClaimMessage").setProperty("visible", false);
 								this.getView().byId("idMainClaimMessage").setText("");

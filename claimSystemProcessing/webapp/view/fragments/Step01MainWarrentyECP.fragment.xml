@@ -103,7 +103,7 @@
 				<core:Title text=""/>
 				<Label text="{i18n>RepairOrder}"/>
 				<Input required="{DateModel>/oRepOrdReq}" maxLength="10"
-					value="{path:'HeadSetData>/RepairOrderNumberExternal', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 10 }}"
+					value="{path:'HeadSetData>/RepairOrderNumberExternal', type : 'sap.ui.model.type.String', constraints : { minLength : 2, maxLength : 10 }}"
 					id="idRepairOrder" editable="{DateModel>/oFormEdit}" visible="{DateModel>/oVisibleReOrder}"/>
 				<Label text="{i18n>ROOdometer}"/>
 				<custom:CustomInput maxLength="6" enabled="{DateModel>/oOdoEnabled}"
