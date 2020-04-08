@@ -1217,7 +1217,7 @@ sap.ui.define([
 		_fnMatrixControl: function () {
 			var oControl = new DistanceMatrix({
 				origin: this.getModel("LocalDataModel").getProperty("/dealerPostalCode"),
-				destination: this.getView().byId("postal_code").getValue(),
+				destination: this.getView().byId("postal_code").getValue().toUpperCase(),
 				key: "AIzaSyAz7irkOJQ4ydE2dHYrg868QV5jUQ-5FaY",
 
 			});
@@ -1872,8 +1872,11 @@ sap.ui.define([
 			// 			console.log(this.getView().byId("idPostalDistInput").getText());
 
 			// 			this.getView().getModel("DateModel").setProperty("/lableVisible", true);
+			
+			var oPostalCodeVal = oEvent.getSource().getValue().toUpperCase();
+			this.getView().getModel("HeadSetData").setProperty("/CompetitorPost", oPostalCodeVal);
 
-			var getText = this.isValidPostalCode(oEvent.getSource().getValue(), "CA");
+			var getText = this.isValidPostalCode(oPostalCodeVal, "CA");
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			if (!getText) {
 				this.getView().getModel("HeadSetData").setProperty("/CompetitorPost", "");
