@@ -324,7 +324,9 @@ sap.ui.define([
 				RadioSelectedOFP: false,
 				NameOfPersonRespWhoChangedObj: "",
 				ShipmentVisible: false,
-				oECPfields: false
+				oECPfields: false,
+				oRepOrdDateReq : true,
+				oRepOrdReq :true
 			});
 			this.getView().setModel(oDateModel, "DateModel");
 			this.getModel("LocalDataModel").setProperty("/SubletAtchmentData", []);
@@ -420,6 +422,11 @@ sap.ui.define([
 
 				var clmNumAuth;
 				var clmAuthNum;
+				if(oGroupDescription == "ZSSM"){
+						this.getView().getModel("DateModel").setProperty("/oRepOrdReq", false);
+						this.getView().getModel("DateModel").setProperty("/oRepOrdDateReq", false);
+						this.getView().byId("idRepairOrder").setValueState("None");
+				}
 				if (oClaimSelectedGroup == "Authorization" || oGroupDescription == "ZGGW" || oGroupDescription == "ZWP1") {
 					if (oClaimSelectedGroup == "Authorization") {
 						clmNumAuth = "AuthorizationNumber";
@@ -454,6 +461,7 @@ sap.ui.define([
 						this.getView().byId("idAuthorizationForm").setProperty("visible", true);
 						this.getView().byId("idPricingOptP1").setSelectedIndex(0);
 					}
+					
 
 					this.getModel("LocalDataModel").setProperty("/linkToAuth", false);
 					this.getModel("LocalDataModel").setProperty("/reCalculate", true);
@@ -4005,9 +4013,7 @@ sap.ui.define([
 
 			var aInputSmartPart = [
 				oView.byId("idDealerClaim"),
-				oView.byId("id_Date"),
-				oView.byId("idRepairOrder")
-
+			
 			];
 
 			var bValidationError = false;
@@ -4077,6 +4083,7 @@ sap.ui.define([
 				return aInputs = aInputsArrCoreRet;
 			} else if (oClmType == "ZSSM") {
 				oView.byId("idDealerContact").addStyleClass("clNotReq");
+				oView.byId("idRepairOrder").addStyleClass("clNotReq");
 				return aInputs = aInputSmartPart;
 			}
 
@@ -4388,6 +4395,7 @@ sap.ui.define([
 										at: "center center"
 									});
 							} else {
+								this.getView().byId("idRepairOrder").setValueState("None");
 								this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", true);
 								this.getView().byId("idMainClaimMessage").setProperty("visible", false);
 								this.getView().byId("idMainClaimMessage").setText("");
@@ -5017,7 +5025,7 @@ sap.ui.define([
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 
-			var oPMPModel = this.getModel("zDLRCLAIMPMPSRV");
+			var oPMPModel = this.getModel("ProssingModel");
 
 			var oFileName = oEvent.getSource().getFileName();
 
@@ -5733,25 +5741,26 @@ sap.ui.define([
 									var oPartPer = parseInt(sdata.results[0].PartPer).toString();
 									var oLabourPer = parseInt(sdata.results[0].LabourPer).toString();
 									var oSubletPer = parseInt(sdata.results[0].SubletPer).toString();
+									var oGroupDescription = this.getModel("LocalDataModel").getProperty("/GroupDescriptionName");
+									//this._fncheckClaimWithZGGW(oPartPer, oLabourPer, oSubletPer);
 
-									this._fncheckClaimWithZGGW(oPartPer, oLabourPer, oSubletPer);
-									// 	if (oClaimSelectedGroup == "Claim") {
-									// 		if (oPartPer != "0" || oLabourPer != "0" || oSubletPer != "0") {
-									// 			this.getView().byId("idPricingOpt").setSelectedIndex(1);
-									// 			this.getView().byId("idParticiaptionTable").setProperty("visible", false);
-									// 			this.getView().byId("idDiscountTable").setProperty("visible", true);
-									// 		} else {
-									// 			this.getView().byId("idPricingOpt").setSelectedIndex(0);
-									// 			this.getView().byId("idParticiaptionTable").setProperty("visible", true);
-									// 			this.getView().byId("idDiscountTable").setProperty("visible", false);
-									// 		}
+									//added for authorization claim
 
-									// 	} else if (oGroupDescription == "ZGGW") {
+									this.getView().byId("idAuthorizationLinkForm").setProperty("visible", true);
+									this.getView().byId("idClaimPrOpt").setProperty("visible", true);
+									this.getView().byId("idAuthorizationForm").setProperty("visible", true);
 
-									// 		this.getView().byId("idPricingOptGW").setSelectedIndex(0);
-									// 		this.getView().byId("idParticiaptionTable").setProperty("visible", true);
-									// 		this.getView().byId("idDiscountTable").setProperty("visible", false);
-									// 	}
+									this.getModel("LocalDataModel").setProperty("/AuthGWVisible", false);
+									if (oPartPer != "0" || oLabourPer != "0" || oSubletPer != "0") {
+										this.getView().byId("idPricingOpt").setSelectedIndex(1);
+										this.getView().byId("idParticiaptionTable").setProperty("visible", false);
+										this.getView().byId("idDiscountTable").setProperty("visible", true);
+									} else {
+										this.getView().byId("idPricingOpt").setSelectedIndex(0);
+										this.getView().byId("idParticiaptionTable").setProperty("visible", true);
+										this.getView().byId("idDiscountTable").setProperty("visible", false);
+									}
+									//added for authorization claim
 
 									this.getView().getModel("DataPercetCalculate").setProperty("/CustomerPer", ocust);
 									this.getView().getModel("DataPercetCalculate").setProperty("/DealerPer", odeal);
