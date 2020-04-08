@@ -324,7 +324,9 @@ sap.ui.define([
 				RadioSelectedOFP: false,
 				NameOfPersonRespWhoChangedObj: "",
 				ShipmentVisible: false,
-				oECPfields: false
+				oECPfields: false,
+				oRepOrdDateReq : true,
+				oRepOrdReq :true
 			});
 			this.getView().setModel(oDateModel, "DateModel");
 			this.getModel("LocalDataModel").setProperty("/SubletAtchmentData", []);
@@ -420,6 +422,10 @@ sap.ui.define([
 
 				var clmNumAuth;
 				var clmAuthNum;
+				if(oGroupDescription == "ZSSM"){
+						this.getView().getModel("DateModel").setProperty("/oRepOrdReq", false);
+						this.getView().getModel("DateModel").setProperty("/oRepOrdDateReq", false);
+				}
 				if (oClaimSelectedGroup == "Authorization" || oGroupDescription == "ZGGW" || oGroupDescription == "ZWP1") {
 					if (oClaimSelectedGroup == "Authorization") {
 						clmNumAuth = "AuthorizationNumber";
@@ -454,6 +460,7 @@ sap.ui.define([
 						this.getView().byId("idAuthorizationForm").setProperty("visible", true);
 						this.getView().byId("idPricingOptP1").setSelectedIndex(0);
 					}
+					
 
 					this.getModel("LocalDataModel").setProperty("/linkToAuth", false);
 					this.getModel("LocalDataModel").setProperty("/reCalculate", true);
@@ -4005,7 +4012,7 @@ sap.ui.define([
 
 			var aInputSmartPart = [
 				oView.byId("idDealerClaim"),
-				oView.byId("idRepairOrder")
+			
 			];
 
 			var bValidationError = false;
