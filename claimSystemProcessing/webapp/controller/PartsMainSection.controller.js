@@ -3742,7 +3742,9 @@ sap.ui.define([
 
 			if (oClmType == "ZPDC" || oClmType == "ZPTS") {
 				aInputs = zpdczptsArr;
+				
 			} else if (oClmType == "ZPMS" || oClmType == "ZPPD") {
+				this.byId("idTCIWayBill").addStyleClass("clNotReq");
 				aInputs = zpmszppdArr;
 			}
 			
