@@ -49,25 +49,17 @@ sap.ui.define([
 
 					if (sap.ui.getCore().getModel("UserDataModel").getProperty("/UserScope") == "ManageAllParts") {
 						oClaimGroup = elements.filter(function (val) {
-							return val.ClaimGroup == "SCR" || val.ClaimGroup == "SSM" || val.ClaimGroup == "PWD" || val.ClaimGroup == "PMP";
+							return val.ClaimGroup == "SCR" || val.ClaimGroup == "PWD" || val.ClaimGroup == "PMP";
 						});
 					} else if (sap.ui.getCore().getModel("UserDataModel").getProperty("/UserScope") == "ManageAllServices" || sap.ui.getCore().getModel(
 							"UserDataModel").getProperty("/UserScope") == "ManageAllShowAuthorization") {
 						oClaimGroup = elements.filter(function (val) {
 							return val.ClaimGroup == "STR" || val.ClaimGroup == "WTY" || val.ClaimGroup == "CRC" || val.ClaimGroup == "VLC" || val.ClaimGroup ==
-								"ECP" ||
-								val.ClaimGroup == "FAC";
-						});
-					} else if (sap.ui.getCore().getModel("UserDataModel").getProperty("/UserScope") == "ManageAllWarrantyParts") {
-						oClaimGroup = elements.filter(function (val) {
-							return val.ClaimGroup == "SCR" || val.ClaimGroup == "SSM" || val.ClaimGroup == "PWD" || val.ClaimGroup == "STR" ||
-								val.ClaimGroup == "WTY" || val.ClaimGroup == "CRC" || val.ClaimGroup == "VLC" || val.ClaimGroup ==
 								"ECP" || val.ClaimGroup == "FAC";
-
 						});
-					} else if (sap.ui.getCore().getModel("UserDataModel").getProperty("/UserScope") == "ManageAllWarrantyParts") {
+					}else if (sap.ui.getCore().getModel("UserDataModel").getProperty("/UserScope") == "ManageAllWarrantyParts") {
 						oClaimGroup = elements.filter(function (val) {
-							return val.ClaimGroup == "SCR" || val.ClaimGroup == "SSM" || val.ClaimGroup == "PWD" || val.ClaimGroup == "STR" ||
+							return val.ClaimGroup == "SCR" || val.ClaimGroup == "PWD" || val.ClaimGroup == "STR" ||
 								val.ClaimGroup == "WTY" || val.ClaimGroup == "CRC" || val.ClaimGroup == "VLC" || val.ClaimGroup ==
 								"ECP" || val.ClaimGroup == "PMP" || val.ClaimGroup == "FAC";
 
