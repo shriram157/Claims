@@ -1099,7 +1099,7 @@ sap.ui.define([
 				this.getModel("LocalDataModel").setProperty("/UploadEnableHeader", false);
 				this.getModel("LocalDataModel").setProperty("/step01Next", false);
 				this.getModel("ProssingModel").refresh();
-				this.getModel("LocalDataModel").setProperty("/PricingDataModel", "");
+				this.getModel("LocalDataModel").setProperty("/PricingDataModel", []);
 				this.getModel("LocalDataModel").setProperty("/PartHeadAttachData", []);
 				var DropDownModel = new sap.ui.model.json.JSONModel();
 				this.getView().setModel(DropDownModel, "DropDownModel");
@@ -3742,7 +3742,9 @@ sap.ui.define([
 
 			if (oClmType == "ZPDC" || oClmType == "ZPTS") {
 				aInputs = zpdczptsArr;
+				
 			} else if (oClmType == "ZPMS" || oClmType == "ZPPD") {
+				this.byId("idTCIWayBill").addStyleClass("clNotReq");
 				aInputs = zpmszppdArr;
 			}
 			
@@ -4146,55 +4148,68 @@ sap.ui.define([
 		},
 
 		_fnSaveClaimParts: function (oEvent) {
-			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
+			//this.oBundle = this.getView().getModel("i18n").getResourceBundle();
+			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var oClaimModel = this.getModel("ProssingModel");
 			var oValidator = new Validator();
 			var oCurrentDt = new Date();
 			var oValid = oValidator.validate(this.getView().byId("idClaimForm"));
 
-			if ((this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZPDC" || this.getView().getModel("HeadSetData").getProperty(
-					"/WarrantyClaimType") == "ZPTS") && this.getView().getModel("HeadSetData").getProperty("/TCIWaybillNumber") == "") {
-				this.getView().getModel("DateModel").setProperty("/waybilltype", "Error");
-				this.getView().getModel("DateModel").setProperty("/SavePWClaimIndicator", false);
-			} else if ((this.getView().getModel("HeadSetData").getProperty("/DeliveringCarrier") == "") && (this.getView().getModel(
-						"HeadSetData").getProperty("/WarrantyClaimType") == "ZPDC" ||
-					this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZPTS" ||
-					this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZPPD" ||
-					this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZPMS")) {
-				this.getView().byId("idCarrierName").setValueState("Error");
+			// if ((this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZPDC" || this.getView().getModel("HeadSetData").getProperty(
+			// 		"/WarrantyClaimType") == "ZPTS") && this.getView().getModel("HeadSetData").getProperty("/TCIWaybillNumber") == "") {
+			// 	this.getView().getModel("DateModel").setProperty("/waybilltype", "Error");
+			// 	this.getView().getModel("DateModel").setProperty("/SavePWClaimIndicator", false);
+			// } else if ((this.getView().getModel("HeadSetData").getProperty("/DeliveringCarrier") == "") && (this.getView().getModel(
+			// 			"HeadSetData").getProperty("/WarrantyClaimType") == "ZPDC" ||
+			// 		this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZPTS" ||
+			// 		this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZPPD" ||
+			// 		this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZPMS")) {
+			// 	this.getView().byId("idCarrierName").setValueState("Error");
 
-				this.getModel("LocalDataModel").setProperty("/step01Next", false);
-				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+			// 	this.getModel("LocalDataModel").setProperty("/step01Next", false);
+			// 	this.getView().byId("idMainClaimMessage").setProperty("visible", true);
 
-				this.getView().byId("idMainClaimMessage").setText(this.oBundle.getText("FillUpMandatoryField"));
-				this.getView().byId("idMainClaimMessage").setType("Error");
-				this.getView().getModel("DateModel").setProperty("/waybilltype", "None");
-				this.getView().getModel("DateModel").setProperty("/SavePWClaimIndicator", false);
-				return false;
-			} else if ( (this.getView().getModel("HeadSetData").getProperty("/ShipmentReceivedDate") == undefined || this.getView().getModel(
-					"HeadSetData").getProperty("/ShipmentReceivedDate") == "")) {
-				this.getModel("LocalDataModel").setProperty("/step01Next", false);
-				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+			// 	this.getView().byId("idMainClaimMessage").setText(this.oBundle.getText("FillUpMandatoryField"));
+			// 	this.getView().byId("idMainClaimMessage").setType("Error");
+			// 	this.getView().getModel("DateModel").setProperty("/waybilltype", "None");
+			// 	this.getView().getModel("DateModel").setProperty("/SavePWClaimIndicator", false);
+			// 	return false;
+			// } else if ( (this.getView().getModel("HeadSetData").getProperty("/ShipmentReceivedDate") == undefined || this.getView().getModel(
+			// 		"HeadSetData").getProperty("/ShipmentReceivedDate") == "")) {
+			// 	this.getModel("LocalDataModel").setProperty("/step01Next", false);
+			// 	this.getView().byId("idMainClaimMessage").setProperty("visible", true);
 
-				if (this.getView().getModel("HeadSetData").getProperty("/ShipmentReceivedDate") == undefined || this.getView().getModel(
-						"HeadSetData").getProperty("/ShipmentReceivedDate") == "") {
-					this.getView().byId("idShipmentRDate").setValueState("Error");
-					this.getView().getModel("DateModel").setProperty("/SavePWClaimIndicator", false);
-				}
-				this.getView().byId("idMainClaimMessage").setText(this.oBundle.getText("FillUpMandatoryField"));
+			// 	if (this.getView().getModel("HeadSetData").getProperty("/ShipmentReceivedDate") == undefined || this.getView().getModel(
+			// 			"HeadSetData").getProperty("/ShipmentReceivedDate") == "") {
+			// 		this.getView().byId("idShipmentRDate").setValueState("Error");
+			// 		this.getView().getModel("DateModel").setProperty("/SavePWClaimIndicator", false);
+			// 	}
+			// 	this.getView().byId("idMainClaimMessage").setText(this.oBundle.getText("FillUpMandatoryField"));
+			// 	this.getView().byId("idMainClaimMessage").setType("Error");
+			// 	this.getView().byId("idCarrierName").setValueState("None");
+			// 	this.getView().getModel("DateModel").setProperty("/waybilltype", "None");
+			// 	this.getView().getModel("DateModel").setProperty("/SavePWClaimIndicator", false);
+			// 	return false;
+			// } else if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == undefined && this.getView().getModel(
+			// 		"HeadSetData").getProperty("/WarrantyClaimType") != "") {
+			// 	this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+			// 	this.getView().byId("idMainClaimMessage").setText(this.oBundle.getText("FillUpMandatoryField"));
+			// 	this.getView().byId("idMainClaimMessage").setType("Error");
+			// 	this.getView().getModel("DateModel").setProperty("/SavePWClaimIndicator", false);
+			// } 
+			
+			if (this._fnValidatorParts()) {
+				this.getModel("LocalDataModel").setProperty("/SavePWClaimIndicator", false);
+				this.getView().byId("idMainClaimMessage").setText(oBundle.getText("FillUpMandatoryField"));
 				this.getView().byId("idMainClaimMessage").setType("Error");
-				this.getView().byId("idCarrierName").setValueState("None");
-				this.getView().getModel("DateModel").setProperty("/waybilltype", "None");
-				this.getView().getModel("DateModel").setProperty("/SavePWClaimIndicator", false);
-				return false;
-			} else if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == undefined && this.getView().getModel(
-					"HeadSetData").getProperty("/WarrantyClaimType") != "") {
 				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
-				this.getView().byId("idMainClaimMessage").setText(this.oBundle.getText("FillUpMandatoryField"));
+			}else if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == undefined || this.getView().getModel(
+					"HeadSetData").getProperty("/WarrantyClaimType") == "") {
+					this.getModel("LocalDataModel").setProperty("/SavePWClaimIndicator", false);
+				this.getView().byId("idMainClaimMessage").setText(oBundle.getText("FillUpMandatoryField"));
 				this.getView().byId("idMainClaimMessage").setType("Error");
-				this.getView().getModel("DateModel").setProperty("/SavePWClaimIndicator", false);
-			} else if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != undefined && this.getView().getModel(
-					"HeadSetData").getProperty("/WarrantyClaimType") != "") {
+				this.getView().byId("idMainClaimMessage").setProperty("visible", true);		
+			}else{
 				this.getView().byId("idOutBoundDD").setValueState("None");
 				this.getView().byId("idShipmentRDate").setValueState("None");
 				this.getView().byId("idCarrierName").setValueState("None");
@@ -4248,7 +4263,7 @@ sap.ui.define([
 						that.DataRes1 = response.data;
 
 						// this.getView().byId("idPartClaimIconBar").setSelectedKey("Tab2");
-						MessageToast.show(that.oBundle.getText("ClaimSuccessMSG"));
+						MessageToast.show(oBundle.getText("ClaimSuccessMSG"));
 						this.getModel("LocalDataModel").setProperty("/WarrantyClaimNum", response.data.NumberOfWarrantyClaim);
 						this.getView().getModel("HeadSetData").setProperty("/DeliveryDate", response.data.DeliveryDate);
 						this.getView().getModel("HeadSetData").setProperty("/ShipmentReceivedDate", response.data.ShipmentReceivedDate);
@@ -4325,48 +4340,51 @@ sap.ui.define([
 		},
 
 		onStep01Next: function (oEvent) {
-			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
+			// this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 
-			var oValidator = new Validator();
-			oValidator.validate(this.byId("idClaimForm"));
-			this.getView().byId("mainSectionTitle").setTitle(this.oBundle.getText("ClaimPartsSection"));
-			if (!oValidator.isValid()) {
-				this.getView().byId("mainSectionTitle").setTitle(this.oBundle.getText("MainSection"));
-				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
-				this.getView().byId("idMainClaimMessage").setText(this.oBundle.getText("FillUpMandatoryField"));
-				this.getView().byId("idFilter02").setProperty("enabled", false);
-				this.getView().byId("idMainClaimMessage").setType("Error");
-				return;
-			}
-			if (oValidator.isValid()) {
+			// var oValidator = new Validator();
+			// oValidator.validate(this.byId("idClaimForm"));
+			// this.getView().byId("mainSectionTitle").setTitle(this.oBundle.getText("ClaimPartsSection"));
+			// if (!oValidator.isValid()) {
+			// 	this.getView().byId("mainSectionTitle").setTitle(this.oBundle.getText("MainSection"));
+			// 	this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+			// 	this.getView().byId("idMainClaimMessage").setText(this.oBundle.getText("FillUpMandatoryField"));
+			// 	this.getView().byId("idFilter02").setProperty("enabled", false);
+			// 	this.getView().byId("idMainClaimMessage").setType("Error");
+			// 	return;
+			// }
+			// if (oValidator.isValid()) {
+			// 	this.getView().byId("idFilter02").setProperty("enabled", true);
+			// 	this.getView().byId("idPartClaimIconBar").setSelectedKey("Tab2");
+
+			// 	if (userScope == "ReadOnlyViewAll") {
+			// 		this.getView().getModel("DateModel").setProperty("/submitTCIBtn", false);
+			// 		this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
+			// 	} else {
+			// 		if (
+			// 			this.ClaimStatus == "ZTRC" && sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") == "Dealer_Parts_Admin" ||
+			// 			this.ClaimStatus == "ZTIC" && sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") == "Dealer_Parts_Admin" ||
+			// 			this.ClaimStatus == "ZTRC" && sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") ==
+			// 			"Dealer_Parts_Services_Admin" ||
+			// 			this.ClaimStatus == "ZTIC" && sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") ==
+			// 			"Dealer_Parts_Services_Admin"
+
+			// 		) {
+
+			// 			this.getView().getModel("DateModel").setProperty("/submitTCIBtn", true);
+			// 			this.getView().getModel("DateModel").setProperty("/SaveClaim07", true);
+			// 		} else {
+			// 			this.getView().getModel("DateModel").setProperty("/submitTCIBtn", false);
+			// 			this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
+			// 		}
+			// 	}
+			// 	this.getView().byId("idMainClaimMessage").setProperty("visible", false);
+			// 	this.getView().byId("idMainClaimMessage").setType("None");
+
+			// }
+			
 				this.getView().byId("idFilter02").setProperty("enabled", true);
 				this.getView().byId("idPartClaimIconBar").setSelectedKey("Tab2");
-
-				if (userScope == "ReadOnlyViewAll") {
-					this.getView().getModel("DateModel").setProperty("/submitTCIBtn", false);
-					this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
-				} else {
-					if (
-						this.ClaimStatus == "ZTRC" && sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") == "Dealer_Parts_Admin" ||
-						this.ClaimStatus == "ZTIC" && sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") == "Dealer_Parts_Admin" ||
-						this.ClaimStatus == "ZTRC" && sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") ==
-						"Dealer_Parts_Services_Admin" ||
-						this.ClaimStatus == "ZTIC" && sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser") ==
-						"Dealer_Parts_Services_Admin"
-
-					) {
-
-						this.getView().getModel("DateModel").setProperty("/submitTCIBtn", true);
-						this.getView().getModel("DateModel").setProperty("/SaveClaim07", true);
-					} else {
-						this.getView().getModel("DateModel").setProperty("/submitTCIBtn", false);
-						this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
-					}
-				}
-				this.getView().byId("idMainClaimMessage").setProperty("visible", false);
-				this.getView().byId("idMainClaimMessage").setType("None");
-
-			}
 		},
 
 		onStep03Next: function () {
@@ -4506,13 +4524,18 @@ sap.ui.define([
 							// 			} 
 							var oPartItemData = this.getModel("LocalDataModel").getProperty("/PricingDataModel");
 							//var enabledIntent = oPartItemData.some((item) => item.DiscreCode == "8A");
-							var enabledIntent = oPartItemData.findIndex(function (item) {
+							var enabledIntent, oPartDiscDes;
+							
+								enabledIntent = oPartItemData.findIndex(function (item) {
 								return item.DiscreCode == "8A";
-							});
-
+								});
+							
+							
+						
 							var oPartDiscDes = oPartItemData.findIndex(function (item) {
 								return item.ALMDiscreDesc == "WINDSHIELD" || item.ALMDiscreDesc == "PARE-BRISE";
 							});
+							
 
 							var oAttachmentList = this.getModel("LocalDataModel").getProperty("/PartHeadAttachData");
 							console.log(oAttachmentList);
@@ -4947,7 +4970,7 @@ sap.ui.define([
 
 		onExit: function () {
 			this.getModel("ProssingModel").refresh();
-			this.getModel("LocalDataModel").setProperty("/PricingDataModel", "");
+			this.getModel("LocalDataModel").setProperty("/PricingDataModel", []);
 			this.getModel("LocalDataModel").setProperty("/PartHeadAttachData", []);
 			// this.getView().getModel("ClaimModel").setProperty("/" + "/items", "");
 			var DropDownModel = new sap.ui.model.json.JSONModel();
