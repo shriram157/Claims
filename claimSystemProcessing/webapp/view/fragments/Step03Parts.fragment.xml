@@ -200,7 +200,7 @@
 				</VBox>
 			</VBox>
 			<!--</l:Grid>-->
-			<Table id="partTable" mode="MultiSelect" items="{LocalDataModel>/PricingDataModel}" class="sapUiMediumMarginTop"
+			<Table id="partTable" noDataText="{i18n>NoData}" mode="MultiSelect" items="{LocalDataModel>/PricingDataModel}" class="sapUiMediumMarginTop"
 				selectionChange="OnSelectionChange">
 				<columns>
 					<Column>

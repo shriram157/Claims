@@ -75,15 +75,15 @@
 					<uxap:ObjectPageSubSection title="">
 						<uxap:blocks class="sapUiLargeMarginBottom sapUiLargePaddingBottom">
 							<VBox class="sapUiLargeMarginBottom sapUiLargePaddingBottom">
-								<Table id="idClaimTable" inset="false" class="classRCPTable sapUiSizeCompact sapUiLargeMarginBottom " mode="None"
+								<Table id="idClaimTable" inset="false" noDataText="{i18n>NoData}" class="classRCPTable sapUiSizeCompact sapUiLargeMarginBottom " mode="None"
 									busy="{DateModel>/tableBusyIndicator}"
 									items="{path:'LocalDataModel>/ZcClaimHeadNewData', sorter:{path:'NumberOfWarrantyClaim', descending : false}}" growing="true"
-									growingThreshold="25" growingScrollToLoad="false" growingTriggerText="Load more">
+									growingThreshold="25" growingScrollToLoad="false" growingTriggerText="{i18n>Loadmore}">
 									<headerToolbar>
 										<Toolbar>
 											<Title text="{i18n>ClaimList}" level="H2"/>
 											<ToolbarSpacer/>
-											<Button tooltip="View Sort Settings" icon="sap-icon://sort" press="handleSortButtonPressed"/>
+											<Button tooltip="" icon="sap-icon://sort" press="handleSortButtonPressed"/>
 										</Toolbar>
 									</headerToolbar>
 									<columns>

@@ -13,7 +13,7 @@
 	<VBox class="sapUiSmallMargin clFormTitleGap partsOnly" busy="{DateModel>/SubmitPWBusyIndicator}">
 		<core:Fragment fragmentName="zclaimProcessing.view.fragments.WarrantyPartClaimAmountSummery" type="XML"/>
 		<!--path: 'LocalDataModel>TCIApprInclTax', formatter: 'zclaimProcessing.utils.formatter.roundedDecimals'-->
-		<List headerText="{i18n>Validations}" items="{ path: 'LocalDataModel>/oErrorSet' }">
+		<List headerText="{i18n>Validations}" items="{ path: 'LocalDataModel>/oErrorSet' }" noDataText="{i18n>NoData}">
 			<CustomListItem>
 				<HBox class="sapUiSmallMargin"><Text text="{i18n>Error} : {LocalDataModel>NUMBER}" class="sapUiTinyMarginEnd"/><Text text="{i18n>ErrorType} : {LocalDataModel>TYPE}"/></HBox>
 				<HBox class="sapUiSmallMargin"><Text text="{i18n>Page} :" class="sapUiTinyMarginEnd"/><Text text="{i18n>Line} : {LocalDataModel>POSNR}"/></HBox>

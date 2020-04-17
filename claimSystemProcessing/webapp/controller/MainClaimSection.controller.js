@@ -5402,27 +5402,27 @@ sap.ui.define([
 				auClaimtype = "AuthorizationNumber";
 			}
 
-			oClaimModel.read("/zc_authorizationSet", {
-				urlParameters: {
-					"$filter": "DBOperation eq 'UPDT'and " + auClaimtype + " eq '" + oAuthNum + "'"
-				},
-				success: $.proxy(function (clearData) {
-					this.getView().getModel("DataPercetCalculate").setData(clearData.results[0]);
-					this.getModel("LocalDataModel").setProperty("/DataAuthDetails", []);
-					var ocust = parseInt(clearData.results[0].CustomerPer).toString();
-					var odeal = parseInt(clearData.results[0].DealerPer).toString();
-					var otci = parseInt(clearData.results[0].TCIPer).toString();
-					var oPartPer = parseInt(clearData.results[0].PartPer).toString();
-					var oLabourPer = parseInt(clearData.results[0].LabourPer).toString();
-					var oSubletPer = parseInt(clearData.results[0].SubletPer).toString();
-					this.getView().getModel("DataPercetCalculate").setProperty("/CustomerPer", ocust);
-					this.getView().getModel("DataPercetCalculate").setProperty("/DealerPer", odeal);
-					this.getView().getModel("DataPercetCalculate").setProperty("/TCIPer", otci);
-					this.getView().getModel("DataPercetCalculate").setProperty("/PartPer", oPartPer);
-					this.getView().getModel("DataPercetCalculate").setProperty("/LabourPer", oLabourPer);
-					this.getView().getModel("DataPercetCalculate").setProperty("/SubletPer", oSubletPer);
-				}, this)
-			})
+			// oClaimModel.read("/zc_authorizationSet", {
+			// 	urlParameters: {
+			// 		"$filter": "DBOperation eq 'UPDT'and " + auClaimtype + " eq '" + oAuthNum + "'"
+			// 	},
+			// 	success: $.proxy(function (clearData) {
+			// 		this.getView().getModel("DataPercetCalculate").setData(clearData.results[0]);
+			// 		this.getModel("LocalDataModel").setProperty("/DataAuthDetails", []);
+			// 		var ocust = parseInt(clearData.results[0].CustomerPer).toString();
+			// 		var odeal = parseInt(clearData.results[0].DealerPer).toString();
+			// 		var otci = parseInt(clearData.results[0].TCIPer).toString();
+			// 		var oPartPer = parseInt(clearData.results[0].PartPer).toString();
+			// 		var oLabourPer = parseInt(clearData.results[0].LabourPer).toString();
+			// 		var oSubletPer = parseInt(clearData.results[0].SubletPer).toString();
+			// 		this.getView().getModel("DataPercetCalculate").setProperty("/CustomerPer", ocust);
+			// 		this.getView().getModel("DataPercetCalculate").setProperty("/DealerPer", odeal);
+			// 		this.getView().getModel("DataPercetCalculate").setProperty("/TCIPer", otci);
+			// 		this.getView().getModel("DataPercetCalculate").setProperty("/PartPer", oPartPer);
+			// 		this.getView().getModel("DataPercetCalculate").setProperty("/LabourPer", oLabourPer);
+			// 		this.getView().getModel("DataPercetCalculate").setProperty("/SubletPer", oSubletPer);
+			// 	}, this)
+			// })
 
 			if (oRadioInd == 0 && oClmType != "ZWP1") {
 				oClaimModel.read("/zc_authorizationSet", {

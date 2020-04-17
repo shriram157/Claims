@@ -125,7 +125,7 @@
 		</l:Grid>
 		<l:Grid containerQuery="true" defaultSpan="XL6 L7 M12 S12">
 			<Table id="idPaintTable" mode="SingleSelectLeft" items="{path: 'LocalDataModel>/PaintPricingDataModel'}" growing="true" growingThreshold="5"
-				noDataText="No Data" showNoData="true">
+				noDataText="{i18n>NoData}" showNoData="true">
 				<columns>
 					<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Begin"><Text text="{i18n>Line}"/></Column>
 					<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Begin"><Text text="{i18n>MainOp}"/></Column>

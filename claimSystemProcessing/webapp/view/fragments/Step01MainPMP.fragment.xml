@@ -87,7 +87,7 @@
 				<Label text="{i18n>Name}"/>
 				<custom:CustomCombo showSecondaryValues="true"  id="idCompetitorName" items="{path:'LocalDataModel>/company_detailSet'}"
 					selectionChange="onSelectCompetitorName" selectedKey="HeadSetData>/CompetitorName"
-					value="{path:'HeadSetData>/CustomerFullName', type : 'sap.ui.model.type.String'}" editable="{LocalDataModel>/addEnbAutoCom}" enabled="{DateModel>/oFormEdit}">
+					value="{path:'HeadSetData>/CustomerFullName', type : 'sap.ui.model.type.String'}" editable="{DateModel>/addEnbAutoCom}" enabled="{DateModel>/oFormEdit}">
 					<core:ListItem text="{LocalDataModel>CompetitorName}" key="{LocalDataModel>CompetitorName}"/>
 				</custom:CustomCombo>
 			
@@ -99,7 +99,7 @@
 			<f:content >
 				<core:Title text=""/>
 				<!--<Input value="{path:'HeadSetData>/CompetitorAddr', type : 'sap.ui.model.type.String' }" editable="{DateModel>/oFormEdit}"/>-->
-				<custom:AddressAutoComplete placeholder="{i18n>EnterAddress}" id="autocomplete" change="onAfterAutoComplete" enabled="{LocalDataModel>/addEnbAutoCom}" editable="{DateModel>/oFormEdit}"/>
+				<custom:AddressAutoComplete placeholder="{i18n>EnterAddress}" id="autocomplete" change="onAfterAutoComplete" enabled="{DateModel>/addEnbAutoCom}" editable="{DateModel>/oFormEdit}"/>
 				<!--<core:Title text=""/>-->
 				<!--<Button text="Calculate Distance" press="onCalculateDistance">-->
 				<!--	<layoutData>-->

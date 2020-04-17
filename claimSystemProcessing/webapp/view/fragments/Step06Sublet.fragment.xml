@@ -138,6 +138,7 @@
 						<core:Title text=""/>
 						<Label text="{i18n>Attachments}" textAlign="Left"/>
 						<UploadCollection id="UploadSublet" maximumFilenameLength="50" filenameLengthExceed="onFileNameLengthExceed" maximumFileSize="10"
+						noDataDescription="{i18n>NoFileFound}" noDataText="{i18n>NoFileFound}"
 							sameFilenameAllowed="false" fileSizeExceed="onFileSizeExceed" busy="{LocalDataModel>/IndicatorState}"
 							uploadEnabled="{LocalDataModel>/UploadEnableSublet}" change="onUplaodChange" uploadComplete="onSubletUploadComplete"
 							fileDeleted="onFileSubletDeleted" items="{ path: 'LocalDataModel>/SubletAtchmentData', templateShareable: false }">
@@ -181,7 +182,7 @@
 			</VBox>
 		</l:Grid>
 		<Table id="idSubletTable" mode="SingleSelectLeft" items="{path: 'LocalDataModel>/SubletPricingDataModel'}" growing="true"
-			growingThreshold="5" noDataText="No Data" showNoData="true">
+			growingThreshold="5" noDataText="{i18n>NoData}" showNoData="true">
 			<columns>
 				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Begin"><Text text="{i18n>Line}"/></Column>
 				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center"><Text text="{i18n>SubletType}" textAlign="Center"/></Column>

@@ -444,7 +444,7 @@
 		</f:SimpleForm>
 		<Panel backgroundDesign="Transparent" headerText="{i18n>ClaimComments}" expandable="true" class="sapUiSizeCompact clCommentFix">
 			<content>
-				<FeedInput post=".onPost" enabled="{LocalDataModel>/FeedEnabled}"/>
+				<FeedInput post=".onPost" enabled="{LocalDataModel>/FeedEnabled}" placeholder="{i18n>PostHere}"/>
 				<List class="sapUiSizeCompact" busy="{LocalDataModel>/commentIndicator}" id="idCommentsList" noDataText="{i18n>ObjectCommentNoData}"
 					showSeparators="Inner" items="{ path: 'LocalDataModel>/claim_commentSet'}">
 					<FeedListItem text="{LocalDataModel>HeadText}"/>
@@ -465,6 +465,7 @@
 					singleContainerFullSize="false">
 					<f:content>
 						<UploadCollection id="idHeadAttachment" maximumFileSize="10" maximumFilenameLength="50" fileSizeExceed="onFileSizeExceed"
+						noDataDescription="{i18n>NoFileFound}" noDataText="{i18n>NoFileFound}"
 							filenameLengthExceed="onFileNameLengthExceed" uploadEnabled="{LocalDataModel>/UploadEnable}" change="onUplaodChange"
 							uploadComplete="onUploadComplete"  instantUpload="true" busy="{LocalDataModel>/IndicatorState}"
 							sameFilenameAllowed="false" items="{ path: 'LocalDataModel>/HeadAtchmentData', templateShareable: false }">

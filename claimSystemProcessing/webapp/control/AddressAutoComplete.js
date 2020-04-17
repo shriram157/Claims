@@ -41,7 +41,7 @@ sap.ui.define(
 				oControl = this;
 				Input.prototype.init.apply(oControl, arguments);
 
-				document.getElementById(oControl.getId() + "-inner").addEventListener("focus", this.geolocate());
+				//document.getElementById(oControl.getId() + "-inner").addEventListener("focus", this.geolocate());
 
 				/** Event override **/
 				//	oControl.attachSuggest("suggest", oControl._onSuggest);
