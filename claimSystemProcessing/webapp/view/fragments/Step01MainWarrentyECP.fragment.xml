@@ -444,7 +444,7 @@
 		</f:SimpleForm>
 		<Panel backgroundDesign="Transparent" headerText="{i18n>ClaimComments}" expandable="true" class="sapUiSizeCompact clCommentFix">
 			<content>
-				<FeedInput post=".onPost" enabled="{LocalDataModel>/FeedEnabled}" placeholder="{i18n>PostHere}"/>
+				<FeedInput post=".onPost" enabled="{LocalDataModel>/FeedEnabled}" placeholder="{i18n>PostHere}" maxLength="70"/>
 				<List class="sapUiSizeCompact" busy="{LocalDataModel>/commentIndicator}" id="idCommentsList" noDataText="{i18n>ObjectCommentNoData}"
 					showSeparators="Inner" items="{ path: 'LocalDataModel>/claim_commentSet'}">
 					<FeedListItem text="{LocalDataModel>HeadText}"/>

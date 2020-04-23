@@ -578,8 +578,7 @@ sap.ui.define([
 			var sValue = oEvent.getParameter("value");
 
 			var oEntry = {
-
-				"HeadText": this.getModel("LocalDataModel").getProperty("/BPOrgName") + "(" + oDate + ") " + " : " + sValue,
+				"HeadText": this.getModel("LocalDataModel").getProperty("/BPOrgName") + "(" + oDate + ")" + ":" + sValue,
 				"NumberOfWarrantyClaim": this.getView().getModel("HeadSetData").getProperty("/NumberOfWarrantyClaim"),
 				"LanguageKey": PmpDataManager.fnReturnLanguage(),
 				"User": "",

@@ -1370,7 +1370,7 @@ sap.ui.define([
 			var sValue = oEvent.getParameter("value");
 			var oCurrentDt = new Date();
 			var oEntry = {
-				"HeadText": this.getModel("LocalDataModel").getProperty("/BPOrgName") + "(" + oDate + ") " + " : " + sValue,
+				"HeadText": this.getModel("LocalDataModel").getProperty("/BPOrgName") + "(" + oDate + ")" + ":" + sValue,
 				"NumberOfWarrantyClaim": this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum"),
 				"LanguageKey": sSelectedLocale.toUpperCase(),
 				"User": "",
