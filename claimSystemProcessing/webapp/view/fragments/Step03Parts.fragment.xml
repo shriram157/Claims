@@ -170,12 +170,12 @@
 							<Input value="{ path : 'HeadSetData>/PartNumberRcDesc'}" id="idOrderedReceivedPartDesc" editable="{multiHeaderConfig>/OrderedPartDesc}"
 								visible="{multiHeaderConfig>/PartDescriptionOrdRcv}" enabled="{DateModel>/partLine}"></Input>
 							<Label text="{i18n>PartRepaired}" visible="{multiHeaderConfig>/PartRepaired}"/>
-							<Select visible="{multiHeaderConfig>/PartRepaired}" selectedKey="{HeadSetData>/PartRepaired}" enabled="{DateModel>/partLine}"
+							<Select visible="{multiHeaderConfig>/PartRepaired}" selectedKey="{HeadSetData>/PartRepaired}"  enabled="{DateModel>/partLine}"
 								change="onPartRepairedChange">
 								<items>
 									<core:Item text="" key=""/>
-									<core:Item text="{i18n>Yes}" key="Yes"/>
-									<core:Item text="{i18n>No}" key="No"/>
+									<core:Item text="{i18n>Yes}" key="{i18n>Yes}"/>
+									<core:Item text="{i18n>No}" key="{i18n>No}"/>
 								</items>
 							</Select>
 							<core:Title text=""/>
