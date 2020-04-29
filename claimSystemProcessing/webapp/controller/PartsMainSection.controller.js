@@ -1370,7 +1370,7 @@ sap.ui.define([
 			var sValue = oEvent.getParameter("value");
 			var oCurrentDt = new Date();
 			var oEntry = {
-				"HeadText": this.getModel("LocalDataModel").getProperty("/BPOrgName") + "(" + oDate + ") " + " : " + sValue,
+				"HeadText": this.getModel("LocalDataModel").getProperty("/BPOrgName") + "(" + oDate + ")" + ":" + sValue,
 				"NumberOfWarrantyClaim": this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum"),
 				"LanguageKey": sSelectedLocale.toUpperCase(),
 				"User": "",
@@ -1612,13 +1612,13 @@ sap.ui.define([
 
 		onPartRepairedChange: function (oVal) {
 			// debugger;
-			if (oVal.getParameters().selectedItem.getText() == "No") {
+			var oBundle = this.getView().getModel("i18n").getResourceBundle();
+			if (oVal.getParameters().selectedItem.getText() == oBundle.getText("No")) {
 				this.getView().getModel("multiHeaderConfig").setProperty("/RepairAmtV", false);
 				this.getView().getModel("HeadSetData").setProperty("/RepairAmount", "");
 				this.getView().getModel("DateModel").setProperty("/reqRepairAmt", false);
-			} else if (oVal.getParameters().selectedItem.getText() == "Yes") {
+			} else if (oVal.getParameters().selectedItem.getText() ==  oBundle.getText("Yes")) {
 				this.getView().getModel("multiHeaderConfig").setProperty("/RepairAmtV", true);
-
 				this.getView().getModel("DateModel").setProperty("/reqRepairAmt", true);
 			}
 		},

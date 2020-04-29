@@ -72,15 +72,15 @@
 				<Label text="{i18n>CarrierName}"/>
 				<ComboBox id="idCarrierName" required="true" items="{BpDealerModel>/BpDealerList}" change="onSelectPartsDealer"
 					selectedKey="{HeadSetData>/DeliveringCarrier}" value="{path:'HeadSetData>/DeliveringCarrier', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 10 }}" showSecondaryValues="true" enabled="{DateModel>/oFormEdit}">
-					<core:ListItem text="{BpDealerModel>BusinessPartner}" key="{BpDealerModel>BusinessPartnerKey}"
+					<core:ListItem text="{BpDealerModel>BusinessPartnerKey}" key="{BpDealerModel>BusinessPartnerKey}"
 						additionalText="{BpDealerModel>BusinessPartnerName}"/>
 				</ComboBox>
 			</f:content>
 		</f:SimpleForm>
 		<Panel backgroundDesign="Transparent" headerText="{i18n>ClaimComments}" expandable="true" class="sapUiSizeCompact clCommentFix">
 			<content>
-				<FeedInput post=".onPostPWComments" enabled="{DateModel>/FeedEnabled}"/>
-				<List class="sapUiSizeCompact" busy="{LocalDataModel>/commentIndicator}" id="idPWCommentsList" noDataText="No Data" showSeparators="Inner"
+				<FeedInput post=".onPostPWComments" enabled="{DateModel>/FeedEnabled}" placeholder="{i18n>PostHere}" maxLength="70"/>
+				<List class="sapUiSizeCompact" busy="{LocalDataModel>/commentIndicator}" id="idPWCommentsList" noDataText="{i18n>ObjectCommentNoData}" showSeparators="Inner"
 					items="{ path: 'LocalDataModel>/claim_commentSet'}">
 					<FeedListItem text="{LocalDataModel>HeadText}"/>
 				</List>
@@ -99,6 +99,7 @@
 				singleContainerFullSize="false">
 				<f:content>
 					<UploadCollection id="UploadSupportingDoc" maximumFilenameLength="50" filenameLengthExceed="onFileNameLengthExceed" maximumFileSize="10"
+					noDataDescription="{i18n>NoFileFound}" noDataText="{i18n>NoFileFound}"
 						sameFilenameAllowed="false" fileSizeExceed="onFileSizeExceed" uploadEnabled="{LocalDataModel>/UploadEnableHeader}"
 						change="onUploadChangeParts" uploadComplete="onUploadCompleteParts" fileDeleted="onFileDeleted" busy="{LocalDataModel>/IndicatorState}"
 						items="{ path: 'LocalDataModel>/PartHeadAttachData', templateShareable: false }">

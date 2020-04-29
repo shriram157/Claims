@@ -1,7 +1,7 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
 	<Dialog title="{i18n>SuggestedOperationsOFP} {HeadSetData>/OFP}">
 		<content>
-			<Table mode="SingleSelectLeft" selectionChange="onSelectOperation" items="{ path : 'LocalDataModel>/SuggetionOperationListFiltered' }">
+			<Table noDataText="{i18n>NoData}" mode="SingleSelectLeft" selectionChange="onSelectOperation" items="{ path : 'LocalDataModel>/SuggetionOperationListFiltered' }">
 				<headerToolbar >
 					<OverflowToolbar>
 						<ToolbarSpacer/>

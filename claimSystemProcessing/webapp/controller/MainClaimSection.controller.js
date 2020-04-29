@@ -325,8 +325,8 @@ sap.ui.define([
 				NameOfPersonRespWhoChangedObj: "",
 				ShipmentVisible: false,
 				oECPfields: false,
-				oRepOrdDateReq : true,
-				oRepOrdReq :true
+				oRepOrdDateReq: true,
+				oRepOrdReq: true
 			});
 			this.getView().setModel(oDateModel, "DateModel");
 			this.getModel("LocalDataModel").setProperty("/SubletAtchmentData", []);
@@ -422,10 +422,10 @@ sap.ui.define([
 
 				var clmNumAuth;
 				var clmAuthNum;
-				if(oGroupDescription == "ZSSM"){
-						this.getView().getModel("DateModel").setProperty("/oRepOrdReq", false);
-						this.getView().getModel("DateModel").setProperty("/oRepOrdDateReq", false);
-						this.getView().byId("idRepairOrder").setValueState("None");
+				if (oGroupDescription == "ZSSM") {
+					this.getView().getModel("DateModel").setProperty("/oRepOrdReq", false);
+					this.getView().getModel("DateModel").setProperty("/oRepOrdDateReq", false);
+					this.getView().byId("idRepairOrder").setValueState("None");
 				}
 				if (oClaimSelectedGroup == "Authorization" || oGroupDescription == "ZGGW" || oGroupDescription == "ZWP1") {
 					if (oClaimSelectedGroup == "Authorization") {
@@ -461,7 +461,6 @@ sap.ui.define([
 						this.getView().byId("idAuthorizationForm").setProperty("visible", true);
 						this.getView().byId("idPricingOptP1").setSelectedIndex(0);
 					}
-					
 
 					this.getModel("LocalDataModel").setProperty("/linkToAuth", false);
 					this.getModel("LocalDataModel").setProperty("/reCalculate", true);
@@ -1307,228 +1306,217 @@ sap.ui.define([
 										0].OFPDescription);
 								this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", errorData.results[0].zc_claim_read_descriptionSet
 									.results[0].MainOpsCodeDescription);
-
-								// this.getView().getModel("HeadSetData").setProperty("/ReferenceDate", errorData.results[0].zc_claim_read_descriptionSet
-								// 	.results[0].ReferenceDate);
-
-								// this.getView().getModel("HeadSetData").setProperty("/DateOfApplication", errorData.results[0].zc_claim_read_descriptionSet
-								// 	.results[0].DateOfApplication);
-								// this.getView().getModel("HeadSetData").setProperty("/RepairDate", errorData.results[0].zc_claim_read_descriptionSet
-								// 	.results[0].RepairDate);
-								// this.getView().getModel("HeadSetData").setProperty("/PreviousROInvoiceDate", errorData.results[0].zc_claim_read_descriptionSet
-								// 	.results[0].PreviousROInvoiceDate);
-								// this.getView().getModel("HeadSetData").setProperty("/DeliveryDate", errorData.results[0].zc_claim_read_descriptionSet
-								// 	.results[0].DeliveryDate);
-								// this.getView().getModel("HeadSetData").setProperty("/AccessoryInstallDate", errorData.results[0].zc_claim_read_descriptionSet
-								// 	.results[0].AccessoryInstallDate);
 								this.getModel("LocalDataModel").setProperty("/claim_commentSet", errorData.results[0].zc_claim_commentSet.results);
 
+								oProssingModel.read("/zc_claim_item_price_dataSet", {
+									urlParameters: {
+										"$filter": "NumberOfWarrantyClaim eq '" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") +
+											"'and LanguageKey eq '" + sSelectedLocale.toUpperCase() + "' "
+
+									},
+									success: $.proxy(function (data) {
+										oProssingModel.read("/zc_claim_item_damageSet", {
+											urlParameters: {
+												"$filter": "NumberOfWarrantyClaim eq '" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") +
+													"'and LanguageKey eq '" + sSelectedLocale.toUpperCase() + "' "
+											},
+											success: $.proxy(function (sddata) {
+
+												this.getModel("LocalDataModel").setProperty("/DataItemDamageSet", sddata.results);
+
+												var oDamageItem = sddata.results.map(function (item) {
+													return {
+														DmgAreaCode: item.DmgAreaCode,
+														DmgSevrCode: item.DmgSevrCode,
+														DmgTypeCode: item.DmgTypeCode
+
+													};
+
+												});
+
+												var pricinghData = data.results;
+												var oFilteredData = pricinghData.filter(function (val) {
+													return val.ItemType === "MAT";
+												});
+
+												this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
+												var PartItem = oFilteredData.map(function (item) {
+													return {
+														Type: "PART",
+														ItemType: "",
+														ControllingItemType: "MAT",
+														UnitOfMeasure: item.UnitOfMeasure,
+														MaterialNumber: item.matnr,
+														PartDescription: item.PartDescription,
+														PartQty: item.PartQty,
+														Posnr: item.posnr
+													};
+
+												});
+
+												var oIndexMat = PartItem.findIndex($.proxy(function (item) {
+													return item.MaterialNumber == this.getView().getModel("HeadSetData").getProperty("/OFP")
+												}), this);
+												if (oIndexMat > -1) {
+													this.getView().byId("idTableParts").getItems()[oIndexMat].getCells()[1].setProperty("selected", true);
+												}
+												var oFilteredDataLabour = pricinghData.filter(function (val) {
+													return val.ItemType === "FR" && val.LabourNumber[0] != "P";
+												});
+												var LabourItem = oFilteredDataLabour.map(function (item) {
+													return {
+														ItemType: "FR",
+														Type: "LABOUR",
+														LabourNumber: item.LabourNumber,
+														LabourDescription: item.LabourDescription,
+														ClaimedHours: item.QtyHrs
+													};
+
+												});
+
+												this.getModel("LocalDataModel").setProperty("/LabourPricingDataModel", oFilteredDataLabour);
+												var oIndexLab = LabourItem.findIndex($.proxy(function (item) {
+													return item.LabourNumber == this.getView().getModel("HeadSetData").getProperty("/MainOpsCode")
+												}), this);
+												if (oIndexLab > -1) {
+													this.getView().byId("idLabourTable").getItems()[oIndexLab].getCells()[1].setProperty("selected", true);
+												}
+
+												var oFilteredDataPaint = pricinghData.filter(function (val) {
+													return val.ItemType === "FR" && val.LabourNumber[0] == "P";
+												});
+												this.getModel("LocalDataModel").setProperty("/PaintPricingDataModel", oFilteredDataPaint);
+
+												var PaintItem = oFilteredDataPaint.map(function (item) {
+													return {
+														ItemType: "FR",
+														PaintPositionCode: item.LabourNumber,
+														ClaimedHours: item.QtyHrs
+													};
+
+												});
+
+												var oIndexPaint = PaintItem.findIndex($.proxy(function (item) {
+													return item.PaintPositionCode == this.getView().getModel("HeadSetData").getProperty("/MainOpsCode")
+												}), this);
+												if (oIndexPaint > -1) {
+													this.getView().byId("idPaintTable").getItems()[oIndexPaint].getCells()[1].setProperty("selected", true);
+												}
+
+												var oFilteredDataSubl = pricinghData.filter(function (val) {
+													return val.ItemType === "SUBL";
+												});
+
+												this.getModel("LocalDataModel").setProperty("/SubletPricingDataModel", oFilteredDataSubl);
+												var SubletItem = oFilteredDataSubl.map(function (item) {
+													return {
+														ItemType: "SUBL",
+														InvoiceNo: item.InvoiceNo,
+														UnitOfMeasure: item.Meinh,
+														Amount: item.Amount,
+														SubletDescription: item.SubletDescription,
+														URI: item.URI,
+														SubletType: item.ItemKey,
+														Brand: item.Brand,
+														Days: item.Days
+													};
+
+												});
+
+												this.obj = {
+													"DBOperation": "SAVE",
+													"Message": "",
+													"WarrantyClaimType": this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType"),
+													"Partner": this.getModel("LocalDataModel").getProperty("/ClaimDetails/Partner"),
+													"ActionCode": "",
+													"NumberOfWarrantyClaim": this.getView().getModel("HeadSetData").getProperty("/NumberOfWarrantyClaim"),
+													"PartnerRole": "AS",
+													"ReferenceDate": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/ReferenceDate")),
+													"DateOfApplication": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty(
+														"/DateOfApplication")),
+													"FinalProcdDate": null,
+													"RepairDate": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairDate")),
+													"RepairOrderNumberExternal": this.getView().getModel("HeadSetData").getProperty(
+														"/RepairOrderNumberExternal"),
+													"ExternalNumberOfClaim": this.getView().getModel("HeadSetData").getProperty("/ExternalNumberOfClaim"),
+													"ExternalObjectNumber": this.getView().getModel("HeadSetData").getProperty("/ExternalObjectNumber"),
+													"Odometer": this.getView().getModel("HeadSetData").getProperty("/Odometer"),
+													"Delivery": "",
+													"DeliveryDate": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/DeliveryDate")),
+													"TCIWaybillNumber": "",
+													"ShipmentReceivedDate": null,
+													"DealerContact": this.getView().getModel("HeadSetData").getProperty("/DealerContact"),
+													"DeliveringCarrier": "",
+													"HeadText": this.getView().getModel("HeadSetData").getProperty("/HeadText"),
+													"OFP": this.getView().getModel("HeadSetData").getProperty("/OFP").toUpperCase(),
+													"WTYClaimRecoverySource": "",
+													"MainOpsCode": this.getView().getModel("HeadSetData").getProperty("/MainOpsCode"),
+													"T1WarrantyCodes": this.getView().getModel("HeadSetData").getProperty("/T1WarrantyCodes"),
+													"BatteryTestCode": this.getView().getModel("HeadSetData").getProperty("/BatteryTestCode"),
+													"T2WarrantyCodes": this.getView().getModel("HeadSetData").getProperty("/T2WarrantyCodes"),
+													"FieldActionReference": this.getView().getModel("HeadSetData").getProperty("/FieldActionReference").toUpperCase(),
+													"ZCondition": this.getView().getModel("HeadSetData").getProperty("/ZCondition"),
+													"Cause": this.getView().getModel("HeadSetData").getProperty("/Cause"),
+													"Remedy": this.getView().getModel("HeadSetData").getProperty("/Remedy"),
+													"PreviousROInvoiceDate": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty(
+														"/PreviousROInvoiceDate")),
+													"PreviousROOdometer": this.getView().getModel("HeadSetData").getProperty("/PreviousROOdometer"),
+													"PreviousROInvoice": this.getView().getModel("HeadSetData").getProperty("/PreviousROInvoice"),
+													"AccessoryInstallOdometer": this.getView().getModel("HeadSetData").getProperty(
+														"/AccessoryInstallOdometer"),
+													"AccessoryInstallDate": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty(
+														"/AccessoryInstallDate")),
+													"AgreementNumber": this.getView().getModel("HeadSetData").getProperty("/AgreementNumber"),
+													"CustomerPostalCode": this.getView().getModel("HeadSetData").getProperty("/CustomerPostalCode").toUpperCase(),
+													"CustomerFullName": this.getView().getModel("HeadSetData").getProperty("/CustomerFullName"),
+													"WarrantyClaimSubType": this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType"),
+													"zc_itemSet": {
+														"results": PartItem
+													},
+													"zc_claim_item_labourSet": {
+														"results": LabourItem
+													},
+													"zc_claim_item_paintSet": {
+														"results": PaintItem
+													},
+													"zc_item_subletSet": {
+														"results": SubletItem
+													},
+													"zc_claim_attachmentsSet": {
+														"results": []
+													},
+													"zc_claim_item_damageSet": {
+														"results": oDamageItem
+													},
+													"zc_claim_commentSet": {
+														"results": this.getModel("LocalDataModel").getProperty("/claim_commentSet")
+													},
+													"zc_claim_vsrSet": {
+														"results": []
+													},
+													"zc_claim_item_price_dataSet": {
+														"results": pricinghData
+													}
+												};
+											}, this)
+										});
+
+									}, this),
+									error: function () {}
+								});
+
 							}, this),
-							error: $.proxy(function () {
+							error: $.proxy(function (err) {
 								console.log(err);
-								this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", false);
+								this.getModel("LocalDataModel").setProperty("/oSavePerrartIndicator", false);
 							}, this)
 						});
 
 					}, this),
-					error: $.proxy(function () {
+					error: $.proxy(function (err) {
 						console.log(err);
 						this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", false);
 					}, this)
-				});
-
-				oProssingModel.read("/zc_claim_item_price_dataSet", {
-					urlParameters: {
-						"$filter": "NumberOfWarrantyClaim eq '" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") +
-							"'and LanguageKey eq '" + sSelectedLocale.toUpperCase() + "' "
-
-					},
-					success: $.proxy(function (data) {
-						oProssingModel.read("/zc_claim_item_damageSet", {
-							urlParameters: {
-								"$filter": "NumberOfWarrantyClaim eq '" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") +
-									"'and LanguageKey eq '" + sSelectedLocale.toUpperCase() + "' "
-							},
-							success: $.proxy(function (sddata) {
-
-								this.getModel("LocalDataModel").setProperty("/DataItemDamageSet", sddata.results);
-
-								var oDamageItem = sddata.results.map(function (item) {
-									return {
-										DmgAreaCode: item.DmgAreaCode,
-										DmgSevrCode: item.DmgSevrCode,
-										DmgTypeCode: item.DmgTypeCode
-
-									};
-
-								});
-
-								var pricinghData = data.results;
-								var oFilteredData = pricinghData.filter(function (val) {
-									return val.ItemType === "MAT";
-								});
-
-								this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
-								var PartItem = oFilteredData.map(function (item) {
-									return {
-										Type: "PART",
-										ItemType: "",
-										ControllingItemType: "MAT",
-										UnitOfMeasure: item.UnitOfMeasure,
-										MaterialNumber: item.matnr,
-										PartDescription: item.PartDescription,
-										PartQty: item.PartQty,
-										Posnr: item.posnr
-									};
-
-								});
-
-								var oIndexMat = PartItem.findIndex($.proxy(function (item) {
-									return item.MaterialNumber == this.getView().getModel("HeadSetData").getProperty("/OFP")
-								}), this);
-								if (oIndexMat > -1) {
-									this.getView().byId("idTableParts").getItems()[oIndexMat].getCells()[1].setProperty("selected", true);
-								}
-								var oFilteredDataLabour = pricinghData.filter(function (val) {
-									return val.ItemType === "FR" && val.LabourNumber[0] != "P";
-								});
-								var LabourItem = oFilteredDataLabour.map(function (item) {
-									return {
-										ItemType: "FR",
-										Type: "LABOUR",
-										LabourNumber: item.LabourNumber,
-										LabourDescription: item.LabourDescription,
-										ClaimedHours: item.QtyHrs
-									};
-
-								});
-
-								this.getModel("LocalDataModel").setProperty("/LabourPricingDataModel", oFilteredDataLabour);
-								var oIndexLab = LabourItem.findIndex($.proxy(function (item) {
-									return item.LabourNumber == this.getView().getModel("HeadSetData").getProperty("/MainOpsCode")
-								}), this);
-								if (oIndexLab > -1) {
-									this.getView().byId("idLabourTable").getItems()[oIndexLab].getCells()[1].setProperty("selected", true);
-								}
-
-								var oFilteredDataPaint = pricinghData.filter(function (val) {
-									return val.ItemType === "FR" && val.LabourNumber[0] == "P";
-								});
-								this.getModel("LocalDataModel").setProperty("/PaintPricingDataModel", oFilteredDataPaint);
-
-								var PaintItem = oFilteredDataPaint.map(function (item) {
-									return {
-										ItemType: "FR",
-										PaintPositionCode: item.LabourNumber,
-										ClaimedHours: item.QtyHrs
-									};
-
-								});
-
-								var oIndexPaint = PaintItem.findIndex($.proxy(function (item) {
-									return item.PaintPositionCode == this.getView().getModel("HeadSetData").getProperty("/MainOpsCode")
-								}), this);
-								if (oIndexPaint > -1) {
-									this.getView().byId("idPaintTable").getItems()[oIndexPaint].getCells()[1].setProperty("selected", true);
-								}
-
-								var oFilteredDataSubl = pricinghData.filter(function (val) {
-									return val.ItemType === "SUBL";
-								});
-
-								this.getModel("LocalDataModel").setProperty("/SubletPricingDataModel", oFilteredDataSubl);
-								var SubletItem = oFilteredDataSubl.map(function (item) {
-									return {
-										ItemType: "SUBL",
-										InvoiceNo: item.InvoiceNo,
-										UnitOfMeasure: item.Meinh,
-										Amount: item.Amount,
-										SubletDescription: item.SubletDescription,
-										URI: item.URI,
-										SubletType: item.ItemKey,
-										Brand: item.Brand,
-										Days: item.Days
-									};
-
-								});
-
-								this.obj = {
-									"DBOperation": "SAVE",
-									"Message": "",
-									"WarrantyClaimType": this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType"),
-									"Partner": this.getModel("LocalDataModel").getProperty("/ClaimDetails/Partner"),
-									"ActionCode": "",
-									"NumberOfWarrantyClaim": this.getView().getModel("HeadSetData").getProperty("/NumberOfWarrantyClaim"),
-									"PartnerRole": "AS",
-									"ReferenceDate": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/ReferenceDate")),
-									"DateOfApplication": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/DateOfApplication")),
-									"FinalProcdDate": null,
-									"RepairDate": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairDate")),
-									"RepairOrderNumberExternal": this.getView().getModel("HeadSetData").getProperty("/RepairOrderNumberExternal"),
-									"ExternalNumberOfClaim": this.getView().getModel("HeadSetData").getProperty("/ExternalNumberOfClaim"),
-									"ExternalObjectNumber": this.getView().getModel("HeadSetData").getProperty("/ExternalObjectNumber"),
-									"Odometer": this.getView().getModel("HeadSetData").getProperty("/Odometer"),
-									"Delivery": "",
-									"DeliveryDate": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/DeliveryDate")),
-									"TCIWaybillNumber": "",
-									"ShipmentReceivedDate": null,
-									"DealerContact": this.getView().getModel("HeadSetData").getProperty("/DealerContact"),
-									"DeliveringCarrier": "",
-									"HeadText": this.getView().getModel("HeadSetData").getProperty("/HeadText"),
-									"OFP": this.getView().getModel("HeadSetData").getProperty("/OFP").toUpperCase(),
-									"WTYClaimRecoverySource": "",
-									"MainOpsCode": this.getView().getModel("HeadSetData").getProperty("/MainOpsCode"),
-									"T1WarrantyCodes": this.getView().getModel("HeadSetData").getProperty("/T1WarrantyCodes"),
-									"BatteryTestCode": this.getView().getModel("HeadSetData").getProperty("/BatteryTestCode"),
-									"T2WarrantyCodes": this.getView().getModel("HeadSetData").getProperty("/T2WarrantyCodes"),
-									"FieldActionReference": this.getView().getModel("HeadSetData").getProperty("/FieldActionReference").toUpperCase(),
-									"ZCondition": this.getView().getModel("HeadSetData").getProperty("/ZCondition"),
-									"Cause": this.getView().getModel("HeadSetData").getProperty("/Cause"),
-									"Remedy": this.getView().getModel("HeadSetData").getProperty("/Remedy"),
-									"PreviousROInvoiceDate": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty(
-										"/PreviousROInvoiceDate")),
-									"PreviousROOdometer": this.getView().getModel("HeadSetData").getProperty("/PreviousROOdometer"),
-									"PreviousROInvoice": this.getView().getModel("HeadSetData").getProperty("/PreviousROInvoice"),
-									"AccessoryInstallOdometer": this.getView().getModel("HeadSetData").getProperty("/AccessoryInstallOdometer"),
-									"AccessoryInstallDate": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty(
-										"/AccessoryInstallDate")),
-									"AgreementNumber": this.getView().getModel("HeadSetData").getProperty("/AgreementNumber"),
-									"CustomerPostalCode": this.getView().getModel("HeadSetData").getProperty("/CustomerPostalCode").toUpperCase(),
-									"CustomerFullName": this.getView().getModel("HeadSetData").getProperty("/CustomerFullName"),
-									"WarrantyClaimSubType": this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType"),
-									"zc_itemSet": {
-										"results": PartItem
-									},
-									"zc_claim_item_labourSet": {
-										"results": LabourItem
-									},
-									"zc_claim_item_paintSet": {
-										"results": PaintItem
-									},
-									"zc_item_subletSet": {
-										"results": SubletItem
-									},
-									"zc_claim_attachmentsSet": {
-										"results": []
-									},
-									"zc_claim_item_damageSet": {
-										"results": oDamageItem
-									},
-									"zc_claim_commentSet": {
-										"results": this.getModel("LocalDataModel").getProperty("/claim_commentSet")
-									},
-									"zc_claim_vsrSet": {
-										"results": []
-									},
-									"zc_claim_item_price_dataSet": {
-										"results": pricinghData
-									}
-								};
-							}, this)
-						});
-
-					}, this),
-					error: function () {}
 				});
 
 				oProssingModel.read("/zc_claim_attachmentsSet", {
@@ -2263,8 +2251,7 @@ sap.ui.define([
 			var oCurrentDt = new Date();
 
 			var oEntry = {
-
-				"HeadText": this.getModel("LocalDataModel").getProperty("/BPOrgName") + "(" + oDate + ") " + " : " + sValue,
+				"HeadText": this.getModel("LocalDataModel").getProperty("/BPOrgName") + "(" + oDate + ")" + ":" + sValue,
 				"NumberOfWarrantyClaim": this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum"),
 				"LanguageKey": sSelectedLocale.toUpperCase(),
 				"User": "",
@@ -2330,10 +2317,6 @@ sap.ui.define([
 		// 			}
 		// 		},
 		onSelectClaimTpe: function (oEvent) {
-			// this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") = oEvent.getSource().getSelectedKey();
-			// this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType");
-			//var oClaimType = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType");
-			//var oClaimSubType = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType");
 			this.getView().getModel("DateModel").setProperty("/claimTypeState2", "None");
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var oKey = oEvent.getSource().getSelectedKey();
@@ -4013,7 +3996,7 @@ sap.ui.define([
 
 			var aInputSmartPart = [
 				oView.byId("idDealerClaim"),
-			
+
 			];
 
 			var bValidationError = false;

@@ -131,7 +131,7 @@
 			</VBox>
 		</l:Grid>
 		<Table id="idLabourTable" mode="SingleSelectLeft" items="{path: 'LocalDataModel>/LabourPricingDataModel'}" growing="true"
-			growingThreshold="20" noDataText="No Data" showNoData="true">
+			growingThreshold="20" noDataText="{i18n>NoData}" showNoData="true">
 			<columns>
 				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Begin"><Text text="{i18n>Line}"/></Column>
 				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Begin"><Text text="{i18n>MainOp}"/></Column>

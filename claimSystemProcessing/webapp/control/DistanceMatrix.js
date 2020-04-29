@@ -33,11 +33,12 @@ sap.ui.define(
 					var fromName = that.getOrigin();
 					//var dest = new google.maps.LatLng(44.391403, 26.1157184);
 					var destName = that.getDestination();
-
+					if(fromName != "" && destName != ""){
 					var service = new google.maps.DistanceMatrixService();
 					service.getDistanceMatrix({
 						origins: [fromName],
 						destinations: [destName],
+					
 						travelMode: 'DRIVING'
 					}, function (response, status) {
 						if (status == 'OK') {
@@ -64,6 +65,7 @@ sap.ui.define(
 							}
 						}
 					});
+					}
 				});
 
 			},

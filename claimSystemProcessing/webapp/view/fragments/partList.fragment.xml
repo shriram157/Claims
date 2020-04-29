@@ -1,5 +1,5 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
-	<TableSelectDialog noDataText="No data Found" title="{i18n>SelectPartNumber}" search="_handleValueHelpSearch" liveChange="_handleLiveSearch"
+	<TableSelectDialog noDataText="{i18n>NoData}" title="{i18n>SelectPartNumber}"  search="_handleValueHelpSearch" liveChange="_handleLiveSearch"
 		confirm="_handleValueHelpClose" cancel="_handleValueHelpClose"
 		items="{path:'ProductMasterModel>/C_Product_Fs', filters: [ { filters: [ { path: 'ProductType', operator: 'NE', value1: 'VERP' }, { path: 'ProductType', operator: 'NE', value1: 'DIEN' }, { path: 'ProductType', operator: 'NE', value1: 'VEHI' } ], and: true } ]}">
 		<ColumnListItem>
@@ -12,7 +12,7 @@
 		<columns>
 			<Column width="12em">
 				<header>
-					<Text text="Material"/>
+					<Text text="{i18n>Material}"/>
 				</header>
 			</Column>
 			<Column minScreenWidth="Tablet" demandPopin="true">
@@ -22,7 +22,7 @@
 			</Column>
 			<Column minScreenWidth="Desktop" demandPopin="true" hAlign="End">
 				<header>
-					<Text text="Unit"/>
+					<Text text="{i18n>Unit}"/>
 				</header>
 			</Column>
 		</columns>
