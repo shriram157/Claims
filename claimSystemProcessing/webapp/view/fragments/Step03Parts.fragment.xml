@@ -24,11 +24,7 @@
 					<f:content>
 						<HBox>
 							<Label text="{i18n>DamageCondition} " class="sapUiSmallMargin" textAlign="Begin" visible="{multiHeaderConfig>/partDamage}"/>
-							<!--<Select valueState="{DateModel>/ddType}" width="15rem" id="DmgCodes" enabled="{DateModel>/partLine}" change="onDDChange"-->
-							<!--	showSecondaryValues="false" items="{DropDownModel>/items}" visible="{multiHeaderConfig>/partDamage}"-->
-							<!--	selectedKey="{HeadSetData>/DamageCondition}">-->
-							<!--	<core:ListItem key="{DropDownModel>DiscreCode}" text="{path:'DropDownModel>ALMDiscreDesc'}" additionalText="{DropDownModel>ALMDiscreCode}"/>-->
-							<!--</Select>-->
+						
 							<custom:CustomCombo showSecondaryValues="true" id="DmgCodes" enabled="{DateModel>/partLine}" required="true"
 								visible="{multiHeaderConfig>/partDamage}" items="{DropDownModel>/items}" selectionChange="onDDChange"
 								selectedKey="{HeadSetData>/DamageCondition}" valueState="{DateModel>/ddType}"
@@ -42,11 +38,7 @@
 								value="{path:'PartDataModel>/ALMDiscreDesc', type : 'sap.ui.model.type.String' }">
 								<core:ListItem text="{path:'DropDownModel>ALMDiscreDesc'}" key="{DropDownModel>DiscreCode}" additionalText="{DropDownModel>ALMDiscreCode}"/>
 							</custom:CustomCombo>
-							<!--<Select valueState="{DateModel>/ddType}" width="15rem" id="DscpCodes" enabled="{DateModel>/editPartType}" change="onDDChange"-->
-							<!--	showSecondaryValues="false" items="{DropDownModel>/items}" visible="{multiHeaderConfig>/partDiscrepancies}"-->
-							<!--	selectedKey="{HeadSetData>/DiscrepancyCodes}">-->
-							<!--	<core:ListItem key="{DropDownModel>DiscreCode}" text="{path:'DropDownModel>ALMDiscreDesc'}" additionalText="{DropDownModel>ALMDiscreCode}"/>-->
-							<!--</Select>-->
+						
 							<Label text="{i18n>MiscellaneousCode} " class="sapUiSmallMargin" textAlign="Begin" visible="{multiHeaderConfig>/partMiscellanious}"/>
 							<custom:CustomCombo showSecondaryValues="true" id="MscCodes" enabled="{DateModel>/partLine}" required="true"
 								visible="{multiHeaderConfig>/partMiscellanious}" items="{DropDownModel>/items}" selectionChange="onDDChange"
@@ -54,11 +46,7 @@
 								value="{path:'PartDataModel>/ALMDiscreDesc', type : 'sap.ui.model.type.String' }">
 								<core:ListItem text="{path:'DropDownModel>ALMDiscreDesc'}" key="{DropDownModel>DiscreCode}" additionalText="{DropDownModel>ALMDiscreCode}"/>
 							</custom:CustomCombo>
-							<!--<Select valueState="{DateModel>/ddType}" width="15rem" id="MscCodes" enabled="{DateModel>/editPartType}" change="onDDChange"-->
-							<!--	showSecondaryValues="false" items="{DropDownModel>/items}" visible="{multiHeaderConfig>/partMiscellanious}"-->
-							<!--	selectedKey="{HeadSetData>/MiscellaneousCode}">-->
-							<!--	<core:ListItem key="{DropDownModel>DiscreCode}" text="{path:'DropDownModel>ALMDiscreDesc'}" additionalText="{DropDownModel>ALMDiscreCode}"/>-->
-							<!--</Select>-->
+						
 							<Label text="{i18n>TransportShortageType} " class="sapUiSmallMargin" textAlign="Begin" visible="{multiHeaderConfig>/partTransportation}"/>
 							<custom:CustomCombo showSecondaryValues="true" id="TransportCodes" enabled="{DateModel>/partLine}" required="true"
 								visible="{multiHeaderConfig>/partTransportation}" items="{DropDownModel>/items}" selectionChange="onDDChange"
@@ -66,11 +54,7 @@
 								value="{path:'PartDataModel>/ALMDiscreDesc', type : 'sap.ui.model.type.String' }">
 								<core:ListItem text="{path:'DropDownModel>ALMDiscreDesc'}" key="{DropDownModel>DiscreCode}" additionalText="{DropDownModel>ALMDiscreCode}"/>
 							</custom:CustomCombo>
-							<!--<Select valueState="{DateModel>/ddType}" width="15rem" id="TransportCodes" enabled="{DateModel>/editPartType}" change="onDDChange"-->
-							<!--	showSecondaryValues="false" items="{DropDownModel>/items}" visible="{multiHeaderConfig>/partTransportation}"-->
-							<!--	selectedKey="{HeadSetData>/TranportShortageType}">-->
-							<!--	<core:ListItem key="{DropDownModel>DiscreCode}" text="{path:'DropDownModel>ALMDiscreDesc'}" additionalText="{DropDownModel>ALMDiscreCode}"/>-->
-							<!--</Select>-->
+						
 						</HBox>
 						<HBox>
 							<Label text=""/>
@@ -91,7 +75,7 @@
 				<VBox class="clBgColor">
 					<f:SimpleForm id="idRow01Form" class=" borderStyle" editable="true" labelSpanL="12" title="" labelSpanXL="12" layout="ResponsiveGridLayout"
 						columnsM="7" columnsL="6" columnsXL="6">
-						<!--<f:SimpleForm id="idRow01Form" class="sapUiResponsiveMargin ClsubHeadingLineHeight borderStyle" width="90%" layout="ResponsiveGridLayout">-->
+						
 						<f:content>
 							<core:Title text=""/>
 							<Label text=""/>
@@ -109,12 +93,7 @@
 							<Input id="idOrderedPartDesc" value="{PartDataModel>/PartDescription}" editable="{multiHeaderConfig>/OrderedPartDesc}"></Input>
 							<core:Title text=""/>
 							<Label text="{i18n>Quantity}"></Label>
-							<!--<Input value="{path : 'PartDataModel>/PartQty', type : 'sap.ui.model.type.Integer', constraints : { minLength : 1, maxLength : 10 }}"-->
-							<!--	required="true" enabled="{DateModel>/partLine}" valueState="{DateModel>/partTypeState}">-->
-							<!--	<layoutData>-->
-							<!--		<l:GridData span="XL8 L8"/>-->
-							<!--	</layoutData>-->
-							<!--</Input>-->
+							
 							<customPart:CustomInput valueState="{DateModel>/partTypeState}" value="{PartDataModel>/PartQty}" enabled="{DateModel>/partLine}"
 								required="true"/>
 						</f:content>
@@ -160,8 +139,6 @@
 							</Select>
 							<core:Title text=""/>
 							<Label text="{i18n>PartNumberReceived}" width="10rem" visible="{multiHeaderConfig>/PartNumberRcV}"/>
-							<!--<Input value="{ path : 'HeadSetData>/PartNumberRc'}" editable="{multiHeaderConfig>/PartNumberEdit}" required="true"-->
-							<!--	visible="{multiHeaderConfig>/PartNumberRcV}"></Input>-->
 							<Input value="{HeadSetData>/PartNumberRc}" id="idPartNumber2" required="true" showValueHelp="true" valueHelpOnly="true"
 								editable="{multiHeaderConfig>/PartNumberEdit}" valueHelpRequest="handlePNValueHelp02" enabled="{DateModel>/partLine}"
 								visible="{multiHeaderConfig>/PartNumberRcV}"></Input>
@@ -179,22 +156,16 @@
 								</items>
 							</Select>
 							<core:Title text=""/>
-							<!--<Label text="Dealer Net Price" visible="{multiHeaderConfig>/DealerNetPrcV}"></Label>-->
-							<!--<Input id="idDealerNetPrc" visible="{multiHeaderConfig>/DealerNetPrcV}" editable="{multiHeaderConfig>/DealerNetPrcEdt}" maxLength="3"></Input>-->
+		
 							<Label text="{i18n>RepairAmount}" visible="{multiHeaderConfig>/RepairAmtV}"></Label>
 							<Input id="idReceivedAmt" value="{HeadSetData>/RepairAmount}" type="Number" required="{DateModel>/reqRepairAmt}" visible="{multiHeaderConfig>/RepairAmtV}"
 								enabled="{DateModel>/partLine}"></Input>
 							<core:Title text=""/>
 							<Label text="{i18n>Quantity}"></Label>
-							<!--<Input-->
-							<!--	value="{path : 'PartDataModel>/QuantityReceived', type : 'sap.ui.model.type.String', formatOptions : { groupingEnabled : true }, constraints : { minimum : 0, maximum : 100 } }"-->
-							<!--	required="true" id="idReceivedQnt" enabled="{DateModel>/partLine}" valueState="{DateModel>/partTypeState}">-->
+							
 							<customPart:CustomInput id="idReceivedQnt" valueState="{DateModel>/partTypeState}" value="{PartDataModel>/QuantityReceived}"
 								enabled="{DateModel>/partLine}" required="true"/>
-							<!--	<layoutData>-->
-							<!--		<l:GridData span="XL8 L8"/>-->
-							<!--	</layoutData>-->
-							<!--</Input>-->
+							
 						</f:content>
 					</f:SimpleForm>
 				</VBox>
@@ -250,8 +221,7 @@
 					</Column>
 					<Column>
 						<Text text="{i18n>AmountClaimed}"/>
-						<!--<footer><Text text="{path: 'LocalDataModel>AmountClaimedTotal'}" textAlign="Center"-->
-						<!--	width="100%"/></footer>-->
+						
 						<footer><Text text="{path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnAmountClaimedPW'}" textAlign="Center"
 							width="100%"/></footer>
 					</Column>
@@ -260,8 +230,7 @@
 					</Column>
 					<Column>
 						<Text text="{i18n>TCIAmountApproved}"/>
-						<!--<footer><Text text="{path: 'LocalDataModel>TCIApprovedAmtTotal'}" textAlign="Center"-->
-						<!--	width="100%"/></footer>-->
+					
 						<footer><Text text="{path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnTCIAprrovedPW'}" textAlign="Center"
 							width="100%"/></footer>
 					</Column>
@@ -269,15 +238,13 @@
 						<Text text="{i18n>Difference}"/>
 						<footer><Text text="{path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnDifPW'}" textAlign="Center"
 							width="100%"/></footer>
-						<!--<footer><Text text="{path: 'LocalDataModel>DifferenceTotal'}" textAlign="Center"-->
-						<!--	width="100%"/></footer>-->
-						<!--DifferenceTotal-->
+					
 					</Column>
 				</columns>
 				<items>
 					<ColumnListItem vAlign="Middle">
 						<cells>
-							<!--path: 'LocalDataModel>TCIApprovedAmount', formatter: 'zclaimProcessing.utils.formatter.roundedDecimals'-->
+						
 							<Text text="{LocalDataModel>posnr}"/>
 							<Text text="{LocalDataModel>ALMDiscreDesc}"/>
 							<Text text="{LocalDataModel>ALMDiscreDesc}"/>
