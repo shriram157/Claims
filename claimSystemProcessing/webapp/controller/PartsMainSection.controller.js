@@ -1785,7 +1785,7 @@ sap.ui.define([
 						var that = this;
 
 						var MaterialCheck = this.obj.zc_itemSet.results.findIndex(x => x.MaterialNumber === matNum);
-						var returnPartCheck = this.obj.zc_itemSet.results.findIndex(x => x.WrongPart === matNum);
+					
 
 						if (this.getView().getModel("PartDataModel").getProperty("/QuantityReceived") > 0 && this.getView().getModel(
 								"PartDataModel").getProperty("/DiscreCode") !== "2A" ||
@@ -1795,7 +1795,7 @@ sap.ui.define([
 								"PartDataModel").getProperty("/DiscreCode") == "2A") {
 
 							if (this.getView().getModel("PartDataModel").getProperty("/matnr") != "") {
-								if (MaterialCheck == -1 && returnPartCheck == -1) {
+								if (MaterialCheck == -1) {
 									this.getView().byId("idMainClaimMessage").setProperty("visible", false);
 									this.obj.zc_itemSet.results.push(itemObj);
 									this.obj.zc_claim_item_price_dataSet.results = [];
@@ -1969,14 +1969,19 @@ sap.ui.define([
 								"WrongPart": WrongPart,
 								"ALMDiscreDesc": this.getView().getModel("PartDataModel").getProperty("/ALMDiscreDesc")
 							};
+var MaterialCheck
 
-							var MaterialCheck = this.obj.zc_itemSet.results.findIndex(x => x.MaterialNumber === matNum || x.MaterialNumber === WrongPart);
-							var wrongPartCheck = this.obj.zc_itemSet.results.findIndex(x => x.WrongPart === matNum || x.WrongPart === WrongPart);
+	if (this.getView().getModel("PartDataModel").getProperty("/DiscreCode") == "4A") {
+							MaterialCheck = this.obj.zc_itemSet.results.findIndex(x => x.MaterialNumber === matNum || x.WrongPart === WrongPart);
+	}else{
+		MaterialCheck = this.obj.zc_itemSet.results.findIndex(x => x.MaterialNumber === matNum);
+	}
+							//var wrongPartCheck = this.obj.zc_itemSet.results.findIndex(x => x.WrongPart === matNum || x.WrongPart === WrongPart);
 
 							if (this.getView().getModel("PartDataModel").getProperty("/matnr") != "" && this
 								.getView().getModel("HeadSetData").getProperty("/PartNumberRc") != undefined) {
 
-								if (MaterialCheck == -1 && wrongPartCheck == -1) {
+								if (MaterialCheck == -1) {
 
 									this.getView().byId("idMainClaimMessage").setProperty("visible", false);
 									this.obj.zc_itemSet.results.push(itemObj2);
