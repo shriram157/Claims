@@ -16,12 +16,14 @@ sap.ui.define([
 	var callData, arrPartLOI = [],
 		BpDealerModel, BpDealerList = [],
 		oFilteredDealerData, dialogValidator, BPKey, userScope, sSelectedLocale;
+		this.oBundle;
 	return BaseController.extend("zclaimProcessing.controller.PartsMainSection", {
 
 		onInit: function () {
 			this.getDealer();
 			userScope = sap.ui.getCore().getModel("UserDataModel").getProperty("/UserScope");
 			this.getView().setModel(sap.ui.getCore().getModel("HeaderLinksModel"), "HeaderLinksModel");
+			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 
 			var oNodeModel = new sap.ui.model.json.JSONModel();
 			oNodeModel.setData({
@@ -701,16 +703,16 @@ sap.ui.define([
 											}
 
 											var PartItem = oFilteredData.map(function (item) {
-												if (item.RepairOrRetrunPart == "Yes") {
+												if (item.RepairOrRetrunPart == this.oBundle.getText("Yes")) {
 													var RepairPart = "Y";
-												} else if (item.RepairOrRetrunPart == "No") {
+												} else if (item.RepairOrRetrunPart == this.oBundle.getText("No")) {
 													RepairPart = "N";
 												} else {
 													RepairPart = "";
 												}
-												if (item.RetainPart == "Yes") {
+												if (item.RetainPart == this.oBundle.getText("Yes")) {
 													var RetainPart = "Y";
-												} else if (item.RetainPart == "No") {
+												} else if (item.RetainPart == this.oBundle.getText("No")) {
 													RetainPart = "N";
 												} else {
 													RetainPart = "";
@@ -2346,7 +2348,7 @@ sap.ui.define([
 
 				buttons: [
 					new Button({
-						text: "Yes",
+						text: _that.oBundle.getText("Yes"),
 						press: $.proxy(function () {
 								console.log("Validations Completed");
 								this.getView().getModel("DateModel").setProperty("/LOIBusyIndicator", true);
@@ -2825,9 +2827,9 @@ sap.ui.define([
 					this.getView().getModel("HeadSetData").setProperty("/DiscrepancyCodes", obj.DiscreCode);
 					this.getView().getModel("PartDataModel").setProperty("/ALMDiscreDesc", obj.ALMDiscreDesc);
 					if (obj.RetainPart == "Y") {
-						this.getView().getModel("PartDataModel").setProperty("/RetainPart", "Yes");
+						this.getView().getModel("PartDataModel").setProperty("/RetainPart", this.oBundle.getText("Yes"));
 					} else if (obj.RetainPart == "N") {
-						this.getView().getModel("PartDataModel").setProperty("/RetainPart", "No");
+						this.getView().getModel("PartDataModel").setProperty("/RetainPart", this.oBundle.getText("No"));
 					}
 				} else {
 					this.getView().getModel("PartDataModel").setProperty("/PartQty", obj.QuantityOrdered);
@@ -2840,18 +2842,18 @@ sap.ui.define([
 					this.getView().getModel("DateModel").setProperty("/editablePartNumber", false);
 					this.getView().getModel("PartDataModel").setProperty("/DiscreCode", obj.DiscreCode);
 					if (obj.RetainPart == "Y") {
-						this.getView().getModel("PartDataModel").setProperty("/RetainPart", "Yes");
+						this.getView().getModel("PartDataModel").setProperty("/RetainPart", this.oBundle.getText("Yes"));
 					} else if (obj.RetainPart == "N") {
-						this.getView().getModel("PartDataModel").setProperty("/RetainPart", "No");
+						this.getView().getModel("PartDataModel").setProperty("/RetainPart", this.oBundle.getText("No"));
 					}
 					// this.getView().getModel("PartDataModel").setProperty("/RetainPart", obj.RetainPart);
 					if (obj.ALMDiscreDesc != undefined) {
 						this.getView().getModel("PartDataModel").setProperty("/ALMDiscreDesc", obj.ALMDiscreDesc);
 					}
 					if (obj.PartRepaired == "Y") {
-						this.getView().getModel("HeadSetData").setProperty("/PartRepaired", "Yes");
+						this.getView().getModel("HeadSetData").setProperty("/PartRepaired", this.oBundle.getText("Yes"));
 					} else if (obj.PartRepaired == "N") {
-						this.getView().getModel("HeadSetData").setProperty("/PartRepaired", "No");
+						this.getView().getModel("HeadSetData").setProperty("/PartRepaired", this.oBundle.getText("No"));
 					}
 					this.getView().getModel("HeadSetData").setProperty("/RepairAmount", obj.RepairAmt);
 					this.getView().getModel("HeadSetData").setProperty("/DamageCondition", obj.DiscreCode);
@@ -3781,16 +3783,16 @@ sap.ui.define([
 						this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
 
 						var PartItem = pricingData.map(function (item) {
-							if (item.RepairOrRetrunPart == "Yes") {
+							if (item.RepairOrRetrunPart == this.oBundle.getText("Yes")) {
 								var RepairPart = "Y";
-							} else if (item.RepairOrRetrunPart == "No") {
+							} else if (item.RepairOrRetrunPart == this.oBundle.getText("No")) {
 								RepairPart = "N";
 							} else {
 								RepairPart = "";
 							}
-							if (item.RetainPart == "Yes") {
+							if (item.RetainPart == this.oBundle.getText("Yes")) {
 								var RetainPart = "Y";
-							} else if (item.RetainPart == "No") {
+							} else if (item.RetainPart == this.oBundle.getText("No")) {
 								RetainPart = "N";
 							} else {
 								RetainPart = "";
@@ -4484,7 +4486,7 @@ sap.ui.define([
 
 				buttons: [
 					new Button({
-						text: "Yes",
+						text: that.oBundle.getText("Yes"),
 						press: $.proxy(function () {
 							dialog.close();
 							this.getView().getModel("DateModel").setProperty("/SubmitPWBusyIndicator", true);
