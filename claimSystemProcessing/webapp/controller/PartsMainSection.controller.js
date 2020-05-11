@@ -16,14 +16,13 @@ sap.ui.define([
 	var callData, arrPartLOI = [],
 		BpDealerModel, BpDealerList = [],
 		oFilteredDealerData, dialogValidator, BPKey, userScope, sSelectedLocale;
-		this.oBundle;
 	return BaseController.extend("zclaimProcessing.controller.PartsMainSection", {
 
 		onInit: function () {
 			this.getDealer();
 			userScope = sap.ui.getCore().getModel("UserDataModel").getProperty("/UserScope");
 			this.getView().setModel(sap.ui.getCore().getModel("HeaderLinksModel"), "HeaderLinksModel");
-			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
+			
 
 			var oNodeModel = new sap.ui.model.json.JSONModel();
 			oNodeModel.setData({
@@ -194,6 +193,7 @@ sap.ui.define([
 		},
 
 		onDelDateChange: function () {
+			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			if (this.SelectedClaimType !== "ZPMS") {
 				this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", false);
 			} else {
@@ -337,8 +337,6 @@ sap.ui.define([
 					this.getModel("LocalDataModel").setProperty("/oClaimPartsGroupsData", oClaimGroupsData);
 				}, this)
 			});
-
-			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var oDateModel = new sap.ui.model.json.JSONModel();
 			this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
 			this.getModel("LocalDataModel").setProperty("/enablePWEnterComment", false);
@@ -2582,6 +2580,7 @@ sap.ui.define([
 			this.getView().getModel("LOIDataModel").setProperty("/RadioTR", oVal3);
 		},
 		onRadioChangeCR: function (oCR) {
+			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			console.log("oCR", oCR);
 			oCR.getSource().getSelectedButton().getText();
 			var oVal4;
@@ -2673,7 +2672,7 @@ sap.ui.define([
 			// }
 		},
 		onPressLetterOfIntent: function () {
-
+			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			console.log("oFilteredDealerData", oFilteredDealerData);
 			var LOIData = new sap.ui.model.json.JSONModel({
 				"claimNumber": "",
@@ -2783,6 +2782,7 @@ sap.ui.define([
 		},
 
 		onPressUpdatePart: function (oEvent) {
+			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			this.updatePartFlag = true;
 			var oTable = this.getView().byId("partTable");
 			var oTableIndex = oTable._aSelectedPaths;
@@ -3223,6 +3223,7 @@ sap.ui.define([
 		},
 		onSelectClaim: function (oEvent) {
 			// this._getDropDownData(oEvent.getSource().getProperty("selectedKey"));
+			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			this._getDropDownData(oEvent.getSource().getProperty("selectedKey"));
 			if (oEvent.getSource().getProperty("selectedKey") === "ZPDC") {
 				this.SelectedClaimType = "ZPDC";
@@ -4941,6 +4942,7 @@ sap.ui.define([
 		},
 
 		onExit: function () {
+			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			this.getModel("ProssingModel").refresh();
 			this.getModel("LocalDataModel").setProperty("/PricingDataModel", []);
 			this.getModel("LocalDataModel").setProperty("/PartHeadAttachData", []);
