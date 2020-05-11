@@ -145,7 +145,7 @@
 							<core:Title text=""/>
 							<Label text="{i18n>PartDescription}" visible="{multiHeaderConfig>/PartDescriptionOrdRcv}"/>
 							<Input value="{ path : 'HeadSetData>/PartNumberRcDesc'}" id="idOrderedReceivedPartDesc" editable="{multiHeaderConfig>/OrderedPartDesc}"
-								visible="{multiHeaderConfig>/PartDescriptionOrdRcv}" enabled="{DateModel>/partLine}"></Input>
+								visible="{multiHeaderConfig>/PartDescriptionOrdRcv}" enabled="{DateModel>/partLine}" ></Input>
 							<Label text="{i18n>PartRepaired}" visible="{multiHeaderConfig>/PartRepaired}"/>
 							<Select visible="{multiHeaderConfig>/PartRepaired}" selectedKey="{HeadSetData>/PartRepaired}"  enabled="{DateModel>/partLine}"
 								change="onPartRepairedChange">
@@ -164,7 +164,7 @@
 							<Label text="{i18n>Quantity}"></Label>
 							
 							<customPart:CustomInput id="idReceivedQnt" valueState="{DateModel>/partTypeState}" value="{PartDataModel>/QuantityReceived}"
-								enabled="{DateModel>/partLine}" required="true"/>
+								enabled="{DateModel>/partLine}" required="true" liveChange="ValidQty"/>
 							
 						</f:content>
 					</f:SimpleForm>
