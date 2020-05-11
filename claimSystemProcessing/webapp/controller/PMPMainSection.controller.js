@@ -787,8 +787,9 @@ sap.ui.define([
 				PmpDataManager._fnUpdateHeaderProp(this);
 				this.obj.DBOperation = "SAVE";
 				this.obj.Message = "";
-				this.obj.ReferenceDate = PmpDataManager._fnDateFormat(oCurrentDt);
 				this.obj.Partner = this.getModel("LocalDataModel").getProperty("/BpDealerModel/0/BusinessPartnerKey");
+				this.obj.ReferenceDate = PmpDataManager._fnDateFormat(oCurrentDt);
+				
 
 				this.obj.zc_itemSet.results = [];
 				this.obj.zc_claim_item_price_dataSet.results = [];
