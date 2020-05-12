@@ -199,12 +199,12 @@ sap.ui.define([
 									return item;
 
 								});
-								
+
 								this.getModel("LocalDataModel").setProperty("/HeadAtchmentData", oAttachSet);
 							}, this)
 						});
 						this.getView().getModel("HeadSetData").setProperty("/NumberOfWarrantyClaim", oClaim);
-					
+
 						oPMPModel.read("/zc_claim_item_price_dataSet", {
 							urlParameters: {
 								"$filter": "NumberOfWarrantyClaim eq '" + oClaim +
@@ -356,7 +356,7 @@ sap.ui.define([
 			PmpDataManager._fnDistanceValidation(this);
 
 			if (bValidationError) {
-				
+
 				this.getView().byId("idMainClaimMessage").setText(oBundle.getText("FillUpMandatoryField"));
 				this.getView().byId("idMainClaimMessage").setType("Error");
 				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
@@ -469,7 +469,7 @@ sap.ui.define([
 			var oClaimModel = this.getModel("ProssingModel");
 			var oClaimPMPModel = this.getModel("zDLRCLAIMPMPSRV");
 			var oClaimNum = this.getView().getModel("HeadSetData").getProperty("/NumberOfWarrantyClaim");
-		
+
 			var obj = {
 				NumberOfWarrantyClaim: oClaimNum,
 				DBOperation: "ZTCD"
@@ -787,6 +787,10 @@ sap.ui.define([
 				PmpDataManager._fnUpdateHeaderProp(this);
 				this.obj.DBOperation = "SAVE";
 				this.obj.Message = "";
+				this.obj.Partner = this.getModel("LocalDataModel").getProperty("/BpDealerModel/0/BusinessPartnerKey");
+				this.obj.PartnerRole = "AS";
+				this.obj.ReferenceDate = PmpDataManager._fnDateFormat(oCurrentDt);
+				
 
 				this.obj.zc_itemSet.results = [];
 				this.obj.zc_claim_item_price_dataSet.results = [];
@@ -795,14 +799,14 @@ sap.ui.define([
 				oClaimModel.refreshSecurityToken();
 				oClaimModel.create("/ZC_HEAD_PMPSet", this.obj, {
 					success: $.proxy(function (data, response) {
-						
+
 						this.getView().getModel("HeadSetData").setProperty("/NumberOfWarrantyClaim", data.NumberOfWarrantyClaim);
 						this.getModel("LocalDataModel").setProperty("/WarrantyClaimNum", data.NumberOfWarrantyClaim);
 						MessageToast.show(oBundle.getText("Claimhasbeensavedsuccessfully"), {
 							my: "center center",
 							at: "center center"
 						});
-						
+
 						this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", false);
 						this.getView().byId("idMainClaimMessage").setProperty("visible", false);
 						this.getView().getModel("DateModel").setProperty("/claimTypeEn", false);
@@ -1385,7 +1389,7 @@ sap.ui.define([
 												PmpDataManager._fnStatusCheck(this);
 
 												if (sdata.results[0].DecisionCode == "ZTIC" || sdata.results[0].DecisionCode == "ZTRC") {
-												
+
 													PmpDataManager._fnEnableDisablebtn(this, true);
 													MessageToast.show(
 														oBundle.getText("ClaimNumber") + " " + oClaimNum + " " + oBundle.getText(
