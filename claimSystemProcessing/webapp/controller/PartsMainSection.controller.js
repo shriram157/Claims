@@ -244,6 +244,8 @@ sap.ui.define([
 		_onRoutMatched: function (oEvent) {
 			this.getModel("LocalDataModel").setProperty("/PartHeadAttachData", []);
 			this.getModel("LocalDataModel").setProperty("/IndicatorState", false);
+			
+			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 
 			var oMultiHeaderConfig = {
 				multiheader1: [3, 1],
@@ -320,7 +322,7 @@ sap.ui.define([
 				sSelectedLocale = "EN"; // default is english
 			}
 			var oProssingModel = this.getModel("ProssingModel");
-			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
+			
 			var that = this;
 			oProssingModel.read("/zc_claim_groupSet", {
 				urlParameters: {
@@ -331,7 +333,7 @@ sap.ui.define([
 					oClaimGroupsData = groupData.results.filter(function (item) {
 						item.ALMClaimTypeDes = item.ALMClaimTypeDes;
 						item.ALMClaimType = item.WarrantyClaimType;
-						return item.ClaimGroupDes == that.oBundle.getText("partwarehouse").toUpperCase(); //partwarehouse
+						return item.ClaimGroupDes == oBundle.getText("partwarehouse").toUpperCase(); //partwarehouse
 					});
 					this.getModel("LocalDataModel").setProperty("/oClaimPartsGroupsData", oClaimGroupsData);
 				}, this)
@@ -452,7 +454,7 @@ sap.ui.define([
 					this.getView().getModel("multiHeaderConfig").setProperty("/DamageConditionCol", true);
 					this.getView().getModel("multiHeaderConfig").setProperty("/MiscellaneousCol", false);
 					this.getView().getModel("multiHeaderConfig").setProperty("/TransportCol", false);
-					this.getView().byId("textHeaderLabel").setText(this.oBundle.getText("Claimed"));
+					this.getView().byId("textHeaderLabel").setText(oBundle.getText("Claimed"));
 					this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
 
 				} else if (this.claimType === "ZPMS") {
@@ -484,7 +486,7 @@ sap.ui.define([
 					this.getView().getModel("multiHeaderConfig").setProperty("/DamageConditionCol", false);
 					this.getView().getModel("multiHeaderConfig").setProperty("/MiscellaneousCol", true);
 					this.getView().getModel("multiHeaderConfig").setProperty("/TransportCol", false);
-					this.getView().byId("textHeaderLabel").setText(this.oBundle.getText("Claimed"));
+					this.getView().byId("textHeaderLabel").setText(oBundle.getText("Claimed"));
 					this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
 
 				} else if (this.claimType === "ZPTS") {
@@ -515,7 +517,7 @@ sap.ui.define([
 					this.getView().getModel("multiHeaderConfig").setProperty("/DamageConditionCol", false);
 					this.getView().getModel("multiHeaderConfig").setProperty("/MiscellaneousCol", false);
 					this.getView().getModel("multiHeaderConfig").setProperty("/TransportCol", true);
-					this.getView().byId("textHeaderLabel").setText(this.oBundle.getText("Claimed"));
+					this.getView().byId("textHeaderLabel").setText(oBundle.getText("Claimed"));
 
 				} else if (this.claimType === "ZPPD") {
 					this.SelectedClaimType = "ZPPD";
@@ -547,7 +549,7 @@ sap.ui.define([
 					this.getView().getModel("multiHeaderConfig").setProperty("/DamageConditionCol", false);
 					this.getView().getModel("multiHeaderConfig").setProperty("/MiscellaneousCol", false);
 					this.getView().getModel("multiHeaderConfig").setProperty("/TransportCol", false);
-					this.getView().byId("textHeaderLabel").setText(this.oBundle.getText("Received"));
+					this.getView().byId("textHeaderLabel").setText(oBundle.getText("Received"));
 				}
 
 				var DropDownModel = new sap.ui.model.json.JSONModel();
@@ -700,16 +702,16 @@ sap.ui.define([
 											}
 
 											var PartItem = oFilteredData.map(function (item) {
-												if (item.RepairOrRetrunPart == this.oBundle.getText("Yes")) {
+												if (item.RepairOrRetrunPart == oBundle.getText("Yes")) {
 													var RepairPart = "Y";
-												} else if (item.RepairOrRetrunPart == this.oBundle.getText("No")) {
+												} else if (item.RepairOrRetrunPart == oBundle.getText("No")) {
 													RepairPart = "N";
 												} else {
 													RepairPart = "";
 												}
-												if (item.RetainPart == this.oBundle.getText("Yes")) {
+												if (item.RetainPart == oBundle.getText("Yes")) {
 													var RetainPart = "Y";
-												} else if (item.RetainPart == this.oBundle.getText("No")) {
+												} else if (item.RetainPart == oBundle.getText("No")) {
 													RetainPart = "N";
 												} else {
 													RetainPart = "";
