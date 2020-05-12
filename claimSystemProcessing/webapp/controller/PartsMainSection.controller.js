@@ -2212,7 +2212,6 @@ sap.ui.define([
 										error: $.proxy(function (err) {
 											this.getView().getModel("DateModel").setProperty("/SavePWPartIndicator", false);
 											that.obj.zc_itemSet.results.pop();
-							
 											console.log(err);
 											var err = JSON.parse(err.responseText);
 											var msg = err.error.message.value;
