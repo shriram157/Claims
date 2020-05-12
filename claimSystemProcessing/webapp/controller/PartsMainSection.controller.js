@@ -1309,6 +1309,7 @@ sap.ui.define([
 		},
 
 		onReceivedDateChange: function (oReceivedDate) {
+			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var receivedDate = oReceivedDate.getSource().mProperties.dateValue;
 			var delDate = new Date(this.getView().getModel("HeadSetData").getProperty("/DeliveryDate"));
 			receivedDate = new Date(receivedDate.getFullYear(), receivedDate.getMonth(), receivedDate.getDate());
