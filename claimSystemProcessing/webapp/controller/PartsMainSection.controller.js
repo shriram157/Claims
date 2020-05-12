@@ -1505,11 +1505,15 @@ sap.ui.define([
 
 		ValidQty: function (liveQty) {
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
-			if ((this.getView().getModel("PartDataModel").getProperty("/DiscreCode") !== "PTSA" || this.getView().getModel("PartDataModel").getProperty(
-					"/DiscreCode") !== "3A") && liveQty.getParameters().newValue < 1) {
-				MessageBox.show(this.oBundle.getText("PleaseEnterValidQTY"), MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK,
-					null, null);
-			} else {
+			// if ((this.getView().getModel("PartDataModel").getProperty("/DiscreCode") !== "PTSA" || this.getView().getModel("PartDataModel").getProperty(
+			// 		"/DiscreCode") !== "3A") && liveQty.getParameters().newValue < 1) {
+			// 	MessageBox.show(this.oBundle.getText("PleaseEnterValidQTY"), MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK,
+			// 		null, null);
+			// } 
+			
+			
+			
+		
 				this.getView().getModel("DateModel").setProperty("/partTypeState", "None");
 				if (this.getView().getModel("PartDataModel").getProperty("/DiscreCode") == "2A") {
 					if (this.getView().getModel("PartDataModel").getProperty("/PartQty") <= liveQty.getParameters().newValue) {
@@ -1554,7 +1558,7 @@ sap.ui.define([
 						this.getView().getModel("DateModel").setProperty("/saveParts", true);
 					}
 				}
-			}
+			
 
 		},
 
@@ -2854,9 +2858,16 @@ sap.ui.define([
 					}
 					if (obj.PartRepaired == "Y") {
 						this.getView().getModel("HeadSetData").setProperty("/PartRepaired", this.oBundle.getText("Yes"));
+						this.getView().getModel("multiHeaderConfig").setProperty("/RepairAmtV", true);
+				this.getView().getModel("DateModel").setProperty("/reqRepairAmt", true);
 					} else if (obj.PartRepaired == "N") {
 						this.getView().getModel("HeadSetData").setProperty("/PartRepaired", this.oBundle.getText("No"));
+							this.getView().getModel("multiHeaderConfig").setProperty("/RepairAmtV", false);
+				this.getView().getModel("HeadSetData").setProperty("/RepairAmount", "");
 					}
+					
+					
+					
 					this.getView().getModel("HeadSetData").setProperty("/RepairAmount", obj.RepairAmt);
 					this.getView().getModel("HeadSetData").setProperty("/DamageCondition", obj.DiscreCode);
 					this.getView().getModel("PartDataModel").setProperty("/ALMDiscreDesc", obj.ALMDiscreDesc);
