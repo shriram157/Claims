@@ -130,8 +130,8 @@
 								visible="{multiHeaderConfig>/RetainPartV}" enabled="{DateModel>/partLine}">
 								<items>
 									<core:Item text="" key=""/>
-									<core:Item text="{i18n>Yes}" key="Yes"/>
-									<core:Item text="{i18n>No}" key="No"/>
+									<core:Item text="{i18n>Yes}" key="{i18n>Yes}"/>
+									<core:Item text="{i18n>No}" key="{i18n>No}"/>
 								</items>
 								<layoutData>
 									<l:GridData span="XL8 L8"/>
