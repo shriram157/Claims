@@ -141,11 +141,11 @@
 							<Label text="{i18n>PartNumberReceived}" width="10rem" visible="{multiHeaderConfig>/PartNumberRcV}"/>
 							<Input value="{HeadSetData>/PartNumberRc}" id="idPartNumber2" required="true" showValueHelp="true" valueHelpOnly="true"
 								editable="{multiHeaderConfig>/PartNumberEdit}" valueHelpRequest="handlePNValueHelp02" enabled="{DateModel>/partLine}"
-								visible="{multiHeaderConfig>/PartNumberRcV}"></Input>
+								visible="{multiHeaderConfig>/PartNumberRcV}" ></Input>
 							<core:Title text=""/>
 							<Label text="{i18n>PartDescription}" visible="{multiHeaderConfig>/PartDescriptionOrdRcv}"/>
-							<Input value="{ path : 'HeadSetData>/PartNumberRcDesc'}" id="idOrderedReceivedPartDesc" editable="{multiHeaderConfig>/OrderedPartDesc}"
-								visible="{multiHeaderConfig>/PartDescriptionOrdRcv}" enabled="{DateModel>/partLine}" ></Input>
+							<Input  value="{ path : 'HeadSetData>/PartNumberRcDesc'}" id="idOrderedReceivedPartDesc" editable="{multiHeaderConfig>/OrderedPartDesc}"
+								visible="{multiHeaderConfig>/PartDescriptionOrdRcv}" enabled="{DateModel>/partLine}"  ></Input>
 							<Label text="{i18n>PartRepaired}" visible="{multiHeaderConfig>/PartRepaired}"/>
 							<Select visible="{multiHeaderConfig>/PartRepaired}" selectedKey="{HeadSetData>/PartRepaired}"  enabled="{DateModel>/partLine}"
 								change="onPartRepairedChange">
