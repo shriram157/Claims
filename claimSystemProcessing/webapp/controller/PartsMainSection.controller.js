@@ -22,7 +22,6 @@ sap.ui.define([
 			this.getDealer();
 			userScope = sap.ui.getCore().getModel("UserDataModel").getProperty("/UserScope");
 			this.getView().setModel(sap.ui.getCore().getModel("HeaderLinksModel"), "HeaderLinksModel");
-			
 
 			var oNodeModel = new sap.ui.model.json.JSONModel();
 			oNodeModel.setData({
@@ -1725,9 +1724,9 @@ sap.ui.define([
 				this.lineRefNumber = this.getView().getModel("PartDataModel").getProperty("/LineNo").toString();
 
 				var retainval, RepairOrRetrunPart;
-				if (this.getView().getModel("PartDataModel").getProperty("/RetainPart") == "Yes") {
+				if (this.getView().getModel("PartDataModel").getProperty("/RetainPart") == oBundle.getText("Yes")) {
 					retainval = "Y";
-				} else if (this.getView().getModel("PartDataModel").getProperty("/RetainPart") == "No") {
+				} else if (this.getView().getModel("PartDataModel").getProperty("/RetainPart") == oBundle.getText("No")) {
 					// if (this.getView().getModel("PartDataModel").getProperty("/DiscreCode") == "3A") {
 					// 	this.getView().getModel("PartDataModel").setProperty("/quant", "0.000");
 					// }
@@ -1736,9 +1735,9 @@ sap.ui.define([
 					retainval = "";
 				}
 
-				if (this.getView().getModel("HeadSetData").getProperty("/PartRepaired") == "Yes") {
+				if (this.getView().getModel("HeadSetData").getProperty("/PartRepaired") == oBundle.getText("Yes")) {
 					RepairOrRetrunPart = "Y";
-				} else if (this.getView().getModel("HeadSetData").getProperty("/PartRepaired") == "No") {
+				} else if (this.getView().getModel("HeadSetData").getProperty("/PartRepaired") == oBundle.getText("No")) {
 					RepairOrRetrunPart = "N";
 				}
 				if (this.claimType.length == 2) {
@@ -1785,7 +1784,6 @@ sap.ui.define([
 						var that = this;
 
 						var MaterialCheck = this.obj.zc_itemSet.results.findIndex(x => x.MaterialNumber === matNum);
-					
 
 						if (this.getView().getModel("PartDataModel").getProperty("/QuantityReceived") > 0 && this.getView().getModel(
 								"PartDataModel").getProperty("/DiscreCode") !== "2A" ||
@@ -1969,13 +1967,13 @@ sap.ui.define([
 								"WrongPart": WrongPart,
 								"ALMDiscreDesc": this.getView().getModel("PartDataModel").getProperty("/ALMDiscreDesc")
 							};
-var MaterialCheck
+							var MaterialCheck
 
-	if (this.getView().getModel("PartDataModel").getProperty("/DiscreCode") == "4A") {
-							MaterialCheck = this.obj.zc_itemSet.results.findIndex(x => x.MaterialNumber === matNum || x.WrongPart === WrongPart);
-	}else{
-		MaterialCheck = this.obj.zc_itemSet.results.findIndex(x => x.MaterialNumber === matNum);
-	}
+							if (this.getView().getModel("PartDataModel").getProperty("/DiscreCode") == "4A") {
+								MaterialCheck = this.obj.zc_itemSet.results.findIndex(x => x.MaterialNumber === matNum || x.WrongPart === WrongPart);
+							} else {
+								MaterialCheck = this.obj.zc_itemSet.results.findIndex(x => x.MaterialNumber === matNum);
+							}
 							//var wrongPartCheck = this.obj.zc_itemSet.results.findIndex(x => x.WrongPart === matNum || x.WrongPart === WrongPart);
 
 							if (this.getView().getModel("PartDataModel").getProperty("/matnr") != "" && this
