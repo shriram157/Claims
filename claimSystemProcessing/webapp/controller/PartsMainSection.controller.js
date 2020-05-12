@@ -1511,12 +1511,14 @@ sap.ui.define([
 			// 		null, null);
 			// } 
 			
+			var partQty = Number(this.getView().getModel("PartDataModel").getProperty("/PartQty"));
+			var partNewVal = Number(liveQty.getParameters().newValue);
 			
 			
 		
 				this.getView().getModel("DateModel").setProperty("/partTypeState", "None");
 				if (this.getView().getModel("PartDataModel").getProperty("/DiscreCode") == "2A") {
-					if (this.getView().getModel("PartDataModel").getProperty("/PartQty") <= liveQty.getParameters().newValue) {
+					if (partQty <= partNewVal) {
 						this.youCanAddPartItem = false;
 						MessageBox.show(this.oBundle.getText("ShortageWarning"), MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK,
 							null, null);
@@ -1526,7 +1528,7 @@ sap.ui.define([
 						this.getView().getModel("DateModel").setProperty("/saveParts", true);
 					}
 				} else if (this.getView().getModel("PartDataModel").getProperty("/ALMDiscreCode") == "PTSA") {
-					if (this.getView().getModel("PartDataModel").getProperty("/PartQty") <= liveQty.getParameters().newValue) {
+					if (partQty <= partNewVal) {
 						this.youCanAddPartItem = false;
 						MessageBox.show(this.oBundle.getText("ShortageWarning"), MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK,
 							null, null);
@@ -1538,7 +1540,7 @@ sap.ui.define([
 				}
 
 				if (this.getView().getModel("PartDataModel").getProperty("/DiscreCode") == "3A") {
-					if (this.getView().getModel("PartDataModel").getProperty("/PartQty") >= liveQty.getParameters().newValue) {
+					if (partQty >= partNewVal) {
 						this.youCanAddPartItem = false;
 						MessageBox.show(this.oBundle.getText("OverageWarning"), MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK,
 							null, null);
@@ -1548,7 +1550,7 @@ sap.ui.define([
 						this.getView().getModel("DateModel").setProperty("/saveParts", true);
 					}
 				} else if (this.getView().getModel("PartDataModel").getProperty("/ALMDiscreCode") == "PTOA") {
-					if (this.getView().getModel("PartDataModel").getProperty("/PartQty") >= liveQty.getParameters().newValue) {
+					if (partQty >= partNewVal) {
 						this.youCanAddPartItem = false;
 						MessageBox.show(this.oBundle.getText("OverageWarning"), MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK,
 							null, null);
