@@ -70,7 +70,7 @@
 				<Input value="{path:'HeadSetData>/TCIWaybillNumber', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 10 }}" liveChange="onTCIWayBillChange" id="idTCIWayBill" enabled="{DateModel>/oFormEdit}"
 					required="{DateModel>/required}" valueState="{DateModel>/waybilltype}"/>
 				<Label text="{i18n>CarrierName}"/>
-				<ComboBox id="idCarrierName" required="true" items="{BpDealerModel>/BpDealerList}" change="onSelectPartsDealer"
+				<ComboBox id="idCarrierName" required="true" items="{BpDealerModel>/BpDealerList}" selectionChange="onSelectPartsDealer"
 					selectedKey="{HeadSetData>/DeliveringCarrier}" value="{path:'HeadSetData>/DeliveringCarrier', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 10 }}" showSecondaryValues="true" enabled="{DateModel>/oFormEdit}">
 					<core:ListItem text="{BpDealerModel>BusinessPartnerKey}" key="{BpDealerModel>BusinessPartnerKey}"
 						additionalText="{BpDealerModel>BusinessPartnerName}"/>
