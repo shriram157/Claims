@@ -4216,6 +4216,10 @@ sap.ui.define([
 				oCurrentDt = new Date(new Date().getTime() - (10.5 * 60 * 60));
 				this.getView().getModel("HeadSetData").getProperty("/ShipmentReceivedDate", this.getView().getModel("HeadSetData").getProperty(
 					"/ShipmentReceivedDate").getTime() - (10.5 * 60 * 60));
+						var that=this;
+					oFilteredDealerData = this.getView().byId("idCarrierName").getModel("BpDealerModel").getData().BpDealerList.filter(function (val) {
+				return val.BusinessPartnerKey === that.getView().getModel("HeadSetData").getProperty("/DeliveringCarrier");
+			});
 				this.obj = {
 					"DBOperation": "SAVE",
 					"Message": "",
@@ -4881,7 +4885,7 @@ sap.ui.define([
 		onSelectPartsDealer: function (oDealerEvt) {
 			// debugger;
 			oFilteredDealerData = oDealerEvt.getSource().getModel("BpDealerModel").getData().BpDealerList.filter(function (val) {
-				return val.BusinessPartner === oDealerEvt.getParameter("newValue");
+				return val.BusinessPartnerKey === oDealerEvt.getSource().getSelectedKey();
 			});
 			this.getView().byId("idCarrierName").setValueState("None");
 		},
