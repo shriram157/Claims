@@ -1530,17 +1530,19 @@ sap.ui.define([
 						this.getView().getModel("DateModel").setProperty("/partTypeState", "None");
 						this.getView().getModel("DateModel").setProperty("/saveParts", true);
 					}
-				} else if (this.getView().getModel("PartDataModel").getProperty("/ALMDiscreCode") == "PTSA") {
-					if (partQty <= partNewVal) {
-						this.youCanAddPartItem = false;
-						MessageBox.show(this.oBundle.getText("ShortageWarning"), MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK,
-							null, null);
-						this.getView().getModel("DateModel").setProperty("/saveParts", false);
-					} else {
-						this.getView().getModel("DateModel").setProperty("/partTypeState", "None");
-						this.getView().getModel("DateModel").setProperty("/saveParts", true);
-					}
-				}
+				} 
+				
+				// else if (this.getView().getModel("PartDataModel").getProperty("/ALMDiscreCode") == "PTSA") {
+				// 	if (partQty <= partNewVal) {
+				// 		this.youCanAddPartItem = false;
+				// 		MessageBox.show(this.oBundle.getText("ShortageWarning"), MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK,
+				// 			null, null);
+				// 		this.getView().getModel("DateModel").setProperty("/saveParts", false);
+				// 	} else {
+				// 		this.getView().getModel("DateModel").setProperty("/partTypeState", "None");
+				// 		this.getView().getModel("DateModel").setProperty("/saveParts", true);
+				// 	}
+				// }
 
 				if (this.getView().getModel("PartDataModel").getProperty("/DiscreCode") == "3A") {
 					if (partQty >= partNewVal) {
