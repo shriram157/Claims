@@ -411,16 +411,27 @@ sap.ui.define([
 			this.createViewSettingsDialog("zclaimProcessing.view.fragments.SortOrder").open();
 		},
 		handleSortDialogConfirm: function (oEvent) {
-			var oTable = this.byId("idClaimTable"),
-				mParams = oEvent.getParameters(),
-				oBinding = oTable.getBinding("items"),
-				sPath,
-				bDescending,
-				aSorters = [];
+				var oTable = this.byId("idClaimTable"),
+					mParams = oEvent.getParameters(),
+					oBinding = oTable.getBinding("items"),
+					sPath,
+					oSorter,
+					bDescending,
+					aSorters = [];
 
-			sPath = mParams.sortItem.getKey();
-			bDescending = mParams.sortDescending;
-			aSorters.push(new Sorter(sPath, bDescending));
+				sPath = mParams.sortItem.getKey();
+				bDescending = mParams.sortDescending;
+
+				if (sPath == "ClaimAmountSum") {
+					oSorter = new Sorter(sPath, bDescending);
+					oSorter.fnCompare = function (a, b) {
+						return a - b;
+					};
+				} else {
+					oSorter = new Sorter(sPath, bDescending);
+				}
+
+				aSorters.push(oSorter);
 
 			// apply the selected sort and group settings
 			oBinding.sort(aSorters);
