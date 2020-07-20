@@ -244,7 +244,7 @@ sap.ui.define([
 		_onRoutMatched: function (oEvent) {
 			this.getModel("LocalDataModel").setProperty("/PartHeadAttachData", []);
 			this.getModel("LocalDataModel").setProperty("/IndicatorState", false);
-			
+
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 
 			var oMultiHeaderConfig = {
@@ -307,7 +307,8 @@ sap.ui.define([
 				LOIBusyIndicator: false,
 				editablePartNumber: true,
 				PWPrintEnable: false,
-				reqRepairAmt: false
+				reqRepairAmt: false,
+				claimEditSt: false
 			});
 			this.getView().setModel(oDateModel, "DateModel");
 
@@ -322,7 +323,7 @@ sap.ui.define([
 				sSelectedLocale = "EN"; // default is english
 			}
 			var oProssingModel = this.getModel("ProssingModel");
-			
+
 			var that = this;
 			oProssingModel.read("/zc_claim_groupSet", {
 				urlParameters: {
@@ -550,6 +551,9 @@ sap.ui.define([
 					this.getView().getModel("multiHeaderConfig").setProperty("/MiscellaneousCol", false);
 					this.getView().getModel("multiHeaderConfig").setProperty("/TransportCol", false);
 					this.getView().byId("textHeaderLabel").setText(oBundle.getText("Received"));
+				} else if (this.claimType === "ZTSM") {
+					this.getView().getModel("DateModel").setProperty("/claimEditSt", true);
+
 				}
 
 				var DropDownModel = new sap.ui.model.json.JSONModel();
@@ -1513,59 +1517,56 @@ sap.ui.define([
 			// 	MessageBox.show(this.oBundle.getText("PleaseEnterValidQTY"), MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK,
 			// 		null, null);
 			// } 
-			
+
 			var partQty = Number(this.getView().getModel("PartDataModel").getProperty("/PartQty"));
 			var partNewVal = Number(liveQty.getParameters().newValue);
-			
-			
-		
-				this.getView().getModel("DateModel").setProperty("/partTypeState", "None");
-				if (this.getView().getModel("PartDataModel").getProperty("/DiscreCode") == "2A") {
-					if (partQty <= partNewVal) {
-						this.youCanAddPartItem = false;
-						MessageBox.show(this.oBundle.getText("ShortageWarning"), MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK,
-							null, null);
-						this.getView().getModel("DateModel").setProperty("/saveParts", false);
-					} else {
-						this.getView().getModel("DateModel").setProperty("/partTypeState", "None");
-						this.getView().getModel("DateModel").setProperty("/saveParts", true);
-					}
-				} 
-				
-				// else if (this.getView().getModel("PartDataModel").getProperty("/ALMDiscreCode") == "PTSA") {
-				// 	if (partQty <= partNewVal) {
-				// 		this.youCanAddPartItem = false;
-				// 		MessageBox.show(this.oBundle.getText("ShortageWarning"), MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK,
-				// 			null, null);
-				// 		this.getView().getModel("DateModel").setProperty("/saveParts", false);
-				// 	} else {
-				// 		this.getView().getModel("DateModel").setProperty("/partTypeState", "None");
-				// 		this.getView().getModel("DateModel").setProperty("/saveParts", true);
-				// 	}
-				// }
 
-				if (this.getView().getModel("PartDataModel").getProperty("/DiscreCode") == "3A") {
-					if (partQty >= partNewVal) {
-						this.youCanAddPartItem = false;
-						MessageBox.show(this.oBundle.getText("OverageWarning"), MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK,
-							null, null);
-						this.getView().getModel("DateModel").setProperty("/saveParts", false);
-					} else {
-						this.getView().getModel("DateModel").setProperty("/partTypeState", "None");
-						this.getView().getModel("DateModel").setProperty("/saveParts", true);
-					}
-				} else if (this.getView().getModel("PartDataModel").getProperty("/ALMDiscreCode") == "PTOA") {
-					if (partQty >= partNewVal) {
-						this.youCanAddPartItem = false;
-						MessageBox.show(this.oBundle.getText("OverageWarning"), MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK,
-							null, null);
-						this.getView().getModel("DateModel").setProperty("/saveParts", false);
-					} else {
-						this.getView().getModel("DateModel").setProperty("/partTypeState", "None");
-						this.getView().getModel("DateModel").setProperty("/saveParts", true);
-					}
+			this.getView().getModel("DateModel").setProperty("/partTypeState", "None");
+			if (this.getView().getModel("PartDataModel").getProperty("/DiscreCode") == "2A") {
+				if (partQty <= partNewVal) {
+					this.youCanAddPartItem = false;
+					MessageBox.show(this.oBundle.getText("ShortageWarning"), MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK,
+						null, null);
+					this.getView().getModel("DateModel").setProperty("/saveParts", false);
+				} else {
+					this.getView().getModel("DateModel").setProperty("/partTypeState", "None");
+					this.getView().getModel("DateModel").setProperty("/saveParts", true);
 				}
-			
+			}
+
+			// else if (this.getView().getModel("PartDataModel").getProperty("/ALMDiscreCode") == "PTSA") {
+			// 	if (partQty <= partNewVal) {
+			// 		this.youCanAddPartItem = false;
+			// 		MessageBox.show(this.oBundle.getText("ShortageWarning"), MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK,
+			// 			null, null);
+			// 		this.getView().getModel("DateModel").setProperty("/saveParts", false);
+			// 	} else {
+			// 		this.getView().getModel("DateModel").setProperty("/partTypeState", "None");
+			// 		this.getView().getModel("DateModel").setProperty("/saveParts", true);
+			// 	}
+			// }
+
+			if (this.getView().getModel("PartDataModel").getProperty("/DiscreCode") == "3A") {
+				if (partQty >= partNewVal) {
+					this.youCanAddPartItem = false;
+					MessageBox.show(this.oBundle.getText("OverageWarning"), MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK,
+						null, null);
+					this.getView().getModel("DateModel").setProperty("/saveParts", false);
+				} else {
+					this.getView().getModel("DateModel").setProperty("/partTypeState", "None");
+					this.getView().getModel("DateModel").setProperty("/saveParts", true);
+				}
+			} else if (this.getView().getModel("PartDataModel").getProperty("/ALMDiscreCode") == "PTOA") {
+				if (partQty >= partNewVal) {
+					this.youCanAddPartItem = false;
+					MessageBox.show(this.oBundle.getText("OverageWarning"), MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK,
+						null, null);
+					this.getView().getModel("DateModel").setProperty("/saveParts", false);
+				} else {
+					this.getView().getModel("DateModel").setProperty("/partTypeState", "None");
+					this.getView().getModel("DateModel").setProperty("/saveParts", true);
+				}
+			}
 
 		},
 
@@ -2866,15 +2867,13 @@ sap.ui.define([
 					if (obj.PartRepaired == "Y") {
 						this.getView().getModel("HeadSetData").setProperty("/PartRepaired", this.oBundle.getText("Yes"));
 						this.getView().getModel("multiHeaderConfig").setProperty("/RepairAmtV", true);
-				this.getView().getModel("DateModel").setProperty("/reqRepairAmt", true);
+						this.getView().getModel("DateModel").setProperty("/reqRepairAmt", true);
 					} else if (obj.PartRepaired == "N") {
 						this.getView().getModel("HeadSetData").setProperty("/PartRepaired", this.oBundle.getText("No"));
-							this.getView().getModel("multiHeaderConfig").setProperty("/RepairAmtV", false);
-				this.getView().getModel("HeadSetData").setProperty("/RepairAmount", "");
+						this.getView().getModel("multiHeaderConfig").setProperty("/RepairAmtV", false);
+						this.getView().getModel("HeadSetData").setProperty("/RepairAmount", "");
 					}
-					
-					
-					
+
 					this.getView().getModel("HeadSetData").setProperty("/RepairAmount", obj.RepairAmt);
 					this.getView().getModel("HeadSetData").setProperty("/DamageCondition", obj.DiscreCode);
 					this.getView().getModel("PartDataModel").setProperty("/ALMDiscreDesc", obj.ALMDiscreDesc);
@@ -4218,10 +4217,10 @@ sap.ui.define([
 				oCurrentDt = new Date(new Date().getTime() - (10.5 * 60 * 60));
 				this.getView().getModel("HeadSetData").getProperty("/ShipmentReceivedDate", this.getView().getModel("HeadSetData").getProperty(
 					"/ShipmentReceivedDate").getTime() - (10.5 * 60 * 60));
-						var that=this;
-					oFilteredDealerData = this.getView().byId("idCarrierName").getModel("BpDealerModel").getData().BpDealerList.filter(function (val) {
-				return val.BusinessPartnerKey === that.getView().getModel("HeadSetData").getProperty("/DeliveringCarrier");
-			});
+				var that = this;
+				oFilteredDealerData = this.getView().byId("idCarrierName").getModel("BpDealerModel").getData().BpDealerList.filter(function (val) {
+					return val.BusinessPartnerKey === that.getView().getModel("HeadSetData").getProperty("/DeliveringCarrier");
+				});
 				this.obj = {
 					"DBOperation": "SAVE",
 					"Message": "",
@@ -4963,6 +4962,86 @@ sap.ui.define([
 		onPressCancelPart: function () {
 
 			this.fnClearLine();
+		},
+
+		onEditClaim: function (e) {
+			//var that = this;
+			var sSelectedLocale;
+			//  get the locale to determine the language.
+			var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
+			if (isLocaleSent) {
+				sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
+			} else {
+				sSelectedLocale = "en"; // default is english
+			}
+			var oBundle = this.getView().getModel("i18n").getResourceBundle();
+			var GroupType = this.getModel("LocalDataModel").getProperty("/WarrantyClaimTypeGroup");
+
+			var oClaimNum = this.getView().getModel("HeadSetData").getProperty("/NumberOfWarrantyClaim");
+			var oClaimModel = this.getModel("ProssingModel");
+			var obj = {
+				NumberOfWarrantyClaim: oClaimNum,
+				DBOperation: "ZTEA"
+			};
+			var dialog = new Dialog({
+				title: oBundle.getText("EditClaim"),
+				type: "Message",
+				content: new Text({
+					text: oBundle.getText("ClaimAcceptedAcceptedStillEdit")
+				}),
+
+				buttons: [
+					new Button({
+						text: "Yes",
+						press: $.proxy(function () {
+							sap.ui.core.BusyIndicator.show();
+							oClaimModel.update("/zc_headSet(NumberOfWarrantyClaim='" + oClaimNum + "')", obj, {
+								method: "PUT",
+								success: $.proxy(function (response) {
+									sap.ui.core.BusyIndicator.hide();
+									oClaimModel.read("/ZC_CLAIM_HEAD_NEW", {
+										urlParameters: {
+											"$filter": "NumberOfWarrantyClaim eq '" + this.getView().getModel("HeadSetData").getProperty("/NumberOfWarrantyClaim") +
+												"'"
+										},
+										success: $.proxy(function (sdata) {
+											if (sdata.results[0].DecisionCode == "ZTIC" || sdata.results[0].DecisionCode == "ZTRC") {
+												this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
+												this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", true);
+												this.getModel("LocalDataModel").setProperty("/UploadEnableHeader", true);
+												this.getView().getModel("DateModel").setProperty("/SaveClaimBTN", true);
+												this.getView().getModel("DateModel").setProperty("/submitTCIBtn", true);
+												this.getView().getModel("DateModel").setProperty("/FeedEnabled", true);
+												this.getView().getModel("LocalDataModel").setProperty("/CancelEnable", true);
+												this.getView().getModel("DateModel").setProperty("/SaveClaim07", true);
+
+											}
+
+										}, this)
+									});
+								}, this),
+								error: $.proxy(function (err) {
+									sap.ui.core.BusyIndicator.hide();
+								}, this)
+							});
+							dialog.close();
+						}, this)
+					}),
+					new Button({
+						text: "Cancel",
+						press: function () {
+							dialog.close();
+						}
+					})
+
+				],
+
+				afterClose: function () {
+					dialog.destroy();
+				}
+			});
+
+			dialog.open();
 		},
 
 		onExit: function () {
