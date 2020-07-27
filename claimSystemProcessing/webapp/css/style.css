@@ -155,6 +155,9 @@
 #ObjectPageLayout h5.sapUiFormTitleH5 {
     height: 0!important;
 }
+.sapUxAPObjectPageLayout h5.sapUiFormTitleH5 {
+    height: 0!important;
+}
 
 .clCommentFix .sapMFeedListItemFigure {
     float: left;

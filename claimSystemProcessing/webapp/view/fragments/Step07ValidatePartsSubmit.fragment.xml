@@ -10,7 +10,7 @@
 				</Toolbar>
 			</headerToolbar>
 			
-	<VBox class="sapUiSmallMargin clFormTitleGap partsOnly" busy="{DateModel>/SubmitPWBusyIndicator}">
+	<VBox class="sapUiSmallMargin clFormTitleGap partsOnly clMinHeight" busy="{DateModel>/SubmitPWBusyIndicator}">
 		<core:Fragment fragmentName="zclaimProcessing.view.fragments.WarrantyPartClaimAmountSummery" type="XML"/>
 		<!--path: 'LocalDataModel>TCIApprInclTax', formatter: 'zclaimProcessing.utils.formatter.roundedDecimals'-->
 		<List headerText="{i18n>Validations}" items="{ path: 'LocalDataModel>/oErrorSet' }" noDataText="{i18n>NoData}">

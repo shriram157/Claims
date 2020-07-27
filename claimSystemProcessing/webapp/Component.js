@@ -138,6 +138,19 @@ sap.ui.define([
 			// });
 
 			// this.setModel(oDataModel05, "EcpSalesModel");
+			this.getContentDensityClass();
+		},
+		
+		getContentDensityClass : function () {
+			var sDevice = this.getModel("device");
+			if (!this._sContentDensityClass) {
+				if (sDevice.getData().system.desktop) {
+					this._sContentDensityClass = "sapUiSizeCompact";
+				} else {
+					this._sContentDensityClass = "sapUiSizeCozy";
+				}
+			}
+			return this._sContentDensityClass;
 		},
 
 		_initSessionDialogs: function () {
