@@ -401,7 +401,8 @@ sap.ui.define([
 					SavePWPartIndicator: false,
 					SavePWClaimIndicator: false,
 					SubmitPWBusyIndicator: false,
-					LOIBusyIndicator: false
+					LOIBusyIndicator: false,
+					claimEditSt: false
 				});
 			}
 			/*Uncomment for security*/
@@ -551,11 +552,10 @@ sap.ui.define([
 					this.getView().getModel("multiHeaderConfig").setProperty("/MiscellaneousCol", false);
 					this.getView().getModel("multiHeaderConfig").setProperty("/TransportCol", false);
 					this.getView().byId("textHeaderLabel").setText(oBundle.getText("Received"));
-				} else if (this.claimType === "ZTSM") {
-					this.getView().getModel("DateModel").setProperty("/claimEditSt", true);
-
+				
 				}
-
+				
+				
 				var DropDownModel = new sap.ui.model.json.JSONModel();
 				this.getView().setModel(DropDownModel, "DropDownModel");
 				this.getView().getModel("DropDownModel").setProperty("/" + "/items", "");
@@ -579,6 +579,9 @@ sap.ui.define([
 						HeadSetData.setDefaultBindingMode("TwoWay");
 						this.getView().setModel(HeadSetData, "HeadSetData");
 						this.ClaimStatus = data.results[0].DecisionCode;
+						
+						
+
 
 						if (userScope == "ReadOnlyViewAll") {
 							this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
@@ -620,10 +623,13 @@ sap.ui.define([
 								this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", false);
 								this.getView().getModel("DateModel").setProperty("/submitTCIBtn", false);
 								this.getView().getModel("DateModel").setProperty("/FeedEnabled", false);
-
 								this.getView().getModel("LocalDataModel").setProperty("/CancelEnable", false);
 
 							}
+						}
+						
+						if (this.ClaimStatus === "ZTSM") {
+							this.getView().getModel("DateModel").setProperty("/claimEditSt", true);	
 						}
 						var oBusinessModel = this.getModel("ApiBusinessModel");
 						oBusinessModel.read("/A_BusinessPartner", {
@@ -1278,14 +1284,14 @@ sap.ui.define([
 					"claimNumber": "",
 					"CarrierName": "",
 					"CarrierAddress": "",
-					"TextAttentionLOI": that.oBundle.getText("ClaimsDepartment"),
+					"TextAttentionLOI": oBundle.getText("ClaimsDepartment"),
 					"TextStripLOI": "",
-					"TopTextLOI": that.oBundle.getText("WithoutPrejudice"),
+					"TopTextLOI": oBundle.getText("WithoutPrejudice"),
 					"LOIDate": new Date(),
 					"DeliveryDateLOI": that._fnDateFormat(that.getView().getModel("HeadSetData").getProperty("/ShipmentReceivedDate")),
 					"AtLOI": "",
 					"WaybillNoLOI": that.getView().getModel("HeadSetData").getProperty("/TCIWaybillNumber"),
-					"RadioException": that.oBundle.getText("Damage"),
+					"RadioException": oBundle.getText("Damage"),
 					"estClaimValueLOI": "",
 					"LOIDescp": "",
 					"RadioCCPhoneEmail": "Y",
@@ -3803,16 +3809,16 @@ sap.ui.define([
 						this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
 
 						var PartItem = pricingData.map(function (item) {
-							if (item.RepairOrRetrunPart == this.oBundle.getText("Yes")) {
+							if (item.RepairOrRetrunPart == oBundle.getText("Yes")) {
 								var RepairPart = "Y";
-							} else if (item.RepairOrRetrunPart == this.oBundle.getText("No")) {
+							} else if (item.RepairOrRetrunPart == oBundle.getText("No")) {
 								RepairPart = "N";
 							} else {
 								RepairPart = "";
 							}
-							if (item.RetainPart == this.oBundle.getText("Yes")) {
+							if (item.RetainPart == oBundle.getText("Yes")) {
 								var RetainPart = "Y";
-							} else if (item.RetainPart == this.oBundle.getText("No")) {
+							} else if (item.RetainPart == oBundle.getText("No")) {
 								RetainPart = "N";
 							} else {
 								RetainPart = "";
@@ -4987,7 +4993,7 @@ sap.ui.define([
 				title: oBundle.getText("EditClaim"),
 				type: "Message",
 				content: new Text({
-					text: oBundle.getText("ClaimAcceptedAcceptedStillEdit")
+					text: oBundle.getText("ClaimAcceptedSubmittedStillEdit")
 				}),
 
 				buttons: [
@@ -5001,11 +5007,15 @@ sap.ui.define([
 									sap.ui.core.BusyIndicator.hide();
 									oClaimModel.read("/ZC_CLAIM_HEAD_NEW", {
 										urlParameters: {
-											"$filter": "NumberOfWarrantyClaim eq '" + this.getView().getModel("HeadSetData").getProperty("/NumberOfWarrantyClaim") +
+											"$filter": "NumberOfWarrantyClaim eq '" + this.getView().getModel("HeadSetData").getProperty(
+													"/NumberOfWarrantyClaim") +
 												"'"
 										},
 										success: $.proxy(function (sdata) {
+											this.getView().getModel("HeadSetData").setData(sdata.results[0]);
+
 											if (sdata.results[0].DecisionCode == "ZTIC" || sdata.results[0].DecisionCode == "ZTRC") {
+												this.getView().getModel("DateModel").setProperty("/claimEditSt", false);
 												this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
 												this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", true);
 												this.getModel("LocalDataModel").setProperty("/UploadEnableHeader", true);
