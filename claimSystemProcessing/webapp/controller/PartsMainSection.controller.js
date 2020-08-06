@@ -4617,6 +4617,7 @@ sap.ui.define([
 												this.getView().getModel("HeadSetData").setProperty("/DecisionCode", sdata.results[0].DecisionCode);
 												this.ClaimStatus = sdata.results[0].DecisionCode;
 												if (sdata.results[0].DecisionCode == "ZTIC" || sdata.results[0].DecisionCode == "ZTRC") {
+													this.getView().getModel("DateModel").setProperty("/claimEditSt", false);	
 													this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
 													this.getView().getModel("DateModel").setProperty("/SaveClaimBTN", true);
 													this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", true);
@@ -4632,7 +4633,25 @@ sap.ui.define([
 															at: "center center"
 														});
 
+												}else if(sdata.results[0].DecisionCode == "ZTSM"){
+													this.getView().getModel("DateModel").setProperty("/claimEditSt", true);	
+													this.getView().getModel("DateModel").setProperty("/SaveClaimBTN", false);
+													this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
+													this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", false);
+													this.getView().getModel("DateModel").setProperty("/submitTCIBtn", false);
+													this.getView().getModel("DateModel").setProperty("/partLine", false);
+													this.getView().getModel("DateModel").setProperty("/saveParts", false);
+													this.getView().getModel("DateModel").setProperty("/FeedEnabled", false);
+													this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
+													this.getModel("LocalDataModel").setProperty("/UploadEnableHeader", false);
+													this.getView().getModel("DateModel").setProperty("/SaveClaim07", false);
+													MessageToast.show(oBundle.getText("ClaimNumber") + " " + oClaimNum + " " + oBundle.getText(
+														"successfullysubmittedTCI"), {
+														my: "center center",
+														at: "center center"
+													});
 												} else {
+													this.getView().getModel("DateModel").setProperty("/claimEditSt", false);	
 													this.getView().getModel("DateModel").setProperty("/SaveClaimBTN", false);
 													this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
 													this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", false);

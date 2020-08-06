@@ -25,7 +25,7 @@
 											<core:Fragment fragmentName="zclaimProcessing.view.fragments.Step01MainWarrentyECP" type="XML"/>
 										</IconTabFilter>
 										<IconTabSeparator icon="sap-icon://open-command-field" visible="{DateModel>/Parts}"/>
-										<IconTabFilter icon="sap-icon://shelf" text="{i18n>Parts}" enabled="false" visible="{DateModel>/Parts}" id="idFilter03" key="Tab3">
+										<IconTabFilter icon="sap-icon://inventory" text="{i18n>Parts}" enabled="false" visible="{DateModel>/Parts}" id="idFilter03" key="Tab3">
 											<core:Fragment fragmentName="zclaimProcessing.view.fragments.Step03PartsWarrenty" type="XML"/>
 										</IconTabFilter>
 										<IconTabSeparator icon="sap-icon://open-command-field" visible="{DateModel>/Labour}"/>

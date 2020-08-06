@@ -23,7 +23,7 @@
 											<core:Fragment fragmentName="zclaimProcessing.view.fragments.Step01MainPMP" type="XML"/>
 										</IconTabFilter>
 										<IconTabSeparator icon="sap-icon://open-command-field" visible="true"/>
-										<IconTabFilter icon="sap-icon://shelf" text="{i18n>Parts}" enabled="true" visible="true" id="idFilter02" key="Tab2">
+										<IconTabFilter icon="sap-icon://inventory" text="{i18n>Parts}" enabled="true" visible="true" id="idFilter02" key="Tab2">
 											<core:Fragment fragmentName="zclaimProcessing.view.fragments.Step03PartsPMP" type="XML"/>
 										</IconTabFilter>
 										<IconTabSeparator icon="sap-icon://open-command-field" visible="true"/>
