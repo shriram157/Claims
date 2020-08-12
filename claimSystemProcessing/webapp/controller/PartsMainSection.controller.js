@@ -5017,7 +5017,7 @@ sap.ui.define([
 
 				buttons: [
 					new Button({
-						text: "Yes",
+						text: oBundle.getText("Yes"),
 						press: $.proxy(function () {
 							sap.ui.core.BusyIndicator.show();
 							oClaimModel.update("/zc_headSet(NumberOfWarrantyClaim='" + oClaimNum + "')", obj, {
@@ -5057,7 +5057,7 @@ sap.ui.define([
 						}, this)
 					}),
 					new Button({
-						text: "Cancel",
+						text: oBundle.getText("Cancel"),
 						press: function () {
 							dialog.close();
 						}
