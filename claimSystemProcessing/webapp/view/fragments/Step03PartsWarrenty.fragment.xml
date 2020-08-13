@@ -139,7 +139,7 @@
 				</f:SimpleForm>
 			</VBox>
 		</l:Grid>
-		<Table id="idTableParts" mode="SingleSelectLeft" items="{path: 'LocalDataModel>/PricingDataModel'}" growing="true" growingThreshold="20"
+		<Table id="idTableParts" mode="SingleSelectLeft" items="{path: 'LocalDataModel>/PricingDataModel'}" growing="true" growingThreshold="30"
 			noDataText="{i18n>NoData}" showNoData="true">
 			<columns>
 				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Begin"><Text text="{i18n>Line}"/></Column>

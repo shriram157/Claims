@@ -1358,7 +1358,9 @@ sap.ui.define([
 													return item.MaterialNumber == this.getView().getModel("HeadSetData").getProperty("/OFP")
 												}), this);
 												if (oIndexMat > -1) {
-													this.getView().byId("idTableParts").getItems()[oIndexMat].getCells()[1].setProperty("selected", true);
+													if(this.getView().byId("idTableParts").getItems()[oIndexMat] != undefined){
+														this.getView().byId("idTableParts").getItems()[oIndexMat].getCells()[1].setProperty("selected", true);
+													}
 												}
 												var oFilteredDataLabour = pricinghData.filter(function (val) {
 													return val.ItemType === "FR" && val.LabourNumber[0] != "P";
@@ -1379,7 +1381,9 @@ sap.ui.define([
 													return item.LabourNumber == this.getView().getModel("HeadSetData").getProperty("/MainOpsCode")
 												}), this);
 												if (oIndexLab > -1) {
-													this.getView().byId("idLabourTable").getItems()[oIndexLab].getCells()[1].setProperty("selected", true);
+													if(this.getView().byId("idLabourTable").getItems()[oIndexLab] != undefined){
+														this.getView().byId("idLabourTable").getItems()[oIndexLab].getCells()[1].setProperty("selected", true);
+													}
 												}
 
 												var oFilteredDataPaint = pricinghData.filter(function (val) {
