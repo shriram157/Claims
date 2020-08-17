@@ -1282,6 +1282,7 @@ sap.ui.define([
 
 						this.getModel("LocalDataModel").setProperty("/ClaimDetails", sdata.results[0]);
 						this.getView().getModel("HeadSetData").setData(sdata.results[0]);
+						this.getView().getModel("HeadSetData").setProperty("/OFP", sdata.results[0].OFP.trim());
 						var oBusinessModel = this.getModel("ApiBusinessModel");
 						oBusinessModel.read("/A_BusinessPartner", {
 							urlParameters: {
@@ -1358,7 +1359,9 @@ sap.ui.define([
 													return item.MaterialNumber == this.getView().getModel("HeadSetData").getProperty("/OFP")
 												}), this);
 												if (oIndexMat > -1) {
-													this.getView().byId("idTableParts").getItems()[oIndexMat].getCells()[1].setProperty("selected", true);
+													if(this.getView().byId("idTableParts").getItems()[oIndexMat] != undefined){
+														this.getView().byId("idTableParts").getItems()[oIndexMat].getCells()[1].setProperty("selected", true);
+													}
 												}
 												var oFilteredDataLabour = pricinghData.filter(function (val) {
 													return val.ItemType === "FR" && val.LabourNumber[0] != "P";
@@ -1379,7 +1382,9 @@ sap.ui.define([
 													return item.LabourNumber == this.getView().getModel("HeadSetData").getProperty("/MainOpsCode")
 												}), this);
 												if (oIndexLab > -1) {
-													this.getView().byId("idLabourTable").getItems()[oIndexLab].getCells()[1].setProperty("selected", true);
+													if(this.getView().byId("idLabourTable").getItems()[oIndexLab] != undefined){
+														this.getView().byId("idLabourTable").getItems()[oIndexLab].getCells()[1].setProperty("selected", true);
+													}
 												}
 
 												var oFilteredDataPaint = pricinghData.filter(function (val) {
@@ -3326,7 +3331,7 @@ sap.ui.define([
 					"ShipmentReceivedDate": null,
 					"DealerContact": this.getView().getModel("HeadSetData").getProperty("/DealerContact"),
 					"HeadText": this.getView().getModel("HeadSetData").getProperty("/HeadText"),
-					"OFP": this.getView().getModel("HeadSetData").getProperty("/OFP").toUpperCase(),
+					"OFP": this.getView().getModel("HeadSetData").getProperty("/OFP").toUpperCase().trim(),
 					"WTYClaimRecoverySource": "",
 					"MainOpsCode": this.getView().getModel("HeadSetData").getProperty("/MainOpsCode"),
 					"T1WarrantyCodes": this.getView().getModel("HeadSetData").getProperty("/T1WarrantyCodes"),
@@ -4729,6 +4734,9 @@ sap.ui.define([
 				this.getView().byId("idOFP").setValueState("None");
 			}
 			var partPricingModel = this.getModel("LocalDataModel").getProperty("/PricingDataModel");
+			if(oEvent.getParameters().value != ""){
+				this.getView().getModel("HeadSetData").setProperty("/OFP", oEvent.getParameters().value.trim());
+			}
 			if (partPricingModel != "") {
 				var oItems = this.getView().byId("idTableParts").getItems();
 				var oIndexMat = partPricingModel.findIndex($.proxy(function (item) {
@@ -4738,7 +4746,7 @@ sap.ui.define([
 				for (var i = 0; i < partPricingModel.length; i++) {
 					if (oEvent.getParameters().value == "" || partPricingModel[i].ItemKey != oEvent.getParameters().value) {
 						this.getView().byId("idTableParts").getItems()[i].getCells()[1].setProperty("selected", false);
-						this.getView().getModel("HeadSetData").setProperty("/OFP", oEvent.getParameters().value);
+						this.getView().getModel("HeadSetData").setProperty("/OFP", oEvent.getParameters().value.trim());
 					}
 
 				}
@@ -7937,7 +7945,7 @@ sap.ui.define([
 			this.obj.ShipmentReceivedDate = null;
 			this.obj.DealerContact = this.getView().getModel("HeadSetData").getProperty("/DealerContact");
 			this.obj.HeadText = this.getView().getModel("HeadSetData").getProperty("/HeadText");
-			this.obj.OFP = this.getView().getModel("HeadSetData").getProperty("/OFP").toUpperCase();
+			this.obj.OFP = this.getView().getModel("HeadSetData").getProperty("/OFP").toUpperCase().trim();
 			this.obj.WTYClaimRecoverySource = "";
 			this.obj.MainOpsCode = this.getView().getModel("HeadSetData").getProperty("/MainOpsCode");
 			this.obj.T1WarrantyCodes = this.getView().getModel("HeadSetData").getProperty("/T1WarrantyCodes");

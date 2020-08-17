@@ -1,7 +1,7 @@
 <mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" controllerName="zclaimProcessing.controller.PartsMainSection"
 	xmlns:html="http://www.w3.org/1999/xhtml" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:uxap="sap.uxap">
 	<core:Fragment fragmentName="zclaimProcessing.view.fragments.ToolHeader" type="XML"/>
-	<uxap:ObjectPageLayout enableLazyLoading="true">
+	<uxap:ObjectPageLayout enableLazyLoading="true" id="ObjectPageLayoutPart">
 		<uxap:headerContent>
 			<VBox width="100%" class="sapUiSmallMarginTop">
 				<HBox width="100%" justifyContent="End" displayInline="true">
@@ -23,7 +23,7 @@
 											<core:Fragment fragmentName="zclaimProcessing.view.fragments.Step01Main" type="XML"/>
 										</IconTabFilter>
 										<IconTabSeparator icon="sap-icon://open-command-field"/>
-										<IconTabFilter icon="sap-icon://shelf" text="{i18n>Parts}" enabled="false" id="idFilter02" key="Tab2">
+										<IconTabFilter icon="sap-icon://inventory" text="{i18n>Parts}" enabled="false" id="idFilter02" key="Tab2">
 											<core:Fragment fragmentName="zclaimProcessing.view.fragments.Step03Parts" type="XML"/>
 										</IconTabFilter>
 										<IconTabSeparator icon="sap-icon://open-command-field"/>

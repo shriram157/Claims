@@ -40,6 +40,11 @@
 							<l:GridData span="XL8 L8 M12 S12"/>
 						</layoutData>
 					</Button>
+					<Button text="{i18n>Edit}" class="sapUiSmallMarginEnd" type="Emphasized" press="onEditClaim" visible="{DateModel>/claimEditSt}">
+						<layoutData>
+							<l:GridData span="XL8 L8 M12 S12"/>
+						</layoutData>
+					</Button>
 				</f:content>
 			</f:SimpleForm>
 		</Panel>
@@ -67,7 +72,7 @@
 				<Input value="" id="idPdcCode" editable="false"/>
 				<core:Title text=""/>
 				<Label text="{i18n>TCIWaybillNo}"/>
-				<Input value="{path:'HeadSetData>/TCIWaybillNumber', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 10 }}" liveChange="onTCIWayBillChange" id="idTCIWayBill" enabled="{DateModel>/oFormEdit}"
+				<Input value="{path:'HeadSetData>/TCIWaybillNumber', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 20 }}" liveChange="onTCIWayBillChange" id="idTCIWayBill" enabled="{DateModel>/oFormEdit}"
 					required="{DateModel>/required}" valueState="{DateModel>/waybilltype}"/>
 				<Label text="{i18n>CarrierName}"/>
 				<ComboBox id="idCarrierName" required="true" items="{BpDealerModel>/BpDealerList}" selectionChange="onSelectPartsDealer"
