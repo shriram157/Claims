@@ -2696,7 +2696,6 @@ sap.ui.define([
 			}
 
 		},
-
 		onEnterVIN: function (oEvent) {
 			this.getView().byId("idECPAGR").removeSelections();
 			this.getView().getModel("HeadSetData").setProperty("/AgreementNumber", "");
