@@ -58,7 +58,7 @@
 					required="true" id="idOutboundDNum" enabled="{DateModel>/oFormEdit}" change="onDelNumChange"/>
 				<Label text="{i18n>ReceivedDate}"/>
 				<DatePicker
-					value="{path:'HeadSetData>/ShipmentReceivedDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd' } }"
+					value="{path:'HeadSetData>/ShipmentReceivedDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd', strictParsing: true, UTC: true } }"
 					required="true" id="idShipmentRDate" enabled="{DateModel>/oFormEdit}" change="onReceivedDateChange"/>
 				<Label text="{i18n>DealerContact}"/>
 				<Input value="{path:'HeadSetData>/DealerContact', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 10 } }"
@@ -66,7 +66,7 @@
 				<core:Title text=""/>
 				<Label text="{i18n>OutboundDeliveryDate}"/>
 				<DatePicker id="idOutBoundDD" valueState="{DateModel>/obdValueState}"
-					value="{path:'HeadSetData>/DeliveryDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium' , pattern: 'YYYY-MM-dd'}}"
+					value="{path:'HeadSetData>/DeliveryDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium' , pattern: 'YYYY-MM-dd', strictParsing: true, UTC: true}}"
 					enabled="{DateModel>/oFormEdit}" editable="{DateModel>/DelDateEdit}" change="onDelDateChange"/>
 				<Label text="{i18n>PDCCode}"/>
 				<Input value="" id="idPdcCode" editable="false"/>
