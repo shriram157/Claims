@@ -1802,7 +1802,8 @@ sap.ui.define([
 						},
 						success: $.proxy(function (data) {
 
-							var oResult = data.results;
+							//var oResult = data.results;
+							var oResult = data.results.filter(e=> e.CreationApply == "X");
 
 							if (oClaimSelectedGroup == "Authorization") {
 								this.oFilteredData = oResult.filter(function (v, t) {
@@ -1829,20 +1830,22 @@ sap.ui.define([
 					this.getView().getModel("DateModel").setProperty("/Authorization", true);
 				}
 				if (oGroupDescription == "FAC") {
+					
+					this._fnValidClaimTYpeList(oGroupDescription);
 
-					oProssingModel.read("/zc_claim_groupSet", {
-						urlParameters: {
-							"$filter": "ClaimGroup eq 'FAC'and LanguageKey eq '" + sSelectedLocale.toUpperCase() + "'"
-						},
-						success: $.proxy(function (data) {
+					// oProssingModel.read("/zc_claim_groupSet", {
+					// 	urlParameters: {
+					// 		"$filter": "ClaimGroup eq 'FAC'and LanguageKey eq '" + sSelectedLocale.toUpperCase() + "'"
+					// 	},
+					// 	success: $.proxy(function (data) {
 
-							this.oFilteredData = data.results;
-							this.getModel("LocalDataModel").setProperty("/ClaimGroupSet", this.oFilteredData);
-						}, this),
-						error: function () {
-							console.log("Error");
-						}
-					});
+					// 		this.oFilteredData = data.results;
+					// 		this.getModel("LocalDataModel").setProperty("/ClaimGroupSet", this.oFilteredData);
+					// 	}, this),
+					// 	error: function () {
+					// 		console.log("Error");
+					// 	}
+					// });
 
 					this.getView().getModel("DateModel").setProperty("/Paint", false);
 					this.getView().getModel("DateModel").setProperty("/Sublet", true);
@@ -1857,19 +1860,20 @@ sap.ui.define([
 					this.getView().getModel("DateModel").setProperty("/P1p2", false);
 					this.getView().getModel("DateModel").setProperty("/oMainOpsReq", false);
 				} else if (oGroupDescription == "STR") {
-					oProssingModel.read("/zc_claim_groupSet", {
-						urlParameters: {
-							"$filter": "ClaimGroup eq 'STR'and LanguageKey eq '" + sSelectedLocale.toUpperCase() + "'"
-						},
-						success: $.proxy(function (data) {
+					this._fnValidClaimTYpeList(oGroupDescription);
+					// oProssingModel.read("/zc_claim_groupSet", {
+					// 	urlParameters: {
+					// 		"$filter": "ClaimGroup eq 'STR'and LanguageKey eq '" + sSelectedLocale.toUpperCase() + "'"
+					// 	},
+					// 	success: $.proxy(function (data) {
 
-							this.oFilteredData = data.results;
-							this.getModel("LocalDataModel").setProperty("/ClaimGroupSet", this.oFilteredData);
-						}, this),
-						error: function () {
-							console.log("Error");
-						}
-					});
+					// 		this.oFilteredData = data.results;
+					// 		this.getModel("LocalDataModel").setProperty("/ClaimGroupSet", this.oFilteredData);
+					// 	}, this),
+					// 	error: function () {
+					// 		console.log("Error");
+					// 	}
+					// });
 					this.getView().getModel("DateModel").setProperty("/Paint", true);
 					this.getView().getModel("DateModel").setProperty("/Sublet", true);
 					this.getView().getModel("DateModel").setProperty("/Parts", true);
@@ -1885,19 +1889,20 @@ sap.ui.define([
 				}
 
 				if (oGroupDescription == "ECP") {
-					oProssingModel.read("/zc_claim_groupSet", {
-						urlParameters: {
-							"$filter": "ClaimGroup eq 'ECP'and LanguageKey eq '" + sSelectedLocale.toUpperCase() + "'"
-						},
-						success: $.proxy(function (data) {
+					this._fnValidClaimTYpeList(oGroupDescription);
+					// oProssingModel.read("/zc_claim_groupSet", {
+					// 	urlParameters: {
+					// 		"$filter": "ClaimGroup eq 'ECP'and LanguageKey eq '" + sSelectedLocale.toUpperCase() + "'"
+					// 	},
+					// 	success: $.proxy(function (data) {
 
-							this.oFilteredData = data.results;
-							this.getModel("LocalDataModel").setProperty("/ClaimGroupSet", this.oFilteredData);
-						}, this),
-						error: function () {
-							console.log("Error");
-						}
-					});
+					// 		this.oFilteredData = data.results;
+					// 		this.getModel("LocalDataModel").setProperty("/ClaimGroupSet", this.oFilteredData);
+					// 	}, this),
+					// 	error: function () {
+					// 		console.log("Error");
+					// 	}
+					// });
 					this.getView().getModel("DateModel").setProperty("/Paint", false);
 					this.getView().getModel("DateModel").setProperty("/Sublet", true);
 					this.getView().getModel("DateModel").setProperty("/Parts", true);
@@ -1915,19 +1920,20 @@ sap.ui.define([
 				}
 
 				if (oGroupDescription == "SCR") {
-					oProssingModel.read("/zc_claim_groupSet", {
-						urlParameters: {
-							"$filter": "ClaimGroup eq 'SCR'and LanguageKey eq '" + sSelectedLocale.toUpperCase() + "'"
-						},
-						success: $.proxy(function (data) {
+					this._fnValidClaimTYpeList(oGroupDescription);
+					// oProssingModel.read("/zc_claim_groupSet", {
+					// 	urlParameters: {
+					// 		"$filter": "ClaimGroup eq 'SCR'and LanguageKey eq '" + sSelectedLocale.toUpperCase() + "'"
+					// 	},
+					// 	success: $.proxy(function (data) {
 
-							this.oFilteredData = data.results;
-							this.getModel("LocalDataModel").setProperty("/ClaimGroupSet", this.oFilteredData);
-						}, this),
-						error: function () {
-							console.log("Error");
-						}
-					});
+					// 		this.oFilteredData = data.results;
+					// 		this.getModel("LocalDataModel").setProperty("/ClaimGroupSet", this.oFilteredData);
+					// 	}, this),
+					// 	error: function () {
+					// 		console.log("Error");
+					// 	}
+					// });
 					this.getView().getModel("DateModel").setProperty("/Paint", false);
 					this.getView().getModel("DateModel").setProperty("/Sublet", false);
 					this.getView().getModel("DateModel").setProperty("/Labour", false);
@@ -1946,19 +1952,20 @@ sap.ui.define([
 					this.getView().getModel("DateModel").setProperty("/OdometerReqMan", false);
 				}
 				if (oGroupDescription == "VLC") {
-					oProssingModel.read("/zc_claim_groupSet", {
-						urlParameters: {
-							"$filter": "ClaimGroup eq 'VLC'and LanguageKey eq '" + sSelectedLocale.toUpperCase() + "'"
-						},
-						success: $.proxy(function (data) {
+					this._fnValidClaimTYpeList(oGroupDescription);
+					// oProssingModel.read("/zc_claim_groupSet", {
+					// 	urlParameters: {
+					// 		"$filter": "ClaimGroup eq 'VLC'and LanguageKey eq '" + sSelectedLocale.toUpperCase() + "'"
+					// 	},
+					// 	success: $.proxy(function (data) {
 
-							this.oFilteredData = data.results;
-							this.getModel("LocalDataModel").setProperty("/ClaimGroupSet", this.oFilteredData);
-						}, this),
-						error: function () {
-							console.log("Error");
-						}
-					});
+					// 		this.oFilteredData = data.results;
+					// 		this.getModel("LocalDataModel").setProperty("/ClaimGroupSet", this.oFilteredData);
+					// 	}, this),
+					// 	error: function () {
+					// 		console.log("Error");
+					// 	}
+					// });
 					this.getView().getModel("DateModel").setProperty("/Paint", false);
 					this.getView().getModel("DateModel").setProperty("/LabourBtnVsbl", false);
 					this.getView().getModel("DateModel").setProperty("/Sublet", true);
@@ -1980,19 +1987,21 @@ sap.ui.define([
 				}
 
 				if (oGroupDescription == "CRC") {
-					oProssingModel.read("/zc_claim_groupSet", {
-						urlParameters: {
-							"$filter": "ClaimGroup eq 'CRC'and LanguageKey eq '" + sSelectedLocale.toUpperCase() + "'"
-						},
-						success: $.proxy(function (data) {
+					
+					this._fnValidClaimTYpeList(oGroupDescription);
+					// oProssingModel.read("/zc_claim_groupSet", {
+					// 	urlParameters: {
+					// 		"$filter": "ClaimGroup eq 'CRC'and LanguageKey eq '" + sSelectedLocale.toUpperCase() + "'"
+					// 	},
+					// 	success: $.proxy(function (data) {
 
-							this.oFilteredData = data.results;
-							this.getModel("LocalDataModel").setProperty("/ClaimGroupSet", this.oFilteredData);
-						}, this),
-						error: function () {
-							console.log("Error");
-						}
-					});
+					// 		this.oFilteredData = data.results;
+					// 		this.getModel("LocalDataModel").setProperty("/ClaimGroupSet", this.oFilteredData);
+					// 	}, this),
+					// 	error: function () {
+					// 		console.log("Error");
+					// 	}
+					// });
 					this.getView().getModel("DateModel").setProperty("/Paint", false);
 					this.getView().getModel("DateModel").setProperty("/Sublet", true);
 					this.getView().getModel("DateModel").setProperty("/Labour", false);
@@ -2016,6 +2025,39 @@ sap.ui.define([
 			}
 
 		},
+		fnReturnLanguage: function () {
+			var sSelectedLocale;
+			//  get the locale to determine the language.
+			var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
+			if (isLocaleSent) {
+				sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
+			} else {
+				sSelectedLocale = "en"; // default is english
+			}
+			return sSelectedLocale.toUpperCase();
+		},
+		
+		_fnValidClaimTYpeList : function(oClaimGroup){
+				var oClaimModel = this.getModel("ProssingModel");
+				//var oClaimGroup = this.getModel("LocalDataModel").getProperty("/GroupDescriptionName");
+				oClaimModel.read("/zc_claim_groupSet", {
+						urlParameters: {
+							"$filter": "ClaimGroup eq '"+oClaimGroup+"'and LanguageKey eq '" + this.fnReturnLanguage() + "'"
+						},
+						success: $.proxy(function (data) {
+
+							this.oFilteredData = data.results.filter(e=> e.CreationApply == "X");
+							this.getModel("LocalDataModel").setProperty("/ClaimGroupSet", this.oFilteredData);
+						}, this),
+						error: function () {
+							console.log("Error");
+						}
+					});
+			
+		},
+		
+	
+		
 		_fncheckClaimWithZGGW: function (oPartPer, oLabourPer, oSubletPer) {
 			var Authorization
 			var oGroupDescription = this.getModel("LocalDataModel").getProperty("/GroupDescriptionName");
