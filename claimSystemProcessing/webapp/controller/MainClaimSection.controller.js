@@ -814,7 +814,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/oMainOpsReq", false);
 							this.getView().getModel("DateModel").setProperty("/oPrevInvNumReq", true);
 							this.getView().getModel("DateModel").setProperty("/oPrevInvDateReq", true);
-							this.getView().getModel("DateModel").setProperty("/DisableRadio", false);
+							this.getView().getModel("DateModel").setProperty("/DisableRadio", true);
 							this.getView().getModel("DateModel").setProperty("/PreroOdometerVisible", false);
 							this.getView().getModel("DateModel").setProperty("/RepairdDetailVisible", true);
 							this.getView().getModel("DateModel").setProperty("/P1p2", true);
@@ -2701,7 +2701,7 @@ sap.ui.define([
 			} else {
 				this.getView().getModel("DateModel").setProperty("/nonVinHide", true);
 			}
-			if (elm == "ZWP2" || elm == "ZWMS" || elm == "ZWA2") {
+			if (elm == "ZWMS") {
 				this.getView().getModel("DateModel").setProperty("/DisableRadio", false);
 				this.getView().getModel("DateModel").setProperty("/OdometerReq", false);
 				this.getView().getModel("DateModel").setProperty("/OdometerReqMan", false);
