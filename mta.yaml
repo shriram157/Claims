@@ -92,6 +92,10 @@ resources:
       service-name: cf-drain
 
  - name: CLAIM_SYSTEM_PROCESSING_CUPS
+   type: org.cloudfoundry.existing-service
+   parameters:
+      service-name: CLAIM_SYSTEM_PROCESSING_CUPS
+
  - name: dynatrace-service
    type: org.cloudfoundry.existing-service
    parameters:
