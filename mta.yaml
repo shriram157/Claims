@@ -27,6 +27,7 @@ modules:
     - name: application-logs_claimsSystemProcessing
     - name: uaa_claimsSystemProcessing
     - name: cf-drain
+    - name: dynatrace-service
     - name: CLAIM_SYSTEM_PROCESSING_CUPS
 
  - name: claimSystemProcessing
@@ -62,6 +63,7 @@ modules:
     - name: application-logs_claimsSystemProcessing
     - name: uaa_claimsSystemProcessing
     - name: cf-drain
+    - name: dynatrace-service
     - name: claimSystemProcessing_node_api
       group: destinations
       properties:
@@ -92,4 +94,9 @@ resources:
  - name: CLAIM_SYSTEM_PROCESSING_CUPS
    type: org.cloudfoundry.existing-service
    parameters:
-      service-name: CLAIM_SYSTEM_PROCESSING_CUPS     
+      service-name: CLAIM_SYSTEM_PROCESSING_CUPS
+
+ - name: dynatrace-service
+   type: org.cloudfoundry.existing-service
+   parameters:
+      service-name: dynatrace-service
