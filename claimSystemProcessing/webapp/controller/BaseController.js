@@ -68,7 +68,7 @@ sap.ui.define([
 				dataType: "json",
 
 				success: function (oData) {
-					console.log(oData);
+					
 					var BpDealer = [];
 					var userAttributes = [];
 					that.getModel("LocalDataModel").setProperty("/LoginId", oData.userProfile.id);
@@ -149,7 +149,7 @@ sap.ui.define([
 					sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "");
 					switch (userType) {
 					case "Dealer_Parts_Admin":
-						console.log("Dealer Parts");
+					//"Dealer Parts"
 						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ManageAllParts");
 						/*Uncomment for security*/
 						that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", true);
@@ -161,7 +161,7 @@ sap.ui.define([
 						/*Uncomment for security*/
 						break;
 					case "Dealer_Parts_Services_Admin":
-						console.log("Dealer service part");
+						//"Dealer service part"
 						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ManageAllWarrantyParts");
 						/*Uncomment for security*/
 						that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", true);
@@ -173,7 +173,7 @@ sap.ui.define([
 						/*Uncomment for security*/
 						break;
 					case "Dealer_Services_Admin":
-						console.log("Dealer_Services_Admin");
+						//"Dealer_Services_Admin"
 						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ManageAllServices");
 						/*Uncomment for security*/
 						that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", true);
@@ -185,7 +185,7 @@ sap.ui.define([
 						/*Uncomment for security*/
 						break;
 					case "Dealer_User":
-						console.log("Dealer_User");
+						//"Dealer_User"
 						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ReadOnlyCoverageClaimLabour");
 
 						that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", false);
@@ -199,7 +199,7 @@ sap.ui.define([
 						/*Uncomment for security*/
 						break;
 					case "TCI_Admin":
-						console.log("TCI_Admin");
+						//"TCI_Admin"
 						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ReadOnlyViewAll");
 						/*Uncomment for security*/
 						that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", false);
@@ -212,7 +212,7 @@ sap.ui.define([
 						/*Uncomment for security*/
 						break;
 					case "TCI_User":
-						console.log("TCI_User");
+						//"TCI_User"
 						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ReadOnlyCoverageClaim");
 						/*Uncomment for security*/
 						that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", false);
@@ -227,7 +227,7 @@ sap.ui.define([
 						/*Uncomment for security*/
 						break;
 					case "Zone_User":
-						console.log("Zone_User");
+						//"Zone_User"
 						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ReadOnlyViewAll");
 						/*Uncomment for security*/
 						that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", false);
@@ -240,7 +240,7 @@ sap.ui.define([
 						// /*Uncomment for security*/
 						break;
 					case "Dealer_Services_Manager":
-						console.log("Dealer_Services_Manager");
+						//"Dealer_Services_Manager"
 						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ManageAllShowAuthorization");
 						/*Uncomment for security*/
 						that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", true);
@@ -272,7 +272,7 @@ sap.ui.define([
 				type: "GET",
 				dataType: "json",
 				success: $.proxy(function (appData) {
-					console.log(appData);
+					
 					this.getModel("LocalDataModel").setProperty("/oECPURL", appData.ecpSalesAppUrl);
 					this.getModel("LocalDataModel").setProperty("/oCICURL", appData.cicUrl);
 					this.getModel("LocalDataModel").setProperty("/oCVSHURL", appData.cvshUrl);
@@ -299,7 +299,7 @@ sap.ui.define([
 				dataType: "json",
 
 				success: function (oData) {
-					console.log(oData);
+				
 					var BpDealer = [];
 					var userAttributes = [];
 					that.getModel("LocalDataModel").setProperty("/LoginId", oData.userProfile.id);

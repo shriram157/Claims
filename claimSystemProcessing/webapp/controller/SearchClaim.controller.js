@@ -7,18 +7,29 @@ sap.ui.define([
 ], function (BaseController, ValueState, Sorter, ViewSettingsDialog, ViewSettingsItem) {
 	"use strict";
 
+	var sDivision;
+	//  get the locale to determine the language.
+	var isDivision = window.location.search.match(/Division=([^&]*)/i);
+	if (isDivision) {
+		sDivision = window.location.search.match(/Division=([^&]*)/i)[1];
+	} else {
+		sDivision = "10"; // default is english
+	}
+
+	var sSelectedLocale;
+	//  get the locale to determine the language.
+	var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
+	if (isLocaleSent) {
+		sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
+	} else {
+		sSelectedLocale = "en"; // default is english
+	}
+
 	return BaseController.extend("zclaimProcessing.controller.SearchClaim", {
 
 		onInit: function () {
 			this.getModel("LocalDataModel").setProperty("/oVisibleRowTR", 0);
-			var sSelectedLocale;
-			//  get the locale to determine the language.
-			var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
-			if (isLocaleSent) {
-				sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
-			} else {
-				sSelectedLocale = "en"; // default is english
-			}
+
 			var sLocation = window.location.host;
 			var sLocation_conf = sLocation.search("webide");
 			this.counter = 0;
@@ -52,138 +63,7 @@ sap.ui.define([
 			var oModel = new sap.ui.model.json.JSONModel();
 			sap.ui.getCore().setModel(oModel, "UserDataModel");
 			var that = this;
-
-			$.ajax({
-				url: this.sPrefix + "/userDetails/currentScopesForUser",
-				type: "GET",
-				dataType: "json",
-				success: function (oData) {
-					var userType = oData.loggedUserType[0];
-					//var userType = "TCI_Admin";
-					//var userType = "Dealer_Services_Admin";
-					//var userType = "Dealer_Parts_Services_Admin";
-					sap.ui.getCore().getModel("UserDataModel").setProperty("/LoggedInUser", userType);
-					sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "");
-					switch (userType) {
-					case "Dealer_Parts_Admin":
-						console.log("Dealer Parts");
-						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ManageAllParts");
-						/*Uncomment for security*/
-						that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", true);
-						that.getView().getModel("HeaderLinksModel").setProperty("/ViewUpdateClaims", true);
-						that.getView().getModel("HeaderLinksModel").setProperty("/QuickCoverageTool", true);
-						that.getView().getModel("HeaderLinksModel").setProperty("/ClaimInquiry", true);
-						that.getView().getModel("HeaderLinksModel").setProperty("/DealerLabourRateInquiry", true);
-						sap.ui.getCore().getModel("HeaderLinksModel").updateBindings(true);
-						/*Uncomment for security*/
-						break;
-					case "Dealer_Parts_Services_Admin":
-						console.log("Dealer service part");
-						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ManageAllWarrantyParts");
-						/*Uncomment for security*/
-						that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", true);
-						that.getView().getModel("HeaderLinksModel").setProperty("/ViewUpdateClaims", true);
-						that.getView().getModel("HeaderLinksModel").setProperty("/QuickCoverageTool", true);
-						that.getView().getModel("HeaderLinksModel").setProperty("/ClaimInquiry", true);
-						that.getView().getModel("HeaderLinksModel").setProperty("/DealerLabourRateInquiry", true);
-						sap.ui.getCore().getModel("HeaderLinksModel").updateBindings(true);
-						/*Uncomment for security*/
-						break;
-					case "Dealer_Services_Admin":
-						console.log("Dealer_Services_Admin");
-						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ManageAllServices");
-						/*Uncomment for security*/
-						that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", true);
-						that.getView().getModel("HeaderLinksModel").setProperty("/ViewUpdateClaims", true);
-						that.getView().getModel("HeaderLinksModel").setProperty("/QuickCoverageTool", true);
-						that.getView().getModel("HeaderLinksModel").setProperty("/ClaimInquiry", true);
-						that.getView().getModel("HeaderLinksModel").setProperty("/DealerLabourRateInquiry", true);
-						sap.ui.getCore().getModel("HeaderLinksModel").updateBindings(true);
-						/*Uncomment for security*/
-						break;
-					case "Dealer_User":
-						console.log("Dealer_User");
-						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ReadOnlyCoverageClaimLabour");
-
-						that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", false);
-						that.getView().getModel("HeaderLinksModel").setProperty("/ViewUpdateClaims", false);
-						that.getView().getModel("HeaderLinksModel").setProperty("/QuickCoverageTool", true);
-						that.getView().getModel("HeaderLinksModel").setProperty("/ClaimInquiry", true);
-						that.getView().getModel("HeaderLinksModel").setProperty("/DealerLabourRateInquiry", true);
-						sap.ui.getCore().getModel("HeaderLinksModel").updateBindings(true);
-						sap.ui.getCore().getModel("HeaderLinksModel").updateBindings(true);
-						that.getOwnerComponent().getRouter().navTo("QueryCoverageTools");
-						/*Uncomment for security*/
-						break;
-					case "TCI_Admin":
-						console.log("TCI_Admin");
-						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ReadOnlyViewAll");
-						/*Uncomment for security*/
-						that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", false);
-						that.getView().getModel("HeaderLinksModel").setProperty("/ViewUpdateClaims", true);
-						that.getView().getModel("HeaderLinksModel").setProperty("/QuickCoverageTool", true);
-						that.getView().getModel("HeaderLinksModel").setProperty("/ClaimInquiry", true);
-						that.getView().getModel("HeaderLinksModel").setProperty("/DealerLabourRateInquiry", true);
-						that.getOwnerComponent().getModel("LocalDataModel").setProperty("/visibleNewBtn", false);
-						sap.ui.getCore().getModel("HeaderLinksModel").updateBindings(true);
-						/*Uncomment for security*/
-						break;
-					case "TCI_User":
-						console.log("TCI_User");
-						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ReadOnlyCoverageClaim");
-						/*Uncomment for security*/
-						that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", false);
-						that.getView().getModel("HeaderLinksModel").setProperty("/ViewUpdateClaims", false);
-						that.getView().getModel("HeaderLinksModel").setProperty("/QuickCoverageTool", true);
-						that.getView().getModel("HeaderLinksModel").setProperty("/ClaimInquiry", true);
-						that.getView().getModel("HeaderLinksModel").setProperty("/DealerLabourRateInquiry", false);
-
-						sap.ui.getCore().getModel("HeaderLinksModel").updateBindings(true);
-						sap.ui.getCore().getModel("HeaderLinksModel").updateBindings(true);
-						that.getOwnerComponent().getRouter().navTo("QueryCoverageTools");
-						/*Uncomment for security*/
-						break;
-					case "Zone_User":
-						console.log("Zone_User");
-						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ReadOnlyViewAll");
-						/*Uncomment for security*/
-						that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", false);
-						that.getView().getModel("HeaderLinksModel").setProperty("/ViewUpdateClaims", true);
-						that.getView().getModel("HeaderLinksModel").setProperty("/QuickCoverageTool", true);
-						that.getView().getModel("HeaderLinksModel").setProperty("/ClaimInquiry", true);
-						that.getView().getModel("HeaderLinksModel").setProperty("/DealerLabourRateInquiry", true);
-						that.getOwnerComponent().getModel("LocalDataModel").setProperty("/visibleNewBtn", false);
-						sap.ui.getCore().getModel("HeaderLinksModel").updateBindings(true);
-						// /*Uncomment for security*/
-						break;
-					case "Dealer_Services_Manager":
-						console.log("Dealer_Services_Manager");
-						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ManageAllShowAuthorization");
-						/*Uncomment for security*/
-						that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", true);
-						that.getView().getModel("HeaderLinksModel").setProperty("/ViewUpdateClaims", true);
-						that.getView().getModel("HeaderLinksModel").setProperty("/QuickCoverageTool", true);
-						that.getView().getModel("HeaderLinksModel").setProperty("/ClaimInquiry", true);
-						that.getView().getModel("HeaderLinksModel").setProperty("/DealerLabourRateInquiry", true);
-						sap.ui.getCore().getModel("HeaderLinksModel").updateBindings(true);
-						/*Uncomment for security*/
-						break;
-					default:
-						// console.log("Dealer_Services_Manager");
-						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ManageAllShowAuthorization");
-						/*Uncomment for security*/
-						that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", true);
-						that.getView().getModel("HeaderLinksModel").setProperty("/ViewUpdateClaims", true);
-						that.getView().getModel("HeaderLinksModel").setProperty("/QuickCoverageTool", true);
-						that.getView().getModel("HeaderLinksModel").setProperty("/ClaimInquiry", true);
-						that.getView().getModel("HeaderLinksModel").setProperty("/DealerLabourRateInquiry", true);
-						sap.ui.getCore().getModel("HeaderLinksModel").updateBindings(true);
-
-						/*Uncomment for security*/
-					}
-					// console.log(sap.ui.getCore().getModel("UserDataModel"));
-				}
-			});
+			this.getUser();
 
 			// get the attributes and BP Details - Minakshi to confirm if BP details needed	
 			$.ajax({
@@ -220,14 +100,6 @@ sap.ui.define([
 			}).done(function (data, textStatus, jqXHR) {
 				that.getModel("LocalDataModel").setProperty("/currentIssueDealer", data.attributes[0].BusinessPartnerKey);
 				var issueDealer = that.getModel("LocalDataModel").getProperty("/currentIssueDealer");
-				var sSelectedLocale;
-				//  get the locale to determine the language.
-				var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
-				if (isLocaleSent) {
-					sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
-				} else {
-					sSelectedLocale = "en"; // default is english
-				}
 
 				var oDateFormat = sap.ui.core.format.DateFormat.getDateInstance({
 					pattern: "yyyy-MM-ddTHH:mm:ss"
@@ -285,7 +157,7 @@ sap.ui.define([
 				},
 				success: $.proxy(function (data) {
 					var oClaimData = data.results;
-				
+
 					var elements = oClaimData.reduce(function (previous, current) {
 
 						var object = previous.filter(object => object.ClaimGroupDes === current.ClaimGroupDes);
@@ -341,20 +213,11 @@ sap.ui.define([
 			// for sorting table
 			this._mViewSettingsDialogs = {};
 
-			this.getModel("LocalDataModel").setProperty("/oSelectedStatusKeys", ["ZTRC","ZTIC", "ZTMR"]);
+			this.getModel("LocalDataModel").setProperty("/oSelectedStatusKeys", ["ZTRC", "ZTIC", "ZTMR"]);
 
 		},
 
 		_onObjectMatched: function (oEvent) {
-
-			var sSelectedLocale;
-			//  get the locale to determine the language.
-			var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
-			if (isLocaleSent) {
-				sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
-			} else {
-				sSelectedLocale = "en"; // default is english
-			}
 
 			var sQueryDealer = this.getView().byId("idDealerCode").getSelectedKey();
 			// console.log(sQueryDealer, this.oStatusKey);
@@ -377,18 +240,7 @@ sap.ui.define([
 			var sDate = "";
 			var oResult = [];
 			var issueDealer = this.getModel("LocalDataModel").getProperty("/currentIssueDealer");
-			var oProssingModel = this.getModel("ProssingModel");
-			// 			oProssingModel.read("/ZC_CLAIM_HEAD_NEW", {
-			// 				urlParameters: {
-			// 					"$filter": "Partner eq '" + issueDealer + "'and ReferenceDate ge datetime'" + FromDateFormat +
-			// 						"'and ReferenceDate le datetime'" + ToDateFormat +
-			// 						"'"
-			// 				},
-			// 				success: $.proxy(function (data) {
-			// 					this.getView().getModel("LocalDataModel").setProperty("/ZcClaimHeadNewData", data.results);
-			// 				}, this)
-
-			// 			});
+		
 
 		},
 
@@ -411,27 +263,27 @@ sap.ui.define([
 			this.createViewSettingsDialog("zclaimProcessing.view.fragments.SortOrder").open();
 		},
 		handleSortDialogConfirm: function (oEvent) {
-				var oTable = this.byId("idClaimTable"),
-					mParams = oEvent.getParameters(),
-					oBinding = oTable.getBinding("items"),
-					sPath,
-					oSorter,
-					bDescending,
-					aSorters = [];
+			var oTable = this.byId("idClaimTable"),
+				mParams = oEvent.getParameters(),
+				oBinding = oTable.getBinding("items"),
+				sPath,
+				oSorter,
+				bDescending,
+				aSorters = [];
 
-				sPath = mParams.sortItem.getKey();
-				bDescending = mParams.sortDescending;
+			sPath = mParams.sortItem.getKey();
+			bDescending = mParams.sortDescending;
 
-				if (sPath == "ClaimAmountSum") {
-					oSorter = new Sorter(sPath, bDescending);
-					oSorter.fnCompare = function (a, b) {
-						return a - b;
-					};
-				} else {
-					oSorter = new Sorter(sPath, bDescending);
-				}
+			if (sPath == "ClaimAmountSum") {
+				oSorter = new Sorter(sPath, bDescending);
+				oSorter.fnCompare = function (a, b) {
+					return a - b;
+				};
+			} else {
+				oSorter = new Sorter(sPath, bDescending);
+			}
 
-				aSorters.push(oSorter);
+			aSorters.push(oSorter);
 
 			// apply the selected sort and group settings
 			oBinding.sort(aSorters);
@@ -444,14 +296,6 @@ sap.ui.define([
 			this.getOwnerComponent().getModel("LocalDataModel").setProperty("/AdditionalText", ogetAdditionalText);
 		},
 		onSelectGroup: function (oEvent) {
-			var sSelectedLocale;
-			//  get the locale to determine the language.
-			var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
-			if (isLocaleSent) {
-				sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
-			} else {
-				sSelectedLocale = "en"; // default is english
-			}
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var oText = oEvent.getParameters().selectedItem.getKey();
 
@@ -481,7 +325,7 @@ sap.ui.define([
 					this.oStatusKey.push(this.oArr[i].getKey());
 				}
 			}
-			console.log(this.oStatusKey);
+		
 		},
 		onSearchBy: function (oEvent) {
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
@@ -853,7 +697,7 @@ sap.ui.define([
 				success: $.proxy(function (sdata) {
 					//console.log(sdata);
 					//this.getModel("LocalDataModel").setProperty("/ClaimDetails", sdata.results[0]);
-						var oClaimType = sdata.results[0].WarrantyClaimType;
+					var oClaimType = sdata.results[0].WarrantyClaimType;
 					var oClaimGroup = sdata.results[0].WarrantyClaimGroupDes;
 
 					if (oClaimType == "ZACD" || oClaimType == "ZAUT") {
@@ -869,7 +713,7 @@ sap.ui.define([
 							oClaimNav: "Details"
 
 						});
-					}else if (oClaimType == "ZSPM") {
+					} else if (oClaimType == "ZSPM") {
 						this.getOwnerComponent().getRouter().navTo("PMPMainSection", {
 							claimNum: oClaimNum,
 							oKey: oClaimType,
@@ -894,35 +738,6 @@ sap.ui.define([
 			this.getRouter().navTo("NewClaimSelectGroup");
 
 		}
-
-		/**
-		 * {
-				customerNum : this.getModel("LocalDataModel").getProperty("/BpDealerKey")
-			}
-		 * Similar to onAfterRendering, but this hook is invoked before the controller's View is re-rendered
-		 * (NOT before the first rendering! onInit() is used for that one!).
-		 * @memberOf zclaimProcessing.view.SearchClaim
-		 */
-		//	onBeforeRendering: function() {
-		//
-		//	},
-
-		/**
-		 * Called when the View has been rendered (so its HTML is part of the document). Post-rendering manipulations of the HTML could be done here.
-		 * This hook is the same one that SAPUI5 controls get after being rendered.
-		 * @memberOf zclaimProcessing.view.SearchClaim
-		 */
-		//	onAfterRendering: function() {
-		//
-		//	},
-
-		/**
-		 * Called when the Controller is destroyed. Use this one to free resources and finalize activities.
-		 * @memberOf zclaimProcessing.view.SearchClaim
-		 */
-		//	onExit: function() {
-		//
-		//	}
 
 	});
 
