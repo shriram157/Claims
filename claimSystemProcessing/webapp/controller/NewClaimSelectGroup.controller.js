@@ -123,7 +123,8 @@ sap.ui.define([
 					claimNum: oClaimNum,
 					oKey: "WTY",
 					oClaimGroup: this.oSelectedClaimGroup,
-					oClaimNav: "New"
+					oClaimNav: "New",
+					claimTypeGroup: "WTY"
 
 				});
 
@@ -132,7 +133,8 @@ sap.ui.define([
 					claimNum: oClaimNum,
 					oKey: "PWD",
 					oClaimGroup: this.oSelectedClaimGroup,
-					oClaimNav: "New"
+					oClaimNav: "New",
+					claimTypeGroup: "PWD"
 				});
 				this.getView().byId("idRequestType").setSelectedIndex(0);
 			} else if (oSelectedKey === "PMP") {
@@ -140,7 +142,8 @@ sap.ui.define([
 					claimNum: oClaimNum,
 					oKey: "PMP",
 					oClaimGroup: this.oSelectedClaimGroup,
-					oClaimNav: "New"
+					oClaimNav: "New",
+					claimTypeGroup: "PMP"
 				});
 				this.getView().byId("idRequestType").setSelectedIndex(0);
 			} else if (oSelectedKey === "FAC") {
@@ -148,7 +151,8 @@ sap.ui.define([
 					claimNum: oClaimNum,
 					oKey: "FAC",
 					oClaimGroup: this.oSelectedClaimGroup,
-					oClaimNav: "New"
+					oClaimNav: "New",
+					claimTypeGroup: "FAC"
 
 				});
 				this.getView().byId("idRequestType").setSelectedIndex(0);
@@ -157,7 +161,8 @@ sap.ui.define([
 					claimNum: oClaimNum,
 					oKey: "ECP",
 					oClaimGroup: this.oSelectedClaimGroup,
-					oClaimNav: "New"
+					oClaimNav: "New",
+					claimTypeGroup: "ECP"
 
 				});
 				this.getView().byId("idRequestType").setSelectedIndex(0);
@@ -166,7 +171,8 @@ sap.ui.define([
 					claimNum: oClaimNum,
 					oKey: "STR",
 					oClaimGroup: this.oSelectedClaimGroup,
-					oClaimNav: "New"
+					oClaimNav: "New",
+					claimTypeGroup: "STR"
 
 				});
 				this.getView().byId("idRequestType").setSelectedIndex(0);
@@ -175,7 +181,8 @@ sap.ui.define([
 					claimNum: oClaimNum,
 					oKey: "SCR",
 					oClaimGroup: this.oSelectedClaimGroup,
-					oClaimNav: "New"
+					oClaimNav: "New",
+					claimTypeGroup: "SCR"
 				});
 				this.getView().byId("idRequestType").setSelectedIndex(0);
 			} else if (oSelectedKey === "VLC") {
@@ -183,7 +190,8 @@ sap.ui.define([
 					claimNum: oClaimNum,
 					oKey: "VLC",
 					oClaimGroup: this.oSelectedClaimGroup,
-					oClaimNav: "New"
+					oClaimNav: "New",
+					claimTypeGroup: "VLC"
 
 				});
 				this.getView().byId("idRequestType").setSelectedIndex(0);
@@ -192,7 +200,8 @@ sap.ui.define([
 					claimNum: oClaimNum,
 					oKey: "CRC",
 					oClaimGroup: this.oSelectedClaimGroup,
-					oClaimNav: "New"
+					oClaimNav: "New",
+					claimTypeGroup: "CRC"
 
 				});
 				this.getView().byId("idRequestType").setSelectedIndex(0);

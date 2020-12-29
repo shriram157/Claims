@@ -240,7 +240,6 @@ sap.ui.define([
 			var sDate = "";
 			var oResult = [];
 			var issueDealer = this.getModel("LocalDataModel").getProperty("/currentIssueDealer");
-		
 
 		},
 
@@ -325,7 +324,7 @@ sap.ui.define([
 					this.oStatusKey.push(this.oArr[i].getKey());
 				}
 			}
-		
+
 		},
 		onSearchBy: function (oEvent) {
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
@@ -698,7 +697,8 @@ sap.ui.define([
 					//console.log(sdata);
 					//this.getModel("LocalDataModel").setProperty("/ClaimDetails", sdata.results[0]);
 					var oClaimType = sdata.results[0].WarrantyClaimType;
-					var oClaimGroup = sdata.results[0].WarrantyClaimGroupDes;
+					//var oClaimGroup = sdata.results[0].WarrantyClaimGroupDes;
+					var claimTypeGroup = sdata.results[0].ClaimGroup;
 
 					if (oClaimType == "ZACD" || oClaimType == "ZAUT") {
 						this.oSelectedClaimGroup = "Authorization";
@@ -710,7 +710,8 @@ sap.ui.define([
 							claimNum: oClaimNum,
 							oKey: oClaimType,
 							oClaimGroup: this.oSelectedClaimGroup,
-							oClaimNav: "Details"
+							oClaimNav: "Details",
+							claimTypeGroup: claimTypeGroup
 
 						});
 					} else if (oClaimType == "ZSPM") {
@@ -718,7 +719,8 @@ sap.ui.define([
 							claimNum: oClaimNum,
 							oKey: oClaimType,
 							oClaimGroup: this.oSelectedClaimGroup,
-							oClaimNav: "Details"
+							oClaimNav: "Details",
+							claimTypeGroup: claimTypeGroup
 
 						});
 					} else {
@@ -726,7 +728,8 @@ sap.ui.define([
 							claimNum: oClaimNum,
 							oKey: oClaimType,
 							oClaimGroup: this.oSelectedClaimGroup,
-							oClaimNav: "Details"
+							oClaimNav: "Details",
+							claimTypeGroup: claimTypeGroup
 
 						});
 					}

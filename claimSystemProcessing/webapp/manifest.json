@@ -225,19 +225,19 @@
 				]
 			}, {
 				"name": "MainClaimSection",
-				"pattern": "MainClaim/{claimNum}/{oKey}/{oClaimGroup}/{oClaimNav}",
+				"pattern": "MainClaim/{claimNum}/{oKey}/{oClaimGroup}/{oClaimNav}/{claimTypeGroup}",
 				"target": [
 					"MainClaimSection"
 				]
 			}, {
 				"name": "PMPMainSection",
-				"pattern": "PMPMain/{claimNum}/{oKey}/{oClaimGroup}/{oClaimNav}",
+				"pattern": "PMPMain/{claimNum}/{oKey}/{oClaimGroup}/{oClaimNav}/{claimTypeGroup}",
 				"target": [
 					"PMPMainSection"
 				]
 			}, {
 				"name": "PartsMainSection",
-				"pattern": "PartsMain/{claimNum}/{oKey}/{oClaimGroup}/{oClaimNav}",
+				"pattern": "PartsMain/{claimNum}/{oKey}/{oClaimGroup}/{oClaimNav}/{claimTypeGroup}",
 				"target": [
 					"PartsMainSection"
 				]

@@ -327,7 +327,8 @@ sap.ui.define([
 				oECPfields: false,
 				oRepOrdDateReq: true,
 				oRepOrdReq: true,
-				chngClaimTypeVisible:false
+				chngClaimTypeVisible:false,
+				serialNoV:false
 			});
 			this.getView().setModel(oDateModel, "DateModel");
 			this.getModel("LocalDataModel").setProperty("/SubletAtchmentData", []);
@@ -384,6 +385,7 @@ sap.ui.define([
 			var oClaimAuthType = oEvent.getParameters().arguments.oClaimGroup;
 			var oClaimTypeDetail = oEvent.getParameters().arguments.oKey;
 			var oNavList = oEvent.getParameters().arguments.oClaimNav;
+			var sClaimGroup = oEvent.getParameters().arguments.claimTypeGroup;
 			this.getModel("LocalDataModel").setProperty("/NavList", oNavList);
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			this.getModel("LocalDataModel").setProperty("/MsrUnit", oBundle.getText("distancekm"));
@@ -423,6 +425,11 @@ sap.ui.define([
 
 				var clmNumAuth;
 				var clmAuthNum;
+				
+				if(sClaimGroup == "WTY"){
+					this.getView().getModel("DateModel").setProperty("/serialNoV", true);
+				}
+				
 				if (oGroupDescription == "ZSSM") {
 					this.getView().getModel("DateModel").setProperty("/oRepOrdReq", false);
 					this.getView().getModel("DateModel").setProperty("/oRepOrdDateReq", false);
@@ -1811,6 +1818,7 @@ sap.ui.define([
 					});
 					this.getView().getModel("DateModel").setProperty("/Paint", true);
 					this.getView().getModel("DateModel").setProperty("/Authorization", true);
+					this.getView().getModel("DateModel").setProperty("/serialNoV", true);
 				}
 				if (oGroupDescription == "FAC") {
 
