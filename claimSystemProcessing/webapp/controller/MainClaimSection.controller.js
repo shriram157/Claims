@@ -864,26 +864,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/DisableRadio", false);
 							this.getView().getModel("DateModel").setProperty("/authHide", false);
 						}
-						// else if (oClaimTypeDetail == "ZWA2" || submissionType == "ZWA2") {
-						// 	this.getView().getModel("DateModel").setProperty("/oMainOps", true);
-						// 	this.getView().getModel("DateModel").setProperty("/Paint", false);
-						// 	this.getView().getModel("DateModel").setProperty("/Authorization", true);
-						// 	this.getView().getModel("DateModel").setProperty("/Sublet", true);
-						// 	this.getView().getModel("DateModel").setProperty("/Parts", true);
-						// 	this.getView().getModel("DateModel").setProperty("/Labour", true);
-						// 	this.getView().getModel("DateModel").setProperty("/ShipmentVisible", false);
-						// 	this.getView().getModel("DateModel").setProperty("/oECPfields", false);
-						// 	this.getView().getModel("DateModel").setProperty("/AcA1", false);
-						// 	this.getView().getModel("DateModel").setProperty("/DisableRadio", false);
-						// 	this.getView().getModel("DateModel").setProperty("/P1p2", true);
-						// 	this.getView().getModel("DateModel").setProperty("/oPrevInvNumReq", false);
-						// 	this.getView().getModel("DateModel").setProperty("/oPrevInvDateReq", false);
-						// 	this.getView().getModel("DateModel").setProperty("/oFieldActionInput", false);
-						// 	this.getView().getModel("DateModel").setProperty("/PreroOdometerVisible", false);
-						// 	this.getView().getModel("DateModel").setProperty("/RepairdDetailVisible", true);
-						// 	this.getView().getModel("DateModel").setProperty("/oMainOpsReq", false);
-						// 	this.getView().getModel("DateModel").setProperty("/authHide", true);
-						// }
+					
 						else if (oClaimTypeDetail == "ZWAC" || submissionType == "ZWAC" || oClaimTypeDetail == "ZWA1" || submissionType == "ZWA1") {
 							this.getView().getModel("DateModel").setProperty("/oMainOps", true);
 							this.getView().getModel("DateModel").setProperty("/Paint", false);
@@ -1476,6 +1457,7 @@ sap.ui.define([
 													"CustomerPostalCode": this.getView().getModel("HeadSetData").getProperty("/CustomerPostalCode").toUpperCase(),
 													"CustomerFullName": this.getView().getModel("HeadSetData").getProperty("/CustomerFullName"),
 													"WarrantyClaimSubType": this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType"),
+													"SerialNumber" : this.getView().getModel("HeadSetData").getProperty("/SerialNumber"),
 													"zc_itemSet": {
 														"results": PartItem
 													},
@@ -1648,6 +1630,7 @@ sap.ui.define([
 				this.HeadSetData = new sap.ui.model.json.JSONModel({
 					"WarrantyClaimType": "",
 					"WarrantyClaimSubType": "",
+					"SerialNumber" : "",
 					"Partner": "",
 					"PartnerRole": "",
 					"ReferenceDate": null,
@@ -1692,6 +1675,7 @@ sap.ui.define([
 					"Message": "",
 					"WarrantyClaimType": "",
 					"WarrantyClaimSubType": "",
+					"SerialNumber" : "",
 					"Partner": "",
 					"PartnerRole": "",
 					"ReferenceDate": null,
@@ -3403,6 +3387,7 @@ sap.ui.define([
 					"DeliveryDate": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/DeliveryDate")),
 					"DeliveringCarrier": this.getView().getModel("HeadSetData").getProperty("/DeliveringCarrier"),
 					"WarrantyClaimSubType": this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType"),
+					"SerialNumber" : this.getView().getModel("HeadSetData").getProperty("/SerialNumber"),
 					"zc_itemSet": {
 						"results": []
 					},
@@ -4350,6 +4335,7 @@ sap.ui.define([
 								"DeliveryDate": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/DeliveryDate")),
 								"DeliveringCarrier": this.getView().getModel("HeadSetData").getProperty("/DeliveringCarrier"),
 								"WarrantyClaimSubType": this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType"),
+								"SerialNumber" : this.getView().getModel("HeadSetData").getProperty("/SerialNumber"),
 								"zc_itemSet": {
 									"results": PartItem
 								},
