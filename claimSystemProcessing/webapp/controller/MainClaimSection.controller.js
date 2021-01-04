@@ -19,11 +19,6 @@ sap.ui.define([
 	return BaseController.extend("zclaimProcessing.controller.MainClaimSection", {
 		onInit: function () {
 			this.getDealer();
-			// set i18n model on view
-			// var i18nModel = new ResourceModel({
-			// 	bundleName: "zclaimProcessing.i18n.i18n"
-			// });
-			// this.getView().setModel(i18nModel, "i18n");
 			oBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
 			this.getView().setModel(sap.ui.getCore().getModel("HeaderLinksModel"), "HeaderLinksModel");
 			this.setModel(this.getModel("ProductMaster"), "ProductMasterModel");
@@ -1651,7 +1646,7 @@ sap.ui.define([
 			//var oClaimGroup = this.getModel("LocalDataModel").getProperty("/GroupDescriptionName");
 			oClaimModel.read("/zc_claim_groupSet", {
 				urlParameters: {
-					"$filter": "ClaimGroup eq '" + oClaimGroup + "'and LanguageKey eq '" + sSelectedLocale + "'"
+					"$filter": "ClaimGroup eq '" + oClaimGroup + "'and LanguageKey eq '" + sSelectedLocale.toUpperCase() + "'"
 				},
 				success: $.proxy(function (data) {
 
