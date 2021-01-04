@@ -5,6 +5,23 @@ sap.ui.define([
 	'sap/m/MessageToast'
 ], function (Controller, History, Device, MessageToast) {
 	"use strict";
+	var sDivision;
+	//  get the locale to determine the language.
+	var isDivision = window.location.search.match(/Division=([^&]*)/i);
+	if (isDivision) {
+		sDivision = window.location.search.match(/Division=([^&]*)/i)[1];
+	} else {
+		sDivision = "10"; // default is english
+	}
+
+	var sSelectedLocale;
+	//  get the locale to determine the language.
+	var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
+	if (isLocaleSent) {
+		sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
+	} else {
+		sSelectedLocale = "en"; // default is english
+	}
 
 	return Controller.extend("zclaimProcessing.controller.BaseController", {
 
@@ -68,7 +85,7 @@ sap.ui.define([
 				dataType: "json",
 
 				success: function (oData) {
-					
+
 					var BpDealer = [];
 					var userAttributes = [];
 					that.getModel("LocalDataModel").setProperty("/LoginId", oData.userProfile.id);
@@ -149,7 +166,7 @@ sap.ui.define([
 					sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "");
 					switch (userType) {
 					case "Dealer_Parts_Admin":
-					//"Dealer Parts"
+						//"Dealer Parts"
 						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ManageAllParts");
 						/*Uncomment for security*/
 						that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", true);
@@ -272,7 +289,7 @@ sap.ui.define([
 				type: "GET",
 				dataType: "json",
 				success: $.proxy(function (appData) {
-					
+
 					this.getModel("LocalDataModel").setProperty("/oECPURL", appData.ecpSalesAppUrl);
 					this.getModel("LocalDataModel").setProperty("/oCICURL", appData.cicUrl);
 					this.getModel("LocalDataModel").setProperty("/oCVSHURL", appData.cvshUrl);
@@ -299,7 +316,7 @@ sap.ui.define([
 				dataType: "json",
 
 				success: function (oData) {
-				
+
 					var BpDealer = [];
 					var userAttributes = [];
 					that.getModel("LocalDataModel").setProperty("/LoginId", oData.userProfile.id);
@@ -339,8 +356,6 @@ sap.ui.define([
 							this.getModel("LocalDataModel").setProperty("/BPOrgName", dBp.results[0].OrganizationBPName1);
 						}, this)
 					});
-
-				
 
 				}.bind(this),
 				error: function (response) {

@@ -6,30 +6,9 @@ sap.ui.define([
 	"sap/m/ViewSettingsItem"
 ], function (BaseController, ValueState, Sorter, ViewSettingsDialog, ViewSettingsItem) {
 	"use strict";
-
-	var sDivision;
-	//  get the locale to determine the language.
-	var isDivision = window.location.search.match(/Division=([^&]*)/i);
-	if (isDivision) {
-		sDivision = window.location.search.match(/Division=([^&]*)/i)[1];
-	} else {
-		sDivision = "10"; // default is english
-	}
-
-	var sSelectedLocale;
-	//  get the locale to determine the language.
-	var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
-	if (isLocaleSent) {
-		sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
-	} else {
-		sSelectedLocale = "en"; // default is english
-	}
-
 	return BaseController.extend("zclaimProcessing.controller.SearchClaim", {
-
 		onInit: function () {
 			this.getModel("LocalDataModel").setProperty("/oVisibleRowTR", 0);
-
 			var sLocation = window.location.host;
 			var sLocation_conf = sLocation.search("webide");
 			this.counter = 0;
@@ -113,19 +92,6 @@ sap.ui.define([
 				// console.log(FromDateFormat, ToDateFormat);
 				var sDate = "";
 				var oResult = [];
-
-				// var oProssingModel = that.getModel("ProssingModel");
-				// oProssingModel.read("/ZC_CLAIM_HEAD_NEW", {
-				// 	urlParameters: {
-				// 		"$filter": "Partner eq '" + issueDealer + "'and ReferenceDate ge datetime'" + FromDateFormat +
-				// 			"'and ReferenceDate le datetime'" + ToDateFormat +
-				// 			"'"
-				// 	},
-				// 	success: $.proxy(function (data) {
-				// 		that.getModel("LocalDataModel").setProperty("/ZcClaimHeadNewData", data.results);
-				// 	}, that)
-
-				// });
 
 				var oRouter = sap.ui.core.UIComponent.getRouterFor(that);
 				oRouter.attachRouteMatched(that._onObjectMatched, that);
@@ -635,18 +601,9 @@ sap.ui.define([
 		},
 
 		handleDealerLabourInq: function (oEvent) {
-			var sDivision;
+			
 			var oDialog;
 			var selectedKey = this.getView().byId("idDealerCode").getSelectedKey();
-			//  get the locale to determine the language.
-			var isDivision = window.location.search.match(/Division=([^&]*)/i);
-			if (isDivision) {
-				sDivision = window.location.search.match(/Division=([^&]*)/i)[1];
-			} else {
-				sDivision = "10"; // default is english
-			}
-
-			// 			this.getDealer();
 
 			var oProssingModel = this.getModel("ProssingModel");
 			oProssingModel.read("/zc_labour_rateSet(Partner='" + selectedKey + "',Division='" + sDivision +

@@ -98,6 +98,14 @@
 				<Input maxLength="40"
 					value="{path:'HeadSetData>/ExternalNumberOfClaim', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 40 } }"
 					required="true" id="idDealerClaim" editable="{DateModel>/oFormEdit}"/>
+					
+				<Label text="{i18n>DamageDisclosure}"/>
+					<ComboBox id="idDmgCls" visible="{DateModel>/enableVLC}" selectionChange="onChangeT1" showSecondaryValues="true"
+						items="{ path: 'LocalDataModel>/DamageDiscSet' }" filterSecondaryValues="true"
+						value="{path:'HeadSetData>/DamageDisclosure', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 2 } }"
+						selectedKey="{path:'HeadSetData>/DamageDisclosure'}" editable="{DateModel>/oFormEdit}">
+						<core:ListItem key="{LocalDataModel>key}" text="{path:'LocalDataModel>key'}" additionalText="{LocalDataModel>value}"/>
+					</ComboBox>	
 				<core:Title text=""/>
 				<Label text="{i18n>RepairDate}"/>
 				<!--<DatePicker class="clDatePicker" required="true" value="{path:'HeadSetData>/RepairDate',type : 'sap.ui.model.type.Date'}" editable="{DateModel>/oFormEdit}"/>-->
