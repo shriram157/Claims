@@ -98,14 +98,6 @@
 				<Input maxLength="40"
 					value="{path:'HeadSetData>/ExternalNumberOfClaim', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 40 } }"
 					required="true" id="idDealerClaim" editable="{DateModel>/oFormEdit}"/>
-					
-				<Label text="{i18n>DamageDisclosure}"/>
-					<ComboBox id="idDmgCls" visible="{DateModel>/enableVLC}" selectionChange="onChangeT1" showSecondaryValues="true"
-						items="{ path: 'LocalDataModel>/DamageDiscSet' }" filterSecondaryValues="true"
-						value="{path:'HeadSetData>/DamageDisclosure', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 2 } }"
-						selectedKey="{path:'HeadSetData>/DamageDisclosure'}" editable="{DateModel>/oFormEdit}">
-						<core:ListItem key="{LocalDataModel>key}" text="{path:'LocalDataModel>key'}" additionalText="{LocalDataModel>value}"/>
-					</ComboBox>	
 				<core:Title text=""/>
 				<Label text="{i18n>RepairDate}"/>
 				<!--<DatePicker class="clDatePicker" required="true" value="{path:'HeadSetData>/RepairDate',type : 'sap.ui.model.type.Date'}" editable="{DateModel>/oFormEdit}"/>-->
@@ -187,7 +179,7 @@
 		<VBox visible="{DateModel>/ShipmentVisible}">
 			<f:SimpleForm editable="true" id="idShipmentInfo" class="clShipmentInfo" title="{i18n>ShipmentInformation}" layout="ResponsiveGridLayout"
 				labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0"
-				emptySpanS="0" columnsXL="4" columnsL="4" columnsM="3" singleContainerFullSize="false">
+				emptySpanS="0" columnsXL="5" columnsL="5" columnsM="3"  singleContainerFullSize="false">
 				<f:content>
 					<core:Title text=""/>
 					<Label text="{i18n>DeliveringCarrier}"/>
@@ -216,6 +208,14 @@
 						<core:ListItem key="" text="{i18n>Attended}"/>
 						<core:ListItem key="" text="{i18n>Unattended}"/>
 					</custom:CustomCombo>
+					<core:Title text=""/>
+					<Label text="{i18n>DamageDisclosure}"/>
+					<ComboBox id="idDmgCls" visible="{DateModel>/enableVLC}" selectionChange="onChangeT1" showSecondaryValues="true"
+						items="{ path: 'LocalDataModel>/DamageDiscSet' }" filterSecondaryValues="true"
+						value="{path:'HeadSetData>/DamageDisclosure', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 2 } }"
+						selectedKey="{path:'HeadSetData>/DamageDisclosure'}" editable="{DateModel>/oFormEdit}">
+						<core:ListItem key="{LocalDataModel>key}" text="{path:'LocalDataModel>key'}" additionalText="{LocalDataModel>value}"/>
+					</ComboBox>	
 				</f:content>
 			</f:SimpleForm>
 			<HBox justifyContent="End">
