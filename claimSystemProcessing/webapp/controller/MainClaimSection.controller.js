@@ -1282,6 +1282,7 @@ sap.ui.define([
 													"CustomerFullName": this.getView().getModel("HeadSetData").getProperty("/CustomerFullName"),
 													"WarrantyClaimSubType": this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType"),
 													"SerialNumber": this.getView().getModel("HeadSetData").getProperty("/SerialNumber"),
+													"DamageDisclosure":this.getView().getModel("HeadSetData").getProperty("/DamageDisclosure"),
 													"zc_itemSet": {
 														"results": PartItem
 													},
@@ -1456,6 +1457,7 @@ sap.ui.define([
 					"WarrantyClaimType": "",
 					"WarrantyClaimSubType": "",
 					"SerialNumber": "",
+					"DamageDisclosure": "",
 					"Partner": "",
 					"PartnerRole": "",
 					"ReferenceDate": null,
@@ -2910,6 +2912,7 @@ sap.ui.define([
 					"DeliveringCarrier": this.getView().getModel("HeadSetData").getProperty("/DeliveringCarrier"),
 					"WarrantyClaimSubType": this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType"),
 					"SerialNumber": this.getView().getModel("HeadSetData").getProperty("/SerialNumber"),
+					"DamageDisclosure":this.getView().getModel("HeadSetData").getProperty("/DamageDisclosure"),
 					"zc_itemSet": {
 						"results": []
 					},
@@ -3831,6 +3834,7 @@ sap.ui.define([
 								"DeliveringCarrier": this.getView().getModel("HeadSetData").getProperty("/DeliveringCarrier"),
 								"WarrantyClaimSubType": this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType"),
 								"SerialNumber": this.getView().getModel("HeadSetData").getProperty("/SerialNumber"),
+								"DamageDisclosure":this.getView().getModel("HeadSetData").getProperty("/DamageDisclosure"),
 								"zc_itemSet": {
 									"results": PartItem
 								},

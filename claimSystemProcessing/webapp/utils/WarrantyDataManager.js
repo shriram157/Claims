@@ -184,6 +184,7 @@ sap.ui.define([
 				"WarrantyClaimType": "",
 				"WarrantyClaimSubType": "",
 				"SerialNumber": "",
+				"DamageDisclosure": "",
 				"Partner": "",
 				"PartnerRole": "",
 				"ReferenceDate": null,
