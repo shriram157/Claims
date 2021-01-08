@@ -14,19 +14,19 @@ sap.ui.define([
 				"key": "03",
 				"value": "Will Disclosed"
 			}],
-			"frn" : [{
+			"frn": [{
 				"key": "01",
-				"value": "NA"
+				"value": "S.O."
 			}, {
 				"key": "02",
-				"value": "Avoir divulgué"
+				"value": "Divulgué"
 			}, {
 				"key": "03",
-				"value": "Sera divulgué"
+				"value": "Divulguera"
 			}]
-			
 
 		},
+
 		PercentData: [{
 			"num": "0%",
 			"okey": "0"
@@ -172,7 +172,7 @@ sap.ui.define([
 				oRepOrdReq: true,
 				chngClaimTypeVisible: false,
 				serialNoV: false,
-				enableVLC:false
+				enableVLC: false
 			});
 			return elm.getView().setModel(oDateModel, "DateModel");
 		},
@@ -273,6 +273,559 @@ sap.ui.define([
 				}
 			};
 			return elm.obj;
+		},
+		_modelValidate: function (elm) {
+			var aInputs;
+			var oClmType = elm.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType");
+			var oClmSubType = elm.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType");
+			var oView = elm.getView();
+			var clmGrp = elm.getModel("LocalDataModel").getProperty("/clmTypeGroup");
+
+			// var aInputsArr = [
+
+			// 	oView.byId("idDealerClaim"),
+			// 	oView.byId("id_Date"),
+			// 	oView.byId("idOdometer"),
+			// 	oView.byId("idRepairOrder"),
+			// 	oView.byId("idVinNum"),
+			// 	oView.byId("idT1Field"),
+			// 	oView.byId("idT2Field"),
+			// 	oView.byId("idRemedy"),
+			// 	oView.byId("idCause"),
+			// 	oView.byId("idCondition")
+			// ];
+
+			// var aInputsArrCoreRet = [
+
+			// 	oView.byId("idDealerClaim"),
+			// 	oView.byId("idVinNum")
+			// ];
+
+			// var aInputsArrZWAC = [
+
+			// 	oView.byId("idDealerClaim"),
+			// 	oView.byId("idAccDate"),
+			// 	oView.byId("idInsOdo"),
+			// 	oView.byId("id_Date"),
+			// 	oView.byId("idOdometer"),
+			// 	oView.byId("idRepairOrder"),
+			// 	oView.byId("idVinNum"),
+			// 	oView.byId("idT1Field"),
+			// 	oView.byId("idT2Field"),
+			// 	oView.byId("idRemedy"),
+			// 	oView.byId("idCause"),
+			// 	oView.byId("idCondition")
+			// ];
+
+			// var aInputsArrZWP2 = [
+
+			// 	oView.byId("idDealerClaim"),
+			// 	oView.byId("idPreInvNum"),
+			// 	oView.byId("idPrInvDate"),
+			// 	oView.byId("id_Date"),
+			// 	oView.byId("idRepairOrder"),
+			// 	oView.byId("idT1Field"),
+			// 	oView.byId("idT2Field"),
+			// 	oView.byId("idRemedy"),
+			// 	oView.byId("idCause"),
+			// 	oView.byId("idCondition")
+			// ];
+
+			// var aInputsArrZWP1 = [
+			// 	oView.byId("idDealerClaim"),
+			// 	oView.byId("idPreInvNum"),
+			// 	oView.byId("idPrInvDate"),
+			// 	oView.byId("id_Date"),
+			// 	oView.byId("idRepairOrder"),
+			// 	oView.byId("idPrvOdomtr"),
+			// 	oView.byId("idT1Field"),
+			// 	oView.byId("idT2Field"),
+			// 	oView.byId("idRemedy"),
+			// 	oView.byId("idCause"),
+			// 	oView.byId("idCondition")
+			// ];
+
+			// var aInputsArrZWMS = [
+			// 	oView.byId("idDealerClaim"),
+			// 	oView.byId("id_Date"),
+			// 	oView.byId("idRepairOrder"),
+			// 	oView.byId("idT1Field"),
+			// 	oView.byId("idT2Field"),
+			// 	oView.byId("idRemedy"),
+			// 	oView.byId("idCause"),
+			// 	oView.byId("idCondition")
+			// ];
+
+			// var aInputsFieldAct = [
+
+			// 	oView.byId("idDealerClaim"),
+			// 	oView.byId("id_Date"),
+			// 	oView.byId("idOdometer"),
+			// 	oView.byId("idRepairOrder"),
+			// 	oView.byId("idVinNum"),
+			// 	oView.byId("idFieldActionInput"),
+			// 	oView.byId("idRemedy"),
+			// 	oView.byId("idCause"),
+			// 	oView.byId("idCondition")
+			// ];
+
+			// var aInputsFieldActZCWE = [
+
+			// 	oView.byId("idDealerClaim"),
+			// 	oView.byId("id_Date"),
+			// 	oView.byId("idOFP"),
+			// 	oView.byId("idOdometer"),
+			// 	oView.byId("idRepairOrder"),
+			// 	oView.byId("idVinNum"),
+			// 	oView.byId("idFieldActionInput"),
+			// 	oView.byId("idRemedy"),
+			// 	oView.byId("idCause"),
+			// 	oView.byId("idCondition")
+			// ];
+
+			// var aInputsOECP = [
+
+			// 	oView.byId("id_Date"),
+			// 	oView.byId("idDealerClaim"),
+			// 	oView.byId("idClientLastName"),
+			// 	oView.byId("idPostalCode"),
+			// 	oView.byId("idOdometer"),
+			// 	oView.byId("idRepairOrder"),
+			// 	oView.byId("idVinNum"),
+			// 	oView.byId("idMainOps"),
+			// 	oView.byId("idT1Field"),
+			// 	oView.byId("idT2Field"),
+			// 	oView.byId("idRemedy"),
+			// 	oView.byId("idCause"),
+			// 	oView.byId("idCondition")
+			// ];
+
+			// var aInputVehiclLog = [
+
+			// 	oView.byId("idDealerClaim"),
+			// 	oView.byId("idDealerContact"),
+			// 	oView.byId("id_Date"),
+			// 	oView.byId("idOdometer"),
+			// 	oView.byId("idRepairOrder"),
+			// 	oView.byId("idVinNum"),
+			// 	oView.byId("iDdelivCarrier"),
+			// 	oView.byId("idProbill"),
+			// 	oView.byId("idDelivery"),
+			// 	oView.byId("idDeliveryDate")
+
+			// ];
+
+			// var aInputsSETR = [
+
+			// 	oView.byId("idDealerClaim"),
+			// 	oView.byId("id_Date"),
+			// 	oView.byId("idOdometer"),
+			// 	oView.byId("idRepairOrder"),
+			// 	oView.byId("idVinNum"),
+			// 	oView.byId("idFieldActionInput"),
+			// 	oView.byId("idMainOps"),
+			// 	oView.byId("idRemedy"),
+			// 	oView.byId("idCause"),
+			// 	oView.byId("idCondition")
+			// ];
+
+			// var aInputsZWVE = [
+
+			// 	oView.byId("idDealerClaim"),
+			// 	oView.byId("id_Date"),
+			// 	oView.byId("idOdometer"),
+			// 	oView.byId("idRepairOrder"),
+			// 	oView.byId("idMainOps"),
+			// 	oView.byId("idVinNum"),
+			// 	oView.byId("idT1Field"),
+			// 	oView.byId("idT2Field"),
+			// 	oView.byId("idRemedy"),
+			// 	oView.byId("idCause"),
+			// 	oView.byId("idCondition")
+			// ];
+
+			// var aInputSmartPart = [
+			// 	oView.byId("idDealerClaim"),
+
+			// ];
+
+			// var bValidationError = false;
+
+			// if (oClmSubType == "ZCER" || oClmSubType == "ZCLS" || oClmSubType == "ZCSR" || oClmType == "ZCER" || oClmType == "ZCLS" || oClmType ==
+			// 	"ZCSR") {
+			// 	oView.byId("idOFP").addStyleClass("clNotReq");
+			// 	oView.byId("idDealerContact").addStyleClass("clNotReq");
+			// 	oView.byId("idMainOps").addStyleClass("clNotReq");
+			// 	 aInputs = aInputsFieldAct;
+			// } else if (oClmType == "ZCWE" || oClmSubType == "ZCWE") {
+			// 	oView.byId("idDealerContact").addStyleClass("clNotReq");
+			// 	 aInputs = aInputsFieldActZCWE;
+			// } else if (oClmType == "ZECP" || oClmSubType == "ZECP") {
+			// 	oView.byId("idOFP").addStyleClass("clNotReq");
+			// 	oView.byId("idDealerContact").addStyleClass("clNotReq");
+			// 	oView.byId("idFieldActionInput").addStyleClass("clNotReq");
+			// 	 aInputs = aInputsOECP;
+			// } else if (oClmType == "ZSSE") {
+			// 	oView.byId("idOFP").addStyleClass("clNotReq");
+			// 	oView.byId("idDealerContact").addStyleClass("clNotReq");
+			// 	oView.byId("idFieldActionInput").addStyleClass("clNotReq");
+			// 	 aInputs = aInputsSETR;
+			// } else if (oClmType == "ZLDC") {
+			// 	 aInputs = aInputVehiclLog;
+			// } else if (oClmType == "ZWAC" || oClmSubType == "ZWAC" || oClmType == "ZWA1" || oClmSubType == "ZWA1") {
+			// 	oView.byId("idDealerContact").addStyleClass("clNotReq");
+			// 	oView.byId("idOFP").addStyleClass("clNotReq");
+			// 	oView.byId("idMainOps").addStyleClass("clNotReq");
+			// 	oView.byId("idFieldActionInput").addStyleClass("clNotReq");
+			// 	 aInputs = aInputsArrZWAC;
+			// } else if (oClmType == "ZWP2" || oClmSubType == "ZWP2") {
+			// 	oView.byId("idDealerContact").addStyleClass("clNotReq");
+			// 	oView.byId("idOFP").addStyleClass("clNotReq");
+			// 	oView.byId("idFieldActionInput").addStyleClass("clNotReq");
+			// 	 aInputs = aInputsArrZWP2;
+			// } else if (oClmType == "ZWP1" || oClmSubType == "ZWP1") {
+			// 	oView.byId("idDealerContact").addStyleClass("clNotReq");
+			// 	oView.byId("idOFP").addStyleClass("clNotReq");
+			// 	oView.byId("idFieldActionInput").addStyleClass("clNotReq");
+			// 	 aInputs = aInputsArrZWP1;
+			// } else if (oClmType == "ZWMS" || oClmSubType == "ZWMS") {
+			// 	oView.byId("idOFP").addStyleClass("clNotReq");
+			// 	oView.byId("idDealerContact").addStyleClass("clNotReq");
+			// 	oView.byId("idFieldActionInput").addStyleClass("clNotReq");
+			// 	 aInputs = aInputsArrZWMS;
+			// } else if (oClmType == "ZWVE" || oClmSubType == "ZWVE") {
+			// 	oView.byId("idOFP").addStyleClass("clNotReq");
+			// 	oView.byId("idDealerContact").addStyleClass("clNotReq");
+			// 	oView.byId("idFieldActionInput").addStyleClass("clNotReq");
+			// 	 aInputs = aInputsZWVE;
+
+			// } else if (oClmType == "ZGGW" || oClmSubType == "ZGGW" || oClmType == "ZWA2") {
+			// 	oView.byId("idMainOps").addStyleClass("clNotReq");
+			// 	oView.byId("idOFP").addStyleClass("clNotReq");
+			// 	oView.byId("idDealerContact").addStyleClass("clNotReq");
+			// 	oView.byId("idFieldActionInput").addStyleClass("clNotReq");
+			// 	this.getView().byId("idDealerContact").setValueState("None");
+			// 	 aInputs = aInputsArr;
+
+			// } else if (oClmType == "ZRCR") {
+			// 	oView.byId("idMainOps").addStyleClass("clNotReq");
+			// 	oView.byId("idOFP").addStyleClass("clNotReq");
+			// 	oView.byId("idDealerContact").addStyleClass("clNotReq");
+			// 	oView.byId("idFieldActionInput").addStyleClass("clNotReq");
+			// 	 aInputs = aInputsArr;
+
+			// } else if (oClmType == "ZSCR") {
+			// 	oView.byId("idDealerContact").addStyleClass("clNotReq");
+			// 	 aInputs = aInputsArrCoreRet;
+			// } else if (oClmType == "ZSSM") {
+			// 	oView.byId("idDealerContact").addStyleClass("clNotReq");
+			// 	oView.byId("idRepairOrder").addStyleClass("clNotReq");
+			// 	 aInputs = aInputSmartPart;
+			// }
+
+			var aInputsArr = [
+				oView.byId("idClaimType"),
+				oView.byId("idDealerClaim"),
+				oView.byId("id_Date"),
+				oView.byId("idOdometer"),
+				oView.byId("idRepairOrder"),
+				oView.byId("idVinNum"),
+				oView.byId("idT1Field"),
+				oView.byId("idT2Field"),
+				oView.byId("idRemedy"),
+				oView.byId("idCause"),
+				oView.byId("idCondition")
+			];
+
+			var aInputsArrCoreRet = [
+				oView.byId("idClaimType"),
+				oView.byId("idDealerClaim"),
+				oView.byId("idVinNum")
+			];
+
+			var aInputsArrZWAC = [
+				oView.byId("idClaimType"),
+				oView.byId("idDealerClaim"),
+				oView.byId("idAccDate"),
+				oView.byId("idInsOdo"),
+				oView.byId("id_Date"),
+				oView.byId("idOdometer"),
+				oView.byId("idRepairOrder"),
+				oView.byId("idVinNum"),
+				oView.byId("idT1Field"),
+				oView.byId("idT2Field"),
+				oView.byId("idRemedy"),
+				oView.byId("idCause"),
+				oView.byId("idCondition")
+			];
+
+			var aInputsArrZWP2 = [
+				oView.byId("idClaimType"),
+				oView.byId("idDealerClaim"),
+				oView.byId("idPreInvNum"),
+				oView.byId("idPrInvDate"),
+				oView.byId("id_Date"),
+				oView.byId("idRepairOrder"),
+
+				oView.byId("idT1Field"),
+				oView.byId("idT2Field"),
+				oView.byId("idRemedy"),
+				oView.byId("idCause"),
+				oView.byId("idCondition")
+			];
+
+			var aInputsArrZWP1 = [
+				oView.byId("idClaimType"),
+				oView.byId("idDealerClaim"),
+				oView.byId("idPreInvNum"),
+				oView.byId("idPrInvDate"),
+				oView.byId("id_Date"),
+				oView.byId("idRepairOrder"),
+				oView.byId("idPrvOdomtr"),
+				oView.byId("idT1Field"),
+				oView.byId("idT2Field"),
+				oView.byId("idRemedy"),
+				oView.byId("idCause"),
+				oView.byId("idCondition")
+			];
+
+			var aInputsArrZWMS = [
+				oView.byId("idClaimType"),
+				oView.byId("idDealerClaim"),
+				oView.byId("id_Date"),
+				oView.byId("idRepairOrder"),
+				oView.byId("idT1Field"),
+				oView.byId("idT2Field"),
+				oView.byId("idRemedy"),
+				oView.byId("idCause"),
+				oView.byId("idCondition")
+			];
+
+			var aInputsFieldAct = [
+				oView.byId("idClaimType"),
+				oView.byId("idDealerClaim"),
+				oView.byId("id_Date"),
+				oView.byId("idOdometer"),
+				oView.byId("idRepairOrder"),
+				oView.byId("idVinNum"),
+				oView.byId("idFieldActionInput"),
+				oView.byId("idRemedy"),
+				oView.byId("idCause"),
+				oView.byId("idCondition")
+			];
+
+			var aInputsFieldActZCWE = [
+				oView.byId("idClaimType"),
+				oView.byId("idDealerClaim"),
+				oView.byId("id_Date"),
+				oView.byId("idOFP"),
+				oView.byId("idOdometer"),
+				oView.byId("idRepairOrder"),
+				oView.byId("idVinNum"),
+				oView.byId("idFieldActionInput"),
+				oView.byId("idRemedy"),
+				oView.byId("idCause"),
+				oView.byId("idCondition")
+			];
+
+			var aInputsOECP = [
+				oView.byId("idClaimType"),
+				oView.byId("id_Date"),
+				oView.byId("idDealerClaim"),
+				oView.byId("idClientLastName"),
+				oView.byId("idPostalCode"),
+				oView.byId("idOdometer"),
+				oView.byId("idRepairOrder"),
+				oView.byId("idVinNum"),
+				oView.byId("idMainOps"),
+				oView.byId("idT1Field"),
+				oView.byId("idT2Field"),
+				oView.byId("idRemedy"),
+				oView.byId("idCause"),
+				oView.byId("idCondition")
+			];
+
+			var aInputVehiclLog = [
+				oView.byId("idClaimType"),
+				oView.byId("idDealerClaim"),
+				oView.byId("idDealerContact"),
+				oView.byId("id_Date"),
+				oView.byId("idOdometer"),
+				oView.byId("idRepairOrder"),
+				oView.byId("idVinNum"),
+				oView.byId("iDdelivCarrier"),
+				oView.byId("idProbill"),
+				oView.byId("idDelivery"),
+				oView.byId("idDeliveryDate")
+
+			];
+
+			var aInputsSETR = [
+				oView.byId("idClaimType"),
+				oView.byId("idDealerClaim"),
+				oView.byId("id_Date"),
+				oView.byId("idOdometer"),
+				oView.byId("idRepairOrder"),
+				oView.byId("idVinNum"),
+				oView.byId("idFieldActionInput"),
+				oView.byId("idMainOps"),
+				oView.byId("idRemedy"),
+				oView.byId("idCause"),
+				oView.byId("idCondition")
+			];
+
+			var aInputsZWVE = [
+				oView.byId("idClaimType"),
+				oView.byId("idDealerClaim"),
+				oView.byId("id_Date"),
+				oView.byId("idOdometer"),
+				oView.byId("idRepairOrder"),
+				oView.byId("idMainOps"),
+				oView.byId("idVinNum"),
+				oView.byId("idT1Field"),
+				oView.byId("idT2Field"),
+				oView.byId("idRemedy"),
+				oView.byId("idCause"),
+				oView.byId("idCondition")
+			];
+
+			var aInputSmartPart = [
+				oView.byId("idDealerClaim"),
+
+			];
+
+			if (oClmSubType == "ZCER" || oClmSubType == "ZCLS" || oClmSubType == "ZCSR" || oClmType == "ZCER" || oClmType == "ZCLS" || oClmType ==
+				"ZCSR") {
+				oView.byId("idOFP").addStyleClass("clNotReq");
+				oView.byId("idDealerContact").addStyleClass("clNotReq");
+				oView.byId("idMainOps").addStyleClass("clNotReq");
+				aInputs = aInputsFieldAct;
+			} else if (oClmType == "ZCWE" || oClmSubType == "ZCWE") {
+				oView.byId("idDealerContact").addStyleClass("clNotReq");
+				aInputs = aInputsFieldActZCWE;
+			} else if (oClmType == "ZECP" || oClmSubType == "ZECP") {
+				oView.byId("idOFP").addStyleClass("clNotReq");
+				oView.byId("idDealerContact").addStyleClass("clNotReq");
+				oView.byId("idFieldActionInput").addStyleClass("clNotReq");
+				aInputs = aInputsOECP;
+			} else if (oClmType == "ZSSE") {
+				oView.byId("idOFP").addStyleClass("clNotReq");
+				oView.byId("idDealerContact").addStyleClass("clNotReq");
+				oView.byId("idFieldActionInput").addStyleClass("clNotReq");
+				aInputs = aInputsSETR;
+			} else if (oClmType == "ZLDC") {
+				aInputs = aInputVehiclLog;
+			} else if (oClmType == "ZWAC" || oClmSubType == "ZWAC" || oClmType == "ZWA1" || oClmSubType == "ZWA1") {
+				oView.byId("idDealerContact").addStyleClass("clNotReq");
+				oView.byId("idOFP").addStyleClass("clNotReq");
+				oView.byId("idMainOps").addStyleClass("clNotReq");
+				oView.byId("idFieldActionInput").addStyleClass("clNotReq");
+				aInputs = aInputsArrZWAC;
+			} else if (oClmType == "ZWP2" || oClmSubType == "ZWP2") {
+				oView.byId("idDealerContact").addStyleClass("clNotReq");
+				oView.byId("idOFP").addStyleClass("clNotReq");
+				oView.byId("idFieldActionInput").addStyleClass("clNotReq");
+				aInputs = aInputsArrZWP2;
+			} else if (oClmType == "ZWP1" || oClmSubType == "ZWP1") {
+				oView.byId("idDealerContact").addStyleClass("clNotReq");
+				oView.byId("idOFP").addStyleClass("clNotReq");
+				oView.byId("idFieldActionInput").addStyleClass("clNotReq");
+				aInputs = aInputsArrZWP1;
+			} else if (oClmType == "ZWMS" || oClmSubType == "ZWMS") {
+				oView.byId("idOFP").addStyleClass("clNotReq");
+				oView.byId("idDealerContact").addStyleClass("clNotReq");
+				oView.byId("idFieldActionInput").addStyleClass("clNotReq");
+				aInputs = aInputsArrZWMS;
+			} else if (oClmType == "ZWVE" || oClmSubType == "ZWVE") {
+				oView.byId("idOFP").addStyleClass("clNotReq");
+				oView.byId("idDealerContact").addStyleClass("clNotReq");
+				oView.byId("idFieldActionInput").addStyleClass("clNotReq");
+				aInputs = aInputsZWVE;
+
+			} else if (oClmType == "ZGGW" || oClmSubType == "ZGGW" || oClmType == "ZWA2") {
+				oView.byId("idMainOps").addStyleClass("clNotReq");
+				oView.byId("idOFP").addStyleClass("clNotReq");
+				oView.byId("idDealerContact").addStyleClass("clNotReq");
+				oView.byId("idFieldActionInput").addStyleClass("clNotReq");
+				this.getView().byId("idDealerContact").setValueState("None");
+				aInputs = aInputsArr;
+
+			} else if (oClmType == "ZRCR") {
+				oView.byId("idMainOps").addStyleClass("clNotReq");
+				oView.byId("idOFP").addStyleClass("clNotReq");
+				oView.byId("idDealerContact").addStyleClass("clNotReq");
+				oView.byId("idFieldActionInput").addStyleClass("clNotReq");
+				aInputs = aInputsArr;
+
+			} else if (oClmType == "ZSCR") {
+				oView.byId("idDealerContact").addStyleClass("clNotReq");
+				aInputs = aInputsArrCoreRet;
+			} else if (oClmType == "ZSSM") {
+				oView.byId("idDealerContact").addStyleClass("clNotReq");
+				oView.byId("idRepairOrder").addStyleClass("clNotReq");
+				aInputs = aInputSmartPart;
+			}
+
+			// if (oClmSubType == "ZCER" || oClmSubType == "ZCLS" || oClmSubType == "ZCSR" || oClmType == "ZCER" || oClmType == "ZCLS" || oClmType ==
+			// 	"ZCSR") {
+			// 	oView.byId("idOFP").addStyleClass("clNotReq");
+			// 	oView.byId("idDealerContact").addStyleClass("clNotReq");
+			// 	oView.byId("idMainOps").addStyleClass("clNotReq");
+			// 	aInputs = aInputsFieldAct;
+			// } else if (oClmType == "ZCWE" || oClmSubType == "ZCWE") {
+			// 	oView.byId("idDealerContact").addStyleClass("clNotReq");
+			// 	aInputs = aInputsFieldActZCWE;
+			// } else if (clmGrp == "FAC") {
+			// 	aInputs = aInputsFieldAct;
+			// } else if (clmGrp == "ECP") {
+
+			// 	oView.byId("idOFP").addStyleClass("clNotReq");
+			// 	oView.byId("idDealerContact").addStyleClass("clNotReq");
+			// 	oView.byId("idFieldActionInput").addStyleClass("clNotReq");
+			// 	aInputs = aInputsOECP;
+			// } else if (clmGrp == "STR") {
+			// 	aInputs = aInputsSETR;
+			// } else if (clmGrp == "VLC") {
+			// 	aInputs = aInputVehiclLog;
+			// } else if (oClmType == "ZWAC" || oClmSubType == "ZWAC") {
+			// 	aInputs = aInputsArrZWAC;
+			// } else if (oClmType == "ZWA1" || oClmSubType == "ZWA1") {
+			// 	aInputs = aInputsArrZWAC;
+			// } else if (oClmType == "ZWP2" || oClmSubType == "ZWP2") {
+			// 	aInputs = aInputsArrZWP2;
+			// } else if (oClmType == "ZWA2" || oClmSubType == "ZWA2") {
+			// 	aInputs = aInputsArrZWP2;
+			// } else if (oClmType == "ZWP1" || oClmSubType == "ZWP1") {
+			// 	aInputs = aInputsArrZWP1;
+			// } else if (oClmType == "ZWMS" || oClmSubType == "ZWMS") {
+			// 	aInputs = aInputsArrZWMS;
+			// } else if (oClmType == "ZWVE") {
+			// 	oView.byId("idOFP").addStyleClass("clNotReq");
+			// 	oView.byId("idDealerContact").addStyleClass("clNotReq");
+			// 	oView.byId("idFieldActionInput").addStyleClass("clNotReq");
+			// 	 aInputs = aInputsZWVE;
+			// 	oView.byId("idFieldActionInput").setProperty("valueState", "None");
+			// 	aInputs = aInputsZWVE;
+			// } else if (clmGrp == "WTY") {
+			// 	aInputs = aInputsArr;
+			// } else if (clmGrp == "CRC") {
+			// 	aInputs = aInputsArr;
+			// } else if (clmGrp == "SCR") {
+			// 	aInputs = aInputsArrCoreRet;
+			// } else if (oClmType == "ZSSM") {
+			// 	oView.byId("idDealerContact").addStyleClass("clNotReq");
+			// 	oView.byId("idRepairOrder").addStyleClass("clNotReq");
+			// 	aInputs = aInputSmartPart;
+			// }
+			return aInputs;
+
+		},
+		_fnSrNumVisible: function (elm, group, oClaimSelectedGroup) {
+			if ((group == "WTY" || group == "ECP") && oClaimSelectedGroup != "Authorization") {
+				elm.getView().getModel("DateModel").setProperty("/serialNoV", true);
+			} else {
+				elm.getView().getModel("DateModel").setProperty("/serialNoV", false);
+			}
 		}
 
 	};

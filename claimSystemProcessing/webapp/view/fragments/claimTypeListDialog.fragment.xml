@@ -2,21 +2,15 @@
 	xmlns="sap.m"
 	xmlns:core="sap.ui.core">
 	<SelectDialog
-		id="mySelectDialog"
-		noDataText="No Products Found"
-		title="Select Product"
+		noDataText="{i18n>NoClaimTypeFound}"
+		title="{i18n>SelectClaimType}"
 		search=".onSearch"
 		confirm=".onDialogClose"
 		cancel=".onDialogClose"
-		items="{
-			path: '/ProductCollection'
-		}">
+		items="{path: 'LocalDataModel>/ChangableClmTypSet'}">
 		<StandardListItem
-			title="{Name}"
-			description="{ProductId}"
-			icon="{ProductPicUrl}"
-			iconDensityAware="false"
-			iconInset="false"
+			title="{LocalDataModel>TMCClaimType}"
+			description="{LocalDataModel>ALMClaimTypeDes}"
 			type="Active" />
 	</SelectDialog>
 </core:FragmentDefinition>
