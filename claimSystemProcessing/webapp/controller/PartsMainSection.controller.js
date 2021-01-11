@@ -736,13 +736,13 @@ sap.ui.define([
 													PartQty: item.PartQty,
 													LineRefnr: item.LineRefnr,
 													ItemKey: item.ItemKey,
-													RetainPart: RetainPart,
+													RetainPart: item.RetainPart,
 													QuantityOrdered: item.QuantityOrdered,
 													QuantityReceived: item.QuantityReceived,
 													DiscreCode: item.DiscreCode,
 													ALMDiscreDesc: item.ALMDiscreDesc,
 													WrongPart: item.WrongPart,
-													RepairOrRetrunPart: RepairPart,
+													RepairOrRetrunPart: item.RepairOrRetrunPart,
 													RepairAmount: item.RepairAmt
 												};
 											});
@@ -825,13 +825,13 @@ sap.ui.define([
 													PartQty: item.QuantityReceived,
 													LineRefnr: item.LineRefnr,
 													ItemKey: item.ItemKey,
-													RetainPart: RetainPart,
+													RetainPart: item.RetainPart,
 													QuantityOrdered: item.QuantityOrdered,
 													QuantityReceived: item.QuantityReceived,
 													DiscreCode: item.DiscreCode,
 													ALMDiscreDesc: item.ALMDiscreDesc,
 													WrongPart: item.WrongPart,
-													RepairOrRetrunPart: RepairPart,
+													RepairOrRetrunPart: item.RepairOrRetrunPart,
 													RepairAmount: item.RepairAmt.toString()
 												};
 											});
