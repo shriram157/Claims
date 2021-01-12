@@ -826,6 +826,10 @@ sap.ui.define([
 			} else {
 				elm.getView().getModel("DateModel").setProperty("/serialNoV", false);
 			}
+			
+			if (group == "WTY"){
+				elm.getView().getModel("HeadSetData").setProperty("/FieldActionReference", "");
+			}
 		}
 
 	};

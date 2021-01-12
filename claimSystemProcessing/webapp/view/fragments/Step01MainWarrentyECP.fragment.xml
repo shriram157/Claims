@@ -39,7 +39,7 @@
 					<Text text="{ path: 'HeadSetData>/DateOfApplication', formatter:'zclaimProcessing.utils.formatter.fnDateFormat'}"/>
 					<Label text="{i18n>FinalProcessedDate}"/>
 					<Text text="{ path: 'HeadSetData>/FinalProcdDate', formatter:'zclaimProcessing.utils.formatter.fnDateFormat' }"/>
-					<!--<Label text="{i18n>Status}"/>-->
+					<!--<Label text="{i18n>ClaimSubmissionAgeSinceRO}"/>-->
 					<!--<Text text="{HeadSetData>/ProcessingStatusOfWarrantyClm}"/>-->
 					<core:Title text=""/>
 					<Button text="{LocalDataModel>/SaveAuthClaim}" class="sapUiSmallMarginEnd" type="Emphasized" press="onSaveClaim"
