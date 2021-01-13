@@ -2311,6 +2311,7 @@ sap.ui.define([
 			this.obj.NumberOfWarrantyClaim = this.getView().getModel("HeadSetData").getProperty("/NumberOfWarrantyClaim");
 
 			this.obj.zc_claim_commentSet.results.push(oEntry);
+			this.obj.DBOperation = "SAVE";
 
 			oClaimModel.refreshSecurityToken();
 			oClaimModel.create("/zc_headSet", this.obj, {
@@ -3678,6 +3679,7 @@ sap.ui.define([
 							});
 
 							//oClaimModel.refreshSecurityToken();
+							
 
 							oClaimModel.create("/zc_headSet", obj, {
 
@@ -4919,9 +4921,10 @@ sap.ui.define([
 				};
 
 				this.obj.zc_claim_attachmentsSet.results.push(itemObj);
+				this.obj.DBOperation = "SAVE";
 
 				oClaimModel.refreshSecurityToken();
-
+				
 				oClaimModel.create("/zc_headSet", this.obj, {
 					success: $.proxy(function (data, response) {
 						this.getModel("LocalDataModel").setProperty("/IndicatorState", false);
@@ -6501,6 +6504,7 @@ sap.ui.define([
 				this.obj.zc_itemSet.results.push(itemObj);
 				this.getView().byId("idPartQty").setValueState("None");
 				this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", true);
+				
 				oClaimModel.create("/zc_headSet", this.obj, {
 					success: $.proxy(function (data, response) {
 						this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", false);
@@ -7804,6 +7808,7 @@ sap.ui.define([
 			this.obj.NumberOfWarrantyClaim = oClaimNum;
 			this.obj.OFP = this.getView().getModel("HeadSetData").getProperty("/OFP");
 			this.obj.MainOpsCode = this.getView().getModel("HeadSetData").getProperty("/MainOpsCode");
+			this.obj.DBOperation = "SAVE";
 			var oClaimModel = this.getModel("ProssingModel");
 
 			var itemObj = {
@@ -7878,6 +7883,7 @@ sap.ui.define([
 				}
 
 				oClaimModel.refreshSecurityToken();
+				this.obj.DBOperation = "SAVE";
 				oClaimModel.create("/zc_headSet", this.obj, {
 					success: $.proxy(function (data, response) {
 						this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", false);
@@ -7921,6 +7927,7 @@ sap.ui.define([
 				var oClaimModel = this.getModel("ProssingModel");
 
 				oClaimModel.refreshSecurityToken();
+				this.obj.DBOperation = "SAVE";
 				oClaimModel.create("/zc_headSet", this.obj, {
 					success: $.proxy(function (data, response) {
 						this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", false);
