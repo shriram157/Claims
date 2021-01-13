@@ -232,13 +232,11 @@ sap.ui.define([
 							}
 						} else if (oGroupDescription == "ZGGW") {
 							this.getView().byId("idClaimPrOpt").setProperty("visible", false);
-
 							this.getModel("LocalDataModel").setProperty("/AuthGWVisible", true);
 							this.getView().byId("idPricingOptGW").setSelectedIndex(0);
 							this.getView().byId("idParticiaptionTable").setProperty("visible", true);
 							this.getView().byId("idDiscountTable").setProperty("visible", false);
 							this.getView().byId("idAuthorizationLinkForm").setProperty("visible", false);
-
 						} else if (oGroupDescription == "ZWP1") {
 							this.getView().byId("idClaimPrOpt").setProperty("visible", false);
 							this.getModel("LocalDataModel").setProperty("/AuthP1Visible", true);
@@ -271,7 +269,6 @@ sap.ui.define([
 				this.getView().byId("idClaimPrOpt").setProperty("visible", true);
 				this.getView().byId("idAuthorizationLinkForm").setProperty("visible", true);
 				this.getView().byId("idAuthorizationForm").setProperty("visible", true);
-
 			}
 		},
 
@@ -1269,12 +1266,12 @@ sap.ui.define([
 													"ExternalNumberOfClaim": this.getView().getModel("HeadSetData").getProperty("/ExternalNumberOfClaim"),
 													"ExternalObjectNumber": this.getView().getModel("HeadSetData").getProperty("/ExternalObjectNumber"),
 													"Odometer": this.getView().getModel("HeadSetData").getProperty("/Odometer"),
-													"Delivery": "",
+													"Delivery": this.getView().getModel("HeadSetData").getProperty("/Delivery"),
 													"DeliveryDate": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/DeliveryDate")),
 													"TCIWaybillNumber": "",
 													"ShipmentReceivedDate": null,
 													"DealerContact": this.getView().getModel("HeadSetData").getProperty("/DealerContact"),
-													"DeliveringCarrier": "",
+													"DeliveringCarrier": this.getView().getModel("HeadSetData").getProperty("/DeliveringCarrier"),
 													"HeadText": this.getView().getModel("HeadSetData").getProperty("/HeadText"),
 													"OFP": this.getView().getModel("HeadSetData").getProperty("/OFP").toUpperCase(),
 													"WTYClaimRecoverySource": "",
@@ -1300,6 +1297,7 @@ sap.ui.define([
 													"WarrantyClaimSubType": this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType"),
 													"SerialNumber": this.getView().getModel("HeadSetData").getProperty("/SerialNumber"),
 													"DamageDisclosure": this.getView().getModel("HeadSetData").getProperty("/DamageDisclosure"),
+													"ProbillNum" : this.getView().getModel("HeadSetData").getProperty("/ProbillNum"),
 													"zc_itemSet": {
 														"results": PartItem
 													},
@@ -1505,7 +1503,8 @@ sap.ui.define([
 					"AccessoryInstallDate": null,
 					"AgreementNumber": "",
 					"CustomerPostalCode": "",
-					"CustomerFullName": ""
+					"CustomerFullName": "",
+					"ProbillNum": "",
 				});
 				this.HeadSetData.setDefaultBindingMode("TwoWay");
 				this.getModel("LocalDataModel").setProperty("/ClaimDetails", "");
@@ -7098,7 +7097,6 @@ sap.ui.define([
 			this.obj.ProbillNum = this.getView().getModel("HeadSetData").getProperty("/ProbillNum");
 			this.obj.Delivery = this.getView().getModel("HeadSetData").getProperty("/Delivery");
 			this.obj.DeliveringCarrier = this.getView().getModel("HeadSetData").getProperty("/DeliveringCarrier");
-
 			this.obj.Message = "";
 			this.obj.DBOperation = "SUB";
 			this.obj.NumberOfWarrantyClaim = oClaimNum;
