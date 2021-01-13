@@ -452,6 +452,46 @@ sap.ui.define([
 				my: "center center",
 				at: "center center"
 			});
+		},
+		fn_damageCallforVLC : function(){
+			var oProssingModel = this.getModel("ProssingModel");
+
+			oProssingModel.read("/zc_dmg_type_codesSet", {
+				urlParameters: {
+					"$filter": "LanguageKey eq '" + sSelectedLocale.toUpperCase() + "' "
+				},
+				success: $.proxy(function (data) {
+					this.getModel("LocalDataModel").setProperty("/DataTypeCode", data.results);
+				}, this),
+				error: function () {
+
+				}
+			});
+
+			oProssingModel.read("/zc_dmg_area_codesSet", {
+				urlParameters: {
+					"$filter": "LanguageKey eq '" + sSelectedLocale.toUpperCase() + "' "
+				},
+				success: $.proxy(function (data) {
+					this.getModel("LocalDataModel").setProperty("/DataAreaCode", data.results);
+				}, this),
+				error: function () {
+
+				}
+			});
+
+			oProssingModel.read("/zc_dmg_sevr_codesSet", {
+				urlParameters: {
+					"$filter": "LanguageKey eq '" + sSelectedLocale.toUpperCase() + "' "
+				},
+				success: $.proxy(function (data) {
+					this.getModel("LocalDataModel").setProperty("/DataSeverety", data.results);
+				}, this),
+				error: function () {
+
+				}
+			});
+
 		}
 
 	});

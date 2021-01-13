@@ -25,43 +25,6 @@ sap.ui.define([
 			this.setModel(this.getModel("ZVehicleMasterModel"), "ZVehicleMasterModel");
 			this.setModel(this.getModel("ProssingModel"));
 			var oProssingModel = this.getModel("ProssingModel");
-
-			oProssingModel.read("/zc_dmg_type_codesSet", {
-				urlParameters: {
-					"$filter": "LanguageKey eq '" + sSelectedLocale.toUpperCase() + "' "
-				},
-				success: $.proxy(function (data) {
-					this.getModel("LocalDataModel").setProperty("/DataTypeCode", data.results);
-				}, this),
-				error: function () {
-
-				}
-			});
-
-			oProssingModel.read("/zc_dmg_area_codesSet", {
-				urlParameters: {
-					"$filter": "LanguageKey eq '" + sSelectedLocale.toUpperCase() + "' "
-				},
-				success: $.proxy(function (data) {
-					this.getModel("LocalDataModel").setProperty("/DataAreaCode", data.results);
-				}, this),
-				error: function () {
-
-				}
-			});
-
-			oProssingModel.read("/zc_dmg_sevr_codesSet", {
-				urlParameters: {
-					"$filter": "LanguageKey eq '" + sSelectedLocale.toUpperCase() + "' "
-				},
-				success: $.proxy(function (data) {
-					this.getModel("LocalDataModel").setProperty("/DataSeverety", data.results);
-				}, this),
-				error: function () {
-
-				}
-			});
-
 			oProssingModel.read("/Zt1DescSrchhelpSet", {
 				urlParameters: {
 					"$filter": "Spras eq '" + sSelectedLocale.toUpperCase() + "' "
@@ -364,6 +327,7 @@ sap.ui.define([
 			this.getView().byId("idFilter08").setProperty("enabled", false);
 			this.getModel("LocalDataModel").setProperty("/oClaimSelectedGroup", oClaimSelectedGroup);
 			if (sClaimGroup == "VLC") {
+				this.fn_damageCallforVLC();
 				this.getView().getModel("DateModel").setProperty("/enableVLC", true);
 				if (sSelectedLocale == "fr") {
 					this.getModel("LocalDataModel").setProperty("/DamageDiscSet", WarrantyDataManager.DamageDiscolsureData.frn)
