@@ -91,8 +91,9 @@
 					required="true" id="idDealerClaim" editable="{DateModel>/oFormEdit}"/>
 				<core:Title text=""/>
 				<Label text="{i18n>RepairDate}"/>
-				<!--<DatePicker class="clDatePicker" required="true" value="{path:'HeadSetData>/RepairDate',type : 'sap.ui.model.type.Date'}" editable="{DateModel>/oFormEdit}"/>-->
+				
 				<DatePicker class="clDatePicker" id="id_Date" required="{DateModel>/oRepOrdDateReq}" change="onChangeDate"
+				   valueFormat="yyyy-MM-dd" displayFormat="yyyy-MM-dd"
 					value="{path:'HeadSetData>/RepairDate', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'yyyy-MM-dd', strictParsing: true, UTC: true}}"
 					editable="{DateModel>/oFormEdit}" visible="{DateModel>/oVisibleRepDate}"/>
 				<!--constraints: { displayFormat: 'Date' }-->
@@ -102,11 +103,12 @@
 					id="idDealerContact" editable="{DateModel>/oFormEdit}" enabled="{DateModel>/oDealerContactReq}"/>
 				<core:Title text=""/>
 				<Label text="{i18n>RepairOrder}"/>
-				<Input required="{DateModel>/oRepOrdReq}" maxLength="10"
+				<Input required="{DateModel>/oRepOrdReq}" maxLength="10"  
 					value="{path:'HeadSetData>/RepairOrderNumberExternal', type : 'sap.ui.model.type.String', constraints : { minLength : 2, maxLength : 10 }}"
 					id="idRepairOrder" editable="{DateModel>/oFormEdit}" visible="{DateModel>/oVisibleReOrder}"/>
 				<Label text="{i18n>ROOdometer}"/>
-				<custom:CustomInput maxLength="6" enabled="{DateModel>/oOdoEnabled}"
+				
+				<Input type="Number" maxLength="6" enabled="{DateModel>/oOdoEnabled}" change="changeOdo"
 					value="{path:'HeadSetData>/Odometer', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 6 }}"
 					required="{DateModel>/OdometerReqMan}" visible="{DateModel>/OdometerReqMan}" id="idOdometer" editable="{DateModel>/oFormEdit}"/>
 				<Text text="{LocalDataModel>/MsrUnit}" visible="{DateModel>/OdometerReqMan}"/>
@@ -189,7 +191,7 @@
 						value="{path:'HeadSetData>/ProbillNum', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 15 }}" required="true"/>
 					<core:Title text=""/>
 					<Label text="{i18n>DeliveryDate}"/>
-					<DatePicker class="clDatePicker" id="idDeliveryDate" required="true"
+					<DatePicker class="clDatePicker" id="idDeliveryDate" required="true" change="onDateEnter"
 						value="{path:'HeadSetData>/DeliveryDate', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'yyyy-MM-dd', strictParsing: true, UTC: true}}"
 						editable="{DateModel>/oFormEdit}"/>
 					<core:Title text=""/>
@@ -411,12 +413,12 @@
 			<f:content>
 				<core:Title text=""/>
 				<Label text="{i18n>InstallDate}"/>
-				<DatePicker id="idAccDate" class="clDatePicker" visible="{DateModel>/AcA1}" required="{DateModel>/AcA1}"
+				<DatePicker id="idAccDate" class="clDatePicker" visible="{DateModel>/AcA1}" required="{DateModel>/AcA1}" change="onDateEnter"
 					value="{path:'HeadSetData>/AccessoryInstallDate', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'yyyy-MM-dd', UTC: true}}"
 					editable="{DateModel>/oFormEdit}"/>
 				<core:Title text=""/>
 				<Label text="{i18n>InstallOdometer}"/>
-				<Input id="idInsOdo" maxLength="7" required="{DateModel>/AcA1}" visible="{DateModel>/AcA1}" editable="{DateModel>/oFormEdit}"
+				<Input id="idInsOdo" type="Number" maxLength="7" required="{DateModel>/AcA1}" visible="{DateModel>/AcA1}" change="changeOdo" editable="{DateModel>/oFormEdit}"
 					value="{path:'HeadSetData>/AccessoryInstallOdometer', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 7}}"/>
 				<core:Title text=""/>
 			</f:content>
@@ -437,7 +439,7 @@
 					editable="{DateModel>/oFormEdit}"/>
 				<core:Title text=""/>
 				<Label text="{i18n>ROOdometer}"/>
-				<Input maxLength="7" id="idPrvOdomtr" required="{DateModel>/oPrvOdomtrReq}" visible="{DateModel>/PreroOdometerVisible}"
+				<Input maxLength="7" id="idPrvOdomtr" type="Number" change="changeOdo" required="{DateModel>/oPrvOdomtrReq}" visible="{DateModel>/PreroOdometerVisible}"
 					value="{path:'HeadSetData>/PreviousROOdometer', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 7 }}"
 					editable="{DateModel>/oFormEdit}"/>
 			</f:content>
