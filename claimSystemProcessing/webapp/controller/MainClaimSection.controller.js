@@ -336,9 +336,6 @@ sap.ui.define([
 
 				}
 			}
-
-		
-			
 			WarrantyDataManager._fnSrNumVisible(this, sClaimGroup, oClaimSelectedGroup);
 
 			if (oClaim != "nun" && oClaim != undefined) {
