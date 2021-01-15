@@ -2216,11 +2216,9 @@ sap.ui.define([
 				this.getView().byId("idMainClaimMessage").setType("Error");
 			}
 		},
-
 		onDateEnter: function (oEvent) {
 			this._fnValidateDatePicker(oEvent);
 		},
-
 		_fnValidateDatePicker: function (oEvent) {
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var bvalidate = oEvent.getParameters().valid;
@@ -2231,10 +2229,8 @@ sap.ui.define([
 						my: "center center",
 						at: "center center"
 					});
-
 			}
 		},
-
 		onAddComment: function (oEvent) {
 			var oDialogBox = sap.ui.xmlfragment("zclaimProcessing.view.fragments.ClaimComments", this);
 			this.getView().addDependent(oDialogBox);
@@ -2292,14 +2288,10 @@ sap.ui.define([
 		},
 
 		onPost: function (oEvent) {
-
 			var oBusinessModel = this.getModel("ApiBusinessModel");
 			this.getModel("LocalDataModel").setProperty("/commentIndicator", true);
-
 			var oPartner = this.getModel("LocalDataModel").getProperty("/BpDealerModel/0/BusinessPartnerKey");
-
 			var oClaimModel = this.getModel("ProssingModel");
-
 			var sSelectedLocale;
 			//  get the locale to determine the language.
 			var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
@@ -8630,7 +8622,7 @@ sap.ui.define([
 		
 		changeOdo:function(oEvent){
 			var oval = oEvent.getSource().getValue();
-			if(parseInt(oval) <= 0 || parseInt(oval) == null || parseInt(oval) == "NAN"){
+			if(parseInt(oval) <= 0 || parseInt(oval) == null || parseInt(oval) == NaN){
 				oEvent.getSource().setValue("");
 			}
 		}
