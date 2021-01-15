@@ -3128,6 +3128,22 @@ sap.ui.define([
 				oView.byId("idCause"),
 				oView.byId("idCondition")
 			];
+			
+			// var aInputsArrZWA2 = [
+			// 	oView.byId("idClaimType"),
+			// 	oView.byId("idDealerClaim"),
+			// 	oView.byId("id_Date"),
+			// 	oView.byId("idOdometer"),
+			// 	oView.byId("idRepairOrder"),
+			// 	oView.byId("idVinNum"),
+			// 	oView.byId("idT1Field"),
+			// 	oView.byId("idT2Field"),
+			// 	oView.byId("idRemedy"),
+			// 	oView.byId("idCause"),
+			// 	oView.byId("idCondition"),
+			// 	oView.byId("idPrInvDate"),
+			// 	oView.byId("idPreInvNum")
+			// ];
 
 			var aInputsArrZWP2 = [
 				oView.byId("idClaimType"),
@@ -3295,7 +3311,7 @@ sap.ui.define([
 				aInputs = aInputsArrZWAC;
 			} else if (oClmType == "ZWA1" || oClmSubType == "ZWA1") {
 				aInputs = aInputsArrZWAC;
-			} else if (oClmType == "ZWP2" || oClmSubType == "ZWP2") {
+			}else if (oClmType == "ZWP2" || oClmSubType == "ZWP2") {
 				aInputs = aInputsArrZWP2;
 			} else if (oClmType == "ZWA2" || oClmSubType == "ZWA2") {
 				aInputs = aInputsArrZWP2;
@@ -3945,6 +3961,22 @@ sap.ui.define([
 				oView.byId("idCause"),
 				oView.byId("idCondition")
 			];
+			
+			// var aInputsArrZWA2 = [
+			// 	oView.byId("idClaimType"),
+			// 	oView.byId("idDealerClaim"),
+			// 	oView.byId("id_Date"),
+			// 	oView.byId("idOdometer"),
+			// 	oView.byId("idRepairOrder"),
+			// 	oView.byId("idVinNum"),
+			// 	oView.byId("idT1Field"),
+			// 	oView.byId("idT2Field"),
+			// 	oView.byId("idRemedy"),
+			// 	oView.byId("idCause"),
+			// 	oView.byId("idCondition"),
+			// 	oView.byId("idPrInvDate"),
+			// 	oView.byId("idPreInvNum")
+			// ];
 
 			var aInputsArrZWP2 = [
 
@@ -4107,6 +4139,11 @@ sap.ui.define([
 				oView.byId("idMainOps").addStyleClass("clNotReq");
 				oView.byId("idFieldActionInput").addStyleClass("clNotReq");
 				return aInputs = aInputsArrZWAC;
+			}else if(oClmType == "ZWA2" || oClmSubType == "ZWA2"){
+				oView.byId("idDealerContact").addStyleClass("clNotReq");
+				oView.byId("idOFP").addStyleClass("clNotReq");
+				oView.byId("idFieldActionInput").addStyleClass("clNotReq");
+				return aInputs = aInputsArrZWP2;
 			} else if (oClmType == "ZWP2" || oClmSubType == "ZWP2") {
 				oView.byId("idDealerContact").addStyleClass("clNotReq");
 				oView.byId("idOFP").addStyleClass("clNotReq");
@@ -4128,7 +4165,7 @@ sap.ui.define([
 				oView.byId("idFieldActionInput").addStyleClass("clNotReq");
 				return aInputs = aInputsZWVE;
 
-			} else if (oClmType == "ZGGW" || oClmSubType == "ZGGW" || oClmType == "ZWA2") {
+			} else if (oClmType == "ZGGW" || oClmSubType == "ZGGW") {
 				oView.byId("idMainOps").addStyleClass("clNotReq");
 				oView.byId("idOFP").addStyleClass("clNotReq");
 				oView.byId("idDealerContact").addStyleClass("clNotReq");
@@ -8593,7 +8630,7 @@ sap.ui.define([
 		
 		changeOdo:function(oEvent){
 			var oval = oEvent.getSource().getValue();
-			if(parseInt(oval) <= 0){
+			if(parseInt(oval) <= 0 || parseInt(oval) == null || parseInt(oval) == "NAN"){
 				oEvent.getSource().setValue("");
 			}
 		}
