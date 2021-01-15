@@ -721,7 +721,7 @@ sap.ui.define([
 				oView.byId("idMainOps").addStyleClass("clNotReq");
 				oView.byId("idFieldActionInput").addStyleClass("clNotReq");
 				aInputs = aInputsArrZWAC;
-			} else if (oClmType == "ZWP2" || oClmSubType == "ZWP2") {
+			} else if (oClmType == "ZWP2" || oClmSubType == "ZWP2" || oClmType == "ZWA2" || oClmSubType == "ZWA2") {
 				oView.byId("idDealerContact").addStyleClass("clNotReq");
 				oView.byId("idOFP").addStyleClass("clNotReq");
 				oView.byId("idFieldActionInput").addStyleClass("clNotReq");
@@ -742,12 +742,12 @@ sap.ui.define([
 				oView.byId("idFieldActionInput").addStyleClass("clNotReq");
 				aInputs = aInputsZWVE;
 
-			} else if (oClmType == "ZGGW" || oClmSubType == "ZGGW" || oClmType == "ZWA2") {
+			} else if (oClmType == "ZGGW" || oClmSubType == "ZGGW") {
 				oView.byId("idMainOps").addStyleClass("clNotReq");
 				oView.byId("idOFP").addStyleClass("clNotReq");
 				oView.byId("idDealerContact").addStyleClass("clNotReq");
 				oView.byId("idFieldActionInput").addStyleClass("clNotReq");
-				this.getView().byId("idDealerContact").setValueState("None");
+				oView.byId("idDealerContact").setValueState("None");
 				aInputs = aInputsArr;
 
 			} else if (oClmType == "ZRCR") {

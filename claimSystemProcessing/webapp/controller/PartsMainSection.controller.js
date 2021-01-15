@@ -1391,6 +1391,8 @@ sap.ui.define([
 			this.obj.NumberOfWarrantyClaim = this.getView().getModel("HeadSetData").getProperty("/NumberOfWarrantyClaim");
 			this.obj.zc_claim_commentSet.results.push(oEntry);
 			this.obj.zc_claim_item_price_dataSet = [];
+			this.obj.DBOperation = "SAVE";
+			
 			oClaimModel.refreshSecurityToken();
 			oClaimModel.create("/zc_headSet", this.obj, {
 				success: $.proxy(function (data, response) {
@@ -1604,6 +1606,8 @@ sap.ui.define([
 			// 			});
 
 			var that = this;
+			this.obj.DBOperation = "SAVE";
+
 			oClaimModel.create("/zc_headSet", this.obj, {
 				success: $.proxy(function (data, response) {
 					oClaimModel.read("/zc_claim_item_price_dataSet", {
@@ -1656,6 +1660,7 @@ sap.ui.define([
 
 		onPressSavePart: function () {
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
+			this.obj.DBOperation = "SAVE";
 
 			var oTable = this.getView().byId("partTable");
 			var oTableIndex = oTable._aSelectedPaths;
@@ -1815,6 +1820,8 @@ sap.ui.define([
 									this.getView().byId("idMainClaimMessage").setProperty("visible", false);
 									this.obj.zc_itemSet.results.push(itemObj);
 									this.obj.zc_claim_item_price_dataSet.results = [];
+									
+
 									oClaimModel.create("/zc_headSet", this.obj, {
 										success: $.proxy(function (data, response) {
 											oClaimModel.read("/zc_claim_item_price_dataSet", {
@@ -2961,6 +2968,7 @@ sap.ui.define([
 
 		onPressDeletePart: function () {
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
+			this.obj.DBOperation = "SAVE";
 			var that = this;
 			var oTable = this.getView().byId("partTable");
 			var oTableIndex = oTable._aSelectedPaths;
@@ -2983,6 +2991,7 @@ sap.ui.define([
 				//this.obj.zc_claim_commentSet.results = [];
 				var oClaimModel = this.getModel("ProssingModel");
 				this.obj.zc_claim_item_price_dataSet.results = [];
+				
 				oClaimModel.refreshSecurityToken();
 				oClaimModel.create("/zc_headSet", this.obj, {
 					success: $.proxy(function (data, response) {
@@ -3420,7 +3429,7 @@ sap.ui.define([
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			var fileType = this.oUploadedFile.type;
 			this.obj.NumberOfWarrantyClaim = oClaimNum;
-
+this.obj.DBOperation = "SAVE";
 			var oFileName = this.oUploadedFile.name;
 
 			var fileNamePrior = "HEAD@@@" + oFileName;
@@ -4155,6 +4164,7 @@ sap.ui.define([
 			var oValidator = new Validator();
 			var oCurrentDt = new Date();
 			var oValid = oValidator.validate(this.getView().byId("idClaimForm"));
+			this.obj.DBOperation = "SAVE";
 
 			// if ((this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZPDC" || this.getView().getModel("HeadSetData").getProperty(
 			// 		"/WarrantyClaimType") == "ZPTS") && this.getView().getModel("HeadSetData").getProperty("/TCIWaybillNumber") == "") {
