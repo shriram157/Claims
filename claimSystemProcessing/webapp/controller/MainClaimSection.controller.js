@@ -2216,11 +2216,9 @@ sap.ui.define([
 				this.getView().byId("idMainClaimMessage").setType("Error");
 			}
 		},
-
 		onDateEnter: function (oEvent) {
 			this._fnValidateDatePicker(oEvent);
 		},
-
 		_fnValidateDatePicker: function (oEvent) {
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var bvalidate = oEvent.getParameters().valid;
@@ -2231,10 +2229,8 @@ sap.ui.define([
 						my: "center center",
 						at: "center center"
 					});
-
 			}
 		},
-
 		onAddComment: function (oEvent) {
 			var oDialogBox = sap.ui.xmlfragment("zclaimProcessing.view.fragments.ClaimComments", this);
 			this.getView().addDependent(oDialogBox);
@@ -2292,14 +2288,10 @@ sap.ui.define([
 		},
 
 		onPost: function (oEvent) {
-
 			var oBusinessModel = this.getModel("ApiBusinessModel");
 			this.getModel("LocalDataModel").setProperty("/commentIndicator", true);
-
 			var oPartner = this.getModel("LocalDataModel").getProperty("/BpDealerModel/0/BusinessPartnerKey");
-
 			var oClaimModel = this.getModel("ProssingModel");
-
 			var sSelectedLocale;
 			//  get the locale to determine the language.
 			var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
@@ -3128,6 +3120,22 @@ sap.ui.define([
 				oView.byId("idCause"),
 				oView.byId("idCondition")
 			];
+			
+			// var aInputsArrZWA2 = [
+			// 	oView.byId("idClaimType"),
+			// 	oView.byId("idDealerClaim"),
+			// 	oView.byId("id_Date"),
+			// 	oView.byId("idOdometer"),
+			// 	oView.byId("idRepairOrder"),
+			// 	oView.byId("idVinNum"),
+			// 	oView.byId("idT1Field"),
+			// 	oView.byId("idT2Field"),
+			// 	oView.byId("idRemedy"),
+			// 	oView.byId("idCause"),
+			// 	oView.byId("idCondition"),
+			// 	oView.byId("idPrInvDate"),
+			// 	oView.byId("idPreInvNum")
+			// ];
 
 			var aInputsArrZWP2 = [
 				oView.byId("idClaimType"),
@@ -3295,7 +3303,7 @@ sap.ui.define([
 				aInputs = aInputsArrZWAC;
 			} else if (oClmType == "ZWA1" || oClmSubType == "ZWA1") {
 				aInputs = aInputsArrZWAC;
-			} else if (oClmType == "ZWP2" || oClmSubType == "ZWP2") {
+			}else if (oClmType == "ZWP2" || oClmSubType == "ZWP2") {
 				aInputs = aInputsArrZWP2;
 			} else if (oClmType == "ZWA2" || oClmSubType == "ZWA2") {
 				aInputs = aInputsArrZWP2;
@@ -3945,6 +3953,22 @@ sap.ui.define([
 				oView.byId("idCause"),
 				oView.byId("idCondition")
 			];
+			
+			// var aInputsArrZWA2 = [
+			// 	oView.byId("idClaimType"),
+			// 	oView.byId("idDealerClaim"),
+			// 	oView.byId("id_Date"),
+			// 	oView.byId("idOdometer"),
+			// 	oView.byId("idRepairOrder"),
+			// 	oView.byId("idVinNum"),
+			// 	oView.byId("idT1Field"),
+			// 	oView.byId("idT2Field"),
+			// 	oView.byId("idRemedy"),
+			// 	oView.byId("idCause"),
+			// 	oView.byId("idCondition"),
+			// 	oView.byId("idPrInvDate"),
+			// 	oView.byId("idPreInvNum")
+			// ];
 
 			var aInputsArrZWP2 = [
 
@@ -4107,6 +4131,11 @@ sap.ui.define([
 				oView.byId("idMainOps").addStyleClass("clNotReq");
 				oView.byId("idFieldActionInput").addStyleClass("clNotReq");
 				return aInputs = aInputsArrZWAC;
+			}else if(oClmType == "ZWA2" || oClmSubType == "ZWA2"){
+				oView.byId("idDealerContact").addStyleClass("clNotReq");
+				oView.byId("idOFP").addStyleClass("clNotReq");
+				oView.byId("idFieldActionInput").addStyleClass("clNotReq");
+				return aInputs = aInputsArrZWP2;
 			} else if (oClmType == "ZWP2" || oClmSubType == "ZWP2") {
 				oView.byId("idDealerContact").addStyleClass("clNotReq");
 				oView.byId("idOFP").addStyleClass("clNotReq");
@@ -4128,7 +4157,7 @@ sap.ui.define([
 				oView.byId("idFieldActionInput").addStyleClass("clNotReq");
 				return aInputs = aInputsZWVE;
 
-			} else if (oClmType == "ZGGW" || oClmSubType == "ZGGW" || oClmType == "ZWA2") {
+			} else if (oClmType == "ZGGW" || oClmSubType == "ZGGW") {
 				oView.byId("idMainOps").addStyleClass("clNotReq");
 				oView.byId("idOFP").addStyleClass("clNotReq");
 				oView.byId("idDealerContact").addStyleClass("clNotReq");
@@ -8593,7 +8622,7 @@ sap.ui.define([
 		
 		changeOdo:function(oEvent){
 			var oval = oEvent.getSource().getValue();
-			if(parseInt(oval) <= 0){
+			if(parseInt(oval) <= 0 || parseInt(oval) == null || parseInt(oval) == NaN){
 				oEvent.getSource().setValue("");
 			}
 		}

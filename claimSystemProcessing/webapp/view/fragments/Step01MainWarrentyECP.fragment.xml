@@ -191,7 +191,7 @@
 						value="{path:'HeadSetData>/ProbillNum', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 15 }}" required="true"/>
 					<core:Title text=""/>
 					<Label text="{i18n>DeliveryDate}"/>
-					<DatePicker class="clDatePicker" id="idDeliveryDate" required="true" change="onDateEnter"
+					<DatePicker valueFormat="yyyy-MM-dd" displayFormat="yyyy-MM-dd" class="clDatePicker" id="idDeliveryDate" required="true" change="onDateEnter"
 						value="{path:'HeadSetData>/DeliveryDate', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'yyyy-MM-dd', strictParsing: true, UTC: true}}"
 						editable="{DateModel>/oFormEdit}"/>
 					<core:Title text=""/>
@@ -413,7 +413,7 @@
 			<f:content>
 				<core:Title text=""/>
 				<Label text="{i18n>InstallDate}"/>
-				<DatePicker id="idAccDate" class="clDatePicker" visible="{DateModel>/AcA1}" required="{DateModel>/AcA1}" change="onDateEnter"
+				<DatePicker id="idAccDate" class="clDatePicker" valueFormat="yyyy-MM-dd" displayFormat="yyyy-MM-dd" visible="{DateModel>/AcA1}" required="{DateModel>/AcA1}" change="onDateEnter"
 					value="{path:'HeadSetData>/AccessoryInstallDate', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'yyyy-MM-dd', UTC: true}}"
 					editable="{DateModel>/oFormEdit}"/>
 				<core:Title text=""/>
@@ -434,7 +434,7 @@
 					editable="{DateModel>/oFormEdit}"/>
 				<core:Title text=""/>
 				<Label text="{i18n>ROInvoiceDate}"/>
-				<DatePicker class="clDatePicker" id="idPrInvDate" required="{DateModel>/oPrevInvDateReq}" change="onPrevDateChange"
+				<DatePicker class="clDatePicker" valueFormat="yyyy-MM-dd" displayFormat="yyyy-MM-dd" id="idPrInvDate" required="{DateModel>/oPrevInvDateReq}" change="onPrevDateChange"
 					value="{path:'HeadSetData>/PreviousROInvoiceDate', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'yyyy-MM-dd', strictParsing: true, UTC: true}}"
 					editable="{DateModel>/oFormEdit}"/>
 				<core:Title text=""/>
