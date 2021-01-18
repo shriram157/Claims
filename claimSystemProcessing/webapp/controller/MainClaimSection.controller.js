@@ -7631,7 +7631,7 @@ sap.ui.define([
 					var oClaimData = data.results;
 
 					var selectedClimTypes = oClaimData.filter(elm => (elm.ClaimGroup == "FAC" || elm.ClaimGroup == "WTY") && elm.TMCClaimType !=
-						"ZACD" && elm.TMCClaimType != "ZAUT");
+						"ZACD" && elm.TMCClaimType != "ZAUT" && elm.TMCClaimType != "ZWAC");
 					this.getModel("LocalDataModel").setProperty("/ChangableClmTypSet", selectedClimTypes);
 
 					if (!oDialog) {
@@ -7698,7 +7698,7 @@ sap.ui.define([
 					return oContext.getObject();
 				})[0];
 
-				MessageToast.show("You have chosen " + bindObj.TMCClaimType);
+				MessageToast.show(oBundle.getText("clmtypechangedto", [bindObj.TMCClaimType]) );
 
 				var obj = {
 					Clmno: this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum"),
@@ -7725,7 +7725,7 @@ sap.ui.define([
 				})
 
 			} else {
-				MessageToast.show("No Claim Type has been selected.");
+				MessageToast.show(oBundle.getText("NoClmSelected"));
 			}
 			oEvent.getSource().getBinding("items").filter([]);
 
