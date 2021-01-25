@@ -212,8 +212,8 @@
 					</custom:CustomCombo>
 					<core:Title text=""/>
 					<Label text="{i18n>DamageDisclosure}"/>
-					<ComboBox id="idDmgCls" visible="{DateModel>/enableVLC}" selectionChange="onChangeT1" showSecondaryValues="true"
-						items="{ path: 'LocalDataModel>/DamageDiscSet' }" filterSecondaryValues="true"
+					<ComboBox id="idDmgCls" required="true" visible="{DateModel>/enableVLC}" selectionChange="onChangeT1" showSecondaryValues="true"
+						items="{ path: 'LocalDataModel>/DamageDiscSet' }" filterSecondaryValues="true" 
 						value="{path:'HeadSetData>/DamageDisclosure', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 2 } }"
 						selectedKey="{path:'HeadSetData>/DamageDisclosure'}" editable="{DateModel>/oFormEdit}">
 						<core:ListItem key="{LocalDataModel>key}" text="{path:'LocalDataModel>key'}" additionalText="{LocalDataModel>value}"/>

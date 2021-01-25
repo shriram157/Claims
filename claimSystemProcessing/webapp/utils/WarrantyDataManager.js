@@ -413,7 +413,9 @@ sap.ui.define([
 				oView.byId("iDdelivCarrier"),
 				oView.byId("idProbill"),
 				oView.byId("idDelivery"),
-				oView.byId("idDeliveryDate")
+				oView.byId("idDeliveryDate"),
+				oView.byId("idDmgCls")
+				
 
 			];
 
