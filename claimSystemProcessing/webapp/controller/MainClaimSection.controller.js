@@ -7691,7 +7691,7 @@ sap.ui.define([
 						oBinding.filter([oFilter]);
 					},
 					onDialogClose: function (oEvent) {
-
+                       var oBundle = this.getView().getModel("i18n").getResourceBundle();
 						var aContexts = oEvent.getParameter("selectedContexts");
 						if (aContexts && aContexts.length) {
 							var bindObj = aContexts.map(function (oContext) {
