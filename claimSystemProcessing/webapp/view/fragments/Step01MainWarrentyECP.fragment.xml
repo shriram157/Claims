@@ -196,7 +196,7 @@
 					</custom:CustomCombo>
 					<core:Title text=""/>
 					<Label text="{i18n>Probill}"/>
-					<Input id="idProbill"
+					<Input id="idProbill" editable="{DateModel>/oFormEdit}"
 						value="{path:'HeadSetData>/ProbillNum', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 15 }}" required="true"/>
 					<core:Title text=""/>
 					<Label text="{i18n>DeliveryDate}"/>
