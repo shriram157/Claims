@@ -1,0 +1,16 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core">
+	<SelectDialog
+		noDataText="{i18n>NoClaimTypeFound}"
+		title="{i18n>SelectClaimType}"
+		search=".onSearch"
+		confirm=".onDialogClose"
+		cancel=".onDialogClose"
+		items="{path: 'LocalDataModel>/ChangableClmTypSet'}">
+		<StandardListItem
+			title="{LocalDataModel>TMCClaimType}"
+			description="{LocalDataModel>ALMClaimTypeDes}"
+			type="Active" />
+	</SelectDialog>
+</core:FragmentDefinition>

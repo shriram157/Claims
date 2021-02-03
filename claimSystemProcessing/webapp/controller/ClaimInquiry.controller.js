@@ -158,6 +158,8 @@ sap.ui.define([
 			var oCustomer = oEvent.getSource().getParent().getCells()[0].getText();
 			var oClaimNum = oEvent.getSource().getParent().getCells()[2].getText();
 			var oClaimType = oEvent.getSource().getParent().getCells()[6].getText();
+			var sPath = oEvent.getSource().mBindingInfos.text.binding.oContext.sPath;
+			var selectedRow  = this.getModel("LocalDataModel").getProperty(sPath);
 			if (oClaimType == "ZACD" || oClaimType == "ZAUT") {
 				this.oSelectedClaimGroup = "Authorization";
 			} else {
@@ -170,8 +172,8 @@ sap.ui.define([
 					claimNum: oClaimNum,
 					oKey: oClaimType,
 					oClaimGroup: this.oSelectedClaimGroup,
-					oClaimNav: "Inq"
-
+					oClaimNav: "Inq",
+					claimTypeGroup: selectedRow.ClaimGroup
 				});
 			} else {
 				MessageToast.show(oBundle.getText("NoAuthViewClaim"));
