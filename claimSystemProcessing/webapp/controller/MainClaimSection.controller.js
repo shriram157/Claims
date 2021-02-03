@@ -7749,7 +7749,13 @@ sap.ui.define([
 								oEvent.getSource().setValue("");
 							}
 
-						}
+						},
+						onChangeSerialNumber: function (oEvent) {
+			var oLength = oEvent.getSource().getValue().length;
+			if (oLength < 5) {
+				oEvent.getSource().setValue("");
+			}
+		}
 
 					});
 
