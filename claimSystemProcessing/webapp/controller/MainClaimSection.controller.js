@@ -344,9 +344,9 @@ sap.ui.define([
 							var clmNumAuth;
 							var clmAuthNum;
 
-							if (sClaimGroup == "WTY" || sClaimGroup == "FAC") {
-								this.getView().getModel("DateModel").setProperty("/chngClaimTypeVisible", true);
-							}
+								if ((sClaimGroup == "WTY" || sClaimGroup == "FAC") && this.getModel("LocalDataModel").getProperty("/WarrantyClaimTypeGroup") != "Authorization") {
+					this.getView().getModel("DateModel").setProperty("/chngClaimTypeVisible", true);
+				}
 
 							this.getModel("LocalDataModel").setProperty("/WarrantyClaimNum", oClaim);
 							this.getView().getModel("DateModel").setProperty("/claimTypeEn", false);
@@ -3008,9 +3008,10 @@ sap.ui.define([
 											var oPartner = this.getModel("LocalDataModel").getProperty("/ClaimDetails/Partner");
 											var oGroupDescription = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType");
 
-											if (clmGrp == "WTY" || clmGrp == "FAC") {
-												this.getView().getModel("DateModel").setProperty("/chngClaimTypeVisible", true);
-											}
+											if ((clmGrp == "WTY" || clmGrp == "FAC") && this.getModel("LocalDataModel").getProperty("/WarrantyClaimTypeGroup") != "Authorization") {
+									this.getView().getModel("DateModel").setProperty("/chngClaimTypeVisible", true);
+								}
+								
 
 											if (oGroupDescription != "ZRCR" && oGroupDescription != "ZSCR" && oGroupDescription != "ZSSE" && oGroupDescription !=
 												"ZSSM" &&
