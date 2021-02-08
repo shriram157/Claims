@@ -105,7 +105,9 @@ sap.ui.define([
 				dateCurrent: new Date(),
 				tableBusyIndicator: false,
 				prevBtnVsbl: false,
-				nextBtnVsbl: false
+				nextBtnVsbl: false,
+				FinalProcessFrom : null,
+				FinalProcessTo : null
 			});
 			this.getView().setModel(oDateModel, "DateModel");
 			var oBusinessModel = this.getModel("ApiBusinessModel");
@@ -361,12 +363,25 @@ sap.ui.define([
 			var sQueryDate = this.getView().byId("DRS2").getValue();
 			var FromDate = this.getView().getModel("DateModel").getProperty("/dateValueDRS2");
 			var ToDate = this.getView().getModel("DateModel").getProperty("/secondDateValueDRS2");
+			
+			var FinalProFrom = this.getView().getModel("DateModel").getProperty("/FinalProcessFrom");
+			var FinalProTo = this.getView().getModel("DateModel").getProperty("/FinalProcessTo");
+			
+			
 			var FromDateFormat = oDateFormat.format(FromDate);
 			var ToDateFormat = oDateFormat.format(ToDate);
+			var FinalProFromFormat,FinalProToFormat;
+			
+			if(FinalProFrom !=null && FinalProTo !=null ){
+				 FinalProFromFormat = oDateFormat.format(FinalProFrom);
+				 FinalProToFormat = oDateFormat.format(FinalProTo);
+			}
+			
 			// console.log(FromDateFormat, ToDateFormat);
 			var sDate = "";
 			var oResult;
 			var sResults = [];
+			var sParam;
 
 			var oProssingModel = this.getModel("ProssingModel");
 			if (sQuerySearchBy == "ExternalObjectNumber") {
@@ -422,186 +437,129 @@ sap.ui.define([
 
 			if (sQueryDate != "" && sQueryDealer != "" && sQueryClaimGroup == "" && sQuerySearchText == "" && sQueryClaimType == "" &&
 				sQueryStat == "") {
-				oProssingModel.read("/ZC_CLAIM_HEAD_NEW", {
-					urlParameters: {
-						"$filter": "" + sDate + " ge datetime'" + FromDateFormat +
-							"'and " + sDate + " le datetime'" + ToDateFormat +
-							"' and Partner eq '" + sQueryDealer + "'"
-					},
-					success: $.proxy(function (data) {
-						this.getModel("LocalDataModel").setProperty("/ZcClaimHeadNewData", data.results);
-						this.getView().getModel("DateModel").setProperty("/tableBusyIndicator", false);
-					}, this)
-				});
+				sParam = {
+					"$filter": "" + sDate + " ge datetime'" + FromDateFormat +
+						"'and " + sDate + " le datetime'" + ToDateFormat +
+						"' and Partner eq '" + sQueryDealer + "'"
+				}
 
 			} else if (sQueryDate != "" && sQueryDealer != "" && sQueryClaimGroup == "" && sQuerySearchText != "" && sQueryClaimType == "" &&
 				sQueryStat == "") {
-				oProssingModel.read("/ZC_CLAIM_HEAD_NEW", {
-					urlParameters: {
-						"$filter": "" + sDate + " ge datetime'" + FromDateFormat +
-							"'and " + sDate + " le datetime'" + ToDateFormat +
-							"' and Partner eq '" + sQueryDealer + "' and " + sQuerySearchBy + " eq '" + sQuerySearchText + "'"
-					},
-					success: $.proxy(function (data) {
-						// 		data.results.map(function(item){
-						// 		    item.RepairDate = item.RepairDate.toISOString();
-						// 		});
-						this.getModel("LocalDataModel").setProperty("/ZcClaimHeadNewData", data.results);
-						this.getView().getModel("DateModel").setProperty("/tableBusyIndicator", false);
-						//	this.getModel("LocalDataModel").setProperty("/HeadSet", data.results);
-					}, this)
-				});
+				sParam = {
+					"$filter": "" + sDate + " ge datetime'" + FromDateFormat +
+						"'and " + sDate + " le datetime'" + ToDateFormat +
+						"' and Partner eq '" + sQueryDealer + "' and " + sQuerySearchBy + " eq '" + sQuerySearchText + "'"
+				}
 
 			} else if (sQuerySearchText != "" && sQueryClaimType != "" && sQueryClaimGroup != "" && sQueryDate != "" && sQueryDealer != "" &&
 				sQueryStat == "") {
 
-				oProssingModel.read("/ZC_CLAIM_HEAD_NEW", {
-					urlParameters: {
-						"$filter": "" + sDate + " ge datetime'" + FromDateFormat +
-							"'and " + sDate + " le datetime'" + ToDateFormat +
-							"'and Partner eq '" + sQueryDealer + "' and WarrantyClaimType eq '" + sQueryClaimType + "'and " + sQuerySearchBy + " eq '" +
-							sQuerySearchText + "'"
-					},
-					success: $.proxy(function (data) {
-						this.getView().getModel("DateModel").setProperty("/tableBusyIndicator", false);
-						this.getModel("LocalDataModel").setProperty("/ZcClaimHeadNewData", data.results);
-					}, this)
-				});
+				sParam = {
+					"$filter": "" + sDate + " ge datetime'" + FromDateFormat +
+						"'and " + sDate + " le datetime'" + ToDateFormat +
+						"'and Partner eq '" + sQueryDealer + "' and WarrantyClaimType eq '" + sQueryClaimType + "'and " + sQuerySearchBy + " eq '" +
+						sQuerySearchText + "'"
+				}
 			} else if (sQueryClaimType != "" && sQueryDate != "" && sQueryClaimGroup != "" && sQueryDealer != "" && sQueryStat == "" &&
 				sQuerySearchText == "") {
 
-				oProssingModel.read("/ZC_CLAIM_HEAD_NEW", {
-					urlParameters: {
-						"$filter": "" + sDate + " ge datetime'" + FromDateFormat +
-							"'and " + sDate + " le datetime'" + ToDateFormat +
-							"'and Partner eq '" + sQueryDealer + "' and WarrantyClaimType eq '" + sQueryClaimType + "'"
-					},
-					success: $.proxy(function (data) {
-						this.getView().getModel("DateModel").setProperty("/tableBusyIndicator", false);
-						this.getModel("LocalDataModel").setProperty("/ZcClaimHeadNewData", data.results);
-					}, this)
-				});
+				sParam = {
+					"$filter": "" + sDate + " ge datetime'" + FromDateFormat +
+						"'and " + sDate + " le datetime'" + ToDateFormat +
+						"'and Partner eq '" + sQueryDealer + "' and WarrantyClaimType eq '" + sQueryClaimType + "'"
+				}
 			} else if (sQueryStat != "" && sQueryClaimType != "" && sQueryClaimGroup != "" && sQueryDate != "" && sQueryDealer != "" &&
 				sQuerySearchText == "") {
 
-				oProssingModel.read("/ZC_CLAIM_HEAD_NEW", {
-					urlParameters: {
-						"$filter": "" + sDate + " ge datetime'" + FromDateFormat +
-							"'and " + sDate + " le datetime'" + ToDateFormat +
-							"'and Partner eq '" + sQueryDealer + "' and WarrantyClaimType eq '" + sQueryClaimType + "'and (" + oResult + ")"
-					},
-					success: $.proxy(function (data) {
-						this.getView().getModel("DateModel").setProperty("/tableBusyIndicator", false);
-						this.getModel("LocalDataModel").setProperty("/ZcClaimHeadNewData", data.results);
-					}, this)
-				});
+				sParam = {
+					"$filter": "" + sDate + " ge datetime'" + FromDateFormat +
+						"'and " + sDate + " le datetime'" + ToDateFormat +
+						"'and Partner eq '" + sQueryDealer + "' and WarrantyClaimType eq '" + sQueryClaimType + "'and (" + oResult + ")"
+				}
+
 			} else if (sQueryStat != "" && sQueryClaimType == "" && sQueryClaimGroup != "" && sQueryDate != "" && sQueryDealer != "" &&
 				sQuerySearchText != "") {
 
-				oProssingModel.read("/ZC_CLAIM_HEAD_NEW", {
-					urlParameters: {
-						"$filter": "" + sDate + " ge datetime'" + FromDateFormat +
-							"'and " + sDate + " le datetime'" + ToDateFormat +
-							"'and Partner eq '" + sQueryDealer + "'and  ClaimGroup eq '" + sQueryClaimGroup + "'and " + sQuerySearchBy + " eq '" +
-							sQuerySearchText + "'and (" + oResult + ")"
-					},
-					success: $.proxy(function (data) {
-						this.getView().getModel("DateModel").setProperty("/tableBusyIndicator", false);
-						this.getModel("LocalDataModel").setProperty("/ZcClaimHeadNewData", data.results);
-					}, this)
-				});
+				sParam = {
+					"$filter": "" + sDate + " ge datetime'" + FromDateFormat +
+						"'and " + sDate + " le datetime'" + ToDateFormat +
+						"'and Partner eq '" + sQueryDealer + "'and  ClaimGroup eq '" + sQueryClaimGroup + "'and " + sQuerySearchBy + " eq '" +
+						sQuerySearchText + "'and (" + oResult + ")"
+				}
 			} else if (sQueryStat == "" && sQueryClaimType == "" && sQueryClaimGroup != "" && sQueryDate != "" && sQueryDealer != "" &&
 				sQuerySearchText != "") {
-
-				oProssingModel.read("/ZC_CLAIM_HEAD_NEW", {
-					urlParameters: {
-						"$filter": "" + sDate + " ge datetime'" + FromDateFormat +
-							"'and " + sDate + " le datetime'" + ToDateFormat +
-							"'and Partner eq '" + sQueryDealer + "'and  ClaimGroup eq '" + sQueryClaimGroup + "'and " + sQuerySearchBy + " eq '" +
-							sQuerySearchText + "'"
-					},
-					success: $.proxy(function (data) {
-						this.getView().getModel("DateModel").setProperty("/tableBusyIndicator", false);
-						this.getModel("LocalDataModel").setProperty("/ZcClaimHeadNewData", data.results);
-					}, this)
-				});
+				sParam = {
+					"$filter": "" + sDate + " ge datetime'" + FromDateFormat +
+						"'and " + sDate + " le datetime'" + ToDateFormat +
+						"'and Partner eq '" + sQueryDealer + "'and  ClaimGroup eq '" + sQueryClaimGroup + "'and " + sQuerySearchBy + " eq '" +
+						sQuerySearchText + "'"
+				}
 			} else if (sQueryStat != "" && sQuerySearchText != "" && sQueryDate != "" && sQueryClaimGroup == "" && sQueryDealer != "" &&
 				sQueryClaimType == "") {
 
-				oProssingModel.read("/ZC_CLAIM_HEAD_NEW", {
-					urlParameters: {
-						"$filter": "" + sDate + " ge datetime'" + FromDateFormat +
-							"'and " + sDate + " le datetime'" + ToDateFormat +
-							"'and Partner eq '" + sQueryDealer + "'and " + sQuerySearchBy + " eq '" + sQuerySearchText + "'and (" + oResult + ")"
-					},
-					success: $.proxy(function (data) {
-						this.getView().getModel("DateModel").setProperty("/tableBusyIndicator", false);
-						this.getModel("LocalDataModel").setProperty("/ZcClaimHeadNewData", data.results);
-					}, this)
-				});
+				sParam = {
+					"$filter": "" + sDate + " ge datetime'" + FromDateFormat +
+						"'and " + sDate + " le datetime'" + ToDateFormat +
+						"'and Partner eq '" + sQueryDealer + "'and " + sQuerySearchBy + " eq '" + sQuerySearchText + "'and (" + oResult + ")"
+				}
+
 			} else if (sQueryStat != "" && sQuerySearchText == "" && sQueryDate != "" && sQueryClaimGroup != "" && sQueryDealer != "" &&
 				sQueryClaimType == "") {
 
-				oProssingModel.read("/ZC_CLAIM_HEAD_NEW", {
-					urlParameters: {
-						"$filter": "" + sDate + " ge datetime'" + FromDateFormat +
-							"'and " + sDate + " le datetime'" + ToDateFormat +
-							"'and Partner eq '" + sQueryDealer + "' and  ClaimGroup eq '" + sQueryClaimGroup + "'and (" + oResult + ")"
-					},
-					success: $.proxy(function (data) {
-						this.getView().getModel("DateModel").setProperty("/tableBusyIndicator", false);
-						this.getModel("LocalDataModel").setProperty("/ZcClaimHeadNewData", data.results);
-					}, this)
-				});
+				sParam = {
+					"$filter": "" + sDate + " ge datetime'" + FromDateFormat +
+						"'and " + sDate + " le datetime'" + ToDateFormat +
+						"'and Partner eq '" + sQueryDealer + "' and  ClaimGroup eq '" + sQueryClaimGroup + "'and (" + oResult + ")"
+				}
 			} else if (sQueryStat != "" && sQueryDate != "" && sQueryDealer != "" && sQueryClaimGroup == "" && sQueryClaimType == "" &&
 				sQuerySearchText == "") {
 
-				oProssingModel.read("/ZC_CLAIM_HEAD_NEW", {
-					urlParameters: {
-						"$filter": "" + sDate + " ge datetime'" + FromDateFormat +
-							"'and " + sDate + " le datetime'" + ToDateFormat +
-							"'and Partner eq '" + sQueryDealer + "' and (" + oResult + ")"
-					},
-					success: $.proxy(function (data) {
-						this.getView().getModel("DateModel").setProperty("/tableBusyIndicator", false);
-						this.getModel("LocalDataModel").setProperty("/ZcClaimHeadNewData", data.results);
-					}, this)
-				});
+				sParam = {
+					"$filter": "" + sDate + " ge datetime'" + FromDateFormat +
+						"'and " + sDate + " le datetime'" + ToDateFormat +
+						"'and Partner eq '" + sQueryDealer + "' and (" + oResult + ")"
+				}
 			} else if (sQueryDate != "" && sQueryDealer != "" && sQuerySearchText != "" && sQueryClaimGroup != "" && sQueryClaimType != "" &&
 				sQueryStat != "") {
 
-				oProssingModel.read("/ZC_CLAIM_HEAD_NEW", {
-					urlParameters: {
-						"$filter": "" + sDate + " ge datetime'" + FromDateFormat +
-							"'and WarrantyClaimType eq '" + sQueryClaimType + "'and " + sDate + " le datetime'" + ToDateFormat +
-							"'and Partner eq '" + sQueryDealer + "' and " + sQuerySearchBy + " eq '" + sQuerySearchText + "'and (" + oResult + ")"
-					},
-					success: $.proxy(function (data) {
-						this.getView().getModel("DateModel").setProperty("/tableBusyIndicator", false);
-						this.getModel("LocalDataModel").setProperty("/ZcClaimHeadNewData", data.results);
-					}, this)
-				});
+				sParam = {
+					"$filter": "" + sDate + " ge datetime'" + FromDateFormat +
+						"'and WarrantyClaimType eq '" + sQueryClaimType + "'and " + sDate + " le datetime'" + ToDateFormat +
+						"'and Partner eq '" + sQueryDealer + "' and " + sQuerySearchBy + " eq '" + sQuerySearchText + "'and (" + oResult + ")"
+				}
 			} else if (sQueryDate != "" && sQueryDealer != "" && sQueryClaimGroup != "" && sQuerySearchText == "" && sQueryClaimType == "" &&
 				sQueryStat == "") {
 
-				oProssingModel.read("/ZC_CLAIM_HEAD_NEW", {
-					urlParameters: {
-						"$filter": "" + sDate + " ge datetime'" + FromDateFormat +
-							"'and " + sDate + " le datetime'" + ToDateFormat +
-							"'and Partner eq '" + sQueryDealer + "' and  ClaimGroup eq '" + sQueryClaimGroup + "'"
-					},
-					success: $.proxy(function (data) {
-						this.getView().getModel("DateModel").setProperty("/tableBusyIndicator", false);
-						this.getModel("LocalDataModel").setProperty("/ZcClaimHeadNewData", data.results);
-					}, this)
-				});
+				sParam = {
+					"$filter": "" + sDate + " ge datetime'" + FromDateFormat +
+						"'and " + sDate + " le datetime'" + ToDateFormat +
+						"'and Partner eq '" + sQueryDealer + "' and  ClaimGroup eq '" + sQueryClaimGroup + "'"
+				}
 
 			}
+			
+			if(FinalProFrom !=null && FinalProTo !=null ){
+				 sParam = {
+				 		"$filter": sParam.$filter + "and FinalProcdDate ge datetime'" +FinalProFromFormat+
+						"'and FinalProcdDate le datetime'" +FinalProToFormat+ "' "
+				 }
+			}
+			
+			
+			
+
+			oProssingModel.read("/ZC_CLAIM_HEAD_NEW", {
+				urlParameters: sParam,
+				success: $.proxy(function (data) {
+					this.getView().getModel("DateModel").setProperty("/tableBusyIndicator", false);
+					this.getModel("LocalDataModel").setProperty("/ZcClaimHeadNewData", data.results);
+				}, this)
+			});
 
 		},
 
 		handleDealerLabourInq: function (oEvent) {
-			
+
 			var oDialog;
 			var selectedKey = this.getView().byId("idDealerCode").getSelectedKey();
 
@@ -697,6 +655,10 @@ sap.ui.define([
 		onCreateNewClaim: function () {
 			this.getRouter().navTo("NewClaimSelectGroup");
 
+		},
+		
+		onTableExport : function(){
+			
 		}
 
 	});

@@ -4,17 +4,17 @@
 	<!--xmlns:raprincis="zclaimProcessing.control"-->
 	<core:Fragment fragmentName="zclaimProcessing.view.fragments.ToolHeader" type="XML"/>
 	
-	<uxap:ObjectPageLayout id="ObjectPageLayout" enableLazyLoading="true">
+	<uxap:ObjectPageLayout id="ObjectPageLayout" enableLazyLoading="true" class="sapUiSizeCompact">
 		<uxap:sections>
 			<uxap:ObjectPageSection title="{i18n>ClaimInquiry}">
 				<uxap:subSections>
 					<uxap:ObjectPageSubSection title="">
 						<uxap:blocks>
 							<!--<VBox id="oControlId"></VBox>-->
-							<VBox class="sapUiLargeMarginBottom">
+							<VBox class="sapUiLargeMarginBottom sapUiSizeCompact">
 								<MessageStrip id="idNewClaimMsgStrp" text="" showIcon="true" showCloseButton="true" class="sapUiMediumMarginBottom" visible="false"></MessageStrip>
-								<f:SimpleForm id="SimpleFormChange354" class="sapUiSmallMarginBottom" editable="true" layout="ResponsiveGridLayout"
-									title="{i18n>Entertheapplicationdaterange}" labelSpanXL="4" labelSpanL="4" labelSpanM="3" labelSpanS="12" adjustLabelSpan="false"
+								<f:SimpleForm id="SimpleFormChange354"  editable="true" layout="ResponsiveGridLayout"
+									title="{i18n>Entertheapplicationdaterange}" labelSpanXL="5" labelSpanL="5" labelSpanM="3" labelSpanS="12" adjustLabelSpan="false"
 									emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="3" columnsL="3" columnsM="1" singleContainerFullSize="false">
 									<f:content>
 										
@@ -33,7 +33,7 @@
 										</Button>
 									</f:content>
 								</f:SimpleForm>
-								<Table id="idClaimInquiryTable" inset="false" class="classRCPTable sapUiSizeCompact sapUiLargeMarginBottom" mode="None"
+								<Table id="idClaimInquiryTable" inset="false" class="classRCPTable sapUiSizeCompact" mode="None"
 									busy="{DateModel>/tableBusyIndicator}"
 									items="{path:'LocalDataModel>/DataResultEnquiry', sorter:{path:'NumberOfWarrantyClaim', descending : false}}" growing="true"
 									growingThreshold="30" growingScrollToLoad="false" growingTriggerText="Load more">

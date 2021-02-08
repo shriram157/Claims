@@ -1,14 +1,14 @@
 <mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" controllerName="zclaimProcessing.controller.SearchClaim"
 	xmlns:html="http://www.w3.org/1999/xhtml" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:uxap="sap.uxap"
-	xmlns:table="sap.ui.table" xmlns:custom="zclaimProcessing.control">
+	xmlns:table="sap.ui.table" xmlns:custom="zclaimProcessing.control" class="sapUiSizeCompact">
 	<core:Fragment fragmentName="zclaimProcessing.view.fragments.ToolHeader" type="XML"/>
-	<uxap:ObjectPageLayout id="ObjectPageLayout" enableLazyLoading="true">
+	<uxap:ObjectPageLayout id="ObjectPageLayout" enableLazyLoading="true" class="sapUiSizeCompact">
 		<uxap:sections>
-			<uxap:ObjectPageSection title="{i18n>SearchClaims}">
+			<uxap:ObjectPageSection title="{i18n>SearchClaims}" class="sapUiSizeCompact">
 				<uxap:subSections>
 					<uxap:ObjectPageSubSection title="">
-						<uxap:blocks>
-							<VBox>
+						<uxap:blocks class="sapUiSizeCompact">
+							<VBox class="sapUiSizeCompact">
 								<MessageStrip id="idNewClaimMsgStrp" text="" showIcon="true" showCloseButton="true" class="sapUiMediumMarginBottom" visible="false"></MessageStrip>
 								<f:SimpleForm id="SimpleFormChange354" editable="true" layout="ResponsiveGridLayout" title="{i18n>Entertheapplicationdaterange}"
 									labelSpanXL="3" labelSpanL="3" labelSpanM="3" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0"
@@ -63,6 +63,24 @@
 											selectionChange="handleSelectClaimGroup" selectionFinish="handleSelectClaimGroupFinish" id="idClaimStatus">
 											<core:Item key="{LocalDataModel>Status}" text="{LocalDataModel>Description}" textDirection="LTR"/>
 										</MultiComboBox>
+										<Label text="{i18n>FinalProcessedDate}" textAlign="Begin" id="idClmFinalSub"/>
+										<!--<DateRangeSelection id="DRS2" dateValue="{path:'DateModel>/dateValueDRS2'}" secondDateValue="{path:'DateModel>/secondDateValueDRS2'}"-->
+										<!--	minDate="" maxDate="" change="handleChange"/>-->
+										<DatePicker dateValue="{path:'DateModel>/FinalProcessFrom'}">
+											<layoutData>
+												<l:GridData span="XL4 L6 M3 S12"/>
+											</layoutData>
+										</DatePicker>
+										<Text text="to" textAlign="Center">
+											<layoutData>
+												<l:GridData span="XL1 L1 M3 S12"/>
+											</layoutData>
+										</Text>
+										<DatePicker dateValue="{path:'DateModel>/FinalProcessTo'}">
+											<layoutData>
+												<l:GridData span="XL4 L6 M3 S12"/>
+											</layoutData>
+										</DatePicker>
 										<core:Title text=""/>
 										<Button text="{i18n>Search}" press="onPressSearch" type="Emphasized"/>
 										<Button text="{i18n>Clear}" press="onPressClear"/>
@@ -72,20 +90,29 @@
 							</VBox>
 						</uxap:blocks>
 					</uxap:ObjectPageSubSection>
-					<uxap:ObjectPageSubSection title="">
-						<uxap:blocks class="sapUiLargeMarginBottom sapUiLargePaddingBottom">
-							<VBox class="sapUiLargeMarginBottom sapUiLargePaddingBottom">
-								<Table id="idClaimTable" inset="false" noDataText="{i18n>NoData}" class="classRCPTable sapUiSizeCompact sapUiLargeMarginBottom " mode="None"
+					<uxap:ObjectPageSubSection title="" class="clToolbar">
+						<uxap:blocks>
+								<Table width="100%"  showNoData="false">
+									<headerToolbar >
+										
+											<Toolbar >
+												<Title text="{i18n>ClaimList}" level="H2"/>
+												<ToolbarSpacer/>
+												<Button tooltip="" icon="sap-icon://sort" press="handleSortButtonPressed"/>
+												<OverflowToolbarButton type="Transparent" icon="sap-icon://excel-attachment" iconFirst="true" width="auto" enabled="true"  iconDensityAware="false"  press="onTableExport"/>
+											</Toolbar>
+									
+									</headerToolbar>
+								</Table>
+						</uxap:blocks>
+						</uxap:ObjectPageSubSection>
+						<uxap:ObjectPageSubSection>
+						<uxap:blocks>
+							<ScrollContainer horizontal="true" focusable="true">
+								<Table width="100%" id="idClaimTable" noDataText="{i18n>NoData}" class="classRCPTable clSearchBottom" mode="None"
 									busy="{DateModel>/tableBusyIndicator}"
 									items="{path:'LocalDataModel>/ZcClaimHeadNewData', sorter:{path:'NumberOfWarrantyClaim', descending : false}}" growing="true"
 									growingThreshold="25" growingScrollToLoad="false" growingTriggerText="{i18n>Loadmore}">
-									<headerToolbar>
-										<Toolbar>
-											<Title text="{i18n>ClaimList}" level="H2"/>
-											<ToolbarSpacer/>
-											<Button tooltip="" icon="sap-icon://sort" press="handleSortButtonPressed"/>
-										</Toolbar>
-									</headerToolbar>
 									<columns>
 										<Column width="9em"><Label text="{i18n>TCIClaim}" textAlign="Center" width="100%"/></Column>
 										<Column width="8em" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
@@ -103,7 +130,7 @@
 										<Column width="6em" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
 											<Label text="{i18n>ClaimType}" wrapping="true" textAlign="Center" width="100%"/>
 										</Column>
-										<Column width="12em" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+										<Column width="11em" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
 											<Label text="{i18n>VIN}" wrapping="true" textAlign="Center" width="100%"/>
 										</Column>
 										<Column width="6em" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
@@ -121,9 +148,25 @@
 										<Column width="8em" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
 											<Label text="{i18n>ClaimAmount}" wrapping="true" textAlign="Center" width="100%"/>
 										</Column>
-										<Column width="8em" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+										<Column width="6em" hAlign="Center">
 											<Label text="{i18n>AuthorizationNumber}" wrapping="true" textAlign="Center" width="100%"/>
 										</Column>
+										<Column width="9em" minScreenWidth="desktop" demandPopin="true" hAlign="Center">
+											<Label text="{i18n>FinalProcessedDate}" wrapping="true" textAlign="Center" width="100%"/>
+										</Column>
+										<Column width="6em" minScreenWidth="desktop" demandPopin="true" hAlign="Center">
+											<Label text="{i18n>Odometer}" wrapping="true" textAlign="Center" width="100%"/>
+										</Column>
+											<Column width="6em" minScreenWidth="desktop" demandPopin="true" hAlign="Center">
+											<Label text="{i18n>Parts}" wrapping="true" textAlign="Center" width="100%"/>
+										</Column>
+											<Column width="6em" minScreenWidth="desktop" demandPopin="true" hAlign="Center">
+											<Label text="{i18n>Labour}" wrapping="true" textAlign="Center" width="100%"/>
+										</Column>
+											<Column width="6em" minScreenWidth="desktop" demandPopin="true" hAlign="Center">
+											<Label text="{i18n>Sublet}" wrapping="true" textAlign="Center" width="100%"/>
+										</Column>
+										
 										<Column width="2em" visible="false" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
 											<Label text="{i18n>ClaimTypeGroup}" wrapping="true" textAlign="Center" width="100%"/>
 										</Column>
@@ -146,12 +189,17 @@
 												<Text text="{LocalDataModel>ClaimAge}"/>
 												<Text text="{path:'LocalDataModel>ClaimAmountSum', formatter : 'zclaimProcessing.utils.formatter.fnFormatDecimal'}"/>
 												<Text text="{LocalDataModel>AuthorizationNumber}"/>
+												<Text text="{path:'LocalDataModel>FinalProcdDate', formatter:'zclaimProcessing.utils.formatter.fnDateFormat'}"/>
+												<Text text="{LocalDataModel>Odometer}"/>
+												<Text text="{LocalDataModel>PartPrice}"/>
+												<Text text="{LocalDataModel>LabourPrice}"/>
+												<Text text="{LocalDataModel>SubletPrice}"/>
 												<Text text="{LocalDataModel>ClaimGroup}"/>
 											</cells>
 										</ColumnListItem>
 									</items>
 								</Table>
-							</VBox>
+							</ScrollContainer>
 						</uxap:blocks>
 					</uxap:ObjectPageSubSection>
 				</uxap:subSections>

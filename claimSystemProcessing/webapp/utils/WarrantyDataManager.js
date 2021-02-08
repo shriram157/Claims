@@ -594,6 +594,7 @@ sap.ui.define([
 				elm.getView().getModel("HeadSetData").setProperty("/OFP", "");
 			}
 		}
+	
 
 	};
 

@@ -1,7 +1,7 @@
 <core:FragmentDefinition xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:u="sap.ui.unified" xmlns:l="sap.ui.layout"
 	xmlns="sap.m" xmlns:table="sap.ui.table" xmlns:custom="zclaimProcessing.control" xmlns:html="http://www.w3.org/1999/xhtml">
 	<VBox class="sapUiSmallMargin clFormTitleGap" busy="{LocalDataModel>/oSavePartIndicator}" busyIndicatorDelay="100" id="idpart01Form">
-		<Panel width="auto" class="sapUiSmallMarginBottom" accessibleRole="Region">
+		<Panel width="auto" class="sapUiSizeCompact" accessibleRole="Region">
 			<headerToolbar>
 				<Toolbar height="3rem">
 					<Title text="{i18n>ClaimDetails}"/>
@@ -10,7 +10,7 @@
 				</Toolbar>
 			</headerToolbar>
 			<f:SimpleForm editable="true" layout="ResponsiveGridLayout" title="" labelSpanXL="6" labelSpanL="6" labelSpanM="12" labelSpanS="12"
-				emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="4" columnsL="4" columnsM="6">
+				emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="4" columnsL="4" columnsM="4">
 				<f:content>
 					<core:Title text=""/>
 					<Label text="{i18n>ClaimType}"/>
@@ -49,9 +49,9 @@
 				</f:content>
 			</f:SimpleForm>
 		</Panel>
-		<f:SimpleForm id="idClaimMainForm" editable="{DateModel>/oFormEdit}" title="{i18n>DealerInvoiceInformation}" layout="ResponsiveGridLayout"
+		<f:SimpleForm id="idClaimMainForm" class="sapUiSizeCompact" editable="{DateModel>/oFormEdit}" title="{i18n>DealerInvoiceInformation}" layout="ResponsiveGridLayout"
 			labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0"
-			emptySpanS="0" columnsXL="4" columnsL="4" columnsM="3" singleContainerFullSize="false">
+			emptySpanS="0" columnsXL="6" columnsL="6" columnsM="3" singleContainerFullSize="false">
 			<f:content>
 				<core:Title text=""/>
 				<Label text="{i18n>DealerName}"/>
@@ -80,24 +80,34 @@
 					editable="{DateModel>/oFormEdit}" visible="{DateModel>/oVisibleRepDate}"/>
 			</f:content>
 		</f:SimpleForm>
-		<f:SimpleForm editable="" title="{i18n>CompetitorInformation}" layout="ResponsiveGridLayout" labelSpanXL="12" labelSpanL="12" labelSpanM="12"
-			labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="4" columnsL="4" columnsM="3"
+		<!--<f:SimpleForm editable="" class="sapUiSizeCompact" title="{i18n>CompetitorInformation}" layout="ResponsiveGridLayout" labelSpanXL="12" labelSpanL="12" labelSpanM="12"-->
+		<!--	labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="4" columnsL="4" columnsM="3"-->
+		<!--	singleContainerFullSize="false">-->
+		<!--	<f:content >-->
+		<!--		<Label text="{i18n>Name}"/>-->
+		<!--		<custom:CustomCombo showSecondaryValues="true"  id="idCompetitorName" items="{path:'LocalDataModel>/company_detailSet'}"-->
+		<!--			selectionChange="onSelectCompetitorName" selectedKey="HeadSetData>/CompetitorName"-->
+		<!--			value="{path:'HeadSetData>/CustomerFullName', type : 'sap.ui.model.type.String'}" editable="{DateModel>/addEnbAutoCom}" enabled="{DateModel>/oFormEdit}">-->
+		<!--			<core:ListItem text="{LocalDataModel>CompetitorName}" key="{LocalDataModel>CompetitorName}"/>-->
+		<!--		</custom:CustomCombo>-->
+			
+		<!--	</f:content>-->
+		<!--</f:SimpleForm>-->
+		<f:SimpleForm editable="" class="sapUiSizeCompact" title="{i18n>CompetitorInformation}" layout="ResponsiveGridLayout" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12"
+			adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="6" columnsL="6" columnsM="3"
 			singleContainerFullSize="false">
 			<f:content >
-				<Label text="{i18n>Name}"/>
-				<custom:CustomCombo showSecondaryValues="true"  id="idCompetitorName" items="{path:'LocalDataModel>/company_detailSet'}"
+					<core:Title text=""/>
+				
+				<custom:CustomCombo placeholder="{i18n>Name}" showSecondaryValues="true"  id="idCompetitorName" items="{path:'LocalDataModel>/company_detailSet'}"
 					selectionChange="onSelectCompetitorName" selectedKey="HeadSetData>/CompetitorName"
 					value="{path:'HeadSetData>/CustomerFullName', type : 'sap.ui.model.type.String'}" editable="{DateModel>/addEnbAutoCom}" enabled="{DateModel>/oFormEdit}">
 					<core:ListItem text="{LocalDataModel>CompetitorName}" key="{LocalDataModel>CompetitorName}"/>
 				</custom:CustomCombo>
 			
-			</f:content>
-		</f:SimpleForm>
-		<f:SimpleForm editable="" layout="ResponsiveGridLayout" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12"
-			adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="4" columnsL="4" columnsM="3"
-			singleContainerFullSize="false">
-			<f:content >
+			
 				<core:Title text=""/>
+				
 				<!--<Input value="{path:'HeadSetData>/CompetitorAddr', type : 'sap.ui.model.type.String' }" editable="{DateModel>/oFormEdit}"/>-->
 				<custom:AddressAutoComplete placeholder="{i18n>EnterAddress}" id="autocomplete" change="onAfterAutoComplete" enabled="{DateModel>/addEnbAutoCom}" editable="{DateModel>/oFormEdit}"/>
 				<!--<core:Title text=""/>-->
@@ -107,6 +117,7 @@
 				<!--	</layoutData>-->
 				<!--</Button>-->
 				<core:Title text=""/>
+			
 				<Button text="{i18n>Clear}" enabled="{DateModel>/oFormEdit}" press="onClearAddress">
 					<layoutData>
 						<l:GridData span="XL8 L8 M12 S12"/>
@@ -116,7 +127,7 @@
 				<l:HorizontalLayout id="idDist"></l:HorizontalLayout>
 			</f:content>
 		</f:SimpleForm>
-		<f:SimpleForm editable="" id="idVehicleInfo" title="" layout="ResponsiveGridLayout" labelSpanXL="12" labelSpanL="12" labelSpanM="12"
+		<f:SimpleForm editable="" class="sapUiSizeCompact" id="idVehicleInfo" title="" layout="ResponsiveGridLayout" labelSpanXL="12" labelSpanL="12" labelSpanM="12"
 			labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="6" columnsL="6" columnsM="3"
 			singleContainerFullSize="false">
 			<f:content >
@@ -173,7 +184,7 @@
 		</Panel>
 	</VBox>
 	<VBox>
-		<Panel width="auto" class="sapUiSmallMarginBottom" accessibleRole="Region">
+		<Panel width="auto" class="sapUiSmallMarginBottom" accessibleRole="Region"  expandable="true">
 			<headerToolbar>
 				<Toolbar height="3rem">
 					<Title text="{i18n>SupportingDocuments}"/>
@@ -207,11 +218,11 @@
 				</f:SimpleForm>
 			</content>
 		</Panel>
-		<Panel width="auto" class="sapUiSmallMarginBottom" accessibleRole="Region">
+		<Panel width="auto" class="sapUiSizeCompact" accessibleRole="Region">
 			<content>
 				<core:Fragment fragmentName="zclaimProcessing.view.fragments.ClaimAmountSummery" type="XML"/>
 			</content>
-			<HBox alignContent="Center" justifyContent="Center" class="sapUiTinyMarginTop sapUiTinyMarginBottom">
+			<HBox alignContent="Center" justifyContent="Center" class="sapUiTinyMarginTop">
 				<Button class="sapUiTinyMarginBeginEnd" press="onPressBack" text="{i18n>BackList}" type="Back"/>
 				<Button class="sapUiTinyMarginBeginEnd" press="onCancelClaim" enabled="{LocalDataModel>/CancelEnable}" text="{i18n>CancelClaim}"
 					type="Reject"/>

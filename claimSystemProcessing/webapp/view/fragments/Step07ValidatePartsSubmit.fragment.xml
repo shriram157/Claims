@@ -1,6 +1,6 @@
 <core:FragmentDefinition xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:u="sap.ui.unified" xmlns:l="sap.ui.layout"
 	xmlns="sap.m" xmlns:table="sap.ui.table">
-	<VBox class="sapUiSmallMargin clFormTitleGap">
+	<VBox class="clFormTitleGap">
 		<Panel width="auto" class="sapUiSmallMarginBottom" accessibleRole="Region">
 	<headerToolbar>
 				<Toolbar height="3rem">
@@ -10,7 +10,7 @@
 				</Toolbar>
 			</headerToolbar>
 			
-	<VBox class="sapUiSmallMargin clFormTitleGap partsOnly clMinHeight" busy="{DateModel>/SubmitPWBusyIndicator}">
+	<VBox class="clFormTitleGap partsOnly clMinHeight" busy="{DateModel>/SubmitPWBusyIndicator}">
 		<core:Fragment fragmentName="zclaimProcessing.view.fragments.WarrantyPartClaimAmountSummery" type="XML"/>
 		<!--path: 'LocalDataModel>TCIApprInclTax', formatter: 'zclaimProcessing.utils.formatter.roundedDecimals'-->
 		<List headerText="{i18n>Validations}" items="{ path: 'LocalDataModel>/oErrorSet' }" noDataText="{i18n>NoData}">

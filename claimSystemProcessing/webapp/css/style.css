@@ -4,12 +4,13 @@
 /*======================= Start custom fonts and custom color on header style ==========================*/
 
 @import url('https://fonts.googleapis.com/css?family=Raleway');
+
 .clCustomFont {
     font-family: 'Raleway', sans-serif;
 }
 
 .sapContrastPlus.clCustomHeaderBg {
-    background-color: #fff!important;
+    background-color: #fff !important;
     color: #2f3c48;
     text-shadow: none;
 }
@@ -29,7 +30,8 @@
 }
 
 .clFormTitleGap .sapUiFormM .sapUiFormContainerTitle>.sapUiFormTitle {
-    height: 0;
+    height: 0 !important;
+     display:none;
 }
 
 
@@ -53,7 +55,7 @@
 /*}*/
 
 .clWarning {
-    width: auto!important;
+    width: auto !important;
 }
 
 .oVisible {
@@ -141,11 +143,12 @@
 }
 
 .clVinDetails h5.sapUiFormTitleH5 {
-    height: 0!important;
+    height: 0 !important;
+   
 }
 
 .clMinHeight {
-    min-height: 50rem;
+    min-height: 42rem;
 }
 
 .clClaimInqTable {
@@ -153,10 +156,13 @@
 }
 
 #ObjectPageLayout h5.sapUiFormTitleH5 {
-    height: 0!important;
+    height: 0 !important;
+   
 }
+
 .sapUxAPObjectPageLayout h5.sapUiFormTitleH5 {
-    height: 0!important;
+    height: 0 !important;
+   
 }
 
 .clCommentFix .sapMFeedListItemFigure {
@@ -263,4 +269,92 @@ html.sap-desktop .clCommentFix .sapMFeedListItemHasFigure {
 
 span#__xmlview1--idPostalDistInput {
     font-size: 0rem;
+}
+
+.clFormTitleGap .sapUiFormResGridCont {
+    padding-bottom: 0 !important;
+}
+
+.clAttachmentList .sapMUCNoDataPage .sapUiIcon {
+    font-size: 3rem !important;
+}
+
+.clAttachmentList .sapMUCNoDataPage .sapMUCNoDataText {
+    font-size: 1rem;
+}
+
+.sapUxAPObjectPageContainerNoBar>.sapUxAPObjectPageSection:first-child:not(.sapUxAPObjectPageSectionNoTitle) {
+    margin-top: 0 !important;
+}
+
+.sapMITBContent {
+    padding-top: 0 !important;
+}
+
+.sapUxAPObjectPageHeaderContent .sapUxAPObjectPageHeaderContentItem {
+    margin-bottom: 0 !important;
+}
+
+.sapMPanelContent {
+    padding-bottom: 0;
+}
+
+.sapMPanelContent:not(.sapMPanelBGTransparent) {
+    border-bottom: none;
+}
+
+.sapUiSizeCompact .sapMTB.sapMTBHeader-CTX {
+    height: 1.5rem;
+}
+
+.sapMUCItemIconInactive,
+.sapMUCItemIcon {
+    font-size: 1.5rem;
+}
+
+.sapMUCItemPlaceholderInactive,
+.sapMUCItemPlaceholder {
+    line-height: 2rem;
+}
+
+.sapMUCNoDataPage .sapMUCNoDataDescription {
+    display: none;
+}
+
+.sapMUCNoDataPage .sapMUCNoDataText {
+    font-size: .8rem;
+}
+
+.sapMUCNoDataPage .sapUiIcon {
+    font-size: 2rem !important;
+}
+
+.sapUiSizeCompact .sapUxAPObjectPageLayout-Std-Desktop .sapUxAPBlockContainer {
+    padding-bottom: 0 !important;
+}
+
+.clSubl70 {
+    width: 100%;
+}
+
+.clSubl30 {
+    width: 100%;
+}
+.clToolbar .sapUiRespGrid>div {
+	 padding-bottom: 0 !important;
+	 margin-bottom: 0 !important;
+}
+
+.clSearchBottom {
+    margin-bottom: 5rem!important;
+}
+
+@media only screen and (min-width: 960px) {
+    .clSubl70 {
+        width: 70%;
+    }
+
+    .clSubl30 {
+        width: 30%;
+    }
 }

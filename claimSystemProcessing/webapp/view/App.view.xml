@@ -15,11 +15,11 @@
 			<content>
 				<App id="idAppControl"/>
 			</content>
-			<footer>
-				<OverflowToolbar>
-					<ToolbarSpacer/>
-				</OverflowToolbar>
-			</footer>
+			<!--<footer>-->
+			<!--	<OverflowToolbar>-->
+			<!--		<ToolbarSpacer/>-->
+			<!--	</OverflowToolbar>-->
+			<!--</footer>-->
 		</Page>
 	</App>
 </mvc:View>

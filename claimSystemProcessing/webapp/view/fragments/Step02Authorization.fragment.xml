@@ -1,72 +1,7 @@
 <core:FragmentDefinition xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:l="sap.ui.layout" xmlns="sap.m"
 	xmlns:table="sap.ui.table" xmlns:html="http://www.w3.org/1999/xhtml">
-	<VBox class="sapUiSmallMargin clFormTitleGap">
-		<Panel width="100%" class="sapUiSmallMarginBottom">
-			<headerToolbar>
-				<Toolbar height="3rem">
-					<Title text="{i18n>ClaimDetails}"/>
-					<ToolbarSpacer/>
-					<Title text="{LocalDataModel>/WarrantyClaimNumber}" textAlign="End"/>
-				</Toolbar>
-			</headerToolbar>
-			<f:SimpleForm editable="true" layout="ResponsiveGridLayout" title="" labelSpanXL="6" labelSpanL="6" labelSpanM="12" labelSpanS="12"
-				adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="6" columnsL="6" columnsM="4"
-				singleContainerFullSize="false">
-				<f:content>
-					<core:Title text=""/>
-					<Label text="{i18n>TCIClaim}"/>
-					<Text text="{HeadSetData>/NumberOfWarrantyClaim}"/>
-					<Label text="{i18n>VIN}">
-						<layoutData>
-							<l:GridData span="XL3 L3"/>
-						</layoutData>
-					</Label>
-					<Text text="{HeadSetData>/ExternalObjectNumber}" wrapping="false"/>
-					<core:Title text=""/>
-					<Label text="{i18n>DlrClaim}"/>
-					<Text text="{HeadSetData>/ExternalNumberOfClaim}"/>
-					<Label text="{i18n>OFP}">
-						<layoutData>
-							<l:GridData span="XL3 L4"/>
-						</layoutData>
-					</Label>
-					<Text text="{HeadSetData>/OFP}"/>
-					<core:Title text=""/>
-					<Label text="{i18n>RO}"/>
-					<Text text="{HeadSetData>/RepairOrderNumberExternal}"/>
-					<Label text="{i18n>Op}"/>
-					<Text text="{HeadSetData>/MainOpsCode}"/>
-					<core:Title text=""/>
-					<Label text="{i18n>RepairDate}"/>
-					<Text text="{path:'HeadSetData>/RepairDate', formatter:'zclaimProcessing.utils.formatter.fnDateFormat'}"/>
-					<Label text="{i18n>RegDate}"/>
-					<Text text="{path:'LocalDataModel>/DataVinDetails/RegDate', formatter:'zclaimProcessing.utils.formatter.fnDateFormat'}"/>
-					<core:Title text=""/>
-					<Label text="{i18n>Odometer}" textAlign="End">
-						<layoutData>
-							<l:GridData span="XL5 L5 M6 "/>
-						</layoutData>
-					</Label>
-					<Text text="{path:'HeadSetData>/Odometer', formatter:'zclaimProcessing.utils.formatter.fnFormatNum'}" textAlign="End">
-						<layoutData>
-							<l:GridData span="XL4 L4 M6 "/>
-						</layoutData>
-					</Text>
-					<Text text="{LocalDataModel>/MsrUnit}" visible="{DateModel>/OdometerReqMan}">
-						<layoutData>
-							<l:GridData span="XL3 L3 M3 "/>
-						</layoutData>
-					</Text>
-					<Label text="{i18n>Elapse}"/>
-					<Text text="{LocalDataModel>/VehicleMonths} {i18n>Months}"/>
-					<core:Title text=""/>
-					<Label text="{i18n>Type}"/>
-					<Text text="{HeadSetData>/WarrantyClaimType}"/>
-					<Label text="{i18n>Status}"/>
-					<Text text="{HeadSetData>/DecisionCode}"/>
-				</f:content>
-			</f:SimpleForm>
-		</Panel>
+	<VBox class="clFormTitleGap">
+		<core:Fragment fragmentName="zclaimProcessing.view.fragments.headerFormWarrantyDetails" type="XML"/>
 		<VBox id="idAuthGWCLM" visible="{LocalDataModel>/AuthGWVisible}">
 			<!--<Text class="sapUiSmallMarginBegin" text="{i18n>PricingOptions}"/>-->
 			<RadioButtonGroup columns="2" select="onSelectAuthGoodWill" id="idPricingOptGW">
@@ -101,26 +36,30 @@
 					<Button text="{i18n>Clear}" press="onPressClearPartiDisc" enabled="{DateModel>/oFormEdit}" visible="{LocalDataModel>/linkToAuth}"/>
 				</f:content>
 			</f:SimpleForm>
-			<f:SimpleForm id="idAuthorizationForm" editable="true" layout="ResponsiveGridLayout" title="" labelSpanXL="6" labelSpanL="6" labelSpanM="12"
-				labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="3" columnsL="3" columnsM="2"
+			<f:SimpleForm id="idAuthorizationForm" editable="true" layout="ResponsiveGridLayout" title="" labelSpanXL="12" labelSpanL="12" labelSpanM="12"
+				labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="6" columnsL="6" columnsM="4"
 				singleContainerFullSize="false">
 				<f:content>
 					<core:Title text=""/>
 					<Label text="{i18n>TCIClaim}"/>
 					<Text text="{LocalDataModel>/DataAuthDetails/TCIClaimNo}"/>
+					<core:Title text=""/>
 					<Label text="{i18n>AuthorizationType}"/>
 					<Text text="{LocalDataModel>/DataAuthDetails/AuthorizationType}"/>
+					<core:Title text=""/>
 					<Label text="{i18n>TotalClaimAmountCAD}"/>
 					<Text text="{LocalDataModel>/DataAuthDetails/TotalClaimAmountCAD}"/>
 					<core:Title text=""/>
 					<Label text="{i18n>TerritoryCode}"/>
 					<Text text="{LocalDataModel>/DataAuthDetails/TerritoryCode}"/>
+					<core:Title text=""/>
 					<Label text="{i18n>AuthorizationDate}"/>
 					<Text
 						text="{ path: 'LocalDataModel>/DataAuthDetails/AuthorizationDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium' } }"/>
 					<core:Title text=""/>
 					<Label text="{i18n>DealerAuthorizationLevel}"/>
 					<Text text="{LocalDataModel>/DataAuthDetails/DealerAuthorizationLevel}"/>
+					<core:Title text=""/>
 					<Label text="{i18n>ClaimSubmissionType}"/>
 					<Text text="{LocalDataModel>/DataAuthDetails/ClaimSubmissionType}"/>
 					<!--<Button text="Save Claim" press="onPressSave" type="Emphasized"/>-->
@@ -233,7 +172,7 @@
 			</l:Grid>
 		</l:VerticalLayout>
 		<table:Table id="idPercentTable" class="classRCPTable" selectionMode="Single" rows="{path:'LocalDataModel>/ClaimSumAuth'}"
-			visibleRowCountMode="Auto" rowSelectionChange="onNavigate" selectionBehavior="Row" showNoData="true" threshold="20"
+			visibleRowCountMode="Auto" rowSelectionChange="onNavigate" selectionBehavior="Row" showNoData="true" visibleRowCount="4" threshold="4"
 			enableBusyIndicator="true">
 			<table:columns autoResizable="true">
 				<table:Column width="9rem">

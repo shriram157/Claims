@@ -1,7 +1,7 @@
 <core:FragmentDefinition xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:u="sap.ui.unified" xmlns:l="sap.ui.layout"
 	xmlns="sap.m" xmlns:table="sap.ui.table">
-	<VBox class="sapUiSmallMargin clFormTitleGap" busy="{LocalDataModel>/oSavePartIndicator}" >
-		<Panel width="100%" class="sapUiSmallMarginBottom">
+	<VBox class="sapUiSizeCompact clFormTitleGap" busy="{LocalDataModel>/oSavePartIndicator}" >
+		<Panel width="100%">
 			<headerToolbar>
 				<Toolbar height="3rem">
 					<Title text="{i18n>ClaimDetails}"/>
@@ -47,7 +47,7 @@
 					<HBox class="sapUiSmallMargin"><Text text="{i18n>ErrorDescription}: {LocalDataModel>MESSAGE}"/></HBox>
 				</CustomListItem>
 			</List>
-			<HBox alignContent="Center" justifyContent="Center" class="sapUiTinyMarginTop">
+			<HBox alignContent="Center" justifyContent="Center" class="sapUiTinyMarginTop sapUiSizeCompact">
 				<Button class="sapUiTinyMarginBeginEnd" type="Back" press="onStep03Back" text="{i18n>Back}"/>
 				<Button class="sapUiTinyMarginBeginEnd" press="onUpdateClaim" text="{i18n>SaveClaim}" enabled="{DateModel>/SaveClaim07}"/>
 				<Button class="sapUiTinyMarginBeginEnd" press="onSubmitTci" text="{i18n>SubmitToTCI}" type="Emphasized" enabled="{DateModel>/oFormEdit}"/>

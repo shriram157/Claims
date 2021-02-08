@@ -103,7 +103,9 @@ sap.ui.define([
 					"$filter": "LanguageKey eq '" + this.fnReturnLanguage() + "'and Status eq '" + oStatus + "'"
 				},
 				success: $.proxy(function (data) {
+					if(data.results.length > 0){
 					elm.getModel("LocalDataModel").setProperty("/StatusDes", data.results[0].Description);
+					}
 				}, elm),
 				error: function () {
 

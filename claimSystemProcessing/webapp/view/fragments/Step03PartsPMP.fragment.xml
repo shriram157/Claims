@@ -1,7 +1,7 @@
 <core:FragmentDefinition xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:u="sap.ui.unified" xmlns:l="sap.ui.layout"
 	xmlns="sap.m" xmlns:table="sap.ui.table" xmlns:customPart="zclaimProcessing.control">
-	<VBox class="sapUiSmallMargin clFormTitleGap" busy="{LocalDataModel>/oSavePartIndicator}">
-		<Panel width="100%" class="sapUiSmallMarginBottom">
+	<VBox class="clFormTitleGap" busy="{LocalDataModel>/oSavePartIndicator}">
+		<Panel width="100%" class="sapUiSizeCompact">
 			<headerToolbar>
 				<Toolbar height="3rem">
 					<Title text="{i18n>ClaimDetails}"/>
@@ -34,7 +34,7 @@
 				</f:content>
 			</f:SimpleForm>
 		</Panel>
-		<f:SimpleForm editable="true" class=" sapUiTinyMarginBottom" layout="ResponsiveGridLayout" title="{i18n>PartsDetails}" labelSpanXL="7"
+		<f:SimpleForm editable="true" class="sapUiSizeCompact" layout="ResponsiveGridLayout" title="{i18n>PartsDetails}" labelSpanXL="7"
 			labelSpanL="7" labelSpanM="12" labelSpanS="12" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="6" columnsL="6"
 			columnsM="6">
 			<f:content>
@@ -55,8 +55,8 @@
 		<!--	<Button text="Save Claim" type="Emphasized" press="onPressSaveClaimItem"/>-->
 		<!--</HBox>-->
 		<l:Grid containerQuery="true" defaultSpan="XL12 L12 M12 S12">
-			<VBox class="clBgColor" wrap="Wrap" displayInline="true" alignContent="Center" visible="true" width="100%">
-				<f:SimpleForm editable="true" class="sapUiResponsiveMargin ClsubHeadingLineHeight" width="100%" layout="ResponsiveGridLayout" title=""
+			<VBox class="clBgColor sapUiSizeCompact" wrap="Wrap" displayInline="true" alignContent="Center" visible="true" width="100%">
+				<f:SimpleForm editable="true" class="sapUiSizeCompact ClsubHeadingLineHeight" width="100%" layout="ResponsiveGridLayout" title=""
 					labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="5"
 					columnsL="6" columnsM="5">
 					<f:content>
@@ -110,7 +110,7 @@
 				</f:SimpleForm>
 			</VBox>
 		</l:Grid>
-		<Table id="idTableParts" mode="SingleSelectLeft" items="{path: 'LocalDataModel>/PricingDataModel'}" growing="true" growingThreshold="20"
+		<Table class="sapUiSizeCompact" id="idTableParts" mode="SingleSelectLeft" items="{path: 'LocalDataModel>/PricingDataModel'}" growing="true" growingThreshold="20"
 			noDataText="{i18n>NoData}" showNoData="true">
 			<columns>
 				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Begin"><Text text="{i18n>Line}"/></Column>
@@ -171,7 +171,7 @@
 				</ColumnListItem>
 			</items>
 		</Table>
-		<HBox alignContent="Center" justifyContent="Center" class="sapUiTinyMarginTop">
+		<HBox alignContent="Center" justifyContent="Center" class="sapUiTinyMarginTop sapUiSizeCompact">
 			<Button class="sapUiTinyMarginBeginEnd" type="Back" press="onStep01Back" text="{i18n>Back}"/>
 			<Button class="sapUiTinyMarginBeginEnd" press="onStep02Next" text="{i18n>Next}" type="Emphasized"/>
 		</HBox>
