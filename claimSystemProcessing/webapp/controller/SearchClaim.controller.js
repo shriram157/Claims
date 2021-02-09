@@ -3,8 +3,10 @@ sap.ui.define([
 	"sap/ui/core/ValueState",
 	"sap/ui/model/Sorter",
 	"sap/m/ViewSettingsDialog",
-	"sap/m/ViewSettingsItem"
-], function (BaseController, ValueState, Sorter, ViewSettingsDialog, ViewSettingsItem) {
+	"sap/m/ViewSettingsItem",
+	"sap/ui/core/util/Export",
+	"sap/ui/core/util/ExportTypeCSV"
+], function (BaseController, ValueState, Sorter, ViewSettingsDialog, ViewSettingsItem, Export, ExportTypeCSV) {
 	"use strict";
 	return BaseController.extend("zclaimProcessing.controller.SearchClaim", {
 		onInit: function () {
@@ -106,8 +108,8 @@ sap.ui.define([
 				tableBusyIndicator: false,
 				prevBtnVsbl: false,
 				nextBtnVsbl: false,
-				FinalProcessFrom : null,
-				FinalProcessTo : null
+				FinalProcessFrom: null,
+				FinalProcessTo: null
 			});
 			this.getView().setModel(oDateModel, "DateModel");
 			var oBusinessModel = this.getModel("ApiBusinessModel");
@@ -363,20 +365,19 @@ sap.ui.define([
 			var sQueryDate = this.getView().byId("DRS2").getValue();
 			var FromDate = this.getView().getModel("DateModel").getProperty("/dateValueDRS2");
 			var ToDate = this.getView().getModel("DateModel").getProperty("/secondDateValueDRS2");
-			
+
 			var FinalProFrom = this.getView().getModel("DateModel").getProperty("/FinalProcessFrom");
 			var FinalProTo = this.getView().getModel("DateModel").getProperty("/FinalProcessTo");
-			
-			
+
 			var FromDateFormat = oDateFormat.format(FromDate);
 			var ToDateFormat = oDateFormat.format(ToDate);
-			var FinalProFromFormat,FinalProToFormat;
-			
-			if(FinalProFrom !=null && FinalProTo !=null ){
-				 FinalProFromFormat = oDateFormat.format(FinalProFrom);
-				 FinalProToFormat = oDateFormat.format(FinalProTo);
+			var FinalProFromFormat, FinalProToFormat;
+
+			if (FinalProFrom != null && FinalProTo != null) {
+				FinalProFromFormat = oDateFormat.format(FinalProFrom);
+				FinalProToFormat = oDateFormat.format(FinalProTo);
 			}
-			
+
 			// console.log(FromDateFormat, ToDateFormat);
 			var sDate = "";
 			var oResult;
@@ -537,16 +538,13 @@ sap.ui.define([
 				}
 
 			}
-			
-			if(FinalProFrom !=null && FinalProTo !=null ){
-				 sParam = {
-				 		"$filter": sParam.$filter + "and FinalProcdDate ge datetime'" +FinalProFromFormat+
-						"'and FinalProcdDate le datetime'" +FinalProToFormat+ "' "
-				 }
+
+			if (FinalProFrom != null && FinalProTo != null) {
+				sParam = {
+					"$filter": sParam.$filter + "and FinalProcdDate ge datetime'" + FinalProFromFormat +
+						"'and FinalProcdDate le datetime'" + FinalProToFormat + "' "
+				}
 			}
-			
-			
-			
 
 			oProssingModel.read("/ZC_CLAIM_HEAD_NEW", {
 				urlParameters: sParam,
@@ -656,10 +654,243 @@ sap.ui.define([
 			this.getRouter().navTo("NewClaimSelectGroup");
 
 		},
-		
-		onTableExport : function(){
-			
-		}
+
+		onTableExport: function (oEvent) {
+			var that = this;
+		    var oBundle = this.getView().getModel("i18n").getResourceBundle();
+			var oExport = new sap.ui.core.util.Export({
+
+				exportType: new sap.ui.core.util.ExportTypeCSV({
+
+					separatorChar: "\t",
+
+					mimeType: "application/vnd.ms-excel",
+
+					charset: "utf-8",
+
+					fileExtension: "xls"
+
+				}),
+
+				models: this.getOwnerComponent().getModel("LocalDataModel"),
+
+				rows: {
+
+					path: "/ZcClaimHeadNewData"
+
+				},
+
+				columns: [
+
+					{
+
+						name: oBundle.getText("TCIClaim"),
+
+						template: {
+
+							content: "{NumberOfWarrantyClaim}"
+
+						}
+
+					},
+					{
+
+						name: oBundle.getText("DealerClaim"),
+
+						template: {
+
+							content: "{ExternalNumberOfClaim}"
+
+						}
+
+					},
+					{
+
+						name: oBundle.getText("RepairOrder"),
+
+						template: {
+
+							content: "{RepairOrderNumberExternal}"
+
+						}
+
+					},
+					{
+
+						name: oBundle.getText("RepairOrderDate"),
+
+						template: {
+
+							content: "{path:'RepairDate', formatter:'zclaimProcessing.utils.formatter.fnDateFormat'}"
+
+						}
+
+					},
+					{
+
+						name: oBundle.getText("ClaimSubmissionDate"),
+
+						template: {
+
+							content: "{path:'ReferenceDate', formatter:'zclaimProcessing.utils.formatter.fnDateFormat'}"
+
+						}
+
+					},
+					{
+
+						name: oBundle.getText("ClaimType"),
+
+						template: {
+
+							content: "{WarrantyClaimType}"
+
+						}
+
+					},
+					{
+
+						name: oBundle.getText("VIN"),
+
+						template: {
+
+							content: "{ExternalObjectNumber}"
+
+						}
+
+					},
+					{
+
+						name: oBundle.getText("ClaimStatus"),
+
+						template: {
+
+							content: "{DecisionCode}"
+
+						}
+
+					},
+					{
+
+						name:oBundle.getText("OFP"),
+
+						template: {
+
+							content: "{OFP}"
+
+						}
+
+					},
+					{
+
+						name: oBundle.getText("MainOpCode"),
+
+						template: {
+
+							content: "{MainOpsCode}"
+
+						}
+
+					},
+					{
+
+						name: oBundle.getText("ClaimAge"),
+
+						template: {
+
+							content: "{ClaimAge}"
+
+						}
+
+					},
+					{
+
+						name: oBundle.getText("ClaimAmount"),
+
+						template: {
+
+							content: "{ClaimAmountSum}"
+
+						}
+
+					},
+					{
+
+						name: oBundle.getText("AuthorizationNumber"),
+
+						template: {
+
+							content: "{AuthorizationNumber}"
+
+						}
+
+					},
+					{
+
+						name: oBundle.getText("FinalProcessedDate"),
+
+						template: {
+
+							content: "{path:'FinalProcdDate', formatter:'zclaimProcessing.utils.formatter.fnDateFormat'}"
+
+						}
+
+					},
+					{
+
+						name: oBundle.getText("Odometer"),
+
+						template: {
+
+							content: "{Odometer}"
+
+						}
+
+					},
+					{
+
+						name: oBundle.getText("Parts"),
+
+						template: {
+
+							content: "{PartPrice}"
+
+						}
+
+					},
+					{
+
+						name: oBundle.getText("Labour"),
+
+						template: {
+
+							content: "{LabourPrice}"
+
+						}
+
+					},
+					{
+
+						name: oBundle.getText("Sublet"),
+
+						template: {
+
+							content: "{SubletPrice}"
+
+						}
+
+					}
+				]
+			});
+
+			//* download exported file
+
+			oExport.saveFile().always(function () {
+
+				this.destroy();
+
+			});
+		},
 
 	});
 

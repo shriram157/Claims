@@ -7687,7 +7687,6 @@ sap.ui.define([
 						this.getView().addDependent(oDialog);
 					}
 					oDialog.open();
-
 				}, this),
 				error: function (err) {
 					console.log(err)
