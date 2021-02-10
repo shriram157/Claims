@@ -10,20 +10,36 @@
 			labelSpanL="7" labelSpanM="12" labelSpanS="12" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="6" columnsL="6"
 			columnsM="6">
 			<f:content>
-				<core:Title text=""/>
-				<Button text="{i18n>AddLabourLine}" press="onPressAddLabour" enabled="{DateModel>/oFormEdit}" visible="{DateModel>/LabourBtnVsbl}"/>
-				<core:Title text=""/>
-				<Button text="{i18n>UpdateLabourLine}" press="onPressUpdateLabour" enabled="{DateModel>/oFormEdit}" visible="{DateModel>/LabourBtnVsbl}"/>
-				<core:Title text=""/>
-				<Button text="{i18n>DeleteLabourLine}" type="Reject" press="onPressDeleteLabour" enabled="{DateModel>/oFormEdit}"
+				<!--<core:Title text=""/>-->
+				<!--<Button text="{i18n>AddLabourLine}" press="onPressAddLabour" enabled="{DateModel>/oFormEdit}" visible="{DateModel>/LabourBtnVsbl}"/>-->
+				<!--<core:Title text=""/>-->
+				<!--<Button text="{i18n>UpdateLabourLine}" press="onPressUpdateLabour" enabled="{DateModel>/oFormEdit}" visible="{DateModel>/LabourBtnVsbl}"/>-->
+				<!--<core:Title text=""/>-->
+				<!--<Button text="{i18n>DeleteLabourLine}" type="Reject" press="onPressDeleteLabour" enabled="{DateModel>/oFormEdit}"-->
+				<!--	visible="{DateModel>/LabourBtnVsbl}"/>-->
+				<!--<core:Title text=""/>-->
+				<!--<Button text="{i18n>SuggestedOperations}" press="onPressSuggestLabour" enabled="{DateModel>/oFormEdit}" visible="{DateModel>/LabourBtnVsbl}"/>-->
+				<!--<core:Title text=""/>-->
+				<!--<Label text="{i18n>LabourRate}"/>-->
+				<!--<Text text="${LocalDataModel>/LabourPricingDataModel/0/LabourPer}"/>-->
+				<!--<core:Title text=""/>-->
+				<!--<Button text="{i18n>SaveClaim}" type="Emphasized" press="onPressSaveClaimItemLabour" enabled="{DateModel>/labourLine}"/>-->
+				
+				
+					<HBox justifyContent="Start">
+					
+					<Button text="{i18n>AddLabourLine}" class="sapUiSmallMarginEnd" press="onPressAddLabour" enabled="{DateModel>/oFormEdit}" visible="{DateModel>/LabourBtnVsbl}"/>
+					<Button text="{i18n>UpdateLabourLine}" class="sapUiSmallMarginEnd" press="onPressUpdateLabour" enabled="{DateModel>/oFormEdit}" visible="{DateModel>/LabourBtnVsbl}"/>
+					<Button text="{i18n>DeleteLabourLine}" class="sapUiSmallMarginEnd" type="Reject" press="onPressDeleteLabour" enabled="{DateModel>/oFormEdit}"
 					visible="{DateModel>/LabourBtnVsbl}"/>
-				<core:Title text=""/>
-				<Button text="{i18n>SuggestedOperations}" press="onPressSuggestLabour" enabled="{DateModel>/oFormEdit}" visible="{DateModel>/LabourBtnVsbl}"/>
-				<core:Title text=""/>
-				<Label text="{i18n>LabourRate}"/>
-				<Text text="${LocalDataModel>/LabourPricingDataModel/0/LabourPer}"/>
-				<core:Title text=""/>
-				<Button text="{i18n>SaveClaim}" type="Emphasized" press="onPressSaveClaimItemLabour" enabled="{DateModel>/labourLine}"/>
+					<Button text="{i18n>SuggestedOperations}" class="sapUiSmallMarginEnd" press="onPressSuggestLabour" enabled="{DateModel>/oFormEdit}" visible="{DateModel>/LabourBtnVsbl}"/>
+				
+				<Text text="{i18n>LabourRate} "/>
+				<Text text=": ${LocalDataModel>/LabourPricingDataModel/0/LabourPer}"/>
+				</HBox>
+				
+				
+				
 			</f:content>
 		</f:SimpleForm>
 		<l:Grid containerQuery="true" defaultSpan="XL12 L12 M12 S12">

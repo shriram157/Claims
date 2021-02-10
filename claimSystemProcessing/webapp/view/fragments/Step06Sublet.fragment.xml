@@ -5,14 +5,24 @@
 		<f:SimpleForm editable="true" layout="ResponsiveGridLayout" title="{i18n>SubletDetails}" labelSpanXL="7" labelSpanL="7" labelSpanM="12"
 			labelSpanS="12" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="6" columnsL="6" columnsM="4">
 			<f:content>
-				<core:Title text=""/>
-				<Button text="{i18n>AddSubletLine}" type="Emphasized" press="onPressAddSublet" enabled="{DateModel>/oFormEdit}"></Button>
-				<core:Title text=""/>
-				<Button text="{i18n>UpdateSubletLine}" press="onPressUpdateSublet" enabled="{DateModel>/oFormEdit}"></Button>
-				<core:Title text=""/>
-				<Button text="{i18n>DeleteSubletLine}" type="Reject" press="onPressDeleteSublet" enabled="{DateModel>/oFormEdit}"></Button>
-				<core:Title text=""/>
-				<Button text="{i18n>SaveClaim}" type="Emphasized" press="onPressSaveClaimItemSublet" enabled="{DateModel>/subletLine}"></Button>
+				<!--<core:Title text=""/>-->
+				<!--<Button text="{i18n>AddSubletLine}" type="Emphasized" press="onPressAddSublet" enabled="{DateModel>/oFormEdit}"></Button>-->
+				<!--<core:Title text=""/>-->
+				<!--<Button text="{i18n>UpdateSubletLine}" press="onPressUpdateSublet" enabled="{DateModel>/oFormEdit}"></Button>-->
+				<!--<core:Title text=""/>-->
+				<!--<Button text="{i18n>DeleteSubletLine}" type="Reject" press="onPressDeleteSublet" enabled="{DateModel>/oFormEdit}"></Button>-->
+				<!--<core:Title text=""/>-->
+				<!--<Button text="{i18n>SaveClaim}" type="Emphasized" press="onPressSaveClaimItemSublet" enabled="{DateModel>/subletLine}"></Button>-->
+				
+				<HBox justifyContent="Start">
+					
+					<Button text="{i18n>AddSubletLine}" class="sapUiSmallMarginEnd" type="Emphasized" press="onPressAddSublet" enabled="{DateModel>/oFormEdit}"></Button>
+					<Button text="{i18n>UpdateSubletLine}" class="sapUiSmallMarginEnd" press="onPressUpdateSublet" enabled="{DateModel>/oFormEdit}"></Button>
+					<Button text="{i18n>DeleteSubletLine}" type="Reject" press="onPressDeleteSublet" enabled="{DateModel>/oFormEdit}"></Button>
+				
+				</HBox>
+				
+				
 			</f:content>
 		</f:SimpleForm>
 		<HBox class="clBgColor" wrap="Wrap" displayInline="true" justifyContent="SpaceBetween">
@@ -51,6 +61,12 @@
 						</Button>
 					</f:content>
 					<f:content>
+						<core:Title text=""/>
+						<Text text=""/>
+						<core:Title text=""/>
+							<Text text=""/>
+						<core:Title text=""/>
+							<Text text=""/>
 						<core:Title text=""/>
 						<Label text="{i18n>Days}" textAlign="Left"/>
 						<custom:CustomInput maxLength="15" value="{SubletDataModel>/days}" enabled="{DateModel>/subletLine}" visible="{DateModel>/disableBrandDays}"/>

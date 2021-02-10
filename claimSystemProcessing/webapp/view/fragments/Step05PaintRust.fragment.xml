@@ -10,9 +10,9 @@
 					<Button text="{i18n>AddPaintLine}" class="sapUiSmallMarginEnd" type="Emphasized" press="onPressAddPaint" enabled="{DateModel>/oFormEdit}"></Button>
 					<Button text="{i18n>DeletePaintLine}" type="Reject" press="onPressDeletePaint" enabled="{DateModel>/oFormEdit}"></Button>
 				</HBox>
-				<HBox justifyContent="End">
-					<Button text="{i18n>SaveClaim}" type="Emphasized" press="onPressSavePaint" enabled="{DateModel>/paintLine}"></Button>
-				</HBox>
+				<!--<HBox justifyContent="End">-->
+				<!--	<Button text="{i18n>SaveClaim}" type="Emphasized" press="onPressSavePaint" enabled="{DateModel>/paintLine}"></Button>-->
+				<!--</HBox>-->
 			</f:content>
 		</f:SimpleForm>
 		<l:Grid containerQuery="true" defaultSpan="XL6 L7 M12 S12">

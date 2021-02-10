@@ -423,28 +423,8 @@
 					<core:Title/>
 					<Label text="{i18n>OFPDescription}"/>
 					<Text text="{path:'LocalDataModel>/OFPDescription'}" visible="{DateModel>/ofpEnabled}"/>
-					<core:Title/>
-					<Label text="{i18n>MainOp}"/>
-					<Input id="idMainOps" maxLength="9" change="onChangeMainOp"
-						value="{path:'HeadSetData>/MainOpsCode', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 9 }}"
-						required="{DateModel>/oMainOpsReq}" editable="{DateModel>/oFormEdit}" visible="{DateModel>/oMainOps}"/>
-					<core:Title/>
-					<Label text="{i18n>MainOpDescription}"/>
-					<Text text="{path:'LocalDataModel>/MainOpsCodeDescription'}" visible="{DateModel>/oMainOps}"/>
-					<core:Title/>
-					<Label text="{i18n>BatteryTestCode}"/>
-					<Input id="idBattTestCOde" maxLength="14" value="{HeadSetData>/BatteryTestCode}" editable="{DateModel>/oFormEdit}"
-						enabled="{DateModel>/oBatteryTestEnable}"/>
-					<core:Title/>
-					<Label text="{i18n>SerialNo}" visible="{DateModel>/serialNoV}"/>
-					<Input maxLength="17" change="onChangeSerialNumber" value="{path:'HeadSetData>/SerialNumber', type : 'sap.ui.model.type.String'}"
-						 editable="{DateModel>/oFormEdit}" visible="{DateModel>/serialNoV}">
-						
-						<!--<layoutData>-->
-						<!--	<l:GridData span="XL4 L6 M3 S12"/>-->
-						<!--</layoutData>-->
-					</Input>
-					<core:Title/>
+					
+						<core:Title/>
 					<Label text="{i18n>FieldActionCode}" labelFor="idFieldActionInput"/>
 					<Input id="idFieldActionInput" maxLength="10" required="{path:'DateModel>/oFieldActionInput'}"
 						value="{path:'HeadSetData>/FieldActionReference', type : 'sap.ui.model.type.String', constraints : { minLength : 2, maxLength : 10 }}"
@@ -469,6 +449,30 @@
 						selectedKey="{path:'HeadSetData>/T2WarrantyCodes'}" visible="{DateModel>/enabledT2}" editable="{DateModel>/oFormEdit}">
 						<core:ListItem key="{path:'LocalDataModel>T2'}" text="{LocalDataModel>T2}" additionalText="{LocalDataModel>T2Text}"/>
 					</ComboBox>
+					
+					<core:Title/>
+					<Label text="{i18n>BatteryTestCode}"/>
+					<Input id="idBattTestCOde" maxLength="14" value="{HeadSetData>/BatteryTestCode}" editable="{DateModel>/oFormEdit}"
+						enabled="{DateModel>/oBatteryTestEnable}"/>
+				
+					<core:Title/>
+					<Label text="{i18n>MainOp}"/>
+					<Input id="idMainOps" maxLength="9" change="onChangeMainOp"
+						value="{path:'HeadSetData>/MainOpsCode', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 9 }}"
+						required="{DateModel>/oMainOpsReq}" editable="{DateModel>/oFormEdit}" visible="{DateModel>/oMainOps}"/>
+					<core:Title/>
+					<Label text="{i18n>MainOpDescription}"/>
+					<Text text="{path:'LocalDataModel>/MainOpsCodeDescription'}" visible="{DateModel>/oMainOps}"/>
+						<core:Title/>
+					<Label text="{i18n>SerialNo}" visible="{DateModel>/serialNoV}"/>
+					<Input maxLength="17" change="onChangeSerialNumber" value="{path:'HeadSetData>/SerialNumber', type : 'sap.ui.model.type.String'}"
+						 editable="{DateModel>/oFormEdit}" visible="{DateModel>/serialNoV}">
+						
+						<!--<layoutData>-->
+						<!--	<l:GridData span="XL4 L6 M3 S12"/>-->
+						<!--</layoutData>-->
+					</Input>
+				
 					<!--<Select selectedKey="{HeadSetData>/T2WarrantyCodes}" items="{ path: '/Zt2DescSrchhelpSet' }" enabled="{DateModel>/oFormEdit}">-->
 					<!--	<core:Item key="{T2}" text="{T2} - {T2Text}"/>-->
 					<!--</Select>-->

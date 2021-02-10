@@ -349,6 +349,12 @@ span#__xmlview1--idPostalDistInput {
     margin-bottom: 5rem!important;
 }
 
+.clHeaderDetails .sapUiRespGridMedia-Std-Desktop.sapUiFormResGridCont>.sapUiFormElementLbl:not(.sapUiRespGridSpanL12)>.sapMLabel,
+ .clHeaderDetails .sapUiRespGridMedia-Std-LargeDesktop.sapUiFormResGridCont>.sapUiFormElementLbl:not(.sapUiRespGridSpanXL12)>.sapMLabel{
+ 	text-align: start!important;
+ }
+
+
 
 @media only screen and (min-width: 960px) {
     .clSubl70 {

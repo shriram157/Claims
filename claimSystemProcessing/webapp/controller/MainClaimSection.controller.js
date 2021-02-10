@@ -346,7 +346,8 @@ sap.ui.define([
 				var clmNumAuth;
 				var clmAuthNum;
 
-				if ((sClaimGroup == "WTY" || sClaimGroup == "FAC") && this.getModel("LocalDataModel").getProperty("/WarrantyClaimTypeGroup") != "Authorization") {
+				if ((sClaimGroup == "WTY" || sClaimGroup == "FAC") && this.getModel("LocalDataModel").getProperty("/WarrantyClaimTypeGroup") !=
+					"Authorization") {
 					this.getView().getModel("DateModel").setProperty("/chngClaimTypeVisible", true);
 				}
 
@@ -771,13 +772,11 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/ShipmentVisible", false);
 							this.getView().getModel("DateModel").setProperty("/AcA1", false);
 							this.getView().getModel("DateModel").setProperty("/P1p2", false);
-
 							this.getView().getModel("DateModel").setProperty("/oPrevInvNumReq", false);
 							this.getView().getModel("DateModel").setProperty("/oPrevInvDateReq", false);
 							this.getView().getModel("DateModel").setProperty("/PreroOdometerVisible", false);
 							this.getView().getModel("DateModel").setProperty("/oMainOpsReq", false);
 							this.getView().getModel("DateModel").setProperty("/authHide", false);
-
 						} else if (oGroupDescription == "ZSCR") {
 							this.getView().getModel("DateModel").setProperty("/oMainOps", true);
 							this.getView().getModel("DateModel").setProperty("/Paint", false);
@@ -1019,6 +1018,12 @@ sap.ui.define([
 
 							this.getView().getModel("DateModel").setProperty("/authAcClm", false);
 							this.getView().getModel("DateModel").setProperty("/authRejClm", false);
+						}
+
+						if ((data.results[0].DecisionCode == "ZTIC" || data.results[0].DecisionCode == "ZTRC") && sap.ui.getCore()
+							.getModel(
+								"UserDataModel").getProperty("/LoggedInUser") == "TCI_Admin") {
+							this.getView().getModel("DateModel").setProperty("/claimEditSt", true);
 						}
 
 						//this.onP2Claim(oGroupDescription);
@@ -3038,11 +3043,10 @@ sap.ui.define([
 								var oPartner = this.getModel("LocalDataModel").getProperty("/ClaimDetails/Partner");
 								var oGroupDescription = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType");
 
-								if ((clmGrp == "WTY" || clmGrp == "FAC") && this.getModel("LocalDataModel").getProperty("/WarrantyClaimTypeGroup") != "Authorization") {
+								if ((clmGrp == "WTY" || clmGrp == "FAC") && this.getModel("LocalDataModel").getProperty("/WarrantyClaimTypeGroup") !=
+									"Authorization") {
 									this.getView().getModel("DateModel").setProperty("/chngClaimTypeVisible", true);
 								}
-								
-								
 
 								if (oGroupDescription != "ZRCR" && oGroupDescription != "ZSCR" && oGroupDescription != "ZSSE" && oGroupDescription !=
 									"ZSSM" &&
@@ -7410,6 +7414,7 @@ sap.ui.define([
 													sdata.results[0].DecisionCode == "ZTRC") {
 													this.getView().getModel("DateModel").setProperty("/oSlipVisible", false);
 												}
+
 												PmpDataManager._fnStatusCheck(this);
 												this._fnGetClaimTypeDescENFR();
 												this._fnClaimSum();
