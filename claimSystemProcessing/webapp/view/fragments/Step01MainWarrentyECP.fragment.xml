@@ -10,7 +10,7 @@
 				</Toolbar>
 			</headerToolbar>
 			<f:SimpleForm editable="true" layout="ResponsiveGridLayout" title="" labelSpanXL="6" labelSpanL="6" labelSpanM="12" labelSpanS="12"
-				emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="4" columnsL="4" columnsM="6">
+				adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="4" columnsL="4" columnsM="4">
 				<f:content>
 					<core:Title text=""/>
 					<Label text="{i18n>ClaimType}"/>
@@ -39,7 +39,7 @@
 					<Text text="{ path: 'HeadSetData>/DateOfApplication', formatter:'zclaimProcessing.utils.formatter.fnDateFormat'}"/>
 					<Label text="{i18n>FinalProcessedDate}"/>
 					<Text text="{ path: 'HeadSetData>/FinalProcdDate', formatter:'zclaimProcessing.utils.formatter.fnDateFormat' }"/>
-					<!--<Label text="{i18n>Status}"/>-->
+					<!--<Label text="{i18n>ClaimSubmissionAgeSinceRO}"/>-->
 					<!--<Text text="{HeadSetData>/ProcessingStatusOfWarrantyClm}"/>-->
 					<core:Title text=""/>
 					<Button text="{LocalDataModel>/SaveAuthClaim}" class="sapUiSmallMarginEnd" type="Emphasized" press="onSaveClaim"
@@ -75,6 +75,11 @@
 							<l:GridData span="XL8 L8 M12 S12"/>
 						</layoutData>
 					</Button>
+						<Button text="{i18n>ChangeClaimType}" visible="{DateModel>/chngClaimTypeVisible}" enabled="{DateModel>/updateEnable}" type="Emphasized" press="onChangeClaimType">
+						<layoutData>
+							<l:GridData span="XL8 L8 M12 S12"/>
+						</layoutData>
+					</Button>
 				</f:content>
 			</f:SimpleForm>
 		</Panel>
@@ -84,7 +89,11 @@
 			<f:content>
 				<core:Title text=""/>
 				<Label text="{i18n>DealerName}"/>
-				<Text text="{LocalDataModel>/BPOrgName}"/>
+				<Text text="{LocalDataModel>/BPOrgName}">
+					<layoutData>
+						<l:GridData span="XL4 L6 M3 S12"/>
+					</layoutData>
+				</Text>
 				<Label text="{i18n>DealerClaim}"/>
 				<Input maxLength="40"
 					value="{path:'HeadSetData>/ExternalNumberOfClaim', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 40 } }"
@@ -172,7 +181,7 @@
 		<VBox visible="{DateModel>/ShipmentVisible}">
 			<f:SimpleForm editable="true" id="idShipmentInfo" class="clShipmentInfo" title="{i18n>ShipmentInformation}" layout="ResponsiveGridLayout"
 				labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0"
-				emptySpanS="0" columnsXL="4" columnsL="4" columnsM="3" singleContainerFullSize="false">
+				emptySpanS="0" columnsXL="5" columnsL="5" columnsM="3"  singleContainerFullSize="false">
 				<f:content>
 					<core:Title text=""/>
 					<Label text="{i18n>DeliveringCarrier}"/>
@@ -187,7 +196,7 @@
 					</custom:CustomCombo>
 					<core:Title text=""/>
 					<Label text="{i18n>Probill}"/>
-					<Input id="idProbill"
+					<Input id="idProbill" editable="{DateModel>/oFormEdit}"
 						value="{path:'HeadSetData>/ProbillNum', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 15 }}" required="true"/>
 					<core:Title text=""/>
 					<Label text="{i18n>DeliveryDate}"/>
@@ -201,6 +210,14 @@
 						<core:ListItem key="" text="{i18n>Attended}"/>
 						<core:ListItem key="" text="{i18n>Unattended}"/>
 					</custom:CustomCombo>
+					<core:Title text=""/>
+					<Label text="{i18n>DamageDisclosure}"/>
+					<ComboBox id="idDmgCls" required="true" visible="{DateModel>/enableVLC}" selectionChange="onChangeT1" showSecondaryValues="true"
+						items="{ path: 'LocalDataModel>/DamageDiscSet' }" filterSecondaryValues="true" 
+						value="{path:'HeadSetData>/DamageDisclosure', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 2 } }"
+						selectedKey="{path:'HeadSetData>/DamageDisclosure'}" editable="{DateModel>/oFormEdit}">
+						<core:ListItem key="{LocalDataModel>key}" text="{path:'LocalDataModel>key'}" additionalText="{LocalDataModel>value}"/>
+					</ComboBox>	
 				</f:content>
 			</f:SimpleForm>
 			<HBox justifyContent="End">
@@ -364,6 +381,14 @@
 					<Label text="{i18n>Condition}"/>
 					<TextArea maxLength="100" required="true" id="idCondition" editable="{DateModel>/oFormEdit}"
 						value="{path:'HeadSetData>/ZCondition', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 100 }}"></TextArea>
+					<Label text="{i18n>SerialNo}" visible="{DateModel>/serialNoV}"/>
+					<Input maxLength="17" change="onChangeSerialNumber" value="{path:'HeadSetData>/SerialNumber', type : 'sap.ui.model.type.String'}"
+						 editable="{DateModel>/oFormEdit}" visible="{DateModel>/serialNoV}">
+						
+						<!--<layoutData>-->
+						<!--	<l:GridData span="XL4 L6 M3 S12"/>-->
+						<!--</layoutData>-->
+					</Input>
 					<Label text=""/>
 					<Link text="{i18n>ViewCCRAbbreviations}" press="onPressAbbr"/>
 					<core:Title text=""/>
@@ -404,6 +429,8 @@
 					<Label text="{i18n>Remedy}"/>
 					<TextArea id="idRemedy" required="true" editable="{DateModel>/oFormEdit}" maxLength="100"
 						value="{path:'HeadSetData>/Remedy', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 100 }}"></TextArea>
+					
+					
 				</f:content>
 			</f:SimpleForm>
 		</VBox>
@@ -467,10 +494,10 @@
 					singleContainerFullSize="false">
 					<f:content>
 						<UploadCollection id="idHeadAttachment" maximumFileSize="10" maximumFilenameLength="50" fileSizeExceed="onFileSizeExceed"
-						noDataDescription="{i18n>NoFileFound}" noDataText="{i18n>NoFileFound}"
-							filenameLengthExceed="onFileNameLengthExceed" uploadEnabled="{LocalDataModel>/UploadEnable}" change="onUplaodChange"
-							uploadComplete="onUploadComplete"  instantUpload="true" busy="{LocalDataModel>/IndicatorState}"
-							sameFilenameAllowed="false" items="{ path: 'LocalDataModel>/HeadAtchmentData', templateShareable: false }">
+							noDataDescription="{i18n>NoFileFound}" noDataText="{i18n>NoFileFound}" filenameLengthExceed="onFileNameLengthExceed"
+							uploadEnabled="{LocalDataModel>/UploadEnable}" change="onUplaodChange" uploadComplete="onUploadComplete" instantUpload="true"
+							busy="{LocalDataModel>/IndicatorState}" sameFilenameAllowed="false"
+							items="{ path: 'LocalDataModel>/HeadAtchmentData', templateShareable: false }">
 							<toolbar>
 								<OverflowToolbar>
 									<Breadcrumbs id="breadcrumbsSupportingDoc" currentLocationText="{LocalDataModel>/currentLocationText}" links="{LocalDataModel>/history}">
@@ -481,9 +508,9 @@
 								</OverflowToolbar>
 							</toolbar>
 							<items>
-								<UploadCollectionItem deletePress="onFileDeleted" documentId="{LocalDataModel>DOC_ID}" fileName="{LocalDataModel>FileName}" mimeType="{LocalDataModel>MIMETYPE}"
-									thumbnailUrl="{LocalDataModel>url}" url="{LocalDataModel>URI}" enableEdit="false" enableDelete="{LocalDataModel>/UploadEnable}"
-									visibleDelete="{settings>/visibleDelete}" visibleEdit="false"></UploadCollectionItem>
+								<UploadCollectionItem deletePress="onFileDeleted" documentId="{LocalDataModel>DOC_ID}" fileName="{LocalDataModel>FileName}"
+									mimeType="{LocalDataModel>MIMETYPE}" thumbnailUrl="{LocalDataModel>url}" url="{LocalDataModel>URI}" enableEdit="false"
+									enableDelete="{LocalDataModel>/UploadEnable}" visibleDelete="{settings>/visibleDelete}" visibleEdit="false"></UploadCollectionItem>
 							</items>
 						</UploadCollection>
 					</f:content>

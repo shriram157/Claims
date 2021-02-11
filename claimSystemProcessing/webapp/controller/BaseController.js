@@ -5,6 +5,23 @@ sap.ui.define([
 	'sap/m/MessageToast'
 ], function (Controller, History, Device, MessageToast) {
 	"use strict";
+	var sDivision;
+	//  get the locale to determine the language.
+	var isDivision = window.location.search.match(/Division=([^&]*)/i);
+	if (isDivision) {
+		sDivision = window.location.search.match(/Division=([^&]*)/i)[1];
+	} else {
+		sDivision = "10"; // default is english
+	}
+
+	var sSelectedLocale;
+	//  get the locale to determine the language.
+	var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
+	if (isLocaleSent) {
+		sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
+	} else {
+		sSelectedLocale = "en"; // default is english
+	}
 
 	return Controller.extend("zclaimProcessing.controller.BaseController", {
 
@@ -68,7 +85,7 @@ sap.ui.define([
 				dataType: "json",
 
 				success: function (oData) {
-					console.log(oData);
+
 					var BpDealer = [];
 					var userAttributes = [];
 					that.getModel("LocalDataModel").setProperty("/LoginId", oData.userProfile.id);
@@ -149,7 +166,7 @@ sap.ui.define([
 					sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "");
 					switch (userType) {
 					case "Dealer_Parts_Admin":
-						console.log("Dealer Parts");
+						//"Dealer Parts"
 						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ManageAllParts");
 						/*Uncomment for security*/
 						that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", true);
@@ -161,7 +178,7 @@ sap.ui.define([
 						/*Uncomment for security*/
 						break;
 					case "Dealer_Parts_Services_Admin":
-						console.log("Dealer service part");
+						//"Dealer service part"
 						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ManageAllWarrantyParts");
 						/*Uncomment for security*/
 						that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", true);
@@ -173,7 +190,7 @@ sap.ui.define([
 						/*Uncomment for security*/
 						break;
 					case "Dealer_Services_Admin":
-						console.log("Dealer_Services_Admin");
+						//"Dealer_Services_Admin"
 						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ManageAllServices");
 						/*Uncomment for security*/
 						that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", true);
@@ -185,7 +202,7 @@ sap.ui.define([
 						/*Uncomment for security*/
 						break;
 					case "Dealer_User":
-						console.log("Dealer_User");
+						//"Dealer_User"
 						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ReadOnlyCoverageClaimLabour");
 
 						that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", false);
@@ -199,7 +216,7 @@ sap.ui.define([
 						/*Uncomment for security*/
 						break;
 					case "TCI_Admin":
-						console.log("TCI_Admin");
+						//"TCI_Admin"
 						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ReadOnlyViewAll");
 						/*Uncomment for security*/
 						that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", false);
@@ -212,7 +229,7 @@ sap.ui.define([
 						/*Uncomment for security*/
 						break;
 					case "TCI_User":
-						console.log("TCI_User");
+						//"TCI_User"
 						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ReadOnlyCoverageClaim");
 						/*Uncomment for security*/
 						that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", false);
@@ -227,7 +244,7 @@ sap.ui.define([
 						/*Uncomment for security*/
 						break;
 					case "Zone_User":
-						console.log("Zone_User");
+						//"Zone_User"
 						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ReadOnlyViewAll");
 						/*Uncomment for security*/
 						that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", false);
@@ -240,7 +257,7 @@ sap.ui.define([
 						// /*Uncomment for security*/
 						break;
 					case "Dealer_Services_Manager":
-						console.log("Dealer_Services_Manager");
+						//"Dealer_Services_Manager"
 						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ManageAllShowAuthorization");
 						/*Uncomment for security*/
 						that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", true);
@@ -272,7 +289,7 @@ sap.ui.define([
 				type: "GET",
 				dataType: "json",
 				success: $.proxy(function (appData) {
-					console.log(appData);
+
 					this.getModel("LocalDataModel").setProperty("/oECPURL", appData.ecpSalesAppUrl);
 					this.getModel("LocalDataModel").setProperty("/oCICURL", appData.cicUrl);
 					this.getModel("LocalDataModel").setProperty("/oCVSHURL", appData.cvshUrl);
@@ -299,7 +316,7 @@ sap.ui.define([
 				dataType: "json",
 
 				success: function (oData) {
-					console.log(oData);
+
 					var BpDealer = [];
 					var userAttributes = [];
 					that.getModel("LocalDataModel").setProperty("/LoginId", oData.userProfile.id);
@@ -339,8 +356,6 @@ sap.ui.define([
 							this.getModel("LocalDataModel").setProperty("/BPOrgName", dBp.results[0].OrganizationBPName1);
 						}, this)
 					});
-
-				
 
 				}.bind(this),
 				error: function (response) {
@@ -437,6 +452,46 @@ sap.ui.define([
 				my: "center center",
 				at: "center center"
 			});
+		},
+		fn_damageCallforVLC : function(){
+			var oProssingModel = this.getModel("ProssingModel");
+
+			oProssingModel.read("/zc_dmg_type_codesSet", {
+				urlParameters: {
+					"$filter": "LanguageKey eq '" + sSelectedLocale.toUpperCase() + "' "
+				},
+				success: $.proxy(function (data) {
+					this.getModel("LocalDataModel").setProperty("/DataTypeCode", data.results);
+				}, this),
+				error: function () {
+
+				}
+			});
+
+			oProssingModel.read("/zc_dmg_area_codesSet", {
+				urlParameters: {
+					"$filter": "LanguageKey eq '" + sSelectedLocale.toUpperCase() + "' "
+				},
+				success: $.proxy(function (data) {
+					this.getModel("LocalDataModel").setProperty("/DataAreaCode", data.results);
+				}, this),
+				error: function () {
+
+				}
+			});
+
+			oProssingModel.read("/zc_dmg_sevr_codesSet", {
+				urlParameters: {
+					"$filter": "LanguageKey eq '" + sSelectedLocale.toUpperCase() + "' "
+				},
+				success: $.proxy(function (data) {
+					this.getModel("LocalDataModel").setProperty("/DataSeverety", data.results);
+				}, this),
+				error: function () {
+
+				}
+			});
+
 		}
 
 	});
