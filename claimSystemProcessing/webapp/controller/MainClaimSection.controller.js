@@ -7700,7 +7700,7 @@ sap.ui.define([
 
 				if (
 					(this.getModel("LocalDataModel").getProperty("/LabourPricingDataModel").length > 0 ||
-						this.getModel("LocalDataModel").getProperty("/SubletPricingDataModel").length > 0) && bindObj.TMCClaimType == "ZWA2"
+						this.getModel("LocalDataModel").getProperty("/SubletPricingDataModel").length > 0) && (bindObj.TMCClaimType == "ZWA2" || bindObj.TMCClaimType == "ZWP2")
 				) {
 					MessageToast.show(oBundle.getText("changeClmLabourSubletError"), {
 						my: "center center",
