@@ -2242,7 +2242,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/OdometerReq", false);
 							this.getView().getModel("DateModel").setProperty("/OdometerReqMan", false);
 							//this.getView().byId("idRequestType").setSelectedIndex(1);
-							this.getView().getModel("DateModel").setProperty("/oRadioVinIndex", 1);
+							
 						} else if (elm == "ZSCR") {
 							this.getView().getModel("DateModel").setProperty("/OdometerReqMan", false);
 							this.getView().getModel("DateModel").setProperty("/oVisibleRepDate", false);
@@ -7621,33 +7621,32 @@ sap.ui.define([
 					},
 
 					onChangeClaimType: function (oEvent) {
-						var oButton = oEvent.getSource();
-						var oView = this.getView();
-						var oDialog;
-						this.getModel("ProssingModel").read("/zc_claim_groupSet", {
-							urlParameters: {
-								"$filter": "LanguageKey eq '" + sSelectedLocale.toUpperCase() + "'"
-							},
-							success: $.proxy(function (data) {
-								var oClaimData = data.results;
+							var oButton = oEvent.getSource();
+			var oView = this.getView();
+			var oDialog;
+			this.getModel("ProssingModel").read("/zc_claim_groupSet", {
+				urlParameters: {
+					"$filter": "LanguageKey eq '" + sSelectedLocale.toUpperCase() + "'"
+				},
+				success: $.proxy(function (data) {
+					var oClaimData = data.results;
 
-								var selectedClimTypes = oClaimData.filter(elm => (elm.ClaimGroup == "FAC" || elm.ClaimGroup == "WTY") && elm.TMCClaimType !=
-									"ZACD" && elm.TMCClaimType != "ZAUT" && elm.TMCClaimType != "ZWAC");
-								this.getModel("LocalDataModel").setProperty("/ChangableClmTypSet", selectedClimTypes);
+					var selectedClimTypes = oClaimData.filter(elm => (elm.ClaimGroup == "FAC" || elm.ClaimGroup == "WTY") && elm.TMCClaimType !=
+						"ZACD" && elm.TMCClaimType != "ZAUT" && elm.TMCClaimType != "ZWAC");
+					this.getModel("LocalDataModel").setProperty("/ChangableClmTypSet", selectedClimTypes);
 
-								if (!oDialog) {
-									oDialog = sap.ui.xmlfragment("zclaimProcessing.view.fragments.claimTypeListDialog",
-										this);
-									this.getView().addDependent(oDialog);
-								}
-								oDialog.open();
+					if (!oDialog) {
+						oDialog = sap.ui.xmlfragment("zclaimProcessing.view.fragments.claimTypeListDialog",
+							this);
+						this.getView().addDependent(oDialog);
+					}
+					oDialog.open();
+				}, this),
+				error: function (err) {
+					console.log(err)
+				}
 
-							}, this),
-							error: function (err) {
-								console.log(err)
-							}
-
-						});
+			});
 
 					},
 
