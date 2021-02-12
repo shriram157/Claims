@@ -31,7 +31,7 @@
 
 .clFormTitleGap .sapUiFormM .sapUiFormContainerTitle>.sapUiFormTitle {
     height: 0 !important;
-     display:none;
+    display: none;
 }
 
 
@@ -144,7 +144,7 @@
 
 .clVinDetails h5.sapUiFormTitleH5 {
     height: 0 !important;
-   
+
 }
 
 .clMinHeight {
@@ -157,12 +157,12 @@
 
 #ObjectPageLayout h5.sapUiFormTitleH5 {
     height: 0 !important;
-   
+
 }
 
 .sapUxAPObjectPageLayout h5.sapUiFormTitleH5 {
     height: 0 !important;
-   
+
 }
 
 .clCommentFix .sapMFeedListItemFigure {
@@ -340,19 +340,28 @@ span#__xmlview1--idPostalDistInput {
 .clSubl30 {
     width: 100%;
 }
+
+.clSubl80 {
+    width: 100%;
+}
+
+.clSubl20 {
+    width: 100%;
+}
+
 .clToolbar .sapUiRespGrid>div {
-	 padding-bottom: 0 !important;
-	 margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+    margin-bottom: 0 !important;
 }
 
 .clSearchBottom {
-    margin-bottom: 5rem!important;
+    margin-bottom: 5rem !important;
 }
 
 .clHeaderDetails .sapUiRespGridMedia-Std-Desktop.sapUiFormResGridCont>.sapUiFormElementLbl:not(.sapUiRespGridSpanL12)>.sapMLabel,
- .clHeaderDetails .sapUiRespGridMedia-Std-LargeDesktop.sapUiFormResGridCont>.sapUiFormElementLbl:not(.sapUiRespGridSpanXL12)>.sapMLabel{
- 	text-align: start!important;
- }
+.clHeaderDetails .sapUiRespGridMedia-Std-LargeDesktop.sapUiFormResGridCont>.sapUiFormElementLbl:not(.sapUiRespGridSpanXL12)>.sapMLabel {
+    text-align: start !important;
+}
 
 
 
@@ -363,5 +372,13 @@ span#__xmlview1--idPostalDistInput {
 
     .clSubl30 {
         width: 30%;
+    }
+
+    .clSubl80 {
+        width: 80%;
+    }
+
+    .clSubl20 {
+        width: 20%;
     }
 }

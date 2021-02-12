@@ -10,103 +10,114 @@
 						<uxap:blocks class="sapUiSizeCompact">
 							<VBox class="sapUiSizeCompact">
 								<MessageStrip id="idNewClaimMsgStrp" text="" showIcon="true" showCloseButton="true" class="sapUiMediumMarginBottom" visible="false"></MessageStrip>
-								<f:SimpleForm id="SimpleFormChange354" editable="true" layout="ResponsiveGridLayout" title="{i18n>Entertheapplicationdaterange}"
-									labelSpanXL="3" labelSpanL="3" labelSpanM="3" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0"
-									emptySpanS="0" columnsXL="3" columnsL="3" columnsM="1" singleContainerFullSize="false">
-									<f:content>
-										<core:Title text=""/>
-										<Label text="{i18n>DealerCode}" textAlign="Begin"/>
-										<Select showSecondaryValues="true" id="idDealerCode" change="onSelectiDealer" items="{path:'LocalDataModel>/BpDealerModel', length:300}">
-											<core:ListItem key="{LocalDataModel>BusinessPartnerKey}" text="{path:'LocalDataModel>BusinessPartner'}"
-												additionalText="{LocalDataModel>BusinessPartnerName}"/>
-										</Select>
-										<Label text="{i18n>SearchBy}" textAlign="Begin"/>
-										<custom:CustomCombo id="idSearchBy" selectionChange="onSearchBy">
-											<core:Item key="RepairOrderNumberExternal" text="{i18n>RepairOrderNumber}"/>
-											<core:Item key="ExternalNumberOfClaim" text="{i18n>DealerClaimNumber}"/>
-											<core:Item key="NumberOfWarrantyClaim" text="{i18n>TCIClaimNumber}"/>
-											<core:Item key="ExternalObjectNumber" text="{i18n>VIN}"/>
-											<core:Item key="AgreementNumber" text="{i18n>ECPAgreementNumber}"/>
-											<core:Item key="MainOpsCode" text="{i18n>MainOperationCode}"/>
-										</custom:CustomCombo>
-										<Label text="{i18n>SearchText}" textAlign="Begin"/>
-										<Input value="" id="idSearchText" change="onEnterSearchText"/>
-										<Label text="{i18n>ClaimSubDate}" textAlign="Begin" id="idCLREDate"/>
-										<!--<DateRangeSelection id="DRS2" dateValue="{path:'DateModel>/dateValueDRS2'}" secondDateValue="{path:'DateModel>/secondDateValueDRS2'}"-->
-										<!--	minDate="" maxDate="" change="handleChange"/>-->
-										<DatePicker id="DRS2" dateValue="{path:'DateModel>/dateValueDRS2'}">
-											<layoutData>
-												<l:GridData span="XL4 L6 M3 S12"/>
-											</layoutData>
-										</DatePicker>
-										<Text text="to" textAlign="Center">
-											<layoutData>
-												<l:GridData span="XL1 L1 M3 S12"/>
-											</layoutData>
-										</Text>
-										<DatePicker id="DRS3" dateValue="{path:'DateModel>/secondDateValueDRS2'}">
-											<layoutData>
-												<l:GridData span="XL4 L6 M3 S12"/>
-											</layoutData>
-										</DatePicker>
-										<core:Title text=""/>
-										<Label text="{i18n>ClaimTypeGroup}" textAlign="Begin"/>
-										<custom:CustomCombo items="{path:'LocalDataModel>/oClaimGroupsDataResult'}" id="idClaimGroup" selectionChange="onSelectGroup">
-											<core:Item key="{LocalDataModel>ClaimGroup}" text="{LocalDataModel>ClaimGroupDes}"/>
-										</custom:CustomCombo>
-										<Label text="{i18n>ClaimType}" textAlign="Begin"/>
-										<custom:CustomCombo items="{ path: 'LocalDataModel>/oClaimTypeData'}" id="idClaimType">
-											<core:Item key="{LocalDataModel>TMCClaimType}" text="{LocalDataModel>TMCClaimType} - {LocalDataModel>ALMClaimTypeDes}"/>
-										</custom:CustomCombo>
-										<Label text="{i18n>ClaimStatus}" textAlign="Begin"/>
-										<MultiComboBox items="{path: 'LocalDataModel>/OModelClaimGroupStatus'}" selectedKeys="{LocalDataModel>/oSelectedStatusKeys}"
-											selectionChange="handleSelectClaimGroup" selectionFinish="handleSelectClaimGroupFinish" id="idClaimStatus">
-											<core:Item key="{LocalDataModel>Status}" text="{LocalDataModel>Description}" textDirection="LTR"/>
-										</MultiComboBox>
-										<Label text="{i18n>FinalProcessedDate}" textAlign="Begin" id="idClmFinalSub"/>
-										<!--<DateRangeSelection id="DRS2" dateValue="{path:'DateModel>/dateValueDRS2'}" secondDateValue="{path:'DateModel>/secondDateValueDRS2'}"-->
-										<!--	minDate="" maxDate="" change="handleChange"/>-->
-										<DatePicker dateValue="{path:'DateModel>/FinalProcessFrom'}">
-											<layoutData>
-												<l:GridData span="XL4 L6 M3 S12"/>
-											</layoutData>
-										</DatePicker>
-										<Text text="to" textAlign="Center">
-											<layoutData>
-												<l:GridData span="XL1 L1 M3 S12"/>
-											</layoutData>
-										</Text>
-										<DatePicker dateValue="{path:'DateModel>/FinalProcessTo'}">
-											<layoutData>
-												<l:GridData span="XL4 L6 M3 S12"/>
-											</layoutData>
-										</DatePicker>
-										<core:Title text=""/>
-										<Button text="{i18n>Search}" press="onPressSearch" type="Emphasized"/>
-										<Button text="{i18n>Clear}" press="onPressClear"/>
-										<Button text="{i18n>NewClaim}" press="onCreateNewClaim" visible="{LocalDataModel>/visibleNewBtn}"/>
-									</f:content>
-								</f:SimpleForm>
+								<HBox wrap="Wrap" displayInline="true" justifyContent="SpaceBetween">
+									<VBox class="clSubl80">
+										<f:SimpleForm id="SimpleFormChange354" editable="true" layout="ResponsiveGridLayout" title="{i18n>Entertheapplicationdaterange}"
+											labelSpanXL="5" labelSpanL="5" labelSpanM="4" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0"
+											emptySpanS="0" columnsXL="2" columnsL="2" columnsM="2" singleContainerFullSize="false">
+											<f:content>
+												<core:Title text=""/>
+												<Label text="{i18n>DealerCode}" textAlign="Begin"/>
+												<Select showSecondaryValues="true" id="idDealerCode" change="onSelectiDealer" items="{path:'LocalDataModel>/BpDealerModel', length:300}">
+													<core:ListItem key="{LocalDataModel>BusinessPartnerKey}" text="{path:'LocalDataModel>BusinessPartner'}"
+														additionalText="{LocalDataModel>BusinessPartnerName}"/>
+												</Select>
+												<Label text="{i18n>SearchBy}" textAlign="Begin"/>
+												<custom:CustomCombo id="idSearchBy" selectionChange="onSearchBy">
+													<core:Item key="RepairOrderNumberExternal" text="{i18n>RepairOrderNumber}"/>
+													<core:Item key="ExternalNumberOfClaim" text="{i18n>DealerClaimNumber}"/>
+													<core:Item key="NumberOfWarrantyClaim" text="{i18n>TCIClaimNumber}"/>
+													<core:Item key="ExternalObjectNumber" text="{i18n>VIN}"/>
+													<core:Item key="AgreementNumber" text="{i18n>ECPAgreementNumber}"/>
+													<core:Item key="MainOpsCode" text="{i18n>MainOperationCode}"/>
+												</custom:CustomCombo>
+												<Label text="{i18n>SearchText}" textAlign="Begin"/>
+												<Input value="" id="idSearchText" change="onEnterSearchText"/>
+												<Label text="{i18n>ClaimSubDate}" textAlign="Begin" id="idCLREDate"/>
+												<!--<DateRangeSelection id="DRS2" dateValue="{path:'DateModel>/dateValueDRS2'}" secondDateValue="{path:'DateModel>/secondDateValueDRS2'}"-->
+												<!--	minDate="" maxDate="" change="handleChange"/>-->
+												<DatePicker id="DRS2" dateValue="{path:'DateModel>/dateValueDRS2'}">
+														<layoutData>
+														<l:GridData span="XL3 L3 M3 S12"/>
+													</layoutData>
+												</DatePicker>
+												<Text text="to" textAlign="Center">
+													<layoutData>
+														<l:GridData span="XL1 L1 M3 S12"/>
+													</layoutData>
+												</Text>
+												<DatePicker id="DRS3" dateValue="{path:'DateModel>/secondDateValueDRS2'}">
+													<layoutData>
+														<l:GridData span="XL3 L3 M3 S12"/>
+													</layoutData>
+												</DatePicker>
+												<core:Title text=""/>
+												<Label text="{i18n>ClaimTypeGroup}" textAlign="Begin"/>
+												<custom:CustomCombo items="{path:'LocalDataModel>/oClaimGroupsDataResult'}" id="idClaimGroup" selectionChange="onSelectGroup">
+													<core:Item key="{LocalDataModel>ClaimGroup}" text="{LocalDataModel>ClaimGroupDes}"/>
+												</custom:CustomCombo>
+												<Label text="{i18n>ClaimType}" textAlign="Begin"/>
+												<custom:CustomCombo items="{ path: 'LocalDataModel>/oClaimTypeData'}" id="idClaimType">
+													<core:Item key="{LocalDataModel>TMCClaimType}" text="{LocalDataModel>TMCClaimType} - {LocalDataModel>ALMClaimTypeDes}"/>
+												</custom:CustomCombo>
+												<Label text="{i18n>ClaimStatus}" textAlign="Begin"/>
+												<MultiComboBox items="{path: 'LocalDataModel>/OModelClaimGroupStatus'}" selectedKeys="{LocalDataModel>/oSelectedStatusKeys}"
+													selectionChange="handleSelectClaimGroup" selectionFinish="handleSelectClaimGroupFinish" id="idClaimStatus">
+													<core:Item key="{LocalDataModel>Status}" text="{LocalDataModel>Description}" textDirection="LTR"/>
+												</MultiComboBox>
+												<Label text="{i18n>FinalProcessedDate}" textAlign="Begin" id="idClmFinalSub"/>
+												<!--<DateRangeSelection id="DRS2" dateValue="{path:'DateModel>/dateValueDRS2'}" secondDateValue="{path:'DateModel>/secondDateValueDRS2'}"-->
+												<!--	minDate="" maxDate="" change="handleChange"/>-->
+												<DatePicker dateValue="{path:'DateModel>/FinalProcessFrom'}">
+													<layoutData>
+														<l:GridData span="XL3 L3 M3 S12"/>
+													</layoutData>
+												</DatePicker>
+												<Text text="to" textAlign="Center">
+													<layoutData>
+														<l:GridData span="XL1 L1 M3 S12"/>
+													</layoutData>
+												</Text>
+												<DatePicker dateValue="{path:'DateModel>/FinalProcessTo'}">
+													<layoutData>
+														<l:GridData span="XL3 L3 M3 S12"/>
+													</layoutData>
+												</DatePicker>
+											</f:content>
+										</f:SimpleForm>
+									</VBox>
+									<VBox class="clSubl20">
+										<f:SimpleForm editable="true" layout="ResponsiveGridLayout" title=" " labelSpanXL="3" labelSpanL="3"
+											labelSpanM="3" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="1"
+											columnsL="1" columnsM="1" singleContainerFullSize="false">
+											<f:content>
+												<core:Title text=""/>
+												<Button text="{i18n>Search}" press="onPressSearch" type="Emphasized"/>
+												<Button text="{i18n>Clear}" press="onPressClear"/>
+												<Button text="{i18n>NewClaim}" press="onCreateNewClaim" visible="{LocalDataModel>/visibleNewBtn}"/>
+											</f:content>
+										</f:SimpleForm>
+									</VBox>
+								</HBox>
 							</VBox>
 						</uxap:blocks>
 					</uxap:ObjectPageSubSection>
 					<uxap:ObjectPageSubSection title="" class="clToolbar">
 						<uxap:blocks>
-								<Table width="100%"  showNoData="false">
-									<headerToolbar >
-										
-											<Toolbar >
-												<Title text="{i18n>ClaimList}" level="H2"/>
-												<ToolbarSpacer/>
-												<Button tooltip="" icon="sap-icon://sort" press="handleSortButtonPressed"/>
-												<OverflowToolbarButton type="Transparent" icon="sap-icon://excel-attachment" iconFirst="true" width="auto" enabled="true"  iconDensityAware="false"  press="onTableExport"/>
-											</Toolbar>
-									
-									</headerToolbar>
-								</Table>
+							<Table width="100%" showNoData="false">
+								<headerToolbar >
+									<Toolbar >
+										<Title text="{i18n>ClaimList}" level="H2"/>
+										<ToolbarSpacer/>
+										<Button tooltip="" icon="sap-icon://sort" press="handleSortButtonPressed"/>
+										<OverflowToolbarButton type="Transparent" icon="sap-icon://excel-attachment" iconFirst="true" width="auto" enabled="true"
+											iconDensityAware="false" press="onTableExport"/>
+									</Toolbar>
+								</headerToolbar>
+							</Table>
 						</uxap:blocks>
-						</uxap:ObjectPageSubSection>
-						<uxap:ObjectPageSubSection>
+					</uxap:ObjectPageSubSection>
+					<uxap:ObjectPageSubSection>
 						<uxap:blocks>
 							<ScrollContainer horizontal="true" focusable="true">
 								<Table width="100%" id="idClaimTable" noDataText="{i18n>NoData}" class="classRCPTable clSearchBottom" mode="None"
@@ -157,16 +168,15 @@
 										<Column width="6em" minScreenWidth="desktop" demandPopin="true" hAlign="Center">
 											<Label text="{i18n>Odometer}" wrapping="true" textAlign="Center" width="100%"/>
 										</Column>
-											<Column width="6em" minScreenWidth="desktop" demandPopin="true" hAlign="Center">
+										<Column width="6em" minScreenWidth="desktop" demandPopin="true" hAlign="Center">
 											<Label text="{i18n>Parts}" wrapping="true" textAlign="Center" width="100%"/>
 										</Column>
-											<Column width="6em" minScreenWidth="desktop" demandPopin="true" hAlign="Center">
+										<Column width="6em" minScreenWidth="desktop" demandPopin="true" hAlign="Center">
 											<Label text="{i18n>Labour}" wrapping="true" textAlign="Center" width="100%"/>
 										</Column>
-											<Column width="6em" minScreenWidth="desktop" demandPopin="true" hAlign="Center">
+										<Column width="6em" minScreenWidth="desktop" demandPopin="true" hAlign="Center">
 											<Label text="{i18n>Sublet}" wrapping="true" textAlign="Center" width="100%"/>
 										</Column>
-										
 										<Column width="2em" visible="false" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
 											<Label text="{i18n>ClaimTypeGroup}" wrapping="true" textAlign="Center" width="100%"/>
 										</Column>

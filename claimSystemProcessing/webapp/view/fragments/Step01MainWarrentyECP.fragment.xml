@@ -127,40 +127,6 @@
 					</layoutData>
 				</Text>
 			</f:content>
-			<!--<f:content>-->
-			<!--	<core:Title />-->
-			<!--	<Label text="{i18n>DealerName}"/>-->
-			<!--	<Text text="{LocalDataModel>/BPOrgName}">-->
-			<!--		<layoutData>-->
-			<!--			<l:GridData span="XL4 L6 M3 S12"/>-->
-			<!--		</layoutData>-->
-			<!--	</Text>-->
-			<!--	<Label text="{i18n>DealerClaim}"/>-->
-			<!--	<Input maxLength="40"-->
-			<!--		value="{path:'HeadSetData>/ExternalNumberOfClaim', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 40 } }"-->
-			<!--		required="true" id="idDealerClaim" editable="{DateModel>/oFormEdit}"/>-->
-			<!--	<core:Title />-->
-			<!--	<Label text="{i18n>RepairDate}"/>-->
-			<!--	<DatePicker class="clDatePicker" id="id_Date" required="{DateModel>/oRepOrdDateReq}" change="onChangeDate"-->
-			<!--	   valueFormat="yyyy-MM-dd" displayFormat="yyyy-MM-dd"-->
-			<!--		value="{path:'HeadSetData>/RepairDate', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'yyyy-MM-dd', strictParsing: true, UTC: true}}"-->
-			<!--		editable="{DateModel>/oFormEdit}" visible="{DateModel>/oVisibleRepDate}"/>-->
-			<!--constraints: { displayFormat: 'Date' }-->
-			<!--	<Label text="{i18n>DealerContact}"/>-->
-			<!--	<Input required="{DateModel>/oDealerContactReq}" maxLength="30"-->
-			<!--		value="{path:'HeadSetData>/DealerContact', type : 'sap.ui.model.type.String', constraints : { minLength : 2, maxLength : 30 }}"-->
-			<!--		id="idDealerContact" editable="{DateModel>/oFormEdit}" enabled="{DateModel>/oDealerContactReq}"/>-->
-			<!--	<core:Title />-->
-			<!--	<Label text="{i18n>RepairOrder}"/>-->
-			<!--	<Input required="{DateModel>/oRepOrdReq}" maxLength="10"  -->
-			<!--		value="{path:'HeadSetData>/RepairOrderNumberExternal', type : 'sap.ui.model.type.String', constraints : { minLength : 2, maxLength : 10 }}"-->
-			<!--		id="idRepairOrder" editable="{DateModel>/oFormEdit}" visible="{DateModel>/oVisibleReOrder}"/>-->
-			<!--	<Label text="{i18n>ROOdometer}"/>-->
-			<!--	<Input type="Number" maxLength="6" enabled="{DateModel>/oOdoEnabled}" change="changeOdo"-->
-			<!--		value="{path:'HeadSetData>/Odometer', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 6 }}"-->
-			<!--		required="{DateModel>/OdometerReqMan}" visible="{DateModel>/OdometerReqMan}" id="idOdometer" editable="{DateModel>/oFormEdit}"/>-->
-			<!--	<Text text="{LocalDataModel>/MsrUnit}" visible="{DateModel>/OdometerReqMan}"/>-->
-			<!--</f:content>-->
 		</f:SimpleForm>
 		<f:SimpleForm editable="" id="idVehicleInfo" title="{i18n>VehicleInformation} - {path:'LocalDataModel>/DataVinDetails/VehicleDescription'}"
 			layout="ResponsiveGridLayout" labelSpanXL="12" labelSpanL="12" labelSpanM="6" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0"
@@ -467,15 +433,7 @@
 					<Label text="{i18n>SerialNo}" visible="{DateModel>/serialNoV}"/>
 					<Input maxLength="17" change="onChangeSerialNumber" value="{path:'HeadSetData>/SerialNumber', type : 'sap.ui.model.type.String'}"
 						 editable="{DateModel>/oFormEdit}" visible="{DateModel>/serialNoV}">
-						
-						<!--<layoutData>-->
-						<!--	<l:GridData span="XL4 L6 M3 S12"/>-->
-						<!--</layoutData>-->
 					</Input>
-				
-					<!--<Select selectedKey="{HeadSetData>/T2WarrantyCodes}" items="{ path: '/Zt2DescSrchhelpSet' }" enabled="{DateModel>/oFormEdit}">-->
-					<!--	<core:Item key="{T2}" text="{T2} - {T2Text}"/>-->
-					<!--</Select>-->
 					<core:Title/>
 					<Label text="{i18n>Cause}"/>
 					<TextArea maxLength="100" required="true" editable="{DateModel>/oFormEdit}" id="idCause"
@@ -492,7 +450,6 @@
 					<Label text="{i18n>AppliedCoverage}"/>
 					<Text text="{HeadSetData>/AppliedWarrantyCoverage}"/>
 					<core:Title/>
-					
 					<Link text="{i18n>ViewCCRAbbreviations}" press="onPressAbbr"/>
 				</f:content>
 			</f:SimpleForm>
