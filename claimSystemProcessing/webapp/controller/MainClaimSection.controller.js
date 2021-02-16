@@ -7852,9 +7852,11 @@ sap.ui.define([
 
 				var obj = {
 					Clmno: this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum"),
-					Clmty: this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType"),
-					updatedclmty: bindObj.TMCClaimType
+					Clmty: this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType")
 				}
+				
+					// 	updatedclmty: bindObj.TMCClaimType,
+					// clmgroup : 
 
 				this.getModel("ProssingModel").create("/zc_claim_type_changeSet", obj, {
 					success: $.proxy(function (res) {
