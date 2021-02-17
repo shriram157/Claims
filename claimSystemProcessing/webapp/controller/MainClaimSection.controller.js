@@ -7852,7 +7852,8 @@ sap.ui.define([
 
 				var obj = {
 					Clmno: this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum"),
-					Clmty: this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType")
+					Clmty: this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType"),
+					updatedclmty: bindObj.TMCClaimType
 				}
 				
 					// 	updatedclmty: bindObj.TMCClaimType,
