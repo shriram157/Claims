@@ -10,8 +10,8 @@
 				<uxap:subSections>
 					<uxap:ObjectPageSubSection title="">
 						<uxap:blocks>
-							<VBox>
-								<MessageStrip id="idMainClaimMessage" text="" showIcon="true" showCloseButton="true" class="sapUiMediumMarginBottom" visible="false"></MessageStrip>
+							<VBox class="sapUiSizeCompact">
+								<MessageStrip id="idMainClaimMessage" text="" showIcon="true" showCloseButton="true" visible="false"></MessageStrip>
 								<f:SimpleForm id="SimpleFormChange354" editable="true" layout="ResponsiveGridLayout" title="{i18n>EnterCoverageSearch}" labelSpanXL="4"
 									labelSpanL="4" labelSpanM="3" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
 									columnsXL="3" columnsL="3" columnsM="1" singleContainerFullSize="false">
@@ -48,7 +48,7 @@
 												<l:GridData span="XL1 L2 M3 S4"/>
 											</layoutData>
 										</Text>
-										<core:Icon src="sap-icon://message-warning" class="clWarning sapUiSmallMarginTopBottom" color="#f00" visible="{DateModel>/writtenOffInd}"
+										<core:Icon src="sap-icon://message-warning" class="clWarning" color="#f00" visible="{DateModel>/writtenOffInd}"
 											press="onPressWrittenOff">
 											<core:layoutData>
 												<FlexItemData/>
@@ -61,7 +61,7 @@
 												<l:GridData span="XL1 L2 M3 S4"/>
 											</layoutData>
 										</Text>
-										<core:Icon src="sap-icon://message-warning" class="clWarning sapUiSmallMarginTopBottom" color="#f00" visible="{DateModel>/foreignVinInd}"
+										<core:Icon src="sap-icon://message-warning" class="clWarning" color="#f00" visible="{DateModel>/foreignVinInd}"
 											press="onPressForeignVin">
 											<core:layoutData>
 												<FlexItemData/>
@@ -73,7 +73,7 @@
 												<l:GridData span="XL1 L2 M3 S4"/>
 											</layoutData>
 										</Text>
-										<core:Icon class="clWarning sapUiSmallMarginTopBottom" src="sap-icon://message-warning" color="#f00" visible="{DateModel>/specialVinInd}"
+										<core:Icon class="clWarning" src="sap-icon://message-warning" color="#f00" visible="{DateModel>/specialVinInd}"
 											press="onPressSpecialVin"></core:Icon>
 									</f:content>
 								</f:SimpleForm>
@@ -97,7 +97,7 @@
 					</uxap:ObjectPageSubSection>
 					<uxap:ObjectPageSubSection >
 						<uxap:blocks>
-							<VBox >
+							<VBox class="sapUiSizeCompact">
 								<Table id="idECPAGR" visible="{DateModel>/oAgrTable}" headerText="{i18n>ActiveAgreeement}" mode="SingleSelectLeft"
 									items="{path:'LocalDataModel>/AgreementDataECP'}" selectionChange="onNavigate">
 									<columns>
@@ -220,7 +220,7 @@
 										</Button>
 									</f:content>
 								</f:SimpleForm>
-								<table:Table class="classRCPTable sapUiSmallMarginBottom" selectionMode="Single" rows="{LocalDataModel>/CoverageSet}"
+								<table:Table class="classRCPTable" selectionMode="Single" rows="{LocalDataModel>/CoverageSet}"
 									visibleRowCountMode="Auto" id='ofptable' selectionBehavior="Row" showNoData="true" threshold="20" enableBusyIndicator="true">
 									<table:columns autoResizable="true">
 										<table:Column width="17rem">
