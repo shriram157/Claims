@@ -33,7 +33,7 @@
 										</Button>
 									</f:content>
 								</f:SimpleForm>
-								<Table id="idClaimInquiryTable" inset="false" class="classRCPTable sapUiSizeCompact" mode="None"
+								<Table id="idClaimInquiryTable" width="100%" inset="false" class="classRCPTable sapUiSizeCompact" mode="None"
 									busy="{DateModel>/tableBusyIndicator}"
 									items="{path:'LocalDataModel>/DataResultEnquiry', sorter:{path:'NumberOfWarrantyClaim', descending : false}}" growing="true"
 									growingThreshold="30" growingScrollToLoad="false" growingTriggerText="Load more">
@@ -45,11 +45,13 @@
 										</Toolbar>
 									</headerToolbar>
 									<columns>
-										<Column width="9em"><Label text="{i18n>DealerCode}" textAlign="Center" width="100%"/></Column>
-										<Column width="8em" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+										<Column width="6em" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+											<Label text="{i18n>DealerCode}"  wrapping="true"  textAlign="Center" width="100%"/>
+											</Column>
+										<Column width="6em" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
 											<Label text="{i18n>DealerClaim}" wrapping="true" textAlign="Center" width="100%"/>
 										</Column>
-										<Column width="8em" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+										<Column width="6em" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
 											<Label text="{i18n>TCIClaim}" wrapping="true" textAlign="Center" width="100%"/>
 										</Column>
 										<Column width="8em" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
@@ -85,6 +87,9 @@
 										<Column width="6em" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
 											<Label text="{i18n>ClaimAmount}" wrapping="true" textAlign="Center" width="100%"/>
 										</Column>
+										<Column width="6em" minScreenWidth="desktop" demandPopin="true" hAlign="Center">
+											<Label text="{i18n>Odometer}" wrapping="true" textAlign="Center" width="100%"/>
+										</Column>
 									</columns>
 									<items>
 										<ColumnListItem>
@@ -104,6 +109,7 @@
 												<Text text="{LocalDataModel>FieldActionReference}" wrapping="false"/>
 												<Text text="{LocalDataModel>ClaimAge}" wrapping="false"/>
 												<Text text="{LocalDataModel>ClaimAmountSum}" wrapping="false"/>
+												<Text text="{LocalDataModel>Odometer}" wrapping="false"/>
 											</cells>
 										</ColumnListItem>
 									</items>

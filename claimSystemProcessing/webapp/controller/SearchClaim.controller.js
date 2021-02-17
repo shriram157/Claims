@@ -546,12 +546,31 @@ sap.ui.define([
 				}
 			}
 
+			var sgroupSet = [];
+			var sgroupdependingonuser;
+			if ($.isEmptyObject(sQueryClaimGroup)) {
+				for (var s = 0; s < this.getModel("LocalDataModel").getProperty("/oClaimGroupsDataResult").length; s++) {
+					//oResult.push(sQueryStat[j]);
+					sgroupSet.push("ClaimGroup eq '" + this.getModel("LocalDataModel").getProperty("/oClaimGroupsDataResult")[s].ClaimGroup +
+						"'");
+
+				}
+				sgroupdependingonuser = sgroupSet.reverse().join(" or ");
+				sParam = {
+					"$filter": sParam.$filter + "and ("+sgroupdependingonuser+")"
+				}
+
+			}
+
 			oProssingModel.read("/ZC_CLAIM_HEAD_NEW", {
 				urlParameters: sParam,
 				success: $.proxy(function (data) {
 					this.getView().getModel("DateModel").setProperty("/tableBusyIndicator", false);
 					this.getModel("LocalDataModel").setProperty("/ZcClaimHeadNewData", data.results);
-				}, this)
+				}, this),
+				error:$.proxy(function(){
+					this.getView().getModel("DateModel").setProperty("/tableBusyIndicator", false);
+				},this)
 			});
 
 		},
@@ -657,7 +676,7 @@ sap.ui.define([
 
 		onTableExport: function (oEvent) {
 			var that = this;
-		    var oBundle = this.getView().getModel("i18n").getResourceBundle();
+			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var oExport = new sap.ui.core.util.Export({
 
 				exportType: new sap.ui.core.util.ExportTypeCSV({
@@ -692,8 +711,7 @@ sap.ui.define([
 
 						}
 
-					},
-					{
+					}, {
 
 						name: oBundle.getText("DealerClaim"),
 
@@ -703,8 +721,7 @@ sap.ui.define([
 
 						}
 
-					},
-					{
+					}, {
 
 						name: oBundle.getText("RepairOrder"),
 
@@ -714,8 +731,7 @@ sap.ui.define([
 
 						}
 
-					},
-					{
+					}, {
 
 						name: oBundle.getText("RepairOrderDate"),
 
@@ -725,8 +741,7 @@ sap.ui.define([
 
 						}
 
-					},
-					{
+					}, {
 
 						name: oBundle.getText("ClaimSubmissionDate"),
 
@@ -736,8 +751,7 @@ sap.ui.define([
 
 						}
 
-					},
-					{
+					}, {
 
 						name: oBundle.getText("ClaimType"),
 
@@ -747,8 +761,7 @@ sap.ui.define([
 
 						}
 
-					},
-					{
+					}, {
 
 						name: oBundle.getText("VIN"),
 
@@ -758,8 +771,7 @@ sap.ui.define([
 
 						}
 
-					},
-					{
+					}, {
 
 						name: oBundle.getText("ClaimStatus"),
 
@@ -769,10 +781,9 @@ sap.ui.define([
 
 						}
 
-					},
-					{
+					}, {
 
-						name:oBundle.getText("OFP"),
+						name: oBundle.getText("OFP"),
 
 						template: {
 
@@ -780,8 +791,7 @@ sap.ui.define([
 
 						}
 
-					},
-					{
+					}, {
 
 						name: oBundle.getText("MainOpCode"),
 
@@ -791,8 +801,7 @@ sap.ui.define([
 
 						}
 
-					},
-					{
+					}, {
 
 						name: oBundle.getText("ClaimAge"),
 
@@ -802,8 +811,7 @@ sap.ui.define([
 
 						}
 
-					},
-					{
+					}, {
 
 						name: oBundle.getText("ClaimAmount"),
 
@@ -813,8 +821,7 @@ sap.ui.define([
 
 						}
 
-					},
-					{
+					}, {
 
 						name: oBundle.getText("AuthorizationNumber"),
 
@@ -824,8 +831,7 @@ sap.ui.define([
 
 						}
 
-					},
-					{
+					}, {
 
 						name: oBundle.getText("FinalProcessedDate"),
 
@@ -835,8 +841,7 @@ sap.ui.define([
 
 						}
 
-					},
-					{
+					}, {
 
 						name: oBundle.getText("Odometer"),
 
@@ -846,8 +851,7 @@ sap.ui.define([
 
 						}
 
-					},
-					{
+					}, {
 
 						name: oBundle.getText("Parts"),
 
@@ -857,8 +861,7 @@ sap.ui.define([
 
 						}
 
-					},
-					{
+					}, {
 
 						name: oBundle.getText("Labour"),
 
@@ -868,8 +871,7 @@ sap.ui.define([
 
 						}
 
-					},
-					{
+					}, {
 
 						name: oBundle.getText("Sublet"),
 
