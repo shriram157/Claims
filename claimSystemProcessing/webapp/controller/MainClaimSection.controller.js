@@ -7758,6 +7758,7 @@ sap.ui.define([
 							},
 							success: $.proxy(function (sdata) {
 								this.getView().getModel("HeadSetData").setProperty("/WarrantyClaimType", sdata.results[0].WarrantyClaimType);
+									this.getView().getModel("HeadSetData").setData(sdata.results[0]);
 								this._fnChangeClaimTYpe_sub(res.updatedclmty);
 								PmpDataManager._fnStatusCheck(this);
 								this._fnGetClaimTypeDescENFR();
