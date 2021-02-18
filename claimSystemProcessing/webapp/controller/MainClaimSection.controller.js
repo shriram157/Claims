@@ -7745,75 +7745,7 @@ sap.ui.define([
 			var oBinding = oEvent.getParameter("itemsBinding");
 			oBinding.filter([oFilter]);
 		},
-		// onDialogClose: function (oEvent) {
-		// 	var oBundle = this.getView().getModel("i18n").getResourceBundle();
-		// 	var aContexts = oEvent.getParameter("selectedContexts");
-		// 	if (aContexts && aContexts.length) {
-		// 		var bindObj = aContexts.map(function (oContext) {
-		// 			return oContext.getObject();
-		// 		})[0];
-
-		// 		if (
-		// 			(this.getModel("LocalDataModel").getProperty("/LabourPricingDataModel").length > 0 ||
-		// 				this.getModel("LocalDataModel").getProperty("/SubletPricingDataModel").length > 0) && (bindObj.TMCClaimType == "ZWA2" || bindObj
-		// 				.TMCClaimType == "ZWP2")
-		// 		) {
-		// 			MessageToast.show(oBundle.getText("changeClmLabourSubletError"), {
-		// 				my: "center center",
-		// 				at: "center center"
-		// 			});
-		// 		} else if (
-		// 			(this.getModel("LocalDataModel").getProperty("/LabourPricingDataModel").length > 0 ||
-		// 				this.getModel("LocalDataModel").getProperty("/PricingDataModel").length > 0) && bindObj.TMCClaimType == "ZWMS"
-		// 		) {
-		// 			MessageToast.show(oBundle.getText("changeClmMSError"), {
-		// 				my: "center center",
-		// 				at: "center center"
-		// 			});
-		// 		} else if (
-		// 			this.getModel("LocalDataModel").getProperty("/PaintPricingDataModel").length > 0 && (bindObj.TMCClaimType != "ZWVE" || bindObj.TMCClaimType !=
-		// 				"ZGGW")
-		// 		) {
-		// 			MessageToast.show(oBundle.getText("changeVEError"), {
-		// 				my: "center center",
-		// 				at: "center center"
-		// 			});
-		// 		} else {
-
-		// 			//MessageToast.show(oBundle.getText("clmtypechangedto", [bindObj.TMCClaimType]) );
-
-		// 			MessageToast.show(
-		// 				oBundle.getText("clmtypechangedto", [bindObj.TMCClaimType]), {
-		// 					my: "center center",
-		// 					at: "center center"
-		// 				});
-
-		// 			var obj = {
-		// 				Clmno: this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum"),
-		// 				Clmty: this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType"),
-		// 				updatedclmty: bindObj.TMCClaimType
-		// 			}
-		// 			var that = this;
-
-		// 			if (bindObj.ClaimGroup == "FAC") {
-		// 				this._fnChangeClminFAC(obj, bindObj.ClaimGroup);
-		// 			} else {
-		// 				this._fnChangeClmCalls(obj, bindObj.ClaimGroup);
-		// 			}
-
-		// 		}
-
-		// 	} else {
-
-		// 		MessageToast.show(oBundle.getText("NoClmSelected"), {
-		// 			my: "center center",
-		// 			at: "center center"
-		// 		});
-		// 	}
-		// 	oEvent.getSource().getBinding("items").filter([]);
-
-		// },
-
+		
 		onDialogClose: function (oEvent) {
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var aContexts = oEvent.getParameter("selectedContexts");
@@ -7847,7 +7779,16 @@ sap.ui.define([
 						my: "center center",
 						at: "center center"
 					});
-				} else {
+				} 
+				
+				else if(this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZACD" || 
+				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZAUT"){
+						MessageToast.show(oBundle.getText("changeclaimnotallowed"), {
+						my: "center center",
+						at: "center center"
+					});
+				}
+				else {
 
 					//MessageToast.show(oBundle.getText("clmtypechangedto", [bindObj.TMCClaimType]) );
 
