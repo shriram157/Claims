@@ -7725,6 +7725,12 @@ sap.ui.define([
 						my: "center center",
 						at: "center center"
 					});
+				}else if(this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZACD" || 
+				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZAUT"){
+						MessageToast.show(oBundle.getText("changeclaimnotallowed"), {
+						my: "center center",
+						at: "center center"
+					});
 				} else {
 
 				//MessageToast.show(oBundle.getText("clmtypechangedto", [bindObj.TMCClaimType]) );
