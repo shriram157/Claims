@@ -4995,6 +4995,7 @@ sap.ui.define([
 								success: $.proxy(function (oAuthData) {
 									if (oAuthData.results[0].AuthorizationNumber != "") {
 										this.getModel("LocalDataModel").setProperty("/DataAuthDetails", oAuthData.results[0]);
+										this.getView().getModel("DateModel").setProperty("/chngClaimTypeVisible", false);
 									}
 								}, this)
 							});

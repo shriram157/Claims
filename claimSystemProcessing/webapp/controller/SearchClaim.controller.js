@@ -545,7 +545,7 @@ sap.ui.define([
 						"'and FinalProcdDate le datetime'" + FinalProToFormat + "' "
 				}
 			}
-
+			// Phase2 changes for Claim Group multiple filter values start 18/02/2021 singhmi
 			var sgroupSet = [];
 			var sgroupdependingonuser;
 			if ($.isEmptyObject(sQueryClaimGroup)) {
@@ -557,20 +557,21 @@ sap.ui.define([
 				}
 				sgroupdependingonuser = sgroupSet.reverse().join(" or ");
 				sParam = {
-					"$filter": sParam.$filter + "and ("+sgroupdependingonuser+")"
+					"$filter": sParam.$filter + "and (" + sgroupdependingonuser + ")"
 				}
 
 			}
-
+			// Phase2 changes for Claim Group multiple filter values end 18/02/2021 singhmi
+			
 			oProssingModel.read("/ZC_CLAIM_HEAD_NEW", {
 				urlParameters: sParam,
 				success: $.proxy(function (data) {
 					this.getView().getModel("DateModel").setProperty("/tableBusyIndicator", false);
 					this.getModel("LocalDataModel").setProperty("/ZcClaimHeadNewData", data.results);
 				}, this),
-				error:$.proxy(function(){
+				error: $.proxy(function () {
 					this.getView().getModel("DateModel").setProperty("/tableBusyIndicator", false);
-				},this)
+				}, this)
 			});
 
 		},
