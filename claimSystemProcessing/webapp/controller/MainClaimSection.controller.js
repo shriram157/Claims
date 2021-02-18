@@ -1018,8 +1018,6 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/authRejClm", false);
 						}
 
-					
-
 						//this.onP2Claim(oGroupDescription);
 						this._fnOFPenabled();
 						this._fnDealerContact();
@@ -1052,7 +1050,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/oUpdatePartLine", true);
 							this.getView().getModel("DateModel").setProperty("/oAddPartLine", true);
 						}
-						
+
 					}, this),
 					error: function () {}
 				});
@@ -2295,6 +2293,7 @@ sap.ui.define([
 		},
 		onChangeLabourOp: function (oEvent) {
 			var oLabourOp = oEvent.getParameters().value.toUpperCase();
+			this.getModel("LocalDataModel").setProperty("/opNumberLabour", oLabourOp);
 			if (oLabourOp[0] != "P") {
 				this.getView().getModel("LabourDataModel").setProperty("/LabourOp", oLabourOp);
 			} else {
@@ -4995,7 +4994,7 @@ sap.ui.define([
 								success: $.proxy(function (oAuthData) {
 									if (oAuthData.results[0].AuthorizationNumber != "") {
 										this.getModel("LocalDataModel").setProperty("/DataAuthDetails", oAuthData.results[0]);
-										this.getView().getModel("DateModel").setProperty("/chngClaimTypeVisible", false);
+										// this.getView().getModel("DateModel").setProperty("/chngClaimTypeVisible", false);
 									}
 								}, this)
 							});
@@ -6022,7 +6021,12 @@ sap.ui.define([
 			}
 			evt.getSource().getBinding("items").filter([]);
 		},
-
+		//======= changes done for labour op filter during add labour singhmi 18/02/2021 start
+		onLiveChangeLabourOp: function (oEvent) {
+			var oLabourOp = oEvent.getParameters().value.toUpperCase();
+			this.getModel("LocalDataModel").setProperty("/opNumberLabour", oLabourOp);
+		},
+		//======= changes done for labour op filter during add labour singhmi 18/02/2021 end
 		handleValueHelpLabour: function (oEvent) {
 			this.getModel("LocalDataModel").setProperty("/labourBusyIndicator", true);
 			oBundle = this.getView().getModel("i18n").getResourceBundle();
@@ -6030,10 +6034,14 @@ sap.ui.define([
 			var oOFP = this.getView().getModel("HeadSetData").getProperty("/OFP");
 			var oVin = this.getModel("LocalDataModel").getProperty("/ClaimDetails/ExternalObjectNumber");
 			var oProssingModel = this.getModel("ProssingModel");
+			//======= changes done for labour op filter during add labour singhmi 18/02/2021 
+			var inputVal = this.getModel("LocalDataModel").getProperty("/opNumberLabour");
 			oProssingModel.read("/zc_get_operation_numberSet", {
 				urlParameters: {
-					"$filter": "CLMNO eq '" + oClaimNum + "' and VHVIN eq '" + oVin + "' and Langu eq '" + sSelectedLocale.toUpperCase() + "'"
+					"$filter": "CLMNO eq '" + oClaimNum + "' and VHVIN eq '" + oVin + "' and Langu eq '" + sSelectedLocale.toUpperCase() +
+						"' and J_3GKATNRC eq '" + inputVal + "'"
 				},
+				
 				success: $.proxy(function (data) {
 					this.getModel("LocalDataModel").setProperty("/labourBusyIndicator", false);
 					var oLabourArray = data.results.filter(function (item) {
@@ -7805,8 +7813,7 @@ sap.ui.define([
 		// 	oEvent.getSource().getBinding("items").filter([]);
 
 		// },
-		
-		
+
 		onDialogClose: function (oEvent) {
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var aContexts = oEvent.getParameter("selectedContexts");
@@ -7814,12 +7821,11 @@ sap.ui.define([
 				var bindObj = aContexts.map(function (oContext) {
 					return oContext.getObject();
 				})[0];
-				
-				
-					if (
+
+				if (
 					(this.getModel("LocalDataModel").getProperty("/LabourPricingDataModel").length > 0 ||
-						this.getModel("LocalDataModel").getProperty("/SubletPricingDataModel").length > 0) && (bindObj.TMCClaimType == "ZWA2" || bindObj
-						.TMCClaimType == "ZWP2")
+						this.getModel("LocalDataModel").getProperty("/SubletPricingDataModel").length > 0) &&
+					(bindObj.TMCClaimType == "ZWA2" || bindObj.TMCClaimType == "ZWP2")
 				) {
 					MessageToast.show(oBundle.getText("changeClmLabourSubletError"), {
 						my: "center center",
@@ -7843,41 +7849,42 @@ sap.ui.define([
 					});
 				} else {
 
-				//MessageToast.show(oBundle.getText("clmtypechangedto", [bindObj.TMCClaimType]) );
+					//MessageToast.show(oBundle.getText("clmtypechangedto", [bindObj.TMCClaimType]) );
 
-				MessageToast.show(
-					oBundle.getText("clmtypechangedto", [bindObj.TMCClaimType]), {
-						my: "center center",
-						at: "center center"
-					});
+					MessageToast.show(
+						oBundle.getText("clmtypechangedto", [bindObj.TMCClaimType]), {
+							my: "center center",
+							at: "center center"
+						});
 
-				var obj = {
-					Clmno: this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum"),
-					Clmty: this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType"),
-					updatedclmty: bindObj.TMCClaimType
-				}
-				
+					var obj = {
+						Clmno: this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum"),
+						Clmty: this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType"),
+						updatedclmty: bindObj.TMCClaimType
+					}
+
 					// 	updatedclmty: bindObj.TMCClaimType,
 					// clmgroup : 
 
-				this.getModel("ProssingModel").create("/zc_claim_type_changeSet", obj, {
-					success: $.proxy(function (res) {
-						this.getModel("ProssingModel").read("/ZC_CLAIM_HEAD_NEW", {
-							urlParameters: {
-								"$filter": "NumberOfWarrantyClaim eq '" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") + "'"
-							},
-							success: $.proxy(function (sdata) {
-								this.getView().getModel("HeadSetData").setProperty("/WarrantyClaimType", sdata.results[0].WarrantyClaimType);
-								this._fnChangeClaimTYpe_sub(res.updatedclmty);
-								PmpDataManager._fnStatusCheck(this);
-								this._fnGetClaimTypeDescENFR();
-								WarrantyDataManager._fnSrNumVisible(this, bindObj.ClaimGroup, this.getModel("LocalDataModel").getProperty(
-									"/oClaimSelectedGroup"));
+					this.getModel("ProssingModel").create("/zc_claim_type_changeSet", obj, {
+						success: $.proxy(function (res) {
+							this.getModel("ProssingModel").read("/ZC_CLAIM_HEAD_NEW", {
+								urlParameters: {
+									"$filter": "NumberOfWarrantyClaim eq '" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") + "'"
+								},
+								success: $.proxy(function (sdata) {
+									this.getView().getModel("HeadSetData").setProperty("/WarrantyClaimType", sdata.results[0].WarrantyClaimType);
+									this.getView().getModel("HeadSetData").setData(sdata.results[0]);
+									this._fnChangeClaimTYpe_sub(res.updatedclmty);
+									PmpDataManager._fnStatusCheck(this);
+									this._fnGetClaimTypeDescENFR();
+									WarrantyDataManager._fnSrNumVisible(this, bindObj.ClaimGroup, this.getModel("LocalDataModel").getProperty(
+										"/oClaimSelectedGroup"));
 
-							}, this)
-						})
-					}, this)
-				})
+								}, this)
+							})
+						}, this)
+					})
 				}
 			} else {
 

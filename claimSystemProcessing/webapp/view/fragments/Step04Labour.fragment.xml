@@ -53,7 +53,7 @@
 						<Text text=""/>
 						<core:Title text=""/>
 						<Label text="{i18n>OperationNumber}" textAlign="Left"/>
-						<Input type="Text" change="onChangeLabourOp" textFormatMode="Value" placeholder="{i18n>EnterOperationNumber}" showSuggestion="false"
+						<Input type="Text" liveChange="onLiveChangeLabourOp" change="onChangeLabourOp" textFormatMode="Value" placeholder="{i18n>EnterOperationNumber}" showSuggestion="false"
 							showValueHelp="true" id="idOperationLabour" value="{LabourDataModel>/LabourOp}" valueHelpRequest="handleValueHelpLabour"
 							suggestionItems="{LocalDataModel>/SuggetionOperationList}" suggestionItemSelected="onSelectPositionCode" enabled="{DateModel>/labourLine}"
 							editable="{DateModel>/editableLabourNumber}">
