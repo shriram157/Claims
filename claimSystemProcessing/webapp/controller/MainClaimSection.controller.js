@@ -7718,7 +7718,7 @@ sap.ui.define([
 						at: "center center"
 					});
 				} else if (
-					this.getModel("LocalDataModel").getProperty("/PaintPricingDataModel").length > 0 && (bindObj.TMCClaimType != "ZWVE" || bindObj.TMCClaimType !=
+					this.getModel("LocalDataModel").getProperty("/PaintPricingDataModel").length > 0 && (bindObj.TMCClaimType != "ZWVE" && bindObj.TMCClaimType !=
 						"ZGGW")
 				) {
 					MessageToast.show(oBundle.getText("changeVEError"), {
