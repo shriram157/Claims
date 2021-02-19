@@ -6036,7 +6036,7 @@ sap.ui.define([
 			var oVin = this.getModel("LocalDataModel").getProperty("/ClaimDetails/ExternalObjectNumber");
 			var oProssingModel = this.getModel("ProssingModel");
 			//======= changes done for labour op filter during add labour singhmi 18/02/2021 
-			var inputVal = this.getModel("LocalDataModel").getProperty("/opNumberLabour");
+			var inputVal = this.getModel("LocalDataModel").getProperty("/opNumberLabour") || "" ;
 			oProssingModel.read("/zc_get_operation_numberSet", {
 				urlParameters: {
 					"$filter": "CLMNO eq '" + oClaimNum + "' and VHVIN eq '" + oVin + "' and Langu eq '" + sSelectedLocale.toUpperCase() +
