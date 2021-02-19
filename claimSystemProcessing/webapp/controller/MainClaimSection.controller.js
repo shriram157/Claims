@@ -2239,8 +2239,8 @@ sap.ui.define([
 						}
 						if (elm == "ZWMS") {
 							this.getView().getModel("DateModel").setProperty("/DisableRadio", true);
-							this.getView().getModel("DateModel").setProperty("/OdometerReq", false);
-							this.getView().getModel("DateModel").setProperty("/OdometerReqMan", false);
+							this.getView().getModel("DateModel").setProperty("/OdometerReq", true);
+							this.getView().getModel("DateModel").setProperty("/OdometerReqMan", true);
 							//this.getView().byId("idRequestType").setSelectedIndex(1);
 							
 						} else if (elm == "ZSCR") {
