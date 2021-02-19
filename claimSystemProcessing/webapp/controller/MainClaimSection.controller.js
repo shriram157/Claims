@@ -663,6 +663,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/oPrevInvNumReq", false);
 							this.getView().getModel("DateModel").setProperty("/oPrevInvDateReq", false);
 							this.getView().getModel("DateModel").setProperty("/PreroOdometerVisible", false);
+							
 							this.getView().getModel("DateModel").setProperty("/RepairdDetailVisible", true);
 							this.getView().getModel("DateModel").setProperty("/oMainOpsReq", false);
 							this.getView().getModel("DateModel").setProperty("/DisableRadio", true);
@@ -2043,6 +2044,7 @@ sap.ui.define([
 				this.getView().getModel("DateModel").setProperty("/authHide", false);
 				this.getView().getModel("DateModel").setProperty("/oMainOpsReq", false);
 				this.getView().getModel("DateModel").setProperty("/oPrvOdomtrReq", false);
+				
 			} else if (oKey == "ZWP1") {
 				this.getView().getModel("DateModel").setProperty("/oMainOps", true);
 				this.getView().getModel("DateModel").setProperty("/Paint", false);
@@ -2266,8 +2268,8 @@ sap.ui.define([
 			}
 			if (elm == "ZWMS") {
 				this.getView().getModel("DateModel").setProperty("/DisableRadio", true);
-				this.getView().getModel("DateModel").setProperty("/OdometerReq", false);
-				this.getView().getModel("DateModel").setProperty("/OdometerReqMan", false);
+				this.getView().getModel("DateModel").setProperty("/OdometerReq", true);
+				this.getView().getModel("DateModel").setProperty("/OdometerReqMan", true);
 				//this.getView().byId("idRequestType").setSelectedIndex(1);
 
 			} else if (elm == "ZSCR") {
@@ -6036,7 +6038,7 @@ sap.ui.define([
 			var oVin = this.getModel("LocalDataModel").getProperty("/ClaimDetails/ExternalObjectNumber");
 			var oProssingModel = this.getModel("ProssingModel");
 			//======= changes done for labour op filter during add labour singhmi 18/02/2021 
-			var inputVal = this.getModel("LocalDataModel").getProperty("/opNumberLabour");
+			var inputVal = this.getModel("LocalDataModel").getProperty("/opNumberLabour") || "";
 			oProssingModel.read("/zc_get_operation_numberSet", {
 				urlParameters: {
 					"$filter": "CLMNO eq '" + oClaimNum + "' and VHVIN eq '" + oVin + "' and Langu eq '" + sSelectedLocale.toUpperCase() +
@@ -7773,7 +7775,7 @@ sap.ui.define([
 						at: "center center"
 					});
 				} else if (
-					this.getModel("LocalDataModel").getProperty("/PaintPricingDataModel").length > 0 && (bindObj.TMCClaimType != "ZWVE" || bindObj.TMCClaimType !=
+					this.getModel("LocalDataModel").getProperty("/PaintPricingDataModel").length > 0 && (bindObj.TMCClaimType != "ZWVE" && bindObj.TMCClaimType !=
 						"ZGGW")
 				) {
 					MessageToast.show(oBundle.getText("changeVEError"), {

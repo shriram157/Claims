@@ -29,12 +29,10 @@
 			
 			<VBox  class="clSubl70">
 				<f:SimpleForm width="100%" editable="true" class="ClsubHeadingLineHeight" layout="ResponsiveGridLayout" title="" labelSpanXL="12"
-					labelSpanL="12" labelSpanM="12" labelSpanS="12" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="6" columnsL="6"
+					labelSpanL="12" labelSpanM="12" labelSpanS="12" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="5" columnsL="5"
 					columnsM="6">
 					<f:content>
-						<core:Title text=""/>
-						<Label text="{i18n>Line}" textAlign="Left"/>
-						<Text text=""/>
+						<HBox><Text text="{i18n>Line}" textAlign="Left"/></HBox>
 						<core:Title text=""/>
 						<Label text="{i18n>SubletType}" textAlign="Left"/>
 						<ComboBox selectionChange="onChangeSublet" id="idSubletCode" required="true"
@@ -61,8 +59,7 @@
 						</Button>
 					</f:content>
 					<f:content>
-						<core:Title text=""/>
-						<Text text=""/>
+						
 						<core:Title text=""/>
 							<Text text=""/>
 						<core:Title text=""/>
