@@ -206,7 +206,7 @@
 				</html:div>
 			</l:Grid>
 		</l:VerticalLayout>
-		<table:Table id="idPercentTable" class="classRCPTable" selectionMode="Single" rows="{path:'LocalDataModel>/ClaimSumAuth'}"
+		<table:Table id="idPercentTable" class="classRCPTable sapUiTinyMarginBottom" selectionMode="Single" rows="{path:'LocalDataModel>/ClaimSumAuth'}"
 			visibleRowCountMode="Auto" rowSelectionChange="onNavigate" selectionBehavior="Row" showNoData="true" visibleRowCount="4" threshold="4"
 			enableBusyIndicator="true">
 			<table:columns autoResizable="true">
@@ -285,7 +285,7 @@
 			</table:columns>
 		</table:Table>
 	</VBox>
-	<VBox justifyContent="Center" alignContent="Center" alignItems="Center" class="sapUiLargeMarginBottom">
+	<VBox justifyContent="Center" alignContent="Center" alignItems="Center" class="sapUiSmallMarginBottom">
 		<!--<Text class="sapUiSmallMarginBottom" text="What is the source of this info. Authorization that was converted to Calim?"/>-->
 		<HBox>
 			<Button text="{i18n>Back}" class="sapUiTinyMarginEnd" type="Back" press="onStep02Back"/>

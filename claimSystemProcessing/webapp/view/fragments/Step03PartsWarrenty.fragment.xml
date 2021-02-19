@@ -139,7 +139,7 @@
 				</ColumnListItem>
 			</items>
 		</Table>
-		<HBox alignContent="Center" justifyContent="Center" class="sapUiTinyMarginTop">
+		<HBox alignContent="Center" justifyContent="Center" class="sapUiSmallMarginBottom">
 			<Button class="sapUiTinyMarginBeginEnd" type="Back" press="onStep03Back" text="{i18n>Back}"/>
 			<Button class="sapUiTinyMarginBeginEnd" press="onStep03Next" text="{i18n>Next}" type="Emphasized"/>
 		</HBox>

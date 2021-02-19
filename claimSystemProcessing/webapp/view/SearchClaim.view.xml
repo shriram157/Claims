@@ -13,8 +13,8 @@
 								<HBox wrap="Wrap" displayInline="true" justifyContent="SpaceBetween">
 									<VBox class="clSubl80">
 										<f:SimpleForm id="SimpleFormChange354" editable="true" layout="ResponsiveGridLayout" title="{i18n>Entertheapplicationdaterange}"
-											labelSpanXL="5" labelSpanL="5" labelSpanM="4" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0"
-											emptySpanS="0" columnsXL="2" columnsL="2" columnsM="2" singleContainerFullSize="false">
+											labelSpanXL="5" labelSpanL="5" labelSpanM="4" labelSpanS="12"  emptySpanXL="0" emptySpanL="0" emptySpanM="0"
+											emptySpanS="0" columnsXL="2" columnsL="2" columnsM="2"  singleContainerFullSize="true">
 											<f:content>
 												<core:Title text=""/>
 												<Label text="{i18n>DealerCode}" textAlign="Begin"/>
@@ -120,64 +120,66 @@
 					<uxap:ObjectPageSubSection>
 						<uxap:blocks>
 							<ScrollContainer horizontal="true" height="20rem" width="100%"  vertical="true" focusable="true">
-								<Table width="100%" id="idClaimTable" noDataText="{i18n>NoData}" class="classRCPTable clSearchBottom" mode="None"
+								<Table width="100%" id="idClaimTable" noDataText="{i18n>NoData}" mode="None"
 									busy="{DateModel>/tableBusyIndicator}"
 									items="{path:'LocalDataModel>/ZcClaimHeadNewData', sorter:{path:'NumberOfWarrantyClaim', descending : false}}" growing="true"
 									growingThreshold="25" growingScrollToLoad="false" growingTriggerText="{i18n>Loadmore}">
 									<columns>
-										<Column width="9em"><Label text="{i18n>TCIClaim}" textAlign="Center" width="100%"/></Column>
-										<Column width="9em" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+										<Column width="9rem" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+											<Label text="{i18n>TCIClaim}" textAlign="Center" width="100%"/>
+										</Column>
+										<Column width="9rem" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
 											<Label text="{i18n>DealerClaim}" wrapping="true" textAlign="Center" width="100%"/>
 										</Column>
-										<Column width="8em" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+										<Column width="8rem" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
 											<Label text="{i18n>RepairOrder}" wrapping="true" textAlign="Center" width="100%"/>
 										</Column>
-										<Column width="9em" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+										<Column width="9rem" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
 											<Label text="{i18n>RepairOrderDate}" wrapping="true" textAlign="Center" width="100%"/>
 										</Column>
-										<Column width="9em" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+										<Column width="9rem" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
 											<Label text="{i18n>ClaimSubmissionDate}" wrapping="true" textAlign="Center" width="100%"/>
 										</Column>
-										<Column width="6em" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+										<Column width="6rem" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
 											<Label text="{i18n>ClaimType}" wrapping="true" textAlign="Center" width="100%"/>
 										</Column>
-										<Column width="12em" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+										<Column width="12rem" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
 											<Label text="{i18n>VIN}" wrapping="true" textAlign="Center" width="100%"/>
 										</Column>
-										<Column width="6em" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+										<Column width="6rem" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
 											<Label text="{i18n>ClaimStatus}" wrapping="true" textAlign="Center" width="100%"/>
 										</Column>
-										<Column width="10em" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+										<Column width="10rem" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
 											<Label text="{i18n>OFP}" wrapping="true" textAlign="Center" width="100%"/>
 										</Column>
-										<Column width="8em" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+										<Column width="8rem" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
 											<Label text="{i18n>MainOpCode}" wrapping="true" textAlign="Center" width="100%"/>
 										</Column>
-										<Column width="6em" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+										<Column width="6rem" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
 											<Label text="{i18n>ClaimAge}" wrapping="true" textAlign="Center" width="100%"/>
 										</Column>
-										<Column width="8em" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
-											<Label text="{i18n>ClaimAmount}" wrapping="true" textAlign="Center" width="100%"/>
-										</Column>
-										<Column width="6em" hAlign="Center">
+										<Column width="8rem" hAlign="Center">
 											<Label text="{i18n>AuthorizationNumber}" wrapping="true" textAlign="Center" width="100%"/>
 										</Column>
 										<Column width="9em" minScreenWidth="desktop" demandPopin="true" hAlign="Center">
 											<Label text="{i18n>FinalProcessedDate}" wrapping="true" textAlign="Center" width="100%"/>
 										</Column>
-										<Column width="6em" minScreenWidth="desktop" demandPopin="true" hAlign="Center">
+										<Column width="6rem" minScreenWidth="desktop" demandPopin="true" hAlign="Center">
 											<Label text="{i18n>Odometer}" wrapping="true" textAlign="Center" width="100%"/>
 										</Column>
-										<Column width="6em" minScreenWidth="desktop" demandPopin="true" hAlign="Center">
+										<Column width="8em" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+											<Label text="{i18n>ClaimAmount}" wrapping="true" textAlign="Center" width="100%"/>
+										</Column>
+										<Column width="6rem" minScreenWidth="desktop" demandPopin="true" hAlign="Center">
 											<Label text="{i18n>Parts}" wrapping="true" textAlign="Center" width="100%"/>
 										</Column>
-										<Column width="6em" minScreenWidth="desktop" demandPopin="true" hAlign="Center">
+										<Column width="6rem" minScreenWidth="desktop" demandPopin="true" hAlign="Center">
 											<Label text="{i18n>Labour}" wrapping="true" textAlign="Center" width="100%"/>
 										</Column>
-										<Column width="6em" minScreenWidth="desktop" demandPopin="true" hAlign="Center">
+										<Column width="6rem" minScreenWidth="desktop" demandPopin="true" hAlign="Center">
 											<Label text="{i18n>Sublet}" wrapping="true" textAlign="Center" width="100%"/>
 										</Column>
-										<Column width="2em" visible="false" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+										<Column width="2rem" visible="false" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
 											<Label text="{i18n>ClaimTypeGroup}" wrapping="true" textAlign="Center" width="100%"/>
 										</Column>
 									</columns>
@@ -197,10 +199,10 @@
 												<Text text="{LocalDataModel>OFP}"/>
 												<Text text="{LocalDataModel>MainOpsCode}"/>
 												<Text text="{LocalDataModel>ClaimAge}"/>
-												<Text text="{path:'LocalDataModel>ClaimAmountSum', formatter : 'zclaimProcessing.utils.formatter.fnFormatDecimal'}"/>
 												<Text text="{LocalDataModel>AuthorizationNumber}"/>
 												<Text text="{path:'LocalDataModel>FinalProcdDate', formatter:'zclaimProcessing.utils.formatter.fnDateFormat'}"/>
 												<Text text="{LocalDataModel>Odometer}"/>
+												<Text text="{path:'LocalDataModel>ClaimAmountSum', formatter : 'zclaimProcessing.utils.formatter.fnFormatDecimal'}"/>
 												<Text text="{LocalDataModel>PartPrice}"/>
 												<Text text="{LocalDataModel>LabourPrice}"/>
 												<Text text="{LocalDataModel>SubletPrice}"/>

@@ -338,6 +338,7 @@ sap.ui.define([
 				}
 			}
 			WarrantyDataManager._fnSrNumVisible(this, sClaimGroup, oClaimSelectedGroup);
+			this.getView().byId("idClaimType").focus();
 
 			if (oClaim != "nun" && oClaim != undefined) {
 				this.getModel("LocalDataModel").setProperty("/PrintEnable", true);

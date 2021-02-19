@@ -1,6 +1,6 @@
 <core:FragmentDefinition xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:u="sap.ui.unified" xmlns:l="sap.ui.layout"
 	xmlns="sap.m" xmlns:table="sap.ui.table" xmlns:custom="zclaimProcessing.control" xmlns:html="http://www.w3.org/1999/xhtml">
-	<table:Table class="classRCPTable" selectionMode="Single" rows="{path:'LocalDataModel>/ClaimSum'}" visibleRowCount="4"
+	<table:Table class="classRCPTable sapUiTinyMarginBottom" selectionMode="Single" rows="{path:'LocalDataModel>/ClaimSum'}" visibleRowCount="4"
 					rowSelectionChange="onNavigate" selectionBehavior="Row" showNoData="true" threshold="4" enableBusyIndicator="true">
 					<table:toolbar>
 						<Toolbar>
@@ -9,10 +9,10 @@
 							<!--<Button tooltip="View Settings" icon="sap-icon://drop-down-list" press="handleViewSettingsDialogButtonPressed"/>-->
 						</Toolbar>
 					</table:toolbar>
-					<table:columns autoResizable="true">
-						<table:Column width="17rem">
-							<table:multiLabels>
-								<Label text="{i18n>Totalsincludedmarkupdiscounts}" textAlign="Center" width="100%"/>
+					<table:columns autoResizable="true" >
+						<table:Column width="10rem" >
+							<table:multiLabels >
+								<Label text="{i18n>Totalsincludedmarkupdiscounts}" textAlign="Center" wrapping="true"  width="100%"/>
 							</table:multiLabels>
 							<table:template>
 								<Text text="{path:'LocalDataModel>ItemType', formatter: 'zclaimProcessing.utils.formatter.fnFormatText'}" wrapping="false"/>
@@ -20,7 +20,7 @@
 						</table:Column>
 						<table:Column width="11rem">
 							<table:multiLabels>
-								<Label text="{i18n>DealerClaimedAmount}" textAlign="Center" width="100%"/>
+								<Label text="{i18n>DealerClaimedAmount}"  wrapping="true" textAlign="Center" width="100%"/>
 							</table:multiLabels>
 							<table:template>
 								<Text text="${path:'LocalDataModel>DealerClaim', formatter:'zclaimProcessing.utils.formatter.fnFormatDecimal'}" wrapping="false"/>
@@ -28,7 +28,7 @@
 						</table:Column>
 						<table:Column width="11rem">
 							<table:multiLabels>
-								<Label text="{i18n>TCIApprovedAmount}" textAlign="Center" width="100%"/>
+								<Label text="{i18n>TCIApprovedAmount}"  wrapping="true" textAlign="Center" width="100%"/>
 							</table:multiLabels>
 							<table:template>
 								<Text text="${path:'LocalDataModel>TCIAppr', formatter:'zclaimProcessing.utils.formatter.fnFormatDecimal'}" wrapping="false"/>
@@ -36,7 +36,7 @@
 						</table:Column>
 						<table:Column width="11rem">
 							<table:multiLabels>
-								<Label text="{i18n>DifferenceCAD}" textAlign="Center" width="100%"/>
+								<Label text="{i18n>DifferenceCAD}"  wrapping="true" textAlign="Center" width="100%"/>
 							</table:multiLabels>
 							<table:template>
 								<Text text="${path:'LocalDataModel>Diff', formatter:'zclaimProcessing.utils.formatter.fnFormatDecimal'}" wrapping="false"/>
@@ -78,9 +78,9 @@
 								<Text text="{LocalDataModel>PSTQSTRate}" wrapping="false"/>
 							</table:template>
 						</table:Column>
-						<table:Column width="17rem">
+						<table:Column width="10rem">
 							<table:multiLabels>
-								<Label text="{i18n>TCIApprovedAmountIncludingTax}" textAlign="Center" width="100%"/>
+								<Label text="{i18n>TCIApprovedAmountIncludingTax}"  wrapping="true" textAlign="Center" width="100%"/>
 							</table:multiLabels>
 							<table:template>
 								<Text text="${path:'LocalDataModel>TCIApprInclTax', formatter:'zclaimProcessing.utils.formatter.fnFormatDecimal'}" wrapping="false"/>

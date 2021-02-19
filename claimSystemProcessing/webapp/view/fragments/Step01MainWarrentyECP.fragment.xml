@@ -541,14 +541,12 @@
 				<!--</f:SimpleForm>-->
 		<!--	</content>-->
 		</Panel>
-	<VBox class="sapUiSizeCompact clFormTitleGap">
-		
-		
+	<VBox class="sapUiSizeCompact clFormTitleGap sapUiSmallMarginBottom">
 		<Panel width="auto" accessibleRole="Region">
 			<content>
 				<core:Fragment fragmentName="zclaimProcessing.view.fragments.WarrantyPartClaimAmountSummery" type="XML"/>
 			</content>
-			<HBox alignContent="Center" justifyContent="Center" class="sapUiTinyMarginTop sapUiTinyMarginBottom">
+			<HBox alignContent="Center" justifyContent="Center" class="sapUiSmallMarginBottom">
 				<Button class="sapUiTinyMarginBeginEnd" press="onPressBack" text="{i18n>BackList}" type="Back"/>
 				<Button class="sapUiTinyMarginBeginEnd" press="onCancelClaim" enabled="{LocalDataModel>/CancelEnable}" text="{i18n>CancelClaim}"
 					type="Reject"/>

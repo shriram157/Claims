@@ -162,7 +162,7 @@
 				</ColumnListItem>
 			</items>
 		</Table>
-		<HBox alignContent="Center" justifyContent="Center" class="sapUiTinyMarginTop">
+		<HBox alignContent="Center" justifyContent="Center" class="sapUiSmallMarginBottom">
 			<Button class="sapUiTinyMarginBeginEnd" type="Back" press="onStep06Back" text="{i18n>Back}"/>
 			<Button class="sapUiTinyMarginBeginEnd" press="onStep06Next" text="{i18n>Next}" type="Emphasized"/>
 		</HBox>

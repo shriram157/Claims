@@ -366,6 +366,13 @@ span#__xmlview1--idPostalDistInput {
 .sapUxAPObjectPageLayout-Std-Desktop .sapUxAPBlockContainer {padding-bottom:0!important; padding-top:0!important;}
 .sapUiFormResGrid>div {padding-top:0!important; }
 
+.sapUiTableRowSelectors:not(.sapUiTableRowHighlights) .sapUiTableRowSelectionHeaderCell {width:00!important;}
+.sapUiTableRowSelectors:not(.sapUiTableRowHighlights) .sapUiTableCtrlScr, .sapUiTableRowSelectors:not(.sapUiTableRowHighlights) .sapUiTableCtrlScrFixed {
+	margin-left:00!important;
+}
+.sapUiTableRowSelectors:not(.sapUiTableRowHighlights) .sapUiTableRowHdrScr {
+	width:00!important;
+}
 @media only screen and (min-width: 960px) {
     .clSubl70 {
         width: 70%;
