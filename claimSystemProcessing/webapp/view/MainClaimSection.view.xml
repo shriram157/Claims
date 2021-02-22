@@ -7,7 +7,7 @@
 				<HBox width="100%" justifyContent="End" displayInline="true" class="sapUiSizeCompact">
 					<Link text="CVSH" class="clFont01" press="onPressCVSH"/>
 					<Text text="Labour Rate (CAD) : ${LocalDataModel>/LabourPricingDataModel/0/LabourPer}" class="sapUiMediumMarginBeginEnd clFont01"/>
-					<Text text="{i18n>Status} : {HeadSetData>/DecisionCode}" class="sapUiSmallMarginEnd clFont01"/>
+					<Text text="{i18n>Status} : {HeadSetData>/DecisionCode} ({LocalDataModel>/StatusDes})" class="sapUiSmallMarginEnd clFont01"/>
 				</HBox>
 			</VBox>
 		</uxap:headerContent>

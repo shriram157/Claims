@@ -140,7 +140,7 @@
 			<core:Fragment fragmentName="zclaimProcessing.view.fragments.WarrantyPartClaimAmountSummery" type="XML"/>
 		</content>
 		<!-- {path: 'LocalDataModel>TCIApprInclTax', formatter: 'zclaimProcessing.utils.formatter.roundedDecimals'}-->
-		<HBox alignContent="Center" justifyContent="Center" class="sapUiTinyMarginTop">
+		<HBox alignContent="Center" justifyContent="Center" class="sapUiTinyMarginTop sapUiLargeMarginBottom">
 			<Button class="sapUiTinyMarginBeginEnd" press="onPressBack" text="{i18n>BackList}" type="Back"/>
 			<Button class="sapUiTinyMarginBeginEnd" press="onCancelClaim" text="{i18n>CancelClaim}" type="Reject"
 				enabled="{LocalDataModel>/CancelEnable}"/>

@@ -20,9 +20,9 @@
 			</OverflowToolbar>
 			<VBox class="clBgColor">
 				<f:SimpleForm editable="true" labelSpanL="12" width="90%" title="" labelSpanXL="12" layout="ResponsiveGridLayout" emptySpanXL="0"
-					emptySpanL="0" columnsM="4" columnsL="4" columnsXL="4">
+					emptySpanL="0" columnsM="4" columnsL="4"  columnsXL="4">
 					<f:content>
-						<HBox>
+						<HBox alignContent="Center" alignItems="Center">
 							<Label text="{i18n>DamageCondition} " class="sapUiSmallMargin" textAlign="Begin" visible="{multiHeaderConfig>/partDamage}"/>
 						
 							<custom:CustomCombo showSecondaryValues="true" id="DmgCodes" enabled="{DateModel>/partLine}" required="true"
@@ -55,10 +55,9 @@
 								<core:ListItem text="{path:'DropDownModel>ALMDiscreDesc'}" key="{DropDownModel>DiscreCode}" additionalText="{DropDownModel>ALMDiscreCode}"/>
 							</custom:CustomCombo>
 						
-						</HBox>
-						<HBox>
+					
 							<Label text=""/>
-							<Button text="{i18n>SavePart}" type="Emphasized" class="sapUiSmallMarginEnd" press="onPressSavePart" enabled="{DateModel>/saveParts}">
+							<Button text="{i18n>SavePart}" type="Emphasized" class="sapUiSmallMarginBegin sapUiSmallMarginEnd" press="onPressSavePart" enabled="{DateModel>/saveParts}">
 								<layoutData>
 									<l:GridData span="XL1 L1 M3 S4"/>
 								</layoutData>
@@ -69,6 +68,7 @@
 									<l:GridData span="XL7 L8"/>
 								</layoutData>
 							</Button>
+							
 						</HBox>
 					</f:content>
 				</f:SimpleForm>
@@ -269,7 +269,7 @@
 					</ColumnListItem>
 				</items>
 			</Table>
-			<HBox alignContent="Center" justifyContent="Center" class="sapUiSmallMarginBottom">
+			<HBox alignContent="Center" justifyContent="Center" class="sapUiLargeMarginBottom">
 				<Button class="sapUiTinyMarginBeginEnd" type="Back" press="onStep01Back" text="{i18n>Back}"/>
 				<Button class="sapUiTinyMarginBeginEnd" press="onStep03Next" text="{i18n>Next}" type="Emphasized"/>
 			</HBox>

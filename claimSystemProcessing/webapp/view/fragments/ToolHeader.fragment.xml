@@ -7,5 +7,6 @@
 		<Button text="{i18n>DealerLabourRateInquiry}" press="handleDealerLabourInq" type="Transparent"
 			visible="{HeaderLinksModel>/DealerLabourRateInquiry}"></Button>
 		<tnt:ToolHeaderUtilitySeparator/>
+		
 	</tnt:ToolHeader>
 </core:FragmentDefinition>

@@ -1,8 +1,8 @@
 <core:FragmentDefinition xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:u="sap.ui.unified" xmlns:l="sap.ui.layout"
 	xmlns="sap.m" xmlns:table="sap.ui.table" xmlns:custom="zclaimProcessing.control">
-	<VBox class="clFormTitleGap sapUiSizeCompact" busy="{LocalDataModel>/oSavePartIndicator}" busyIndicatorDelay="100"
+	<VBox class="sapUiSizeCompact clFormTitleGap" busy="{LocalDataModel>/oSavePartIndicator}" busyIndicatorDelay="100"
 		id="idpart01Form">
-		<Panel width="auto" accessibleRole="Region" class="sapUiSizeCompact">
+		<Panel width="auto" class="sapUiSizeCompact" accessibleRole="Region">
 			<headerToolbar class="sapUiSizeCompact">
 				<Toolbar height="3rem">
 					<Title text="{i18n>ClaimDetails}"/>
@@ -92,13 +92,13 @@
 				<Label text="{i18n>DealerName}"/>
 				<Text text="{LocalDataModel>/BPOrgName}"></Text>
 				<core:Title/>
-				<Label text="{i18n>RepairDate}"/>
+				<Label text="{i18n>RepairDate}" visible="{DateModel>/oVisibleRepDate}"/>
 				<DatePicker class="clDatePicker" id="id_Date" required="{DateModel>/oRepOrdDateReq}" change="onChangeDate" valueFormat="yyyy-MM-dd"
 					displayFormat="yyyy-MM-dd"
 					value="{path:'HeadSetData>/RepairDate', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'yyyy-MM-dd', strictParsing: true, UTC: true}}"
 					editable="{DateModel>/oFormEdit}" visible="{DateModel>/oVisibleRepDate}"/>
 				<core:Title/>
-				<Label text="{i18n>RepairOrder}"/>
+				<Label text="{i18n>RepairOrder}" visible="{DateModel>/oVisibleReOrder}"/>
 				<Input required="{DateModel>/oRepOrdReq}" maxLength="10"
 					value="{path:'HeadSetData>/RepairOrderNumberExternal', type : 'sap.ui.model.type.String', constraints : { minLength : 2, maxLength : 10 }}"
 					id="idRepairOrder" editable="{DateModel>/oFormEdit}" visible="{DateModel>/oVisibleReOrder}"/>
@@ -113,7 +113,7 @@
 					value="{path:'HeadSetData>/DealerContact', type : 'sap.ui.model.type.String', constraints : { minLength : 2, maxLength : 30 }}"
 					id="idDealerContact" editable="{DateModel>/oFormEdit}" enabled="{DateModel>/oDealerContactReq}"/>
 				<core:Title/>
-				<Label text="{i18n>ROOdometer}"/>
+				<Label text="{i18n>ROOdometer}" visible="{DateModel>/OdometerReqMan}" />
 				<Input type="Number" maxLength="6" enabled="{DateModel>/oOdoEnabled}" change="changeOdo"
 					value="{path:'HeadSetData>/Odometer', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 6 }}"
 					required="{DateModel>/OdometerReqMan}" visible="{DateModel>/OdometerReqMan}" id="idOdometer" editable="{DateModel>/oFormEdit}">
@@ -226,7 +226,7 @@
 						<core:ListItem key="" text="{i18n>Unattended}"/>
 					</custom:CustomCombo>
 					<core:Title/>
-					<Label text="{i18n>DamageDisclosure}"/>
+					<Label text="{i18n>DamageDisclosure}" visible="{DateModel>/enableVLC}"/>
 					<ComboBox id="idDmgCls" required="true" visible="{DateModel>/enableVLC}" selectionChange="onChangeT1" showSecondaryValues="true"
 						items="{ path: 'LocalDataModel>/DamageDiscSet' }" filterSecondaryValues="true"
 						value="{path:'HeadSetData>/DamageDisclosure', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 2 } }"
@@ -495,7 +495,8 @@
 		</f:SimpleForm>
 		
 	</VBox>
-		<Panel min-width="100%" backgroundDesign="Transparent" headerText="{i18n>ClaimComments}" expandable="true" class="sapUiSizeCompact clCommentFix">
+	<VBox class="sapUiSizeCompact clFormTitleGap sapUiSmallMarginBottom">
+		<Panel  backgroundDesign="Transparent" headerText="{i18n>ClaimComments}" expandable="true" class="sapUiSizeCompact clCommentFix">
 			<content>
 				<FeedInput class="sapUiSizeCompact" post=".onPost" enabled="{LocalDataModel>/FeedEnabled}" placeholder="{i18n>PostHere}" maxLength="70"/>
 				<List class="sapUiSizeCompact" busy="{LocalDataModel>/commentIndicator}" id="idCommentsList" noDataText="{i18n>ObjectCommentNoData}"
@@ -504,7 +505,7 @@
 				</List>
 			</content>
 		</Panel>
-		<Panel  min-width="100%" backgroundDesign="Transparent" headerText="{i18n>SupportingDocuments}" expandable="true" class="sapUiSizeCompact clCommentFix">
+		<Panel  backgroundDesign="Transparent" headerText="{i18n>SupportingDocuments}" expandable="true" class="sapUiSizeCompact clCommentFix">
 		<!--<Panel width="auto" accessibleRole="Region">-->
 		<!--	<headerToolbar>-->
 		<!--		<Toolbar height="3rem">-->
@@ -541,12 +542,12 @@
 				<!--</f:SimpleForm>-->
 		<!--	</content>-->
 		</Panel>
-	<VBox class="sapUiSizeCompact clFormTitleGap sapUiSmallMarginBottom">
+	
 		<Panel width="auto" accessibleRole="Region">
 			<content>
 				<core:Fragment fragmentName="zclaimProcessing.view.fragments.WarrantyPartClaimAmountSummery" type="XML"/>
 			</content>
-			<HBox alignContent="Center" justifyContent="Center" class="sapUiSmallMarginBottom">
+			<HBox alignContent="Center" justifyContent="Center" class="sapUiLargeMarginBottom">
 				<Button class="sapUiTinyMarginBeginEnd" press="onPressBack" text="{i18n>BackList}" type="Back"/>
 				<Button class="sapUiTinyMarginBeginEnd" press="onCancelClaim" enabled="{LocalDataModel>/CancelEnable}" text="{i18n>CancelClaim}"
 					type="Reject"/>

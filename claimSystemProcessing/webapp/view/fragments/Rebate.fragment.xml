@@ -57,7 +57,7 @@
 			<core:Fragment fragmentName="zclaimProcessing.view.fragments.ClaimAmountSummery" type="XML"/>
 		</content>
 	</Panel>
-	<VBox>
+	<VBox class="sapUiLargeMarginBottom sapUiSizeCompact">
 		<HBox alignContent="Center" justifyContent="Center" class="sapUiTinyMarginTop sapUiSizeCompact">
 			<Button class="sapUiTinyMarginBeginEnd" press="onStep02Back" text="{i18n>Back}" type="Back"/>
 			<Button class="sapUiTinyMarginBeginEnd" press="onStep03Next" enabled="{LocalDataModel>/step01Next}" text="{i18n>Next}" type="Emphasized"/>

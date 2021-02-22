@@ -381,6 +381,7 @@ sap.ui.define([
 						var oTextUser = sap.ui.getCore().getModel("UserDataModel").getProperty("/LoggedInUser");
 
 						this._fnAfterGetData(oGroupDescription, oClaimSelectedGroup, oClaim);
+						
 						WarrantyDataManager._fnSrNumVisible(this, data.results[0].ClaimGroup, this.getModel("LocalDataModel").getProperty(
 							"/oClaimSelectedGroup"));
 
@@ -1062,12 +1063,12 @@ sap.ui.define([
 						"$filter": "NumberOfWarrantyClaim eq '" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") + "'"
 					},
 					success: $.proxy(function (sdata) {
-						PmpDataManager._fnStatusCheck(this);
 						this._fnGetClaimTypeDescENFR();
 						this.getModel("LocalDataModel").setProperty("/ClaimDetails", sdata.results[0]);
 						this.getView().getModel("HeadSetData").setData(sdata.results[0]);
 						this.getView().getModel("HeadSetData").setProperty("/OFP", sdata.results[0].OFP.trim());
 						var oBusinessModel = this.getModel("ApiBusinessModel");
+						PmpDataManager._fnStatusCheck(this);
 						oBusinessModel.read("/A_BusinessPartner", {
 							urlParameters: {
 								"$filter": "BusinessPartner eq '" + this.getModel("LocalDataModel").getProperty("/ClaimDetails/Partner") + "'"
@@ -3034,7 +3035,7 @@ sap.ui.define([
 							success: $.proxy(function (sdata) {
 								// console.log(sdata);
 								this.getModel("LocalDataModel").setProperty("/ClaimDetails", sdata.results[0]);
-								PmpDataManager._fnStatusCheck(this);
+								
 								this._fnGetClaimTypeDescENFR();
 
 								var oPartner = this.getModel("LocalDataModel").getProperty("/ClaimDetails/Partner");
@@ -3235,9 +3236,10 @@ sap.ui.define([
 												"'"
 										},
 										success: $.proxy(function (sdata) {
-											PmpDataManager._fnStatusCheck(this);
+										
 											this._fnGetClaimTypeDescENFR();
 											this.getView().getModel("HeadSetData").setProperty("/DecisionCode", sdata.results[0].DecisionCode);
+											PmpDataManager._fnStatusCheck(this);
 										}, this)
 									});
 									MessageToast.show(oBundle.getText("Claimcancelledsuccessfully"), {

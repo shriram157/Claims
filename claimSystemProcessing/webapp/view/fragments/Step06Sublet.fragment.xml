@@ -13,26 +13,19 @@
 				<!--<Button text="{i18n>DeleteSubletLine}" type="Reject" press="onPressDeleteSublet" enabled="{DateModel>/oFormEdit}"></Button>-->
 				<!--<core:Title text=""/>-->
 				<!--<Button text="{i18n>SaveClaim}" type="Emphasized" press="onPressSaveClaimItemSublet" enabled="{DateModel>/subletLine}"></Button>-->
-				
 				<HBox justifyContent="Start">
-					
 					<Button text="{i18n>AddSubletLine}" class="sapUiSmallMarginEnd" type="Emphasized" press="onPressAddSublet" enabled="{DateModel>/oFormEdit}"></Button>
 					<Button text="{i18n>UpdateSubletLine}" class="sapUiSmallMarginEnd" press="onPressUpdateSublet" enabled="{DateModel>/oFormEdit}"></Button>
 					<Button text="{i18n>DeleteSubletLine}" type="Reject" press="onPressDeleteSublet" enabled="{DateModel>/oFormEdit}"></Button>
-				
 				</HBox>
-				
-				
 			</f:content>
 		</f:SimpleForm>
 		<HBox class="clBgColor" wrap="Wrap" displayInline="true" justifyContent="SpaceBetween">
-			
-			<VBox  class="clSubl70">
+			<VBox class="clSubl70">
 				<f:SimpleForm width="100%" editable="true" class="ClsubHeadingLineHeight" layout="ResponsiveGridLayout" title="" labelSpanXL="12"
-					labelSpanL="12" labelSpanM="12" labelSpanS="12" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="5" columnsL="5"
-					columnsM="6">
+					labelSpanL="12" labelSpanM="12" labelSpanS="12" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="4" columnsL="4"
+					columnsM="4">
 					<f:content>
-						<HBox><Text text="{i18n>Line}" textAlign="Left"/></HBox>
 						<core:Title text=""/>
 						<Label text="{i18n>SubletType}" textAlign="Left"/>
 						<ComboBox selectionChange="onChangeSublet" id="idSubletCode" required="true"
@@ -45,9 +38,6 @@
 						<Label text="{i18n>Invoice}" textAlign="Left"/>
 						<Input maxLength="35" value="{SubletDataModel>/InvoiceNo}" enabled="{DateModel>/subletLine}"/>
 						<core:Title text=""/>
-						<Label text="{i18n>Description}" textAlign="Left"/>
-						<Input maxLength="40" value="{SubletDataModel>/description}" enabled="{DateModel>/subletLine}"/>
-						<core:Title text=""/>
 						<Label text="{i18n>Amount}" textAlign="Left"/>
 						<custom:CustomInputDecimal maxLength="9" value="{SubletDataModel>/Amount}" enabled="{DateModel>/subletLine}"/>
 						<core:Title text=""/>
@@ -59,11 +49,9 @@
 						</Button>
 					</f:content>
 					<f:content>
-						
 						<core:Title text=""/>
-							<Text text=""/>
-						<core:Title text=""/>
-							<Text text=""/>
+						<Label text="{i18n>Description}" textAlign="Left"/>
+						<Input maxLength="40" value="{SubletDataModel>/description}" enabled="{DateModel>/subletLine}"/>
 						<core:Title text=""/>
 						<Label text="{i18n>Days}" textAlign="Left"/>
 						<custom:CustomInput maxLength="15" value="{SubletDataModel>/days}" enabled="{DateModel>/subletLine}" visible="{DateModel>/disableBrandDays}"/>
@@ -79,9 +67,7 @@
 						</Select>
 						<core:Title text=""/>
 						<Label text=" " class="clTextIndent"/>
-						<Button text="{i18n>Clear}" type="Default" press="onPressCancelSublet" enabled="{DateModel>/subletLine}">
-							
-						</Button>
+						<Button text="{i18n>Clear}" type="Default" press="onPressCancelSublet" enabled="{DateModel>/subletLine}"></Button>
 					</f:content>
 				</f:SimpleForm>
 			</VBox>
@@ -159,7 +145,7 @@
 				</ColumnListItem>
 			</items>
 		</Table>
-		<HBox alignContent="Center" justifyContent="Center" class="sapUiSmallMarginBottom">
+		<HBox alignContent="Center" justifyContent="Center" class="sapUiLargeMarginBottom">
 			<Button class="sapUiTinyMarginBeginEnd" type="Back" press="onStep06Back" text="{i18n>Back}"/>
 			<Button class="sapUiTinyMarginBeginEnd" press="onStep06Next" text="{i18n>Next}" type="Emphasized"/>
 		</HBox>

@@ -38,16 +38,11 @@
 			labelSpanL="7" labelSpanM="12" labelSpanS="12" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="6" columnsL="6"
 			columnsM="6">
 			<f:content>
-				<core:Title text=""/>
-				<Button text="{i18n>AddPartLine}" visible="{DateModel>/oAddPartLine}" press="onPressAddPart" enabled="{DateModel>/oFormEdit}"/>
-				<core:Title text=""/>
-				<Button text="{i18n>UpdatePartLine}" visible="{DateModel>/oUpdatePartLine}" press="onPressUpdatePart" enabled="{DateModel>/oFormEdit}"/>
-				<core:Title text=""/>
-				<Button text="{i18n>DeletePartLine}" type="Reject" press="onPressDeletePart" enabled="{DateModel>/oFormEdit}"/>
-				<!--<core:Title text=""/>-->
-				<!--<Button text="{i18n>GeneratePackingSlip}" press="onPressPackingSlip" visible="{DateModel>/oSlipVisible}"/>-->
-				<core:Title text=""/>
-				<Button text="{i18n>SaveClaim}" type="Emphasized" press="onPressSavePart" enabled="{DateModel>/partLine}"/>
+				<HBox justifyContent="Start">
+					<Button text="{i18n>AddPartLine}" class="sapUiSmallMarginEnd" visible="{DateModel>/oAddPartLine}" press="onPressAddPart" enabled="{DateModel>/oFormEdit}"/>
+					<Button text="{i18n>UpdatePartLine}" class="sapUiSmallMarginEnd" visible="{DateModel>/oUpdatePartLine}" press="onPressUpdatePart" enabled="{DateModel>/oFormEdit}"/>
+					<Button text="{i18n>DeletePartLine}" type="Reject" press="onPressDeletePart" enabled="{DateModel>/oFormEdit}"/>
+				</HBox>
 			</f:content>
 		</f:SimpleForm>
 		<!--<HBox justifyContent="End" width="100%">-->
@@ -73,18 +68,20 @@
 						</Text>
 						<core:Title text=""/>
 						<Label text="{i18n>PartNumber}" textAlign="Left"/>
-						<Input value="{path:'PartDataModel>/matnr',  type : 'sap.ui.model.type.String', constraints : { minLength : 2, maxLength : 20 }}" valueState="{DateModel>/PartValState}" editable="{DateModel>/editablePartNumber}" required="true" id="idPartNumber" showValueHelp="true"
+						<Input value="{path:'PartDataModel>/matnr', type : 'sap.ui.model.type.String', constraints : { minLength : 2, maxLength : 20 }}"
+							valueState="{DateModel>/PartValState}" editable="{DateModel>/editablePartNumber}" required="true" id="idPartNumber" showValueHelp="true"
 							valueHelpOnly="true" valueHelpRequest="handleValueHelp" enabled="{DateModel>/partLine}"/>
 						<Label text="{i18n>CompetitorPriceTire}" textAlign="Left"/>
-						<customPart:CustomInputDecimal id="idComPr" required="true" maxLength="15" valueState="{DateModel>/competitorValueState}" 
-						value="{path:'PartDataModel>/CompetitorPrice',  type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 15 }}" enabled="{DateModel>/partLine}"/>
-					
+						<customPart:CustomInputDecimal id="idComPr" required="true" maxLength="15" valueState="{DateModel>/competitorValueState}"
+							value="{path:'PartDataModel>/CompetitorPrice', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 15 }}"
+							enabled="{DateModel>/partLine}"/>
 						<core:Title text=""/>
 						<Label text="{i18n>PartDescription}" textAlign="Left"/>
-						<Input value="{PartDataModel>/PartDescription}"  id="idPartDes" editable="false" enabled="{DateModel>/partLine}"/>
+						<Input value="{PartDataModel>/PartDescription}" id="idPartDes" editable="false" enabled="{DateModel>/partLine}"/>
 						<Label text="{i18n>Quantity}" textAlign="Left"/>
-						<customPart:CustomInput id="idPartQty"  valueState="{DateModel>/partQtyValState}" required="true" 
-						value="{path:'PartDataModel>/quant',  type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 15 }}" enabled="{DateModel>/partLine}"/>
+						<customPart:CustomInput id="idPartQty" valueState="{DateModel>/partQtyValState}" required="true"
+							value="{path:'PartDataModel>/quant', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 15 }}"
+							enabled="{DateModel>/partLine}"/>
 						<Text text="{LocalDataModel>/BaseUnit}"/>
 						<core:Title text=""/>
 						<Label text="{i18n>PartManufacturer}" textAlign="Left"/>
@@ -110,8 +107,8 @@
 				</f:SimpleForm>
 			</VBox>
 		</l:Grid>
-		<Table class="sapUiSizeCompact" id="idTableParts" mode="SingleSelectLeft" items="{path: 'LocalDataModel>/PricingDataModel'}" growing="true" growingThreshold="20"
-			noDataText="{i18n>NoData}" showNoData="true">
+		<Table class="sapUiSizeCompact" id="idTableParts" mode="SingleSelectLeft" items="{path: 'LocalDataModel>/PricingDataModel'}" growing="true"
+			growingThreshold="20" noDataText="{i18n>NoData}" showNoData="true">
 			<columns>
 				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Begin"><Text text="{i18n>Line}"/></Column>
 				<Column minScreenWidth="Tablet" width="8rem" demandPopin="true" hAlign="Center"><Text text="{i18n>PartNumber}" textAlign="Center"/></Column>
@@ -133,7 +130,6 @@
 				<!--<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center">-->
 				<!--	<Text text="{i18n>DifferenceTire}"/>-->
 				<!--</Column>-->
-			
 				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
 					<Text text="{i18n>TotalDifference}" textAlign="Center"/>
 				</Column>
@@ -154,7 +150,6 @@
 						<Text text="${LocalDataModel>MSRP}" wrapping="true" textAlign="Center"/>
 						<Text text="${LocalDataModel>CompetitorPrice}" wrapping="true" textAlign="Center"/>
 						<!--<Text text="${LocalDataModel>DiffPerTire}" wrapping="true" textAlign="Center"/>-->
-						
 						<Text text="${LocalDataModel>TotalDiff}" wrapping="true" textAlign="Center"/>
 						<Text text="${LocalDataModel>TCIApprAmt}" wrapping="true" textAlign="Center"/>
 						<!--<Text text="{path:'LocalDataModel>QtyHrs', formatter:'zclaimProcessing.utils.formatter.fnFormatDecimal'}" wrapping="true" textAlign="Center"/>-->
@@ -171,7 +166,7 @@
 				</ColumnListItem>
 			</items>
 		</Table>
-		<HBox alignContent="Center" justifyContent="Center" class="sapUiSmallMarginBottom sapUiSizeCompact">
+		<HBox alignContent="Center" justifyContent="Center" class="sapUiLargeMarginBottom sapUiSizeCompact">
 			<Button class="sapUiTinyMarginBeginEnd" type="Back" press="onStep01Back" text="{i18n>Back}"/>
 			<Button class="sapUiTinyMarginBeginEnd" press="onStep02Next" text="{i18n>Next}" type="Emphasized"/>
 		</HBox>
