@@ -2239,10 +2239,10 @@ sap.ui.define([
 						}
 						if (elm == "ZWMS") {
 							this.getView().getModel("DateModel").setProperty("/DisableRadio", true);
-							this.getView().getModel("DateModel").setProperty("/OdometerReq", false);
-							this.getView().getModel("DateModel").setProperty("/OdometerReqMan", false);
+							this.getView().getModel("DateModel").setProperty("/OdometerReq", true);
+							this.getView().getModel("DateModel").setProperty("/OdometerReqMan", true);
 							//this.getView().byId("idRequestType").setSelectedIndex(1);
-							this.getView().getModel("DateModel").setProperty("/oRadioVinIndex", 1);
+							
 						} else if (elm == "ZSCR") {
 							this.getView().getModel("DateModel").setProperty("/OdometerReqMan", false);
 							this.getView().getModel("DateModel").setProperty("/oVisibleRepDate", false);
@@ -4956,6 +4956,7 @@ sap.ui.define([
 											success: $.proxy(function (oAuthData) {
 												if (oAuthData.results[0].AuthorizationNumber != "") {
 													this.getModel("LocalDataModel").setProperty("/DataAuthDetails", oAuthData.results[0]);
+													this.getView().getModel("DateModel").setProperty("/chngClaimTypeVisible", false);
 												}
 											}, this)
 										});
@@ -7621,33 +7622,32 @@ sap.ui.define([
 					},
 
 					onChangeClaimType: function (oEvent) {
-						var oButton = oEvent.getSource();
-						var oView = this.getView();
-						var oDialog;
-						this.getModel("ProssingModel").read("/zc_claim_groupSet", {
-							urlParameters: {
-								"$filter": "LanguageKey eq '" + sSelectedLocale.toUpperCase() + "'"
-							},
-							success: $.proxy(function (data) {
-								var oClaimData = data.results;
+							var oButton = oEvent.getSource();
+			var oView = this.getView();
+			var oDialog;
+			this.getModel("ProssingModel").read("/zc_claim_groupSet", {
+				urlParameters: {
+					"$filter": "LanguageKey eq '" + sSelectedLocale.toUpperCase() + "'"
+				},
+				success: $.proxy(function (data) {
+					var oClaimData = data.results;
 
-								var selectedClimTypes = oClaimData.filter(elm => (elm.ClaimGroup == "FAC" || elm.ClaimGroup == "WTY") && elm.TMCClaimType !=
-									"ZACD" && elm.TMCClaimType != "ZAUT" && elm.TMCClaimType != "ZWAC");
-								this.getModel("LocalDataModel").setProperty("/ChangableClmTypSet", selectedClimTypes);
+					var selectedClimTypes = oClaimData.filter(elm => (elm.ClaimGroup == "FAC" || elm.ClaimGroup == "WTY") && elm.TMCClaimType !=
+						"ZACD" && elm.TMCClaimType != "ZAUT" && elm.TMCClaimType != "ZWAC");
+					this.getModel("LocalDataModel").setProperty("/ChangableClmTypSet", selectedClimTypes);
 
-								if (!oDialog) {
-									oDialog = sap.ui.xmlfragment("zclaimProcessing.view.fragments.claimTypeListDialog",
-										this);
-									this.getView().addDependent(oDialog);
-								}
-								oDialog.open();
+					if (!oDialog) {
+						oDialog = sap.ui.xmlfragment("zclaimProcessing.view.fragments.claimTypeListDialog",
+							this);
+						this.getView().addDependent(oDialog);
+					}
+					oDialog.open();
+				}, this),
+				error: function (err) {
+					console.log(err)
+				}
 
-							}, this),
-							error: function (err) {
-								console.log(err)
-							}
-
-						});
+			});
 
 					},
 
@@ -7691,56 +7691,95 @@ sap.ui.define([
 						var oBinding = oEvent.getParameter("itemsBinding");
 						oBinding.filter([oFilter]);
 					},
-					onDialogClose: function (oEvent) {
-                       var oBundle = this.getView().getModel("i18n").getResourceBundle();
-						var aContexts = oEvent.getParameter("selectedContexts");
-						if (aContexts && aContexts.length) {
-							var bindObj = aContexts.map(function (oContext) {
-								return oContext.getObject();
-							})[0];
+						onDialogClose: function (oEvent) {
+			var oBundle = this.getView().getModel("i18n").getResourceBundle();
+			var aContexts = oEvent.getParameter("selectedContexts");
+			if (aContexts && aContexts.length) {
+				var bindObj = aContexts.map(function (oContext) {
+					return oContext.getObject();
+				})[0];
+				
+				
+					if (
+					(this.getModel("LocalDataModel").getProperty("/LabourPricingDataModel").length > 0 ||
+						this.getModel("LocalDataModel").getProperty("/SubletPricingDataModel").length > 0) && (bindObj.TMCClaimType == "ZWA2" || bindObj
+						.TMCClaimType == "ZWP2")
+				) {
+					MessageToast.show(oBundle.getText("changeClmLabourSubletError"), {
+						my: "center center",
+						at: "center center"
+					});
+				} else if (
+					(this.getModel("LocalDataModel").getProperty("/LabourPricingDataModel").length > 0 ||
+						this.getModel("LocalDataModel").getProperty("/PricingDataModel").length > 0) && bindObj.TMCClaimType == "ZWMS"
+				) {
+					MessageToast.show(oBundle.getText("changeClmMSError"), {
+						my: "center center",
+						at: "center center"
+					});
+				} else if (
+					this.getModel("LocalDataModel").getProperty("/PaintPricingDataModel").length > 0 && (bindObj.TMCClaimType != "ZWVE" && bindObj.TMCClaimType !=
+						"ZGGW")
+				) {
+					MessageToast.show(oBundle.getText("changeVEError"), {
+						my: "center center",
+						at: "center center"
+					});
+				}else if(this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZACD" || 
+				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZAUT"){
+						MessageToast.show(oBundle.getText("changeclaimnotallowed"), {
+						my: "center center",
+						at: "center center"
+					});
+				} else {
 
-							//MessageToast.show(oBundle.getText("clmtypechangedto", [bindObj.TMCClaimType]) );
+				//MessageToast.show(oBundle.getText("clmtypechangedto", [bindObj.TMCClaimType]) );
 
-							MessageToast.show(
-								oBundle.getText("clmtypechangedto", [bindObj.TMCClaimType]), {
-									my: "center center",
-									at: "center center"
-								});
+				MessageToast.show(
+					oBundle.getText("clmtypechangedto", [bindObj.TMCClaimType]), {
+						my: "center center",
+						at: "center center"
+					});
 
-							var obj = {
-								Clmno: this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum"),
-								Clmty: this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType"),
-								updatedclmty: bindObj.TMCClaimType
-							}
+				var obj = {
+					Clmno: this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum"),
+					Clmty: this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType"),
+					updatedclmty: bindObj.TMCClaimType
+				}
+				
+					// 	updatedclmty: bindObj.TMCClaimType,
+					// clmgroup : 
 
-							this.getModel("ProssingModel").create("/zc_claim_type_changeSet", obj, {
-								success: $.proxy(function (res) {
-									this.getModel("ProssingModel").read("/ZC_CLAIM_HEAD_NEW", {
-										urlParameters: {
-											"$filter": "NumberOfWarrantyClaim eq '" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") + "'"
-										},
-										success: $.proxy(function (sdata) {
-											this.getView().getModel("HeadSetData").setProperty("/WarrantyClaimType", sdata.results[0].WarrantyClaimType);
-											this._fnChangeClaimTYpe_sub(res.updatedclmty);
+				this.getModel("ProssingModel").create("/zc_claim_type_changeSet", obj, {
+					success: $.proxy(function (res) {
+						this.getModel("ProssingModel").read("/ZC_CLAIM_HEAD_NEW", {
+							urlParameters: {
+								"$filter": "NumberOfWarrantyClaim eq '" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") + "'"
+							},
+							success: $.proxy(function (sdata) {
+								this.getView().getModel("HeadSetData").setProperty("/WarrantyClaimType", sdata.results[0].WarrantyClaimType);
+									this.getView().getModel("HeadSetData").setData(sdata.results[0]);
+								this._fnChangeClaimTYpe_sub(res.updatedclmty);
+								PmpDataManager._fnStatusCheck(this);
+								this._fnGetClaimTypeDescENFR();
+								WarrantyDataManager._fnSrNumVisible(this, bindObj.ClaimGroup, this.getModel("LocalDataModel").getProperty(
+									"/oClaimSelectedGroup"));
 
-											WarrantyDataManager._fnSrNumVisible(this, bindObj.ClaimGroup, this.getModel("LocalDataModel").getProperty(
-												"/oClaimSelectedGroup"));
+							}, this)
+						})
+					}, this)
+				})
+				}
+			} else {
 
-										}, this)
-									})
-								}, this)
-							})
+				MessageToast.show(oBundle.getText("NoClmSelected"), {
+					my: "center center",
+					at: "center center"
+				});
+			}
+			oEvent.getSource().getBinding("items").filter([]);
 
-						} else {
-
-							MessageToast.show(oBundle.getText("NoClmSelected"), {
-									my: "center center",
-									at: "center center"
-								});
-							}
-							oEvent.getSource().getBinding("items").filter([]);
-
-						},
+		},
 
 						//for odometer lessthan 0
 

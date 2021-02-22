@@ -592,6 +592,8 @@ sap.ui.define([
 			
 			if (group == "FAC"){
 				elm.getView().getModel("HeadSetData").setProperty("/OFP", "");
+				elm.getView().getModel("HeadSetData").setProperty("/T1WarrantyCodes", "");
+				elm.getView().getModel("HeadSetData").setProperty("/T2WarrantyCodes", "");
 			}
 		}
 
