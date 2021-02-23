@@ -10,8 +10,10 @@ sap.ui.define([
 	"zclaimProcessing/utils/Validator",
 	'sap/ui/model/Filter',
 	'sap/m/MessageBox',
-	"sap/ui/core/format/DateFormat"
-], function (Button, Dialog, Label, MessageToast, Text, BaseController, base64, ValueState, Validator, Filter, MessageBox, DateFormat) {
+	"sap/ui/core/format/DateFormat",
+	"zclaimProcessing/utils/PmpDataManager"
+], function (Button, Dialog, Label, MessageToast, Text, BaseController, base64,
+	ValueState, Validator, Filter, MessageBox, DateFormat, PmpDataManager) {
 	"use strict";
 	var callData, arrPartLOI = [],
 		BpDealerModel, BpDealerList = [],
@@ -244,7 +246,7 @@ sap.ui.define([
 		_onRoutMatched: function (oEvent) {
 			this.getModel("LocalDataModel").setProperty("/PartHeadAttachData", []);
 			this.getModel("LocalDataModel").setProperty("/IndicatorState", false);
-
+			this.getView().byId("ObjectPageLayoutPart")._scrollTo(0,0);
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 
 			var oMultiHeaderConfig = {
@@ -552,10 +554,9 @@ sap.ui.define([
 					this.getView().getModel("multiHeaderConfig").setProperty("/MiscellaneousCol", false);
 					this.getView().getModel("multiHeaderConfig").setProperty("/TransportCol", false);
 					this.getView().byId("textHeaderLabel").setText(oBundle.getText("Received"));
-				
+
 				}
-				
-				
+
 				var DropDownModel = new sap.ui.model.json.JSONModel();
 				this.getView().setModel(DropDownModel, "DropDownModel");
 				this.getView().getModel("DropDownModel").setProperty("/" + "/items", "");
@@ -567,22 +568,17 @@ sap.ui.define([
 						"$filter": "NumberOfWarrantyClaim eq '" + oClaim + "' "
 					},
 					success: $.proxy(function (data) {
-
+						var HeadSetData = new sap.ui.model.json.JSONModel(data.results[0]);
+						HeadSetData.setDefaultBindingMode("TwoWay");
+						this.getView().setModel(HeadSetData, "HeadSetData");
 						this.getModel("LocalDataModel").setProperty("/ClaimDetails", data.results[0]);
 						this.getModel("LocalDataModel").setProperty("/BPPartner", data.results[0].Partner);
 						BPKey = data.results[0].DeliveringCarrier;
 						var Partner = data.results[0].Partner;
 						this._getBPModel(BPKey);
 						this.getModel("LocalDataModel").setProperty("/NumberOfWarrantyClaim", data.results[0].NumberOfWarrantyClaim);
-
-						var HeadSetData = new sap.ui.model.json.JSONModel(data.results[0]);
-						HeadSetData.setDefaultBindingMode("TwoWay");
-						this.getView().setModel(HeadSetData, "HeadSetData");
 						this.ClaimStatus = data.results[0].DecisionCode;
-						
-						
-
-
+						PmpDataManager._fnStatusCheck(this);
 						if (userScope == "ReadOnlyViewAll") {
 							this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
 							this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", true);
@@ -627,9 +623,9 @@ sap.ui.define([
 
 							}
 						}
-						
+
 						if (this.ClaimStatus === "ZTSM") {
-							this.getView().getModel("DateModel").setProperty("/claimEditSt", true);	
+							this.getView().getModel("DateModel").setProperty("/claimEditSt", true);
 						}
 						var oBusinessModel = this.getModel("ApiBusinessModel");
 						oBusinessModel.read("/A_BusinessPartner", {
@@ -1392,7 +1388,7 @@ sap.ui.define([
 			this.obj.zc_claim_commentSet.results.push(oEntry);
 			this.obj.zc_claim_item_price_dataSet = [];
 			this.obj.DBOperation = "SAVE";
-			
+
 			oClaimModel.refreshSecurityToken();
 			oClaimModel.create("/zc_headSet", this.obj, {
 				success: $.proxy(function (data, response) {
@@ -1820,7 +1816,6 @@ sap.ui.define([
 									this.getView().byId("idMainClaimMessage").setProperty("visible", false);
 									this.obj.zc_itemSet.results.push(itemObj);
 									this.obj.zc_claim_item_price_dataSet.results = [];
-									
 
 									oClaimModel.create("/zc_headSet", this.obj, {
 										success: $.proxy(function (data, response) {
@@ -2991,7 +2986,7 @@ sap.ui.define([
 				//this.obj.zc_claim_commentSet.results = [];
 				var oClaimModel = this.getModel("ProssingModel");
 				this.obj.zc_claim_item_price_dataSet.results = [];
-				
+
 				oClaimModel.refreshSecurityToken();
 				oClaimModel.create("/zc_headSet", this.obj, {
 					success: $.proxy(function (data, response) {
@@ -3429,7 +3424,7 @@ sap.ui.define([
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			var fileType = this.oUploadedFile.type;
 			this.obj.NumberOfWarrantyClaim = oClaimNum;
-this.obj.DBOperation = "SAVE";
+			this.obj.DBOperation = "SAVE";
 			var oFileName = this.oUploadedFile.name;
 
 			var fileNamePrior = "HEAD@@@" + oFileName;
@@ -3917,6 +3912,7 @@ this.obj.DBOperation = "SAVE";
 									},
 									success: $.proxy(function (sdata) {
 										this.getView().getModel("HeadSetData").setData(sdata.results[0]);
+										PmpDataManager._fnStatusCheck(this);
 
 										oClaimModel.read("/zc_headSet", {
 											urlParameters: {
@@ -4303,6 +4299,7 @@ this.obj.DBOperation = "SAVE";
 								this.getView().getModel("HeadSetData").setProperty("/ShipmentReceivedDate", that.DataRes1.ShipmentReceivedDate);
 								this.getView().getModel("HeadSetData").setProperty("/ReferenceDate", that.DataRes1.ReferenceDate);
 								this.getView().getModel("HeadSetData").setProperty("/DateOfApplication", that.DataRes1.DateOfApplication);
+								PmpDataManager._fnStatusCheck(this);
 
 								this.ClaimStatus = this.getModel("LocalDataModel").getProperty("/ClaimDetails/DecisionCode");
 								this.getView().getModel("HeadSetData").setProperty("/NumberOfWarrantyClaim", this.getModel("LocalDataModel").getProperty(
@@ -4590,6 +4587,7 @@ this.obj.DBOperation = "SAVE";
 												this.getView().getModel("HeadSetData").setProperty("/HeadText", errorData.results[0].zc_claim_read_descriptionSet
 													.results[0].HeadText);
 												this.obj.zc_claim_vsrSet.results.pop(oObj);
+												PmpDataManager._fnStatusCheck(this);
 
 												this.getView().getModel("PartDataModel").setProperty("/LineNo", "");
 												this.getView().getModel("PartDataModel").setProperty("/matnr", "");
@@ -4623,11 +4621,12 @@ this.obj.DBOperation = "SAVE";
 											},
 											success: $.proxy(function (sdata) {
 												this.getView().getModel("DateModel").setProperty("/SubmitPWBusyIndicator", false);
-
+												this.getView().getModel("HeadSetData").setData(sdata.results[0]);
 												this.getView().getModel("HeadSetData").setProperty("/DecisionCode", sdata.results[0].DecisionCode);
 												this.ClaimStatus = sdata.results[0].DecisionCode;
+												PmpDataManager._fnStatusCheck(this);
 												if (sdata.results[0].DecisionCode == "ZTIC" || sdata.results[0].DecisionCode == "ZTRC") {
-													this.getView().getModel("DateModel").setProperty("/claimEditSt", false);	
+													this.getView().getModel("DateModel").setProperty("/claimEditSt", false);
 													this.getView().getModel("DateModel").setProperty("/oFormEdit", true);
 													this.getView().getModel("DateModel").setProperty("/SaveClaimBTN", true);
 													this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", true);
@@ -4643,8 +4642,8 @@ this.obj.DBOperation = "SAVE";
 															at: "center center"
 														});
 
-												}else if(sdata.results[0].DecisionCode == "ZTSM"){
-													this.getView().getModel("DateModel").setProperty("/claimEditSt", true);	
+												} else if (sdata.results[0].DecisionCode == "ZTSM") {
+													this.getView().getModel("DateModel").setProperty("/claimEditSt", true);
 													this.getView().getModel("DateModel").setProperty("/SaveClaimBTN", false);
 													this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
 													this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", false);
@@ -4661,7 +4660,7 @@ this.obj.DBOperation = "SAVE";
 														at: "center center"
 													});
 												} else {
-													this.getView().getModel("DateModel").setProperty("/claimEditSt", false);	
+													this.getView().getModel("DateModel").setProperty("/claimEditSt", false);
 													this.getView().getModel("DateModel").setProperty("/SaveClaimBTN", false);
 													this.getView().getModel("DateModel").setProperty("/oFormEdit", false);
 													this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", false);
@@ -4884,7 +4883,9 @@ this.obj.DBOperation = "SAVE";
 												"'"
 										},
 										success: $.proxy(function (sdata) {
+											this.getView().getModel("HeadSetData").setData(sdata.results[0]);
 											this.getView().getModel("HeadSetData").setProperty("/DecisionCode", sdata.results[0].DecisionCode);
+											PmpDataManager._fnStatusCheck(this);
 										}, this)
 									});
 									MessageToast.show(oBundle.getText("Claimcancelledsuccessfully"), {
@@ -5042,7 +5043,7 @@ this.obj.DBOperation = "SAVE";
 										},
 										success: $.proxy(function (sdata) {
 											this.getView().getModel("HeadSetData").setData(sdata.results[0]);
-
+											PmpDataManager._fnStatusCheck(this);
 											if (sdata.results[0].DecisionCode == "ZTIC" || sdata.results[0].DecisionCode == "ZTRC") {
 												this.getView().getModel("DateModel").setProperty("/claimEditSt", false);
 												this.getView().getModel("DateModel").setProperty("/oFormEdit", true);

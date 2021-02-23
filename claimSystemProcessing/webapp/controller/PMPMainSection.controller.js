@@ -72,7 +72,7 @@ sap.ui.define([
 		},
 
 		_onRoutMatched: function (oEvent) {
-
+			
 			var that = this;
 			setTimeout(function () {
 				if (PmpDataManager.fnReturnLanguage() == "FR") {
@@ -280,7 +280,7 @@ sap.ui.define([
 
 				}
 			}
-
+			this.getView().byId("ObjectPageLayout")._scrollTo(0,0);
 		},
 
 		onUpdateClaim: function (oEvent) {

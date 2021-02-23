@@ -207,10 +207,10 @@
 			</l:Grid>
 		</l:VerticalLayout>
 		<table:Table id="idPercentTable" class="classRCPTable sapUiTinyMarginBottom" selectionMode="Single" rows="{path:'LocalDataModel>/ClaimSumAuth'}"
-			visibleRowCountMode="Auto" rowSelectionChange="onNavigate" selectionBehavior="Row" showNoData="true" visibleRowCount="4" threshold="4"
+			rowSelectionChange="onNavigate" selectionBehavior="Row" showNoData="true" visibleRowCount="4" threshold="4"
 			enableBusyIndicator="true">
 			<table:columns autoResizable="true">
-				<table:Column width="9rem">
+				<table:Column width="7rem">
 					<table:multiLabels>
 						<Label text="" textAlign="Center" width="100%"/>
 					</table:multiLabels>
@@ -218,7 +218,7 @@
 						<Text text="{path:'LocalDataModel>ItemType', formatter: 'zclaimProcessing.utils.formatter.fnFormatText'}" wrapping="true"/>
 					</table:template>
 				</table:Column>
-				<table:Column width="10rem">
+				<table:Column width="8rem">
 					<table:multiLabels>
 						<Label text="{i18n>Amount}" textAlign="Center" width="100%"/>
 					</table:multiLabels>
@@ -226,7 +226,7 @@
 						<Text text="${LocalDataModel>Amount}" wrapping="true"/>
 					</table:template>
 				</table:Column>
-				<table:Column width="11rem">
+				<table:Column width="9rem">
 					<table:multiLabels>
 						<Label text="{i18n>Markup%}" textAlign="Center" width="100%"/>
 					</table:multiLabels>
@@ -234,7 +234,7 @@
 						<Text text="{path:'LocalDataModel>MarkupRate', formatter:'zclaimProcessing.utils.formatter.fnFormatPercent'}" wrapping="true"/>
 					</table:template>
 				</table:Column>
-				<table:Column width="11rem">
+				<table:Column width="10rem">
 					<table:multiLabels>
 						<Label text="{i18n>MarkupAmount}" textAlign="Center" width="100%"/>
 					</table:multiLabels>
@@ -242,7 +242,7 @@
 						<Text text="${path:'LocalDataModel>MarkupAmt'}" wrapping="true"/>
 					</table:template>
 				</table:Column>
-				<table:Column width="11rem">
+				<table:Column width="10rem">
 					<table:multiLabels>
 						<Label text="{i18n>subtotal}" textAlign="Center" width="100%"/>
 					</table:multiLabels>
@@ -258,7 +258,7 @@
 						<Text text="{path:'LocalDataModel>DiscountRate', formatter:'zclaimProcessing.utils.formatter.fnFormatPercent'}" wrapping="true"/>
 					</table:template>
 				</table:Column>
-				<table:Column width="11rem">
+				<table:Column width="10rem">
 					<table:multiLabels>
 						<Label text="{i18n>DiscountAmount}" textAlign="Center" width="100%"/>
 					</table:multiLabels>

@@ -83,9 +83,11 @@
 		<Table id="idTableParts" mode="SingleSelectLeft" items="{path: 'LocalDataModel>/PricingDataModel'}" growing="true" growingThreshold="30"
 			noDataText="{i18n>NoData}" showNoData="true">
 			<columns>
-				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Begin"><Text text="{i18n>Line}"/></Column>
-				<Column visible="{DateModel>/ofpEnabled}" minScreenWidth="Tablet" demandPopin="true" hAlign="Begin"><Text text="{i18n>OFP}"/></Column>
-				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center"><Text text="{i18n>PartNumber}" textAlign="Center"/></Column>
+				<Column width="4rem"  minScreenWidth="Tablet" demandPopin="true" hAlign="Center"><Text text="{i18n>Line}"/></Column>
+				<Column width="3rem" visible="{DateModel>/ofpEnabled}" minScreenWidth="Tablet" demandPopin="true"  hAlign="Begin">
+					<Text text="{i18n>OFP}" textAlign="Center"/>
+					</Column>
+				<Column  width="11rem" minScreenWidth="Tablet" demandPopin="true" hAlign="Center"><Text text="{i18n>PartNumber}" textAlign="Center"/></Column>
 				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center"><Text text="{i18n>Description}" textAlign="Center"/></Column>
 				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
 					<Text text="{LocalDataModel>/DealerPriceText}" textAlign="Center"/>

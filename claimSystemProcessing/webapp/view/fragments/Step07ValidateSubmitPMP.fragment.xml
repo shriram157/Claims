@@ -47,7 +47,7 @@
 					<HBox class="sapUiSmallMargin"><Text text="{i18n>ErrorDescription}: {LocalDataModel>MESSAGE}"/></HBox>
 				</CustomListItem>
 			</List>
-			<HBox alignContent="Center" justifyContent="Center" class="sapUiSmallMarginBottom sapUiSizeCompact">
+			<HBox alignContent="Center" justifyContent="Center" class="sapUiLargeMarginBottom sapUiSmallMarginTop sapUiSizeCompact">
 				<Button class="sapUiTinyMarginBeginEnd" type="Back" press="onStep03Back" text="{i18n>Back}"/>
 				<Button class="sapUiTinyMarginBeginEnd" press="onUpdateClaim" text="{i18n>SaveClaim}" enabled="{DateModel>/SaveClaim07}"/>
 				<Button class="sapUiTinyMarginBeginEnd" press="onSubmitTci" text="{i18n>SubmitToTCI}" type="Emphasized" enabled="{DateModel>/oFormEdit}"/>

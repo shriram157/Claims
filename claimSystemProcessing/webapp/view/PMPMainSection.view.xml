@@ -2,8 +2,8 @@
 	xmlns:html="http://www.w3.org/1999/xhtml" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:uxap="sap.uxap" xmlns:tnt="sap.tnt" >
 	<core:Fragment fragmentName="zclaimProcessing.view.fragments.ToolHeader" type="XML"/>
 	<uxap:ObjectPageLayout id="ObjectPageLayout">
-		<uxap:headerContent>
-			<VBox width="100%" class="sapUiSmallMarginTop" >
+		<uxap:headerContent class="clSubHeaderContent">
+			<VBox width="100%" class="sapUiSizeCompact" >
 				<HBox width="100%" justifyContent="End" displayInline="true">
 					<Text text="{i18n>Status} : {HeadSetData>/DecisionCode} ({LocalDataModel>/StatusDes})" class="sapUiSmallMarginEnd clFont01"/>
 				</HBox>
@@ -14,7 +14,7 @@
 				<uxap:subSections>
 					<uxap:ObjectPageSubSection title=" ">
 						<uxap:blocks>
-							<VBox>
+							<VBox class="sapUiSizeCompact">
 								<MessageStrip id="idMainClaimMessage" text="" showIcon="true" showCloseButton="true" class="sapUiMediumMarginBottom" visible="false"></MessageStrip>
 								<IconTabBar select="onSelectTab" expandable="false" id="idIconTabMainClaim" expanded="{device>/isNoPhone}"
 									class=" sapUiLargePaddingBottom sapUiLargeMarginBottom" selectedKey="Tab1">

@@ -210,6 +210,7 @@ sap.ui.define([
 			var sDate = "";
 			var oResult = [];
 			var issueDealer = this.getModel("LocalDataModel").getProperty("/currentIssueDealer");
+			this.getModel("LocalDataModel").setProperty("/ZcClaimHeadNewData", []);
 
 		},
 
@@ -562,7 +563,7 @@ sap.ui.define([
 
 			}
 			// Phase2 changes for Claim Group multiple filter values end 18/02/2021 singhmi
-			
+
 			oProssingModel.read("/ZC_CLAIM_HEAD_NEW", {
 				urlParameters: sParam,
 				success: $.proxy(function (data) {
@@ -666,9 +667,15 @@ sap.ui.define([
 
 						});
 					}
+					
+					
 				}, this)
 			});
 
+			// setTimeout(function(){ 
+			// 	$("html, body").animate({ scrollTop: 0 }, "slow");
+			// 		scroll(0,0);
+			// }, 3000);
 		},
 		onCreateNewClaim: function () {
 			this.getRouter().navTo("NewClaimSelectGroup");

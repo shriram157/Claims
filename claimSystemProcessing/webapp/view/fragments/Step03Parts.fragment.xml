@@ -156,15 +156,16 @@
 								</items>
 							</Select>
 							<core:Title text=""/>
-		
-							<Label text="{i18n>RepairAmount}" visible="{multiHeaderConfig>/RepairAmtV}"></Label>
-							<Input id="idReceivedAmt" value="{HeadSetData>/RepairAmount}" type="Number" required="{DateModel>/reqRepairAmt}" visible="{multiHeaderConfig>/RepairAmtV}"
-								enabled="{DateModel>/partLine}"></Input>
-							<core:Title text=""/>
 							<Label text="{i18n>Quantity}"></Label>
 							
 							<customPart:CustomInput id="idReceivedQnt" valueState="{DateModel>/partTypeState}" value="{PartDataModel>/QuantityReceived}"
 								enabled="{DateModel>/partLine}" required="true" liveChange="ValidQty"/>
+							<core:Title text=""/>
+		
+							<Label text="{i18n>RepairAmount}" visible="{multiHeaderConfig>/RepairAmtV}"></Label>
+							<Input id="idReceivedAmt" value="{HeadSetData>/RepairAmount}" type="Number" required="{DateModel>/reqRepairAmt}" visible="{multiHeaderConfig>/RepairAmtV}"
+								enabled="{DateModel>/partLine}"></Input>
+							
 							
 						</f:content>
 					</f:SimpleForm>

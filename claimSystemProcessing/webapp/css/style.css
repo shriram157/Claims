@@ -5,6 +5,10 @@
 
 @import url('https://fonts.googleapis.com/css?family=Raleway');
 
+html {
+  scroll-behavior: smooth;
+}
+
 .clCustomFont {
     font-family: 'Raleway', sans-serif;
 }
@@ -13,6 +17,17 @@
     background-color: #fff !important;
     color: #2f3c48;
     text-shadow: none;
+    position:fixed;
+    left:0;
+    top:0;
+    right:0;
+}
+
+.clSubHeaderContent{
+	 position:fixed;
+    left:0;
+    top:0;
+    right:0;
 }
 
 .sapContrastPlus.clCustomHeaderBg .sapMBtnInner {
