@@ -105,26 +105,26 @@
 							<core:Title text=""/>
 							<Text text="" id="textHeaderLabel"/>
 							<core:Title text=""/>
-							<UploadCollection id="UploadCollection" maximumFilenameLength="50" filenameLengthExceed="onFileNameLengthExceed" maximumFileSize="10"
-								sameFilenameAllowed="false" busy="{LocalDataModel>/IndicatorState}" fileSizeExceed="onFileSizeExceed"
-								uploadEnabled="{LocalDataModel>/UploadEnable}" change="onUploadChangeParts" uploadComplete="onUploadComplete02Parts"
-								fileDeleted="onFileDeleted02" visible="{multiHeaderConfig>/uploader}"
-								items="{ path: 'LocalDataModel>/partItemAttachments', templateShareable: false }">
-								<toolbar>
-									<OverflowToolbar>
-										<Breadcrumbs id="breadcrumbs" currentLocationText="{LocalDataModel>/currentLocationText}" links="{LocalDataModel>/partsHistory}">
-											<Link press="onBreadcrumbPress" text="{LocalDataModel>fileName}"/>
-										</Breadcrumbs>
-										<ToolbarSpacer/>
-										<UploadCollectionToolbarPlaceholder/>
-									</OverflowToolbar>
-								</toolbar>
-								<items>
-									<UploadCollectionItem documentId="{LocalDataModel>DOC_ID}" fileName="{LocalDataModel>FileName}" mimeType="{LocalDataModel>MIMETYPE}"
-										thumbnailUrl="{LocalDataModel>url}" url="{LocalDataModel>URI}" enableEdit="{settings>/enableEdit}" enableDelete="{settings>/enableDelete}"
-										visibleDelete="{settings>/visibleDelete}" visibleEdit="{settings>/visibleEdit}"></UploadCollectionItem>
-								</items>
-							</UploadCollection>
+							<!--<UploadCollection id="UploadCollection" maximumFilenameLength="50" filenameLengthExceed="onFileNameLengthExceed" maximumFileSize="10"-->
+							<!--	sameFilenameAllowed="false" busy="{LocalDataModel>/IndicatorState}" fileSizeExceed="onFileSizeExceed"-->
+							<!--	uploadEnabled="{LocalDataModel>/UploadEnable}" change="onUploadChangeParts" uploadComplete="onUploadComplete02Parts"-->
+							<!--	fileDeleted="onFileDeleted02" visible="{multiHeaderConfig>/uploader}"-->
+							<!--	items="{ path: 'LocalDataModel>/partItemAttachments', templateShareable: false }">-->
+							<!--	<toolbar>-->
+							<!--		<OverflowToolbar>-->
+							<!--			<Breadcrumbs id="breadcrumbs" currentLocationText="{LocalDataModel>/currentLocationText}" links="{LocalDataModel>/partsHistory}">-->
+							<!--				<Link press="onBreadcrumbPress" text="{LocalDataModel>fileName}"/>-->
+							<!--			</Breadcrumbs>-->
+							<!--			<ToolbarSpacer/>-->
+							<!--			<UploadCollectionToolbarPlaceholder/>-->
+							<!--		</OverflowToolbar>-->
+							<!--	</toolbar>-->
+							<!--	<items>-->
+							<!--		<UploadCollectionItem documentId="{LocalDataModel>DOC_ID}" fileName="{LocalDataModel>FileName}" mimeType="{LocalDataModel>MIMETYPE}"-->
+							<!--			thumbnailUrl="{LocalDataModel>url}" url="{LocalDataModel>URI}" enableEdit="{settings>/enableEdit}" enableDelete="{settings>/enableDelete}"-->
+							<!--			visibleDelete="{settings>/visibleDelete}" visibleEdit="{settings>/visibleEdit}"></UploadCollectionItem>-->
+							<!--	</items>-->
+							<!--</UploadCollection>-->
 							<Label text="{i18n>RetainPart}" visible="{multiHeaderConfig>/RetainPartV}" required="true"/>
 							<Select valueState="{DateModel>/RetainPartType}" change="onRetainChange" selectedKey="{PartDataModel>/RetainPart}"
 								visible="{multiHeaderConfig>/RetainPartV}" enabled="{DateModel>/partLine}">
@@ -226,9 +226,9 @@
 						<footer><Text text="{path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnAmountClaimedPW'}" textAlign="Center"
 							width="100%"/></footer>
 					</Column>
-					<Column visible="{multiHeaderConfig>/AttachmentCol}">
-						<Text text="{i18n>Attachments}"/>
-					</Column>
+					<!--<Column visible="{multiHeaderConfig>/AttachmentCol}">-->
+					<!--	<Text text="{i18n>Attachments}"/>-->
+					<!--</Column>-->
 					<Column>
 						<Text text="{i18n>TCIAmountApproved}"/>
 					
@@ -261,8 +261,8 @@
 							<Text text="{LocalDataModel>PartRepaired}"/>
 							<Text text="{path: 'LocalDataModel>RepairAmt', formatter: 'zclaimProcessing.utils.formatter.roundedDecimals'}"/>
 							<Text text="{path: 'LocalDataModel>AmtClaimed', formatter: 'zclaimProcessing.utils.formatter.roundedDecimals'}"/>
-							<Link visible="{multiHeaderConfig>/AttachmentCol}" press="onClickURIPart" href="{LocalDataModel>URI}" text="{i18n>viewattachment}"
-								target="_blank" textAlign="Center" width="100%"/>
+							<!--<Link visible="{multiHeaderConfig>/AttachmentCol}" press="onClickURIPart" href="{LocalDataModel>URI}" text="{i18n>viewattachment}"-->
+							<!--	target="_blank" textAlign="Center" width="100%"/>-->
 							<!--<Text text="{LocalDataModel>URI}"/>-->
 							<Text text="{path: 'LocalDataModel>TCIApprovedAmount', formatter: 'zclaimProcessing.utils.formatter.roundedDecimals'}"/>
 							<Text text="{path: 'LocalDataModel>DiffAmt', formatter: 'zclaimProcessing.utils.formatter.roundedDecimals'}"/>

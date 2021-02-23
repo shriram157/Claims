@@ -210,8 +210,6 @@ sap.ui.define([
 			var sDate = "";
 			var oResult = [];
 			var issueDealer = this.getModel("LocalDataModel").getProperty("/currentIssueDealer");
-			this.getModel("LocalDataModel").setProperty("/ZcClaimHeadNewData", []);
-
 		},
 
 		onAfterRendering: function () {
@@ -616,7 +614,7 @@ sap.ui.define([
 			this.getView().byId("idClaimType").setSelectedKey("");
 			this.getView().byId("idClaimStatus").setSelectedItems("");
 			this.getView().byId("idSearchBy").setSelectedKey("");
-			this.getView().getModel("LocalDataModel").setProperty("/ZcClaimHeadNewData", "");
+			this.getView().getModel("LocalDataModel").setProperty("/ZcClaimHeadNewData", []);
 
 		},
 		onPressClaim: function (oEvent) {

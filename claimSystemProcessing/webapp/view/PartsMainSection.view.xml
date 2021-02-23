@@ -1,9 +1,9 @@
 <mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" controllerName="zclaimProcessing.controller.PartsMainSection"
 	xmlns:html="http://www.w3.org/1999/xhtml" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:uxap="sap.uxap">
 	<core:Fragment fragmentName="zclaimProcessing.view.fragments.ToolHeader" type="XML"/>
-	<uxap:ObjectPageLayout enableLazyLoading="true" id="ObjectPageLayoutPart">
-		<uxap:headerContent>
-			<VBox width="100%" class="sapUiSmallMarginTop">
+	<uxap:ObjectPageLayout enableLazyLoading="true" id="ObjectPageLayout">
+		<uxap:headerContent class="clSubHeaderContent">
+			<VBox width="100%" class="sapUiSizeCompact" >
 				<HBox width="100%" justifyContent="End" displayInline="true">
 				
 					<Text text="{i18n>Status} : {HeadSetData>/DecisionCode} ({LocalDataModel>/StatusDes})" class="sapUiSmallMarginEnd clFont01"/>

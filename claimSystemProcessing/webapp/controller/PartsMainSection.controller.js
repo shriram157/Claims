@@ -246,7 +246,7 @@ sap.ui.define([
 		_onRoutMatched: function (oEvent) {
 			this.getModel("LocalDataModel").setProperty("/PartHeadAttachData", []);
 			this.getModel("LocalDataModel").setProperty("/IndicatorState", false);
-			this.getView().byId("ObjectPageLayoutPart")._scrollTo(0,0);
+			this.getView().byId("ObjectPageLayout")._scrollTo(0,0);
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 
 			var oMultiHeaderConfig = {
