@@ -8,82 +8,155 @@
 				<Title text="{LocalDataModel>/WarrantyClaimNumber}" textAlign="End"/>
 			</Toolbar>
 		</headerToolbar>
-		<f:SimpleForm editable="true" class="clHeaderDetails" layout="ResponsiveGridLayout" title="" labelSpanXL="6" labelSpanL="6" labelSpanM="12"
-			labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="6" columnsL="6" columnsM="4"
-			singleContainerFullSize="false">
-			<f:content>
-				<core:Title text=""/>
-				<Label text="{i18n>TCIClaim}">
-					<layoutData>
-						<l:GridData span="XL5 L5"/>
-					</layoutData>
-				</Label>
-				<Text text="{HeadSetData>/NumberOfWarrantyClaim}"/>
-				<Label text="{i18n>DlrClaim}"/>
-				<Text text="{HeadSetData>/ExternalNumberOfClaim}"/>
-				<core:Title text=""/>
-				<Label text="{i18n>ClaimTypeDescription}">
-					<layoutData>
-						<l:GridData span="XL8 L8 M8 S12"/>
-					</layoutData>
-				</Label>
-				<Text text="{LocalDataModel>/ALMClaimTypeDes}"/>
-				<Label text="{i18n>StatusDescription}">
-					<layoutData>
-						<l:GridData span="XL6 L6 M6 S12"/>
-					</layoutData>
-				</Label>
-				<Text text="{LocalDataModel>/StatusDes}"/>
-				<core:Title text=""/>
-				<Label text="{i18n>VIN}">
-					<layoutData>
-						<l:GridData span="XL3 L3"/>
-					</layoutData>
-				</Label>
-				<Text text="{HeadSetData>/ExternalObjectNumber}" wrapping="false"/>
-				<Label text="{i18n>Odometer}" textAlign="End">
-					<layoutData>
-						<l:GridData span="XL5 L5 M6 "/>
-					</layoutData>
-				</Label>
-				<Text text="{path:'HeadSetData>/Odometer', formatter:'zclaimProcessing.utils.formatter.fnFormatNum'}" textAlign="End">
-					<layoutData>
-						<l:GridData span="XL4 L4 M6 "/>
-					</layoutData>
-				</Text>
-				<Text text="{LocalDataModel>/MsrUnit}" visible="{DateModel>/OdometerReqMan}">
-					<layoutData>
-						<l:GridData span="XL3 L3 M3 "/>
-					</layoutData>
-				</Text>
-				<core:Title text=""/>
-				<Label text="{i18n>RO}">
-					<layoutData>
-						<l:GridData span="XL2 L3"/>
-					</layoutData>
-				</Label>
-				<Text text="{HeadSetData>/RepairOrderNumberExternal}"/>
-				<Label text="{i18n>RepairDate}"/>
-				<Text text="{path:'HeadSetData>/RepairDate', formatter:'zclaimProcessing.utils.formatter.fnDateFormat'}"/>
-				<core:Title text=""/>
-				<Label text="{i18n>Op}">
-					<layoutData>
-						<l:GridData span="XL2 L3"/>
-					</layoutData>
-				</Label>
-				<Text text="{HeadSetData>/MainOpsCode}"/>
-				<Label text="{i18n>OFP}">
-					<layoutData>
-						<l:GridData span="XL2 L3"/>
-					</layoutData>
-				</Label>
-				<Text text="{HeadSetData>/OFP}"/>
-				<core:Title text=""/>
-				<Label text="{i18n>RegDate}"/>
-				<Text text="{path:'LocalDataModel>/DataVinDetails/RegDate', formatter:'zclaimProcessing.utils.formatter.fnDateFormat'}"/>
-				<Label text="{i18n>Elapse}"/>
-				<Text text="{LocalDataModel>/VehicleMonths} {i18n>Months}"/>
-			</f:content>
-		</f:SimpleForm>
+		<!--<f:SimpleForm editable="true" class="clHeaderDetails" layout="ResponsiveGridLayout" title="" labelSpanXL="6" labelSpanL="6" labelSpanM="12"-->
+		<!--	labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="6" columnsL="6" columnsM="4"-->
+		<!--	singleContainerFullSize="false">-->
+		<!--	<f:content>-->
+		<!--		<core:Title text=""/>-->
+		<!--		<Label text="{i18n>TCIClaim}">-->
+		<!--			<layoutData>-->
+		<!--				<l:GridData span="XL5 L5"/>-->
+		<!--			</layoutData>-->
+		<!--		</Label>-->
+		<!--		<Text text="{HeadSetData>/NumberOfWarrantyClaim}"/>-->
+		<!--		<Label text="{i18n>DlrClaim}"/>-->
+		<!--		<Text text="{HeadSetData>/ExternalNumberOfClaim}"/>-->
+		<!--		<core:Title text=""/>-->
+		<!--		<Label text="{i18n>ClaimTypeDescription}">-->
+		<!--			<layoutData>-->
+		<!--				<l:GridData span="XL8 L8 M8 S12"/>-->
+		<!--			</layoutData>-->
+		<!--		</Label>-->
+		<!--		<Text text="{LocalDataModel>/ALMClaimTypeDes}"/>-->
+		<!--		<Label text="{i18n>StatusDescription}">-->
+		<!--			<layoutData>-->
+		<!--				<l:GridData span="XL6 L6 M6 S12"/>-->
+		<!--			</layoutData>-->
+		<!--		</Label>-->
+		<!--		<Text text="{LocalDataModel>/StatusDes}"/>-->
+		<!--		<core:Title text=""/>-->
+		<!--		<Label text="{i18n>VIN}">-->
+		<!--			<layoutData>-->
+		<!--				<l:GridData span="XL3 L3"/>-->
+		<!--			</layoutData>-->
+		<!--		</Label>-->
+		<!--		<Text text="{HeadSetData>/ExternalObjectNumber}" wrapping="false"/>-->
+		<!--		<Label text="{i18n>Odometer}" textAlign="End">-->
+		<!--			<layoutData>-->
+		<!--				<l:GridData span="XL5 L5 M6 "/>-->
+		<!--			</layoutData>-->
+		<!--		</Label>-->
+		<!--		<Text text="{path:'HeadSetData>/Odometer', formatter:'zclaimProcessing.utils.formatter.fnFormatNum'}" textAlign="End">-->
+		<!--			<layoutData>-->
+		<!--				<l:GridData span="XL4 L4 M6 "/>-->
+		<!--			</layoutData>-->
+		<!--		</Text>-->
+		<!--		<Text text="{LocalDataModel>/MsrUnit}" visible="{DateModel>/OdometerReqMan}">-->
+		<!--			<layoutData>-->
+		<!--				<l:GridData span="XL3 L3 M3 "/>-->
+		<!--			</layoutData>-->
+		<!--		</Text>-->
+		<!--		<core:Title text=""/>-->
+		<!--		<Label text="{i18n>RO}">-->
+		<!--			<layoutData>-->
+		<!--				<l:GridData span="XL2 L3"/>-->
+		<!--			</layoutData>-->
+		<!--		</Label>-->
+		<!--		<Text text="{HeadSetData>/RepairOrderNumberExternal}"/>-->
+		<!--		<Label text="{i18n>RepairDate}"/>-->
+		<!--		<Text text="{path:'HeadSetData>/RepairDate', formatter:'zclaimProcessing.utils.formatter.fnDateFormat'}"/>-->
+		<!--		<core:Title text=""/>-->
+		<!--		<Label text="{i18n>Op}">-->
+		<!--			<layoutData>-->
+		<!--				<l:GridData span="XL2 L3"/>-->
+		<!--			</layoutData>-->
+		<!--		</Label>-->
+		<!--		<Text text="{HeadSetData>/MainOpsCode}"/>-->
+		<!--		<Label text="{i18n>OFP}">-->
+		<!--			<layoutData>-->
+		<!--				<l:GridData span="XL2 L3"/>-->
+		<!--			</layoutData>-->
+		<!--		</Label>-->
+		<!--		<Text text="{HeadSetData>/OFP}"/>-->
+		<!--		<core:Title text=""/>-->
+		<!--		<Label text="{i18n>RegDate}"/>-->
+		<!--		<Text text="{path:'LocalDataModel>/DataVinDetails/RegDate', formatter:'zclaimProcessing.utils.formatter.fnDateFormat'}"/>-->
+		<!--		<Label text="{i18n>Elapse}"/>-->
+		<!--		<Text text="{LocalDataModel>/VehicleMonths} {i18n>Months}"/>-->
+		<!--	</f:content>-->
+		<!--</f:SimpleForm>-->
+		<HBox width="100%">
+			<VBox width="11rem">
+				<HBox width="100%">
+					<Label width="5rem" text="{i18n>TCIClaim}"/>
+					<Text text="{HeadSetData>/NumberOfWarrantyClaim}" textAlign="Center"/>
+				</HBox>
+				<HBox width="100%">
+					<Label width="5rem" text="{i18n>DlrClaim}"/>
+					<Text text="{HeadSetData>/ExternalNumberOfClaim}"/>
+				</HBox>
+			</VBox>
+			<VBox width="13rem">
+				<HBox width="100%">
+					<Label width="6rem" text="{i18n>RegDate}"/>
+					<Text text="{path:'LocalDataModel>/DataVinDetails/RegDate', formatter:'zclaimProcessing.utils.formatter.fnDateFormat'}" textAlign="Center"/>
+				</HBox>
+				<HBox width="100%">
+				<Label text="{i18n>Elapse}" width="6rem"/>
+					<Text text="{LocalDataModel>/VehicleMonths} {i18n>Months}"/>
+				</HBox>
+			</VBox>
+			<VBox width="16rem">
+				<HBox width="100%">
+					<Label width="5rem" text="{i18n>VIN}"/>
+					<Text text="{HeadSetData>/ExternalObjectNumber}" textAlign="Center"/>
+				</HBox>
+				<HBox width="100%">
+					<Label text="{i18n>Odometer}" width="5rem" />
+						
+					<Text text="{path:'HeadSetData>/Odometer', formatter:'zclaimProcessing.utils.formatter.fnFormatNum'}" textAlign="End">
+						<layoutData>
+							<l:GridData span="XL4 L4 M6 "/>
+						</layoutData>
+					</Text>
+					<Text text="{LocalDataModel>/MsrUnit}" visible="{DateModel>/OdometerReqMan}">
+						<layoutData>
+							<l:GridData span="XL3 L3 M3 "/>
+						</layoutData>
+					</Text>
+				</HBox>
+			</VBox>
+			<VBox width="13rem">
+				<HBox width="100%">
+					<Label text="{i18n>RepairOrder}" width="6rem"/>
+					<Text text="{HeadSetData>/RepairOrderNumberExternal}" textAlign="Center"/>
+				</HBox>
+				<HBox width="100%">
+					<Label text="{i18n>RepairDate}" width="6rem"/>
+					<Text text="{path:'HeadSetData>/RepairDate', formatter:'zclaimProcessing.utils.formatter.fnDateFormat'}"/>
+				</HBox>
+			</VBox>
+			<VBox width="15rem">
+				<HBox width="100%">
+					<Label text="{i18n>Op}" width="3rem"/>
+					<Text text="{HeadSetData>/MainOpsCode}" textAlign="Center"/>
+				</HBox>
+				<HBox width="100%">
+					<Label text="{i18n>OFP}" width="3rem" />
+					<Text text="{HeadSetData>/OFP}"/>
+				</HBox>
+			</VBox>
+			<VBox width="28rem">
+				<HBox width="100%">
+						<Label width="6rem" text="{i18n>StatusDescription}"></Label>
+					<Text text="{LocalDataModel>/StatusDes}"/>
+					
+				</HBox>
+				<HBox width="100%">
+					<Label text="{i18n>ClaimTypeDescription}" width="6rem"/>
+					<Text text="{LocalDataModel>/ALMClaimTypeDes}" textAlign="Center"/>
+				</HBox>
+			</VBox>
+		</HBox>
 	</Panel>
 </core:FragmentDefinition>

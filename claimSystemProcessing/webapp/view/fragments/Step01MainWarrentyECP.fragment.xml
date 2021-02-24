@@ -1,7 +1,6 @@
 <core:FragmentDefinition xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:u="sap.ui.unified" xmlns:l="sap.ui.layout"
 	xmlns="sap.m" xmlns:table="sap.ui.table" xmlns:custom="zclaimProcessing.control">
-	<VBox class="sapUiSizeCompact clFormTitleGap" busy="{LocalDataModel>/oSavePartIndicator}" busyIndicatorDelay="100"
-		id="idpart01Form">
+	<VBox class="sapUiSizeCompact clFormTitleGap" busy="{LocalDataModel>/oSavePartIndicator}" busyIndicatorDelay="100" id="idpart01Form">
 		<Panel width="auto" class="sapUiSizeCompact" accessibleRole="Region">
 			<headerToolbar class="sapUiSizeCompact">
 				<Toolbar height="3rem">
@@ -76,7 +75,8 @@
 							<l:GridData span="XL8 L8 M12 S12"/>
 						</layoutData>
 					</Button>
-						<Button text="{i18n>ChangeClaimType}" visible="{DateModel>/chngClaimTypeVisible}" enabled="{DateModel>/updateEnable}" type="Emphasized" press="onChangeClaimType">
+					<Button text="{i18n>ChangeClaimType}" visible="{DateModel>/chngClaimTypeVisible}" enabled="{DateModel>/updateEnable}" type="Emphasized"
+						press="onChangeClaimType">
 						<layoutData>
 							<l:GridData span="XL8 L8 M12 S12"/>
 						</layoutData>
@@ -113,7 +113,7 @@
 					value="{path:'HeadSetData>/DealerContact', type : 'sap.ui.model.type.String', constraints : { minLength : 2, maxLength : 30 }}"
 					id="idDealerContact" editable="{DateModel>/oFormEdit}" enabled="{DateModel>/oDealerContactReq}"/>
 				<core:Title/>
-				<Label text="{i18n>ROOdometer}" visible="{DateModel>/OdometerReqMan}" />
+				<Label text="{i18n>ROOdometer}" visible="{DateModel>/OdometerReqMan}"/>
 				<Input type="Number" maxLength="6" enabled="{DateModel>/oOdoEnabled}" change="changeOdo"
 					value="{path:'HeadSetData>/Odometer', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 6 }}"
 					required="{DateModel>/OdometerReqMan}" visible="{DateModel>/OdometerReqMan}" id="idOdometer" editable="{DateModel>/oFormEdit}">
@@ -186,7 +186,7 @@
 				<Label text="{i18n>SpecialVINReview}" vAlign="Middle"/>
 				<Text text="{LocalDataModel>/DataVinDetails/SpecialVINReview}" id="idSpecialVin">
 					<layoutData>
-					<l:GridData span="XL3 L3 M3 S4"/>
+						<l:GridData span="XL3 L3 M3 S4"/>
 					</layoutData>
 				</Text>
 				<core:Icon class="clWarning" src="sap-icon://message-warning" color="#f00" visible="{DateModel>/specialVinInd}" press="onPressSpecialVin"></core:Icon>
@@ -389,13 +389,11 @@
 					<core:Title/>
 					<Label text="{i18n>OFPDescription}"/>
 					<Text text="{path:'LocalDataModel>/OFPDescription'}" visible="{DateModel>/ofpEnabled}"/>
-					
-						<core:Title/>
+					<core:Title/>
 					<Label text="{i18n>FieldActionCode}" labelFor="idFieldActionInput"/>
 					<Input id="idFieldActionInput" maxLength="10" required="{path:'DateModel>/oFieldActionInput'}"
 						value="{path:'HeadSetData>/FieldActionReference', type : 'sap.ui.model.type.String', constraints : { minLength : 2, maxLength : 10 }}"
 						editable="{DateModel>/oFormEdit}" enabled="{DateModel>/oFieldActionInput}"/>
-				
 					<core:Title/>
 					<Label text="{i18n>T1Code}"/>
 					<ComboBox id="idT1Field" required="{DateModel>/enabledT1}" selectionChange="onChangeT1" showSecondaryValues="true"
@@ -415,12 +413,10 @@
 						selectedKey="{path:'HeadSetData>/T2WarrantyCodes'}" visible="{DateModel>/enabledT2}" editable="{DateModel>/oFormEdit}">
 						<core:ListItem key="{path:'LocalDataModel>T2'}" text="{LocalDataModel>T2}" additionalText="{LocalDataModel>T2Text}"/>
 					</ComboBox>
-					
 					<core:Title/>
 					<Label text="{i18n>BatteryTestCode}"/>
 					<Input id="idBattTestCOde" maxLength="14" value="{HeadSetData>/BatteryTestCode}" editable="{DateModel>/oFormEdit}"
 						enabled="{DateModel>/oBatteryTestEnable}"/>
-				
 					<core:Title/>
 					<Label text="{i18n>MainOp}"/>
 					<Input id="idMainOps" maxLength="9" change="onChangeMainOp"
@@ -429,11 +425,10 @@
 					<core:Title/>
 					<Label text="{i18n>MainOpDescription}"/>
 					<Text text="{path:'LocalDataModel>/MainOpsCodeDescription'}" visible="{DateModel>/oMainOps}"/>
-						<core:Title/>
+					<core:Title/>
 					<Label text="{i18n>SerialNo}" visible="{DateModel>/serialNoV}"/>
 					<Input maxLength="17" change="onChangeSerialNumber" value="{path:'HeadSetData>/SerialNumber', type : 'sap.ui.model.type.String'}"
-						 editable="{DateModel>/oFormEdit}" visible="{DateModel>/serialNoV}">
-					</Input>
+						editable="{DateModel>/oFormEdit}" visible="{DateModel>/serialNoV}"></Input>
 					<core:Title/>
 					<Label text="{i18n>Cause}"/>
 					<TextArea maxLength="100" required="true" editable="{DateModel>/oFormEdit}" id="idCause"
@@ -446,7 +441,7 @@
 					<Label text="{i18n>Remedy}"/>
 					<TextArea id="idRemedy" required="true" editable="{DateModel>/oFormEdit}" maxLength="100"
 						value="{path:'HeadSetData>/Remedy', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 100 }}"></TextArea>
-							<core:Title/>
+					<core:Title/>
 					<Label text="{i18n>AppliedCoverage}"/>
 					<Text text="{HeadSetData>/AppliedWarrantyCoverage}"/>
 					<core:Title/>
@@ -493,10 +488,9 @@
 					editable="{DateModel>/oFormEdit}"/>
 			</f:content>
 		</f:SimpleForm>
-		
 	</VBox>
 	<VBox class="sapUiSizeCompact clFormTitleGap sapUiSmallMarginBottom">
-		<Panel  backgroundDesign="Transparent" headerText="{i18n>ClaimComments}" expandable="true" class="sapUiSizeCompact clCommentFix">
+		<Panel backgroundDesign="Transparent" headerText="{i18n>ClaimComments}" expandable="true" class="sapUiSizeCompact clCommentFix">
 			<content>
 				<FeedInput class="sapUiSizeCompact" post=".onPost" enabled="{LocalDataModel>/FeedEnabled}" placeholder="{i18n>PostHere}" maxLength="70"/>
 				<List class="sapUiSizeCompact" busy="{LocalDataModel>/commentIndicator}" id="idCommentsList" noDataText="{i18n>ObjectCommentNoData}"
@@ -505,44 +499,42 @@
 				</List>
 			</content>
 		</Panel>
-		<Panel  backgroundDesign="Transparent" headerText="{i18n>SupportingDocuments}" expandable="true" class="sapUiSizeCompact clCommentFix">
-		<!--<Panel width="auto" accessibleRole="Region">-->
-		<!--	<headerToolbar>-->
-		<!--		<Toolbar height="3rem">-->
-		<!--			<Title text="{i18n>SupportingDocuments}"/>-->
-		<!--		</Toolbar>-->
-		<!--	</headerToolbar>-->
-		<!--	<content>-->
-				<!--<f:SimpleForm  editable="{DateModel>/oFormEdit}"  title="{i18n>SupportingDocuments}" layout="ResponsiveGridLayout" labelSpanXL="3" labelSpanL="3" labelSpanM="3"-->
-				<!--	labelSpanS="12" adjustLabelSpan="false" emptySpanXL="4" emptySpanL="4" emptySpanM="0" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1"-->
-				<!--	singleContainerFullSize="false">-->
-				<!--	<f:content>-->
-						<UploadCollection class="sapUiSizeCompact clAttachmentList" id="idHeadAttachment" maximumFileSize="10" maximumFilenameLength="50" fileSizeExceed="onFileSizeExceed"
-							noDataDescription="{i18n>NoFileFound}" noDataText="{i18n>NoFileFound}" filenameLengthExceed="onFileNameLengthExceed"
-							uploadEnabled="{LocalDataModel>/UploadEnable}" change="onUplaodChange" uploadComplete="onUploadComplete" instantUpload="true"
-							busy="{LocalDataModel>/IndicatorState}" sameFilenameAllowed="false"
-							items="{ path: 'LocalDataModel>/HeadAtchmentData', templateShareable: false }">
-							<toolbar>
-								<OverflowToolbar>
-									<Breadcrumbs id="breadcrumbsSupportingDoc" currentLocationText="{LocalDataModel>/currentLocationText}" links="{LocalDataModel>/history}">
-										<Link press="onBreadcrumbPress" text="{LocalDataModel>fileName}"/>
-									</Breadcrumbs>
-									<ToolbarSpacer/>
-									<UploadCollectionToolbarPlaceholder/>
-								</OverflowToolbar>
-							</toolbar>
-							<items>
-								<UploadCollectionItem deletePress="onFileDeleted" documentId="{LocalDataModel>DOC_ID}" fileName="{LocalDataModel>FileName}"
-									mimeType="{LocalDataModel>MIMETYPE}" thumbnailUrl="{LocalDataModel>url}" url="{LocalDataModel>URI}" enableEdit="false"
-									enableDelete="{LocalDataModel>/UploadEnable}" visibleDelete="{settings>/visibleDelete}" visibleEdit="false"></UploadCollectionItem>
-							</items>
-						</UploadCollection>
-						
-				<!--	</f:content>-->
-				<!--</f:SimpleForm>-->
-		<!--	</content>-->
+		<Panel backgroundDesign="Transparent" headerText="{i18n>SupportingDocuments}" expandable="true" class="sapUiSizeCompact clCommentFix">
+			<!--<Panel width="auto" accessibleRole="Region">-->
+			<!--	<headerToolbar>-->
+			<!--		<Toolbar height="3rem">-->
+			<!--			<Title text="{i18n>SupportingDocuments}"/>-->
+			<!--		</Toolbar>-->
+			<!--	</headerToolbar>-->
+			<!--	<content>-->
+			<!--<f:SimpleForm  editable="{DateModel>/oFormEdit}"  title="{i18n>SupportingDocuments}" layout="ResponsiveGridLayout" labelSpanXL="3" labelSpanL="3" labelSpanM="3"-->
+			<!--	labelSpanS="12" adjustLabelSpan="false" emptySpanXL="4" emptySpanL="4" emptySpanM="0" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1"-->
+			<!--	singleContainerFullSize="false">-->
+			<!--	<f:content>-->
+			<UploadCollection class="sapUiSizeCompact clAttachmentList" id="idHeadAttachment" maximumFileSize="10" maximumFilenameLength="50"
+				fileSizeExceed="onFileSizeExceed" noDataDescription="{i18n>NoFileFound}" noDataText="{i18n>NoFileFound}"
+				filenameLengthExceed="onFileNameLengthExceed" uploadEnabled="{LocalDataModel>/UploadEnable}" change="onUplaodChange"
+				uploadComplete="onUploadComplete" instantUpload="true" busy="{LocalDataModel>/IndicatorState}" sameFilenameAllowed="false"
+				items="{ path: 'LocalDataModel>/HeadAtchmentData', templateShareable: false }">
+				<toolbar>
+					<OverflowToolbar>
+						<Breadcrumbs id="breadcrumbsSupportingDoc" currentLocationText="{LocalDataModel>/currentLocationText}" links="{LocalDataModel>/history}">
+							<Link press="onBreadcrumbPress" text="{LocalDataModel>fileName}"/>
+						</Breadcrumbs>
+						<ToolbarSpacer/>
+						<UploadCollectionToolbarPlaceholder/>
+					</OverflowToolbar>
+				</toolbar>
+				<items>
+					<UploadCollectionItem deletePress="onFileDeleted" documentId="{LocalDataModel>DOC_ID}" fileName="{LocalDataModel>FileName}"
+						mimeType="{LocalDataModel>MIMETYPE}" thumbnailUrl="{LocalDataModel>url}" url="{LocalDataModel>URI}" enableEdit="false"
+						enableDelete="{LocalDataModel>/UploadEnable}" visibleDelete="{settings>/visibleDelete}" visibleEdit="false"></UploadCollectionItem>
+				</items>
+			</UploadCollection>
+			<!--	</f:content>-->
+			<!--</f:SimpleForm>-->
+			<!--	</content>-->
 		</Panel>
-	
 		<Panel width="auto" accessibleRole="Region">
 			<content>
 				<core:Fragment fragmentName="zclaimProcessing.view.fragments.WarrantyPartClaimAmountSummery" type="XML"/>
