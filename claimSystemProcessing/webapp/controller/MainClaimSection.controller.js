@@ -4775,7 +4775,7 @@ sap.ui.define([
 								urlParameters: {
 									"$filter": "DBOperation eq 'LINK'and Numberofwarrantyclaim eq '" + oClaimNum + "'and  AuthorizationNumber eq '" +
 										oAuthNum +
-										"'and DealerPer eq '00'and CustomerPer eq '00'and TCIPer eq '00'and PartPer eq '00'and LabourPer eq '00'and SubletPer eq '00'"
+										"'and Language eq '" + sSelectedLocale.toUpperCase() + "'and DealerPer eq '00'and CustomerPer eq '00'and TCIPer eq '00'and PartPer eq '00'and LabourPer eq '00'and SubletPer eq '00'"
 								},
 								success: $.proxy(function (sdata) {
 
@@ -4916,7 +4916,7 @@ sap.ui.define([
 			oProssingModel.read("/zc_authorizationSet", {
 				urlParameters: {
 					"$filter": "DBOperation eq 'LINK'and Numberofwarrantyclaim eq '" + oClaimNum + "'and  AuthorizationNumber eq '" + oClaim +
-						"'and DealerPer eq '00'and CustomerPer eq '00'and TCIPer eq '00'and PartPer eq '00'and LabourPer eq '00'and SubletPer eq '00'"
+						"'and Language eq '" + sSelectedLocale.toUpperCase() + "'and DealerPer eq '00'and CustomerPer eq '00'and TCIPer eq '00'and PartPer eq '00'and LabourPer eq '00'and SubletPer eq '00'"
 				},
 				success: $.proxy(function (data) {
 					if (data.results[0].Message == "") {
