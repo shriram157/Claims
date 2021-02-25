@@ -376,79 +376,171 @@
 				<Text text="{HeadSetData>/AgreementNumber}"/>
 			</f:content>
 		</f:SimpleForm>
-		<VBox class="clFormTitleGap" visible="{DateModel>/RepairdDetailVisible}">
-			<f:SimpleForm visible="{DateModel>/RepairdDetailVisible}" editable="{DateModel>/oFormEdit}" title="{i18n>RepairDetails}"
-				layout="ResponsiveGridLayout" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0"
-				emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="6" columnsL="6" columnsM="3" singleContainerFullSize="false">
-				<f:content>
-					<core:Title/>
-					<Label text="{i18n>OFP}"/>
+		<Panel width="auto" class="sapUiSizeCompact" accessibleRole="Region" visible="{DateModel>/RepairdDetailVisible}">
+			<headerToolbar class="sapUiSizeCompact">
+				<Toolbar height="3rem">
+					<Title text="{i18n>RepairDetails}"/>
+				</Toolbar>
+			</headerToolbar>
+			<HBox width="100%" class="sapUiTinyMarginBottom clflexDirectionChange">
+				<VBox   visible="{DateModel>/ofpEnabled}" class="sapUiSmallMarginEnd clwidhth22">
+					<Label text="{i18n>OFP}" required="{DateModel>/ofpRequired}" visible="{DateModel>/ofpEnabled}"/>
 					<Input id="idOFP" required="{DateModel>/ofpRequired}" change="onChangeOFP"
 						value="{path:'HeadSetData>/OFP', type : 'sap.ui.model.type.String', constraints : { minLength : 2, maxLength : 40 }}"
 						editable="{DateModel>/oFormEdit}" visible="{DateModel>/ofpEnabled}" maxLength="40"/>
-					<core:Title/>
-					<Label text="{i18n>OFPDescription}"/>
-					<Text text="{path:'LocalDataModel>/OFPDescription'}" visible="{DateModel>/ofpEnabled}"/>
-					<core:Title/>
-					<Label text="{i18n>FieldActionCode}" labelFor="idFieldActionInput"/>
+				</VBox>
+				<VBox  visible="{DateModel>/oMainOps}" class="sapUiSmallMarginEnd clwidhth22">
+					<Label text="{i18n>MainOp}" visible="{DateModel>/oMainOps}" required="{DateModel>/oMainOpsReq}"/>
+					<Input id="idMainOps" maxLength="9" change="onChangeMainOp"
+						value="{path:'HeadSetData>/MainOpsCode', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 9 }}"
+						required="{DateModel>/oMainOpsReq}" editable="{DateModel>/oFormEdit}" visible="{DateModel>/oMainOps}"/>
+				</VBox>
+				<VBox   class="sapUiSmallMarginEnd clwidhth22">
+					<Label text="{i18n>FieldActionCode}" labelFor="idFieldActionInput" required="{path:'DateModel>/oFieldActionInput'}"/>
 					<Input id="idFieldActionInput" maxLength="10" required="{path:'DateModel>/oFieldActionInput'}"
 						value="{path:'HeadSetData>/FieldActionReference', type : 'sap.ui.model.type.String', constraints : { minLength : 2, maxLength : 10 }}"
 						editable="{DateModel>/oFormEdit}" enabled="{DateModel>/oFieldActionInput}"/>
-					<core:Title/>
-					<Label text="{i18n>T1Code}"/>
-					<ComboBox id="idT1Field" required="{DateModel>/enabledT1}" selectionChange="onChangeT1" showSecondaryValues="true"
+				</VBox>
+				<VBox   class="clwidhth22">
+					<Label text="{i18n>BatteryTestCode}"/>
+					<Input id="idBattTestCOde" maxLength="14" value="{HeadSetData>/BatteryTestCode}" editable="{DateModel>/oFormEdit}"
+						enabled="{DateModel>/oBatteryTestEnable}"/>
+				</VBox>
+			</HBox>
+			<HBox width="100%" class="sapUiTinyMarginBottom clflexDirectionChange">
+				<VBox   visible="{DateModel>/ofpEnabled}" class="sapUiSmallMarginEnd clwidhth22">
+					<Label text="{i18n>OFPDescription}"/>
+					<Text text="{path:'LocalDataModel>/OFPDescription'}" visible="{DateModel>/ofpEnabled}"/>
+				</VBox>
+				<VBox   visible="{DateModel>/oMainOps}" class="sapUiSmallMarginEnd clwidhth22">
+					<Label text="{i18n>MainOpDescription}" visible="{DateModel>/oMainOps}"/>
+					<Text text="{path:'LocalDataModel>/MainOpsCodeDescription'}" visible="{DateModel>/oMainOps}"/>
+				</VBox>
+				<VBox   visible="{DateModel>/enabledT1}" class="sapUiSmallMarginEnd clwidth10rem">
+					<Label text="{i18n>T1Code}" visible="{DateModel>/enabledT1}" width="100%" required="{DateModel>/enabledT1}"/>
+					<ComboBox id="idT1Field" width="100%" required="{DateModel>/enabledT1}" selectionChange="onChangeT1" showSecondaryValues="true"
 						items="{ path: 'LocalDataModel>/t1DescSrchhelpSet' }" filterSecondaryValues="true"
 						value="{path:'HeadSetData>/T1WarrantyCodes', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 140 } }"
 						selectedKey="{path:'HeadSetData>/T1WarrantyCodes'}" visible="{DateModel>/enabledT1}" editable="{DateModel>/oFormEdit}">
 						<core:ListItem key="{LocalDataModel>T1}" text="{path:'LocalDataModel>T1'}" additionalText="{LocalDataModel>T1Text}"/>
 					</ComboBox>
-					<!--<Select selectedKey="{HeadSetData>/T1WarrantyCodes}" items="{ path: '/Zt1DescSrchhelpSet' }" enabled="{DateModel>/oFormEdit}">-->
-					<!--	<core:Item key="{T1}" text="{T1} - {T1Text}"/>-->
-					<!--</Select>-->
-					<core:Title/>
-					<Label text="{i18n>T2Code}"/>
-					<ComboBox id="idT2Field" required="{DateModel>/enabledT2}" selectionChange="onChangeT2" showSecondaryValues="true"
+				</VBox>
+				<VBox   visible="{DateModel>/enabledT2}" class="sapUiSmallMarginEnd clwidth10rem">
+					<Label text="{i18n>T2Code}" visible="{DateModel>/enabledT2}" width="100%" required="{DateModel>/enabledT2}"/>
+					<ComboBox width="100%" id="idT2Field" required="{DateModel>/enabledT2}" selectionChange="onChangeT2" showSecondaryValues="true"
 						items="{ path: 'LocalDataModel>/t2DescSrchhelpSet' }" filterSecondaryValues="true"
 						value="{path:'HeadSetData>/T2WarrantyCodes', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 140 } }"
 						selectedKey="{path:'HeadSetData>/T2WarrantyCodes'}" visible="{DateModel>/enabledT2}" editable="{DateModel>/oFormEdit}">
 						<core:ListItem key="{path:'LocalDataModel>T2'}" text="{LocalDataModel>T2}" additionalText="{LocalDataModel>T2Text}"/>
 					</ComboBox>
-					<core:Title/>
-					<Label text="{i18n>BatteryTestCode}"/>
-					<Input id="idBattTestCOde" maxLength="14" value="{HeadSetData>/BatteryTestCode}" editable="{DateModel>/oFormEdit}"
-						enabled="{DateModel>/oBatteryTestEnable}"/>
-					<core:Title/>
-					<Label text="{i18n>MainOp}"/>
-					<Input id="idMainOps" maxLength="9" change="onChangeMainOp"
-						value="{path:'HeadSetData>/MainOpsCode', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 9 }}"
-						required="{DateModel>/oMainOpsReq}" editable="{DateModel>/oFormEdit}" visible="{DateModel>/oMainOps}"/>
-					<core:Title/>
-					<Label text="{i18n>MainOpDescription}"/>
-					<Text text="{path:'LocalDataModel>/MainOpsCodeDescription'}" visible="{DateModel>/oMainOps}"/>
-					<core:Title/>
+				</VBox>
+				<VBox   visible="{DateModel>/serialNoV}" class="clwidhth22">
 					<Label text="{i18n>SerialNo}" visible="{DateModel>/serialNoV}"/>
 					<Input maxLength="17" change="onChangeSerialNumber" value="{path:'HeadSetData>/SerialNumber', type : 'sap.ui.model.type.String'}"
 						editable="{DateModel>/oFormEdit}" visible="{DateModel>/serialNoV}"></Input>
-					<core:Title/>
-					<Label text="{i18n>Cause}"/>
-					<TextArea maxLength="100" required="true" editable="{DateModel>/oFormEdit}" id="idCause"
+				</VBox>
+			</HBox>
+			<HBox width="100%" class="sapUiTinyMarginBottom clflexDirectionChange">
+				<VBox   class="sapUiSmallMarginEnd clwidhth30">
+					<Label text="{i18n>Cause}" required="true" width="100%"/>
+					<TextArea width="100%" maxLength="100" required="true" editable="{DateModel>/oFormEdit}" id="idCause"
 						value="{path:'HeadSetData>/Cause',type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 100 }}"></TextArea>
-					<core:Title/>
-					<Label text="{i18n>Condition}"/>
-					<TextArea maxLength="100" required="true" id="idCondition" editable="{DateModel>/oFormEdit}"
+				</VBox>
+				<VBox   class="sapUiSmallMarginEnd clwidhth30">
+					<Label text="{i18n>Condition}" required="true" width="99%"/>
+					<TextArea width="100%" maxLength="100" required="true" id="idCondition" editable="{DateModel>/oFormEdit}"
 						value="{path:'HeadSetData>/ZCondition', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 100 }}"></TextArea>
-					<core:Title/>
-					<Label text="{i18n>Remedy}"/>
-					<TextArea id="idRemedy" required="true" editable="{DateModel>/oFormEdit}" maxLength="100"
+				</VBox>
+				<VBox   class="clwidhth30">
+					<Label text="{i18n>Remedy}" required="true" width="99%"/>
+					<TextArea width="100%" id="idRemedy" required="true" editable="{DateModel>/oFormEdit}" maxLength="100"
 						value="{path:'HeadSetData>/Remedy', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 100 }}"></TextArea>
-					<core:Title/>
+				</VBox>
+				
+			</HBox>
+			<HBox width="100%" class="sapUiTinyMarginBottom clflexDirectionChange">
+				<VBox class="sapUiSmallMarginEnd clwidhth22">
 					<Label text="{i18n>AppliedCoverage}"/>
 					<Text text="{HeadSetData>/AppliedWarrantyCoverage}"/>
-					<core:Title/>
+				</VBox>
+					<VBox class="clwidhth22">
 					<Link text="{i18n>ViewCCRAbbreviations}" press="onPressAbbr"/>
-				</f:content>
-			</f:SimpleForm>
-		</VBox>
+				</VBox>
+			</HBox>
+		</Panel>
+		<!--<VBox class="clFormTitleGap" visible="{DateModel>/RepairdDetailVisible}">-->
+		<!--	<f:SimpleForm visible="{DateModel>/RepairdDetailVisible}" editable="{DateModel>/oFormEdit}" title="{i18n>RepairDetails}"-->
+		<!--		layout="ResponsiveGridLayout" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0"-->
+		<!--		emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="6" columnsL="6" columnsM="3" singleContainerFullSize="false">-->
+		<!--		<f:content>-->
+		<!--			<core:Title/>-->
+					<!--<Label text="{i18n>OFP}"/>-->
+					<!--<Input id="idOFP" required="{DateModel>/ofpRequired}" change="onChangeOFP"-->
+					<!--	value="{path:'HeadSetData>/OFP', type : 'sap.ui.model.type.String', constraints : { minLength : 2, maxLength : 40 }}"-->
+					<!--	editable="{DateModel>/oFormEdit}" visible="{DateModel>/ofpEnabled}" maxLength="40"/>-->
+		<!--			<core:Title/>-->
+					<!--<Label text="{i18n>OFPDescription}"/>-->
+					<!--<Text text="{path:'LocalDataModel>/OFPDescription'}" visible="{DateModel>/ofpEnabled}"/>-->
+		<!--			<core:Title/>-->
+					<!--<Label text="{i18n>FieldActionCode}" labelFor="idFieldActionInput"/>-->
+					<!--<Input id="idFieldActionInput" maxLength="10" required="{path:'DateModel>/oFieldActionInput'}"-->
+					<!--	value="{path:'HeadSetData>/FieldActionReference', type : 'sap.ui.model.type.String', constraints : { minLength : 2, maxLength : 10 }}"-->
+					<!--	editable="{DateModel>/oFormEdit}" enabled="{DateModel>/oFieldActionInput}"/>-->
+		<!--			<core:Title/>-->
+					<!--<Label text="{i18n>T1Code}"/>-->
+					<!--<ComboBox id="idT1Field" required="{DateModel>/enabledT1}" selectionChange="onChangeT1" showSecondaryValues="true"-->
+					<!--	items="{ path: 'LocalDataModel>/t1DescSrchhelpSet' }" filterSecondaryValues="true"-->
+					<!--	value="{path:'HeadSetData>/T1WarrantyCodes', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 140 } }"-->
+					<!--	selectedKey="{path:'HeadSetData>/T1WarrantyCodes'}" visible="{DateModel>/enabledT1}" editable="{DateModel>/oFormEdit}">-->
+					<!--	<core:ListItem key="{LocalDataModel>T1}" text="{path:'LocalDataModel>T1'}" additionalText="{LocalDataModel>T1Text}"/>-->
+					<!--</ComboBox>-->
+					<!--<Select selectedKey="{HeadSetData>/T1WarrantyCodes}" items="{ path: '/Zt1DescSrchhelpSet' }" enabled="{DateModel>/oFormEdit}">-->
+					<!--	<core:Item key="{T1}" text="{T1} - {T1Text}"/>-->
+					<!--</Select>-->
+		<!--			<core:Title/>-->
+					<!--<Label text="{i18n>T2Code}"/>-->
+					<!--<ComboBox id="idT2Field" required="{DateModel>/enabledT2}" selectionChange="onChangeT2" showSecondaryValues="true"-->
+					<!--	items="{ path: 'LocalDataModel>/t2DescSrchhelpSet' }" filterSecondaryValues="true"-->
+					<!--	value="{path:'HeadSetData>/T2WarrantyCodes', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 140 } }"-->
+					<!--	selectedKey="{path:'HeadSetData>/T2WarrantyCodes'}" visible="{DateModel>/enabledT2}" editable="{DateModel>/oFormEdit}">-->
+					<!--	<core:ListItem key="{path:'LocalDataModel>T2'}" text="{LocalDataModel>T2}" additionalText="{LocalDataModel>T2Text}"/>-->
+					<!--</ComboBox>-->
+		<!--			<core:Title/>-->
+					<!--<Label text="{i18n>BatteryTestCode}"/>-->
+					<!--<Input id="idBattTestCOde" maxLength="14" value="{HeadSetData>/BatteryTestCode}" editable="{DateModel>/oFormEdit}"-->
+					<!--	enabled="{DateModel>/oBatteryTestEnable}"/>-->
+		<!--			<core:Title/>-->
+					<!--<Label text="{i18n>MainOp}"/>-->
+					<!--<Input id="idMainOps" maxLength="9" change="onChangeMainOp"-->
+					<!--	value="{path:'HeadSetData>/MainOpsCode', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 9 }}"-->
+					<!--	required="{DateModel>/oMainOpsReq}" editable="{DateModel>/oFormEdit}" visible="{DateModel>/oMainOps}"/>-->
+		<!--			<core:Title/>-->
+					<!--<Label text="{i18n>MainOpDescription}"/>-->
+					<!--<Text text="{path:'LocalDataModel>/MainOpsCodeDescription'}" visible="{DateModel>/oMainOps}"/>-->
+		<!--			<core:Title/>-->
+					<!--<Label text="{i18n>SerialNo}" visible="{DateModel>/serialNoV}"/>-->
+					<!--<Input maxLength="17" change="onChangeSerialNumber" value="{path:'HeadSetData>/SerialNumber', type : 'sap.ui.model.type.String'}"-->
+					<!--	editable="{DateModel>/oFormEdit}" visible="{DateModel>/serialNoV}"></Input>-->
+		<!--			<core:Title/>-->
+					<!--<Label text="{i18n>Cause}"/>-->
+					<!--<TextArea maxLength="100" required="true" editable="{DateModel>/oFormEdit}" id="idCause"-->
+					<!--	value="{path:'HeadSetData>/Cause',type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 100 }}"></TextArea>-->
+		<!--			<core:Title/>-->
+					<!--<Label text="{i18n>Condition}"/>-->
+					<!--<TextArea maxLength="100" required="true" id="idCondition" editable="{DateModel>/oFormEdit}"-->
+					<!--	value="{path:'HeadSetData>/ZCondition', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 100 }}"></TextArea>-->
+		<!--			<core:Title/>-->
+					<!--<Label text="{i18n>Remedy}"/>-->
+					<!--<TextArea id="idRemedy" required="true" editable="{DateModel>/oFormEdit}" maxLength="100"-->
+					<!--	value="{path:'HeadSetData>/Remedy', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 100 }}"></TextArea>-->
+		<!--			<core:Title/>-->
+		<!--			<Label text="{i18n>AppliedCoverage}"/>-->
+		<!--			<Text text="{HeadSetData>/AppliedWarrantyCoverage}"/>-->
+		<!--			<core:Title/>-->
+		<!--			<Link text="{i18n>ViewCCRAbbreviations}" press="onPressAbbr"/>-->
+		<!--		</f:content>-->
+		<!--	</f:SimpleForm>-->
+		<!--</VBox>-->
 		<f:SimpleForm visible="{DateModel>/AcA1}" editable="{DateModel>/oFormEdit}" title="{i18n>AccessoryInstallation}"
 			layout="ResponsiveGridLayout" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0"
 			emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="3" columnsL="3" columnsM="3" singleContainerFullSize="false">

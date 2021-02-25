@@ -6,7 +6,7 @@
 @import url('https://fonts.googleapis.com/css?family=Raleway');
 
 html {
-  scroll-behavior: smooth;
+    scroll-behavior: smooth;
 }
 
 .clCustomFont {
@@ -17,17 +17,17 @@ html {
     background-color: #fff !important;
     color: #2f3c48;
     text-shadow: none;
-    position:fixed;
-    left:0;
-    top:0;
-    right:0;
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
 }
 
-.clSubHeaderContent{
-	 position:fixed;
-    left:0;
-    top:0;
-    right:0;
+.clSubHeaderContent {
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
 }
 
 .sapContrastPlus.clCustomHeaderBg .sapMBtnInner {
@@ -378,31 +378,69 @@ span#__xmlview1--idPostalDistInput {
     text-align: start !important;
 }
 
-.sapUxAPObjectPageLayout-Std-Desktop .sapUxAPBlockContainer {padding-bottom:0!important; padding-top:0!important;}
-.sapUiFormResGrid>div {padding-top:0!important; }
+.sapUxAPObjectPageLayout-Std-Desktop .sapUxAPBlockContainer {
+    padding-bottom: 0 !important;
+    padding-top: 0 !important;
+}
 
-.sapUiTableRowSelectors:not(.sapUiTableRowHighlights) .sapUiTableRowSelectionHeaderCell {width:00!important;}
-.sapUiTableRowSelectors:not(.sapUiTableRowHighlights) .sapUiTableCtrlScr, .sapUiTableRowSelectors:not(.sapUiTableRowHighlights) .sapUiTableCtrlScrFixed {
-	margin-left:00!important;
+.sapUiFormResGrid>div {
+    padding-top: 0 !important;
 }
+
+.sapUiTableRowSelectors:not(.sapUiTableRowHighlights) .sapUiTableRowSelectionHeaderCell {
+    width: 00 !important;
+}
+
+.sapUiTableRowSelectors:not(.sapUiTableRowHighlights) .sapUiTableCtrlScr,
+.sapUiTableRowSelectors:not(.sapUiTableRowHighlights) .sapUiTableCtrlScrFixed {
+    margin-left: 00 !important;
+}
+
 .sapUiTableRowSelectors:not(.sapUiTableRowHighlights) .sapUiTableRowHdrScr {
-	width:00!important;
+    width: 00 !important;
 }
+
 .sapMITB.sapUiResponsiveContentPadding>.sapMITBContainerContent>.sapMITBContent {
-	padding: 1rem 1rem!important;
+    padding: 1rem 1rem !important;
 }
-.sapUiFormM:not(.sapUiFormEdit)>.sapUiFormResGrid>div:not(.sapMTB) {padding-bottom:0!important;}
-.sapMUCItemIconInactive, .sapMUCItemIcon, .sapMUCItemImage {
-	height: 1rem!important;
-    width: 1rem!important;
+
+.sapUiFormM:not(.sapUiFormEdit)>.sapUiFormResGrid>div:not(.sapMTB) {
+    padding-bottom: 0 !important;
 }
- .sapMLIB.sapMUCItem.sapMUCListLastItem{
-	padding-top: .8rem!important;
-    padding-bottom: .8rem!important;
+
+.sapMUCItemIconInactive,
+.sapMUCItemIcon,
+.sapMUCItemImage {
+    height: 1rem !important;
+    width: 1rem !important;
 }
-.sapMTB-Transparent-CTX.sapMTB{
-	padding-left:0!important;
+
+.sapMLIB.sapMUCItem.sapMUCListLastItem {
+    padding-top: .8rem !important;
+    padding-bottom: .8rem !important;
 }
+
+.sapMTB-Transparent-CTX.sapMTB {
+    padding-left: 0 !important;
+}
+
+.clwidhth22 {
+    width: 100%;
+}
+
+.clwidth10rem {
+    width: 100%;
+}
+
+.clwidhth30 {
+    width: 100%;
+}
+
+.clflexDirectionChange {
+    flex-direction: column;
+}
+
+
 @media only screen and (min-width: 960px) {
     .clSubl70 {
         width: 60%;
@@ -418,5 +456,23 @@ span#__xmlview1--idPostalDistInput {
 
     .clSubl20 {
         width: 20%;
+    }
+}
+
+@media only screen and (min-width: 767px) {
+    .clwidhth22 {
+        width: 22rem;
+    }
+
+    .clwidth10rem {
+        width: 10.5rem;
+    }
+
+    .clwidhth30 {
+        width: 30rem;
+    }
+
+    .clflexDirectionChange {
+        flex-direction: row;
     }
 }
