@@ -2811,9 +2811,11 @@ sap.ui.define([
 							},
 							success: $.proxy(function (sdata) {
 								// console.log(sdata);
+								this.getView().getModel("HeadSetData").setData(sdata.results[0]);
 								this.getModel("LocalDataModel").setProperty("/ClaimDetails", sdata.results[0]);
 
 								this._fnGetClaimTypeDescENFR();
+								PmpDataManager._fnStatusCheck(this);
 
 								var oPartner = this.getModel("LocalDataModel").getProperty("/ClaimDetails/Partner");
 								var oGroupDescription = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType");
@@ -2825,7 +2827,8 @@ sap.ui.define([
 
 								if (oGroupDescription != "ZRCR" && oGroupDescription != "ZSCR" && oGroupDescription != "ZSSE" && oGroupDescription !=
 									"ZSSM" &&
-									oGroupDescription != "ZWMS") {
+									oGroupDescription != "ZWMS" && this.getModel("LocalDataModel").getProperty("/WarrantyClaimTypeGroup") !=
+									"Authorization") {
 									this.getView().getModel("DateModel").setProperty("/copyClaimEnable", true);
 									this.getView().getModel("DateModel").setProperty("/authHide", true);
 								} else {
@@ -2844,7 +2847,7 @@ sap.ui.define([
 
 								this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", sdata.results[0].OfpDescription);
 								this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", sdata.results[0].Main_opsDescription);
-								this.getView().getModel("HeadSetData").setData(sdata.results[0]);
+								
 								if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZECP" ||
 									this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") == "ZECP") {
 									this.getModel("LocalDataModel").setProperty("/oCurrentDealerLabour", this.getModel("LocalDataModel").getProperty(
@@ -3537,13 +3540,7 @@ sap.ui.define([
 												if (oIndexPaint > -1) {
 													this.getView().byId("idPaintTable").getItems()[oIndexPaint].getCells()[1].setProperty("selected", true);
 												}
-												// this.getView().getModel("HeadSetData").setProperty("/RepairDate", moment.utc(val).format("YYYY-MM-DD") sdata.results[0].RepairDate));
-												// this.getView().getModel("HeadSetData").setProperty("/RepairDate", response.RepairDate);
-												// this.getView().getModel("HeadSetData").setProperty("/ReferenceDate", response.ReferenceDate);
-												// this.getView().getModel("HeadSetData").setProperty("/DateOfApplication", response.DateOfApplication);
-												// this.getView().getModel("HeadSetData").setProperty("/AccessoryInstallDate", response.AccessoryInstallDate);
-												// this.getView().getModel("HeadSetData").setProperty("/PreviousROInvoiceDate", response.PreviousROInvoiceDate);
-												// this.getView().getModel("HeadSetData").setProperty("/DeliveryDate", response.DeliveryDate);
+											
 
 												oClaimModel.read("/zc_headSet", {
 													urlParameters: {
@@ -7044,18 +7041,8 @@ sap.ui.define([
 													.results[0].OFPDescription);
 												this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", errorData.results[0].zc_claim_read_descriptionSet
 													.results[0].MainOpsCodeDescription);
-
-												// this.getView().getModel("HeadSetData").setProperty("/RepairDate", errorData.results[0].zc_claim_read_descriptionSet
-												// 	.results[0].RepairDate);
-												// this.getView().getModel("HeadSetData").setProperty("/PreviousROInvoiceDate", errorData.results[0].zc_claim_read_descriptionSet
-												// 	.results[0].PreviousROInvoiceDate);
-												// this.getView().getModel("HeadSetData").setProperty("/DeliveryDate", errorData.results[0].zc_claim_read_descriptionSet
-												// 	.results[0].DeliveryDate);
-												// this.getView().getModel("HeadSetData").setProperty("/AccessoryInstallDate", errorData.results[0].zc_claim_read_descriptionSet
-												// 	.results[0].AccessoryInstallDate);
 												this.getView().getModel("HeadSetData").setProperty("/HeadText", errorData.results[0].zc_claim_read_descriptionSet
 													.results[0].HeadText);
-
 												this.getView().getModel("DateModel").setProperty("/errorBusyIndicator", false);
 												this.obj.zc_claim_vsrSet.results.pop(oObj);
 											}, this)
