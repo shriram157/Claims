@@ -12,9 +12,9 @@
 						<uxap:blocks>
 							<VBox class="sapUiSizeCompact">
 								<MessageStrip id="idMainClaimMessage" text="" showIcon="true" showCloseButton="true" visible="false"></MessageStrip>
-								<f:SimpleForm id="SimpleFormChange354" editable="true" layout="ResponsiveGridLayout" title="{i18n>EnterCoverageSearch}" labelSpanXL="4"
-									labelSpanL="4" labelSpanM="3" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
-									columnsXL="3" columnsL="3" columnsM="1" singleContainerFullSize="false">
+								<f:SimpleForm id="SimpleFormChange354" editable="true" layout="ResponsiveGridLayout" title="{i18n>EnterCoverageSearch}" labelSpanXL="3"
+									labelSpanL="3" labelSpanM="3" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
+									columnsXL="4" columnsL="4" columnsM="1" singleContainerFullSize="false">
 									<f:content>
 										<core:Title text=""/>
 										<Label text="{i18n>VIN}" textAlign="Begin" required="true"/>
@@ -27,9 +27,9 @@
 										<Button text="{i18n>Reset}" press="onPressClear"/>
 									</f:content>
 								</f:SimpleForm>
-								<f:SimpleForm id="vin_details" class="clVinDetails" editable="true" layout="ResponsiveGridLayout" labelSpanXL="6" labelSpanL="6"
-									labelSpanM="6" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="3"
-									columnsL="3" columnsM="3" singleContainerFullSize="false">
+								<f:SimpleForm id="vin_details" class="clVinDetails" editable="true" layout="ResponsiveGridLayout" labelSpanXL="4"
+									labelSpanL="5" labelSpanM="5" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0"
+									emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="4" columnsL="4" columnsM="2" singleContainerFullSize="true">
 									<f:content>
 										<core:Title text=""/>
 										<Label text="{i18n>Model}" vAlign="Middle"/>
@@ -37,44 +37,55 @@
 										<Label text="{i18n>InServiceDate}" vAlign="Middle"/>
 										<Text
 											text="{path:'LocalDataModel>/DataVinDetails/RegDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd', strictParsing: true , UTC: true}}"/>
-										<Label text="{i18n>Age}" vAlign="Middle"/>
-										<Text text="{LocalDataModel>/VehicleMonths} {i18n>Months}" id="idVehicleAge"/>
 										<core:Title text=""/>
 										<Label text="{i18n>ModelYear}"/>
 										<Text text="{LocalDataModel>/DataVinDetails/ModelYear}"/>
 										<Label text="{i18n>WrittenOff}" vAlign="Middle"/>
 										<Text text="{LocalDataModel>/DataVinDetails/WrittenOff}" id="idWrittenoff">
 											<layoutData>
-												<l:GridData span="XL1 L2 M3 S4"/>
+												<l:GridData span="XL1 L2 M12 S12"/>
 											</layoutData>
 										</Text>
-										<core:Icon src="sap-icon://message-warning" class="clWarning" color="#f00" visible="{DateModel>/writtenOffInd}"
-											press="onPressWrittenOff">
+										<core:Icon src="sap-icon://message-warning" class="clWarning" color="#f00" visible="{DateModel>/writtenOffInd}" press="onPressWrittenOff">
 											<core:layoutData>
 												<FlexItemData/>
 											</core:layoutData>
 										</core:Icon>
 										<core:Title text=""/>
-										<Label text="{i18n>ForeignVIN}" vAlign="Middle"/>
+										<Label text="{i18n>ForeignVIN}" vAlign="Middle" textAlign="Begin">
+											<layoutData>
+												<l:GridData span="XL5 L5 M12 S12"/>
+											</layoutData>
+										</Label>
 										<Text text="{LocalDataModel>/DataVinDetails/ForeignVIN}" id="idForeignVin">
 											<layoutData>
-												<l:GridData span="XL1 L2 M3 S4"/>
+												<l:GridData span="XL5 L5 M12 S12"/>
 											</layoutData>
 										</Text>
-										<core:Icon src="sap-icon://message-warning" class="clWarning" color="#f00" visible="{DateModel>/foreignVinInd}"
-											press="onPressForeignVin">
+										<core:Icon src="sap-icon://message-warning" class="clWarning" color="#f00" visible="{DateModel>/foreignVinInd}" press="onPressForeignVin">
 											<core:layoutData>
 												<FlexItemData/>
 											</core:layoutData>
 										</core:Icon>
-										<Label text="{i18n>SpecialVINReview}" vAlign="Middle"/>
+										<Label text="{i18n>SpecialVINReview}" vAlign="Middle">
+											<layoutData>
+												<l:GridData span="XL5 L5 M12 S12"/>
+											</layoutData>
+										</Label>
 										<Text text="{LocalDataModel>/DataVinDetails/SpecialVINReview}" id="idSpecialVin">
 											<layoutData>
-												<l:GridData span="XL1 L2 M3 S4"/>
+												<l:GridData span="XL5 L5 M12 S12"/>
 											</layoutData>
 										</Text>
-										<core:Icon class="clWarning" src="sap-icon://message-warning" color="#f00" visible="{DateModel>/specialVinInd}"
-											press="onPressSpecialVin"></core:Icon>
+										<core:Icon class="clWarning" src="sap-icon://message-warning" color="#f00" visible="{DateModel>/specialVinInd}" press="onPressSpecialVin"></core:Icon>
+										
+										<core:Title text=""/>
+										<Label text="{i18n>Age}" vAlign="Middle">
+											<layoutData>
+												<l:GridData span="XL2 L2 M12 S12"/>
+											</layoutData>
+										</Label>
+										<Text text="{LocalDataModel>/VehicleMonths} {i18n>Months}" id="idVehicleAge"/>
 									</f:content>
 								</f:SimpleForm>
 								<!--					<Label text="{i18n>RegDate}"/>-->
@@ -203,8 +214,8 @@
 								<!--		</table:Column>-->
 								<!--	</table:columns>-->
 								<!--</table:Table>-->
-								<f:SimpleForm editable="true" layout="ResponsiveGridLayout" title="" labelSpanXL="6" labelSpanL="6" labelSpanM="12" labelSpanS="12"
-									emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="3" columnsL="3" columnsM="3">
+								<f:SimpleForm editable="true" layout="ResponsiveGridLayout" title="" labelSpanXL="4" labelSpanL="4" labelSpanM="12" labelSpanS="12"
+									emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="4" columnsL="4" columnsM="3">
 									<f:content>
 										<core:Title text=""/>
 										<Label text="{i18n>PartOFP}" textAlign="Left" required="true"/>
@@ -220,8 +231,8 @@
 										</Button>
 									</f:content>
 								</f:SimpleForm>
-								<table:Table class="classRCPTable" selectionMode="Single" rows="{LocalDataModel>/CoverageSet}"
-									visibleRowCountMode="Auto" id='ofptable' selectionBehavior="Row" showNoData="true" threshold="20" enableBusyIndicator="true">
+								<table:Table class="classRCPTable" selectionMode="Single" rows="{LocalDataModel>/CoverageSet}" visibleRowCountMode="Auto" id='ofptable'
+									selectionBehavior="Row" showNoData="true" threshold="20" enableBusyIndicator="true">
 									<table:columns autoResizable="true">
 										<table:Column width="17rem">
 											<table:multiLabels>

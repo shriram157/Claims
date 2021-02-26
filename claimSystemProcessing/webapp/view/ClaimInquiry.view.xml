@@ -45,8 +45,8 @@
 										</Toolbar>
 									</headerToolbar>
 									<columns>
-										<Column width="6em" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
-											<Label text="{i18n>DealerCode}"  wrapping="true"  textAlign="Center" width="100%"/>
+										<Column width="7em" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+											<Label text="{i18n>DealerCode}"   wrapping="true"  textAlign="Center" width="100%"/>
 											</Column>
 										<Column width="6em" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
 											<Label text="{i18n>DealerClaim}" wrapping="true" textAlign="Center" width="100%"/>
@@ -75,7 +75,7 @@
 										<Column width="8em" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
 											<Label text="{i18n>OFP}" wrapping="true" textAlign="Center" width="100%"/>
 										</Column>
-										<Column width="8em" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+										<Column width="6em" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
 											<Label text="{i18n>MainOpCode}" wrapping="true" textAlign="Center" width="100%"/>
 										</Column>
 										<Column width="8em" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
@@ -94,7 +94,7 @@
 									<items>
 										<ColumnListItem>
 											<cells>
-												<Text text="{path:'LocalDataModel>Partner'}" wrapping="false"/>
+												<Text text="{path:'LocalDataModel>Partner'}" wrapping="true"/>
 												<Link text="{path:'LocalDataModel>ExternalNumberOfClaim'}" enabled="{LocalDataModel>/LinkEnable}" wrapping="false"
 													press="onPressClaimInquiryDetails"/>
 												<Text text="{LocalDataModel>NumberOfWarrantyClaim}" wrapping="false"/>

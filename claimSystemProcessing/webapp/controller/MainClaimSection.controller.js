@@ -1504,6 +1504,9 @@ sap.ui.define([
 								this.getView().getModel("DateModel").setProperty("/warrantySubmissionClaim", false);
 							}
 							this.getModel("LocalDataModel").setProperty("/ClaimGroupSet", this.oFilteredData);
+							if (this.oFilteredData.length == 1) {
+								alert("hello");
+							}
 						}, this),
 						error: function () {}
 					});
@@ -1643,6 +1646,9 @@ sap.ui.define([
 				success: $.proxy(function (data) {
 					this.oFilteredData = data.results.filter(e => e.CreationApply == "X");
 					this.getModel("LocalDataModel").setProperty("/ClaimGroupSet", this.oFilteredData);
+					if (this.oFilteredData.length == 1) {
+						this.getView().getModel("HeadSetData").setProperty("/WarrantyClaimType", this.oFilteredData[0].WarrantyClaimType);
+					}
 				}, this),
 				error: function () {
 					console.log("Error");
@@ -1740,6 +1746,10 @@ sap.ui.define([
 				this.getView().getModel("DateModel").setProperty("/enabledT1", true);
 				this.getView().getModel("DateModel").setProperty("/oBatteryTestEnable", true);
 				this.getView().getModel("DateModel").setProperty("/ofpRequired", false);
+			}
+			
+			if(this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZSSM"){
+				this.getView().getModel("DateModel").setProperty("/ofpEnabled", false);
 			}
 
 		},
@@ -5787,7 +5797,7 @@ sap.ui.define([
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			var oVin = this.getModel("LocalDataModel").getProperty("/ClaimDetails/ExternalObjectNumber");
 			var oProssingModel = this.getModel("ProssingModel");
-		this.getModel("LocalDataModel").setProperty("/labourBusyIndicator", true);
+			this.getModel("LocalDataModel").setProperty("/labourBusyIndicator", true);
 
 			//var inputVal = this.getModel("LocalDataModel").getProperty("/opNumberLabour") || "";
 			oProssingModel.read("/zc_get_operation_numberSet", {
@@ -5806,7 +5816,7 @@ sap.ui.define([
 				}, this),
 				error: $.proxy(function (err) {
 					MessageToast.show(oBundle.getText("SystemInternalError"));
-						this.getModel("LocalDataModel").setProperty("/labourBusyIndicator", false);
+					this.getModel("LocalDataModel").setProperty("/labourBusyIndicator", false);
 				}, this)
 			});
 
