@@ -5740,17 +5740,45 @@ sap.ui.define([
 
 		_handleValueHelpSearchLabour: function (evt) {
 			var sValue = evt.getParameter("value");
-			var oFilter = new Filter(
-				"J_3GKATNRC",
-				sap.ui.model.FilterOperator.StartsWith, sValue
-			);
-			evt.getSource().getBinding("items").filter([oFilter]);
+			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
+			var oVin = this.getModel("LocalDataModel").getProperty("/ClaimDetails/ExternalObjectNumber");
+			var oProssingModel = this.getModel("ProssingModel");
+
+			//var inputVal = this.getModel("LocalDataModel").getProperty("/opNumberLabour") || "";
+			oProssingModel.read("/zc_get_operation_numberSet", {
+				urlParameters: {
+					"$filter": "CLMNO eq '" + oClaimNum + "' and VHVIN eq '" + oVin + "' and Langu eq '" + sSelectedLocale.toUpperCase() +
+						"' and J_3GKATNRC eq '" + sValue + "'"
+				},
+
+				success: $.proxy(function (data) {
+					this.getModel("LocalDataModel").setProperty("/labourBusyIndicator", false);
+					var oLabourArray = data.results.filter(function (item) {
+
+						return item.J_3GKATNRC[0] != "P";
+						//return item.ItemKey[14] == "P";
+					});
+					this.getModel("LocalDataModel").setProperty("/SuggetionOperationList", oLabourArray);
+					var oPaintData = data.results.filter(function (item) {
+
+						return item.J_3GKATNRC[0] == "P";
+
+					});
+
+					this.getModel("LocalDataModel").setProperty("/oPaintList", oPaintData);
+
+				}, this),
+				error: $.proxy(function (err) {
+					MessageToast.show(oBundle.getText("SystemInternalError"));
+					this.getView().getModel("DateModel").setProperty("/errorBusyIndicator", false);
+				}, this)
+			});
+
 		},
 
 		_handleLiveChangeLabour: function (evt) {
 			var sValue = evt.getParameter("value");
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
-
 			var oVin = this.getModel("LocalDataModel").getProperty("/ClaimDetails/ExternalObjectNumber");
 			var oProssingModel = this.getModel("ProssingModel");
 
