@@ -1,7 +1,7 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
 	<SelectDialog id="idLabourValueHelp" title="{i18n>OperationCode}" busy="{LocalDataModel>/labourBusyIndicator}" class="sapUiPopupWithPadding"
-		items="{LocalDataModel>/SuggetionOperationList}" search="_handleValueHelpSearchLabour" confirm="_handleValueHelpCloseLabour"
-		liveChange="_handleLiveChangeLabour" cancel="_handleValueHelpCloseLabour" growingThreshold="20">
+		items="{LocalDataModel>/SuggetionOperationList}" confirm="_handleValueHelpCloseLabour"
+		liveChange="_handleLiveChangeLabour" cancel="_handleValueHelpCloseLabour" growingThreshold="20" growing="true">
 		<StandardListItem title="{LocalDataModel>J_3GKATNRC}" description="{LocalDataModel>LTEXT}" info="{LocalDataModel>TIME}"/>
 	</SelectDialog>
 	<!--<SelectDialog id="idLabourValueHelp" title="{i18n>OperationCode}" busy="{LocalDataModel>/labourBusyIndicator}" class="sapUiPopupWithPadding"-->
