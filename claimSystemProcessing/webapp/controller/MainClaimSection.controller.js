@@ -236,7 +236,7 @@ sap.ui.define([
 		},
 
 		_onRoutMatched: function (oEvent) {
-			this.getView().byId("ObjectPageLayout")._scrollTo(0,0);
+			this.getView().byId("ObjectPageLayout")._scrollTo(0, 0);
 			this.getModel("LocalDataModel").setProperty("/AuthGWVisible", false);
 			this.getModel("LocalDataModel").setProperty("/AuthP1Visible", false);
 			var HeadSetData = new sap.ui.model.json.JSONModel();
@@ -1622,7 +1622,6 @@ sap.ui.define([
 				this.getModel("LocalDataModel").setProperty("/ClaimSum", "");
 				this.getView().setModel(this.HeadSetData, "HeadSetData");
 			}
-			
 
 		},
 
@@ -2847,7 +2846,7 @@ sap.ui.define([
 
 								this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", sdata.results[0].OfpDescription);
 								this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", sdata.results[0].Main_opsDescription);
-								
+
 								if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZECP" ||
 									this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") == "ZECP") {
 									this.getModel("LocalDataModel").setProperty("/oCurrentDealerLabour", this.getModel("LocalDataModel").getProperty(
@@ -2856,7 +2855,7 @@ sap.ui.define([
 									this.getModel("LocalDataModel").setProperty("/oCurrentDealerLabour", this.getModel("LocalDataModel").getProperty(
 										"/oDealerLabour/WTYNewLabourRate"));
 								}
-							
+
 								var oCLaim = this.getModel("LocalDataModel").getProperty("/ClaimDetails/NumberOfWarrantyClaim");
 								this.getView().getModel("HeadSetData").setProperty("/NumberOfWarrantyClaim", oCLaim);
 								var clmAuthNum;
@@ -2885,7 +2884,7 @@ sap.ui.define([
 								} else if (oGroupType == "Claim") {
 									this.getModel("LocalDataModel").setProperty("/WarrantyClaimNumber", oBundle.getText("TCIClaimNumber") + " : " +
 										oCLaim);
-									
+
 								}
 
 								oClaimModel.read("/ZC_CLAIM_SUBLET_CODE", {
@@ -3540,7 +3539,6 @@ sap.ui.define([
 												if (oIndexPaint > -1) {
 													this.getView().byId("idPaintTable").getItems()[oIndexPaint].getCells()[1].setProperty("selected", true);
 												}
-											
 
 												oClaimModel.read("/zc_headSet", {
 													urlParameters: {
@@ -4772,7 +4770,8 @@ sap.ui.define([
 								urlParameters: {
 									"$filter": "DBOperation eq 'LINK'and Numberofwarrantyclaim eq '" + oClaimNum + "'and  AuthorizationNumber eq '" +
 										oAuthNum +
-										"'and Language eq '" + sSelectedLocale.toUpperCase() + "'and DealerPer eq '00'and CustomerPer eq '00'and TCIPer eq '00'and PartPer eq '00'and LabourPer eq '00'and SubletPer eq '00'"
+										"'and Language eq '" + sSelectedLocale.toUpperCase() +
+										"'and DealerPer eq '00'and CustomerPer eq '00'and TCIPer eq '00'and PartPer eq '00'and LabourPer eq '00'and SubletPer eq '00'"
 								},
 								success: $.proxy(function (sdata) {
 
@@ -4913,7 +4912,8 @@ sap.ui.define([
 			oProssingModel.read("/zc_authorizationSet", {
 				urlParameters: {
 					"$filter": "DBOperation eq 'LINK'and Numberofwarrantyclaim eq '" + oClaimNum + "'and  AuthorizationNumber eq '" + oClaim +
-						"'and Language eq '" + sSelectedLocale.toUpperCase() + "'and DealerPer eq '00'and CustomerPer eq '00'and TCIPer eq '00'and PartPer eq '00'and LabourPer eq '00'and SubletPer eq '00'"
+						"'and Language eq '" + sSelectedLocale.toUpperCase() +
+						"'and DealerPer eq '00'and CustomerPer eq '00'and TCIPer eq '00'and PartPer eq '00'and LabourPer eq '00'and SubletPer eq '00'"
 				},
 				success: $.proxy(function (data) {
 					if (data.results[0].Message == "") {
@@ -5749,17 +5749,51 @@ sap.ui.define([
 
 		_handleLiveChangeLabour: function (evt) {
 			var sValue = evt.getParameter("value");
+			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 
-			if (sValue) {
-				var oFilter = new Filter(
-					"J_3GKATNRC",
-					sap.ui.model.FilterOperator.Contains, sValue
-				);
-				//console.log(oFilter);
-				evt.getSource().getBinding("items").filter([oFilter]);
-			} else {
-				evt.getSource().getBinding("items").filter([]);
-			}
+			var oVin = this.getModel("LocalDataModel").getProperty("/ClaimDetails/ExternalObjectNumber");
+			var oProssingModel = this.getModel("ProssingModel");
+
+			//var inputVal = this.getModel("LocalDataModel").getProperty("/opNumberLabour") || "";
+			oProssingModel.read("/zc_get_operation_numberSet", {
+				urlParameters: {
+					"$filter": "CLMNO eq '" + oClaimNum + "' and VHVIN eq '" + oVin + "' and Langu eq '" + sSelectedLocale.toUpperCase() +
+						"' and J_3GKATNRC eq '" + sValue + "'"
+				},
+
+				success: $.proxy(function (data) {
+					this.getModel("LocalDataModel").setProperty("/labourBusyIndicator", false);
+					var oLabourArray = data.results.filter(function (item) {
+
+						return item.J_3GKATNRC[0] != "P";
+						//return item.ItemKey[14] == "P";
+					});
+					this.getModel("LocalDataModel").setProperty("/SuggetionOperationList", oLabourArray);
+					var oPaintData = data.results.filter(function (item) {
+
+						return item.J_3GKATNRC[0] == "P";
+
+					});
+
+					this.getModel("LocalDataModel").setProperty("/oPaintList", oPaintData);
+
+				}, this),
+				error: $.proxy(function (err) {
+					MessageToast.show(oBundle.getText("SystemInternalError"));
+					this.getView().getModel("DateModel").setProperty("/errorBusyIndicator", false);
+				}, this)
+			});
+
+			// if (sValue) {
+			// 	var oFilter = new Filter(
+			// 		"J_3GKATNRC",
+			// 		sap.ui.model.FilterOperator.Contains, sValue
+			// 	);
+			// 	//console.log(oFilter);
+			// 	evt.getSource().getBinding("items").filter([oFilter]);
+			// } else {
+			// 	evt.getSource().getBinding("items").filter([]);
+			// }
 		},
 		_handleValueHelpCloseLabour: function (evt) {
 			var oSelectedItem = evt.getParameter("selectedItem");
