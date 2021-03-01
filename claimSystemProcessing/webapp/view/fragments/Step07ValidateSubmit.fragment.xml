@@ -2,6 +2,7 @@
 	xmlns="sap.m" xmlns:table="sap.ui.table" xmlns:custom="zclaimProcessing.control">
 	<VBox class="clFormTitleGap" busy="{LocalDataModel>/oSavePartIndicator}">
 		<core:Fragment fragmentName="zclaimProcessing.view.fragments.headerFormWarrantyDetails" type="XML"/>
+	<VBox class="sapUiSmallMarginBottom"></VBox>	
 		<core:Fragment fragmentName="zclaimProcessing.view.fragments.WarrantyPartClaimAmountSummery" type="XML"/>
 		<VBox>
 			<List headerText="{i18n>Validations}" items="{ path: 'LocalDataModel>/oErrorSet' }" busy="{DateModel>/errorBusyIndicator}" noDataText="{i18n>NoData}">
