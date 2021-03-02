@@ -79,7 +79,7 @@
 						<f:content>
 							<core:Title text=""/>
 							<Label text=""/>
-							<Text text="{i18n>Ordered}"/>
+							<Text text="{i18n>Ordered}" class="clBoldText" />
 							<core:Title text=""/>
 							<Label text="{i18n>Line}"></Label>
 							<Input value="{ path : 'PartDataModel>/LineNo', type: 'sap.ui.model.type.Integer', constraints:{minimum:0}}" required="false"
@@ -103,7 +103,7 @@
 						columnsXL="{multiHeaderConfig>/multiheader5}">
 						<f:content>
 							<core:Title text=""/>
-							<Text text="" id="textHeaderLabel"/>
+							<Text text="" id="textHeaderLabel" class="clBoldText" />
 							<core:Title text=""/>
 							<!--<UploadCollection id="UploadCollection" maximumFilenameLength="50" filenameLengthExceed="onFileNameLengthExceed" maximumFileSize="10"-->
 							<!--	sameFilenameAllowed="false" busy="{LocalDataModel>/IndicatorState}" fileSizeExceed="onFileSizeExceed"-->

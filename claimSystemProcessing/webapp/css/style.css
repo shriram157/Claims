@@ -224,6 +224,8 @@ html.sap-desktop .clCommentFix .sapMFeedListItemHasFigure {
     /*min-height: 300rem;*/
 }
 
+.clBoldText {font-weight: bold;}
+
 
 /*.clBorderNone .sapMInputBaseContentWrapper {*/
 
