@@ -178,6 +178,9 @@
 					<Column>
 						<Text text="{i18n>Line}"/>
 					</Column>
+					<Column>
+						<Text text="ITM"/>
+					</Column>
 					<Column visible="{multiHeaderConfig>/DiscrepancyCol}">
 						<Text text="{i18n>DiscrepancyType}"/>
 					</Column>
@@ -245,8 +248,8 @@
 				<items>
 					<ColumnListItem vAlign="Middle">
 						<cells>
-						
 							<Text text="{LocalDataModel>posnr}"/>
+							<Text text="{LocalDataModel>LineRefnr}"/>
 							<Text text="{LocalDataModel>ALMDiscreDesc}"/>
 							<Text text="{LocalDataModel>ALMDiscreDesc}"/>
 							<Text text="{LocalDataModel>ALMDiscreDesc}"/>

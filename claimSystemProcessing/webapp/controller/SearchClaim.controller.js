@@ -344,12 +344,13 @@ sap.ui.define([
 				this.getView().byId("idSearchText").setValueState(ValueState.None);
 			}
 		},
-		
-		onChangeSubDate : function(oEvent){
-			if(oEvent.getSource().getValue() != ""){
+		//Changes done on 02/03/2021 by singhmi start
+		onChangeSubDate: function (oEvent) {
+			if (oEvent.getSource().getValue() != "") {
 				oEvent.getSource().setValueState("None");
 			}
 		},
+		//Changes done on 02/03/2021 by singhmi end
 		onPressSearch: function () {
 			this.getView().getModel("LocalDataModel").setProperty("/oVisibleRowTR", 30);
 			this.getView().getModel("DateModel").setProperty("/tableBusyIndicator", true);
@@ -380,8 +381,8 @@ sap.ui.define([
 				FinalProFromFormat = oDateFormat.format(FinalProFrom);
 				FinalProToFormat = oDateFormat.format(FinalProTo);
 			}
-
-			if (FromDate != null && ToDate !=null) {
+			//Changes done on 02/03/2021 by singhmi start
+			if (FromDate != null && ToDate != null) {
 				this.getView().byId("DRS2").setValueState("None");
 				this.getView().byId("DRS3").setValueState("None");
 				var FromDateFormat = oDateFormat.format(FromDate);
@@ -391,6 +392,7 @@ sap.ui.define([
 				this.getView().byId("DRS3").setValueState("Error");
 				this.getView().getModel("DateModel").setProperty("/tableBusyIndicator", false);
 			}
+			//Changes done on 02/03/2021 by singhmi end
 
 			// console.log(FromDateFormat, ToDateFormat);
 			var sDate = "";

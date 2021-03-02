@@ -13,8 +13,8 @@
 								<HBox wrap="Wrap" displayInline="true" justifyContent="SpaceBetween">
 									<VBox class="clSubl80">
 										<f:SimpleForm id="SimpleFormChange354" editable="true" layout="ResponsiveGridLayout" title="{i18n>Entertheapplicationdaterange}"
-											labelSpanXL="5" labelSpanL="5" labelSpanM="4" labelSpanS="12"  emptySpanXL="0" emptySpanL="0" emptySpanM="0"
-											emptySpanS="0" columnsXL="2" columnsL="2" columnsM="2"  singleContainerFullSize="true">
+											labelSpanXL="5" labelSpanL="5" labelSpanM="4" labelSpanS="12" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="2"
+											columnsL="2" columnsM="2" singleContainerFullSize="true">
 											<f:content>
 												<core:Title text=""/>
 												<Label text="{i18n>DealerCode}" textAlign="Begin"/>
@@ -36,8 +36,8 @@
 												<Label text="{i18n>ClaimSubDate}" required="true" textAlign="Begin" id="idCLREDate"/>
 												<!--<DateRangeSelection id="DRS2" dateValue="{path:'DateModel>/dateValueDRS2'}" secondDateValue="{path:'DateModel>/secondDateValueDRS2'}"-->
 												<!--	minDate="" maxDate="" change="handleChange"/>-->
-												<DatePicker change="onChangeSubDate" valueState="None" required="true"  id="DRS2" dateValue="{path:'DateModel>/dateValueDRS2'}">
-														<layoutData>
+												<DatePicker change="onChangeSubDate" valueState="None" required="true" id="DRS2" dateValue="{path:'DateModel>/dateValueDRS2'}">
+													<layoutData>
 														<l:GridData span="XL3 L3 M3 S12"/>
 													</layoutData>
 												</DatePicker>
@@ -87,9 +87,9 @@
 										</f:SimpleForm>
 									</VBox>
 									<VBox class="clSubl20">
-										<f:SimpleForm editable="true" layout="ResponsiveGridLayout" title=" " labelSpanXL="3" labelSpanL="3"
-											labelSpanM="3" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="1"
-											columnsL="1" columnsM="1" singleContainerFullSize="false">
+										<f:SimpleForm editable="true" layout="ResponsiveGridLayout" title=" " labelSpanXL="3" labelSpanL="3" labelSpanM="3" labelSpanS="12"
+											adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1"
+											singleContainerFullSize="false">
 											<f:content>
 												<core:Title text=""/>
 												<Button text="{i18n>Search}" press="onPressSearch" type="Emphasized"/>
@@ -119,9 +119,8 @@
 					</uxap:ObjectPageSubSection>
 					<uxap:ObjectPageSubSection>
 						<uxap:blocks>
-							<ScrollContainer horizontal="true" height="20rem" width="100%"  vertical="true" focusable="true">
-								<Table width="100%" id="idClaimTable" noDataText="{i18n>NoData}" mode="None"
-									busy="{DateModel>/tableBusyIndicator}"
+							<ScrollContainer horizontal="true" height="20rem" width="100%" vertical="true" focusable="true">
+								<Table width="100%" id="idClaimTable" noDataText="{i18n>NoData}" mode="None" busy="{DateModel>/tableBusyIndicator}"
 									items="{path:'LocalDataModel>/ZcClaimHeadNewData', sorter:{path:'NumberOfWarrantyClaim', descending : false}}" growing="true"
 									growingThreshold="25" growingScrollToLoad="false" growingTriggerText="{i18n>Loadmore}">
 									<columns>
