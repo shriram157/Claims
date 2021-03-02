@@ -344,6 +344,12 @@ sap.ui.define([
 				this.getView().byId("idSearchText").setValueState(ValueState.None);
 			}
 		},
+		
+		onChangeSubDate : function(oEvent){
+			if(oEvent.getSource().getValue() != ""){
+				oEvent.getSource().setValueState("None");
+			}
+		},
 		onPressSearch: function () {
 			this.getView().getModel("LocalDataModel").setProperty("/oVisibleRowTR", 30);
 			this.getView().getModel("DateModel").setProperty("/tableBusyIndicator", true);
@@ -368,13 +374,22 @@ sap.ui.define([
 			var FinalProFrom = this.getView().getModel("DateModel").getProperty("/FinalProcessFrom");
 			var FinalProTo = this.getView().getModel("DateModel").getProperty("/FinalProcessTo");
 
-			var FromDateFormat = oDateFormat.format(FromDate);
-			var ToDateFormat = oDateFormat.format(ToDate);
 			var FinalProFromFormat, FinalProToFormat;
 
 			if (FinalProFrom != null && FinalProTo != null) {
 				FinalProFromFormat = oDateFormat.format(FinalProFrom);
 				FinalProToFormat = oDateFormat.format(FinalProTo);
+			}
+
+			if (FromDate != null && ToDate !=null) {
+				this.getView().byId("DRS2").setValueState("None");
+				this.getView().byId("DRS3").setValueState("None");
+				var FromDateFormat = oDateFormat.format(FromDate);
+				var ToDateFormat = oDateFormat.format(ToDate);
+			} else {
+				this.getView().byId("DRS2").setValueState("Error");
+				this.getView().byId("DRS3").setValueState("Error");
+				this.getView().getModel("DateModel").setProperty("/tableBusyIndicator", false);
 			}
 
 			// console.log(FromDateFormat, ToDateFormat);
@@ -665,8 +680,7 @@ sap.ui.define([
 
 						});
 					}
-					
-					
+
 				}, this)
 			});
 

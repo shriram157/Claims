@@ -33,10 +33,10 @@
 												</custom:CustomCombo>
 												<Label text="{i18n>SearchText}" textAlign="Begin"/>
 												<Input value="" id="idSearchText" change="onEnterSearchText"/>
-												<Label text="{i18n>ClaimSubDate}" textAlign="Begin" id="idCLREDate"/>
+												<Label text="{i18n>ClaimSubDate}" required="true" textAlign="Begin" id="idCLREDate"/>
 												<!--<DateRangeSelection id="DRS2" dateValue="{path:'DateModel>/dateValueDRS2'}" secondDateValue="{path:'DateModel>/secondDateValueDRS2'}"-->
 												<!--	minDate="" maxDate="" change="handleChange"/>-->
-												<DatePicker id="DRS2" dateValue="{path:'DateModel>/dateValueDRS2'}">
+												<DatePicker change="onChangeSubDate" valueState="None" required="true"  id="DRS2" dateValue="{path:'DateModel>/dateValueDRS2'}">
 														<layoutData>
 														<l:GridData span="XL3 L3 M3 S12"/>
 													</layoutData>
@@ -46,7 +46,7 @@
 														<l:GridData span="XL1 L1 M3 S12"/>
 													</layoutData>
 												</Text>
-												<DatePicker id="DRS3" dateValue="{path:'DateModel>/secondDateValueDRS2'}">
+												<DatePicker change="onChangeSubDate" id="DRS3" valueState="None" required="true" dateValue="{path:'DateModel>/secondDateValueDRS2'}">
 													<layoutData>
 														<l:GridData span="XL3 L3 M3 S12"/>
 													</layoutData>
