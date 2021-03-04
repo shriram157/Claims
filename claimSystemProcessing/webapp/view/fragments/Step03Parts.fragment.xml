@@ -81,7 +81,7 @@
 							<Label text=""/>
 							<Text text="{i18n>Ordered}" class="clBoldText" />
 							<core:Title text=""/>
-							<Label text="{i18n>Line}"></Label>
+							<Label text="ITM"></Label>
 							<Input value="{ path : 'PartDataModel>/LineNo', type: 'sap.ui.model.type.Integer', constraints:{minimum:0}}" required="false"
 								enabled="{DateModel>/partLine}"></Input>
 							<core:Title text=""/>

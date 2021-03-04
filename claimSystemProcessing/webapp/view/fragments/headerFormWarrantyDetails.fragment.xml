@@ -12,7 +12,7 @@
 			<VBox width="14rem" class="sapUiTinyMarginEnd">
 				<HBox width="100%">
 					<Label width="7rem" text="{i18n>TCIClaim}" wrapping="true" vAlign="Middle"/>
-					<Text text="{HeadSetData>/NumberOfWarrantyClaim}" textAlign="Center"/>
+					<Text text="{HeadSetData>/NumberOfWarrantyClaim}" textAlign="Left"/>
 				</HBox>
 				<HBox width="100%">
 					<Label width="7rem" text="{i18n>DlrClaim}" vAlign="Middle" wrapping="true"/>
@@ -22,7 +22,7 @@
 			<VBox width="13rem" class="sapUiTinyMarginEnd">
 				<HBox width="100%">
 					<Label width="6rem" text="{i18n>RegDate}"/>
-					<Text text="{path:'LocalDataModel>/DataVinDetails/RegDate', formatter:'zclaimProcessing.utils.formatter.fnDateFormat'}" textAlign="Center"/>
+					<Text text="{path:'LocalDataModel>/DataVinDetails/RegDate', formatter:'zclaimProcessing.utils.formatter.fnDateFormat'}" textAlign="Left"/>
 				</HBox>
 				<HBox width="100%">
 					<Label text="{i18n>Elapse}" width="6rem"/>
@@ -32,7 +32,7 @@
 			<VBox width="16rem" class="sapUiTinyMarginEnd">
 				<HBox width="100%">
 					<Label width="5rem" text="{i18n>VIN}"/>
-					<Text text="{HeadSetData>/ExternalObjectNumber}" textAlign="Center"/>
+					<Text text="{HeadSetData>/ExternalObjectNumber}" textAlign="Left"/>
 				</HBox>
 				<HBox width="100%">
 					<Label text="{i18n>Odometer}" width="5rem"/>
@@ -51,7 +51,7 @@
 			<VBox width="14rem" class="sapUiTinyMarginEnd">
 				<HBox width="100%">
 					<Label text="{i18n>RepairOrder}" width="7rem" wrapping="true" vAlign="Middle"/>
-					<Text text="{HeadSetData>/RepairOrderNumberExternal}" textAlign="Center"/>
+					<Text text="{HeadSetData>/RepairOrderNumberExternal}" textAlign="Left"/>
 				</HBox>
 				<HBox width="100%">
 					<Label text="{i18n>RepairDate}" width="7rem" wrapping="true" vAlign="Middle"/>
@@ -61,7 +61,7 @@
 			<VBox width="15rem" class="sapUiTinyMarginEnd">
 				<HBox width="100%">
 					<Label text="{i18n>Op}" width="4rem" wrapping="true" vAlign="Middle"/>
-					<Text text="{HeadSetData>/MainOpsCode}" textAlign="Center"/>
+					<Text text="{HeadSetData>/MainOpsCode}" textAlign="Left"/>
 				</HBox>
 				<HBox width="100%">
 					<Label text="{i18n>OFP}" width="4rem" wrapping="true"/>
@@ -75,7 +75,7 @@
 				</HBox>
 				<HBox width="100%">
 					<Label text="{i18n>ClaimTypeDescription}" width="7rem" wrapping="true" vAlign="Middle"/>
-					<Text text="{LocalDataModel>/ALMClaimTypeDes}" textAlign="Center"/>
+					<Text text="{LocalDataModel>/ALMClaimTypeDes}" textAlign="Left"/>
 				</HBox>
 			</VBox>
 		</HBox>
