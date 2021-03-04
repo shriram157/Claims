@@ -1504,9 +1504,7 @@ sap.ui.define([
 								this.getView().getModel("DateModel").setProperty("/warrantySubmissionClaim", false);
 							}
 							this.getModel("LocalDataModel").setProperty("/ClaimGroupSet", this.oFilteredData);
-							if (this.oFilteredData.length == 1) {
-								alert("hello");
-							}
+						
 						}, this),
 						error: function () {}
 					});
@@ -1747,8 +1745,8 @@ sap.ui.define([
 				this.getView().getModel("DateModel").setProperty("/oBatteryTestEnable", true);
 				this.getView().getModel("DateModel").setProperty("/ofpRequired", false);
 			}
-			
-			if(this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZSSM"){
+
+			if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZSSM") {
 				this.getView().getModel("DateModel").setProperty("/ofpEnabled", false);
 			}
 
@@ -4637,7 +4635,12 @@ sap.ui.define([
 					oClaimModel.read("/zc_auth_copy_to_claimSet(NumberOfAuth='" + oAuthNum + "')", {
 
 						success: $.proxy(function (data) {
+
 							var oClaimNum = data.NumberOfWarrantyClaim;
+							MessageToast.show(oBundle.getText("Claimhasbeensavedsuccessfully"), {
+								my: "center center",
+								at: "center center"
+							});
 
 							this.getView().getModel("DateModel").setProperty("/warrantySubmissionClaim", false);
 							oClaimModel.read("/ZC_CLAIM_HEAD_NEW", {
@@ -4764,6 +4767,11 @@ sap.ui.define([
 						success: $.proxy(function (data) {
 
 							var oClaimNum = data.NumberOfAuth;
+							MessageToast.show(oBundle.getText("Claimhasbeensavedsuccessfully"), {
+								my: "center center",
+								at: "center center"
+							});
+
 							this.getView().getModel("DateModel").setProperty("/warrantySubmissionClaim", true);
 							oClaimModel.read("/zc_authorization_detailsSet", {
 								urlParameters: {
