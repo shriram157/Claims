@@ -529,7 +529,7 @@ sap.ui.define([
 
 		},
 		_fnSrNumVisible: function (elm, group, oClaimSelectedGroup) {
-			if ((group == "WTY" || group == "ECP") && oClaimSelectedGroup != "Authorization") {
+			if (group == "WTY" || group == "ECP" || oClaimSelectedGroup == "Authorization") {
 				elm.getView().getModel("DateModel").setProperty("/serialNoV", true);
 			} else {
 				elm.getView().getModel("DateModel").setProperty("/serialNoV", false);
