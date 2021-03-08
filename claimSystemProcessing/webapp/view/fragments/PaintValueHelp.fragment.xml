@@ -1,6 +1,6 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
 	<SelectDialog title="{i18n>OperationCode}" class="sapUiPopupWithPadding" items="{LocalDataModel>/oPaintList}"
-		search="_handleValueHelpSearchLabour" confirm="_handleValueHelpClosePaint" liveChange="_handleLiveChangeLabour"
+		 confirm="_handleValueHelpClosePaint" liveChange="_handleLiveChangePaint"
 		cancel="_handleValueHelpClosePaint" growingThreshold="500">
 		<StandardListItem title="{LocalDataModel>J_3GKATNRC}" description="{LocalDataModel>LTEXT}"/>
 	</SelectDialog>
