@@ -1504,7 +1504,7 @@ sap.ui.define([
 								this.getView().getModel("DateModel").setProperty("/warrantySubmissionClaim", false);
 							}
 							this.getModel("LocalDataModel").setProperty("/ClaimGroupSet", this.oFilteredData);
-						
+
 						}, this),
 						error: function () {}
 					});
@@ -2193,11 +2193,8 @@ sap.ui.define([
 			} else {
 				this.getModel("LocalDataModel").setProperty("/DealerPriceText", oBundle.getText("DealerNetPrice"));
 				this.getView().getModel("DateModel").setProperty("/oECPfields", false);
-
 			}
-
 			this._fnClaimAuthvisible(oKey);
-
 			this._fnOFPenabled();
 		},
 
@@ -5827,17 +5824,6 @@ sap.ui.define([
 					this.getModel("LocalDataModel").setProperty("/labourBusyIndicator", false);
 				}, this)
 			});
-
-			// if (sValue) {
-			// 	var oFilter = new Filter(
-			// 		"J_3GKATNRC",
-			// 		sap.ui.model.FilterOperator.Contains, sValue
-			// 	);
-			// 	//console.log(oFilter);
-			// 	evt.getSource().getBinding("items").filter([oFilter]);
-			// } else {
-			// 	evt.getSource().getBinding("items").filter([]);
-			// }
 		},
 		_handleValueHelpCloseLabour: function (evt) {
 			var oSelectedItem = evt.getParameter("selectedItem");
@@ -5856,6 +5842,34 @@ sap.ui.define([
 
 			}
 			evt.getSource().getBinding("items").filter([]);
+		},
+
+		_handleLiveChangePaint: function (evt) {
+			var sValue = evt.getParameter("value") || "";
+			if (sValue && sValue.startsWith("P")) {
+				sValue = sValue.toUpperCase();
+			}
+			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
+			var oVin = this.getModel("LocalDataModel").getProperty("/ClaimDetails/ExternalObjectNumber");
+			var oProssingModel = this.getModel("ProssingModel");
+			this.getModel("LocalDataModel").setProperty("/labourBusyIndicator", true);
+
+			//var inputVal = this.getModel("LocalDataModel").getProperty("/opNumberLabour") || "";
+			oProssingModel.read("/zc_get_operation_numberSet", {
+				urlParameters: {
+					"$filter": "CLMNO eq '" + oClaimNum + "' and VHVIN eq '" + oVin + "' and Langu eq '" + sSelectedLocale.toUpperCase() +
+						"' and J_3GKATNRC eq '" + sValue + "'"
+				},
+
+				success: $.proxy(function (data) {
+					this.getModel("LocalDataModel").setProperty("/labourBusyIndicator", false);
+					this.getModel("LocalDataModel").setProperty("/oPaintList", data.results);
+				}, this),
+				error: $.proxy(function (err) {
+					MessageToast.show(oBundle.getText("SystemInternalError"));
+					this.getModel("LocalDataModel").setProperty("/labourBusyIndicator", false);
+				}, this)
+			});
 		},
 
 		_handleValueHelpClosePaint: function (evt) {
@@ -5938,26 +5952,32 @@ sap.ui.define([
 			var oVin = this.getModel("LocalDataModel").getProperty("/ClaimDetails/ExternalObjectNumber");
 			var oProssingModel = this.getModel("ProssingModel");
 
+			var sValue = evt.getParameter("value") || "";
+			if (sValue) {
+				sValue = sValue.toUpperCase();
+			}
+
 			this.getModel("LocalDataModel").setProperty("/labourBusyIndicator", true);
 			oProssingModel.read("/zc_get_operation_numberSet", {
 				urlParameters: {
-					"$filter": "CLMNO eq '" + oClaimNum + "' and VHVIN eq '" + oVin + "' and Langu eq '" + sSelectedLocale.toUpperCase() + "'"
+					"$filter": "CLMNO eq '" + oClaimNum + "' and VHVIN eq '" + oVin + "' and Langu eq '" + sSelectedLocale.toUpperCase() +
+						"' and J_3GKATNRC eq 'P'"
 				},
 				success: $.proxy(function (data) {
 					this.getModel("LocalDataModel").setProperty("/labourBusyIndicator", false);
-					var oLabourArray = data.results.filter(function (item) {
+					// var oLabourArray = data.results.filter(function (item) {
 
-						return item.J_3GKATNRC[0] != "P";
-						//return item.ItemKey[14] == "P";
-					});
-					this.getModel("LocalDataModel").setProperty("/SuggetionOperationList", oLabourArray);
-					var oPaintData = data.results.filter(function (item) {
+					// 	return item.J_3GKATNRC[0] != "P";
+					// 	//return item.ItemKey[14] == "P";
+					// });
+					// this.getModel("LocalDataModel").setProperty("/SuggetionOperationList", oLabourArray);
+					// var oPaintData = data.results.filter(function (item) {
 
-						return item.J_3GKATNRC[0] == "P";
+					// 	return item.J_3GKATNRC[0] == "P";
 
-					});
+					// });
 
-					this.getModel("LocalDataModel").setProperty("/oPaintList", oPaintData);
+					this.getModel("LocalDataModel").setProperty("/oPaintList", data.results);
 
 				}, this),
 				error: $.proxy(function (err) {

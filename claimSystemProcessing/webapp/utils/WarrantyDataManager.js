@@ -415,7 +415,6 @@ sap.ui.define([
 				oView.byId("idDelivery"),
 				oView.byId("idDeliveryDate"),
 				oView.byId("idDmgCls")
-				
 
 			];
 
@@ -534,18 +533,17 @@ sap.ui.define([
 			} else {
 				elm.getView().getModel("DateModel").setProperty("/serialNoV", false);
 			}
-			
-			if (group == "WTY"){
+
+			if (group == "WTY") {
 				elm.getView().getModel("HeadSetData").setProperty("/FieldActionReference", "");
 			}
-			
-			if (group == "FAC"){
+
+			if (group == "FAC") {
 				elm.getView().getModel("HeadSetData").setProperty("/OFP", "");
 				elm.getView().getModel("HeadSetData").setProperty("/T1WarrantyCodes", "");
 				elm.getView().getModel("HeadSetData").setProperty("/T2WarrantyCodes", "");
 			}
 		}
-	
 
 	};
 
