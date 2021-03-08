@@ -5845,31 +5845,33 @@ sap.ui.define([
 		},
 
 		_handleLiveChangePaint: function (evt) {
-			var sValue = evt.getParameter("value") || "";
-			if (sValue && sValue.toUpperCase().startsWith("P")) {
-				sValue = sValue.toUpperCase();
-			}
+			var sValue = evt.getParameter("value") == "" ? "P" : evt.getParameter("value");
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			var oVin = this.getModel("LocalDataModel").getProperty("/ClaimDetails/ExternalObjectNumber");
 			var oProssingModel = this.getModel("ProssingModel");
 			this.getModel("LocalDataModel").setProperty("/labourBusyIndicator", true);
+			if (sValue && sValue.toUpperCase().startsWith("P")) {
+				sValue = sValue.toUpperCase();
 
-			//var inputVal = this.getModel("LocalDataModel").getProperty("/opNumberLabour") || "";
-			oProssingModel.read("/zc_get_operation_numberSet", {
-				urlParameters: {
-					"$filter": "CLMNO eq '" + oClaimNum + "' and VHVIN eq '" + oVin + "' and Langu eq '" + sSelectedLocale.toUpperCase() +
-						"' and J_3GKATNRC eq '" + sValue + "'"
-				},
+				//var inputVal = this.getModel("LocalDataModel").getProperty("/opNumberLabour") || "";
+				oProssingModel.read("/zc_get_operation_numberSet", {
+					urlParameters: {
+						"$filter": "CLMNO eq '" + oClaimNum + "' and VHVIN eq '" + oVin + "' and Langu eq '" + sSelectedLocale.toUpperCase() +
+							"' and J_3GKATNRC eq '" + sValue + "'"
+					},
 
-				success: $.proxy(function (data) {
-					this.getModel("LocalDataModel").setProperty("/labourBusyIndicator", false);
-					this.getModel("LocalDataModel").setProperty("/oPaintList", data.results);
-				}, this),
-				error: $.proxy(function (err) {
-					MessageToast.show(oBundle.getText("SystemInternalError"));
-					this.getModel("LocalDataModel").setProperty("/labourBusyIndicator", false);
-				}, this)
-			});
+					success: $.proxy(function (data) {
+						this.getModel("LocalDataModel").setProperty("/labourBusyIndicator", false);
+						this.getModel("LocalDataModel").setProperty("/oPaintList", data.results);
+					}, this),
+					error: $.proxy(function (err) {
+						MessageToast.show(oBundle.getText("SystemInternalError"));
+						this.getModel("LocalDataModel").setProperty("/labourBusyIndicator", false);
+					}, this)
+				});
+			}else{
+				this.getModel("LocalDataModel").setProperty("/oPaintList", []);
+			}
 		},
 
 		_handleValueHelpClosePaint: function (evt) {
@@ -5998,14 +6000,14 @@ sap.ui.define([
 				this.getView().addDependent(this._valueHelpDialog02);
 			}
 
-			// create a filter for the binding
-			this._valueHelpDialog02.getBinding("items").filter([new Filter(
-				"J_3GKATNRC",
-				sap.ui.model.FilterOperator.Contains, sInputValue
-			)]);
+			// // create a filter for the binding
+			// this._valueHelpDialog02.getBinding("items").filter([new Filter(
+			// 	"J_3GKATNRC",
+			// 	sap.ui.model.FilterOperator.Contains, sInputValue
+			// )]);
 
 			// open value help dialog filtered by the input value
-			this._valueHelpDialog02.open(sInputValue);
+			this._valueHelpDialog02.open();
 		},
 
 		onSelectPositionPaintCode: function (oEvent) {
