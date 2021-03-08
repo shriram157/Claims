@@ -5846,7 +5846,7 @@ sap.ui.define([
 
 		_handleLiveChangePaint: function (evt) {
 			var sValue = evt.getParameter("value") || "";
-			if (sValue && sValue.startsWith("P")) {
+			if (sValue && sValue.toUpperCase().startsWith("P")) {
 				sValue = sValue.toUpperCase();
 			}
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
@@ -5952,7 +5952,7 @@ sap.ui.define([
 			var oVin = this.getModel("LocalDataModel").getProperty("/ClaimDetails/ExternalObjectNumber");
 			var oProssingModel = this.getModel("ProssingModel");
 
-			var sValue = evt.getParameter("value") || "";
+			var sValue = oEvent.getParameter("value") || "";
 			if (sValue) {
 				sValue = sValue.toUpperCase();
 			}
