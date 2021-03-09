@@ -202,9 +202,9 @@
 												<Text text="{path:'LocalDataModel>FinalProcdDate', formatter:'zclaimProcessing.utils.formatter.fnDateFormat'}"/>
 												<Text text="{LocalDataModel>Odometer}"/>
 												<Text text="{path:'LocalDataModel>ClaimAmountSum', formatter : 'zclaimProcessing.utils.formatter.fnFormatDecimal'}"/>
-												<Text text="{LocalDataModel>PartPrice}"/>
-												<Text text="{LocalDataModel>LabourPrice}"/>
-												<Text text="{LocalDataModel>SubletPrice}"/>
+												<Text text="{path:'LocalDataModel>PartPrice', formatter : 'zclaimProcessing.utils.formatter.fnFormatDecimal'}"/>
+												<Text text="{path:'LocalDataModel>LabourPrice', formatter : 'zclaimProcessing.utils.formatter.fnFormatDecimal'}"/>
+												<Text text="{path:'LocalDataModel>SubletPrice', formatter : 'zclaimProcessing.utils.formatter.fnFormatDecimal'}"/>
 												<Text text="{LocalDataModel>ClaimGroup}"/>
 											</cells>
 										</ColumnListItem>

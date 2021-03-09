@@ -2856,9 +2856,11 @@ sap.ui.define([
 									this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") == "ZECP") {
 									this.getModel("LocalDataModel").setProperty("/oCurrentDealerLabour", this.getModel("LocalDataModel").getProperty(
 										"/oDealerLabour/ECPNewLabourRate"));
+									this.getModel("LocalDataModel").setProperty("/DealerPriceText", oBundle.getText("MSRP"));
 								} else {
 									this.getModel("LocalDataModel").setProperty("/oCurrentDealerLabour", this.getModel("LocalDataModel").getProperty(
 										"/oDealerLabour/WTYNewLabourRate"));
+									this.getModel("LocalDataModel").setProperty("/DealerPriceText", oBundle.getText("DealerNetPrice"));
 								}
 
 								var oCLaim = this.getModel("LocalDataModel").getProperty("/ClaimDetails/NumberOfWarrantyClaim");
@@ -5869,7 +5871,7 @@ sap.ui.define([
 						this.getModel("LocalDataModel").setProperty("/labourBusyIndicator", false);
 					}, this)
 				});
-			}else{
+			} else {
 				this.getModel("LocalDataModel").setProperty("/oPaintList", []);
 			}
 		},
