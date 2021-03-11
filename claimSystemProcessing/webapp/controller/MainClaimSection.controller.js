@@ -4287,6 +4287,7 @@ sap.ui.define([
 			this.getView().getModel("LabourDataModel").setProperty("/LabourOp", "");
 			this.getView().getModel("LabourDataModel").setProperty("/ClaimedHours", "");
 			this.getView().getModel("LabourDataModel").setProperty("/LabourDescription", "");
+			this.getModel("LocalDataModel").setProperty("/opNumberLabour", "");
 			var oTable = this.getView().byId("idLabourTable");
 			oTable.removeSelections("true");
 			this.getView().getModel("DateModel").setProperty("/labourLine", true);
@@ -4923,6 +4924,9 @@ sap.ui.define([
 					if (oAuthData.results[0].AuthorizationNumber != "") {
 						this.getModel("LocalDataModel").setProperty("/DataAuthDetails", oAuthData.results[0]);
 					}
+				}, this),
+				error: $.proxy(function (err) {
+					this.getModel("LocalDataModel").setProperty("/DataAuthDetails", []);
 				}, this)
 			});
 
@@ -4969,6 +4973,7 @@ sap.ui.define([
 						}
 
 					} else if (data.results[0].Message != "") {
+						//this.getView().getModel("DataPercetCalculate").setProperty("/AuthorizationNumber", "");
 						MessageToast.show(data.results[0].Message, {
 							my: "center center",
 							at: "center center"
