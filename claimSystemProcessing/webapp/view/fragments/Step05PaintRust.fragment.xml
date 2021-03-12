@@ -78,7 +78,7 @@
 				</items>
 			</Table>
 		</l:Grid>
-		<HBox alignContent="Center" justifyContent="Center" class="sapUiLargeMarginBottom">
+		<HBox alignContent="Center" justifyContent="Center">
 			<Button class="sapUiTinyMarginBeginEnd" type="Back" press="onStep05Back" text="{i18n>Back}"/>
 			<Button class="sapUiTinyMarginBeginEnd" press="onStep05Next" text="{i18n>Next}" type="Emphasized"/>
 		</HBox>

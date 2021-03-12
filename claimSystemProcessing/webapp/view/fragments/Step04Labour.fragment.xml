@@ -84,8 +84,8 @@
 		<Table id="idLabourTable" mode="SingleSelectLeft" items="{path: 'LocalDataModel>/LabourPricingDataModel'}" growing="true"
 			growingThreshold="30" noDataText="{i18n>NoData}" showNoData="true">
 			<columns>
-				<Column minScreenWidth="Tablet"  width="4rem" demandPopin="true" hAlign="Begin"><Text text="{i18n>Line}"/></Column>
-				<Column minScreenWidth="Tablet" width="4.5rem" demandPopin="true" hAlign="Begin"><Text text="{i18n>MainOp}"/></Column>
+				<Column minScreenWidth="Tablet"  width="4rem" demandPopin="true" hAlign="Center"><Text text="{i18n>Line}"/></Column>
+				<Column minScreenWidth="Tablet" width="4.5rem" demandPopin="true" hAlign="Center"><Text text="{i18n>MainOp}"/></Column>
 				<Column minScreenWidth="Tablet" width="11rem"  demandPopin="true" hAlign="Center"><Text text="{i18n>OperationNumber}"/></Column>
 				<Column minScreenWidth="Tablet"  demandPopin="true" hAlign="Center"><Text text="{i18n>Description}"/>
 					<footer><Text text="{i18n>Subtotal}"/></footer>
@@ -125,7 +125,7 @@
 				</ColumnListItem>
 			</items>
 		</Table>
-		<HBox alignContent="Center" justifyContent="Center" class="sapUiLargeMarginBottom">
+		<HBox alignContent="Center" justifyContent="Center">
 			<Button class="sapUiTinyMarginBeginEnd" type="Back" press="onStep04Back" text="{i18n>Back}"/>
 			<Button class="sapUiTinyMarginBeginEnd" press="onStep04Next" text="{i18n>Next}" type="Emphasized"/>
 		</HBox>

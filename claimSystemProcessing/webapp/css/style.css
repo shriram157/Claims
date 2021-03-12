@@ -340,10 +340,13 @@ span#__xmlview1--idPostalDistInput {
 
 .sapMUCNoDataPage .sapMUCNoDataText {
     font-size: .8rem;
+    padding:0 0;
 }
-
+.sapMUCNoDataPage {
+	padding:.5rem 1rem 0.2rem!important;
+}
 .sapMUCNoDataPage .sapUiIcon {
-    font-size: 2rem !important;
+    font-size: 1rem !important;
 }
 
 .sapUiSizeCompact .sapUxAPObjectPageLayout-Std-Desktop .sapUxAPBlockContainer {

@@ -20,7 +20,7 @@
 				</HBox>
 			</f:content>
 		</f:SimpleForm>
-		<HBox class="clBgColor" wrap="Wrap" displayInline="true" justifyContent="SpaceBetween">
+		<HBox class="clBgColor sapUiTinyMarginBeginBottom" wrap="Wrap" displayInline="true" justifyContent="SpaceBetween">
 			<VBox class="clSubl70">
 				<f:SimpleForm width="100%" editable="true" class="ClsubHeadingLineHeight" layout="ResponsiveGridLayout" title="" labelSpanXL="12"
 					labelSpanL="12" labelSpanM="12" labelSpanS="12" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="4" columnsL="4"
@@ -105,11 +105,11 @@
 		<Table id="idSubletTable" mode="SingleSelectLeft" items="{path: 'LocalDataModel>/SubletPricingDataModel'}" growing="true"
 			growingThreshold="5" noDataText="{i18n>NoData}" showNoData="true">
 			<columns>
-				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Begin"><Text text="{i18n>Line}"/></Column>
+				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center" width="4rem"><Text text="{i18n>Line}"/></Column>
 				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center"><Text text="{i18n>SubletType}" textAlign="Center"/></Column>
 				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center"><Text text="{i18n>Invoice}" textAlign="Center"/></Column>
 				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center"><Text text="{i18n>Attachment}" textAlign="Center"/></Column>
-				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center"><Text text="{i18n>Description}" textAlign="Center"/>
+				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center" width="11rem"><Text text="{i18n>Description}" textAlign="Center"/>
 					<footer><Text text="{i18n>Subtotal}" textAlign="Center"/></footer>
 				</Column>
 				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
@@ -145,7 +145,7 @@
 				</ColumnListItem>
 			</items>
 		</Table>
-		<HBox alignContent="Center" justifyContent="Center" class="sapUiLargeMarginBottom">
+		<HBox alignContent="Center" justifyContent="Center">
 			<Button class="sapUiTinyMarginBeginEnd" type="Back" press="onStep06Back" text="{i18n>Back}"/>
 			<Button class="sapUiTinyMarginBeginEnd" press="onStep06Next" text="{i18n>Next}" type="Emphasized"/>
 		</HBox>
