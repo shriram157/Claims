@@ -9,92 +9,91 @@
 					<Title text="{LocalDataModel>/WarrantyClaimNumber}" textAlign="End"/>
 				</Toolbar>
 			</headerToolbar>
-			<f:SimpleForm editable="true" layout="ResponsiveGridLayout" title="" labelSpanXL="6" labelSpanL="6" labelSpanM="12" labelSpanS="12"
-				adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="4" columnsL="4" columnsM="4">
-				<f:content>
-					<core:Title/>
-					<Label text="{i18n>ClaimType}"/>
-					<custom:CustomCombo showSecondaryValues="true" id="idClaimType" required="true" items="{path:'LocalDataModel>/ClaimGroupSet'}"
+			<!--<f:SimpleForm editable="true"  title="" -->
+			<!--	adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" >-->
+			<!--	<f:content>-->
+			<HBox>
+					<VBox width="34rem" class="clwidhth34 sapUiTinyMarginEnd">
+					<HBox width="100%">
+					<Label width="15rem" text="{i18n>ClaimType}"/>
+					<custom:CustomCombo width="10rem" showSecondaryValues="true" id="idClaimType" required="true" items="{path:'LocalDataModel>/ClaimGroupSet'}"
 						selectionChange="onSelectClaimTpe" selectedKey="{HeadSetData>/WarrantyClaimType}" enabled="{DateModel>/claimTypeEn}"
 						valueState="{DateModel>/claimTypeState}"
 						value="{path:'HeadSetData>/WarrantyClaimType', type : 'sap.ui.model.type.String', constraints : { minLength : 2, maxLength : 50 } }">
 						<core:ListItem text="{LocalDataModel>TMCClaimType}" key="{LocalDataModel>TMCClaimType}" additionalText="{LocalDataModel>ALMClaimTypeDes}"/>
 					</custom:CustomCombo>
-					<Label text="{i18n>SubmissionClaimType}" visible="{DateModel>/warrantySubmissionClaim}"/>
-					<custom:CustomCombo id="idSubmissionClaim" showSecondaryValues="true" required="true" visible="{DateModel>/warrantySubmissionClaim}"
+					</HBox>
+					<HBox width="100%">
+					<Label width="15rem" text="{i18n>SubmissionClaimType}" visible="{DateModel>/warrantySubmissionClaim}"/>
+					<custom:CustomCombo width="10rem" id="idSubmissionClaim" showSecondaryValues="true" required="true" visible="{DateModel>/warrantySubmissionClaim}"
 						items="{path:'LocalDataModel>/DataSubmissionClaim'}" selectionChange="onSelectClaimTpe" selectedKey="{HeadSetData>/WarrantyClaimSubType}"
 						enabled="{DateModel>/claimTypeEn}" valueState="{DateModel>/claimTypeState2}"
 						value="{path:'HeadSetData>/WarrantyClaimSubType', type : 'sap.ui.model.type.String', constraints : { minLength : 2, maxLength : 50 } }">
 						<core:ListItem text="{LocalDataModel>TMCClaimType}" key="{LocalDataModel>TMCClaimType}" additionalText="{LocalDataModel>ALMClaimTypeDes}"/>
 					</custom:CustomCombo>
-					<core:Title/>
-					<Label text="{i18n>FirstSubmissionDate}">
-						<layoutData>
-							<l:GridData span="XL6 L6 M12 S12"/>
-						</layoutData>
+					</HBox>
+					</VBox>
+					<VBox class="sapUiTinyMarginEnd clwidhth30">
+						<HBox width="100%">
+					<Label width="13rem" text="{i18n>FirstSubmissionDate}">
+					
 					</Label>
 					<Text text="{ path: 'HeadSetData>/ReferenceDate', formatter:'zclaimProcessing.utils.formatter.fnDateFormat'}"/>
-					<Label text="{i18n>ClaimAge}">
-						<layoutData>
-							<l:GridData span="XL6 L6 M12 S12"/>
-						</layoutData>
+					</HBox>
+					<HBox width="100%">
+					<Label  width="13rem" text="{i18n>ClaimAge}">
+					
 					</Label>
 					<Text text="{HeadSetData>/ClaimAge}"/>
-					<Label text="{i18n>LastModifiedby}">
-						<layoutData>
-							<l:GridData span="XL6 L6 M12 S12"/>
-						</layoutData>
+					</HBox>
+					<HBox width="100%">
+					<Label width="13rem" text="{i18n>LastModifiedby}">
 					</Label>
 					<Text text="{HeadSetData>/NameOfPersonRespWhoChangedObj}"/>
-					<core:Title/>
-					<Label text="{i18n>LastSubmissionDate}"/>
+					</HBox>
+					</VBox>
+					<VBox  class="clwidhth26 sapUiTinyMarginEnd">
+					<HBox width="100%">
+					<Label width="13rem" text="{i18n>LastSubmissionDate}"/>
 					<Text text="{ path: 'HeadSetData>/DateOfApplication', formatter:'zclaimProcessing.utils.formatter.fnDateFormat'}"/>
-					<Label text="{i18n>FinalProcessedDate}"/>
+					</HBox>
+					<HBox width="100%">
+					<Label width="13rem" text="{i18n>FinalProcessedDate}"/>
 					<Text text="{ path: 'HeadSetData>/FinalProcdDate', formatter:'zclaimProcessing.utils.formatter.fnDateFormat' }"/>
 					<!--<Label text="{i18n>ClaimSubmissionAgeSinceRO}"/>-->
 					<!--<Text text="{HeadSetData>/ProcessingStatusOfWarrantyClm}"/>-->
-					<core:Title/>
-					<Button text="{LocalDataModel>/SaveAuthClaim}" class="sapUiSmallMarginEnd" type="Emphasized" press="onSaveClaim"
+					</HBox>
+					</VBox>
+					<VBox class="clwidhth20">
+					<Button width="100%" text="{LocalDataModel>/SaveAuthClaim}" class="sapUiSmallMarginEnd" type="Emphasized" press="onSaveClaim"
 						visible="{DateModel>/saveClaimSt}">
-						<layoutData>
-							<l:GridData span="XL8 L8 M12 S12"/>
-						</layoutData>
+					
 					</Button>
-					<Button text="{i18n>Edit}" class="sapUiSmallMarginEnd" type="Emphasized" press="onEditClaim" visible="{DateModel>/claimEditSt}">
-						<layoutData>
-							<l:GridData span="XL8 L8 M12 S12"/>
-						</layoutData>
+					<Button width="100%" text="{i18n>Edit}" class="sapUiSmallMarginEnd" type="Emphasized" press="onEditClaim" visible="{DateModel>/claimEditSt}">
+					
 					</Button>
-					<Button text="{LocalDataModel>/SaveAuthClaim}" id="idUpdateBtn" class="sapUiSmallMarginEnd" enabled="{DateModel>/updateEnable}"
+					<Button width="100%" text="{LocalDataModel>/SaveAuthClaim}" id="idUpdateBtn" class="sapUiSmallMarginEnd" enabled="{DateModel>/updateEnable}"
 						type="Emphasized" press="onUpdateClaim" visible="{DateModel>/updateClaimSt}">
-						<layoutData>
-							<l:GridData span="XL8 L8 M12 S12"/>
-						</layoutData>
+					
 					</Button>
-					<Button text="{LocalDataModel>/copyClaimAuthText}" visible="{DateModel>/authHide}" enabled="{DateModel>/copyClaimEnable}" type="Default"
+					<Button width="100%" text="{LocalDataModel>/copyClaimAuthText}" visible="{DateModel>/authHide}" enabled="{DateModel>/copyClaimEnable}" type="Default"
 						press="onCopyClaim">
-						<layoutData>
-							<l:GridData span="XL8 L8 M12 S12"/>
-						</layoutData>
+					
 					</Button>
-					<Button text="{i18n>Approve}" visible="{DateModel>/authAcClm}" type="Accept" press="onApproveClaim">
-						<layoutData>
-							<l:GridData span="XL8 L8 M12 S12"/>
-						</layoutData>
+					<Button width="100%" text="{i18n>Approve}" visible="{DateModel>/authAcClm}" type="Accept" press="onApproveClaim">
+
 					</Button>
-					<Button text="{i18n>Reject}" visible="{DateModel>/authRejClm}" type="Reject" press="onRejectClaim">
-						<layoutData>
-							<l:GridData span="XL8 L8 M12 S12"/>
-						</layoutData>
+					<Button width="100%" text="{i18n>Reject}" visible="{DateModel>/authRejClm}" type="Reject" press="onRejectClaim">
+					
 					</Button>
-					<Button text="{i18n>ChangeClaimType}" visible="{DateModel>/chngClaimTypeVisible}" enabled="{DateModel>/updateEnable}" type="Emphasized"
+					<Button width="100%" text="{i18n>ChangeClaimType}" visible="{DateModel>/chngClaimTypeVisible}" enabled="{DateModel>/updateEnable}" type="Emphasized"
 						press="onChangeClaimType">
-						<layoutData>
-							<l:GridData span="XL8 L8 M12 S12"/>
-						</layoutData>
+					
 					</Button>
-				</f:content>
-			</f:SimpleForm>
+					</VBox>
+			<!--	</f:content>-->
+			<!--</f:SimpleForm>-->
+			</HBox>
 		</Panel>
 		<f:SimpleForm id="idClaimMainForm" editable="{DateModel>/oFormEdit}" title="{i18n>RepairOrderInformation}" layout="ResponsiveGridLayout"
 			labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0"

@@ -4980,6 +4980,15 @@ sap.ui.define([
 							at: "center center"
 						});
 					}
+				}, this),
+					error: $.proxy(function (err) {
+					var errText = JSON.parse(err.responseText).error.message.value;
+					this.getModel("LocalDataModel").setProperty("/DataAuthDetails", []);
+					this.getView().getModel("DataPercetCalculate").setData([]);
+						MessageToast.show(errText, {
+							my: "center center",
+							at: "center center"
+						});
 				}, this)
 			});
 		},

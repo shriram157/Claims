@@ -224,7 +224,9 @@ html.sap-desktop .clCommentFix .sapMFeedListItemHasFigure {
     /*min-height: 300rem;*/
 }
 
-.clBoldText {font-weight: bold;}
+.clBoldText {
+    font-weight: bold;
+}
 
 
 /*.clBorderNone .sapMInputBaseContentWrapper {*/
@@ -340,11 +342,13 @@ span#__xmlview1--idPostalDistInput {
 
 .sapMUCNoDataPage .sapMUCNoDataText {
     font-size: .8rem;
-    padding:0 0;
+    padding: 0 0;
 }
+
 .sapMUCNoDataPage {
-	padding:.5rem 1rem 0.2rem!important;
+    padding: .5rem 1rem 0.2rem !important;
 }
+
 .sapMUCNoDataPage .sapUiIcon {
     font-size: 1rem !important;
 }
@@ -441,12 +445,28 @@ span#__xmlview1--idPostalDistInput {
     width: 100%;
 }
 
+.clwidhth34 {
+    width: 100%;
+}
+
+.clwidhth13 {
+    width: 100%;
+}
+
+.clwidhth26 {
+    width: 100%;
+}
+
+.clwidhth20 {
+    width: 100%;
+}
+
 .clflexDirectionChange {
     flex-direction: column;
 }
 
 .sapUiRespGridMedia-Std-LargeDesktop.sapUiFormResGridCont>.sapUiFormElementLbl:not(.sapUiRespGridSpanXL12)>.sapMLabel {
-	    text-align: start!important;
+    text-align: start !important;
 }
 
 
@@ -479,6 +499,22 @@ span#__xmlview1--idPostalDistInput {
 
     .clwidhth30 {
         width: 30rem;
+    }
+
+    .clwidhth34 {
+        width: 34rem;
+    }
+
+    .clwidhth13 {
+        width: 13rem;
+    }
+
+    .clwidhth26 {
+        width: 26rem;
+    }
+
+    .clwidhth20 {
+        width: 20rem;
     }
 
     .clflexDirectionChange {
