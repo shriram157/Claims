@@ -20,7 +20,7 @@ sap.ui.define([
 	return BaseController.extend("zclaimProcessing.controller.MainClaimSection", {
 		onInit: function () {
 			this.getDealer();
-			
+
 			this.getView().setModel(sap.ui.getCore().getModel("HeaderLinksModel"), "HeaderLinksModel");
 			this.setModel(this.getModel("ProductMaster"), "ProductMasterModel");
 			this.setModel(this.getModel("ZVehicleMasterModel"), "ZVehicleMasterModel");
@@ -3705,6 +3705,7 @@ sap.ui.define([
 												this.getView().getModel("DateModel").setProperty("/claimEditSt", false);
 												this.getModel("LocalDataModel").setProperty("/UploadEnable", true);
 												this.getModel("LocalDataModel").setProperty("/UploadEnableSublet", true);
+												this.getModel("LocalDataModel").setProperty("/FeedEnabled", true);
 												this._fnClaimSumPercent();
 												this._fnClaimSum();
 												this._fnPricingData(oClaimNum);
@@ -4981,14 +4982,14 @@ sap.ui.define([
 						});
 					}
 				}, this),
-					error: $.proxy(function (err) {
+				error: $.proxy(function (err) {
 					var errText = JSON.parse(err.responseText).error.message.value;
 					this.getModel("LocalDataModel").setProperty("/DataAuthDetails", []);
 					this.getView().getModel("DataPercetCalculate").setData([]);
-						MessageToast.show(errText, {
-							my: "center center",
-							at: "center center"
-						});
+					MessageToast.show(errText, {
+						my: "center center",
+						at: "center center"
+					});
 				}, this)
 			});
 		},
