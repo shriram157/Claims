@@ -20,7 +20,7 @@ sap.ui.define([
 	return BaseController.extend("zclaimProcessing.controller.MainClaimSection", {
 		onInit: function () {
 			this.getDealer();
-			oBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
+			
 			this.getView().setModel(sap.ui.getCore().getModel("HeaderLinksModel"), "HeaderLinksModel");
 			this.setModel(this.getModel("ProductMaster"), "ProductMasterModel");
 			this.setModel(this.getModel("ZVehicleMasterModel"), "ZVehicleMasterModel");
@@ -236,6 +236,7 @@ sap.ui.define([
 		},
 
 		_onRoutMatched: function (oEvent) {
+			oBundle = this.getView().getModel("i18n").getResourceBundle();
 			this.getView().byId("ObjectPageLayout")._scrollTo(0, 0);
 			this.getModel("LocalDataModel").setProperty("/AuthGWVisible", false);
 			this.getModel("LocalDataModel").setProperty("/AuthP1Visible", false);
