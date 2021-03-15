@@ -115,10 +115,10 @@
 						<RadioButton groupName="GroupC" enabled="{DateModel>/oFormEdit}" select="onSelectOFPLabour"/>
 						<Text text="{path:'LocalDataModel>LabourNumber'}" wrapping="true"/>
 						<Text text="{LocalDataModel>LabourDescription}" wrapping="true"/>
-						<Text text="{LocalDataModel>QtyHrs}" wrapping="true"/>
+						<Text text="{path:'LocalDataModel>QtyHrs', formatter : 'zclaimProcessing.utils.formatter.fnFormatDecimal01'}" wrapping="true"/>
 						<Text text="${LocalDataModel>AmtClaimed}" wrapping="true"/>
 						<Text text="${LocalDataModel>TotalAfterDisct}" wrapping="true"/>
-						<Text text="{LocalDataModel>quant}" wrapping="true"/>
+						<Text text="{path:'LocalDataModel>quant', formatter : 'zclaimProcessing.utils.formatter.fnFormatDecimal01'}" wrapping="true"/>
 						<Text text="${LocalDataModel>TCIApprAmt}" wrapping="true"/>
 						<Text text="${LocalDataModel>DiffAmt}" wrapping="true"/>
 					</cells>

@@ -6495,12 +6495,12 @@ sap.ui.define([
 			if (this.getModel("LocalDataModel").getProperty("/SubletAtchmentData").length == 0 && selectedSubletItem[0].ZATTACHMENT_REQUIRED ==
 				"Y" || this.getModel("LocalDataModel").getProperty("/SubletAtchmentData").length == 0 && selectedSubletItem[0].ZATTACHMENT_REQUIRED ==
 				"") {
-				MessageToast.show("Attachment is required.", {
+				MessageToast.show(oBundle.getText("attachmentRequired"), {
 					my: "center center",
 					at: "center center"
 				});
 			} else if (this.getView().getModel("SubletDataModel").getProperty("/SubletCode") == "") {
-				MessageToast.show("Sublet type is required.", {
+				MessageToast.show(oBundle.getText("SubletTypeRequired"), {
 					my: "center center",
 					at: "center center"
 				});

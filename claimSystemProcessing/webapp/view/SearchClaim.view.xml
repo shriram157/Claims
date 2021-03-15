@@ -125,7 +125,7 @@
 									growingThreshold="25" growingScrollToLoad="false" growingTriggerText="{i18n>Loadmore}">
 									<columns>
 										<Column width="9rem" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
-											<Label text="{i18n>TCIClaim}" textAlign="Center" width="100%"/>
+											<Label text="{i18n>TCIClaim}" wrapping="true" textAlign="Center" width="100%"/>
 										</Column>
 										<Column width="9rem" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
 											<Label text="{i18n>DealerClaim}" wrapping="true" textAlign="Center" width="100%"/>
