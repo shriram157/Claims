@@ -7382,7 +7382,7 @@ sap.ui.define([
 				// <a onclick="window.open(this.href,'_blank');return false;" href="http://some_other_site.com">Some Other Site</a>
 
 				var w = window.open(isProxy +
-					"/node/ZDLR_CLAIM_SRV/zc_claim_printSet(NumberOfWarrantyClaim='" + oClaimNum + "',PrintType='WTY')/$value", "this.href",
+					"/node/ZDLR_CLAIM_SRV/zc_claim_printSet(NumberOfWarrantyClaim='" + oClaimNum + "',PrintType='WTY')/$value",
 					'_blank');
 				if (w == null) {
 					console.log("Error");
@@ -7391,7 +7391,7 @@ sap.ui.define([
 			} else if (oClaimtype == "SCR" || oClaimtype == "SSM" || oClaimtype == "VLC" ||
 				oClaimtype == "ZSCR" || oClaimtype == "ZSSM" || oClaimtype == "ZLDC") {
 				var w = window.open(isProxy +
-					"/node/ZDLR_CLAIM_SRV/zc_claim_printSet(NumberOfWarrantyClaim='" + oClaimNum + "',PrintType='NON_WTY')/$value", "this.href",
+					"/node/ZDLR_CLAIM_SRV/zc_claim_printSet(NumberOfWarrantyClaim='" + oClaimNum + "',PrintType='NON_WTY')/$value",
 					'_blank');
 
 				if (w == null) {
@@ -7411,7 +7411,7 @@ sap.ui.define([
 				'_blank');
 			if (w == null) {
 				console.log("Error");
-				//MessageBox.warning(oBundle.getText("Error.PopUpBloqued"));
+				//MessageBox.warning(oBundle.getText("Error.PopUpBloqued")); this.href before target blank
 			}
 		},
 		onPressAbbr: function () {
@@ -7725,7 +7725,7 @@ sap.ui.define([
 			}
 
 			window.open(isProxy +
-				oEvent.getSource().getUrl(), "this.href",
+				oEvent.getSource().getUrl(),
 				'_blank');
 		},
 		onChangeSerialNumber: function (oEvent) {

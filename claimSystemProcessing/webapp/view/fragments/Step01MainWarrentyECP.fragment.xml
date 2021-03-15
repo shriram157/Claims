@@ -12,10 +12,10 @@
 			<!--<f:SimpleForm editable="true"  title="" -->
 			<!--	adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" >-->
 			<!--	<f:content>-->
-			<HBox>
-					<VBox width="34rem" class="clwidhth34 sapUiTinyMarginEnd">
+			<HBox width="100%" class="clflexDirectionChange">
+					<VBox class="clwidhth34 sapUiTinyMarginEnd">
 					<HBox width="100%">
-					<Label width="15rem" text="{i18n>ClaimType}"/>
+					<Label class="clwidhth15" vAlign="Middle" text="{i18n>ClaimType} : "/>
 					<custom:CustomCombo width="10rem" showSecondaryValues="true" id="idClaimType" required="true" items="{path:'LocalDataModel>/ClaimGroupSet'}"
 						selectionChange="onSelectClaimTpe" selectedKey="{HeadSetData>/WarrantyClaimType}" enabled="{DateModel>/claimTypeEn}"
 						valueState="{DateModel>/claimTypeState}"
@@ -24,7 +24,7 @@
 					</custom:CustomCombo>
 					</HBox>
 					<HBox width="100%">
-					<Label width="15rem" text="{i18n>SubmissionClaimType}" visible="{DateModel>/warrantySubmissionClaim}"/>
+					<Label class="clwidhth15" text="{i18n>SubmissionClaimType} : " visible="{DateModel>/warrantySubmissionClaim}"/>
 					<custom:CustomCombo width="10rem" id="idSubmissionClaim" showSecondaryValues="true" required="true" visible="{DateModel>/warrantySubmissionClaim}"
 						items="{path:'LocalDataModel>/DataSubmissionClaim'}" selectionChange="onSelectClaimTpe" selectedKey="{HeadSetData>/WarrantyClaimSubType}"
 						enabled="{DateModel>/claimTypeEn}" valueState="{DateModel>/claimTypeState2}"
@@ -35,30 +35,30 @@
 					</VBox>
 					<VBox class="sapUiTinyMarginEnd clwidhth30">
 						<HBox width="100%">
-					<Label width="13rem" text="{i18n>FirstSubmissionDate}">
+					<Label class="clwidhth13" text="{i18n>FirstSubmissionDate} : ">
 					
 					</Label>
 					<Text text="{ path: 'HeadSetData>/ReferenceDate', formatter:'zclaimProcessing.utils.formatter.fnDateFormat'}"/>
 					</HBox>
 					<HBox width="100%">
-					<Label  width="13rem" text="{i18n>ClaimAge}">
+					<Label  class="clwidhth13" text="{i18n>ClaimAge} : ">
 					
 					</Label>
 					<Text text="{HeadSetData>/ClaimAge}"/>
 					</HBox>
 					<HBox width="100%">
-					<Label width="13rem" text="{i18n>LastModifiedby}">
+					<Label class="clwidhth13" text="{i18n>LastModifiedby} : ">
 					</Label>
 					<Text text="{HeadSetData>/NameOfPersonRespWhoChangedObj}"/>
 					</HBox>
 					</VBox>
 					<VBox  class="clwidhth26 sapUiTinyMarginEnd">
 					<HBox width="100%">
-					<Label width="13rem" text="{i18n>LastSubmissionDate}"/>
+					<Label class="clwidhth13" text="{i18n>LastSubmissionDate} : "/>
 					<Text text="{ path: 'HeadSetData>/DateOfApplication', formatter:'zclaimProcessing.utils.formatter.fnDateFormat'}"/>
 					</HBox>
 					<HBox width="100%">
-					<Label width="13rem" text="{i18n>FinalProcessedDate}"/>
+					<Label class="clwidhth13" text="{i18n>FinalProcessedDate} : "/>
 					<Text text="{ path: 'HeadSetData>/FinalProcdDate', formatter:'zclaimProcessing.utils.formatter.fnDateFormat' }"/>
 					<!--<Label text="{i18n>ClaimSubmissionAgeSinceRO}"/>-->
 					<!--<Text text="{HeadSetData>/ProcessingStatusOfWarrantyClm}"/>-->
@@ -66,30 +66,16 @@
 					</VBox>
 					<VBox class="clwidhth20">
 					<Button width="100%" text="{LocalDataModel>/SaveAuthClaim}" class="sapUiSmallMarginEnd" type="Emphasized" press="onSaveClaim"
-						visible="{DateModel>/saveClaimSt}">
-					
-					</Button>
-					<Button width="100%" text="{i18n>Edit}" class="sapUiSmallMarginEnd" type="Emphasized" press="onEditClaim" visible="{DateModel>/claimEditSt}">
-					
-					</Button>
+						visible="{DateModel>/saveClaimSt}"></Button>
+					<Button width="100%" text="{i18n>Edit}" class="sapUiSmallMarginEnd" type="Emphasized" press="onEditClaim" visible="{DateModel>/claimEditSt}"></Button>
 					<Button width="100%" text="{LocalDataModel>/SaveAuthClaim}" id="idUpdateBtn" class="sapUiSmallMarginEnd" enabled="{DateModel>/updateEnable}"
-						type="Emphasized" press="onUpdateClaim" visible="{DateModel>/updateClaimSt}">
-					
-					</Button>
+						type="Emphasized" press="onUpdateClaim" visible="{DateModel>/updateClaimSt}"></Button>
 					<Button width="100%" text="{LocalDataModel>/copyClaimAuthText}" visible="{DateModel>/authHide}" enabled="{DateModel>/copyClaimEnable}" type="Default"
-						press="onCopyClaim">
-					
-					</Button>
-					<Button width="100%" text="{i18n>Approve}" visible="{DateModel>/authAcClm}" type="Accept" press="onApproveClaim">
-
-					</Button>
-					<Button width="100%" text="{i18n>Reject}" visible="{DateModel>/authRejClm}" type="Reject" press="onRejectClaim">
-					
-					</Button>
+						press="onCopyClaim"></Button>
+					<Button width="100%" text="{i18n>Approve}" visible="{DateModel>/authAcClm}" type="Accept" press="onApproveClaim"></Button>
+					<Button width="100%" text="{i18n>Reject}" visible="{DateModel>/authRejClm}" type="Reject" press="onRejectClaim"></Button>
 					<Button width="100%" text="{i18n>ChangeClaimType}" visible="{DateModel>/chngClaimTypeVisible}" enabled="{DateModel>/updateEnable}" type="Emphasized"
-						press="onChangeClaimType">
-					
-					</Button>
+						press="onChangeClaimType"></Button>
 					</VBox>
 			<!--	</f:content>-->
 			<!--</f:SimpleForm>-->
@@ -478,79 +464,7 @@
 				</VBox>
 			</HBox>
 		</Panel>
-		<!--<VBox class="clFormTitleGap" visible="{DateModel>/RepairdDetailVisible}">-->
-		<!--	<f:SimpleForm visible="{DateModel>/RepairdDetailVisible}" editable="{DateModel>/oFormEdit}" title="{i18n>RepairDetails}"-->
-		<!--		layout="ResponsiveGridLayout" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0"-->
-		<!--		emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="6" columnsL="6" columnsM="3" singleContainerFullSize="false">-->
-		<!--		<f:content>-->
-		<!--			<core:Title/>-->
-		<!--<Label text="{i18n>OFP}"/>-->
-		<!--<Input id="idOFP" required="{DateModel>/ofpRequired}" change="onChangeOFP"-->
-		<!--	value="{path:'HeadSetData>/OFP', type : 'sap.ui.model.type.String', constraints : { minLength : 2, maxLength : 40 }}"-->
-		<!--	editable="{DateModel>/oFormEdit}" visible="{DateModel>/ofpEnabled}" maxLength="40"/>-->
-		<!--			<core:Title/>-->
-		<!--<Label text="{i18n>OFPDescription}"/>-->
-		<!--<Text text="{path:'LocalDataModel>/OFPDescription'}" visible="{DateModel>/ofpEnabled}"/>-->
-		<!--			<core:Title/>-->
-		<!--<Label text="{i18n>FieldActionCode}" labelFor="idFieldActionInput"/>-->
-		<!--<Input id="idFieldActionInput" maxLength="10" required="{path:'DateModel>/oFieldActionInput'}"-->
-		<!--	value="{path:'HeadSetData>/FieldActionReference', type : 'sap.ui.model.type.String', constraints : { minLength : 2, maxLength : 10 }}"-->
-		<!--	editable="{DateModel>/oFormEdit}" enabled="{DateModel>/oFieldActionInput}"/>-->
-		<!--			<core:Title/>-->
-		<!--<Label text="{i18n>T1Code}"/>-->
-		<!--<ComboBox id="idT1Field" required="{DateModel>/enabledT1}" selectionChange="onChangeT1" showSecondaryValues="true"-->
-		<!--	items="{ path: 'LocalDataModel>/t1DescSrchhelpSet' }" filterSecondaryValues="true"-->
-		<!--	value="{path:'HeadSetData>/T1WarrantyCodes', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 140 } }"-->
-		<!--	selectedKey="{path:'HeadSetData>/T1WarrantyCodes'}" visible="{DateModel>/enabledT1}" editable="{DateModel>/oFormEdit}">-->
-		<!--	<core:ListItem key="{LocalDataModel>T1}" text="{path:'LocalDataModel>T1'}" additionalText="{LocalDataModel>T1Text}"/>-->
-		<!--</ComboBox>-->
-		<!--<Select selectedKey="{HeadSetData>/T1WarrantyCodes}" items="{ path: '/Zt1DescSrchhelpSet' }" enabled="{DateModel>/oFormEdit}">-->
-		<!--	<core:Item key="{T1}" text="{T1} - {T1Text}"/>-->
-		<!--</Select>-->
-		<!--			<core:Title/>-->
-		<!--<Label text="{i18n>T2Code}"/>-->
-		<!--<ComboBox id="idT2Field" required="{DateModel>/enabledT2}" selectionChange="onChangeT2" showSecondaryValues="true"-->
-		<!--	items="{ path: 'LocalDataModel>/t2DescSrchhelpSet' }" filterSecondaryValues="true"-->
-		<!--	value="{path:'HeadSetData>/T2WarrantyCodes', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 140 } }"-->
-		<!--	selectedKey="{path:'HeadSetData>/T2WarrantyCodes'}" visible="{DateModel>/enabledT2}" editable="{DateModel>/oFormEdit}">-->
-		<!--	<core:ListItem key="{path:'LocalDataModel>T2'}" text="{LocalDataModel>T2}" additionalText="{LocalDataModel>T2Text}"/>-->
-		<!--</ComboBox>-->
-		<!--			<core:Title/>-->
-		<!--<Label text="{i18n>BatteryTestCode}"/>-->
-		<!--<Input id="idBattTestCOde" maxLength="14" value="{HeadSetData>/BatteryTestCode}" editable="{DateModel>/oFormEdit}"-->
-		<!--	enabled="{DateModel>/oBatteryTestEnable}"/>-->
-		<!--			<core:Title/>-->
-		<!--<Label text="{i18n>MainOp}"/>-->
-		<!--<Input id="idMainOps" maxLength="9" change="onChangeMainOp"-->
-		<!--	value="{path:'HeadSetData>/MainOpsCode', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 9 }}"-->
-		<!--	required="{DateModel>/oMainOpsReq}" editable="{DateModel>/oFormEdit}" visible="{DateModel>/oMainOps}"/>-->
-		<!--			<core:Title/>-->
-		<!--<Label text="{i18n>MainOpDescription}"/>-->
-		<!--<Text text="{path:'LocalDataModel>/MainOpsCodeDescription'}" visible="{DateModel>/oMainOps}"/>-->
-		<!--			<core:Title/>-->
-		<!--<Label text="{i18n>SerialNo}" visible="{DateModel>/serialNoV}"/>-->
-		<!--<Input maxLength="17" change="onChangeSerialNumber" value="{path:'HeadSetData>/SerialNumber', type : 'sap.ui.model.type.String'}"-->
-		<!--	editable="{DateModel>/oFormEdit}" visible="{DateModel>/serialNoV}"></Input>-->
-		<!--			<core:Title/>-->
-		<!--<Label text="{i18n>Cause}"/>-->
-		<!--<TextArea maxLength="100" required="true" editable="{DateModel>/oFormEdit}" id="idCause"-->
-		<!--	value="{path:'HeadSetData>/Cause',type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 100 }}"></TextArea>-->
-		<!--			<core:Title/>-->
-		<!--<Label text="{i18n>Condition}"/>-->
-		<!--<TextArea maxLength="100" required="true" id="idCondition" editable="{DateModel>/oFormEdit}"-->
-		<!--	value="{path:'HeadSetData>/ZCondition', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 100 }}"></TextArea>-->
-		<!--			<core:Title/>-->
-		<!--<Label text="{i18n>Remedy}"/>-->
-		<!--<TextArea id="idRemedy" required="true" editable="{DateModel>/oFormEdit}" maxLength="100"-->
-		<!--	value="{path:'HeadSetData>/Remedy', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 100 }}"></TextArea>-->
-		<!--			<core:Title/>-->
-		<!--			<Label text="{i18n>AppliedCoverage}"/>-->
-		<!--			<Text text="{HeadSetData>/AppliedWarrantyCoverage}"/>-->
-		<!--			<core:Title/>-->
-		<!--			<Link text="{i18n>ViewCCRAbbreviations}" press="onPressAbbr"/>-->
-		<!--		</f:content>-->
-		<!--	</f:SimpleForm>-->
-		<!--</VBox>-->
+	
 		<f:SimpleForm visible="{DateModel>/AcA1}" editable="{DateModel>/oFormEdit}" title="{i18n>AccessoryInstallation}"
 			layout="ResponsiveGridLayout" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0"
 			emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="3" columnsL="3" columnsM="3" singleContainerFullSize="false">

@@ -461,6 +461,11 @@ span#__xmlview1--idPostalDistInput {
     width: 100%;
 }
 
+.clwidhth15 {
+    width: 100%;
+}
+
+
 .clflexDirectionChange {
     flex-direction: column;
 }
@@ -486,19 +491,20 @@ span#__xmlview1--idPostalDistInput {
     .clSubl20 {
         width: 20%;
     }
+
 }
 
 @media only screen and (min-width: 767px) {
     .clwidhth22 {
-        width: 22rem;
+        width: 21rem;
     }
 
     .clwidth10rem {
-        width: 10.5rem;
+        width: 10rem;
     }
 
     .clwidhth30 {
-        width: 30rem;
+        width: 28.3rem;
     }
 
     .clwidhth34 {
@@ -515,6 +521,10 @@ span#__xmlview1--idPostalDistInput {
 
     .clwidhth20 {
         width: 20rem;
+    }
+
+    .clwidhth15 {
+        width: 15rem;
     }
 
     .clflexDirectionChange {
