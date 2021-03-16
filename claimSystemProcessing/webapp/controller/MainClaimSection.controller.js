@@ -6100,59 +6100,75 @@ sap.ui.define([
 					this.obj.zc_claim_item_labourSet.results.splice(oIndex, 1);
 				}
 
-				var itemObj = {
-					"Type": "LABOUR",
-					"ItemType": "FR",
-					"LabourNumber": this.getView().getModel("LabourDataModel").getProperty("/LabourOp"),
-					"ClaimedHours": oClaimHr,
-					"LabourDescription": this.getView().getModel("LabourDataModel").getProperty("/LabourDescription")
-				};
+				var oGetIndex = this.obj.zc_claim_item_labourSet.results.findIndex(({
+					LabourNumber
+				}) => LabourNumber == this.getView().getModel("LabourDataModel").getProperty("/LabourOp"));
 
-				var oIndexItem = this.obj.zc_claim_item_labourSet.results.findIndex(function (item) {
-					return item.LabourNumber == itemObj.LabourNumber;
-				});
+				if (oGetIndex > -1) {
+					this.getView().getModel("LabourDataModel").setProperty("/LabourOp", "");
+					this.getView().getModel("LabourDataModel").setProperty("/ClaimedHours", "");
+					this.getView().getModel("LabourDataModel").setProperty("/LabourDescription", "");
 
-				if (oIndexItem == -1) {
-					this.obj.zc_claim_item_labourSet.results.push(itemObj);
+					MessageToast.show(oBundle.getText("PartNumExists"), {
+						my: "center center",
+						at: "center center"
+					});
+				} else {
+
+					var itemObj = {
+						"Type": "LABOUR",
+						"ItemType": "FR",
+						"LabourNumber": this.getView().getModel("LabourDataModel").getProperty("/LabourOp"),
+						"ClaimedHours": oClaimHr,
+						"LabourDescription": this.getView().getModel("LabourDataModel").getProperty("/LabourDescription")
+					};
+
+					var oIndexItem = this.obj.zc_claim_item_labourSet.results.findIndex(function (item) {
+						return item.LabourNumber == itemObj.LabourNumber;
+					});
+
+					if (oIndexItem == -1) {
+						this.obj.zc_claim_item_labourSet.results.push(itemObj);
+					}
+					this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", true);
+					oClaimModel.create("/zc_headSet", this.obj, {
+						success: $.proxy(function (data, response) {
+							this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", false);
+
+							var pricinghData = response.data.zc_claim_item_price_dataSet.results;
+							var oFilteredData = pricinghData.filter(function (val) {
+								return val.ItemType === "FR" && val.ItemKey[0] != "P";
+							});
+
+							this.getView().getModel("HeadSetData").setProperty("/OFP", response.data.OFP);
+
+							this.getModel("LocalDataModel").setProperty("/LabourPricingDataModel", oFilteredData);
+							var oIndexMat = oFilteredData.findIndex($.proxy(function (item) {
+								return item.ItemKey == this.getView().getModel("HeadSetData").getProperty("/MainOpsCode")
+							}), this);
+							if (oIndexMat > -1) {
+								this.getView().byId("idLabourTable").getItems()[oIndexMat].getCells()[1].setProperty("selected", true);
+							}
+
+							//this.getModel("LocalDataModel").setProperty("/WarrantyClaimNum", response.data.NumberOfWarrantyClaim);
+							MessageToast.show(oBundle.getText("Claimhasbeensavedsuccessfully"), {
+								my: "center center",
+								at: "center center"
+							});
+							this.getView().getModel("DateModel").setProperty("/labourLine", false);
+							this.getView().getModel("LabourDataModel").setProperty("/LabourOp", "");
+							this.getView().getModel("LabourDataModel").setProperty("/ClaimedHours", "");
+							this.getView().getModel("LabourDataModel").setProperty("/LabourDescription", "");
+							this._fnClaimSum();
+							this._fnClaimSumPercent();
+							oTable.removeSelections("true");
+						}, this),
+						error: $.proxy(function (err) {
+							MessageToast.show(oBundle.getText("SystemInternalError"));
+							this.getView().getModel("DateModel").setProperty("/errorBusyIndicator", false);
+						}, this)
+					});
 				}
-				this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", true);
-				oClaimModel.create("/zc_headSet", this.obj, {
-					success: $.proxy(function (data, response) {
-						this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", false);
-
-						var pricinghData = response.data.zc_claim_item_price_dataSet.results;
-						var oFilteredData = pricinghData.filter(function (val) {
-							return val.ItemType === "FR" && val.ItemKey[0] != "P";
-						});
-
-						this.getView().getModel("HeadSetData").setProperty("/OFP", response.data.OFP);
-
-						this.getModel("LocalDataModel").setProperty("/LabourPricingDataModel", oFilteredData);
-						var oIndexMat = oFilteredData.findIndex($.proxy(function (item) {
-							return item.ItemKey == this.getView().getModel("HeadSetData").getProperty("/MainOpsCode")
-						}), this);
-						if (oIndexMat > -1) {
-							this.getView().byId("idLabourTable").getItems()[oIndexMat].getCells()[1].setProperty("selected", true);
-						}
-
-						//this.getModel("LocalDataModel").setProperty("/WarrantyClaimNum", response.data.NumberOfWarrantyClaim);
-						MessageToast.show(oBundle.getText("Claimhasbeensavedsuccessfully"), {
-							my: "center center",
-							at: "center center"
-						});
-						this.getView().getModel("DateModel").setProperty("/labourLine", false);
-						this.getView().getModel("LabourDataModel").setProperty("/LabourOp", "");
-						this.getView().getModel("LabourDataModel").setProperty("/ClaimedHours", "");
-						this.getView().getModel("LabourDataModel").setProperty("/LabourDescription", "");
-						this._fnClaimSum();
-						this._fnClaimSumPercent();
-						oTable.removeSelections("true");
-					}, this),
-					error: $.proxy(function (err) {
-						MessageToast.show(oBundle.getText("SystemInternalError"));
-						this.getView().getModel("DateModel").setProperty("/errorBusyIndicator", false);
-					}, this)
-				});
 
 			} else {
 				MessageToast.show(oBundle.getText("OperationNumberinputfieldblank"), {
