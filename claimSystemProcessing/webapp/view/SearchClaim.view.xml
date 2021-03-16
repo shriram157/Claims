@@ -119,7 +119,7 @@
 					</uxap:ObjectPageSubSection>
 					<uxap:ObjectPageSubSection>
 						<uxap:blocks>
-							<ScrollContainer horizontal="true" height="20rem" width="100%" vertical="true" focusable="true">
+							<ScrollContainer horizontal="true" height="30rem" width="100%" vertical="true" focusable="true">
 								<Table width="100%" id="idClaimTable" noDataText="{i18n>NoData}" mode="None" busy="{DateModel>/tableBusyIndicator}"
 									items="{path:'LocalDataModel>/ZcClaimHeadNewData', sorter:{path:'NumberOfWarrantyClaim', descending : false}}" growing="true"
 									growingThreshold="25" growingScrollToLoad="false" growingTriggerText="{i18n>Loadmore}">

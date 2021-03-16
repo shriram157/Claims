@@ -4920,7 +4920,7 @@ sap.ui.define([
 			var oClaimtype = this.getModel("LocalDataModel").getProperty("/GroupDescriptionName");
 			oProssingModel.read("/zc_authorization_detailsSet", {
 				urlParameters: {
-					"$filter": "AuthorizationNumber eq '" + oClaim + "'"
+					"$filter": "ClaimNumber eq '" + oClaimNum + "'"
 				},
 				success: $.proxy(function (oAuthData) {
 					if (oAuthData.results[0].AuthorizationNumber != "") {
