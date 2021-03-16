@@ -805,7 +805,7 @@ sap.ui.define([
 
 						} else if (oGroupDescription == "ZSSE") {
 							this.getView().getModel("DateModel").setProperty("/oMainOps", true);
-							this.getView().getModel("DateModel").setProperty("/Paint", true);
+							this.getView().getModel("DateModel").setProperty("/Paint", false);
 							this.getView().getModel("DateModel").setProperty("/Parts", true);
 							this.getView().getModel("DateModel").setProperty("/Sublet", true);
 							this.getView().getModel("DateModel").setProperty("/Labour", true);
@@ -1529,7 +1529,7 @@ sap.ui.define([
 					this.getView().getModel("DateModel").setProperty("/oMainOpsReq", false);
 				} else if (sClaimGroup == "STR") {
 					this._fnValidClaimTYpeList(oGroupDescription);
-					this.getView().getModel("DateModel").setProperty("/Paint", true);
+					this.getView().getModel("DateModel").setProperty("/Paint", false);
 					this.getView().getModel("DateModel").setProperty("/Sublet", true);
 					this.getView().getModel("DateModel").setProperty("/Parts", true);
 					this.getView().getModel("DateModel").setProperty("/Labour", true);
@@ -4924,6 +4924,7 @@ sap.ui.define([
 				},
 				success: $.proxy(function (oAuthData) {
 					if (oAuthData.results[0].AuthorizationNumber != "") {
+						this.getView().getModel("DataPercetCalculate").setProperty("/AuthorizationNumber", oAuthData.results[0].AuthorizationNumber);
 						this.getModel("LocalDataModel").setProperty("/DataAuthDetails", oAuthData.results[0]);
 					}
 				}, this),
@@ -5059,7 +5060,7 @@ sap.ui.define([
 				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZWA1" &&
 				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZWA2" &&
 				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZWAC" &&
-
+				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZSSE" &&
 				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZWP1" &&
 				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") != "ZWMS" &&
 				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") != "ZWA1" &&
@@ -5138,7 +5139,6 @@ sap.ui.define([
 				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZWMS" &&
 				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") != "ZWMS" &&
 				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZSSE" &&
-				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZCSR" &&
 				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZSSM" &&
 				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZLDC" &&
 				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZRCR"

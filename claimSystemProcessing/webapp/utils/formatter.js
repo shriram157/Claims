@@ -203,7 +203,7 @@ zclaimProcessing.utils.formatter = {
 						return a + b;
 
 					}
-				).toFixed(2);
+				).toFixed(1);
 			}
 		}
 		return oNum;

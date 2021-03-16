@@ -2,7 +2,7 @@
 	<SelectDialog id="idLabourValueHelp" title="{i18n>OperationCode}" busy="{LocalDataModel>/labourBusyIndicator}" class="sapUiPopupWithPadding"
 		items="{LocalDataModel>/SuggetionOperationList}" confirm="_handleValueHelpCloseLabour"
 		liveChange="_handleLiveChangeLabour" cancel="_handleValueHelpCloseLabour" growingThreshold="20" growing="true">
-		<StandardListItem title="{LocalDataModel>J_3GKATNRC}" description="{LocalDataModel>LTEXT}" info="{LocalDataModel>TIME}"/>
+		<StandardListItem title="{LocalDataModel>J_3GKATNRC}" description="{LocalDataModel>LTEXT}" info="{path:'LocalDataModel>TIME', formatter : 'zclaimProcessing.utils.formatter.fnFormatDecimal01'}"/>
 	</SelectDialog>
 	<!--<SelectDialog id="idLabourValueHelp" title="{i18n>OperationCode}" busy="{LocalDataModel>/labourBusyIndicator}" class="sapUiPopupWithPadding"-->
 	<!--	items="" search="_handleValueHelpSearchLabour" confirm="_handleValueHelpCloseLabour" liveChange="_handleLiveChangeLabour"-->
