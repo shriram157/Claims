@@ -13,59 +13,59 @@
 			<table:Column width="10rem">
 				<Label text="{i18n>Totalsincludedmarkupdiscounts}" textAlign="Center" wrapping="true" width="100%"/>
 				<table:template>
-					<Text text="{path:'LocalDataModel>ItemType', formatter: 'zclaimProcessing.utils.formatter.fnFormatText'}" wrapping="false"/>
+					<Text text="{path:'LocalDataModel>ItemType', formatter: 'zclaimProcessing.utils.formatter.fnFormatText'}" wrapping="true"/>
 				</table:template>
 			</table:Column>
 			<table:Column width="11rem">
 				<Label text="{i18n>DealerClaimedAmount}" wrapping="true" textAlign="Center" width="100%"/>
 				<table:template>
-					<Text text="${path:'LocalDataModel>DealerClaim', formatter:'zclaimProcessing.utils.formatter.fnFormatDecimal'}" wrapping="false"/>
+					<Text text="${path:'LocalDataModel>DealerClaim', formatter:'zclaimProcessing.utils.formatter.fnFormatDecimal'}" wrapping="true"/>
 				</table:template>
 			</table:Column>
 			<table:Column width="11rem">
 				<Label text="{i18n>TCIApprovedAmount}" wrapping="true" textAlign="Center" width="100%"/>
 				<table:template>
-					<Text text="${path:'LocalDataModel>TCIAppr', formatter:'zclaimProcessing.utils.formatter.fnFormatDecimal'}" wrapping="false"/>
+					<Text text="${path:'LocalDataModel>TCIAppr', formatter:'zclaimProcessing.utils.formatter.fnFormatDecimal'}" wrapping="true"/>
 				</table:template>
 			</table:Column>
 			<table:Column width="11rem">
 				<Label text="{i18n>DifferenceCAD}" wrapping="true" textAlign="Center" width="100%"/>
 				<table:template>
-					<Text text="${path:'LocalDataModel>Diff', formatter:'zclaimProcessing.utils.formatter.fnFormatDecimal'}" wrapping="false"/>
+					<Text text="${path:'LocalDataModel>Diff', formatter:'zclaimProcessing.utils.formatter.fnFormatDecimal'}" wrapping="true"/>
 				</table:template>
 			</table:Column>
 			<table:Column width="9rem">
-				<Label text="{i18n>GSTHST} ({i18n>Amount})" textAlign="Center" width="100%"/>
+				<Label text="{i18n>GSTHST} ({i18n>Amount})" wrapping="true" textAlign="Center" width="100%"/>
 				<!--<Label text="{i18n>Amount}" textAlign="Center" width="100%"/>-->
 				<table:template>
-					<Text text="${path:'LocalDataModel>GSTHSTAmt', formatter:'zclaimProcessing.utils.formatter.fnFormatDecimal'}" wrapping="false"/>
+					<Text text="${path:'LocalDataModel>GSTHSTAmt', formatter:'zclaimProcessing.utils.formatter.fnFormatDecimal'}" wrapping="true"/>
 				</table:template>
 			</table:Column>
 			<table:Column width="8rem">
-				<Label text="{i18n>GSTHST} ({i18n>Tax})" textAlign="Center" width="100%"/>
+				<Label text="{i18n>GSTHST} {i18n>Tax}" wrapping="true" textAlign="Center" width="100%"/>
 				<!--<Label text="{i18n>Tax}" textAlign="Center" width="100%"/>-->
 				<table:template>
-					<Text text="{LocalDataModel>GSTHSTRate}" wrapping="false"/>
+					<Text text="{LocalDataModel>GSTHSTRate}" wrapping="true"/>
 				</table:template>
 			</table:Column>
 			<table:Column width="9rem">
-				<Label text="{i18n>PSTQST} ({i18n>Amount})" textAlign="Center" width="100%"/>
+				<Label text="{i18n>PSTQST} ({i18n>Amount})" wrapping="true" textAlign="Center" width="100%"/>
 				<!--<Label text="Amount" textAlign="Center" width="100%"/>-->
 				<table:template>
-					<Text text="${path:'LocalDataModel>PSTQSTAmt', formatter:'zclaimProcessing.utils.formatter.fnFormatDecimal'}" wrapping="false"/>
+					<Text text="${path:'LocalDataModel>PSTQSTAmt', formatter:'zclaimProcessing.utils.formatter.fnFormatDecimal'}" wrapping="true"/>
 				</table:template>
 			</table:Column>
 			<table:Column width="8rem">
-				<Label text="{i18n>PSTQST} ({i18n>Tax})" textAlign="Center" width="100%"/>
+				<Label text="{i18n>PSTQST} {i18n>Tax}"  wrapping="true" textAlign="Center" width="100%"/>
 				<!--<Label text="{i18n>Tax}" textAlign="Center" width="100%"/>-->
 				<table:template>
-					<Text text="{LocalDataModel>PSTQSTRate}" wrapping="false"/>
+					<Text text="{LocalDataModel>PSTQSTRate}" wrapping="true"/>
 				</table:template>
 			</table:Column>
 			<table:Column width="10rem">
 				<Label text="{i18n>TCIApprovedAmountIncludingTax}" wrapping="true" textAlign="Center" width="100%"/>
 				<table:template>
-					<Text text="${path:'LocalDataModel>TCIApprInclTax', formatter:'zclaimProcessing.utils.formatter.fnFormatDecimal'}" wrapping="false"/>
+					<Text text="${path:'LocalDataModel>TCIApprInclTax', formatter:'zclaimProcessing.utils.formatter.fnFormatDecimal'}" wrapping="true"/>
 				</table:template>
 			</table:Column>
 		</table:columns>
