@@ -332,6 +332,7 @@ sap.ui.define([
 			if (sClaimGroup == "VLC") {
 				this.fn_damageCallforVLC();
 				this.getView().getModel("DateModel").setProperty("/enableVLC", true);
+				this.getView().getModel("DateModel").setProperty("/MainOpEnabled", false);
 				if (sSelectedLocale == "fr") {
 					this.getModel("LocalDataModel").setProperty("/DamageDiscSet", WarrantyDataManager.DamageDiscolsureData.frn)
 				} else {
@@ -1599,6 +1600,7 @@ sap.ui.define([
 					this.getView().getModel("DateModel").setProperty("/P1p2", false);
 					this.getView().getModel("DateModel").setProperty("/oMainOpsReq", false);
 					this.getView().getModel("DateModel").setProperty("/authHide", false);
+					
 				}
 
 				if (sClaimGroup == "CRC") {
@@ -4922,10 +4924,10 @@ sap.ui.define([
 				urlParameters: {
 					"$filter": "ClaimNumber eq '" + oClaimNum + "'"
 				},
-				success: $.proxy(function (oAuthData) {
-					if (oAuthData.results.length > 0) {
-						this.getView().getModel("DataPercetCalculate").setProperty("/AuthorizationNumber", oAuthData.results[0].AuthorizationNumber);
-						this.getModel("LocalDataModel").setProperty("/DataAuthDetails", oAuthData.results[0]);
+				success: $.proxy(function (sdata) {
+					if (sdata.results.length > 0) {
+						this.getView().getModel("DataPercetCalculate").setProperty("/AuthorizationNumber", sdata.results[0].AuthorizationNumber);
+						this.getModel("LocalDataModel").setProperty("/DataAuthDetails", sdata.results[0]);
 					}
 				}, this),
 				error: $.proxy(function (err) {

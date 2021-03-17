@@ -125,7 +125,7 @@
 				</Text>
 			</f:content>
 		</f:SimpleForm>
-		<f:SimpleForm editable="" id="idVehicleInfo" title="{i18n>VehicleInformation} - {path:'LocalDataModel>/DataVinDetails/VehicleDescription'} / {path:'LocalDataModel>/DataVinDetails/ModelYear'}"
+		<f:SimpleForm editable="" id="idVehicleInfo" title="{i18n>VehicleInformation} - {path:'LocalDataModel>/DataVinDetails/VehicleDescription'} {path:'LocalDataModel>/DataVinDetails/ModelYear'}"
 			layout="ResponsiveGridLayout" labelSpanXL="12" labelSpanL="12" labelSpanM="6" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0"
 			emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="6" columnsL="6" columnsM="3" singleContainerFullSize="false">
 			<f:content >

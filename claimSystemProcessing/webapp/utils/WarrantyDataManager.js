@@ -172,7 +172,8 @@ sap.ui.define([
 				oRepOrdReq: true,
 				chngClaimTypeVisible: false,
 				serialNoV: false,
-				enableVLC: false
+				enableVLC: false,
+				MainOpEnabled:true
 			});
 			return elm.getView().setModel(oDateModel, "DateModel");
 		},
