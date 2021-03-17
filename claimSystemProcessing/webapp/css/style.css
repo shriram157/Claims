@@ -474,6 +474,8 @@ span#__xmlview1--idPostalDistInput {
     text-align: start !important;
 }
 
+.sapMNavItem.sapMPage {top:3rem!important;}
+.sapMPage>.sapMPageHeader + section {top:0rem!important;}
 
 @media only screen and (min-width: 960px) {
     .clSubl70 {
