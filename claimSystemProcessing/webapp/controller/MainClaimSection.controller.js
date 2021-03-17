@@ -425,7 +425,7 @@ sap.ui.define([
 										"$filter": "ClaimNumber eq '" + data.results[0].NumberOfWarrantyClaim + "'"
 									},
 									success: $.proxy(function (oAuthData) {
-										if (oAuthData.results[0].AuthorizationNumber != "") {
+											if (oAuthData.results.length > 0) {
 											this.getModel("LocalDataModel").setProperty("/DataAuthDetails", oAuthData.results[0]);
 										}
 									}, this)
@@ -2886,7 +2886,7 @@ sap.ui.define([
 											"$filter": "ClaimNumber eq '" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") + "'"
 										},
 										success: $.proxy(function (oAuthData) {
-											if (oAuthData.results[0].AuthorizationNumber != "") {
+												if (oAuthData.results.length > 0) {
 												this.getModel("LocalDataModel").setProperty("/DataAuthDetails", oAuthData.results[0]);
 											}
 										}, this)
@@ -4782,7 +4782,7 @@ sap.ui.define([
 									"$filter": "ClaimNumber eq '" + oClaimNum + "'"
 								},
 								success: $.proxy(function (oAuthData) {
-									if (oAuthData.results[0].AuthorizationNumber != "") {
+									if (oAuthData.results.length > 0) {
 										this.getModel("LocalDataModel").setProperty("/DataAuthDetails", oAuthData.results[0]);
 										this.getView().getModel("DateModel").setProperty("/chngClaimTypeVisible", false);
 									}
