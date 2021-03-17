@@ -516,17 +516,6 @@
 			</content>
 		</Panel>
 		<Panel backgroundDesign="Transparent" headerText="{i18n>SupportingDocuments}" expandable="true" class="sapUiSizeCompact clCommentFix">
-			<!--<Panel width="auto" accessibleRole="Region">-->
-			<!--	<headerToolbar>-->
-			<!--		<Toolbar height="3rem">-->
-			<!--			<Title text="{i18n>SupportingDocuments}"/>-->
-			<!--		</Toolbar>-->
-			<!--	</headerToolbar>-->
-			<!--	<content>-->
-			<!--<f:SimpleForm  editable="{DateModel>/oFormEdit}"  title="{i18n>SupportingDocuments}" layout="ResponsiveGridLayout" labelSpanXL="3" labelSpanL="3" labelSpanM="3"-->
-			<!--	labelSpanS="12" adjustLabelSpan="false" emptySpanXL="4" emptySpanL="4" emptySpanM="0" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1"-->
-			<!--	singleContainerFullSize="false">-->
-			<!--	<f:content>-->
 			<UploadCollection class="sapUiSizeCompact clAttachmentList" id="idHeadAttachment" maximumFileSize="10" maximumFilenameLength="50"
 				fileSizeExceed="onFileSizeExceed" noDataDescription="{i18n>NoFileFound}" noDataText="{i18n>NoFileFound}"
 				filenameLengthExceed="onFileNameLengthExceed" uploadEnabled="{LocalDataModel>/UploadEnable}" change="onUplaodChange"

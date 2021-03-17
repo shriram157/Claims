@@ -158,7 +158,7 @@ sap.ui.define([
 						"$filter": clmAuthNum + " eq '" + oClaim + "'"
 					},
 					success: $.proxy(function (oAuthData) {
-						if (oAuthData.results[0].AuthorizationNumber != "") {
+						if (oAuthData.results.length > 0) {
 							this.getModel("LocalDataModel").setProperty("/DataAuthDetails", oAuthData.results[0]);
 						}
 					}, this)
@@ -1600,7 +1600,7 @@ sap.ui.define([
 					this.getView().getModel("DateModel").setProperty("/P1p2", false);
 					this.getView().getModel("DateModel").setProperty("/oMainOpsReq", false);
 					this.getView().getModel("DateModel").setProperty("/authHide", false);
-					
+
 				}
 
 				if (sClaimGroup == "CRC") {
