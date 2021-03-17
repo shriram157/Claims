@@ -4923,7 +4923,7 @@ sap.ui.define([
 					"$filter": "ClaimNumber eq '" + oClaimNum + "'"
 				},
 				success: $.proxy(function (oAuthData) {
-					if (oAuthData.results[0].AuthorizationNumber != "") {
+					if (oAuthData.results.length > 0) {
 						this.getView().getModel("DataPercetCalculate").setProperty("/AuthorizationNumber", oAuthData.results[0].AuthorizationNumber);
 						this.getModel("LocalDataModel").setProperty("/DataAuthDetails", oAuthData.results[0]);
 					}
