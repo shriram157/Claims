@@ -307,8 +307,7 @@
 				</items>
 			</Table>
 		</VBox>
-		<Table id="idECPAGR" headerText="{i18n>ActiveAgreeement}" mode="None" items="{path:'LocalDataModel>/AgreementDataECP'}"
-			class="sapUiMediumMarginTop" visible="{DateModel>/oECPfields}">
+		<Table id="idECPAGR" headerText="{i18n>ActiveAgreeement}" mode="None" items="{path:'LocalDataModel>/AgreementDataECP'}" visible="{DateModel>/oECPfields}">
 			<columns>
 				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Begin"><Text text=""/></Column>
 				<Column hAlign="Center">
