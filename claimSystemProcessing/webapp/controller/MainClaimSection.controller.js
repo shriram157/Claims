@@ -155,7 +155,7 @@ sap.ui.define([
 				this.getModel("LocalDataModel").setProperty("/PercentState", true);
 				this.getModel("ProssingModel").read("/zc_authorization_detailsSet", {
 					urlParameters: {
-						"$filter": clmAuthNum + " eq '" + oClaim + "'"
+						"$filter": "ClaimNumber eq '" + oClaim + "'"
 					},
 					success: $.proxy(function (oAuthData) {
 						if (oAuthData.results.length > 0) {
@@ -422,7 +422,7 @@ sap.ui.define([
 
 								oProssingModel.read("/zc_authorization_detailsSet", {
 									urlParameters: {
-										"$filter": "AuthorizationNumber eq '" + data.results[0].AuthorizationNumber + "'"
+										"$filter": "ClaimNumber eq '" + data.results[0].NumberOfWarrantyClaim + "'"
 									},
 									success: $.proxy(function (oAuthData) {
 										if (oAuthData.results[0].AuthorizationNumber != "") {
@@ -2883,7 +2883,7 @@ sap.ui.define([
 
 									oClaimModel.read("/zc_authorization_detailsSet", {
 										urlParameters: {
-											"$filter": clmAuthNum + " eq '" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") + "'"
+											"$filter": "ClaimNumber eq '" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") + "'"
 										},
 										success: $.proxy(function (oAuthData) {
 											if (oAuthData.results[0].AuthorizationNumber != "") {
@@ -2938,10 +2938,10 @@ sap.ui.define([
 						if (oGroupType == "Authorization") {
 							oClaimModel.read("/zc_authorization_detailsSet", {
 								urlParameters: {
-									"$filter": "AuthorizationNumber eq '" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") + "'"
+									"$filter": "ClaimNumber eq '" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") + "'"
 								},
 								success: $.proxy(function (oAuthData) {
-									if (oAuthData.results[0].AuthorizationNumber != "") {
+									if (oAuthData.results.length > 0) {
 										this.getModel("LocalDataModel").setProperty("/DataAuthDetails", oAuthData.results[0]);
 									}
 								}, this)
@@ -4700,10 +4700,10 @@ sap.ui.define([
 
 									oClaimModel.read("/zc_authorization_detailsSet", {
 										urlParameters: {
-											"$filter": "AuthorizationNumber eq '" + oAuthNum + "'"
+											"$filter": "ClaimNumber eq '" + oClaimNum + "'"
 										},
 										success: $.proxy(function (oAuthData) {
-											if (oAuthData.results[0].AuthorizationNumber != "") {
+											if (oAuthData.results.length > 0) {
 												this.getModel("LocalDataModel").setProperty("/DataAuthDetails", oAuthData.results[0]);
 											}
 										}, this)
@@ -4779,7 +4779,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/warrantySubmissionClaim", true);
 							oClaimModel.read("/zc_authorization_detailsSet", {
 								urlParameters: {
-									"$filter": "AuthorizationNumber eq '" + oClaimNum + "'"
+									"$filter": "ClaimNumber eq '" + oClaimNum + "'"
 								},
 								success: $.proxy(function (oAuthData) {
 									if (oAuthData.results[0].AuthorizationNumber != "") {
