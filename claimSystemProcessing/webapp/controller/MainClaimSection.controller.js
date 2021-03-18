@@ -2883,7 +2883,7 @@ sap.ui.define([
 
 									oClaimModel.read("/zc_authorization_detailsSet", {
 										urlParameters: {
-											"$filter": "ClaimNumber eq '" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") + "'"
+											"$filter": "AuthorizationNumber eq '" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") + "'"
 										},
 										success: $.proxy(function (oAuthData) {
 												if (oAuthData.results.length > 0) {
@@ -2935,18 +2935,18 @@ sap.ui.define([
 							}, this)
 						});
 
-						if (oGroupType == "Authorization") {
-							oClaimModel.read("/zc_authorization_detailsSet", {
-								urlParameters: {
-									"$filter": "ClaimNumber eq '" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") + "'"
-								},
-								success: $.proxy(function (oAuthData) {
-									if (oAuthData.results.length > 0) {
-										this.getModel("LocalDataModel").setProperty("/DataAuthDetails", oAuthData.results[0]);
-									}
-								}, this)
-							});
-						}
+						// if (oGroupType == "Authorization") {
+						// 	oClaimModel.read("/zc_authorization_detailsSet", {
+						// 		urlParameters: {
+						// 			"$filter": "ClaimNumber eq '" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") + "'"
+						// 		},
+						// 		success: $.proxy(function (oAuthData) {
+						// 			if (oAuthData.results.length > 0) {
+						// 				this.getModel("LocalDataModel").setProperty("/DataAuthDetails", oAuthData.results[0]);
+						// 			}
+						// 		}, this)
+						// 	});
+						// }
 						this.getModel("LocalDataModel").setProperty("/CancelEnable", true);
 
 					}, this),
