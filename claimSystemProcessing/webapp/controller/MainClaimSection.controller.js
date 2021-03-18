@@ -425,7 +425,7 @@ sap.ui.define([
 										"$filter": "ClaimNumber eq '" + data.results[0].NumberOfWarrantyClaim + "'"
 									},
 									success: $.proxy(function (oAuthData) {
-											if (oAuthData.results.length > 0) {
+										if (oAuthData.results.length > 0) {
 											this.getModel("LocalDataModel").setProperty("/DataAuthDetails", oAuthData.results[0]);
 										}
 									}, this)
@@ -2886,7 +2886,7 @@ sap.ui.define([
 											"$filter": "AuthorizationNumber eq '" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") + "'"
 										},
 										success: $.proxy(function (oAuthData) {
-												if (oAuthData.results.length > 0) {
+											if (oAuthData.results.length > 0) {
 												this.getModel("LocalDataModel").setProperty("/DataAuthDetails", oAuthData.results[0]);
 											}
 										}, this)
@@ -4920,20 +4920,6 @@ sap.ui.define([
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			var oClaim = this.getView().getModel("DataPercetCalculate").getProperty("/AuthorizationNumber");
 			var oClaimtype = this.getModel("LocalDataModel").getProperty("/GroupDescriptionName");
-			oProssingModel.read("/zc_authorization_detailsSet", {
-				urlParameters: {
-					"$filter": "ClaimNumber eq '" + oClaimNum + "'"
-				},
-				success: $.proxy(function (sdata) {
-					if (sdata.results.length > 0) {
-						this.getView().getModel("DataPercetCalculate").setProperty("/AuthorizationNumber", sdata.results[0].AuthorizationNumber);
-						this.getModel("LocalDataModel").setProperty("/DataAuthDetails", sdata.results[0]);
-					}
-				}, this),
-				error: $.proxy(function (err) {
-					this.getModel("LocalDataModel").setProperty("/DataAuthDetails", []);
-				}, this)
-			});
 
 			oProssingModel.read("/zc_authorizationSet", {
 				urlParameters: {
@@ -4984,6 +4970,22 @@ sap.ui.define([
 							at: "center center"
 						});
 					}
+
+					oProssingModel.read("/zc_authorization_detailsSet", {
+						urlParameters: {
+							"$filter": "ClaimNumber eq '" + oClaimNum + "'"
+						},
+						success: $.proxy(function (sdata) {
+							if (sdata.results.length > 0) {
+								this.getView().getModel("DataPercetCalculate").setProperty("/AuthorizationNumber", sdata.results[0].AuthorizationNumber);
+								this.getModel("LocalDataModel").setProperty("/DataAuthDetails", sdata.results[0]);
+							}
+						}, this),
+						error: $.proxy(function (err) {
+							this.getModel("LocalDataModel").setProperty("/DataAuthDetails", []);
+						}, this)
+					});
+
 				}, this),
 				error: $.proxy(function (err) {
 					var errText = JSON.parse(err.responseText).error.message.value;
@@ -4995,6 +4997,7 @@ sap.ui.define([
 					});
 				}, this)
 			});
+
 		},
 		onStep01Next: function (oEvent) {
 

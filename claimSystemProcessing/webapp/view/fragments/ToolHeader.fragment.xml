@@ -1,5 +1,5 @@
 <core:FragmentDefinition xmlns:core="sap.ui.core" xmlns:l="sap.ui.layout" xmlns="sap.m" xmlns:tnt="sap.tnt">
-	<tnt:ToolHeader class="sapUiSizeCompact">
+	<tnt:ToolHeader class="sapUiSizeCompact clNavHead">
 		<Button text="{i18n>NewClaim}" press="handleNavHeaderPress" type="Transparent" visible="{HeaderLinksModel>/NewClaim}"></Button>
 		<Button text="{i18n>ViewUpdateClaims}" press="handleNavHeaderPress" type="Transparent" visible="{HeaderLinksModel>/ViewUpdateClaims}"></Button>
 		<Button text="{i18n>QuickCoverageTool}" press="handleNavHeaderPress" type="Transparent" visible="{HeaderLinksModel>/QuickCoverageTool}"></Button>
