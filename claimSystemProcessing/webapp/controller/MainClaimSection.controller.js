@@ -3759,6 +3759,8 @@ sap.ui.define([
 				success: $.proxy(function (data) {
 
 					this.getModel("LocalDataModel").setProperty("/ClaimSum", data.results);
+					this.getModel("LocalDataModel").setProperty("/ClaimSum/3/GSTHSTRate", "");
+					this.getModel("LocalDataModel").setProperty("/ClaimSum/3/PSTQSTRate", "");
 
 				}, this)
 			});
