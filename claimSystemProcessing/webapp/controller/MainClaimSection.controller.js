@@ -7157,11 +7157,31 @@ sap.ui.define([
 										this.getView().getModel("HeadSetData").setProperty("/ReferenceDate", response.data.ReferenceDate);
 										this.getView().getModel("HeadSetData").setProperty("/DateOfApplication", response.data.DateOfApplication);
 
+										// var oFilteredData = pricinghData.filter(function (val) {
+										// 	return val.ItemType === "MAT";
+										// });
+
+										// this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
+
 										var oFilteredData = pricinghData.filter(function (val) {
 											return val.ItemType === "MAT";
 										});
 
 										this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
+										var oFilteredDataLabour = pricinghData.filter(function (val) {
+											return val.ItemType === "FR" && val.ItemKey[0] != "P";
+										});
+										this.getModel("LocalDataModel").setProperty("/LabourPricingDataModel", oFilteredDataLabour);
+										var oFilteredDataPaint = pricinghData.filter(function (val) {
+											return val.ItemType === "FR" && val.ItemKey[0] == "P";
+										});
+										this.getModel("LocalDataModel").setProperty("/PaintPricingDataModel", oFilteredDataPaint);
+
+										var oFilteredDataSubl = pricinghData.filter(function (val) {
+											return val.ItemType === "SUBL";
+										});
+
+										this.getModel("LocalDataModel").setProperty("/SubletPricingDataModel", oFilteredDataSubl);
 
 										this.getView().getModel("DateModel").setProperty("/claimTypeEn", false);
 										oClaimModel.read("/zc_headSet", {
@@ -7318,7 +7338,7 @@ sap.ui.define([
 												this._fnGetClaimTypeDescENFR();
 												this._fnClaimSum();
 												this._fnClaimSumPercent();
-												this._fnPricingData(oClaimNum);
+												//this._fnPricingData(oClaimNum);
 											}, this)
 										});
 
