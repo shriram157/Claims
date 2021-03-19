@@ -110,7 +110,7 @@
 				<ColumnListItem vAlign="Middle">
 					<cells>
 						<Text text="{LocalDataModel>posnr}" wrapping="true"/>
-						<RadioButton groupName="GroupC" visible="{DateModel>/MainOpEnabled}" enabled="{DateModel>/oFormEdit}" select="onSelectOFPLabour"/>
+						<RadioButton textAlign="Center" groupName="GroupC" visible="{DateModel>/MainOpEnabled}" enabled="{DateModel>/oFormEdit}" select="onSelectOFPLabour"/>
 						<Text text="{path:'LocalDataModel>LabourNumber'}" wrapping="true"/>
 						<Text text="{LocalDataModel>LabourDescription}" wrapping="true"/>
 						<Text text="{path:'LocalDataModel>QtyHrs', formatter : 'zclaimProcessing.utils.formatter.fnFormatDecimal01'}" wrapping="true"/>
