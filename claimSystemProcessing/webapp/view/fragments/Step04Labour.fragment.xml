@@ -1,108 +1,57 @@
 <core:FragmentDefinition xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:u="sap.ui.unified" xmlns:l="sap.ui.layout"
 	xmlns="sap.m" xmlns:table="sap.ui.table" xmlns:custom="zclaimProcessing.control">
-	<VBox class="sapUiSmallMargin clFormTitleGap" busy="{LocalDataModel>/oSavePartIndicator}">
-		<Panel width="100%" class="sapUiSmallMarginBottom">
-			<headerToolbar>
-				<Toolbar height="3rem">
-					<Title text="{i18n>ClaimDetails}"/>
-					<ToolbarSpacer/>
-					<Title text="{LocalDataModel>/WarrantyClaimNumber}" textAlign="End"/>
-				</Toolbar>
-			</headerToolbar>
-			<f:SimpleForm editable="true" layout="ResponsiveGridLayout" title="" labelSpanXL="6" labelSpanL="6" labelSpanM="12" labelSpanS="12"
-				adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="6" columnsL="6" columnsM="4"
-				singleContainerFullSize="false">
-				<f:content>
-					<core:Title text=""/>
-					<Label text="{i18n>TCIClaim}"/>
-					<Text text="{HeadSetData>/NumberOfWarrantyClaim}"/>
-					<Label text="{i18n>VIN}">
-						<layoutData>
-							<l:GridData span="XL3 L3"/>
-						</layoutData>
-					</Label>
-					<Text text="{HeadSetData>/ExternalObjectNumber}" wrapping="false"/>
-					<core:Title text=""/>
-					<Label text="{i18n>DlrClaim}"/>
-					<Text text="{HeadSetData>/ExternalNumberOfClaim}"/>
-					<Label text="{i18n>OFP}">
-						<layoutData>
-							<l:GridData span="XL3 L4"/>
-						</layoutData>
-					</Label>
-					<Text text="{HeadSetData>/OFP}"/>
-					<core:Title text=""/>
-					<Label text="{i18n>RO}"/>
-					<Text text="{HeadSetData>/RepairOrderNumberExternal}"/>
-					<Label text="{i18n>Op}"/>
-					<Text text="{HeadSetData>/MainOpsCode}" id="idOFPLabour"/>
-					<core:Title text=""/>
-					<Label text="{i18n>RepairDate}"/>
-					<Text text="{path:'HeadSetData>/RepairDate', formatter:'zclaimProcessing.utils.formatter.fnDateFormat'}"/>
-					<Label text="{i18n>RegDate}"/>
-					<Text text="{path:'LocalDataModel>/DataVinDetails/RegDate', formatter:'zclaimProcessing.utils.formatter.fnDateFormat'}"/>
-					<core:Title text=""/>
-					<Label text="{i18n>Odometer}" textAlign="End">
-						<layoutData>
-							<l:GridData span="XL5 L5 M6 "/>
-						</layoutData>
-					</Label>
-					<Text text="{path:'HeadSetData>/Odometer', formatter:'zclaimProcessing.utils.formatter.fnFormatNum'}" textAlign="End">
-						<layoutData>
-							<l:GridData span="XL4 L4 M6 "/>
-						</layoutData>
-					</Text>
-					<Text text="{LocalDataModel>/MsrUnit}" visible="{DateModel>/OdometerReqMan}">
-						<layoutData>
-							<l:GridData span="XL3 L3 M3 "/>
-						</layoutData>
-					</Text>
-					<Label text="{i18n>Elapse}"/>
-					<Text text="{LocalDataModel>/VehicleMonths} {i18n>Months}"/>
-					<core:Title text=""/>
-					<Label text="{i18n>Type}"/>
-					<Text text="{HeadSetData>/WarrantyClaimType}"/>
-					<Label text="{i18n>Status}"/>
-					<Text text="{HeadSetData>/DecisionCode}"/>
-				</f:content>
-			</f:SimpleForm>
-		</Panel>
+	<VBox class="clFormTitleGap" busy="{LocalDataModel>/oSavePartIndicator}">
+		<core:Fragment fragmentName="zclaimProcessing.view.fragments.headerFormWarrantyDetails" type="XML"/>
 		<!--<HBox justifyContent="End" width="100%">-->
 		<!--<Button text="Add Part Line" type="Emphasized" press="onPressAddLabour"/>-->
 		<!--	<Button text="Save Claim" type="Emphasized" press="onPressSaveClaimItemLabour"/>-->
 		<!--</HBox>-->
-		<f:SimpleForm editable="true" class=" sapUiTinyMarginBottom" layout="ResponsiveGridLayout" title="{i18n>LabourDetails}" labelSpanXL="7"
+		<f:SimpleForm editable="true" layout="ResponsiveGridLayout" title="{i18n>LabourDetails}" labelSpanXL="7"
 			labelSpanL="7" labelSpanM="12" labelSpanS="12" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="6" columnsL="6"
 			columnsM="6">
 			<f:content>
-				<core:Title text=""/>
-				<Button text="{i18n>AddLabourLine}" press="onPressAddLabour" enabled="{DateModel>/oFormEdit}" visible="{DateModel>/LabourBtnVsbl}"/>
-				<core:Title text=""/>
-				<Button text="{i18n>UpdateLabourLine}" press="onPressUpdateLabour" enabled="{DateModel>/oFormEdit}" visible="{DateModel>/LabourBtnVsbl}"/>
-				<core:Title text=""/>
-				<Button text="{i18n>DeleteLabourLine}" type="Reject" press="onPressDeleteLabour" enabled="{DateModel>/oFormEdit}"
+				<!--<core:Title text=""/>-->
+				<!--<Button text="{i18n>AddLabourLine}" press="onPressAddLabour" enabled="{DateModel>/oFormEdit}" visible="{DateModel>/LabourBtnVsbl}"/>-->
+				<!--<core:Title text=""/>-->
+				<!--<Button text="{i18n>UpdateLabourLine}" press="onPressUpdateLabour" enabled="{DateModel>/oFormEdit}" visible="{DateModel>/LabourBtnVsbl}"/>-->
+				<!--<core:Title text=""/>-->
+				<!--<Button text="{i18n>DeleteLabourLine}" type="Reject" press="onPressDeleteLabour" enabled="{DateModel>/oFormEdit}"-->
+				<!--	visible="{DateModel>/LabourBtnVsbl}"/>-->
+				<!--<core:Title text=""/>-->
+				<!--<Button text="{i18n>SuggestedOperations}" press="onPressSuggestLabour" enabled="{DateModel>/oFormEdit}" visible="{DateModel>/LabourBtnVsbl}"/>-->
+				<!--<core:Title text=""/>-->
+				<!--<Label text="{i18n>LabourRate}"/>-->
+				<!--<Text text="${LocalDataModel>/LabourPricingDataModel/0/LabourPer}"/>-->
+				<!--<core:Title text=""/>-->
+				<!--<Button text="{i18n>SaveClaim}" type="Emphasized" press="onPressSaveClaimItemLabour" enabled="{DateModel>/labourLine}"/>-->
+				
+				
+					<HBox justifyContent="Start">
+					
+					<Button text="{i18n>AddLabourLine}" class="sapUiSmallMarginEnd" press="onPressAddLabour" enabled="{DateModel>/oFormEdit}" visible="{DateModel>/LabourBtnVsbl}"/>
+					<Button text="{i18n>UpdateLabourLine}" class="sapUiSmallMarginEnd" press="onPressUpdateLabour" enabled="{DateModel>/oFormEdit}" visible="{DateModel>/LabourBtnVsbl}"/>
+					<Button text="{i18n>DeleteLabourLine}" class="sapUiSmallMarginEnd" type="Reject" press="onPressDeleteLabour" enabled="{DateModel>/oFormEdit}"
 					visible="{DateModel>/LabourBtnVsbl}"/>
-				<core:Title text=""/>
-				<Button text="{i18n>SuggestedOperations}" press="onPressSuggestLabour" enabled="{DateModel>/oFormEdit}" visible="{DateModel>/LabourBtnVsbl}"/>
-				<core:Title text=""/>
-				<Label text="{i18n>LabourRate}"/>
-				<Text text="${LocalDataModel>/LabourPricingDataModel/0/LabourPer}"/>
-				<core:Title text=""/>
-				<Button text="{i18n>SaveClaim}" type="Emphasized" press="onPressSaveClaimItemLabour" enabled="{DateModel>/labourLine}"/>
+					<Button text="{i18n>SuggestedOperations}" class="sapUiSmallMarginEnd" press="onPressSuggestLabour" enabled="{DateModel>/oFormEdit}" visible="{DateModel>/LabourBtnVsbl}"/>
+				
+				<Text text="{i18n>LabourRate} "/>
+				<Text text=": ${LocalDataModel>/LabourPricingDataModel/0/LabourPer}"/>
+				</HBox>
+				
+				
+				
 			</f:content>
 		</f:SimpleForm>
 		<l:Grid containerQuery="true" defaultSpan="XL12 L12 M12 S12">
 			<VBox class="clBgColor" wrap="Wrap" displayInline="true" alignContent="Center">
-				<f:SimpleForm editable="true" class="sapUiResponsiveMargin ClsubHeadingLineHeight" width="95%" layout="ResponsiveGridLayout" title=""
+				<f:SimpleForm editable="true" class="ClsubHeadingLineHeight" width="95%" layout="ResponsiveGridLayout" title=""
 					labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="6"
 					columnsL="6" columnsM="3">
 					<f:content>
-						<core:Title text=""/>
-						<Label text="{i18n>Line}" textAlign="Left"/>
-						<Text text=""/>
+					
 						<core:Title text=""/>
 						<Label text="{i18n>OperationNumber}" textAlign="Left"/>
-						<Input type="Text" change="onChangeLabourOp" textFormatMode="Value" placeholder="{i18n>EnterOperationNumber}" showSuggestion="false"
+						<Input type="Text" liveChange="onLiveChangeLabourOp" change="onChangeLabourOp" textFormatMode="Value" placeholder="{i18n>EnterOperationNumber}" showSuggestion="false"
 							showValueHelp="true" id="idOperationLabour" value="{LabourDataModel>/LabourOp}" valueHelpRequest="handleValueHelpLabour"
 							suggestionItems="{LocalDataModel>/SuggetionOperationList}" suggestionItemSelected="onSelectPositionCode" enabled="{DateModel>/labourLine}"
 							editable="{DateModel>/editableLabourNumber}">
@@ -133,10 +82,10 @@
 		<Table id="idLabourTable" mode="SingleSelectLeft" items="{path: 'LocalDataModel>/LabourPricingDataModel'}" growing="true"
 			growingThreshold="30" noDataText="{i18n>NoData}" showNoData="true">
 			<columns>
-				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Begin"><Text text="{i18n>Line}"/></Column>
-				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Begin"><Text text="{i18n>MainOp}"/></Column>
-				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center"><Text text="{i18n>OperationNumber}"/></Column>
-				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center"><Text text="{i18n>Description}"/>
+				<Column minScreenWidth="Tablet"  width="4rem" demandPopin="true" hAlign="Center"><Text text="{i18n>Line}"/></Column>
+				<Column minScreenWidth="Tablet" width="4.5rem" visible="{DateModel>/MainOpEnabled}" demandPopin="true" hAlign="Center"><Text text="{i18n>MainOp}"/></Column>
+				<Column minScreenWidth="Tablet" width="11rem"  demandPopin="true" hAlign="Center"><Text text="{i18n>OperationNumber}"/></Column>
+				<Column minScreenWidth="Tablet"  demandPopin="true" hAlign="Center"><Text text="{i18n>Description}"/>
 					<footer><Text text="{i18n>Subtotal}"/></footer>
 				</Column>
 				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center"><Text text="{i18n>DealerClaimedHours}"/>
@@ -161,20 +110,20 @@
 				<ColumnListItem vAlign="Middle">
 					<cells>
 						<Text text="{LocalDataModel>posnr}" wrapping="true"/>
-						<RadioButton groupName="GroupC" enabled="{DateModel>/oFormEdit}" select="onSelectOFPLabour"/>
+						<RadioButton textAlign="Center" groupName="GroupC" visible="{DateModel>/MainOpEnabled}" enabled="{DateModel>/oFormEdit}" select="onSelectOFPLabour"/>
 						<Text text="{path:'LocalDataModel>LabourNumber'}" wrapping="true"/>
 						<Text text="{LocalDataModel>LabourDescription}" wrapping="true"/>
-						<Text text="{LocalDataModel>QtyHrs}" wrapping="true"/>
+						<Text text="{path:'LocalDataModel>QtyHrs', formatter : 'zclaimProcessing.utils.formatter.fnFormatDecimal01'}" wrapping="true"/>
 						<Text text="${LocalDataModel>AmtClaimed}" wrapping="true"/>
 						<Text text="${LocalDataModel>TotalAfterDisct}" wrapping="true"/>
-						<Text text="{LocalDataModel>quant}" wrapping="true"/>
+						<Text text="{path:'LocalDataModel>quant', formatter : 'zclaimProcessing.utils.formatter.fnFormatDecimal01'}" wrapping="true"/>
 						<Text text="${LocalDataModel>TCIApprAmt}" wrapping="true"/>
 						<Text text="${LocalDataModel>DiffAmt}" wrapping="true"/>
 					</cells>
 				</ColumnListItem>
 			</items>
 		</Table>
-		<HBox alignContent="Center" justifyContent="Center" class="sapUiTinyMarginTop">
+		<HBox alignContent="Center" justifyContent="Center">
 			<Button class="sapUiTinyMarginBeginEnd" type="Back" press="onStep04Back" text="{i18n>Back}"/>
 			<Button class="sapUiTinyMarginBeginEnd" press="onStep04Next" text="{i18n>Next}" type="Emphasized"/>
 		</HBox>

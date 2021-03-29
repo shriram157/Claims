@@ -103,7 +103,9 @@ sap.ui.define([
 					"$filter": "LanguageKey eq '" + this.fnReturnLanguage() + "'and Status eq '" + oStatus + "'"
 				},
 				success: $.proxy(function (data) {
+					if(data.results.length > 0){
 					elm.getModel("LocalDataModel").setProperty("/StatusDes", data.results[0].Description);
+					}
 				}, elm),
 				error: function () {
 
@@ -151,6 +153,7 @@ sap.ui.define([
 			elm.obj.CompetitorPost = elm.getView().byId("postal_code").getValue() || "";
 			elm.obj.QuoteDate = this._fnDateFormat(elm.getView().getModel("HeadSetData").getProperty("/QuoteDate"));
 			elm.obj.RebateAmount = elm.getView().getModel("HeadSetData").getProperty("/RebateAmount");
+			elm.obj.NameOfPersonRespWhoChangedObj =  elm.getModel("LocalDataModel").getProperty("/LoginId");
 		},
 		_fnDateFormat: function (elm) {
 			if (elm != "" && elm != null && elm != NaN) {

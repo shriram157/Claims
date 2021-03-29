@@ -1,7 +1,7 @@
 <core:FragmentDefinition xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:u="sap.ui.unified" xmlns:l="sap.ui.layout"
 	xmlns="sap.m" xmlns:table="sap.ui.table" xmlns:custom="zclaimProcessing.control">
-	<VBox class="sapUiSmallMargin clFormTitleGap" busy="{LocalDataModel>/oSavePartIndicator}" busyIndicatorDelay="100">
-		<Panel width="auto" class="sapUiSmallMarginBottom" accessibleRole="Region">
+	<VBox class="sapUiSizeCompact clFormTitleGap" busy="{LocalDataModel>/oSavePartIndicator}" busyIndicatorDelay="100">
+		<Panel width="auto" accessibleRole="Region">
 			<headerToolbar>
 				<Toolbar height="3rem">
 					<Title text="{i18n>ClaimDetails}"/>
@@ -35,32 +35,30 @@
 			</f:SimpleForm>
 		</Panel>
 		<f:SimpleForm editable="" title="{i18n>CompetitorInformation}" layout="ResponsiveGridLayout" labelSpanXL="12" labelSpanL="12" labelSpanM="12"
-			labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1"
+			labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="4" columnsL="4" columnsM="1"
 			singleContainerFullSize="false">
 			<f:content >
 				<core:Title text=""/>
 				<Label text="{i18n>ManufacturerRebate}"/>
 				<Input id="idRebateAmt" maxLength="40" value="{path:'HeadSetData>/RebateAmount', type : 'sap.ui.model.type.String' }"
 					editable="{DateModel>/oFormEdit}">
-					<layoutData>
-						<l:GridData span="XL4 L4 M6 S6"/>
-					</layoutData>
+					
 				</Input>
 				<Button text="{i18n>Recalculate}" enabled="{DateModel>/oFormEdit}" class="sapUiSmallMarginEnd" type="Emphasized" press="onRecalculate">
 					<layoutData>
-						<l:GridData span="XL2 L2 M3 S6"/>
+						<l:GridData span="XL4 L4 M5 S6"/>
 					</layoutData>
 				</Button>
 			</f:content>
 		</f:SimpleForm>
 	</VBox>
-	<Panel width="auto" class="sapUiSmallMarginBottom" accessibleRole="Region">
+	<Panel width="auto" class="sapUiSizeCompact" accessibleRole="Region">
 		<content>
 			<core:Fragment fragmentName="zclaimProcessing.view.fragments.ClaimAmountSummery" type="XML"/>
 		</content>
 	</Panel>
-	<VBox>
-		<HBox alignContent="Center" justifyContent="Center" class="sapUiTinyMarginTop sapUiTinyMarginBottom">
+	<VBox class="sapUiLargeMarginBottom sapUiSizeCompact">
+		<HBox alignContent="Center" justifyContent="Center" class="sapUiTinyMarginTop sapUiSizeCompact">
 			<Button class="sapUiTinyMarginBeginEnd" press="onStep02Back" text="{i18n>Back}" type="Back"/>
 			<Button class="sapUiTinyMarginBeginEnd" press="onStep03Next" enabled="{LocalDataModel>/step01Next}" text="{i18n>Next}" type="Emphasized"/>
 		</HBox>

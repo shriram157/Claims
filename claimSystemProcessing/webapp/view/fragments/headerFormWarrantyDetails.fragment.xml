@@ -1,0 +1,83 @@
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:u="sap.ui.unified" xmlns:l="sap.ui.layout"
+	xmlns="sap.m" xmlns:table="sap.ui.table">
+	<Panel width="100%">
+		<headerToolbar>
+			<Toolbar height="3rem">
+				<Title text="{i18n>ClaimDetails}"/>
+				<ToolbarSpacer/>
+				<Title text="{LocalDataModel>/WarrantyClaimNumber}" textAlign="End"/>
+			</Toolbar>
+		</headerToolbar>
+		<HBox width="100%">
+			<VBox width="14rem" class="sapUiTinyMarginEnd">
+				<HBox width="100%">
+					<Label width="7rem" text="{i18n>TCIClaim}" wrapping="true" vAlign="Middle"/>
+					<Text text="{HeadSetData>/NumberOfWarrantyClaim}" textAlign="Left"/>
+				</HBox>
+				<HBox width="100%">
+					<Label width="7rem" text="{i18n>DlrClaim}" vAlign="Middle" wrapping="true"/>
+					<Text text="{HeadSetData>/ExternalNumberOfClaim}"/>
+				</HBox>
+			</VBox>
+			<VBox width="13rem" class="sapUiTinyMarginEnd">
+				<HBox width="100%">
+					<Label width="6rem" text="{i18n>RegDate}"/>
+					<Text text="{path:'LocalDataModel>/DataVinDetails/RegDate', formatter:'zclaimProcessing.utils.formatter.fnDateFormat'}" textAlign="Left"/>
+				</HBox>
+				<HBox width="100%">
+					<Label text="{i18n>Elapse}" width="6rem"/>
+					<Text text="{LocalDataModel>/VehicleMonths} {i18n>Months}"/>
+				</HBox>
+			</VBox>
+			<VBox width="16.5rem" class="sapUiTinyMarginEnd">
+				<HBox width="100%">
+					<Label width="4.5rem" text="{i18n>VIN}"/>
+					<Text text="{HeadSetData>/ExternalObjectNumber}" textAlign="Left"/>
+				</HBox>
+				<HBox width="100%">
+					<Label text="{i18n>Odometer}" width="4.5rem"/>
+					<Text text="{path:'HeadSetData>/Odometer', formatter:'zclaimProcessing.utils.formatter.fnFormatNum'}" textAlign="End">
+						<layoutData>
+							<l:GridData span="XL4 L4 M6 "/>
+						</layoutData>
+					</Text>
+					<Text text="{LocalDataModel>/MsrUnit}" visible="{DateModel>/OdometerReqMan}">
+						<layoutData>
+							<l:GridData span="XL3 L3 M3 "/>
+						</layoutData>
+					</Text>
+				</HBox>
+			</VBox>
+			<VBox width="14rem" class="sapUiTinyMarginEnd">
+				<HBox width="100%">
+					<Label text="{i18n>RepairOrder}" width="7rem" wrapping="true" vAlign="Middle"/>
+					<Text text="{HeadSetData>/RepairOrderNumberExternal}" textAlign="Left"/>
+				</HBox>
+				<HBox width="100%">
+					<Label text="{i18n>RepairDate}" width="7rem" wrapping="true" vAlign="Middle"/>
+					<Text text="{path:'HeadSetData>/RepairDate', formatter:'zclaimProcessing.utils.formatter.fnDateFormat'}"/>
+				</HBox>
+			</VBox>
+			<VBox width="15rem" class="sapUiTinyMarginEnd">
+				<HBox width="100%">
+					<Label text="{i18n>Op}" width="4rem" wrapping="true" vAlign="Middle"/>
+					<Text text="{HeadSetData>/MainOpsCode}" textAlign="Left"/>
+				</HBox>
+				<HBox width="100%">
+					<Label text="{i18n>OFP}" width="4rem" wrapping="true"/>
+					<Text text="{HeadSetData>/OFP}"/>
+				</HBox>
+			</VBox>
+			<VBox width="28rem">
+				<HBox width="100%">
+					<Label width="7rem" text="{i18n>StatusDescription}" vAlign="Middle" wrapping="true"></Label>
+					<Text text="{LocalDataModel>/StatusDes}"/>
+				</HBox>
+				<HBox width="100%">
+					<Label text="{i18n>ClaimTypeDescription}" width="7rem" wrapping="true" vAlign="Middle"/>
+					<Text text="{LocalDataModel>/ALMClaimTypeDes}" textAlign="Left"/>
+				</HBox>
+			</VBox>
+		</HBox>
+	</Panel>
+</core:FragmentDefinition>

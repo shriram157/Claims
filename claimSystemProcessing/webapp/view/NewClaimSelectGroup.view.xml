@@ -2,7 +2,7 @@
 	controllerName="zclaimProcessing.controller.NewClaimSelectGroup" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:uxap="sap.uxap"
 	xmlns:html="http://www.w3.org/1999/xhtml">
 	<core:Fragment fragmentName="zclaimProcessing.view.fragments.ToolHeader" type="XML"/>
-	<uxap:ObjectPageLayout id="ObjectPageLayout" enableLazyLoading="true">
+	<uxap:ObjectPageLayout id="ObjectPageLayout" enableLazyLoading="true" class="sapUiSizeCompact">
 		<uxap:sections>
 			<uxap:ObjectPageSection title="{i18n>NewClaim}">
 				<uxap:subSections>
@@ -11,7 +11,7 @@
 							<VBox>
 								<MessageStrip id="idNewClaimMsgStrp" text="" showIcon="true" showCloseButton="false" class="sapUiMediumMarginBottom" visible="false"></MessageStrip>
 								<f:SimpleForm id="SimpleFormChange354" editable="true" layout="ResponsiveGridLayout" title="" labelSpanXL="4" labelSpanL="4" labelSpanM="3"
-									labelSpanS="12" adjustLabelSpan="false" emptySpanXL="2" emptySpanL="2" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="2"
+									labelSpanS="12" adjustLabelSpan="false" emptySpanXL="2" emptySpanL="2" emptySpanM="0" emptySpanS="0" columnsXL="3" columnsL="3" columnsM="2"
 									singleContainerFullSize="false">
 									<f:content>
 										<core:Title text="{i18n>SelectClaimGroupType}"/>

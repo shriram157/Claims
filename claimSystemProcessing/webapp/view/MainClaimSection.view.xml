@@ -1,13 +1,13 @@
 <mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" controllerName="zclaimProcessing.controller.MainClaimSection"
 	xmlns:html="http://www.w3.org/1999/xhtml" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:uxap="sap.uxap" xmlns:tnt="sap.tnt">
 	<core:Fragment fragmentName="zclaimProcessing.view.fragments.ToolHeader" type="XML"/>
-	<uxap:ObjectPageLayout id="ObjectPageLayout">
-		<uxap:headerContent>
-			<VBox width="100%" class="sapUiSmallMarginTop">
-				<HBox width="100%" justifyContent="End" displayInline="true">
+	<uxap:ObjectPageLayout  id="ObjectPageLayout" enableLazyLoading="true">
+		<uxap:headerContent class="clSubHeaderContent">
+			<VBox width="100%" class="sapUiSizeCompact" >
+				<HBox width="100%" justifyContent="End" displayInline="true" class="sapUiSizeCompact">
 					<Link text="CVSH" class="clFont01" press="onPressCVSH"/>
-					<Text text="Labour Rate (CAD) : ${LocalDataModel>/LabourPricingDataModel/0/LabourPer}" class="sapUiMediumMarginBeginEnd clFont01"/>
-					<Text text="{i18n>Status} : {HeadSetData>/DecisionCode}" class="sapUiSmallMarginEnd clFont01"/>
+					<Text text="{i18n>LabourRate} (CAD) : ${LocalDataModel>/LabourPricingDataModel/0/LabourPer}" class="sapUiMediumMarginBeginEnd clFont01"/>
+					<Text text="{i18n>Status} : {HeadSetData>/DecisionCode} ({LocalDataModel>/StatusDes})" class="sapUiSmallMarginEnd clFont01"/>
 				</HBox>
 			</VBox>
 		</uxap:headerContent>
@@ -19,7 +19,7 @@
 							<VBox>
 								<MessageStrip id="idMainClaimMessage" text="" showIcon="true" showCloseButton="false" class="sapUiMediumMarginBottom" visible="false"></MessageStrip>
 								<IconTabBar select="onSelectTab" expandable="false" id="idIconTabMainClaim" expanded="{device>/isNoPhone}"
-									class=" sapUiLargePaddingBottom sapUiLargeMarginBottom" selectedKey="Tab1">
+									class=" sapUiLargePaddingBottom sapUiLargeMarginBottom sapUiSizeCompact" selectedKey="Tab1">
 									<items>
 										<IconTabFilter icon="sap-icon://home" text="{i18n>Main}" key="Tab1" id="idFilter01">
 											<core:Fragment fragmentName="zclaimProcessing.view.fragments.Step01MainWarrentyECP" type="XML"/>

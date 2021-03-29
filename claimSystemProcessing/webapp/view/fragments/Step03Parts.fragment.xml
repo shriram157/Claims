@@ -1,6 +1,6 @@
 <core:FragmentDefinition xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:u="sap.ui.unified" xmlns:l="sap.ui.layout"
 	xmlns="sap.m" xmlns:t="sap.ui.table" xmlns:custom="zclaimProcessing.control" xmlns:customPart="zclaimProcessing.control">
-	<VBox class="sapUiSmallMargin clFormTitleGap" id="idPartForm" busy="{DateModel>/SavePWPartIndicator}">
+	<VBox class="clFormTitleGap sapUiSizeCompact" id="idPartForm" busy="{DateModel>/SavePWPartIndicator}">
 		<Panel width="auto" class="sapUiSmallMarginBottom" accessibleRole="Region">
 			<headerToolbar>
 				<Toolbar height="3rem">
@@ -20,9 +20,9 @@
 			</OverflowToolbar>
 			<VBox class="clBgColor">
 				<f:SimpleForm editable="true" labelSpanL="12" width="90%" title="" labelSpanXL="12" layout="ResponsiveGridLayout" emptySpanXL="0"
-					emptySpanL="0" columnsM="4" columnsL="4" columnsXL="4">
+					emptySpanL="0" columnsM="4" columnsL="4"  columnsXL="4">
 					<f:content>
-						<HBox>
+						<HBox alignContent="Center" alignItems="Center">
 							<Label text="{i18n>DamageCondition} " class="sapUiSmallMargin" textAlign="Begin" visible="{multiHeaderConfig>/partDamage}"/>
 						
 							<custom:CustomCombo showSecondaryValues="true" id="DmgCodes" enabled="{DateModel>/partLine}" required="true"
@@ -55,10 +55,9 @@
 								<core:ListItem text="{path:'DropDownModel>ALMDiscreDesc'}" key="{DropDownModel>DiscreCode}" additionalText="{DropDownModel>ALMDiscreCode}"/>
 							</custom:CustomCombo>
 						
-						</HBox>
-						<HBox>
+					
 							<Label text=""/>
-							<Button text="{i18n>SavePart}" type="Emphasized" class="sapUiSmallMarginEnd" press="onPressSavePart" enabled="{DateModel>/saveParts}">
+							<Button text="{i18n>SavePart}" type="Emphasized" class="sapUiSmallMarginBegin sapUiSmallMarginEnd" press="onPressSavePart" enabled="{DateModel>/saveParts}">
 								<layoutData>
 									<l:GridData span="XL1 L1 M3 S4"/>
 								</layoutData>
@@ -69,6 +68,7 @@
 									<l:GridData span="XL7 L8"/>
 								</layoutData>
 							</Button>
+							
 						</HBox>
 					</f:content>
 				</f:SimpleForm>
@@ -79,9 +79,9 @@
 						<f:content>
 							<core:Title text=""/>
 							<Label text=""/>
-							<Text text="{i18n>Ordered}"/>
+							<Text text="{i18n>Ordered}" class="clBoldText" />
 							<core:Title text=""/>
-							<Label text="{i18n>Line}"></Label>
+							<Label text="ITM"></Label>
 							<Input value="{ path : 'PartDataModel>/LineNo', type: 'sap.ui.model.type.Integer', constraints:{minimum:0}}" required="false"
 								enabled="{DateModel>/partLine}"></Input>
 							<core:Title text=""/>
@@ -98,33 +98,33 @@
 								required="true"/>
 						</f:content>
 					</f:SimpleForm>
-					<f:SimpleForm id="idRow02Form" class="sapUiResponsiveMargin ClsubHeadingLineHeight borderStyle2" width="100%" layout="ResponsiveGridLayout"
+					<f:SimpleForm id="idRow02Form" class="ClsubHeadingLineHeight borderStyle2" width="100%" layout="ResponsiveGridLayout"
 						editable="true" labelSpanL="12" labelSpanXL="12" columnsM="6" columnsL="{multiHeaderConfig>/multiheader5}"
 						columnsXL="{multiHeaderConfig>/multiheader5}">
 						<f:content>
 							<core:Title text=""/>
-							<Text text="" id="textHeaderLabel"/>
+							<Text text="" id="textHeaderLabel" class="clBoldText" />
 							<core:Title text=""/>
-							<UploadCollection id="UploadCollection" maximumFilenameLength="50" filenameLengthExceed="onFileNameLengthExceed" maximumFileSize="10"
-								sameFilenameAllowed="false" busy="{LocalDataModel>/IndicatorState}" fileSizeExceed="onFileSizeExceed"
-								uploadEnabled="{LocalDataModel>/UploadEnable}" change="onUploadChangeParts" uploadComplete="onUploadComplete02Parts"
-								fileDeleted="onFileDeleted02" visible="{multiHeaderConfig>/uploader}"
-								items="{ path: 'LocalDataModel>/partItemAttachments', templateShareable: false }">
-								<toolbar>
-									<OverflowToolbar>
-										<Breadcrumbs id="breadcrumbs" currentLocationText="{LocalDataModel>/currentLocationText}" links="{LocalDataModel>/partsHistory}">
-											<Link press="onBreadcrumbPress" text="{LocalDataModel>fileName}"/>
-										</Breadcrumbs>
-										<ToolbarSpacer/>
-										<UploadCollectionToolbarPlaceholder/>
-									</OverflowToolbar>
-								</toolbar>
-								<items>
-									<UploadCollectionItem documentId="{LocalDataModel>DOC_ID}" fileName="{LocalDataModel>FileName}" mimeType="{LocalDataModel>MIMETYPE}"
-										thumbnailUrl="{LocalDataModel>url}" url="{LocalDataModel>URI}" enableEdit="{settings>/enableEdit}" enableDelete="{settings>/enableDelete}"
-										visibleDelete="{settings>/visibleDelete}" visibleEdit="{settings>/visibleEdit}"></UploadCollectionItem>
-								</items>
-							</UploadCollection>
+							<!--<UploadCollection id="UploadCollection" maximumFilenameLength="50" filenameLengthExceed="onFileNameLengthExceed" maximumFileSize="10"-->
+							<!--	sameFilenameAllowed="false" busy="{LocalDataModel>/IndicatorState}" fileSizeExceed="onFileSizeExceed"-->
+							<!--	uploadEnabled="{LocalDataModel>/UploadEnable}" change="onUploadChangeParts" uploadComplete="onUploadComplete02Parts"-->
+							<!--	fileDeleted="onFileDeleted02" visible="{multiHeaderConfig>/uploader}"-->
+							<!--	items="{ path: 'LocalDataModel>/partItemAttachments', templateShareable: false }">-->
+							<!--	<toolbar>-->
+							<!--		<OverflowToolbar>-->
+							<!--			<Breadcrumbs id="breadcrumbs" currentLocationText="{LocalDataModel>/currentLocationText}" links="{LocalDataModel>/partsHistory}">-->
+							<!--				<Link press="onBreadcrumbPress" text="{LocalDataModel>fileName}"/>-->
+							<!--			</Breadcrumbs>-->
+							<!--			<ToolbarSpacer/>-->
+							<!--			<UploadCollectionToolbarPlaceholder/>-->
+							<!--		</OverflowToolbar>-->
+							<!--	</toolbar>-->
+							<!--	<items>-->
+							<!--		<UploadCollectionItem documentId="{LocalDataModel>DOC_ID}" fileName="{LocalDataModel>FileName}" mimeType="{LocalDataModel>MIMETYPE}"-->
+							<!--			thumbnailUrl="{LocalDataModel>url}" url="{LocalDataModel>URI}" enableEdit="{settings>/enableEdit}" enableDelete="{settings>/enableDelete}"-->
+							<!--			visibleDelete="{settings>/visibleDelete}" visibleEdit="{settings>/visibleEdit}"></UploadCollectionItem>-->
+							<!--	</items>-->
+							<!--</UploadCollection>-->
 							<Label text="{i18n>RetainPart}" visible="{multiHeaderConfig>/RetainPartV}" required="true"/>
 							<Select valueState="{DateModel>/RetainPartType}" change="onRetainChange" selectedKey="{PartDataModel>/RetainPart}"
 								visible="{multiHeaderConfig>/RetainPartV}" enabled="{DateModel>/partLine}">
@@ -156,15 +156,16 @@
 								</items>
 							</Select>
 							<core:Title text=""/>
-		
-							<Label text="{i18n>RepairAmount}" visible="{multiHeaderConfig>/RepairAmtV}"></Label>
-							<Input id="idReceivedAmt" value="{HeadSetData>/RepairAmount}" type="Number" required="{DateModel>/reqRepairAmt}" visible="{multiHeaderConfig>/RepairAmtV}"
-								enabled="{DateModel>/partLine}"></Input>
-							<core:Title text=""/>
 							<Label text="{i18n>Quantity}"></Label>
 							
 							<customPart:CustomInput id="idReceivedQnt" valueState="{DateModel>/partTypeState}" value="{PartDataModel>/QuantityReceived}"
 								enabled="{DateModel>/partLine}" required="true" liveChange="ValidQty"/>
+							<core:Title text=""/>
+		
+							<Label text="{i18n>RepairAmount}" visible="{multiHeaderConfig>/RepairAmtV}"></Label>
+							<Input id="idReceivedAmt" value="{HeadSetData>/RepairAmount}" type="Number" required="{DateModel>/reqRepairAmt}" visible="{multiHeaderConfig>/RepairAmtV}"
+								enabled="{DateModel>/partLine}"></Input>
+							
 							
 						</f:content>
 					</f:SimpleForm>
@@ -176,6 +177,9 @@
 				<columns>
 					<Column>
 						<Text text="{i18n>Line}"/>
+					</Column>
+					<Column>
+						<Text text="ITM"/>
 					</Column>
 					<Column visible="{multiHeaderConfig>/DiscrepancyCol}">
 						<Text text="{i18n>DiscrepancyType}"/>
@@ -225,9 +229,9 @@
 						<footer><Text text="{path: 'LocalDataModel>/PricingDataModel', formatter: 'zclaimProcessing.utils.formatter.fnAmountClaimedPW'}" textAlign="Center"
 							width="100%"/></footer>
 					</Column>
-					<Column visible="{multiHeaderConfig>/AttachmentCol}">
-						<Text text="{i18n>Attachments}"/>
-					</Column>
+					<!--<Column visible="{multiHeaderConfig>/AttachmentCol}">-->
+					<!--	<Text text="{i18n>Attachments}"/>-->
+					<!--</Column>-->
 					<Column>
 						<Text text="{i18n>TCIAmountApproved}"/>
 					
@@ -244,8 +248,8 @@
 				<items>
 					<ColumnListItem vAlign="Middle">
 						<cells>
-						
 							<Text text="{LocalDataModel>posnr}"/>
+							<Text text="{LocalDataModel>LineRefnr}"/>
 							<Text text="{LocalDataModel>ALMDiscreDesc}"/>
 							<Text text="{LocalDataModel>ALMDiscreDesc}"/>
 							<Text text="{LocalDataModel>ALMDiscreDesc}"/>
@@ -260,8 +264,8 @@
 							<Text text="{LocalDataModel>PartRepaired}"/>
 							<Text text="{path: 'LocalDataModel>RepairAmt', formatter: 'zclaimProcessing.utils.formatter.roundedDecimals'}"/>
 							<Text text="{path: 'LocalDataModel>AmtClaimed', formatter: 'zclaimProcessing.utils.formatter.roundedDecimals'}"/>
-							<Link visible="{multiHeaderConfig>/AttachmentCol}" press="onClickURIPart" href="{LocalDataModel>URI}" text="{i18n>viewattachment}"
-								target="_blank" textAlign="Center" width="100%"/>
+							<!--<Link visible="{multiHeaderConfig>/AttachmentCol}" press="onClickURIPart" href="{LocalDataModel>URI}" text="{i18n>viewattachment}"-->
+							<!--	target="_blank" textAlign="Center" width="100%"/>-->
 							<!--<Text text="{LocalDataModel>URI}"/>-->
 							<Text text="{path: 'LocalDataModel>TCIApprovedAmount', formatter: 'zclaimProcessing.utils.formatter.roundedDecimals'}"/>
 							<Text text="{path: 'LocalDataModel>DiffAmt', formatter: 'zclaimProcessing.utils.formatter.roundedDecimals'}"/>
@@ -269,7 +273,7 @@
 					</ColumnListItem>
 				</items>
 			</Table>
-			<HBox alignContent="Center" justifyContent="Center" class="sapUiTinyMarginTop">
+			<HBox alignContent="Center" justifyContent="Center" class="sapUiLargeMarginBottom">
 				<Button class="sapUiTinyMarginBeginEnd" type="Back" press="onStep01Back" text="{i18n>Back}"/>
 				<Button class="sapUiTinyMarginBeginEnd" press="onStep03Next" text="{i18n>Next}" type="Emphasized"/>
 			</HBox>

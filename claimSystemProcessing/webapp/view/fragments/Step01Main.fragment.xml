@@ -1,6 +1,6 @@
 <core:FragmentDefinition xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:u="sap.ui.unified" xmlns:l="sap.ui.layout"
 	xmlns="sap.m" xmlns:table="sap.ui.table">
-	<VBox class="sapUiSmallMargin" id="idpart01Form" busy="{DateModel>/SavePWClaimIndicator}">
+	<VBox class="sapUiSizeCompact clFormTitleGap" id="idpart01Form" busy="{DateModel>/SavePWClaimIndicator}">
 		<Panel width="auto" class="sapUiSmallMarginBottom" accessibleRole="Region">
 			<headerToolbar>
 				<Toolbar height="3rem">
@@ -48,18 +48,20 @@
 				</f:content>
 			</f:SimpleForm>
 		</Panel>
-		<f:SimpleForm editable="true" id="idClaimForm" layout="ResponsiveGridLayout" labelSpanXL="12" labelSpanL="12" labelSpanM="12"
-			labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="3" columnsL="3" columnsM="3"
-			singleContainerFullSize="false">
+		<f:SimpleForm editable="true" title="{i18n>OutBoundInfo}" id="idClaimForm" layout="ResponsiveGridLayout" labelSpanXL="12" labelSpanL="12" labelSpanM="12"
+			labelSpanS="12"  emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="6" columnsL="6" columnsM="3"
+			>
 			<f:content>
 				<core:Title text=""/>
 				<Label text="{i18n>OutboundDeliveryNumber}"/>
-				<Input  value="{path:'HeadSetData>/Delivery', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 10 } }"
+				<Input value="{path:'HeadSetData>/Delivery', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 10 } }"
 					required="true" id="idOutboundDNum" enabled="{DateModel>/oFormEdit}" change="onDelNumChange"/>
+				<core:Title text=""/>
 				<Label text="{i18n>ReceivedDate}"/>
 				<DatePicker
 					value="{path:'HeadSetData>/ShipmentReceivedDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd', strictParsing: true, UTC: true } }"
 					required="true" id="idShipmentRDate" enabled="{DateModel>/oFormEdit}" change="onReceivedDateChange"/>
+				<core:Title text=""/>
 				<Label text="{i18n>DealerContact}"/>
 				<Input value="{path:'HeadSetData>/DealerContact', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 10 } }"
 					required="true" id="idDealerContact" enabled="{DateModel>/oFormEdit}"/>
@@ -68,15 +70,20 @@
 				<DatePicker id="idOutBoundDD" valueState="{DateModel>/obdValueState}"
 					value="{path:'HeadSetData>/DeliveryDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium' , pattern: 'YYYY-MM-dd', strictParsing: true, UTC: true}}"
 					enabled="{DateModel>/oFormEdit}" editable="{DateModel>/DelDateEdit}" change="onDelDateChange"/>
+				<core:Title text=""/>
 				<Label text="{i18n>PDCCode}"/>
 				<Input value="" id="idPdcCode" editable="false"/>
 				<core:Title text=""/>
 				<Label text="{i18n>TCIWaybillNo}"/>
-				<Input value="{path:'HeadSetData>/TCIWaybillNumber', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 20 }}" liveChange="onTCIWayBillChange" id="idTCIWayBill" enabled="{DateModel>/oFormEdit}"
-					required="{DateModel>/required}" valueState="{DateModel>/waybilltype}"/>
+				<Input value="{path:'HeadSetData>/TCIWaybillNumber', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 20 }}"
+					liveChange="onTCIWayBillChange" id="idTCIWayBill" enabled="{DateModel>/oFormEdit}" required="{DateModel>/required}"
+					valueState="{DateModel>/waybilltype}"/>
+				<core:Title text=""/>
 				<Label text="{i18n>CarrierName}"/>
 				<ComboBox id="idCarrierName" required="true" items="{BpDealerModel>/BpDealerList}" selectionChange="onSelectPartsDealer"
-					selectedKey="{HeadSetData>/DeliveringCarrier}" value="{path:'HeadSetData>/DeliveringCarrier', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 10 }}" showSecondaryValues="true" enabled="{DateModel>/oFormEdit}">
+					selectedKey="{HeadSetData>/DeliveringCarrier}"
+					value="{path:'HeadSetData>/DeliveringCarrier', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 10 }}"
+					showSecondaryValues="true" enabled="{DateModel>/oFormEdit}">
 					<core:ListItem text="{BpDealerModel>BusinessPartnerKey}" key="{BpDealerModel>BusinessPartnerKey}"
 						additionalText="{BpDealerModel>BusinessPartnerName}"/>
 				</ComboBox>
@@ -85,14 +92,14 @@
 		<Panel backgroundDesign="Transparent" headerText="{i18n>ClaimComments}" expandable="true" class="sapUiSizeCompact clCommentFix">
 			<content>
 				<FeedInput post=".onPostPWComments" enabled="{DateModel>/FeedEnabled}" placeholder="{i18n>PostHere}" maxLength="70"/>
-				<List class="sapUiSizeCompact" busy="{LocalDataModel>/commentIndicator}" id="idPWCommentsList" noDataText="{i18n>ObjectCommentNoData}" showSeparators="Inner"
-					items="{ path: 'LocalDataModel>/claim_commentSet'}">
+				<List class="sapUiSizeCompact" busy="{LocalDataModel>/commentIndicator}" id="idPWCommentsList" noDataText="{i18n>ObjectCommentNoData}"
+					showSeparators="Inner" items="{ path: 'LocalDataModel>/claim_commentSet'}">
 					<FeedListItem text="{LocalDataModel>HeadText}"/>
 				</List>
 			</content>
 		</Panel>
 	</VBox>
-	<Panel width="auto" class="sapUiSmallMarginBottom" accessibleRole="Region">
+	<Panel width="auto" class="sapUiSizeCompact" accessibleRole="Region" expandable="true">
 		<headerToolbar>
 			<Toolbar height="3rem">
 				<Title text="{i18n>SupportingDocuments}"/>
@@ -104,9 +111,9 @@
 				singleContainerFullSize="false">
 				<f:content>
 					<UploadCollection id="UploadSupportingDoc" maximumFilenameLength="50" filenameLengthExceed="onFileNameLengthExceed" maximumFileSize="10"
-					noDataDescription="{i18n>NoFileFound}" noDataText="{i18n>NoFileFound}"
-						sameFilenameAllowed="false" fileSizeExceed="onFileSizeExceed" uploadEnabled="{LocalDataModel>/UploadEnableHeader}"
-						change="onUploadChangeParts" uploadComplete="onUploadCompleteParts" fileDeleted="onFileDeleted" busy="{LocalDataModel>/IndicatorState}"
+						noDataDescription="{i18n>NoFileFound}" noDataText="{i18n>NoFileFound}" sameFilenameAllowed="false" fileSizeExceed="onFileSizeExceed"
+						uploadEnabled="{LocalDataModel>/UploadEnableHeader}" change="onUploadChangeParts" uploadComplete="onUploadCompleteParts"
+						fileDeleted="onFileDeleted" busy="{LocalDataModel>/IndicatorState}"
 						items="{ path: 'LocalDataModel>/PartHeadAttachData', templateShareable: false }">
 						<toolbar>
 							<OverflowToolbar>
@@ -128,12 +135,12 @@
 			</f:SimpleForm>
 		</content>
 	</Panel>
-	<Panel width="auto" class="sapUiSmallMarginBottom" accessibleRole="Region">
+	<Panel width="auto" class="sapUiSizeCompact" accessibleRole="Region">
 		<content>
 			<core:Fragment fragmentName="zclaimProcessing.view.fragments.WarrantyPartClaimAmountSummery" type="XML"/>
 		</content>
 		<!-- {path: 'LocalDataModel>TCIApprInclTax', formatter: 'zclaimProcessing.utils.formatter.roundedDecimals'}-->
-		<HBox alignContent="Center" justifyContent="Center" class="sapUiTinyMarginTop">
+		<HBox alignContent="Center" justifyContent="Center" class="sapUiTinyMarginTop sapUiLargeMarginBottom">
 			<Button class="sapUiTinyMarginBeginEnd" press="onPressBack" text="{i18n>BackList}" type="Back"/>
 			<Button class="sapUiTinyMarginBeginEnd" press="onCancelClaim" text="{i18n>CancelClaim}" type="Reject"
 				enabled="{LocalDataModel>/CancelEnable}"/>
