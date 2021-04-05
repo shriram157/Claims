@@ -200,7 +200,6 @@ sap.ui.define([
 			} else {
 				var delDate = new Date(this.getView().getModel("HeadSetData").getProperty("/DeliveryDate"));
 				var shipDate = new Date(this.getView().getModel("HeadSetData").getProperty("/ShipmentReceivedDate"));
-				console.log("dates", delDate + "" + shipDate);
 				shipDate = new Date(shipDate.getFullYear(), shipDate.getMonth(), shipDate.getDate());
 				delDate = new Date(delDate.getFullYear(), delDate.getMonth(), delDate.getDate());
 
@@ -678,9 +677,6 @@ sap.ui.define([
 												oFilteredData[m].quant = oFilteredData[m].PartQty;
 											}
 											this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
-
-											console.log("pricing data", oFilteredData);
-
 											var enabledIntent = oFilteredData.findIndex(function (item) {
 												return item.DiscreCode === "8A";
 											});
@@ -886,8 +882,7 @@ sap.ui.define([
 											var IncorrectPartData = pricingData.filter(function (val) {
 												return val.DiscreCode === "4A";
 											});
-											console.log("IncorrectPartData initial", IncorrectPartData);
-
+											
 											if (IncorrectPartData != undefined && IncorrectPartData.length > 1) {
 												var IncorrectLineRef = IncorrectPartData.map(function (item) {
 													return item.LineRefnr;
@@ -902,7 +897,7 @@ sap.ui.define([
 											}
 
 											if (IncorrectPartData.length > 1) {
-												console.log("Updated filteredPriceData", filteredPriceData);
+											
 												for (var m = 0; m < IncorrectPartData.length - 1; m++) {
 													if (IncorrectPartData[m].LineRefnr == IncorrectPartData[m + 1].LineRefnr) {
 														if (IncorrectPartData[m].DiscreCode == "4A" && IncorrectPartData[m].RetainPart == "Y") {
@@ -982,7 +977,7 @@ sap.ui.define([
 												}
 
 											} else {
-												console.log("oFilteredData ZPPD", filteredPriceData);
+												
 												for (var m = 0; m < filteredPriceData.length; m++) {
 													filteredPriceData[m].matnr = [
 														"Ordered: " + filteredPriceData[m].matnr,
@@ -1016,10 +1011,7 @@ sap.ui.define([
 												}
 											}
 											this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
-											console.log("pricing data", oFilteredData);
-
-											// 			this.obj.zc_claim_item_price_dataSet.results.push(pricingData);
-											//zc_claim_item_price_dataSet
+											
 
 										}, this),
 										error: $.proxy(function (err) {
@@ -1033,7 +1025,7 @@ sap.ui.define([
 
 							}, this),
 							error: $.proxy(function (err) {
-								console.log(err);
+								MessageToast.show(err);
 								this.getView().getModel("DateModel").setProperty("/SavePWClaimIndicator", false);
 							}, this)
 						});
@@ -1071,6 +1063,7 @@ sap.ui.define([
 						}
 					}, this),
 					error: $.proxy(function (err) {
+						MessageToast.show(err);
 						this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", false);
 						this.getView().getModel("DateModel").setProperty("/SavePWClaimIndicator", false);
 					}, this)
@@ -1081,11 +1074,11 @@ sap.ui.define([
 						"$filter": "NumberOfWarrantyClaim eq '" + oClaim + "'"
 					},
 					success: $.proxy(function (odata) {
-						console.log("attachment data", odata);
+						
 						var oArr = odata.results;
 						var oAttachSet = oArr.map(function (item) {
 							item.FileName = item.FileName.replace("HEAD@@@", "");
-							console.log("filename", item.FileName);
+						
 							if (item.FileName == "Letter Of Intent.pdf") {
 								that.letterSubmitted = true;
 							}
@@ -1585,9 +1578,7 @@ sap.ui.define([
 			var w = window.open(isProxy +
 				"/node/ZDLR_CLAIM_SRV/zc_claim_printSet(NumberOfWarrantyClaim='" + oClaimNum + "',PrintType='NON_WTY')/$value",
 				'_blank');
-			if (w === null) {
-				console.log("Error");
-			}
+
 		},
 
 		onPressSavePartClaim: function () {
@@ -1614,7 +1605,7 @@ sap.ui.define([
 						success: $.proxy(function (pricedata) {
 							this.getView().getModel("DateModel").setProperty("/SavePWPartIndicator", false);
 							MessageToast.show(that.oBundle.getText("ClaimSuccessMSG"));
-							console.log("pricedata on saveClaim success", pricedata);
+							
 						}, this),
 						error: $.proxy(function (err) {
 							this.getView().getModel("DateModel").setProperty("/SavePWPartIndicator", false);
@@ -2148,11 +2139,11 @@ sap.ui.define([
 																			filteredPriceData.push(IncorrectPartData[m]);
 																		}
 																	}
-																	console.log("incorrect data updated", filteredPriceData);
+																
 																}
 
 															} else {
-																console.log("oFilteredData ZPPD", filteredPriceData);
+															
 																for (var m = 0; m < filteredPriceData.length; m++) {
 																	filteredPriceData[m].matnr = [
 																		"Ordered: " + filteredPriceData[m].matnr,
@@ -2173,15 +2164,14 @@ sap.ui.define([
 																	filteredPriceData[m].TCIApprovedAmount = filteredPriceData[m].TCIApprAmt;
 																	filteredPriceData[m].DiffAmt = filteredPriceData[m].DiffAmt;
 																}
-																// this.getView().getModel("multiHeaderConfig").setProperty("/flagIncorrectPart", false);
-																console.log("correct data updated", filteredPriceData);
+																
 															}
 
-															console.log("filteredPriceData", filteredPriceData);
+															
 
 															var oFilteredData = filteredPriceData;
 
-															console.log("filteredPriceData", oFilteredData);
+															
 
 															for (var m = 0; m < oFilteredData.length; m++) {
 																oFilteredData[m].ALMDiscreDesc = oFilteredData[m].ALMDiscreDesc;
@@ -2194,8 +2184,7 @@ sap.ui.define([
 																}
 															}
 															this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
-															console.log("Part Items stored", this.getModel("LocalDataModel").getData().PricingDataModel);
-															// this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
+															
 															MessageToast.show(that.oBundle.getText("PartItemSuccessMSG"));
 
 															this.getView().getModel("PartDataModel").setProperty("/LineNo", "");
@@ -2221,7 +2210,7 @@ sap.ui.define([
 														this),
 													error: $.proxy(function (err) {
 														this.getView().getModel("DateModel").setProperty("/SavePWPartIndicator", false);
-														console.log(err);
+														
 														var err = JSON.parse(err.responseText);
 														var msg = err.error.message.value;
 														MessageBox.show(msg, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
@@ -2232,7 +2221,7 @@ sap.ui.define([
 										error: $.proxy(function (err) {
 											this.getView().getModel("DateModel").setProperty("/SavePWPartIndicator", false);
 											that.obj.zc_itemSet.results.pop();
-											console.log(err);
+										
 											var err = JSON.parse(err.responseText);
 											var msg = err.error.message.value;
 											MessageBox.show(msg, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
@@ -2370,7 +2359,7 @@ sap.ui.define([
 					new Button({
 						text: _that.oBundle.getText("Yes"),
 						press: $.proxy(function () {
-								console.log("Validations Completed");
+							
 								this.getView().getModel("DateModel").setProperty("/LOIBusyIndicator", true);
 								jQuery.sap.require("sap.ui.core.format.DateFormat");
 								_that.timeFormatter = sap.ui.core.format.DateFormat.getDateInstance({
@@ -2460,7 +2449,7 @@ sap.ui.define([
 													"'"
 											},
 											success: $.proxy(function (odata) {
-												console.log("zc_claim_attachmentsSet processing data", odata);
+												
 												var oArr = odata.results;
 												var oAttachSet = oArr.map(function (item) {
 													item.FileName = item.FileName.replace("HEAD@@@", "");
@@ -2476,7 +2465,7 @@ sap.ui.define([
 									}, _that),
 									error: $.proxy(function (err) {
 										this.getView().getModel("DateModel").setProperty("/LOIBusyIndicator", false);
-										console.log(err);
+									
 										var errMsg = (JSON.parse(err.responseText)).error.message.value;
 										// MessageBox.error(errMsg);
 										// _that.getView().getModel("DateModel").setProperty("/oLetterOfIntent", false);
@@ -2564,8 +2553,7 @@ sap.ui.define([
 
 		onRadioChangeEN: function (oEN) {
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
-			// this.oBundle.getText(this.oBundle.getText("Damage"))
-			console.log("oEN", oEN);
+			
 			var oVal;
 			// var oVal = oEN.getSource().getSelectedButton().getText();
 			if (oEN.getSource().getSelectedButton().getText() == this.oBundle.getText("Damage")) {
@@ -2579,7 +2567,7 @@ sap.ui.define([
 		},
 		onRadioChangeCPhone: function (oCPhone) {
 			var oVal2;
-			console.log("oCPhone", oCPhone);
+		
 			if (oCPhone.getSource().getSelectedButton().getText() == this.oBundle.getText("Yes")) {
 				oVal2 = "Y";
 			} else if (oCPhone.getSource().getSelectedButton().getText() == this.oBundle.getText("No")) {
@@ -2588,10 +2576,10 @@ sap.ui.define([
 			this.getView().getModel("LOIDataModel").setProperty("/RadioCCPhoneEmail", oVal2);
 		},
 		onRadioChangeTR: function (oTR) {
-			console.log("oTR", oTR);
+		
 			oTR.getSource().getSelectedButton().getText();
 			var oVal3;
-			console.log("oTR", oTR);
+		
 			if (oTR.getSource().getSelectedButton().getText() == this.oBundle.getText("Yes")) {
 				oVal3 = "Y";
 			} else if (oTR.getSource().getSelectedButton().getText() == this.oBundle.getText("No")) {
@@ -2603,10 +2591,10 @@ sap.ui.define([
 		},
 		onRadioChangeCR: function (oCR) {
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
-			console.log("oCR", oCR);
+		
 			oCR.getSource().getSelectedButton().getText();
 			var oVal4;
-			console.log("oCR", oCR);
+			
 			if (oCR.getSource().getSelectedButton().getText() == this.oBundle.getText("Yes")) {
 				oVal4 = "Y";
 			} else if (oCR.getSource().getSelectedButton().getText() == this.oBundle.getText("No")) {
@@ -2615,7 +2603,7 @@ sap.ui.define([
 			this.getView().getModel("LOIDataModel").setProperty("/RadioCR", oVal4);
 		},
 		onRadioChangeParts: function (oRadioParts) {
-			console.log("oRadioParts", oRadioParts);
+			
 			var oVal5;
 			oRadioParts.getSource().getSelectedButton().getText();
 			if (oRadioParts.getSource().getSelectedButton().getText() == "Held for 30 Days for Carrier Inspection - then will be scrapped") {
@@ -2631,7 +2619,7 @@ sap.ui.define([
 		_getLOIData: function (obj, model) {
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var that = this;
-			console.log("Validations Completed");
+			
 			jQuery.sap.require("sap.ui.core.format.DateFormat");
 			this.timeFormatter = sap.ui.core.format.DateFormat.getDateInstance({
 				pattern: "PThh'H'mm'M'ss'S'"
@@ -2680,12 +2668,11 @@ sap.ui.define([
 			// this._getLOIData(obj, oClaimModel);
 			oClaimModel.create("/zc_LOISet", obj, {
 				success: $.proxy(function (data, response) {
-					console.log("data", data);
-					console.log("response", response);
+					
 					MessageToast.show(that.oBundle.getText("LOISuccessMSG"));
 				}, this),
 				error: function (err) {
-					console.log(err);
+				
 					var err = JSON.parse(err.responseText);
 					var msg = err.error.message.value;
 					MessageBox.show(msg, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
@@ -2695,7 +2682,7 @@ sap.ui.define([
 		},
 		onPressLetterOfIntent: function () {
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
-			console.log("oFilteredDealerData", oFilteredDealerData);
+		
 			var LOIData = new sap.ui.model.json.JSONModel({
 				"claimNumber": "",
 				"CarrierName": oFilteredDealerData[0].BusinessPartnerName,
@@ -2729,11 +2716,7 @@ sap.ui.define([
 			});
 			LOIData.setDefaultBindingMode("TwoWay");
 			this.getView().setModel(LOIData, "LOIDataModel");
-
 			this.getView().getModel("LOIDataModel").updateBindings(true);
-			console.log("LOIdata", this.getView().getModel("LOIDataModel").getData());
-
-			// this.getView().setModel(this.getView().getModel("HeadSetData"), "HeadSetData");
 			var oDialogBox = sap.ui.xmlfragment("zclaimProcessing.view.fragments.letterOfIntent", this);
 			this.getView().addDependent(oDialogBox);
 			oDialogBox.open();
@@ -2783,11 +2766,10 @@ sap.ui.define([
 			this.getView().getModel("PartDataModel").setProperty("/DiscreCode", SelectedDD.DiscreCode);
 			this.getView().getModel("PartDataModel").setProperty("/DiscreDesc", SelectedDD.DiscreDesc);
 			this.getView().getModel("PartDataModel").setProperty("/LanguageKey", SelectedDD.LanguageKey);
-			console.log(this.getView().getModel("PartDataModel"));
 		},
 
 		onDescripancyChange: function (oDSPVal) {
-			console.log("oDSPVal", oDSPVal);
+		
 			if (oDSPVal.getParameters().selectedItem.getKey() == "ST") { //Shortage
 				//RetainPartOV
 				var matrnr = this.getView().getModel("PartDataModel").getProperty("/matnr");
@@ -2915,31 +2897,6 @@ sap.ui.define([
 				this.obj.zc_claim_item_price_dataSet.results = [];
 				this.getView().getModel("DateModel").setProperty("/saveParts", true);
 				this.getModel("LocalDataModel").setProperty("/UploadEnable", true);
-				//this.obj.zc_claim_commentSet.results = [];
-				//this.obj.zc_itemSet.results.splice(oIndex, 1);
-
-				// oClaimModel.create("/zc_headSet", this.obj, {
-				// 	success: $.proxy(function (data, response) {
-				// 		var pricingData = response.data.zc_claim_item_price_dataSet.results;
-				// 		var oFilteredData = pricingData.filter(function (val) {
-				// 			return val.ItemType === "MAT";
-				// 		});
-				// 		console.log(oFilteredData);
-				// 		for (var m = 0; m < oFilteredData.length; m++) {
-				// 			oFilteredData[m].ALMDiscreDesc = oFilteredData[m].ALMDiscreDesc.split("-")[1];
-				// 		}
-				// 		this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
-				// 		this.getView().getModel("DateModel").setProperty("/saveParts", true);
-				// 		this.getModel("LocalDataModel").setProperty("/UploadEnable", true);
-				// 		this._fnClaimSum();
-				// 	}, this),
-				// 	error: function (err) {
-				// 		console.log(err);
-				// 		var err = JSON.parse(err.responseText);
-				// 		var msg = err.error.message.value;
-				// 		MessageBox.show(msg, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
-				// 	}
-				// });
 			} else {
 				MessageToast.show("Please select 1 row.");
 				oTable.removeSelections("true");
@@ -2982,8 +2939,6 @@ sap.ui.define([
 				this.getView().getModel("DateModel").setProperty("/editPartType", false);
 				var oIndex = oTable._aSelectedPaths.toString().split("/")[2];
 				this.obj.zc_itemSet.results.splice(oIndex, 1);
-				//this.obj.zc_claim_item_price_dataSet.results = [];
-				//this.obj.zc_claim_commentSet.results = [];
 				var oClaimModel = this.getModel("ProssingModel");
 				this.obj.zc_claim_item_price_dataSet.results = [];
 
@@ -3111,7 +3066,7 @@ sap.ui.define([
 											filteredPriceData.push(IncorrectPartData[m]);
 										}
 									} else {
-										console.log("oFilteredData ZPPD", filteredPriceData);
+									
 										for (var m = 0; m < filteredPriceData.length; m++) {
 											filteredPriceData[m].matnr = [
 												"Ordered: " + filteredPriceData[m].matnr,
@@ -3149,14 +3104,14 @@ sap.ui.define([
 										}
 									}
 									this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
-									console.log("Part Items stored", this.getModel("LocalDataModel").getData().PricingDataModel);
+									
 								}
 								oTable.removeSelections("true");
 								MessageToast.show(that.oBundle.getText("ClaimDeleteMSG"));
 								this._fnClaimSum();
 							}, this),
 							error: function (err) {
-								console.log(err);
+								
 								var err = JSON.parse(err.responseText);
 								var msg = err.error.message.value;
 								MessageBox.show(msg, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
@@ -3164,7 +3119,7 @@ sap.ui.define([
 						});
 					}, this),
 					error: function (err) {
-						console.log(err);
+					
 						var err = JSON.parse(err.responseText);
 						var msg = err.error.message.value;
 						MessageBox.show(msg, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
@@ -3186,21 +3141,6 @@ sap.ui.define([
 						}
 					});
 
-				// oClaimModel.create("/zc_claim_attachmentsSet", itemObj, {
-				// 	success: $.proxy(function () {
-				// 		oClaimModel.refresh();
-				// 		oClaimModel.read("/zc_claim_attachmentsSet", { //and AttachLevel eq 'HEAD'
-				// 			urlParameters: {
-				// 				"$filter": "NumberOfWarrantyClaim eq '" + oClaimNum + "'and AttachLevel eq 'PART' and FileName  eq ''"
-				// 			},
-				// 			success: $.proxy(function (odata) {
-				// 				this.getModel("LocalDataModel").setProperty("/partItemAttachments", odata.results);
-				// 				// this.getView().getModel("AttachmentModel").setProperty("/" + "/items", odata.results);
-				// 			}, this)
-				// 		});
-				// 		MessageToast.show(that.oBundle.getText("FileDeleteMSG"));
-				// 	}, this)
-				// });
 			} else {
 				MessageToast.show(that.oBundle.getText("MandatorySelectText"));
 				oTable.removeSelections("true");
@@ -3414,10 +3354,6 @@ sap.ui.define([
 				MessageToast.show(that.oBundle.getText("AttachmentMSG"));
 			}
 		},
-
-		onSelectUpload: function (oEvent) {
-			console.log(OEvent);
-		},
 		onUploadCompleteParts: function (oEvent) {
 			var oClaimModel = this.getModel("ProssingModel");
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
@@ -3437,11 +3373,6 @@ sap.ui.define([
 			if (oFileName.indexOf("#") == -1 && oFileName.indexOf("%") == -1) {
 				var oURI = isProxy + "/node/ZDLR_CLAIM_SRV/zc_attachSet(NumberOfWarrantyClaim='" + oClaimNum + "',FileName='" + fileName +
 					"')/$value";
-
-				if (oURI == null) {
-					console.log("Error");
-					//MessageBox.warning(oBundle.getText("Error.PopUpBloqued"));
-				}
 
 				var itemObj = {
 					"NumberOfWarrantyClaim": oClaimNum,
@@ -3480,7 +3411,7 @@ sap.ui.define([
 
 					}, this),
 					error: $.proxy(function (err) {
-						console.log(err);
+						MessageToast.show(err);
 						this.getModel("LocalDataModel").setProperty("/IndicatorState", false);
 					}, this)
 				});
@@ -3535,10 +3466,9 @@ sap.ui.define([
 						"')/$value";
 
 					if (oURI === null) {
-						console.log("Error");
 						MessageBox.warning(oBundle.getText("Error.PopUpBloqued"));
 					}
-					console.log(oURI);
+				
 					var itemObj = {
 						"NumberOfWarrantyClaim": oClaimNum,
 						"ContentLine": this.oBase,
@@ -3571,7 +3501,7 @@ sap.ui.define([
 							});
 						}, this),
 						error: $.proxy(function (err) {
-							console.log(err);
+							MessageToast.show(err);
 							this.getModel("LocalDataModel").setProperty("/IndicatorState", false);
 						}, this)
 					});
@@ -4059,11 +3989,11 @@ sap.ui.define([
 																				filteredPriceData.push(IncorrectPartData[m]);
 																			}
 																		}
-																		console.log("incorrect data updated", filteredPriceData);
+																	
 																	}
 
 																} else {
-																	console.log("oFilteredData ZPPD", filteredPriceData);
+																
 																	for (var m = 0; m < filteredPriceData.length; m++) {
 																		filteredPriceData[m].matnr = [
 																			"Ordered: " + filteredPriceData[m].matnr,
@@ -4084,16 +4014,10 @@ sap.ui.define([
 																		filteredPriceData[m].TCIApprovedAmount = filteredPriceData[m].TCIApprAmt;
 																		filteredPriceData[m].DiffAmt = filteredPriceData[m].DiffAmt;
 																	}
-																	// this.getView().getModel("multiHeaderConfig").setProperty("/flagIncorrectPart", false);
-																	console.log("correct data updated", filteredPriceData);
+																
 																}
 
-																console.log("filteredPriceData", filteredPriceData);
-
 																var oFilteredData = filteredPriceData;
-
-																console.log("filteredPriceData", oFilteredData);
-
 																for (var m = 0; m < oFilteredData.length; m++) {
 																	oFilteredData[m].ALMDiscreDesc = oFilteredData[m].ALMDiscreDesc;
 																	if (filteredPriceData[m].DiscreCode == "3A" && filteredPriceData[m].RetainPart == "Y") {
@@ -4112,7 +4036,6 @@ sap.ui.define([
 														this),
 													error: $.proxy(function (err) {
 														this.getView().getModel("DateModel").setProperty("/SavePWPartIndicator", false);
-														console.log(err);
 														var err = JSON.parse(err.responseText);
 														var msg = err.error.message.value;
 														MessageBox.show(msg, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
@@ -4289,7 +4212,6 @@ sap.ui.define([
 									"'"
 							},
 							success: $.proxy(function (sdata) {
-								console.log("Response after claim is saved", sdata);
 								var oPartner = sdata.results[0].Partner;
 								this.getView().getModel("DateModel").setProperty("/FeedEnabled", true);
 								this.getModel("LocalDataModel").setProperty("/ClaimDetails", sdata.results[0]);
@@ -4547,7 +4469,7 @@ sap.ui.define([
 							});
 
 							var oAttachmentList = this.getModel("LocalDataModel").getProperty("/PartHeadAttachData");
-							console.log(oAttachmentList);
+						
 							var oAttachmentCheck = oAttachmentList.findIndex(function (item) {
 								return item.FileName == "Letter Of Intent.pdf";
 							});
@@ -4930,8 +4852,6 @@ sap.ui.define([
 			var sDivision;
 			var oDialog;
 			var oPartner;
-			//this.getModel("LocalDataModel").getProperty("/ClaimDetails/Partner");
-			//console.log(this.getModel("LocalDataModel").getProperty("/ClaimDetails"));
 			if (this.getModel("LocalDataModel").getProperty("/ClaimDetails/Partner") != "" &&
 				this.getModel("LocalDataModel").getProperty("/ClaimDetails/Partner") != undefined) {
 				oPartner = this.getModel("LocalDataModel").getProperty("/ClaimDetails/Partner");

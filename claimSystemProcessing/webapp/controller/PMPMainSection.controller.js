@@ -58,7 +58,7 @@ sap.ui.define([
 
 				}, this),
 				error: function (err) {
-					console.log(err);
+				MessageToast.show(err);
 				}
 			});
 
@@ -181,8 +181,8 @@ sap.ui.define([
 								this.getModel("LocalDataModel").setProperty("/claim_commentSet", errorData.results[0].zc_claim_commentSet.results);
 
 							}, this),
-							error: $.proxy(function () {
-								console.log(err);
+							error: $.proxy(function (err) {
+								MessageToast.show(err);
 								this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", false);
 							}, this)
 						});
@@ -255,8 +255,8 @@ sap.ui.define([
 						});
 
 					}, this),
-					error: function (Error) {
-						console.log(Error);
+					error: function (err) {
+						MessageToast.show(err);
 					}
 				})
 			} else {
@@ -273,8 +273,8 @@ sap.ui.define([
 							this.getModel("LocalDataModel").setProperty("/ClaimGroupSet", this.oFilteredData);
 							this.getView().getModel("HeadSetData").setProperty("//WarrantyClaimType", data.results[0].TMCClaimType);
 						}, this),
-						error: function () {
-							console.log("Error");
+						error: function (err) {
+						MessageToast.show(err);
 						}
 					});
 
@@ -435,18 +435,18 @@ sap.ui.define([
 										this.getView().getModel("HeadSetData").setData(sdata.results[0]);
 									}, this),
 									error: function (err) {
-										console.log(err);
+										MessageToast.show(err);
 									}
 								});
 							}, this),
 							error: function (err) {
-								console.log(err);
+							MessageToast.show(err);
 							}
 						});
 
 					}, this),
 					error: $.proxy(function (err) {
-						console.log(err);
+					MessageToast.show(err);
 					}, this)
 
 				});
@@ -846,8 +846,8 @@ sap.ui.define([
 								this.getModel("LocalDataModel").setProperty("/WarrantyClaimNum", oCLaim);
 
 							}, this),
-							error: function (Error) {
-								console.log(Error);
+							error: function (err) {
+								MessageToast.show(err);
 							}
 						});
 
@@ -928,7 +928,7 @@ sap.ui.define([
 
 				}, this),
 				error: function (err) {
-					console.log(err);
+				MessageToast.show(err);
 				}
 			});
 
@@ -1021,7 +1021,7 @@ sap.ui.define([
 					"Material",
 					sap.ui.model.FilterOperator.StartsWith, sValue
 				);
-				//console.log(oFilter);
+			
 				evt.getSource().getBinding("items").filter([oFilter]);
 			} else {
 				evt.getSource().getBinding("items").filter([]);
@@ -1566,10 +1566,6 @@ sap.ui.define([
 				var w = window.open(isProxy +
 					"/node/ZDLR_CLAIM_PMP_SRV/zc_claim_printSet(NumberOfWarrantyClaim='" + oClaimNum + "',PrintType='')/$value",
 					'_blank');
-
-				if (w == null) {
-					console.log("Error");
-				}
 			}
 		},
 		onAfterAutoComplete: function () {

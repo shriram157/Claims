@@ -488,7 +488,7 @@ sap.ui.define([
 
 							}, this),
 							error: function (err) {
-								console.log(err);
+								MessageToast.show(err);
 							}
 						});
 
@@ -1298,20 +1298,20 @@ sap.ui.define([
 
 									}, this),
 									error: function (err) {
-										console.log(err);
+										MessageToast.show(err);
 									}
 								});
 
 							}, this),
 							error: $.proxy(function (err) {
-								console.log(err);
+								MessageToast.show(err);
 								this.getModel("LocalDataModel").setProperty("/oSavePerrartIndicator", false);
 							}, this)
 						});
 
 					}, this),
 					error: $.proxy(function (err) {
-						console.log(err);
+						MessageToast.show(err);
 						this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", false);
 					}, this)
 				});
@@ -1651,8 +1651,8 @@ sap.ui.define([
 						this.getView().getModel("HeadSetData").setProperty("/WarrantyClaimType", this.oFilteredData[0].WarrantyClaimType);
 					}
 				}, this),
-				error: function () {
-					console.log("Error");
+				error: function (err) {
+					MessageToast.show(err);
 				}
 			});
 
@@ -1668,8 +1668,8 @@ sap.ui.define([
 				success: $.proxy(function (data) {
 					this.getModel("LocalDataModel").setProperty("/ClaimGroupList", data.results);
 				}, this),
-				error: function () {
-					console.log("Error");
+				error: function (err) {
+					MessageToast.show(err);
 				}
 			});
 
@@ -2487,11 +2487,6 @@ sap.ui.define([
 				sSelectedLocale +
 				"#/AgreementInquiry/" + oECPAgr + "/" + this.getView().getModel("HeadSetData").getProperty("/ExternalObjectNumber") + "",
 				'_blank');
-
-			if (w == null) {
-				console.log("Error");
-				//MessageBox.warning(oBundle.getText("Error.PopUpBloqued"));
-			}
 		},
 
 		onPressLookUpECP: function () {
@@ -2907,13 +2902,13 @@ sap.ui.define([
 
 									}, this),
 									error: function (err) {
-										console.log(err);
+										MessageToast.show(err);
 									}
 								});
 
 							}, this),
-							error: function (Error) {
-								console.log(Error);
+							error: function (err) {
+							MessageToast.show(err);
 							}
 						});
 
@@ -4000,7 +3995,7 @@ sap.ui.define([
 
 					}, this),
 					error: $.proxy(function (err) {
-						console.log(err);
+						MessageToast.show(err);
 						this.getModel("LocalDataModel").setProperty("/IndicatorState", false);
 					}, this)
 				});
@@ -4036,10 +4031,6 @@ sap.ui.define([
 					var oURI = isProxy + "/node/ZDLR_CLAIM_SRV/zc_attachSet(NumberOfWarrantyClaim='" + oClaimNum + "',FileName='" + fileName +
 						"')/$value";
 
-					if (oURI == null) {
-						console.log("Error");
-						//MessageBox.warning(oBundle.getText("Error.PopUpBloqued"));
-					}
 
 					var itemObj = {
 						"NumberOfWarrantyClaim": oClaimNum,
@@ -4078,7 +4069,7 @@ sap.ui.define([
 							});
 						}, this),
 						error: function (err) {
-							console.log(err);
+							MessageToast.show(err);
 						}
 					});
 
@@ -4233,7 +4224,10 @@ sap.ui.define([
 							});
 							this.getModel("LocalDataModel").setProperty("/SubletAtchmentData", oAttachSet);
 							this.getModel("LocalDataModel").setProperty("/UploadEnableSublet", true);
-						}, this)
+						}, this),
+						error: function(err){
+							MessageToast.show(err);
+						}
 					});
 				}, this)
 			});
@@ -5748,8 +5742,8 @@ sap.ui.define([
 						this.getView().addDependent(oDialogBox);
 						oDialogBox.open();
 					}, this),
-					error: function () {
-						console.log("Error");
+					error: function (err) {
+						MessageToast.show(err);
 					}
 				});
 			} else {
@@ -6896,7 +6890,7 @@ sap.ui.define([
 				error: $.proxy(function (err) {
 					MessageToast.show(oBundle.getText("SystemInternalError"));
 					this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", false);
-					console.log(err);
+					MessageToast.show(err);
 				}, this)
 			});
 
@@ -7401,10 +7395,6 @@ sap.ui.define([
 			var w = window.open(isProxy +
 				"/node/ZDLR_CLAIM_SRV/zc_claim_printSet(NumberOfWarrantyClaim='" + oClaimNum + "',PrintType='CORE_PK')/$value",
 				'_blank');
-			if (w == null) {
-				console.log("Error");
-				//MessageBox.warning(oBundle.getText("Error.PopUpBloqued"));
-			}
 
 		},
 
@@ -7427,20 +7417,12 @@ sap.ui.define([
 				var w = window.open(isProxy +
 					"/node/ZDLR_CLAIM_SRV/zc_claim_printSet(NumberOfWarrantyClaim='" + oClaimNum + "',PrintType='WTY')/$value",
 					'_blank');
-				if (w == null) {
-					console.log("Error");
-					//MessageBox.warning(oBundle.getText("Error.PopUpBloqued"));
-				}
+			
 			} else if (oClaimtype == "SCR" || oClaimtype == "SSM" || oClaimtype == "VLC" ||
 				oClaimtype == "ZSCR" || oClaimtype == "ZSSM" || oClaimtype == "ZLDC") {
 				var w = window.open(isProxy +
 					"/node/ZDLR_CLAIM_SRV/zc_claim_printSet(NumberOfWarrantyClaim='" + oClaimNum + "',PrintType='NON_WTY')/$value",
 					'_blank');
-
-				if (w == null) {
-					console.log("Error");
-					//MessageBox.warning(oBundle.getText("Error.PopUpBloqued"));
-				}
 			}
 		},
 		onPressSuggestPart: function () {
@@ -7452,10 +7434,7 @@ sap.ui.define([
 			var w = window.open(isProxy +
 				"/node/ZDLR_CLAIM_SRV/zc_claim_printSet(NumberOfWarrantyClaim='" + oClaimNum + "',PrintType='CORE_PK')/$value",
 				'_blank');
-			if (w == null) {
-				console.log("Error");
-				//MessageBox.warning(oBundle.getText("Error.PopUpBloqued")); this.href before target blank
-			}
+		
 		},
 		onPressAbbr: function () {
 			//var oCCR = new sap.ui.model.json.JSONModel();
@@ -7615,7 +7594,7 @@ sap.ui.define([
 					oDialog.open();
 				}, this),
 				error: function (err) {
-					console.log(err)
+					MessageToast.show(err);
 				}
 
 			});

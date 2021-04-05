@@ -1,6 +1,7 @@
 sap.ui.define([
-	"zclaimProcessing/controller/BaseController"
-], function (BaseController) {
+	"zclaimProcessing/controller/BaseController",
+		'sap/m/MessageToast'
+], function (BaseController, MessageToast) {
 	"use strict";
 
 	return BaseController.extend("zclaimProcessing.controller.NewClaimSelectGroup", {
@@ -26,7 +27,7 @@ sap.ui.define([
 			this.getOwnerComponent().getModel("LocalDataModel").setProperty("/RadioEdit", false);
 			this.getDealer();
 			//Model data set for Header Links visibility as per User login
-			console.log("HeaderLinksModel", sap.ui.getCore().getModel("HeaderLinksModel"));
+		
 			this.getView().setModel(sap.ui.getCore().getModel("HeaderLinksModel"), "HeaderLinksModel");
 
 			oProssingModel.read("/zc_claim_groupSet", {
@@ -76,7 +77,7 @@ sap.ui.define([
 
 					// 	});
 					this.getModel("LocalDataModel").setProperty("/oClaimGroupData", oClaimGroup);
-					console.log(sap.ui.getCore().getModel("UserDataModel").getProperty("/UserScope"), oClaimGroup);
+				
 
 					//this.getOwnerComponent().getModel("LocalDataModel").setProperty("/ClaimGroupData", oClaimGroupJson);
 					var oKey = oClaimGroup[0].ClaimGroup;
@@ -208,16 +209,10 @@ sap.ui.define([
 			}
 		},
 
-		onSelectRequestType01: function (oEvent) {
-
-			// sap.ui.getCore().getEventBus().publish("App", "oType", {text : oUniqIndex});
-		},
 		handleDealerLabourInq: function (oEvent) {
 			var sDivision;
 			var oDialog;
 			var oPartner;
-			//this.getModel("LocalDataModel").getProperty("/ClaimDetails/Partner");
-			//console.log(this.getModel("LocalDataModel").getProperty("/ClaimDetails"));
 			if (this.getModel("LocalDataModel").getProperty("/ClaimDetails/Partner") != "" &&
 				this.getModel("LocalDataModel").getProperty("/ClaimDetails/Partner") != undefined) {
 				oPartner = this.getModel("LocalDataModel").getProperty("/ClaimDetails/Partner");
@@ -248,8 +243,8 @@ sap.ui.define([
 						}
 						oDialog.open();
 					}, this),
-					error: function () {
-
+					error: function (err) {
+						MessageToast.show(err);
 					}
 				});
 

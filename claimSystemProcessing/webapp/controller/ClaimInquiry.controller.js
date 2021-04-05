@@ -107,7 +107,8 @@ sap.ui.define([
 
 					}, this),
 					error: function (error) {
-						console.log(error);
+					
+						MessageToast.show(error);
 					}
 				});
 
@@ -183,8 +184,6 @@ sap.ui.define([
 			var sDivision;
 			var oDialog;
 			var oPartner;
-			//this.getModel("LocalDataModel").getProperty("/ClaimDetails/Partner");
-			//console.log(this.getModel("LocalDataModel").getProperty("/ClaimDetails"));
 			if (this.getModel("LocalDataModel").getProperty("/ClaimDetails/Partner") != "" &&
 				this.getModel("LocalDataModel").getProperty("/ClaimDetails/Partner") != undefined) {
 				oPartner = this.getModel("LocalDataModel").getProperty("/ClaimDetails/Partner");

@@ -57,13 +57,13 @@ sap.ui.define([
 				type: "GET",
 				dataType: "json",
 				success: $.proxy(function (appData) {
-					console.log(appData);
+				
 					this.getModel("LocalDataModel").setProperty("/oECPURL", appData.ecpSalesAppUrl);
 					this.getModel("LocalDataModel").setProperty("/oCICURL", appData.cicUrl);
 					this.getModel("LocalDataModel").setProperty("/oCVSHURL", appData.cvshUrl);
 				}, this),
 				error: function (err) {
-					console.log(err);
+				MessageToast.show(err);
 				}
 			});
 
@@ -217,16 +217,11 @@ sap.ui.define([
 			if (window.document.domain == "localhost") {
 				isProxy = "proxy";
 			}
-			console.log(this.getView().getModel("DateModel").getProperty("/VIN"));
+		
 			var w = window.open(this.getModel("LocalDataModel").getProperty("/oECPURL") + "?Division=" + sDivision + "&Language=" +
 				sSelectedLocale +
 				"#/AgreementInquiry/" + oECPAgr + "/" + this.getView().getModel("DateModel").getProperty("/VIN") + "",
 				'_blank');
-
-			if (w == null) {
-				console.log("Error");
-				//MessageBox.warning(oBundle.getText("Error.PopUpBloqued"));
-			}
 		},
 		/**
 		 * Similar to onAfterRendering, but this hook is invoked before the controller's View is re-rendered
