@@ -1894,14 +1894,14 @@ sap.ui.define([
 				});
 
 		},
-		onEnterCommentText: function (oEvent) {
-			var oText = oEvent.getParameters().value;
-			if (oText.length >= 2) {
-				this.getModel("LocalDataModel").setProperty("/enableEnterComment", true);
-			} else {
-				this.getModel("LocalDataModel").setProperty("/enableEnterComment", false);
-			}
-		},
+		// onEnterCommentText: function (oEvent) {
+		// 	var oText = oEvent.getParameters().value;
+		// 	if (oText.length >= 2) {
+		// 		this.getModel("LocalDataModel").setProperty("/enableEnterComment", true);
+		// 	} else {
+		// 		this.getModel("LocalDataModel").setProperty("/enableEnterComment", false);
+		// 	}
+		// },
 
 		onPost: function (oEvent) {
 
@@ -1954,35 +1954,35 @@ sap.ui.define([
 			});
 		},
 
-		onEnterComment: function () {
-			this.getModel("LocalDataModel").setProperty("/enableEnterComment", false);
-			var oPrevComment = this.getView().getModel("HeadSetData").getProperty("/HeadText");
-			var oPartner = this.getModel("LocalDataModel").getProperty("/BpDealerModel/0/BusinessPartnerKey");
-			var oDateFormat = sap.ui.core.format.DateFormat.getDateInstance({
-				pattern: "yyyy-MM-dd HH:mm:ss"
-			});
-			var oDate = oDateFormat.format(new Date());
-			var oText = this.getView().getModel("HeadSetData").getProperty("/NewText");
+		// onEnterComment: function () {
+		// 	this.getModel("LocalDataModel").setProperty("/enableEnterComment", false);
+		// 	var oPrevComment = this.getView().getModel("HeadSetData").getProperty("/HeadText");
+		// 	var oPartner = this.getModel("LocalDataModel").getProperty("/BpDealerModel/0/BusinessPartnerKey");
+		// 	var oDateFormat = sap.ui.core.format.DateFormat.getDateInstance({
+		// 		pattern: "yyyy-MM-dd HH:mm:ss"
+		// 	});
+		// 	var oDate = oDateFormat.format(new Date());
+		// 	var oText = this.getView().getModel("HeadSetData").getProperty("/NewText");
 
-			var oBusinessModel = this.getModel("ApiBusinessModel");
-			oBusinessModel.read("/A_BusinessPartner", {
-				urlParameters: {
-					"$filter": "BusinessPartner eq '" + oPartner + "'"
-				},
-				success: $.proxy(function (data) {
-					var oPartnerName = data.results[0].OrganizationBPName1;
-					//var oFinalText = `${oPrevComment} \n  ${oPartnerName} ( ${oDate} ) ${oText}`;
-					var oFinalText = oPrevComment + "\r\n" + "/" +
-						oPartnerName + "(" + oDate + ") " + " : " + oText;
-					this.getView().getModel("HeadSetData").setProperty("/HeadText", oFinalText);
-					this.getView().getModel("HeadSetData").setProperty("/NewText", "");
-					// console.log(oFinalText);
-				}, this)
-			});
-		},
-		onCloseComment: function (oEvent) {
-			oEvent.getSource().getParent().getParent().getParent().getParent().getParent().close();
-		},
+		// 	var oBusinessModel = this.getModel("ApiBusinessModel");
+		// 	oBusinessModel.read("/A_BusinessPartner", {
+		// 		urlParameters: {
+		// 			"$filter": "BusinessPartner eq '" + oPartner + "'"
+		// 		},
+		// 		success: $.proxy(function (data) {
+		// 			var oPartnerName = data.results[0].OrganizationBPName1;
+		// 			//var oFinalText = `${oPrevComment} \n  ${oPartnerName} ( ${oDate} ) ${oText}`;
+		// 			var oFinalText = oPrevComment + "\r\n" + "/" +
+		// 				oPartnerName + "(" + oDate + ") " + " : " + oText;
+		// 			this.getView().getModel("HeadSetData").setProperty("/HeadText", oFinalText);
+		// 			this.getView().getModel("HeadSetData").setProperty("/NewText", "");
+		// 			// console.log(oFinalText);
+		// 		}, this)
+		// 	});
+		// },
+		// onCloseComment: function (oEvent) {
+		// 	oEvent.getSource().getParent().getParent().getParent().getParent().getParent().close();
+		// },
 
 		onSelectClaimTpe: function (oEvent) {
 			this.getView().getModel("DateModel").setProperty("/claimTypeState2", "None");
@@ -6110,7 +6110,7 @@ sap.ui.define([
 					this.getView().getModel("LabourDataModel").setProperty("/ClaimedHours", "");
 					this.getView().getModel("LabourDataModel").setProperty("/LabourDescription", "");
 
-					MessageToast.show(oBundle.getText("PartNumExists"), {
+					MessageToast.show(oBundle.getText("LabourAlreadyExist"), {
 						my: "center center",
 						at: "center center"
 					});

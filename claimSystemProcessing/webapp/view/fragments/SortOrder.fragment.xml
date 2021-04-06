@@ -1,7 +1,7 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
 	<ViewSettingsDialog confirm="handleSortDialogConfirm">
 		<sortItems>
-			<ViewSettingsItem text="TCI Claim" key="NumberOfWarrantyClaim" selected="true"/>
+			<ViewSettingsItem text="{i18n>TCIClaim}" key="NumberOfWarrantyClaim" selected="true"/>
 			<ViewSettingsItem text="{i18n>DealerClaim}" key="ExternalNumberOfClaim"/>
 			<ViewSettingsItem text="{i18n>RepairOrder}" key="RepairOrderNumberExternal"/>
 			<ViewSettingsItem text="{i18n>RepairOrderDate}" key="RepairDate"/>
