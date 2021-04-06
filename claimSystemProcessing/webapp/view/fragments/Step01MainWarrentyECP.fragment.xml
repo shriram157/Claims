@@ -33,33 +33,33 @@
 					</custom:CustomCombo>
 					</HBox>
 					</VBox>
-					<VBox class="sapUiTinyMarginEnd clwidhth30">
+					<VBox class="sapUiTinyMarginEnd clwidhth26">
 						<HBox width="100%">
 					<Label class="clwidhth13" text="{i18n>FirstSubmissionDate} : ">
 					
 					</Label>
-					<Text text="{ path: 'HeadSetData>/ReferenceDate', formatter:'zclaimProcessing.utils.formatter.fnDateFormat'}"/>
+					<Text width="10rem" text="{ path: 'HeadSetData>/ReferenceDate', formatter:'zclaimProcessing.utils.formatter.fnDateFormat'}"/>
 					</HBox>
 					<HBox width="100%">
 					<Label  class="clwidhth13" text="{i18n>ClaimAge} : ">
 					
 					</Label>
-					<Text text="{HeadSetData>/ClaimAge}"/>
+					<Text width="10rem" text="{HeadSetData>/ClaimAge}"/>
 					</HBox>
 					<HBox width="100%">
 					<Label class="clwidhth13" text="{i18n>LastModifiedby} : ">
 					</Label>
-					<Text text="{HeadSetData>/NameOfPersonRespWhoChangedObj}"/>
+					<Text width="10rem" text="{HeadSetData>/NameOfPersonRespWhoChangedObj}"/>
 					</HBox>
 					</VBox>
 					<VBox  class="clwidhth26 sapUiTinyMarginEnd">
 					<HBox width="100%">
 					<Label class="clwidhth13" text="{i18n>LastSubmissionDate} : "/>
-					<Text text="{ path: 'HeadSetData>/DateOfApplication', formatter:'zclaimProcessing.utils.formatter.fnDateFormat'}"/>
+					<Text  width="10rem" text="{ path: 'HeadSetData>/DateOfApplication', formatter:'zclaimProcessing.utils.formatter.fnDateFormat'}"/>
 					</HBox>
 					<HBox width="100%">
 					<Label class="clwidhth13" text="{i18n>FinalProcessedDate} : "/>
-					<Text text="{ path: 'HeadSetData>/FinalProcdDate', formatter:'zclaimProcessing.utils.formatter.fnDateFormat' }"/>
+					<Text width="10rem" text="{ path: 'HeadSetData>/FinalProcdDate', formatter:'zclaimProcessing.utils.formatter.fnDateFormat' }"/>
 					<!--<Label text="{i18n>ClaimSubmissionAgeSinceRO}"/>-->
 					<!--<Text text="{HeadSetData>/ProcessingStatusOfWarrantyClm}"/>-->
 					</HBox>

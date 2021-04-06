@@ -229,6 +229,15 @@ sap.ui.define([
 
 		handleSortButtonPressed: function () {
 			this.createViewSettingsDialog("zclaimProcessing.view.fragments.SortOrder").open();
+			setTimeout(function () {
+				if (sSelectedLocale.toUpperCase() === "FR") {
+					var sInnerText = document.getElementById("idSort-sortorderlist").innerHTML;
+					sInnerText.replace("Sort By", "Trier par");
+					sInnerText.replace("Ascending", "Ascendant");
+					sInnerText.replace("Descending", "Descendant");
+				}
+			}, 3000);
+
 		},
 		handleSortDialogConfirm: function (oEvent) {
 			var oTable = this.byId("idClaimTable"),

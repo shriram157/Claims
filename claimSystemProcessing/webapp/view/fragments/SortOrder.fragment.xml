@@ -1,5 +1,5 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
-	<ViewSettingsDialog confirm="handleSortDialogConfirm">
+	<ViewSettingsDialog title="{i18n>Sortby}"  confirm="handleSortDialogConfirm" class="clSort" id="idSort">
 		<sortItems>
 			<ViewSettingsItem text="{i18n>TCIClaim}" key="NumberOfWarrantyClaim" selected="true"/>
 			<ViewSettingsItem text="{i18n>DealerClaim}" key="ExternalNumberOfClaim"/>
