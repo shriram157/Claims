@@ -344,7 +344,8 @@ sap.ui.define([
 				oView.byId("idT2Field"),
 				oView.byId("idRemedy"),
 				oView.byId("idCause"),
-				oView.byId("idCondition")
+				oView.byId("idCondition"),
+				oView.byId("idMainOps")
 			];
 
 			var aInputsArrZWMS = [
