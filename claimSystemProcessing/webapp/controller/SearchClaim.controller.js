@@ -211,31 +211,25 @@ sap.ui.define([
 			var oResult = [];
 			var issueDealer = this.getModel("LocalDataModel").getProperty("/currentIssueDealer");
 		},
-
-		onAfterRendering: function () {
-
-		},
 		createViewSettingsDialog: function (sDialogFragmentName) {
 			var oDialog = this._mViewSettingsDialogs[sDialogFragmentName];
-
 			if (!oDialog) {
 				oDialog = sap.ui.xmlfragment(sDialogFragmentName, this);
 				this._mViewSettingsDialogs[sDialogFragmentName] = oDialog;
 				this.getView().addDependent(oDialog);
 			}
-
 			return oDialog;
 		},
-
 		handleSortButtonPressed: function () {
 			this.createViewSettingsDialog("zclaimProcessing.view.fragments.SortOrder").open();
 			if (sSelectedLocale.toUpperCase() === "FR") {
 				setTimeout(function () {
 					var sInnerText = document.getElementById("idSort-sortorderlist").innerHTML;
-					var sSortBy = sInnerText.replace("Sort By", "Trier par");
+					var sSortBy = sInnerText.replace("Sort By", "Tri");
 					var sAssecending = sSortBy.replace("Ascending", "Ascendant");
 					var sDescending = sAssecending.replace("Descending", "Descendant");
-					document.getElementById("idSort-sortorderlist").innerHTML = sDescending;
+					var sSortObj = sDescending.replace("Sort Object", "Trier par");
+					document.getElementById("idSort-sortorderlist").innerHTML = sSortObj;
 				}, 300);
 			}
 		},

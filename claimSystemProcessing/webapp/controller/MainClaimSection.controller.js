@@ -2908,7 +2908,7 @@ sap.ui.define([
 
 							}, this),
 							error: function (err) {
-							MessageToast.show(err);
+								MessageToast.show(err);
 							}
 						});
 
@@ -4031,7 +4031,6 @@ sap.ui.define([
 					var oURI = isProxy + "/node/ZDLR_CLAIM_SRV/zc_attachSet(NumberOfWarrantyClaim='" + oClaimNum + "',FileName='" + fileName +
 						"')/$value";
 
-
 					var itemObj = {
 						"NumberOfWarrantyClaim": oClaimNum,
 						"ContentLine": this.oBase,
@@ -4225,7 +4224,7 @@ sap.ui.define([
 							this.getModel("LocalDataModel").setProperty("/SubletAtchmentData", oAttachSet);
 							this.getModel("LocalDataModel").setProperty("/UploadEnableSublet", true);
 						}, this),
-						error: function(err){
+						error: function (err) {
 							MessageToast.show(err);
 						}
 					});
@@ -5708,7 +5707,8 @@ sap.ui.define([
 			var oSelectedPart = oEvent.getSource().getParent().getCells()[2].getText();
 			//var oOFP = this.getView().getModel("HeadSetData").getProperty("/OFP");
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
-			this.getView().byId("idOFPLabour").setText(oSelectedPart);
+			this.getView().getModel("HeadSetData").setProperty("/MainOpsCode", oSelectedPart);
+
 		},
 		onSelectOFPPrint: function (oEvent) {
 			var table = this.getView().byId("idPaintTable");
@@ -5716,7 +5716,7 @@ sap.ui.define([
 			var oSelectedPart = oEvent.getSource().getParent().getCells()[2].getText();
 			//var oOFP = this.getView().getModel("HeadSetData").getProperty("/OFP");
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
-			this.getView().byId("idOFPLabour").setText(oSelectedPart);
+			this.getView().getModel("HeadSetData").setProperty("/MainOpsCode", oSelectedPart);
 		},
 		onPressSuggestLabour: function (oEvent) {
 
@@ -7417,7 +7417,7 @@ sap.ui.define([
 				var w = window.open(isProxy +
 					"/node/ZDLR_CLAIM_SRV/zc_claim_printSet(NumberOfWarrantyClaim='" + oClaimNum + "',PrintType='WTY')/$value",
 					'_blank');
-			
+
 			} else if (oClaimtype == "SCR" || oClaimtype == "SSM" || oClaimtype == "VLC" ||
 				oClaimtype == "ZSCR" || oClaimtype == "ZSSM" || oClaimtype == "ZLDC") {
 				var w = window.open(isProxy +
@@ -7434,7 +7434,7 @@ sap.ui.define([
 			var w = window.open(isProxy +
 				"/node/ZDLR_CLAIM_SRV/zc_claim_printSet(NumberOfWarrantyClaim='" + oClaimNum + "',PrintType='CORE_PK')/$value",
 				'_blank');
-		
+
 		},
 		onPressAbbr: function () {
 			//var oCCR = new sap.ui.model.json.JSONModel();
