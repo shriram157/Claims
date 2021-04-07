@@ -107,7 +107,7 @@ sap.ui.define([
 
 					}, this),
 					error: function (error) {
-					
+
 						MessageToast.show(error);
 					}
 				});
@@ -138,6 +138,19 @@ sap.ui.define([
 
 		handleSortButtonPressed: function () {
 			this.createViewSettingsDialog("zclaimProcessing.view.fragments.SortOrder").open();
+			if (sSelectedLocale.toUpperCase() === "FR") {
+				setTimeout(function () {
+					var sInnerText = document.getElementById("idSort-sortorderlist").innerHTML;
+
+					var sSortBy = sInnerText.replace("Sort By", "Tri");
+					var sAssecending = sSortBy.replace("Ascending", "Ascendant");
+					var sDescending = sAssecending.replace("Descending", "Descendant");
+					var sSortList = document.getElementById("idSort-sortlist").innerHTML;
+					var sSortObj = sSortList.replace("Sort Object", "Trier par");
+					document.getElementById("idSort-sortorderlist").innerHTML = sDescending;
+					document.getElementById("idSort-sortlist").innerHTML = sSortObj;
+				}, 300);
+			}
 		},
 		handleSortDialogConfirm: function (oEvent) {
 			var oTable = this.byId("idClaimInquiryTable"),
@@ -160,7 +173,7 @@ sap.ui.define([
 			var oClaimNum = oEvent.getSource().getParent().getCells()[2].getText();
 			var oClaimType = oEvent.getSource().getParent().getCells()[6].getText();
 			var sPath = oEvent.getSource().mBindingInfos.text.binding.oContext.sPath;
-			var selectedRow  = this.getModel("LocalDataModel").getProperty(sPath);
+			var selectedRow = this.getModel("LocalDataModel").getProperty(sPath);
 			if (oClaimType == "ZACD" || oClaimType == "ZAUT") {
 				this.oSelectedClaimGroup = "Authorization";
 			} else {
