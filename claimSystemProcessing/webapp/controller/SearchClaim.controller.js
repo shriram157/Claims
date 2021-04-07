@@ -229,15 +229,15 @@ sap.ui.define([
 
 		handleSortButtonPressed: function () {
 			this.createViewSettingsDialog("zclaimProcessing.view.fragments.SortOrder").open();
-			setTimeout(function () {
-				if (sSelectedLocale.toUpperCase() === "FR") {
+			if (sSelectedLocale.toUpperCase() === "FR") {
+				setTimeout(function () {
 					var sInnerText = document.getElementById("idSort-sortorderlist").innerHTML;
-					sInnerText.replace("Sort By", "Trier par");
-					sInnerText.replace("Ascending", "Ascendant");
-					sInnerText.replace("Descending", "Descendant");
-				}
-			}, 3000);
-
+					var sSortBy = sInnerText.replace("Sort By", "Trier par");
+					var sAssecending = sSortBy.replace("Ascending", "Ascendant");
+					var sDescending = sAssecending.replace("Descending", "Descendant");
+					document.getElementById("idSort-sortorderlist").innerHTML = sDescending;
+				}, 300);
+			}
 		},
 		handleSortDialogConfirm: function (oEvent) {
 			var oTable = this.byId("idClaimTable"),
