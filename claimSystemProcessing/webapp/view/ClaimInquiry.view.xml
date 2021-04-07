@@ -108,7 +108,7 @@
 												<Text text="{LocalDataModel>MainOpsCode}" wrapping="false"/>
 												<Text text="{LocalDataModel>FieldActionReference}" wrapping="false"/>
 												<Text text="{LocalDataModel>ClaimAge}" wrapping="false"/>
-												<Text text="{LocalDataModel>ClaimAmountSum}" wrapping="false"/>
+												<Text text="{path:'LocalDataModel>ClaimAmountSum',formatter : 'zclaimProcessing.utils.formatter.fnFormatDecimal'}" wrapping="false"/>
 												<Text text="{LocalDataModel>Odometer}" wrapping="false"/>
 											</cells>
 										</ColumnListItem>
