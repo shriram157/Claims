@@ -225,11 +225,14 @@ sap.ui.define([
 			if (sSelectedLocale.toUpperCase() === "FR") {
 				setTimeout(function () {
 					var sInnerText = document.getElementById("idSort-sortorderlist").innerHTML;
+					
 					var sSortBy = sInnerText.replace("Sort By", "Tri");
 					var sAssecending = sSortBy.replace("Ascending", "Ascendant");
 					var sDescending = sAssecending.replace("Descending", "Descendant");
-					var sSortObj = sDescending.replace("Sort Object", "Trier par");
-					document.getElementById("idSort-sortorderlist").innerHTML = sSortObj;
+					var sSortList = document.getElementById("idSort-sortlist").innerHTML;
+					var sSortObj = sSortList.replace("Sort Object", "Trier par");
+					document.getElementById("idSort-sortorderlist").innerHTML = sDescending;
+					document.getElementById("idSort-sortlist").innerHTML = sSortObj;
 				}, 300);
 			}
 		},
