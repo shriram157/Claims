@@ -295,7 +295,7 @@ sap.ui.define([
 					this.getModel("LocalDataModel").setProperty("/oCVSHURL", appData.cvshUrl);
 				}, this),
 				error: function (err) {
-					console.log(err);
+					MessageToast.show(err);
 				}
 			});
 		},
@@ -492,6 +492,33 @@ sap.ui.define([
 				}
 			});
 
+		},
+		_createViewSettingsDialog: function (sDialogFragmentName) {
+			var oDialog = this._mViewSettingsDialogs[sDialogFragmentName];
+
+			if (!oDialog) {
+				oDialog = sap.ui.xmlfragment(sDialogFragmentName, this);
+				this._mViewSettingsDialogs[sDialogFragmentName] = oDialog;
+				this.getView().addDependent(oDialog);
+			}
+
+			return oDialog;
+		},
+		_sortDialogPopUp : function(){
+			this._createViewSettingsDialog("zclaimProcessing.view.fragments.SortOrder").open();
+			var osId = this._createViewSettingsDialog("zclaimProcessing.view.fragments.SortOrder").sId;
+			if (sSelectedLocale.toUpperCase() === "FR") {
+				setTimeout(function () {
+					var sInnerText = document.getElementById(osId+"-sortorderlist").innerHTML;
+					var sSortBy = sInnerText.replace("Sort By", "Tri");
+					var sAssecending = sSortBy.replace("Ascending", "Ascendant");
+					var sDescending = sAssecending.replace("Descending", "Descendant");
+					var sSortList = document.getElementById(osId+"-sortlist").innerHTML;
+					var sSortObj = sSortList.replace("Sort Object", "Trier par");
+					document.getElementById(osId+"-sortorderlist").innerHTML = sDescending;
+					document.getElementById(osId+"-sortlist").innerHTML = sSortObj;
+				}, 300);
+			}
 		}
 
 	});
