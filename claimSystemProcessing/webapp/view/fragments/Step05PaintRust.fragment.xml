@@ -16,23 +16,15 @@
 			</f:content>
 		</f:SimpleForm>
 		<l:Grid containerQuery="true" defaultSpan="XL6 L7 M12 S12">
-			<VBox class="clBgColor" wrap="Wrap" displayInline="true" alignContent="Start" width="100%">
+			<VBox class="clBgColor">
 				<f:SimpleForm editable="true" width="100%" class="sapUiSizeCompact ClsubHeadingLineHeight" layout="ResponsiveGridLayout" title=""
 					labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="4"
 					columnsL="4" columnsM="4">
 					<f:content>
-						<core:Title text=""/>
-						<Label text="{i18n>Line}" textAlign="Left"/>
-						<Text text=""/>
+						
 						<core:Title text=""/>
 						<Label text="{i18n>PositionCode}" textAlign="Left"/>
-						<!--<ComboBox required="true" items="{path:'LocalDataModel>/oPaintList'}" change="onSelectPositionCode"-->
-						<!--	selectedKey="{PaintDataModel>/PaintPositionCode}"-->
-						<!--	value="{path:'PaintDataModel>/PaintPositionCode'}"-->
-						<!--	enabled="{DateModel>/paintLine}" filterSecondaryValues="true" showSecondaryValues="true">-->
-						<!--	<core:ListItem text="{path:'LocalDataModel>J_3GKATNRC'}"-->
-						<!--		key="{LocalDataModel>J_3GKATNRC}" additionalText="{LocalDataModel>LTEXT}"/>-->
-						<!--</ComboBox>-->
+						
 						<Input type="Text" textFormatMode="Value" placeholder="{i18n>EnterPositionCode}" showSuggestion="false" showValueHelp="true"
 							value="{PaintDataModel>/PaintPositionCode}" valueHelpRequest="handleValueHelpPaint" suggestionItems="{LocalDataModel>/oPaintList}"
 							suggestionItemSelected="onSelectPositionPaintCode" enabled="{DateModel>/paintLine}">
@@ -54,6 +46,9 @@
 								<l:GridData span="XL7 L8"/>
 							</layoutData>
 						</Button>
+						<core:Title text=""/>
+						<Label text=" " class="clTextIndent"/>
+						<Text text=""/>
 					</f:content>
 				</f:SimpleForm>
 			</VBox>
