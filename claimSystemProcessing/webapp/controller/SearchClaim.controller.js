@@ -5,8 +5,9 @@ sap.ui.define([
 	"sap/m/ViewSettingsDialog",
 	"sap/m/ViewSettingsItem",
 	"sap/ui/core/util/Export",
-	"sap/ui/core/util/ExportTypeCSV"
-], function (BaseController, ValueState, Sorter, ViewSettingsDialog, ViewSettingsItem, Export, ExportTypeCSV) {
+	"sap/ui/core/util/ExportTypeCSV",
+	'sap/m/MessageToast'
+], function (BaseController, ValueState, Sorter, ViewSettingsDialog, ViewSettingsItem, Export, ExportTypeCSV, MessageToast) {
 	"use strict";
 	return BaseController.extend("zclaimProcessing.controller.SearchClaim", {
 		onInit: function () {
@@ -302,13 +303,11 @@ sap.ui.define([
 						if (data.results.length > 0) {
 							//var oVinModel = data.results[0].Model;
 							if (data.results[0].Message == "Invalid VIN Number") {
-
 								this.getView().byId("idNewClaimMsgStrp").setProperty("visible", true);
 								this.getView().byId("idNewClaimMsgStrp").setText("Please Enter a Valid VIN.");
 								this.getView().byId("idNewClaimMsgStrp").setType("Error");
 								this.getView().byId("idSearchText").setValueState(ValueState.Error);
 							} else {
-
 								this.getView().byId("idNewClaimMsgStrp").setProperty("visible", false);
 								this.getView().byId("idNewClaimMsgStrp").setText("");
 								this.getView().byId("idNewClaimMsgStrp").setType("None");
@@ -329,12 +328,43 @@ sap.ui.define([
 			}
 		},
 		//Changes done on 02/03/2021 by singhmi start
+
 		onChangeSubDate: function (oEvent) {
-			if (oEvent.getSource().getValue() != "") {
-				oEvent.getSource().setValueState("None");
+			var DefaultToDate = new Date();
+			var DefaulFromDate = new Date(new Date().setDate(DefaultToDate.getDate() - 30));
+			var oBundle = this.getView().getModel("i18n").getResourceBundle();
+
+			if (this.getView().getModel("DateModel").getProperty("/dateValueDRS2") != null && this.getView().getModel("DateModel").getProperty(
+					"/secondDateValueDRS2") != null && this.getView().byId("idSearchText").getValue() == "") {
+
+				var FinalSubFromFormated = moment(this.getView().getModel("DateModel").getProperty("/dateValueDRS2"), "YYYY-MM-DD");
+				var FinalSubToFormated = moment(this.getView().getModel("DateModel").getProperty("/secondDateValueDRS2"), "YYYY-MM-DD");
+				var DifferInDay = Math.round(moment.duration(FinalSubToFormated.diff(FinalSubFromFormated)).asDays());
+				if (DifferInDay > 90) {
+					MessageToast.show(oBundle.getText("seach90days"));
+					this.getView().getModel("DateModel").setProperty("/dateValueDRS2", DefaulFromDate);
+					this.getView().getModel("DateModel").setProperty("/secondDateValueDRS2", DefaultToDate);
+				}
+			}
+		},
+		onChangeFinalToDate: function (oEvent) {
+			var oBundle = this.getView().getModel("i18n").getResourceBundle();
+
+			if (this.getView().getModel("DateModel").getProperty("/FinalProcessFrom") != null && this.getView().getModel("DateModel").getProperty(
+					"/FinalProcessTo") != null) {
+
+				var FinalProFromFormated = moment(this.getView().getModel("DateModel").getProperty("/FinalProcessFrom"), "YYYY-MM-DD");
+				var FinalProToFormated = moment(this.getView().getModel("DateModel").getProperty("/FinalProcessTo"), "YYYY-MM-DD");
+				var DifferInDay = Math.round(moment.duration(FinalProToFormated.diff(FinalProFromFormated)).asDays());
+				if (DifferInDay > 90) {
+					MessageToast.show(oBundle.getText("seach90days"));
+					this.getView().getModel("DateModel").setProperty("/FinalProcessFrom", null);
+					this.getView().getModel("DateModel").setProperty("/FinalProcessTo", null);
+				}
 			}
 		},
 		//Changes done on 02/03/2021 by singhmi end
+
 		onPressSearch: function () {
 			this.getView().getModel("LocalDataModel").setProperty("/oVisibleRowTR", 30);
 			this.getView().getModel("DateModel").setProperty("/tableBusyIndicator", true);
