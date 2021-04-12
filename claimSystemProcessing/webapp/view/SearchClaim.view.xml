@@ -36,7 +36,7 @@
 												<Label text="{i18n>ClaimSubDate}" required="true" textAlign="Begin" id="idCLREDate"/>
 												<!--<DateRangeSelection id="DRS2" dateValue="{path:'DateModel>/dateValueDRS2'}" secondDateValue="{path:'DateModel>/secondDateValueDRS2'}"-->
 												<!--	minDate="" maxDate="" change="handleChange"/>-->
-												<DatePicker  change="onChangeSubDate" valueState="None" required="true" id="DRS2" dateValue="{path:'DateModel>/dateValueDRS2'}">
+												<DatePicker   valueState="None" required="true" id="DRS2" dateValue="{path:'DateModel>/dateValueDRS2'}">
 													<layoutData>
 														<l:GridData span="XL3 L3 M3 S12"/>
 													</layoutData>
@@ -46,7 +46,7 @@
 														<l:GridData span="XL1 L1 M3 S12"/>
 													</layoutData>
 												</Text>
-												<DatePicker change="onChangeSubDate" id="DRS3" valueState="None" required="true" dateValue="{path:'DateModel>/secondDateValueDRS2'}">
+												<DatePicker id="DRS3" valueState="None" required="true" dateValue="{path:'DateModel>/secondDateValueDRS2'}">
 													<layoutData>
 														<l:GridData span="XL3 L3 M3 S12"/>
 													</layoutData>
@@ -68,7 +68,7 @@
 												<Label text="{i18n>FinalProcessedDate}" textAlign="Begin" id="idClmFinalSub"/>
 												<!--<DateRangeSelection id="DRS2" dateValue="{path:'DateModel>/dateValueDRS2'}" secondDateValue="{path:'DateModel>/secondDateValueDRS2'}"-->
 												<!--	minDate="" maxDate="" change="handleChange"/>-->
-												<DatePicker dateValue="{path:'DateModel>/FinalProcessFrom'}" change="onChangeFinalToDate">
+												<DatePicker dateValue="{path:'DateModel>/FinalProcessFrom'}" >
 													<layoutData>
 														<l:GridData span="XL3 L3 M3 S12"/>
 													</layoutData>
@@ -78,7 +78,7 @@
 														<l:GridData span="XL1 L1 M3 S12"/>
 													</layoutData>
 												</Text>
-												<DatePicker dateValue="{path:'DateModel>/FinalProcessTo'}" change="onChangeFinalToDate">
+												<DatePicker dateValue="{path:'DateModel>/FinalProcessTo'}" >
 													<layoutData>
 														<l:GridData span="XL3 L3 M3 S12"/>
 													</layoutData>

@@ -329,45 +329,44 @@ sap.ui.define([
 		},
 		//Changes done on 02/03/2021 by singhmi start
 
-		onChangeSubDate: function (oEvent) {
-			var DefaultToDate = new Date();
-			var DefaulFromDate = new Date(new Date().setDate(DefaultToDate.getDate() - 30));
-			var oBundle = this.getView().getModel("i18n").getResourceBundle();
+		// onChangeSubDate: function (oEvent) {
+		// 	var DefaultToDate = new Date();
+		// 	var DefaulFromDate = new Date(new Date().setDate(DefaultToDate.getDate() - 30));
+		// 	var oBundle = this.getView().getModel("i18n").getResourceBundle();
 
-			if (this.getView().getModel("DateModel").getProperty("/dateValueDRS2") != null && this.getView().getModel("DateModel").getProperty(
-					"/secondDateValueDRS2") != null && this.getView().byId("idSearchText").getValue() == "") {
+		// 	if (this.getView().getModel("DateModel").getProperty("/dateValueDRS2") != null && this.getView().getModel("DateModel").getProperty(
+		// 			"/secondDateValueDRS2") != null && this.getView().byId("idSearchText").getValue() == "") {
 
-				var FinalSubFromFormated = moment(this.getView().getModel("DateModel").getProperty("/dateValueDRS2"), "YYYY-MM-DD");
-				var FinalSubToFormated = moment(this.getView().getModel("DateModel").getProperty("/secondDateValueDRS2"), "YYYY-MM-DD");
-				var DifferInDay = Math.round(moment.duration(FinalSubToFormated.diff(FinalSubFromFormated)).asDays());
-				if (DifferInDay > 90) {
-					MessageToast.show(oBundle.getText("seach90days"));
-					this.getView().getModel("DateModel").setProperty("/dateValueDRS2", DefaulFromDate);
-					this.getView().getModel("DateModel").setProperty("/secondDateValueDRS2", DefaultToDate);
-				}
-			}
-		},
-		onChangeFinalToDate: function (oEvent) {
-			var oBundle = this.getView().getModel("i18n").getResourceBundle();
+		// 		var FinalSubFromFormated = moment(this.getView().getModel("DateModel").getProperty("/dateValueDRS2"), "YYYY-MM-DD");
+		// 		var FinalSubToFormated = moment(this.getView().getModel("DateModel").getProperty("/secondDateValueDRS2"), "YYYY-MM-DD");
+		// 		var DifferInDay = Math.round(moment.duration(FinalSubToFormated.diff(FinalSubFromFormated)).asDays());
+		// 		if (DifferInDay > 90) {
+		// 			MessageToast.show(oBundle.getText("seach90days"));
+		// 			this.getView().getModel("DateModel").setProperty("/dateValueDRS2", DefaulFromDate);
+		// 			this.getView().getModel("DateModel").setProperty("/secondDateValueDRS2", DefaultToDate);
+		// 		}
+		// 	}
+		// },
+		// onChangeFinalToDate: function (oEvent) {
+		// 	var oBundle = this.getView().getModel("i18n").getResourceBundle();
 
-			if (this.getView().getModel("DateModel").getProperty("/FinalProcessFrom") != null && this.getView().getModel("DateModel").getProperty(
-					"/FinalProcessTo") != null) {
+		// 	if (this.getView().getModel("DateModel").getProperty("/FinalProcessFrom") != null && this.getView().getModel("DateModel").getProperty(
+		// 			"/FinalProcessTo") != null) {
 
-				var FinalProFromFormated = moment(this.getView().getModel("DateModel").getProperty("/FinalProcessFrom"), "YYYY-MM-DD");
-				var FinalProToFormated = moment(this.getView().getModel("DateModel").getProperty("/FinalProcessTo"), "YYYY-MM-DD");
-				var DifferInDay = Math.round(moment.duration(FinalProToFormated.diff(FinalProFromFormated)).asDays());
-				if (DifferInDay > 90) {
-					MessageToast.show(oBundle.getText("seach90days"));
-					this.getView().getModel("DateModel").setProperty("/FinalProcessFrom", null);
-					this.getView().getModel("DateModel").setProperty("/FinalProcessTo", null);
-				}
-			}
-		},
+		// 		var FinalProFromFormated = moment(this.getView().getModel("DateModel").getProperty("/FinalProcessFrom"), "YYYY-MM-DD");
+		// 		var FinalProToFormated = moment(this.getView().getModel("DateModel").getProperty("/FinalProcessTo"), "YYYY-MM-DD");
+		// 		var DifferInDay = Math.round(moment.duration(FinalProToFormated.diff(FinalProFromFormated)).asDays());
+		// 		if (DifferInDay > 90) {
+		// 			MessageToast.show(oBundle.getText("seach90days"));
+		// 			this.getView().getModel("DateModel").setProperty("/FinalProcessFrom", null);
+		// 			this.getView().getModel("DateModel").setProperty("/FinalProcessTo", null);
+		// 		}
+		// 	}
+		// },
 		//Changes done on 02/03/2021 by singhmi end
 
 		onPressSearch: function () {
 			this.getView().getModel("LocalDataModel").setProperty("/oVisibleRowTR", 30);
-			this.getView().getModel("DateModel").setProperty("/tableBusyIndicator", true);
 			var oResultArray = [];
 			//this.getView().getModel("ProssingModel").setSizeLimit(1000);
 			var sQueryDealer = this.getView().byId("idDealerCode").getSelectedKey();
@@ -389,18 +388,25 @@ sap.ui.define([
 			var FinalProFrom = this.getView().getModel("DateModel").getProperty("/FinalProcessFrom");
 			var FinalProTo = this.getView().getModel("DateModel").getProperty("/FinalProcessTo");
 
-			var FinalProFromFormat, FinalProToFormat;
+			var FinalProFromFormat, FinalProToFormat, FromDateFormat, ToDateFormat, FinalProFromFormated, FinalProToFormated,
+				DifferInDayforFnal, DifferInDay;
 
 			if (FinalProFrom != null && FinalProTo != null) {
 				FinalProFromFormat = oDateFormat.format(FinalProFrom);
 				FinalProToFormat = oDateFormat.format(FinalProTo);
+				FinalProFromFormated = moment(FinalProFromFormat, "YYYY-MM-DD");
+				FinalProToFormated = moment(FinalProToFormat, "YYYY-MM-DD");
+				DifferInDayforFnal = Math.round(moment.duration(FinalProToFormated.diff(FinalProFromFormated)).asDays());
 			}
 			//Changes done on 02/03/2021 by singhmi start
 			if (FromDate != null && ToDate != null) {
 				this.getView().byId("DRS2").setValueState("None");
 				this.getView().byId("DRS3").setValueState("None");
-				var FromDateFormat = oDateFormat.format(FromDate);
-				var ToDateFormat = oDateFormat.format(ToDate);
+				FromDateFormat = oDateFormat.format(FromDate);
+				ToDateFormat = oDateFormat.format(ToDate);
+				FinalProFromFormated = moment(FromDateFormat, "YYYY-MM-DD");
+				FinalProToFormated = moment(ToDateFormat, "YYYY-MM-DD");
+				DifferInDay = Math.round(moment.duration(FinalProToFormated.diff(FinalProFromFormated)).asDays());
 			} else {
 				this.getView().byId("DRS2").setValueState("Error");
 				this.getView().byId("DRS3").setValueState("Error");
@@ -593,16 +599,34 @@ sap.ui.define([
 			}
 			// Phase2 changes for Claim Group multiple filter values end 18/02/2021 singhmi
 
-			oProssingModel.read("/ZC_CLAIM_HEAD_NEW", {
-				urlParameters: sParam,
-				success: $.proxy(function (data) {
-					this.getView().getModel("DateModel").setProperty("/tableBusyIndicator", false);
-					this.getModel("LocalDataModel").setProperty("/ZcClaimHeadNewData", data.results);
-				}, this),
-				error: $.proxy(function () {
-					this.getView().getModel("DateModel").setProperty("/tableBusyIndicator", false);
-				}, this)
-			});
+			var oBundle = this.getView().getModel("i18n").getResourceBundle();
+
+		
+
+				if (DifferInDay > 90 && this.getView().byId("idSearchText").getValue() == "") {
+					MessageToast.show(oBundle.getText("seach90days"));
+					this.getView().getModel("DateModel").setProperty("/FinalProcessFrom", null);
+					this.getView().getModel("DateModel").setProperty("/FinalProcessTo", null);
+				} else if (DifferInDayforFnal > 90) {
+
+					MessageToast.show(oBundle.getText("seach90days"));
+					this.getView().getModel("DateModel").setProperty("/FinalProcessFrom", null);
+					this.getView().getModel("DateModel").setProperty("/FinalProcessTo", null);
+
+				} else {
+
+					oProssingModel.read("/ZC_CLAIM_HEAD_NEW", {
+						urlParameters: sParam,
+						success: $.proxy(function (data) {
+							this.getView().getModel("DateModel").setProperty("/tableBusyIndicator", false);
+							this.getModel("LocalDataModel").setProperty("/ZcClaimHeadNewData", data.results);
+						}, this),
+						error: $.proxy(function () {
+							this.getView().getModel("DateModel").setProperty("/tableBusyIndicator", false);
+						}, this)
+					});
+				}
+			
 
 		},
 
