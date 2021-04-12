@@ -601,32 +601,29 @@ sap.ui.define([
 
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 
-		
+			if (DifferInDay > 90 && this.getView().byId("idSearchText").getValue() == "") {
+				MessageToast.show(oBundle.getText("seach90days"));
+				this.getView().getModel("DateModel").setProperty("/FinalProcessFrom", null);
+				this.getView().getModel("DateModel").setProperty("/FinalProcessTo", null);
+			} else if (DifferInDayforFnal > 90) {
 
-				if (DifferInDay > 90 && this.getView().byId("idSearchText").getValue() == "") {
-					MessageToast.show(oBundle.getText("seach90days"));
-					this.getView().getModel("DateModel").setProperty("/FinalProcessFrom", null);
-					this.getView().getModel("DateModel").setProperty("/FinalProcessTo", null);
-				} else if (DifferInDayforFnal > 90) {
+				MessageToast.show(oBundle.getText("seach90days"));
+				this.getView().getModel("DateModel").setProperty("/FinalProcessFrom", null);
+				this.getView().getModel("DateModel").setProperty("/FinalProcessTo", null);
 
-					MessageToast.show(oBundle.getText("seach90days"));
-					this.getView().getModel("DateModel").setProperty("/FinalProcessFrom", null);
-					this.getView().getModel("DateModel").setProperty("/FinalProcessTo", null);
+			} else {
 
-				} else {
-
-					oProssingModel.read("/ZC_CLAIM_HEAD_NEW", {
-						urlParameters: sParam,
-						success: $.proxy(function (data) {
-							this.getView().getModel("DateModel").setProperty("/tableBusyIndicator", false);
-							this.getModel("LocalDataModel").setProperty("/ZcClaimHeadNewData", data.results);
-						}, this),
-						error: $.proxy(function () {
-							this.getView().getModel("DateModel").setProperty("/tableBusyIndicator", false);
-						}, this)
-					});
-				}
-			
+				oProssingModel.read("/ZC_CLAIM_HEAD_NEW", {
+					urlParameters: sParam,
+					success: $.proxy(function (data) {
+						this.getView().getModel("DateModel").setProperty("/tableBusyIndicator", false);
+						this.getModel("LocalDataModel").setProperty("/ZcClaimHeadNewData", data.results);
+					}, this),
+					error: $.proxy(function () {
+						this.getView().getModel("DateModel").setProperty("/tableBusyIndicator", false);
+					}, this)
+				});
+			}
 
 		},
 
@@ -669,6 +666,8 @@ sap.ui.define([
 			this.getView().byId("idClaimType").setSelectedKey("");
 			this.getView().byId("idClaimStatus").setSelectedItems("");
 			this.getView().byId("idSearchBy").setSelectedKey("");
+			this.getView().getModel("DateModel").setProperty("/FinalProcessFrom", null);
+			this.getView().getModel("DateModel").setProperty("/FinalProcessTo", null);
 			this.getView().getModel("LocalDataModel").setProperty("/ZcClaimHeadNewData", []);
 
 		},
