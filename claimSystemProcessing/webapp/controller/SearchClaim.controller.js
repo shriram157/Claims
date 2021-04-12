@@ -612,7 +612,7 @@ sap.ui.define([
 				this.getView().getModel("DateModel").setProperty("/FinalProcessTo", null);
 
 			} else {
-
+				this.getView().getModel("DateModel").setProperty("/tableBusyIndicator", true);
 				oProssingModel.read("/ZC_CLAIM_HEAD_NEW", {
 					urlParameters: sParam,
 					success: $.proxy(function (data) {
@@ -621,6 +621,7 @@ sap.ui.define([
 					}, this),
 					error: $.proxy(function () {
 						this.getView().getModel("DateModel").setProperty("/tableBusyIndicator", false);
+						MessageToast.show(oBundle.getText("LimitSearch"));
 					}, this)
 				});
 			}
