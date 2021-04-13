@@ -602,12 +602,18 @@ sap.ui.define([
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 
 			if (DifferInDay > 90 && this.getView().byId("idSearchText").getValue() == "") {
-				MessageToast.show(oBundle.getText("seach90days"));
+				MessageToast.show(oBundle.getText("seach90days"), {
+					my: "center center",
+					at: "center center"
+				});
 				this.getView().getModel("DateModel").setProperty("/FinalProcessFrom", null);
 				this.getView().getModel("DateModel").setProperty("/FinalProcessTo", null);
 			} else if (DifferInDayforFnal > 90) {
 
-				MessageToast.show(oBundle.getText("seach90days"));
+				MessageToast.show(oBundle.getText("seach90days"), {
+					my: "center center",
+					at: "center center"
+				});
 				this.getView().getModel("DateModel").setProperty("/FinalProcessFrom", null);
 				this.getView().getModel("DateModel").setProperty("/FinalProcessTo", null);
 
@@ -621,7 +627,10 @@ sap.ui.define([
 					}, this),
 					error: $.proxy(function () {
 						this.getView().getModel("DateModel").setProperty("/tableBusyIndicator", false);
-						MessageToast.show(oBundle.getText("LimitSearch"));
+						MessageToast.show(oBundle.getText("LimitSearch"), {
+							my: "center center",
+							at: "center center"
+						});
 					}, this)
 				});
 			}
@@ -645,8 +654,11 @@ sap.ui.define([
 						}
 						oDialog.open();
 					}, this),
-					error: function () {
-
+					error: function (err) {
+						MessageToast.show(err, {
+							my: "center center",
+							at: "center center"
+						});
 					}
 				});
 
@@ -721,7 +733,13 @@ sap.ui.define([
 						});
 					}
 
-				}, this)
+				}, this),
+				error: function (err) {
+					MessageToast.show(err, {
+						my: "center center",
+						at: "center center"
+					});
+				}
 			});
 
 			// setTimeout(function(){ 
