@@ -4860,20 +4860,6 @@ sap.ui.define([
 												.results[0].OFPDescription);
 											this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", errorData.results[0].zc_claim_read_descriptionSet
 												.results[0].MainOpsCodeDescription);
-											// 			this.getView().getModel("HeadSetData").setProperty("/ReferenceDate", errorData.results[0].zc_claim_read_descriptionSet
-											// 				.results[0].ReferenceDate);
-
-											// 			this.getView().getModel("HeadSetData").setProperty("/DateOfApplication", errorData.results[0].zc_claim_read_descriptionSet
-											// 				.results[0].DateOfApplication);
-
-											// 			this.getView().getModel("HeadSetData").setProperty("/RepairDate", errorData.results[0].zc_claim_read_descriptionSet
-											// 				.results[0].RepairDate);
-											// 			this.getView().getModel("HeadSetData").setProperty("/PreviousROInvoiceDate", errorData.results[0].zc_claim_read_descriptionSet
-											// 				.results[0].PreviousROInvoiceDate);
-											// 			this.getView().getModel("HeadSetData").setProperty("/DeliveryDate", errorData.results[0].zc_claim_read_descriptionSet
-											// 				.results[0].DeliveryDate);
-											// 			this.getView().getModel("HeadSetData").setProperty("/AccessoryInstallDate", errorData.results[0].zc_claim_read_descriptionSet
-											// 				.results[0].AccessoryInstallDate);
 											this.getView().getModel("HeadSetData").setProperty("/HeadText", errorData.results[0].zc_claim_read_descriptionSet
 												.results[0].HeadText);
 										}, this)
@@ -4908,7 +4894,6 @@ sap.ui.define([
 					at: "center center"
 				});
 			}
-
 		},
 		onPressLinkAuthorization: function () {
 			var oProssingModel = this.getModel("ProssingModel");

@@ -5,8 +5,9 @@ sap.ui.define([
 	"sap/m/ViewSettingsDialog",
 	"sap/m/ViewSettingsItem",
 	"sap/ui/core/util/Export",
-	"sap/ui/core/util/ExportTypeCSV"
-], function (BaseController, ValueState, Sorter, ViewSettingsDialog, ViewSettingsItem, Export, ExportTypeCSV) {
+	"sap/ui/core/util/ExportTypeCSV",
+	'sap/m/MessageToast'
+], function (BaseController, ValueState, Sorter, ViewSettingsDialog, ViewSettingsItem, Export, ExportTypeCSV, MessageToast) {
 	"use strict";
 	return BaseController.extend("zclaimProcessing.controller.SearchClaim", {
 		onInit: function () {
@@ -211,30 +212,8 @@ sap.ui.define([
 			var oResult = [];
 			var issueDealer = this.getModel("LocalDataModel").getProperty("/currentIssueDealer");
 		},
-		createViewSettingsDialog: function (sDialogFragmentName) {
-			var oDialog = this._mViewSettingsDialogs[sDialogFragmentName];
-			if (!oDialog) {
-				oDialog = sap.ui.xmlfragment(sDialogFragmentName, this);
-				this._mViewSettingsDialogs[sDialogFragmentName] = oDialog;
-				this.getView().addDependent(oDialog);
-			}
-			return oDialog;
-		},
 		handleSortButtonPressed: function () {
-			this.createViewSettingsDialog("zclaimProcessing.view.fragments.SortOrder").open();
-			if (sSelectedLocale.toUpperCase() === "FR") {
-				setTimeout(function () {
-					var sInnerText = document.getElementById("idSort-sortorderlist").innerHTML;
-					
-					var sSortBy = sInnerText.replace("Sort By", "Tri");
-					var sAssecending = sSortBy.replace("Ascending", "Ascendant");
-					var sDescending = sAssecending.replace("Descending", "Descendant");
-					var sSortList = document.getElementById("idSort-sortlist").innerHTML;
-					var sSortObj = sSortList.replace("Sort Object", "Trier par");
-					document.getElementById("idSort-sortorderlist").innerHTML = sDescending;
-					document.getElementById("idSort-sortlist").innerHTML = sSortObj;
-				}, 300);
-			}
+			this._sortDialogPopUp();
 		},
 		handleSortDialogConfirm: function (oEvent) {
 			var oTable = this.byId("idClaimTable"),
@@ -324,13 +303,11 @@ sap.ui.define([
 						if (data.results.length > 0) {
 							//var oVinModel = data.results[0].Model;
 							if (data.results[0].Message == "Invalid VIN Number") {
-
 								this.getView().byId("idNewClaimMsgStrp").setProperty("visible", true);
 								this.getView().byId("idNewClaimMsgStrp").setText("Please Enter a Valid VIN.");
 								this.getView().byId("idNewClaimMsgStrp").setType("Error");
 								this.getView().byId("idSearchText").setValueState(ValueState.Error);
 							} else {
-
 								this.getView().byId("idNewClaimMsgStrp").setProperty("visible", false);
 								this.getView().byId("idNewClaimMsgStrp").setText("");
 								this.getView().byId("idNewClaimMsgStrp").setType("None");
@@ -351,15 +328,45 @@ sap.ui.define([
 			}
 		},
 		//Changes done on 02/03/2021 by singhmi start
-		onChangeSubDate: function (oEvent) {
-			if (oEvent.getSource().getValue() != "") {
-				oEvent.getSource().setValueState("None");
-			}
-		},
+
+		// onChangeSubDate: function (oEvent) {
+		// 	var DefaultToDate = new Date();
+		// 	var DefaulFromDate = new Date(new Date().setDate(DefaultToDate.getDate() - 30));
+		// 	var oBundle = this.getView().getModel("i18n").getResourceBundle();
+
+		// 	if (this.getView().getModel("DateModel").getProperty("/dateValueDRS2") != null && this.getView().getModel("DateModel").getProperty(
+		// 			"/secondDateValueDRS2") != null && this.getView().byId("idSearchText").getValue() == "") {
+
+		// 		var FinalSubFromFormated = moment(this.getView().getModel("DateModel").getProperty("/dateValueDRS2"), "YYYY-MM-DD");
+		// 		var FinalSubToFormated = moment(this.getView().getModel("DateModel").getProperty("/secondDateValueDRS2"), "YYYY-MM-DD");
+		// 		var DifferInDay = Math.round(moment.duration(FinalSubToFormated.diff(FinalSubFromFormated)).asDays());
+		// 		if (DifferInDay > 90) {
+		// 			MessageToast.show(oBundle.getText("seach90days"));
+		// 			this.getView().getModel("DateModel").setProperty("/dateValueDRS2", DefaulFromDate);
+		// 			this.getView().getModel("DateModel").setProperty("/secondDateValueDRS2", DefaultToDate);
+		// 		}
+		// 	}
+		// },
+		// onChangeFinalToDate: function (oEvent) {
+		// 	var oBundle = this.getView().getModel("i18n").getResourceBundle();
+
+		// 	if (this.getView().getModel("DateModel").getProperty("/FinalProcessFrom") != null && this.getView().getModel("DateModel").getProperty(
+		// 			"/FinalProcessTo") != null) {
+
+		// 		var FinalProFromFormated = moment(this.getView().getModel("DateModel").getProperty("/FinalProcessFrom"), "YYYY-MM-DD");
+		// 		var FinalProToFormated = moment(this.getView().getModel("DateModel").getProperty("/FinalProcessTo"), "YYYY-MM-DD");
+		// 		var DifferInDay = Math.round(moment.duration(FinalProToFormated.diff(FinalProFromFormated)).asDays());
+		// 		if (DifferInDay > 90) {
+		// 			MessageToast.show(oBundle.getText("seach90days"));
+		// 			this.getView().getModel("DateModel").setProperty("/FinalProcessFrom", null);
+		// 			this.getView().getModel("DateModel").setProperty("/FinalProcessTo", null);
+		// 		}
+		// 	}
+		// },
 		//Changes done on 02/03/2021 by singhmi end
+
 		onPressSearch: function () {
 			this.getView().getModel("LocalDataModel").setProperty("/oVisibleRowTR", 30);
-			this.getView().getModel("DateModel").setProperty("/tableBusyIndicator", true);
 			var oResultArray = [];
 			//this.getView().getModel("ProssingModel").setSizeLimit(1000);
 			var sQueryDealer = this.getView().byId("idDealerCode").getSelectedKey();
@@ -381,18 +388,25 @@ sap.ui.define([
 			var FinalProFrom = this.getView().getModel("DateModel").getProperty("/FinalProcessFrom");
 			var FinalProTo = this.getView().getModel("DateModel").getProperty("/FinalProcessTo");
 
-			var FinalProFromFormat, FinalProToFormat;
+			var FinalProFromFormat, FinalProToFormat, FromDateFormat, ToDateFormat, FinalProFromFormated, FinalProToFormated,
+				DifferInDayforFnal, DifferInDay;
 
 			if (FinalProFrom != null && FinalProTo != null) {
 				FinalProFromFormat = oDateFormat.format(FinalProFrom);
 				FinalProToFormat = oDateFormat.format(FinalProTo);
+				FinalProFromFormated = moment(FinalProFromFormat, "YYYY-MM-DD");
+				FinalProToFormated = moment(FinalProToFormat, "YYYY-MM-DD");
+				DifferInDayforFnal = Math.round(moment.duration(FinalProToFormated.diff(FinalProFromFormated)).asDays());
 			}
 			//Changes done on 02/03/2021 by singhmi start
 			if (FromDate != null && ToDate != null) {
 				this.getView().byId("DRS2").setValueState("None");
 				this.getView().byId("DRS3").setValueState("None");
-				var FromDateFormat = oDateFormat.format(FromDate);
-				var ToDateFormat = oDateFormat.format(ToDate);
+				FromDateFormat = oDateFormat.format(FromDate);
+				ToDateFormat = oDateFormat.format(ToDate);
+				FinalProFromFormated = moment(FromDateFormat, "YYYY-MM-DD");
+				FinalProToFormated = moment(ToDateFormat, "YYYY-MM-DD");
+				DifferInDay = Math.round(moment.duration(FinalProToFormated.diff(FinalProFromFormated)).asDays());
 			} else {
 				this.getView().byId("DRS2").setValueState("Error");
 				this.getView().byId("DRS3").setValueState("Error");
@@ -585,16 +599,41 @@ sap.ui.define([
 			}
 			// Phase2 changes for Claim Group multiple filter values end 18/02/2021 singhmi
 
-			oProssingModel.read("/ZC_CLAIM_HEAD_NEW", {
-				urlParameters: sParam,
-				success: $.proxy(function (data) {
-					this.getView().getModel("DateModel").setProperty("/tableBusyIndicator", false);
-					this.getModel("LocalDataModel").setProperty("/ZcClaimHeadNewData", data.results);
-				}, this),
-				error: $.proxy(function () {
-					this.getView().getModel("DateModel").setProperty("/tableBusyIndicator", false);
-				}, this)
-			});
+			var oBundle = this.getView().getModel("i18n").getResourceBundle();
+
+			if (DifferInDay > 90 && this.getView().byId("idSearchText").getValue() == "") {
+				MessageToast.show(oBundle.getText("seach90days"), {
+					my: "center center",
+					at: "center center"
+				});
+				this.getView().getModel("DateModel").setProperty("/FinalProcessFrom", null);
+				this.getView().getModel("DateModel").setProperty("/FinalProcessTo", null);
+			} else if (DifferInDayforFnal > 90) {
+
+				MessageToast.show(oBundle.getText("seach90days"), {
+					my: "center center",
+					at: "center center"
+				});
+				this.getView().getModel("DateModel").setProperty("/FinalProcessFrom", null);
+				this.getView().getModel("DateModel").setProperty("/FinalProcessTo", null);
+
+			} else {
+				this.getView().getModel("DateModel").setProperty("/tableBusyIndicator", true);
+				oProssingModel.read("/ZC_CLAIM_HEAD_NEW", {
+					urlParameters: sParam,
+					success: $.proxy(function (data) {
+						this.getView().getModel("DateModel").setProperty("/tableBusyIndicator", false);
+						this.getModel("LocalDataModel").setProperty("/ZcClaimHeadNewData", data.results);
+					}, this),
+					error: $.proxy(function () {
+						this.getView().getModel("DateModel").setProperty("/tableBusyIndicator", false);
+						MessageToast.show(oBundle.getText("LimitSearch"), {
+							my: "center center",
+							at: "center center"
+						});
+					}, this)
+				});
+			}
 
 		},
 
@@ -615,8 +654,11 @@ sap.ui.define([
 						}
 						oDialog.open();
 					}, this),
-					error: function () {
-
+					error: function (err) {
+						MessageToast.show(err, {
+							my: "center center",
+							at: "center center"
+						});
 					}
 				});
 
@@ -637,6 +679,8 @@ sap.ui.define([
 			this.getView().byId("idClaimType").setSelectedKey("");
 			this.getView().byId("idClaimStatus").setSelectedItems("");
 			this.getView().byId("idSearchBy").setSelectedKey("");
+			this.getView().getModel("DateModel").setProperty("/FinalProcessFrom", null);
+			this.getView().getModel("DateModel").setProperty("/FinalProcessTo", null);
 			this.getView().getModel("LocalDataModel").setProperty("/ZcClaimHeadNewData", []);
 
 		},
@@ -689,7 +733,13 @@ sap.ui.define([
 						});
 					}
 
-				}, this)
+				}, this),
+				error: function (err) {
+					MessageToast.show(err, {
+						my: "center center",
+						at: "center center"
+					});
+				}
 			});
 
 			// setTimeout(function(){ 
