@@ -478,19 +478,21 @@ sap.ui.define([
 							}
 						}
 
-						oProssingModel.read("/ZC_CLAIM_SUBLET_CODE", {
-							urlParameters: {
-								"$filter": "Clmty eq '" + data.results[0].WarrantyClaimType + "'and LanguageKey eq '" + sSelectedLocale.toUpperCase() +
-									"'"
-							},
-							success: $.proxy(function (subData) {
-								this.getModel("LocalDataModel").setProperty("/ClaimSubletCodeModel", subData.results);
+						this._fnSubletDropdown(data.results[0].WarrantyClaimType, sSelectedLocale);
 
-							}, this),
-							error: function (err) {
-								MessageToast.show(err);
-							}
-						});
+						// oProssingModel.read("/ZC_CLAIM_SUBLET_CODE", {
+						// 	urlParameters: {
+						// 		"$filter": "Clmty eq '" + data.results[0].WarrantyClaimType + "'and LanguageKey eq '" + sSelectedLocale.toUpperCase() +
+						// 			"'"
+						// 	},
+						// 	success: $.proxy(function (subData) {
+						// 		this.getModel("LocalDataModel").setProperty("/ClaimSubletCodeModel", subData.results);
+
+						// 	}, this),
+						// 	error: function (err) {
+						// 		MessageToast.show(err);
+						// 	}
+						// });
 
 						if (data.results[0].ExternalObjectNumber != "") {
 							//	this.getView().byId("idRequestType").setSelectedIndex(0);
@@ -2595,6 +2597,23 @@ sap.ui.define([
 			return bValidationError;
 		},
 
+		_fnSubletDropdown: function (clmType, sSelectedLocale) {
+			var oClaimModel = this.getModel("ProssingModel");
+			oClaimModel.read("/ZC_CLAIM_SUBLET_CODE", {
+				urlParameters: {
+					"$filter": "Clmty eq '" + clmType + "'and LanguageKey eq '" + sSelectedLocale.toUpperCase() +
+						"'"
+				},
+				success: $.proxy(function (subData) {
+					this.getModel("LocalDataModel").setProperty("/ClaimSubletCodeModel", subData.results);
+
+				}, this),
+				error: function (err) {
+					MessageToast.show(err);
+				}
+			});
+		},
+
 		_fnSaveClaim: function () {
 
 			var oValidator = new Validator();
@@ -2892,19 +2911,21 @@ sap.ui.define([
 
 								}
 
-								oClaimModel.read("/ZC_CLAIM_SUBLET_CODE", {
-									urlParameters: {
-										"$filter": "Clmty eq '" + sdata.results[0].WarrantyClaimType + "'and LanguageKey eq '" + sSelectedLocale.toUpperCase() +
-											"'"
-									},
-									success: $.proxy(function (subData) {
-										this.getModel("LocalDataModel").setProperty("/ClaimSubletCodeModel", subData.results);
+								this._fnSubletDropdown(sdata.results[0].WarrantyClaimType, sSelectedLocale);
 
-									}, this),
-									error: function (err) {
-										MessageToast.show(err);
-									}
-								});
+								// oClaimModel.read("/ZC_CLAIM_SUBLET_CODE", {
+								// 	urlParameters: {
+								// 		"$filter": "Clmty eq '" + sdata.results[0].WarrantyClaimType + "'and LanguageKey eq '" + sSelectedLocale.toUpperCase() +
+								// 			"'"
+								// 	},
+								// 	success: $.proxy(function (subData) {
+								// 		this.getModel("LocalDataModel").setProperty("/ClaimSubletCodeModel", subData.results);
+
+								// 	}, this),
+								// 	error: function (err) {
+								// 		MessageToast.show(err);
+								// 	}
+								// });
 
 							}, this),
 							error: function (err) {
@@ -7699,6 +7720,8 @@ sap.ui.define([
 									this._fnGetClaimTypeDescENFR();
 									WarrantyDataManager._fnSrNumVisible(this, bindObj.ClaimGroup, this.getModel("LocalDataModel").getProperty(
 										"/oClaimSelectedGroup"));
+										
+									this._fnSubletDropdown(sdata.results[0].WarrantyClaimType, sSelectedLocale);
 
 								}, this)
 							})
