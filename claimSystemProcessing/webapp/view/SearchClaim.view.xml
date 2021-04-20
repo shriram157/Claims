@@ -36,16 +36,12 @@
 												<Label text="{i18n>ClaimSubDate}" required="true" textAlign="Begin" id="idCLREDate"/>
 												<!--<DateRangeSelection id="DRS2" dateValue="{path:'DateModel>/dateValueDRS2'}" secondDateValue="{path:'DateModel>/secondDateValueDRS2'}"-->
 												<!--	minDate="" maxDate="" change="handleChange"/>-->
-												<DatePicker   valueState="None" required="true" id="DRS2" dateValue="{path:'DateModel>/dateValueDRS2'}">
+												<DatePicker valueState="None" required="true" id="DRS2" dateValue="{path:'DateModel>/dateValueDRS2'}">
 													<layoutData>
 														<l:GridData span="XL3 L3 M3 S12"/>
 													</layoutData>
 												</DatePicker>
-												<Text text="to" textAlign="Center">
-													<layoutData>
-														<l:GridData span="XL1 L1 M3 S12"/>
-													</layoutData>
-												</Text>
+												<Text text="to" textAlign="Center"></Text>
 												<DatePicker id="DRS3" valueState="None" required="true" dateValue="{path:'DateModel>/secondDateValueDRS2'}">
 													<layoutData>
 														<l:GridData span="XL3 L3 M3 S12"/>
@@ -68,17 +64,13 @@
 												<Label text="{i18n>FinalProcessedDate}" textAlign="Begin" id="idClmFinalSub"/>
 												<!--<DateRangeSelection id="DRS2" dateValue="{path:'DateModel>/dateValueDRS2'}" secondDateValue="{path:'DateModel>/secondDateValueDRS2'}"-->
 												<!--	minDate="" maxDate="" change="handleChange"/>-->
-												<DatePicker dateValue="{path:'DateModel>/FinalProcessFrom'}" >
+												<DatePicker dateValue="{path:'DateModel>/FinalProcessFrom'}">
 													<layoutData>
 														<l:GridData span="XL3 L3 M3 S12"/>
 													</layoutData>
 												</DatePicker>
-												<Text text="to" textAlign="Center">
-													<layoutData>
-														<l:GridData span="XL1 L1 M3 S12"/>
-													</layoutData>
-												</Text>
-												<DatePicker dateValue="{path:'DateModel>/FinalProcessTo'}" >
+												<Text text="to" textAlign="Center"/>
+												<DatePicker dateValue="{path:'DateModel>/FinalProcessTo'}">
 													<layoutData>
 														<l:GridData span="XL3 L3 M3 S12"/>
 													</layoutData>
@@ -119,8 +111,9 @@
 					</uxap:ObjectPageSubSection>
 					<uxap:ObjectPageSubSection>
 						<uxap:blocks>
-							<ScrollContainer horizontal="true" height="25rem" width="100%" vertical="true" focusable="true">
-								<Table width="100%" id="idClaimTable" noDataText="{i18n>NoData}" mode="None" busy="{DateModel>/tableBusyIndicator}"
+							<ScrollContainer height="12rem" width="100%" vertical="true" focusable="true">
+								<Table width="100%" class="sapUiLargeMarginBottom" id="idClaimTable" noDataText="{i18n>NoData}" mode="None"
+									busy="{DateModel>/tableBusyIndicator}"
 									items="{path:'LocalDataModel>/ZcClaimHeadNewData', sorter:{path:'NumberOfWarrantyClaim', descending : false}}" growing="true"
 									growingThreshold="25" growingScrollToLoad="false" growingTriggerText="{i18n>Loadmore}">
 									<columns>
