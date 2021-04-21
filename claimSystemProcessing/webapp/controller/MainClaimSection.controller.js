@@ -4860,6 +4860,8 @@ sap.ui.define([
 								},
 								success: $.proxy(function (cdata) {
 									this.getView().getModel("HeadSetData").setData(cdata.results[0]);
+									this.getModel("LocalDataModel").setProperty("/HeadAtchmentData", []);
+									this.getModel("LocalDataModel").setProperty("/SubletPricingDataModel", []);
 
 									if (cdata.results[0].DecisionCode == "ZTAA") {
 										this.getView().getModel("DateModel").setProperty("/copyClaimEnable", true);
