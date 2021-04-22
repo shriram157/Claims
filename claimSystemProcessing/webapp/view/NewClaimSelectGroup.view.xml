@@ -11,7 +11,7 @@
 							<VBox>
 								<MessageStrip id="idNewClaimMsgStrp" text="" showIcon="true" showCloseButton="false" class="sapUiMediumMarginBottom" visible="false"></MessageStrip>
 								<f:SimpleForm id="SimpleFormChange354" editable="true" layout="ResponsiveGridLayout" title="" labelSpanXL="4" labelSpanL="4" labelSpanM="3"
-									labelSpanS="12" adjustLabelSpan="false" emptySpanXL="2" emptySpanL="2" emptySpanM="0" emptySpanS="0" columnsXL="3" columnsL="3" columnsM="2"
+									labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="2"
 									singleContainerFullSize="false">
 									<f:content>
 										<core:Title text="{i18n>SelectClaimGroupType}"/>
@@ -21,6 +21,9 @@
 												<!--<core:Item text="{LocalDataModel>ClaimGroupDes}" key="{LocalDataModel>ClaimGroupDes}"/>-->
 												<core:Item key="{LocalDataModel>ClaimGroup}" text="{LocalDataModel>ClaimGroupDes}"/>
 											</items>
+											<layoutData>
+												<l:GridData span="XL5 L5"/>
+											</layoutData>
 										</Select>
 										<Label text="{i18n>RequestType}" textAlign="Begin"/>
 										<RadioButtonGroup selectedIndex="0" columns="2" id="idRequestType" select="onSelectRequestType01" enabled="{LocalDataModel>/RadioEdit}">
@@ -30,8 +33,16 @@
 											</buttons>
 										</RadioButtonGroup>
 										<core:Title text=""/>
-										<Button text="{i18n>Next}" type="Emphasized" press="onClaimAuthorization"/>
-										<Button text="{i18n>Cancel}" type="Reject" press="onPressCancel"/>
+										<Button text="{i18n>Next}" type="Emphasized" press="onClaimAuthorization">
+											<layoutData>
+												<l:GridData span="XL3 L3 "/>
+											</layoutData>
+										</Button>
+										<Button text="{i18n>Cancel}" type="Reject" press="onPressCancel">
+											<layoutData>
+												<l:GridData span="XL3 L3 "/>
+											</layoutData>
+										</Button>
 									</f:content>
 								</f:SimpleForm>
 							</VBox>

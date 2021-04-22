@@ -211,7 +211,9 @@ sap.ui.define([
 			var sDate = "";
 			var oResult = [];
 			var issueDealer = this.getModel("LocalDataModel").getProperty("/currentIssueDealer");
+
 		},
+		
 		handleSortButtonPressed: function () {
 			this._sortDialogPopUp();
 		},
@@ -759,14 +761,7 @@ sap.ui.define([
 
 				exportType: new sap.ui.core.util.ExportTypeCSV({
 
-					separatorChar: "\t",
-
-					mimeType: "application/vnd.ms-excel",
-
-					charset: "utf-8",
-
-					fileExtension: "xls"
-
+					fileExtension: "csv"
 				}),
 
 				models: this.getOwnerComponent().getModel("LocalDataModel"),
@@ -777,190 +772,101 @@ sap.ui.define([
 
 				},
 
-				columns: [
-
-					{
-
-						name: oBundle.getText("TCIClaim"),
-
-						template: {
-
-							content: "{NumberOfWarrantyClaim}"
-
-						}
-
-					}, {
-
-						name: oBundle.getText("DealerClaim"),
-
-						template: {
-
-							content: "{ExternalNumberOfClaim}"
-
-						}
-
-					}, {
-
-						name: oBundle.getText("RepairOrder"),
-
-						template: {
-
-							content: "{RepairOrderNumberExternal}"
-
-						}
-
-					}, {
-
-						name: oBundle.getText("RepairOrderDate"),
-
-						template: {
-
-							content: "{path:'RepairDate', formatter:'zclaimProcessing.utils.formatter.fnDateFormat'}"
-
-						}
-
-					}, {
-
-						name: oBundle.getText("ClaimSubmissionDate"),
-
-						template: {
-
-							content: "{path:'ReferenceDate', formatter:'zclaimProcessing.utils.formatter.fnDateFormat'}"
-
-						}
-
-					}, {
-
-						name: oBundle.getText("ClaimType"),
-
-						template: {
-
-							content: "{WarrantyClaimType}"
-
-						}
-
-					}, {
-
-						name: oBundle.getText("VIN"),
-
-						template: {
-
-							content: "{ExternalObjectNumber}"
-
-						}
-
-					}, {
-
-						name: oBundle.getText("ClaimStatus"),
-
-						template: {
-
-							content: "{DecisionCode}"
-
-						}
-
-					}, {
-
-						name: oBundle.getText("OFP"),
-
-						template: {
-
-							content: "{OFP}"
-
-						}
-
-					}, {
-
-						name: oBundle.getText("MainOpCode"),
-
-						template: {
-
-							content: "{MainOpsCode}"
-
-						}
-
-					}, {
-
-						name: oBundle.getText("ClaimAge"),
-
-						template: {
-
-							content: "{ClaimAge}"
-
-						}
-
-					}, {
-
-						name: oBundle.getText("ClaimAmount"),
-
-						template: {
-
-							content: "{ClaimAmountSum}"
-
-						}
-
-					}, {
-
-						name: oBundle.getText("AuthorizationNumber"),
-
-						template: {
-
-							content: "{AuthorizationNumber}"
-
-						}
-
-					}, {
-
-						name: oBundle.getText("FinalProcessedDate"),
-
-						template: {
-
-							content: "{path:'FinalProcdDate', formatter:'zclaimProcessing.utils.formatter.fnDateFormat'}"
-
-						}
-
-					}, {
-
-						name: oBundle.getText("Odometer"),
-
-						template: {
-
-							content: "{Odometer}"
-
-						}
-
-					}, {
-
-						name: oBundle.getText("Parts"),
-
-						template: {
-
-							content: "{PartPrice}"
-
-						}
-
-					}, {
-
-						name: oBundle.getText("Labour"),
-
-						template: {
-
-							content: "{LabourPrice}"
-
-						}
-
-					}, {
-
-						name: oBundle.getText("Sublet"),
-
-						template: {
-
-							content: "{SubletPrice}"
-
-						}
-
+				columns: [{
+					name: oBundle.getText("TCIClaim"),
+					template: {
+						content: "{NumberOfWarrantyClaim}"
 					}
-				]
+				}, {
+					name: oBundle.getText("DealerClaim"),
+					template: {
+						content: "{ExternalNumberOfClaim}"
+					}
+				}, {
+					name: oBundle.getText("RepairOrder"),
+					template: {
+						content: "{RepairOrderNumberExternal}"
+					}
+				}, {
+					name: oBundle.getText("RepairOrderDate"),
+					template: {
+						content: "{path:'RepairDate', formatter:'zclaimProcessing.utils.formatter.fnDateFormat'}"
+					}
+				}, {
+					name: oBundle.getText("ClaimSubmissionDate"),
+					template: {
+						content: "{path:'ReferenceDate', formatter:'zclaimProcessing.utils.formatter.fnDateFormat'}"
+					}
+				}, {
+					name: oBundle.getText("ClaimType"),
+					template: {
+						content: "{WarrantyClaimType}"
+					}
+
+				}, {
+					name: oBundle.getText("VIN"),
+					template: {
+						content: "{ExternalObjectNumber}"
+					}
+
+				}, {
+					name: oBundle.getText("ClaimStatus"),
+					template: {
+						content: "{DecisionCode}"
+					}
+				}, {
+					name: oBundle.getText("OFP"),
+					template: {
+						content: "{OFP}"
+					}
+				}, {
+					name: oBundle.getText("MainOpCode"),
+					template: {
+						content: "{MainOpsCode}"
+					}
+				}, {
+					name: oBundle.getText("ClaimAge"),
+					template: {
+						content: "{ClaimAge}"
+					}
+
+				}, {
+					name: oBundle.getText("ClaimAmount"),
+					template: {
+						content: "{ClaimAmountSum}"
+					}
+
+				}, {
+					name: oBundle.getText("AuthorizationNumber"),
+					template: {
+						content: "{AuthorizationNumber}"
+					}
+				}, {
+					name: oBundle.getText("FinalProcessedDate"),
+					template: {
+						content: "{path:'FinalProcdDate', formatter:'zclaimProcessing.utils.formatter.fnDateFormat'}"
+					}
+				}, {
+					name: oBundle.getText("Odometer"),
+					template: {
+						content: "{Odometer}"
+					}
+				}, {
+					name: oBundle.getText("Parts"),
+					template: {
+						content: "{PartPrice}"
+					}
+				}, {
+					name: oBundle.getText("Labour"),
+					template: {
+						content: "{LabourPrice}"
+					}
+				}, {
+					name: oBundle.getText("Sublet"),
+					template: {
+						content: "{SubletPrice}"
+					}
+				}]
 			});
 
 			//* download exported file

@@ -438,15 +438,17 @@
 			</HBox>
 			<HBox width="100%" class="sapUiTinyMarginBottom clflexDirectionChange">
 				<VBox class="sapUiSmallMarginEnd clwidhth30">
-					<Label text="{i18n>Cause}" required="true" width="100%"/>
-					<TextArea width="100%" maxLength="100" growing="true" required="true" editable="{DateModel>/oFormEdit}" id="idCause"
-						value="{path:'HeadSetData>/Cause',type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 100 }}"></TextArea>
-				</VBox>
-				<VBox class="sapUiSmallMarginEnd clwidhth30">
 					<Label text="{i18n>Condition}" required="true" width="100%"/>
 					<TextArea width="100%" maxLength="100" growing="true" required="true" id="idCondition" editable="{DateModel>/oFormEdit}"
 						value="{path:'HeadSetData>/ZCondition', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 100 }}"></TextArea>
 				</VBox>
+				
+				<VBox class="sapUiSmallMarginEnd clwidhth30">
+					<Label text="{i18n>Cause}" required="true" width="100%"/>
+					<TextArea width="100%" maxLength="100" growing="true" required="true" editable="{DateModel>/oFormEdit}" id="idCause"
+						value="{path:'HeadSetData>/Cause',type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 100 }}"></TextArea>
+				</VBox>
+				
 				<VBox class="clwidhth30">
 					<Label text="{i18n>Remedy}" required="true" width="100%"/>
 					<TextArea width="100%" id="idRemedy" growing="true" required="true" editable="{DateModel>/oFormEdit}" maxLength="100"
