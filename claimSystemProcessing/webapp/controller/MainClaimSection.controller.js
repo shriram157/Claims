@@ -4003,13 +4003,7 @@ sap.ui.define([
 									return item;
 
 								});
-
-								//this.getModel("LocalDataModel").setProperty("/oAttachmentSet", odata.results);
-								//this.getView().getModel("ClaimModel").setProperty("/" + "/items", oArr);
 								this.getModel("LocalDataModel").setProperty("/HeadAtchmentData", oAttachSet);
-
-								// // this.getModel("LocalDataModel").setProperty("/oAttachmentSet", );
-								// this.getView().getModel("ClaimModel").setProperty(sCurrentPath + "/items", odata.results);
 							}, this)
 						});
 
