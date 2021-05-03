@@ -247,6 +247,8 @@ sap.ui.define([
 			this.getModel("LocalDataModel").setProperty("/IndicatorState", false);
 			this.getView().byId("ObjectPageLayout")._scrollTo(0,0);
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
+			BpDealerList = [];
+			this.getView().getModel("BpDealerModel").setProperty("/BpDealerList", []);
 
 			var oMultiHeaderConfig = {
 				multiheader1: [3, 1],
@@ -1672,7 +1674,6 @@ sap.ui.define([
 				if (this.getView().getModel("PartDataModel").getProperty("/PartQty") == "" ||
 					this.getView().getModel("PartDataModel").getProperty("/PartQty") == "0") {
 					this.getView().getModel("DateModel").setProperty("/partTypeState", "None");
-
 					Qty = "0.000";
 				} else {
 					this.getView().getModel("DateModel").setProperty("/partTypeState", "None");
@@ -4221,6 +4222,7 @@ sap.ui.define([
 								this.getView().getModel("HeadSetData").setProperty("/ShipmentReceivedDate", that.DataRes1.ShipmentReceivedDate);
 								this.getView().getModel("HeadSetData").setProperty("/ReferenceDate", that.DataRes1.ReferenceDate);
 								this.getView().getModel("HeadSetData").setProperty("/DateOfApplication", that.DataRes1.DateOfApplication);
+								this.claimType = sdata.results[0].WarrantyClaimType;
 								PmpDataManager._fnStatusCheck(this);
 
 								this.ClaimStatus = this.getModel("LocalDataModel").getProperty("/ClaimDetails/DecisionCode");
