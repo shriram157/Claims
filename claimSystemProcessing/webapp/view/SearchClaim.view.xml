@@ -103,7 +103,7 @@
 										<ToolbarSpacer/>
 										<Button tooltip="" icon="sap-icon://sort" press="handleSortButtonPressed"/>
 										<OverflowToolbarButton type="Transparent" icon="sap-icon://excel-attachment" iconFirst="true" width="auto" enabled="true"
-											iconDensityAware="false" press="onExport"/>
+											iconDensityAware="false" press="onTableExport"/>
 									</Toolbar>
 								</headerToolbar>
 							</Table>
@@ -182,7 +182,8 @@
 												<Text text="{LocalDataModel>ExternalNumberOfClaim}"/>
 												<Text text="{LocalDataModel>RepairOrderNumberExternal}"/>
 												<Text text="{path:'LocalDataModel>RepairDate', formatter:'zclaimProcessing.utils.formatter.fnDateFormat'}"/>
-											
+												<!--<Text text="{path:'LocalDataModel>RepairDate'}"/>-->
+												<!--<Text text="{path:'LocalDataModel>ReferenceDate'}"/>-->
 												<Text text="{path:'LocalDataModel>ReferenceDate', formatter:'zclaimProcessing.utils.formatter.fnDateFormat'}"/>
 												<Text text="{LocalDataModel>WarrantyClaimType}"/>
 												<Text text="{LocalDataModel>ExternalObjectNumber}"/>

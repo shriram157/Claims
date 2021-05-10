@@ -6,11 +6,8 @@ sap.ui.define([
 	"sap/m/ViewSettingsItem",
 	"sap/ui/core/util/Export",
 	"sap/ui/core/util/ExportTypeCSV",
-	'sap/m/MessageToast',
-	'sap/ui/export/library',
-	'sap/ui/export/Spreadsheet'
-], function (BaseController, ValueState, Sorter, ViewSettingsDialog, ViewSettingsItem, Export, ExportTypeCSV, MessageToast, exportLibrary,
-	Spreadsheet) {
+	'sap/m/MessageToast'
+], function (BaseController, ValueState, Sorter, ViewSettingsDialog, ViewSettingsItem, Export, ExportTypeCSV, MessageToast) {
 	"use strict";
 	return BaseController.extend("zclaimProcessing.controller.SearchClaim", {
 		onInit: function () {
@@ -216,7 +213,7 @@ sap.ui.define([
 			var issueDealer = this.getModel("LocalDataModel").getProperty("/currentIssueDealer");
 
 		},
-
+		
 		handleSortButtonPressed: function () {
 			this._sortDialogPopUp();
 		},
@@ -755,46 +752,6 @@ sap.ui.define([
 		onCreateNewClaim: function () {
 			this.getRouter().navTo("NewClaimSelectGroup");
 
-		},
-
-		createColumnConfig: function () {
-			var oBundle = this.getView().getModel("i18n").getResourceBundle();
-			var EdmType = exportLibrary.EdmType;
-			var aCols = [];
-
-			aCols.push({
-				label: oBundle.getText("ClaimAge"),
-				property: 'ClaimAge',
-				type: EdmType.String
-			});
-
-			return aCols;
-		},
-
-		onExport: function () {
-			var aCols, oRowBinding, oSettings, oSheet, oTable;
-
-			if (!this._oTable) {
-				this._oTable = this.byId('idClaimTable');
-			}
-
-			oTable = this._oTable;
-			oRowBinding = oTable.getBinding('items');
-			aCols = this.createColumnConfig();
-
-			oSettings = {
-				workbook: {
-					columns: aCols
-				},
-				dataSource: oRowBinding,
-				fileName: 'Table export sample.xlsx',
-				worker: true // We need to disable worker because we are using a MockServer as OData Service
-			};
-
-			oSheet = new Spreadsheet(oSettings);
-			oSheet.build().finally(function () {
-				oSheet.destroy();
-			});
 		},
 
 		onTableExport: function (oEvent) {
