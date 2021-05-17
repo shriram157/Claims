@@ -57,9 +57,9 @@
 			<Table id="idPaintTable" mode="SingleSelectLeft" items="{path: 'LocalDataModel>/PaintPricingDataModel'}" growing="true" growingThreshold="5"
 				noDataText="{i18n>NoData}" showNoData="true">
 				<columns>
-					<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Begin"><Text text="{i18n>Line}"/></Column>
-					<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Begin"><Text text="{i18n>MainOp}"/></Column>
-					<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center"><Text text="{i18n>PositionCode}"/></Column>
+					<Column minScreenWidth="Desktop" demandPopin="true" hAlign="Begin"><Text text="{i18n>Line}"/></Column>
+					<Column minScreenWidth="Desktop" demandPopin="true" hAlign="Begin"><Text text="{i18n>MainOp}"/></Column>
+					<Column minScreenWidth="Desktop" demandPopin="true" hAlign="Center"><Text text="{i18n>PositionCode}"/></Column>
 				</columns>
 				<items>
 					<ColumnListItem vAlign="Middle">
