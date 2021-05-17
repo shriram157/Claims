@@ -82,7 +82,7 @@
 		<Table id="idLabourTable" mode="SingleSelectLeft" items="{path: 'LocalDataModel>/LabourPricingDataModel'}" growing="true"
 			growingThreshold="30" noDataText="{i18n>NoData}" showNoData="true">
 			<columns>
-				<Column minScreenWidth="Desktop"  width="4rem" demandPopin="true" hAlign="Center"><Text text="{i18n>Line}"/></Column>
+				<Column minScreenWidth="Desktop"  width="4rem" demandPopin="true" hAlign="Left"><Text text="{i18n>Line}"/></Column>
 				<Column minScreenWidth="Desktop" width="5rem" visible="{DateModel>/MainOpEnabled}" demandPopin="true" hAlign="Center"><Text text="{i18n>MainOp}"/></Column>
 				<Column minScreenWidth="Desktop" width="11rem"  demandPopin="true" hAlign="Center"><Text text="{i18n>OperationNumber}"/></Column>
 				<Column minScreenWidth="Desktop"  demandPopin="true" hAlign="Center"><Text text="{i18n>Description}"/>

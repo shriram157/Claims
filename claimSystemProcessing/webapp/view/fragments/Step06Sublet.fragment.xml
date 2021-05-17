@@ -105,7 +105,7 @@
 		<Table id="idSubletTable" mode="SingleSelectLeft" items="{path: 'LocalDataModel>/SubletPricingDataModel'}" growing="true"
 			growingThreshold="5" noDataText="{i18n>NoData}" showNoData="true">
 			<columns>
-				<Column minScreenWidth="Desktop" demandPopin="true" hAlign="Center" width="4rem"><Text text="{i18n>Line}"/></Column>
+				<Column minScreenWidth="Desktop" demandPopin="true" hAlign="Left" width="4rem"><Text text="{i18n>Line}"/></Column>
 				<Column minScreenWidth="Desktop" demandPopin="true" hAlign="Center"><Text text="{i18n>SubletType}" textAlign="Center"/></Column>
 				<Column minScreenWidth="Desktop" demandPopin="true" hAlign="Center"><Text text="{i18n>Invoice}" textAlign="Center"/></Column>
 				<Column minScreenWidth="Desktop" demandPopin="true" hAlign="Center"><Text text="{i18n>Attachment}" textAlign="Center"/></Column>
