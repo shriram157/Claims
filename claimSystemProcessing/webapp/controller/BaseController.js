@@ -32,6 +32,7 @@ sap.ui.define([
 			return this.getOwnerComponent().getModel(sName);
 		},
 		handleNavHeaderPress: function (oEvent) {
+			this.getModel("LocalDataModel").setProperty("/StatusDes", "");
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var oGetText = oEvent.getSource().getText();
 			if (oGetText === oBundle.getText("NewClaim")) {
