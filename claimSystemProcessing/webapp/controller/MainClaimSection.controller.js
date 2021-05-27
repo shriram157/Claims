@@ -4774,7 +4774,7 @@ sap.ui.define([
 
 				} else if (oClaimType != "ZAUT" || oClaimType != "ZACD") {
 					this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", true);
-					oClaimModel.read("/zc_claim_copy_to_authSet(NumberOfWarrantyClaim='" + oAuthNum + "')", {
+					oClaimModel.read("/zc_claim_copy_to_authSet(NumberOfWarrantyClaim='" + oAuthNum + "',Language='"+sSelectedLocale.toUpperCase()+"')", {
 						success: $.proxy(function (data) {
 							var oClaimNum = data.NumberOfAuth;
 							MessageToast.show(oBundle.getText("Claimhasbeensavedsuccessfully"), {
