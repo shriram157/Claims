@@ -9,6 +9,12 @@ sap.ui.define([
 	'sap/m/MessageToast'
 ], function (BaseController, ValueState, Sorter, ViewSettingsDialog, ViewSettingsItem, Export, ExportTypeCSV, MessageToast) {
 	"use strict";
+	// sap.ui.Device.media.attachHandler(function(param){
+	// 	alert(sap.ui.Device.resize.width);
+	// });
+	// sap.ui.Device.media.detachHandler(function(param){
+	// 	alert("detached");
+	// });
 	return BaseController.extend("zclaimProcessing.controller.SearchClaim", {
 		onInit: function () {
 			this.getModel("LocalDataModel").setProperty("/oVisibleRowTR", 0);
@@ -110,7 +116,8 @@ sap.ui.define([
 				prevBtnVsbl: false,
 				nextBtnVsbl: false,
 				FinalProcessFrom: null,
-				FinalProcessTo: null
+				FinalProcessTo: null,
+				tableHeight : "7rem"
 			});
 			this.getView().setModel(oDateModel, "DateModel");
 			var oBusinessModel = this.getModel("ApiBusinessModel");
@@ -185,7 +192,33 @@ sap.ui.define([
 			this._mViewSettingsDialogs = {};
 
 			this.getModel("LocalDataModel").setProperty("/oSelectedStatusKeys", ["ZTRC", "ZTIC", "ZTMR"]);
+			
+			jQuery(window).on("resize", this.fnResizeHandler.bind(this));
 
+		},
+		
+		fnResizeHandler : function(){
+			this.byId("idClaimTable");
+			var sLength = this.getModel("LocalDataModel").getProperty("/ZcClaimHeadNewData").length; 
+			if(sLength > 0){
+				
+				if(window.innerWidth >= 1280){
+					if(sLength < 20){
+						this.getView().getModel("DateModel").setProperty("/tableHeight", (9+sLength)+"rem");
+					}else{
+					this.getView().getModel("DateModel").setProperty("/tableHeight", "30rem");
+					}
+				}else{
+					if(sLength < 20){
+						this.getView().getModel("DateModel").setProperty("/tableHeight", (8+sLength)+"rem");
+					}else{
+					this.getView().getModel("DateModel").setProperty("/tableHeight", "20rem");
+					}
+				}
+			}else{
+				
+				this.getView().getModel("DateModel").setProperty("/tableHeight", "7rem");
+			}
 		},
 
 		_onObjectMatched: function (oEvent) {
@@ -626,6 +659,7 @@ sap.ui.define([
 					success: $.proxy(function (data) {
 						this.getView().getModel("DateModel").setProperty("/tableBusyIndicator", false);
 						this.getModel("LocalDataModel").setProperty("/ZcClaimHeadNewData", data.results);
+						this.fnResizeHandler();
 					}, this),
 					error: $.proxy(function () {
 						this.getView().getModel("DateModel").setProperty("/tableBusyIndicator", false);
@@ -640,7 +674,6 @@ sap.ui.define([
 		},
 
 		handleDealerLabourInq: function (oEvent) {
-
 			var oDialog;
 			var selectedKey = this.getView().byId("idDealerCode").getSelectedKey();
 

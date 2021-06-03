@@ -4642,10 +4642,9 @@ sap.ui.define([
 			var oClaimGroup = this.getModel("LocalDataModel").getProperty("/WarrantyClaimTypeGroup");
 			var oAuthNum = this.getView().getModel("HeadSetData").getProperty("/NumberOfWarrantyClaim");
 			if (oAuthNum != "" && oAuthNum != undefined) {
-
 				if (oClaimType == "ZAUT" || oClaimType == "ZACD") {
 					this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", true);
-					oClaimModel.read("/zc_auth_copy_to_claimSet(NumberOfAuth='" + oAuthNum + "')", {
+					oClaimModel.read("/zc_auth_copy_to_claimSet(NumberOfAuth='" + oAuthNum + "',Language='"+sSelectedLocale.toUpperCase()+"')", {
 
 						success: $.proxy(function (data) {
 
@@ -4775,10 +4774,8 @@ sap.ui.define([
 
 				} else if (oClaimType != "ZAUT" || oClaimType != "ZACD") {
 					this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", true);
-					oClaimModel.read("/zc_claim_copy_to_authSet(NumberOfWarrantyClaim='" + oAuthNum + "')", {
-
+					oClaimModel.read("/zc_claim_copy_to_authSet(NumberOfWarrantyClaim='" + oAuthNum + "',Language='"+sSelectedLocale.toUpperCase()+"')", {
 						success: $.proxy(function (data) {
-
 							var oClaimNum = data.NumberOfAuth;
 							MessageToast.show(oBundle.getText("Claimhasbeensavedsuccessfully"), {
 								my: "center center",
