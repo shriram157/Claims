@@ -6114,6 +6114,7 @@ sap.ui.define([
 						at: "center center"
 					});
 				} else {
+					
 					//INC0192568 changed in ClaimedHours
 					var itemObj = {
 						"Type": "LABOUR",
