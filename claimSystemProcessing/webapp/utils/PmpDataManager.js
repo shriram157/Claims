@@ -152,7 +152,7 @@ sap.ui.define([
 			elm.obj.CompetitorProv = elm.getView().byId("administrative_area_level_1").getValue() || "";
 			elm.obj.CompetitorPost = elm.getView().byId("postal_code").getValue() || "";
 			elm.obj.QuoteDate = this._fnDateFormat(elm.getView().getModel("HeadSetData").getProperty("/QuoteDate"));
-			elm.obj.RebateAmount = elm.getView().getModel("HeadSetData").getProperty("/RebateAmount");
+			elm.obj.RebateAmount = elm.getView().getModel("HeadSetData").getProperty("/RebateAmount") || "0.00";
 			elm.obj.NameOfPersonRespWhoChangedObj =  elm.getModel("LocalDataModel").getProperty("/LoginId");
 		},
 		_fnDateFormat: function (elm) {
