@@ -4644,7 +4644,7 @@ sap.ui.define([
 			if (oAuthNum != "" && oAuthNum != undefined) {
 				if (oClaimType == "ZAUT" || oClaimType == "ZACD") {
 					this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", true);
-					oClaimModel.read("/zc_auth_copy_to_claimSet(NumberOfAuth='" + oAuthNum + "')", {
+					oClaimModel.read("/zc_auth_copy_to_claimSet(NumberOfAuth='" + oAuthNum + "',Language='" + sSelectedLocale.toUpperCase() + "')", {
 
 						success: $.proxy(function (data) {
 
