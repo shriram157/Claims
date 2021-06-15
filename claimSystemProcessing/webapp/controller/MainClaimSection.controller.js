@@ -4644,7 +4644,7 @@ sap.ui.define([
 			if (oAuthNum != "" && oAuthNum != undefined) {
 				if (oClaimType == "ZAUT" || oClaimType == "ZACD") {
 					this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", true);
-					oClaimModel.read("/zc_auth_copy_to_claimSet(NumberOfAuth='" + oAuthNum + "',Language='"+sSelectedLocale.toUpperCase()+"')", {
+					oClaimModel.read("/zc_auth_copy_to_claimSet(NumberOfAuth='" + oAuthNum + "',Language='" + sSelectedLocale.toUpperCase() + "')", {
 
 						success: $.proxy(function (data) {
 
@@ -4774,132 +4774,133 @@ sap.ui.define([
 
 				} else if (oClaimType != "ZAUT" || oClaimType != "ZACD") {
 					this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", true);
-					oClaimModel.read("/zc_claim_copy_to_authSet(NumberOfWarrantyClaim='" + oAuthNum + "',Language='"+sSelectedLocale.toUpperCase()+"')", {
-						success: $.proxy(function (data) {
-							var oClaimNum = data.NumberOfAuth;
-							MessageToast.show(oBundle.getText("Claimhasbeensavedsuccessfully"), {
-								my: "center center",
-								at: "center center"
-							});
+					oClaimModel.read("/zc_claim_copy_to_authSet(NumberOfWarrantyClaim='" + oAuthNum + "',Language='" + sSelectedLocale.toUpperCase() +
+						"')", {
+							success: $.proxy(function (data) {
+								var oClaimNum = data.NumberOfAuth;
+								MessageToast.show(oBundle.getText("Claimhasbeensavedsuccessfully"), {
+									my: "center center",
+									at: "center center"
+								});
 
-							this.getView().getModel("DateModel").setProperty("/warrantySubmissionClaim", true);
-							oClaimModel.read("/zc_authorization_detailsSet", {
-								urlParameters: {
-									"$filter": "ClaimNumber eq '" + oClaimNum + "'"
-								},
-								success: $.proxy(function (oAuthData) {
-									if (oAuthData.results.length > 0) {
-										this.getModel("LocalDataModel").setProperty("/DataAuthDetails", oAuthData.results[0]);
-										this.getView().getModel("DateModel").setProperty("/chngClaimTypeVisible", false);
-									}
-								}, this)
-							});
-							oClaimModel.read("/zc_authorizationSet", {
-								urlParameters: {
-									"$filter": "DBOperation eq 'LINK'and Numberofwarrantyclaim eq '" + oClaimNum + "'and  AuthorizationNumber eq '" +
-										oAuthNum +
-										"'and Language eq '" + sSelectedLocale.toUpperCase() +
-										"'and DealerPer eq '00'and CustomerPer eq '00'and TCIPer eq '00'and PartPer eq '00'and LabourPer eq '00'and SubletPer eq '00'"
-								},
-								success: $.proxy(function (sdata) {
+								this.getView().getModel("DateModel").setProperty("/warrantySubmissionClaim", true);
+								oClaimModel.read("/zc_authorization_detailsSet", {
+									urlParameters: {
+										"$filter": "ClaimNumber eq '" + oClaimNum + "'"
+									},
+									success: $.proxy(function (oAuthData) {
+										if (oAuthData.results.length > 0) {
+											this.getModel("LocalDataModel").setProperty("/DataAuthDetails", oAuthData.results[0]);
+											this.getView().getModel("DateModel").setProperty("/chngClaimTypeVisible", false);
+										}
+									}, this)
+								});
+								oClaimModel.read("/zc_authorizationSet", {
+									urlParameters: {
+										"$filter": "DBOperation eq 'LINK'and Numberofwarrantyclaim eq '" + oClaimNum + "'and  AuthorizationNumber eq '" +
+											oAuthNum +
+											"'and Language eq '" + sSelectedLocale.toUpperCase() +
+											"'and DealerPer eq '00'and CustomerPer eq '00'and TCIPer eq '00'and PartPer eq '00'and LabourPer eq '00'and SubletPer eq '00'"
+									},
+									success: $.proxy(function (sdata) {
 
-									this.getView().getModel("DataPercetCalculate").setData(sdata.results[0]);
-									var ocust = parseInt(sdata.results[0].CustomerPer).toString();
-									var odeal = parseInt(sdata.results[0].DealerPer).toString();
-									var otci = parseInt(sdata.results[0].TCIPer).toString();
-									var oPartPer = parseInt(sdata.results[0].PartPer).toString();
-									var oLabourPer = parseInt(sdata.results[0].LabourPer).toString();
-									var oSubletPer = parseInt(sdata.results[0].SubletPer).toString();
-									var oGroupDescription = this.getModel("LocalDataModel").getProperty("/GroupDescriptionName");
-									//this._fncheckClaimWithZGGW(oPartPer, oLabourPer, oSubletPer);
+										this.getView().getModel("DataPercetCalculate").setData(sdata.results[0]);
+										var ocust = parseInt(sdata.results[0].CustomerPer).toString();
+										var odeal = parseInt(sdata.results[0].DealerPer).toString();
+										var otci = parseInt(sdata.results[0].TCIPer).toString();
+										var oPartPer = parseInt(sdata.results[0].PartPer).toString();
+										var oLabourPer = parseInt(sdata.results[0].LabourPer).toString();
+										var oSubletPer = parseInt(sdata.results[0].SubletPer).toString();
+										var oGroupDescription = this.getModel("LocalDataModel").getProperty("/GroupDescriptionName");
+										//this._fncheckClaimWithZGGW(oPartPer, oLabourPer, oSubletPer);
 
-									//added for authorization claim
+										//added for authorization claim
 
-									this.getView().byId("idAuthorizationLinkForm").setProperty("visible", true);
-									this.getView().byId("idClaimPrOpt").setProperty("visible", true);
-									this.getView().byId("idAuthorizationForm").setProperty("visible", true);
+										this.getView().byId("idAuthorizationLinkForm").setProperty("visible", true);
+										this.getView().byId("idClaimPrOpt").setProperty("visible", true);
+										this.getView().byId("idAuthorizationForm").setProperty("visible", true);
 
-									this.getModel("LocalDataModel").setProperty("/AuthGWVisible", false);
-									if (oPartPer != "0" || oLabourPer != "0" || oSubletPer != "0") {
-										this.getView().byId("idPricingOpt").setSelectedIndex(1);
-										this.getView().byId("idParticiaptionTable").setProperty("visible", false);
-										this.getView().byId("idDiscountTable").setProperty("visible", true);
-									} else {
-										this.getView().byId("idPricingOpt").setSelectedIndex(0);
-										this.getView().byId("idParticiaptionTable").setProperty("visible", true);
-										this.getView().byId("idDiscountTable").setProperty("visible", false);
-									}
-									//added for authorization claim
+										this.getModel("LocalDataModel").setProperty("/AuthGWVisible", false);
+										if (oPartPer != "0" || oLabourPer != "0" || oSubletPer != "0") {
+											this.getView().byId("idPricingOpt").setSelectedIndex(1);
+											this.getView().byId("idParticiaptionTable").setProperty("visible", false);
+											this.getView().byId("idDiscountTable").setProperty("visible", true);
+										} else {
+											this.getView().byId("idPricingOpt").setSelectedIndex(0);
+											this.getView().byId("idParticiaptionTable").setProperty("visible", true);
+											this.getView().byId("idDiscountTable").setProperty("visible", false);
+										}
+										//added for authorization claim
 
-									this.getView().getModel("DataPercetCalculate").setProperty("/CustomerPer", ocust);
-									this.getView().getModel("DataPercetCalculate").setProperty("/DealerPer", odeal);
-									this.getView().getModel("DataPercetCalculate").setProperty("/TCIPer", otci);
+										this.getView().getModel("DataPercetCalculate").setProperty("/CustomerPer", ocust);
+										this.getView().getModel("DataPercetCalculate").setProperty("/DealerPer", odeal);
+										this.getView().getModel("DataPercetCalculate").setProperty("/TCIPer", otci);
 
-									this.getView().getModel("DataPercetCalculate").setProperty("/PartPer", oPartPer);
-									this.getView().getModel("DataPercetCalculate").setProperty("/LabourPer", oLabourPer);
-									this.getView().getModel("DataPercetCalculate").setProperty("/SubletPer", oSubletPer);
-									this._fnClaimSum();
-									this._fnClaimSumPercent();
-									this._fnPricingData(oClaimNum);
+										this.getView().getModel("DataPercetCalculate").setProperty("/PartPer", oPartPer);
+										this.getView().getModel("DataPercetCalculate").setProperty("/LabourPer", oLabourPer);
+										this.getView().getModel("DataPercetCalculate").setProperty("/SubletPer", oSubletPer);
+										this._fnClaimSum();
+										this._fnClaimSumPercent();
+										this._fnPricingData(oClaimNum);
 
-									this.getView().getModel("DateModel").setProperty("/updateEnable", true);
-								}, this)
-							});
-							oClaimModel.read("/ZC_CLAIM_HEAD_NEW", {
-								urlParameters: {
-									"$filter": "NumberOfWarrantyClaim eq '" + oClaimNum + "'"
-								},
-								success: $.proxy(function (cdata) {
-									this.getView().getModel("HeadSetData").setData(cdata.results[0]);
-									this.getModel("LocalDataModel").setProperty("/HeadAtchmentData", []);
-									this.getModel("LocalDataModel").setProperty("/SubletPricingDataModel", []);
+										this.getView().getModel("DateModel").setProperty("/updateEnable", true);
+									}, this)
+								});
+								oClaimModel.read("/ZC_CLAIM_HEAD_NEW", {
+									urlParameters: {
+										"$filter": "NumberOfWarrantyClaim eq '" + oClaimNum + "'"
+									},
+									success: $.proxy(function (cdata) {
+										this.getView().getModel("HeadSetData").setData(cdata.results[0]);
+										this.getModel("LocalDataModel").setProperty("/HeadAtchmentData", []);
+										this.getModel("LocalDataModel").setProperty("/SubletPricingDataModel", []);
 
-									if (cdata.results[0].DecisionCode == "ZTAA") {
-										this.getView().getModel("DateModel").setProperty("/copyClaimEnable", true);
-									} else {
-										this.getView().getModel("DateModel").setProperty("/copyClaimEnable", false);
-									}
+										if (cdata.results[0].DecisionCode == "ZTAA") {
+											this.getView().getModel("DateModel").setProperty("/copyClaimEnable", true);
+										} else {
+											this.getView().getModel("DateModel").setProperty("/copyClaimEnable", false);
+										}
 
-									oClaimModel.read("/zc_headSet", {
-										urlParameters: {
-											"$filter": "NumberOfWarrantyClaim eq '" + oClaimNum +
-												"'and LanguageKey eq '" + sSelectedLocale.toUpperCase() + "'",
-											"$expand": "zc_claim_vsrSet,zc_claim_read_descriptionSet"
-										},
-										success: $.proxy(function (errorData) {
-											this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", false);
-											this.getModel("LocalDataModel").setProperty("/oErrorSet", errorData.results[0].zc_claim_vsrSet.results);
-											this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", errorData.results[0].zc_claim_read_descriptionSet
-												.results[0].OFPDescription);
-											this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", errorData.results[0].zc_claim_read_descriptionSet
-												.results[0].MainOpsCodeDescription);
-											this.getView().getModel("HeadSetData").setProperty("/HeadText", errorData.results[0].zc_claim_read_descriptionSet
-												.results[0].HeadText);
-										}, this)
-									});
+										oClaimModel.read("/zc_headSet", {
+											urlParameters: {
+												"$filter": "NumberOfWarrantyClaim eq '" + oClaimNum +
+													"'and LanguageKey eq '" + sSelectedLocale.toUpperCase() + "'",
+												"$expand": "zc_claim_vsrSet,zc_claim_read_descriptionSet"
+											},
+											success: $.proxy(function (errorData) {
+												this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", false);
+												this.getModel("LocalDataModel").setProperty("/oErrorSet", errorData.results[0].zc_claim_vsrSet.results);
+												this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", errorData.results[0].zc_claim_read_descriptionSet
+													.results[0].OFPDescription);
+												this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", errorData.results[0].zc_claim_read_descriptionSet
+													.results[0].MainOpsCodeDescription);
+												this.getView().getModel("HeadSetData").setProperty("/HeadText", errorData.results[0].zc_claim_read_descriptionSet
+													.results[0].HeadText);
+											}, this)
+										});
 
-									PmpDataManager._fnStatusCheck(this);
-									this._fnGetClaimTypeDescENFR();
-									this.getModel("LocalDataModel").setProperty("/WarrantyClaimNum", oClaimNum);
-									this.getModel("LocalDataModel").setProperty("/WarrantyClaimNumber", oBundle.getText("TCIAuthNumber") + " : " +
-										oClaimNum);
+										PmpDataManager._fnStatusCheck(this);
+										this._fnGetClaimTypeDescENFR();
+										this.getModel("LocalDataModel").setProperty("/WarrantyClaimNum", oClaimNum);
+										this.getModel("LocalDataModel").setProperty("/WarrantyClaimNumber", oBundle.getText("TCIAuthNumber") + " : " +
+											oClaimNum);
 
-									this.getModel("LocalDataModel").setProperty("/linkToAuth", false);
-									this.getModel("LocalDataModel").setProperty("/reCalculate", true);
-									this.getModel("LocalDataModel").setProperty("/PercentState", true);
-									this.getModel("LocalDataModel").setProperty("/copyClaimAuthText", oBundle.getText("CopytoClaim"));
-									this.getModel("LocalDataModel").setProperty("/SaveAuthClaim", oBundle.getText("SaveAuth"));
-								}, this)
-							});
-						}, this),
-						error: $.proxy(function (error) {
-							this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", false);
-							MessageToast.show(JSON.parse(error.responseText).error.message.value, {
-								my: "center center",
-								at: "center center"
-							});
-						}, this)
-					});
+										this.getModel("LocalDataModel").setProperty("/linkToAuth", false);
+										this.getModel("LocalDataModel").setProperty("/reCalculate", true);
+										this.getModel("LocalDataModel").setProperty("/PercentState", true);
+										this.getModel("LocalDataModel").setProperty("/copyClaimAuthText", oBundle.getText("CopytoClaim"));
+										this.getModel("LocalDataModel").setProperty("/SaveAuthClaim", oBundle.getText("SaveAuth"));
+									}, this)
+								});
+							}, this),
+							error: $.proxy(function (error) {
+								this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", false);
+								MessageToast.show(JSON.parse(error.responseText).error.message.value, {
+									my: "center center",
+									at: "center center"
+								});
+							}, this)
+						});
 				}
 			} else {
 				MessageToast.show(oBundle.getText("PleasecreateclaimNumber"), {
@@ -6113,12 +6114,12 @@ sap.ui.define([
 						at: "center center"
 					});
 				} else {
-
+					//INC0192568 changed in ClaimedHours
 					var itemObj = {
 						"Type": "LABOUR",
 						"ItemType": "FR",
 						"LabourNumber": this.getView().getModel("LabourDataModel").getProperty("/LabourOp"),
-						"ClaimedHours": oClaimHr,
+						"ClaimedHours": parseFloat(oClaimHr).toFixed(1),
 						"LabourDescription": this.getView().getModel("LabourDataModel").getProperty("/LabourDescription")
 					};
 
@@ -6164,7 +6165,7 @@ sap.ui.define([
 						}, this),
 						error: $.proxy(function (err) {
 							MessageToast.show(oBundle.getText("SystemInternalError"));
-							this.getView().getModel("DateModel").setProperty("/errorBusyIndicator", false);
+							this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", false);
 						}, this)
 					});
 				}
@@ -7712,7 +7713,7 @@ sap.ui.define([
 									this._fnGetClaimTypeDescENFR();
 									WarrantyDataManager._fnSrNumVisible(this, bindObj.ClaimGroup, this.getModel("LocalDataModel").getProperty(
 										"/oClaimSelectedGroup"));
-										
+
 									this._fnSubletDropdown(sdata.results[0].WarrantyClaimType, sSelectedLocale);
 
 								}, this)

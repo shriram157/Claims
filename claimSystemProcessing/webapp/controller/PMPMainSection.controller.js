@@ -1458,7 +1458,7 @@ sap.ui.define([
 		onStep03Next: function (oEvent) {
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var that = this;
-			var oRebt = parseInt(this.getView().getModel("HeadSetData").getProperty("/RebateAmount"));
+			var oRebt = parseFloat(this.getView().getModel("HeadSetData").getProperty("/RebateAmount")).toFixed(2) || "0.00";
 			//this.getView().getModel("DateModel").setProperty("/errorBusyIndicator", false);
 			if (this.getView().getModel("HeadSetData").getProperty("/CustomerFullName") != "") {
 				var oClaimModel = this.getModel("zDLRCLAIMPMPSRV");
@@ -1467,7 +1467,7 @@ sap.ui.define([
 						"$filter": "CompetitorName eq '" + this.getView().getModel("HeadSetData").getProperty("/CustomerFullName") + "'"
 					},
 					success: $.proxy(function (data) {
-						if (data.results[0].RebateApply == "Y" && oRebt == 0) {
+						if (data.results[0].RebateApply == "Y" && oRebt == "0.00") {
 
 							var dialog = new Dialog({
 								title: oBundle.getText("EnterRebate"),

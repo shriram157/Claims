@@ -489,8 +489,8 @@
 			<f:content>
 				<core:Title/>
 				<Label text="{i18n>PreviousROInvoice}"/>
-				<Input maxLength="20" required="{DateModel>/oPrevInvNumReq}" id="idPreInvNum"
-					value="{path:'HeadSetData>/PreviousROInvoice', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 20 }}"
+				<Input maxLength="15" required="{DateModel>/oPrevInvNumReq}" id="idPreInvNum"
+					value="{path:'HeadSetData>/PreviousROInvoice', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 15 }}"
 					editable="{DateModel>/oFormEdit}"/>
 				<core:Title/>
 				<Label text="{i18n>ROInvoiceDate}"/>
