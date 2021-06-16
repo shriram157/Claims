@@ -550,7 +550,7 @@ sap.ui.define([
 				this.obj.RebateAmount = "0.00";
 				this.getView().getModel("HeadSetData").setProperty("/RebateAmount", "0.00");
 			} else {
-				this.obj.RebateAmount = this.getView().getModel("HeadSetData").getProperty("/RebateAmount");
+				this.obj.RebateAmount = parseFloat(this.getView().getModel("HeadSetData").getProperty("/RebateAmount")).toFixed(2);
 			}
 
 			this._fnUpdateClaim();
