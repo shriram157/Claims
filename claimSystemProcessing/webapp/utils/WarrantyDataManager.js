@@ -173,7 +173,8 @@ sap.ui.define([
 				chngClaimTypeVisible: false,
 				serialNoV: false,
 				enableVLC: false,
-				MainOpEnabled:true
+				MainOpEnabled:true,
+				submitVisible : true
 			});
 			return elm.getView().setModel(oDateModel, "DateModel");
 		},

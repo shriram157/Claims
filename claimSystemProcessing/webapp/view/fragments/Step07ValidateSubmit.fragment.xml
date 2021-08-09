@@ -5,7 +5,7 @@
 	<VBox class="sapUiSmallMarginBottom"></VBox>	
 		<core:Fragment fragmentName="zclaimProcessing.view.fragments.WarrantyPartClaimAmountSummery" type="XML"/>
 		<VBox>
-			<List headerText="{i18n>Validations}" items="{ path: 'LocalDataModel>/oErrorSet' }" busy="{DateModel>/errorBusyIndicator}" noDataText="{i18n>NoData}">
+			<List headerText="{i18n>Validations}" items="{ path: 'LocalDataModel>/oErrorSet' }" noDataText="{i18n>NoData}">
 				<CustomListItem>
 					<HBox>
 						<Text text="{i18n>Error} : {LocalDataModel>NUMBER}" class="sapUiTinyMarginEnd"/>
@@ -18,8 +18,8 @@
 			</List>
 			<HBox alignContent="Center" justifyContent="Center" class="sapUiSmallMarginTop sapUiLargeMarginBottom">
 				<Button class="sapUiTinyMarginBeginEnd" type="Back" press="onStep07Back" text="{i18n>Back}"/>
-				<Button class="sapUiTinyMarginBeginEnd" press="onRevalidate" text="{i18n>SaveClaim}" enabled="{DateModel>/SaveClaim07}"/>
-				<Button class="sapUiTinyMarginBeginEnd" press="onSubmitTci" text="{i18n>SubmitToTCI}" type="Emphasized" enabled="{DateModel>/oFormEdit}"/>
+				<Button class="sapUiTinyMarginBeginEnd" press="onUpdateClaim" text="{i18n>SaveClaim}" enabled="{DateModel>/SaveClaim07}"/>
+				<Button visible="{DateModel>/submitVisible}" class="sapUiTinyMarginBeginEnd" press="onSubmitTci" text="{i18n>SubmitToTCI}" type="Emphasized" enabled="{DateModel>/oFormEdit}"/>
 				<Button text="{i18n>GeneratePackingSlip}" press="onPressPackingSlip" visible="{DateModel>/oSlipVisible}"/>
 			</HBox>
 		</VBox>
