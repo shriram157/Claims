@@ -3584,10 +3584,15 @@ sap.ui.define([
 														this.getView().getModel("HeadSetData").setProperty("/HeadText", errorData.results[0].zc_claim_read_descriptionSet
 															.results[0].HeadText);
 
-														if (this.getModel("LocalDataModel").getProperty("/oIDBtn") != this.getModel("LocalDataModel").getProperty(
-																"/SaveAuthClaim")) {
-															this.getRouter().navTo("SearchClaim");
-														}
+														if (
+															this.getModel("LocalDataModel").getProperty("/oIDBtn") != this.getModel("LocalDataModel").getProperty("/SaveAuthClaim") &&
+															this.getModel("LocalDataModel").getProperty("/oIDBtn") != oBundle.getText("ChangeClaimType") &&
+															this.getModel("LocalDataModel").getProperty("/oIDBtn") != ""
+													       
+															) 
+															{
+																this.getRouter().navTo("SearchClaim");
+															}
 
 													}, this)
 												});
@@ -6986,7 +6991,7 @@ sap.ui.define([
 			}
 		},
 		onSubmitTci: function (oEvent) {
-           this.getView().getModel("DateModel").setProperty("/submitVisible", false);
+           //this.getView().getModel("DateModel").setProperty("/submitVisible", false);
 			var bValidationError;
 
 			var that = this;
@@ -7087,11 +7092,10 @@ sap.ui.define([
 				buttons: [
 					new Button({
 						text: oBundle.getText("Yes"),
-						enabled : true,
-						press: $.proxy(function (oEv) {
+						press: $.proxy(function () {
 							dialog.close();
-							oEv.getSource().setProperty("enabled", false);
-							this.getView().getModel("DateModel").setProperty("/submitVisible", true);
+							
+						//	this.getView().getModel("DateModel").setProperty("/submitVisible", true);
 							 
 							if (bValidationError) {
 								this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", false);
