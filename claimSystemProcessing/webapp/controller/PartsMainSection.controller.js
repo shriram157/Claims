@@ -1456,6 +1456,7 @@ sap.ui.define([
 			this._valueHelpDialog.open();
 		},
 		_handleValueHelpClose: function (evt) {
+			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			if (this.partsInput02 == true) {
 				this.oSelectedItem02 = evt.getParameter("selectedItem");
 			} else {
@@ -1472,11 +1473,15 @@ sap.ui.define([
 			}
 			if (this.oSelectedItem02) {
 				var productInput02 = this.byId(this.inputId02);
+					// changes done by Minakshi for INC0192568	start
 				if (this.getView().getModel("PartDataModel").getProperty("/DiscreCode") == "4A" &&
 					this.oSelectedItem02.getTitle() == this.oSelectedItem.getTitle()
 				) {
+				
 					productInput02.setValue("");
 					this.getView().getModel("HeadSetData").setProperty("/PartNumberRcDesc", "");
+					MessageToast.show(oBundle.getText("wrongPartmismatchError"));
+						// changes done by Minakshi for INC0192568	end
 				} else {
 					productInput02.setValue(this.oSelectedItem02.getTitle());
 					this.getView().getModel("HeadSetData").setProperty("/PartNumberRcDesc", this.oSelectedItem02.getDescription());
