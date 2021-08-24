@@ -1480,7 +1480,11 @@ sap.ui.define([
 				
 					productInput02.setValue("");
 					this.getView().getModel("HeadSetData").setProperty("/PartNumberRcDesc", "");
-					MessageToast.show(oBundle.getText("wrongPartmismatchError"));
+					MessageToast.show(oBundle.getText("wrongPartmismatchError"),
+						{
+							my: "center center",
+							at: "center center"
+						});
 						// changes done by Minakshi for INC0192568	end
 				} else {
 					productInput02.setValue(this.oSelectedItem02.getTitle());
