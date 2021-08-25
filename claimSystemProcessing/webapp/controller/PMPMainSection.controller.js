@@ -550,7 +550,7 @@ sap.ui.define([
 				this.obj.RebateAmount = "0.00";
 				this.getView().getModel("HeadSetData").setProperty("/RebateAmount", "0.00");
 			} else {
-				this.obj.RebateAmount = this.getView().getModel("HeadSetData").getProperty("/RebateAmount");
+				this.obj.RebateAmount = parseFloat(this.getView().getModel("HeadSetData").getProperty("/RebateAmount")).toFixed(2);
 			}
 
 			this._fnUpdateClaim();
@@ -712,14 +712,14 @@ sap.ui.define([
 							}, this),
 							error: $.proxy(function (err) {
 								MessageToast.show(oBundle.getText("SystemInternalError"));
-								this.getView().getModel("DateModel").setProperty("/errorBusyIndicator", false);
+								this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", false);
 							}, this)
 						});
 
 					}, this),
 					error: $.proxy(function (err) {
 						MessageToast.show(oBundle.getText("SystemInternalError"));
-						this.getView().getModel("DateModel").setProperty("/errorBusyIndicator", false);
+						this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", false);
 					}, this)
 				});
 			}
@@ -856,7 +856,7 @@ sap.ui.define([
 					}, this),
 					error: $.proxy(function (err) {
 						MessageToast.show(oBundle.getText("SystemInternalError"));
-						this.getView().getModel("DateModel").setProperty("/errorBusyIndicator", false);
+						this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", false);
 					}, this)
 				});
 			}
@@ -997,7 +997,7 @@ sap.ui.define([
 					new Button({
 						text: oBundle.getText("Cancel"),
 						press: $.proxy(function () {
-							this.getView().getModel("DateModel").setProperty("/errorBusyIndicator", false);
+							this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", false);
 							dialog.close();
 						}, this)
 					})
@@ -1195,7 +1195,7 @@ sap.ui.define([
 											}, this),
 											error: $.proxy(function (err) {
 												MessageToast.show(oBundle.getText("SystemInternalError"));
-												this.getView().getModel("DateModel").setProperty("/errorBusyIndicator", false);
+												this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", false);
 											}, this)
 										});
 
@@ -1208,7 +1208,7 @@ sap.ui.define([
 									}, this),
 									error: $.proxy(function (err) {
 										MessageToast.show(oBundle.getText("SystemInternalError"));
-										this.getView().getModel("DateModel").setProperty("/errorBusyIndicator", false);
+										this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", false);
 									}, this)
 								});
 								dialog.close();
@@ -1333,7 +1333,7 @@ sap.ui.define([
 								});
 
 							} else {
-								this.getView().getModel("DateModel").setProperty("/errorBusyIndicator", true);
+								this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", true);
 								oClaimModel.refreshSecurityToken();
 								oClaimModel.create("/ZC_HEAD_PMPSet", this.obj, {
 									success: $.proxy(function (data, response) {
@@ -1358,7 +1358,7 @@ sap.ui.define([
 											}, this),
 											error: $.proxy(function (err) {
 												MessageToast.show(oBundle.getText("SystemInternalError"));
-												this.getView().getModel("DateModel").setProperty("/errorBusyIndicator", false);
+												this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", false);
 											}, this)
 										});
 
@@ -1372,7 +1372,7 @@ sap.ui.define([
 
 												this.getModel("LocalDataModel").setProperty("/oErrorSet", errorData.results[0].zc_claim_vsrSet.results);
 
-												this.getView().getModel("DateModel").setProperty("/errorBusyIndicator", false);
+												this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", false);
 												this.obj.zc_claim_vsrSet.results.pop(oObj);
 											}, this)
 										});
@@ -1414,7 +1414,7 @@ sap.ui.define([
 									}, this),
 									error: $.proxy(function (err) {
 										MessageToast.show(oBundle.getText("SystemInternalError"));
-										this.getView().getModel("DateModel").setProperty("/errorBusyIndicator", false);
+										this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", false);
 									}, this)
 								});
 							}
@@ -1424,7 +1424,7 @@ sap.ui.define([
 					new Button({
 						text: oBundle.getText("Cancel"),
 						press: $.proxy(function () {
-							this.getView().getModel("DateModel").setProperty("/errorBusyIndicator", false);
+							this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", false);
 							dialog.close();
 						}, this)
 					})
@@ -1459,7 +1459,7 @@ sap.ui.define([
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var that = this;
 			var oRebt = parseFloat(this.getView().getModel("HeadSetData").getProperty("/RebateAmount")).toFixed(2) || "0.00";
-			//this.getView().getModel("DateModel").setProperty("/errorBusyIndicator", false);
+			//this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", false);
 			if (this.getView().getModel("HeadSetData").getProperty("/CustomerFullName") != "") {
 				var oClaimModel = this.getModel("zDLRCLAIMPMPSRV");
 				oClaimModel.read("/ZC_COMPTREBATE", {
@@ -1480,7 +1480,7 @@ sap.ui.define([
 									new Button({
 										text: oBundle.getText("Yes"),
 										press: $.proxy(function () {
-											this.getView().getModel("DateModel").setProperty("/errorBusyIndicator", false);
+											this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", false);
 
 											dialog.close();
 											document.getElementById(this.getView().byId("idRebateAmt").sId + "-inner").focus();
@@ -1490,7 +1490,7 @@ sap.ui.define([
 									new Button({
 										text: oBundle.getText("No"),
 										press: $.proxy(function () {
-											this.getView().getModel("DateModel").setProperty("/errorBusyIndicator", false);
+											this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", false);
 											this.getView().byId("idFilter07").setProperty("enabled", true);
 											this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab7");
 											this.getView().byId("mainSectionTitle").setTitle(oBundle.getText("ClaimPartsSection"));
@@ -1517,7 +1517,7 @@ sap.ui.define([
 					}, this)
 				});
 			} else {
-				this.getView().getModel("DateModel").setProperty("/errorBusyIndicator", false);
+				this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", false);
 				this.getView().byId("idFilter07").setProperty("enabled", true);
 				this.getView().byId("idIconTabMainClaim").setSelectedKey("Tab7");
 				this.getView().byId("mainSectionTitle").setTitle(oBundle.getText("ClaimPartsSection"));
