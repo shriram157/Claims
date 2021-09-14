@@ -723,16 +723,17 @@ sap.ui.define([
 			var oClaimNum = oEvent.getSource().getText();
 			var oClaimModel = this.getModel("ProssingModel");
 
-			oClaimModel.read("/ZC_CLAIM_HEAD_NEW", {
-				urlParameters: {
-					"$filter": "NumberOfWarrantyClaim eq '" + oClaimNum + "'"
-				},
-				success: $.proxy(function (sdata) {
+			// oClaimModel.read("/ZC_CLAIM_HEAD_NEW", {
+			// 	urlParameters: {
+			// 		"$filter": "NumberOfWarrantyClaim eq '" + oClaimNum + "'"
+			// 	},
+			// 	success: $.proxy(function (sdata) {
 					//console.log(sdata);
 					//this.getModel("LocalDataModel").setProperty("/ClaimDetails", sdata.results[0]);
-					var oClaimType = sdata.results[0].WarrantyClaimType;
+					var sdata = this.getModel("LocalDataModel").getProperty("/ZcClaimHeadNewData").filter(item => item.NumberOfWarrantyClaim == oClaimNum);
+					var oClaimType = sdata[0].WarrantyClaimType;
 					//var oClaimGroup = sdata.results[0].WarrantyClaimGroupDes;
-					var claimTypeGroup = sdata.results[0].ClaimGroup;
+					var claimTypeGroup = sdata[0].ClaimGroup;
 
 					if (oClaimType == "ZACD" || oClaimType == "ZAUT") {
 						this.oSelectedClaimGroup = "Authorization";
@@ -768,14 +769,14 @@ sap.ui.define([
 						});
 					}
 
-				}, this),
-				error: function (err) {
-					MessageToast.show(err, {
-						my: "center center",
-						at: "center center"
-					});
-				}
-			});
+				//}, this),
+				// error: function (err) {
+				// 	MessageToast.show(err, {
+				// 		my: "center center",
+				// 		at: "center center"
+				// 	});
+				// }
+		//	});
 
 			// setTimeout(function(){ 
 			// 	$("html, body").animate({ scrollTop: 0 }, "slow");
