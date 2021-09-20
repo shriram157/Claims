@@ -3965,10 +3965,10 @@ sap.ui.define([
 			//var oFileExt = oUploadedFileArr[0].length;
 			var oFileName = this.oUploadedFile.name;
 
-			if (oURI == null) {
+			//if (oURI == null) {
 
 				//MessageBox.warning(oBundle.getText("Error.PopUpBloqued"));
-			}
+			//}
 
 			if (oFileName.indexOf("#") == -1 && oFileName.indexOf("%") == -1) {
 				var fileNamePrior = "HEAD@@@" + oFileName;
@@ -4021,7 +4021,7 @@ sap.ui.define([
 
 					}, this),
 					error: $.proxy(function (err) {
-						MessageToast.show(err);
+						MessageToast.show(err.message);
 						this.getModel("LocalDataModel").setProperty("/IndicatorState", false);
 					}, this)
 				});
@@ -5653,6 +5653,7 @@ sap.ui.define([
 								this.obj.NumberOfWarrantyClaim = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 								this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", true);
 								oClaimModel.refreshSecurityToken();
+								
 								oClaimModel.create("/zc_headSet", this.obj, {
 									success: $.proxy(function (data, response) {
 										this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", false);
@@ -6227,6 +6228,7 @@ sap.ui.define([
 								this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", true);
 								var oClaimModel = this.getModel("ProssingModel");
 								this.obj.DBOperation = "SAVE";
+								this.obj.NumberOfWarrantyClaim = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 								oClaimModel.refreshSecurityToken();
 								oClaimModel.create("/zc_headSet", this.obj, {
 									success: $.proxy(function (data, response) {
@@ -6416,6 +6418,7 @@ sap.ui.define([
 								var oIndex = parseInt(oTable._aSelectedPaths.toString().split("/")[2]);
 								this.obj.zc_claim_item_paintSet.results.splice(oIndex, 1);
 								this.obj.DBOperation = "SAVE";
+								this.obj.NumberOfWarrantyClaim = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 								this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", true);
 								var oClaimModel = this.getModel("ProssingModel");
 								oClaimModel.refreshSecurityToken();
@@ -6743,7 +6746,7 @@ sap.ui.define([
 								this.obj.zc_item_subletSet.results.splice(oFindIndexOfSelectedObj, 1);
 								var oClaimModel = this.getModel("ProssingModel");
 								this.obj.DBOperation = "SAVE";
-
+								this.obj.NumberOfWarrantyClaim = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 								oClaimModel.refreshSecurityToken();
 								oClaimModel.create("/zc_headSet", this.obj, {
 									success: $.proxy(function (data, response) {
