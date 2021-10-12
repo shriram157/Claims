@@ -3890,12 +3890,12 @@ sap.ui.define([
 		onUplaodChange: function (oEvent) {
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			this.getModel("LocalDataModel").setProperty("/IndicatorState", true);
-
+			var ifileLength = this.getModel("LocalDataModel").getProperty("/HeadAtchmentData").length;
 			//this.obj.Message = "";
 			this.obj.NumberOfWarrantyClaim = oClaimNum;
 			var reader = new FileReader();
-
-			if (oClaimNum != "" && oClaimNum != undefined) {
+//INC0196563 by Minakshi
+			if (oClaimNum != "" && oClaimNum != undefined  && ifileLength <=9) {
 				this.oUploadedFile = oEvent.getParameter("files")[0];
 				if (FileReader.prototype.readAsBinaryString === undefined) {
 					FileReader.prototype.readAsBinaryString = function (fileData) {
@@ -3924,6 +3924,12 @@ sap.ui.define([
 
 				}, this);
 
+			}else if (ifileLength > 9) {
+				this.getModel("LocalDataModel").setProperty("/IndicatorState", false);
+				MessageToast.show(oBundle.getText("attachmentLimit"), {
+					my: "center center",
+					at: "center center"
+				});
 			} else {
 				MessageToast.show(oBundle.getText("PleaseSaveClaimtryAttachments"), {
 					my: "center center",
@@ -3969,7 +3975,10 @@ sap.ui.define([
 
 				//MessageBox.warning(oBundle.getText("Error.PopUpBloqued"));
 			//}
+			//INC0196563 by Minakshi
 
+			var ifileLength = this.getModel("LocalDataModel").getProperty("/HeadAtchmentData").length;
+		if (ifileLength <= 9) {
 			if (oFileName.indexOf("#") == -1 && oFileName.indexOf("%") == -1) {
 				var fileNamePrior = "HEAD@@@" + oFileName;
 				var fileName = fileNamePrior;
@@ -4032,6 +4041,9 @@ sap.ui.define([
 					at: "center center"
 				});
 			}
+
+
+		}
 
 		},
 
