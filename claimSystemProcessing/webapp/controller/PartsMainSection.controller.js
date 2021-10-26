@@ -1457,6 +1457,7 @@ sap.ui.define([
 			this._valueHelpDialog.open();
 		},
 		_handleValueHelpClose: function (evt) {
+			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			if (this.partsInput02 == true) {
 				this.oSelectedItem02 = evt.getParameter("selectedItem");
 			} else {
@@ -1473,7 +1474,30 @@ sap.ui.define([
 			}
 			if (this.oSelectedItem02) {
 				var productInput02 = this.byId(this.inputId02);
-				productInput02.setValue(this.oSelectedItem02.getTitle());
+				
+				////////////
+				// changes done by Minakshi for INC0192568	start
+				if (this.getView().getModel("PartDataModel").getProperty("/DiscreCode") == "4A" &&
+					this.oSelectedItem02.getTitle() == this.getView().getModel("PartDataModel").getProperty("/matnr")
+				) {
+					productInput02.setValue("");
+					this.getView().getModel("HeadSetData").setProperty("/PartNumberRc", "");
+					this.getView().getModel("HeadSetData").setProperty("/PartNumberRcDesc", "");
+					MessageToast.show(oBundle.getText("wrongPartmismatchError"),
+						{
+							my: "center center",
+							at: "center center"
+						});
+						// changes done by Minakshi for INC0192568	end
+				} else {
+					productInput02.setValue(this.oSelectedItem02.getTitle());
+					this.getView().getModel("HeadSetData").setProperty("/PartNumberRcDesc", this.oSelectedItem02.getDescription());
+				}
+				
+				//////////////////
+				
+				
+				//productInput02.setValue(this.oSelectedItem02.getTitle());
 			}
 			if (this.getView().getModel("multiHeaderConfig").getProperty("/PartNumberEdit") == false) {
 				this.getView().getModel("HeadSetData").setProperty("/PartNumberRc", this.oSelectedItem.getTitle());
@@ -1511,6 +1535,7 @@ sap.ui.define([
 
 		ValidQty: function (liveQty) {
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
+			this.getView().getModel("PartDataModel").setProperty("/QuantityReceived", liveQty.getParameters().value);
 			// if ((this.getView().getModel("PartDataModel").getProperty("/DiscreCode") !== "PTSA" || this.getView().getModel("PartDataModel").getProperty(
 			// 		"/DiscreCode") !== "3A") && liveQty.getParameters().newValue < 1) {
 			// 	MessageBox.show(this.oBundle.getText("PleaseEnterValidQTY"), MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK,
