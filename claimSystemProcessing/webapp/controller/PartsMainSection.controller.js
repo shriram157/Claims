@@ -1456,7 +1456,6 @@ sap.ui.define([
 			this._valueHelpDialog.open();
 		},
 		_handleValueHelpClose: function (evt) {
-			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			if (this.partsInput02 == true) {
 				this.oSelectedItem02 = evt.getParameter("selectedItem");
 			} else {
@@ -1464,32 +1463,16 @@ sap.ui.define([
 			}
 			this.getModel("LocalDataModel").setProperty("/BaseUnit", this.oSelectedItem.getInfo());
 			this.getView().getModel("PartDataModel").setProperty("/PartDescription", this.oSelectedItem.getDescription());
-			// if (this.partsInput02 == true) {
-				
-			// }
+			if (this.partsInput02 == true) {
+				this.getView().getModel("HeadSetData").setProperty("/PartNumberRcDesc", this.oSelectedItem02.getDescription());
+			}
 			if (this.oSelectedItem) {
 				var productInput = this.byId(this.inputId);
 				productInput.setValue(this.oSelectedItem.getTitle());
 			}
 			if (this.oSelectedItem02) {
 				var productInput02 = this.byId(this.inputId02);
-					// changes done by Minakshi for INC0192568	start
-				if (this.getView().getModel("PartDataModel").getProperty("/DiscreCode") == "4A" &&
-					this.oSelectedItem02.getTitle() == this.oSelectedItem.getTitle()
-				) {
-				
-					productInput02.setValue("");
-					this.getView().getModel("HeadSetData").setProperty("/PartNumberRcDesc", "");
-					MessageToast.show(oBundle.getText("wrongPartmismatchError"),
-						{
-							my: "center center",
-							at: "center center"
-						});
-						// changes done by Minakshi for INC0192568	end
-				} else {
-					productInput02.setValue(this.oSelectedItem02.getTitle());
-					this.getView().getModel("HeadSetData").setProperty("/PartNumberRcDesc", this.oSelectedItem02.getDescription());
-				}
+				productInput02.setValue(this.oSelectedItem02.getTitle());
 			}
 			if (this.getView().getModel("multiHeaderConfig").getProperty("/PartNumberEdit") == false) {
 				this.getView().getModel("HeadSetData").setProperty("/PartNumberRc", this.oSelectedItem.getTitle());
@@ -1734,6 +1717,18 @@ sap.ui.define([
 				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
 				this.getView().byId("idMainClaimMessage").setText(this.oBundle.getText("FillUpMandatoryField"));
 				this.getView().byId("idMainClaimMessage").setType("Error");
+			}else if ( this.getView().getModel("PartDataModel").getProperty("/DiscreCode") == "4A" &&
+			this.getView().getModel("PartDataModel").getProperty("/matnr") == this.getView().getModel("HeadSetData").getProperty("/PartNumberRc")
+			) {
+				//this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+				//this.getView().byId("idMainClaimMessage").setText(this.oBundle.getText("wrongPartmismatchError"));
+				//this.getView().byId("idMainClaimMessage").setType("Error");
+				this.getView().getModel("HeadSetData").setProperty("/PartNumberRc", "");
+				MessageToast.show(oBundle.getText("wrongPartmismatchError"),
+						{
+							my: "center center",
+							at: "center center"
+						});
 			} else {
 				this.getView().getModel("DateModel").setProperty("/SavePWPartIndicator", true);
 				this.getView().getModel("DateModel").setProperty("/RetainPartType", "None");
@@ -3713,7 +3708,6 @@ sap.ui.define([
 
 			var oId = oEvent.getSource().getText();
 			this.getModel("LocalDataModel").setProperty("/oIDBtn", oId);
-			this.getView().getModel("DateModel").setProperty("/SubmitPWBusyIndicator", true);
 
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			this.getView().getModel("DateModel").setProperty("/PWPrintEnable", true);
@@ -4154,13 +4148,14 @@ sap.ui.define([
 				this.getView().byId("idMainClaimMessage").setType("Error");
 				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
 			} else {
+				this.getView().getModel("DateModel").setProperty("/SubmitPWBusyIndicator", true);
 				this.getView().byId("idOutBoundDD").setValueState("None");
 				this.getView().byId("idShipmentRDate").setValueState("None");
 				this.getView().byId("idCarrierName").setValueState("None");
 				if (this.getView().getModel("HeadSetData").getProperty("/NumberOfWarrantyClaim") == undefined) {
 					this.getView().getModel("HeadSetData").setProperty("/NumberOfWarrantyClaim", "");
 				}
-				this.getView().getModel("DateModel").setProperty("/SubmitPWBusyIndicator", true);
+
 				this.getView().getModel("DateModel").setProperty("/SavePWClaimIndicator", true);
 				this.getView().getModel("DateModel").setProperty("/waybilltype", "None");
 				oCurrentDt = new Date(new Date().getTime() - (10.5 * 60 * 60));
@@ -4269,6 +4264,7 @@ sap.ui.define([
 							}, this),
 							error: $.proxy(function (err) {
 								this.getView().getModel("DateModel").setProperty("/SavePWClaimIndicator", false);
+								this.getView().getModel("DateModel").setProperty("/SubmitPWBusyIndicator", false);
 								var err = JSON.parse(err.responseText);
 								var msg = err.error.message.value;
 								MessageBox.show(msg, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
@@ -4278,7 +4274,6 @@ sap.ui.define([
 					}, this),
 					error: $.proxy(function (err) {
 						that.getView().getModel("DateModel").setProperty("/FeedEnabled", false);
-						this.getView().getModel("DateModel").setProperty("/SubmitPWBusyIndicator", false);
 						var err = JSON.parse(err.responseText);
 						var msg = err.error.message.value;
 						MessageBox.show(msg, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
