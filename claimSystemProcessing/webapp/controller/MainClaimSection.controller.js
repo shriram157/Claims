@@ -3895,7 +3895,7 @@ sap.ui.define([
 			this.obj.NumberOfWarrantyClaim = oClaimNum;
 			var reader = new FileReader();
 //INC0196563 by Minakshi
-			if (oClaimNum != "" && oClaimNum != undefined  && ifileLength <=9) {
+			if (oClaimNum != "" && oClaimNum != undefined) {
 				this.oUploadedFile = oEvent.getParameter("files")[0];
 				if (FileReader.prototype.readAsBinaryString === undefined) {
 					FileReader.prototype.readAsBinaryString = function (fileData) {
@@ -3924,12 +3924,6 @@ sap.ui.define([
 
 				}, this);
 
-			}else if (ifileLength > 9) {
-				this.getModel("LocalDataModel").setProperty("/IndicatorState", false);
-				MessageToast.show(oBundle.getText("attachmentLimit"), {
-					my: "center center",
-					at: "center center"
-				});
 			} else {
 				MessageToast.show(oBundle.getText("PleaseSaveClaimtryAttachments"), {
 					my: "center center",
@@ -4043,6 +4037,12 @@ sap.ui.define([
 			}
 
 
+		}else {
+			this.getModel("LocalDataModel").setProperty("/IndicatorState", false);
+			MessageToast.show(oBundle.getText("attachmentLimit"), {
+				my: "center center",
+				at: "center center"
+			});
 		}
 
 		},
