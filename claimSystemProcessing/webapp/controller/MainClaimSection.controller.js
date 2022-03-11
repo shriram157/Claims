@@ -4492,7 +4492,7 @@ sap.ui.define([
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			oClaimModel.read("/zc_authorization_detailsSet", {
 				urlParameters: {
-					"$filter": "DBOperation eq 'ACLR'and ClaimNumber eq '" + oClaimNum + "'"
+					"$filter": "DBOperation eq 'ACLR' and ClaimNumber eq '" + oClaimNum + "'"
 				},
 				success: $.proxy(function (oAuthData) {
 					if (oAuthData.results.length > 0) {
