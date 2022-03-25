@@ -4490,16 +4490,18 @@ sap.ui.define([
 			var oClmType = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType");
 			var auClaimtype;
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
-			oClaimModel.read("/zc_authorization_detailsSet", {
-				urlParameters: {
-					"$filter": "DBOperation eq 'ACLR' and ClaimNumber eq '" + oClaimNum + "'"
-				},
-				success: $.proxy(function (oAuthData) {
-					if (oAuthData.results.length > 0) {
-						this.getModel("LocalDataModel").setProperty("/DataAuthDetails", []);
-					}
-				}, this)
-			});
+			if (this.getView().getModel("DataPercetCalculate").getProperty("/AuthorizationNumber")) {
+				oClaimModel.read("/zc_authorization_detailsSet", {
+					urlParameters: {
+						"$filter": "DBOperation eq 'ACLR' and ClaimNumber eq '" + oClaimNum + "'"
+					},
+					success: $.proxy(function (oAuthData) {
+						if (oAuthData.results.length > 0) {
+							this.getModel("LocalDataModel").setProperty("/DataAuthDetails", []);
+						}
+					}, this)
+				});
+			}
 
 			if (oGroupType == "Claim" && oClmType == "ZGGW") {
 				auClaimtype = "Numberofwarrantyclaim";
