@@ -4370,9 +4370,37 @@ sap.ui.define([
 				auClaimtype = "AuthorizationNumber";
 			}
 
+			var sLocation = window.location.host;
+			var sLocation_conf = sLocation.search("webide");
+			if (sLocation_conf == 0) {
+				this.sPrefix = "/Claim_Destination"; //ecpSales_node_secured
+
+			} else {
+				this.sPrefix = "";
+
+			}
+
 			if (oRadioInd == 0 && oClmType != "ZWP1") {
 				if ((oCustomerPer + oDealerPer + oTciPer) == 100) {
 					this.getModel("LocalDataModel").setProperty("/discountBusyIndicator", true);
+
+					jQuery.ajax({
+						type: "GET",
+						contentType: "application/json",
+						url: this.sPrefix + "/node/ZDLR_CLAIM_SRV/zc_authorizationSet?$filter=" + "PricingOption eq'P'and DBOperation eq 'POST'and " +
+							auClaimtype + " eq '" + oAuthNum + "'and DealerPer eq '" +
+							oDealerPer +
+							"'and CustomerPer eq '" + oCustomerPer +
+							"'and TCIPer eq '" + oTciPer + "'",
+						dataType: "json",
+						async: true,
+						success: function (data, textStatus, jqXHR) {
+							console.log(data);
+
+						}
+
+					});
+
 					oClaimModel.read("/zc_authorizationSet", {
 						urlParameters: {
 							"$filter": "PricingOption eq'P'and DBOperation eq 'POST'and " + auClaimtype + " eq '" + oAuthNum + "'and DealerPer eq '" +
