@@ -4395,8 +4395,7 @@ sap.ui.define([
 						dataType: "json",
 						async: true,
 						success: function (data, textStatus, jqXHR) {
-							console.log(data);
-
+							
 						}
 
 					});
@@ -4542,6 +4541,20 @@ sap.ui.define([
 			}
 
 			if (oRadioInd == 0 && oClmType != "ZWP1") {
+				
+				jQuery.ajax({
+						type: "GET",
+						contentType: "application/json",
+						url: this.sPrefix + "/node/ZDLR_CLAIM_SRV/zc_authorizationSet?$filter=" + "PricingOption eq'P'and DBOperation eq 'POST'and " +
+							auClaimtype + " eq '" + oAuthNum + "'and DealerPer eq '00'and CustomerPer eq '00'and TCIPer eq '00'",
+						dataType: "json",
+						async: true,
+						success: function (data, textStatus, jqXHR) {
+							
+						}
+
+					});
+					
 				oClaimModel.read("/zc_authorizationSet", {
 					urlParameters: {
 						"$filter": "PricingOption eq'P'and DBOperation eq 'POST'and " + auClaimtype + " eq '" + oAuthNum +
@@ -4578,6 +4591,19 @@ sap.ui.define([
 				});
 
 			} else if (oRadioInd == 1 || oRadioIndP1 == 0 || oClmType == "ZWP1") {
+				jQuery.ajax({
+						type: "GET",
+						contentType: "application/json",
+						url: this.sPrefix + "/node/ZDLR_CLAIM_SRV/zc_authorizationSet?$filter=" + "PricingOption eq'D'and DBOperation eq 'POST'and " +
+							auClaimtype + " eq '" + oAuthNum + "'and PartPer eq '00'and LabourPer eq '00'and SubletPer eq '00'",
+						dataType: "json",
+						async: true,
+						success: function (data, textStatus, jqXHR) {
+							
+						}
+
+					});
+					
 				oClaimModel.read("/zc_authorizationSet", {
 					urlParameters: {
 						"$filter": "PricingOption eq 'D'and DBOperation eq 'POST'and " + auClaimtype + " eq '" + oAuthNum +
