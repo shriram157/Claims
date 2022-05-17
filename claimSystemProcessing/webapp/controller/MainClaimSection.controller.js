@@ -4498,7 +4498,6 @@ sap.ui.define([
 			}
 
 		},
-
 		onPressClearPartiDisc: function (oEvent) {
 			var oRadioInd = this.getView().byId("idPricingOpt").getSelectedIndex();
 			var oRadioIndGW = this.getView().byId("idPricingOptGW").getSelectedIndex();
@@ -4517,20 +4516,6 @@ sap.ui.define([
 			var oClaimtype = this.getModel("LocalDataModel").getProperty("/GroupDescriptionName");
 			var oClmType = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType");
 			var auClaimtype;
-			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
-			if (this.getView().getModel("DataPercetCalculate").getProperty("/AuthorizationNumber")) {
-				oClaimModel.read("/zc_authorization_detailsSet", {
-					urlParameters: {
-						"$filter": "DBOperation eq 'ACLR' and ClaimNumber eq '" + oClaimNum + "'"
-					},
-					success: $.proxy(function (oAuthData) {
-						if (oAuthData.results.length > 0) {
-							this.getModel("LocalDataModel").setProperty("/DataAuthDetails", []);
-						}
-					}, this)
-				});
-			}
-
 			if (oGroupType == "Claim" && oClmType == "ZGGW") {
 				auClaimtype = "Numberofwarrantyclaim";
 			} else if (oGroupType == "Claim" && oClmType == "ZWP1") {
