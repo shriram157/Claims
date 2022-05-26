@@ -4384,22 +4384,22 @@ sap.ui.define([
 				if ((oCustomerPer + oDealerPer + oTciPer) == 100) {
 					this.getModel("LocalDataModel").setProperty("/discountBusyIndicator", true);
 
-					jQuery.ajax({
-						type: "GET",
-						contentType: "application/json",
-						url: this.sPrefix + "/node/ZDLR_CLAIM_SRV/zc_authorizationSet?$filter=" + "PricingOption eq'P'and DBOperation eq 'POST'and " +
-							auClaimtype + " eq '" + oAuthNum + "'and DealerPer eq '" +
-							oDealerPer +
-							"'and CustomerPer eq '" + oCustomerPer +
-							"'and TCIPer eq '" + oTciPer + "'",
-						dataType: "json",
-						async: true,
-						success: function (data, textStatus, jqXHR) {
-							console.log(data);
+					// jQuery.ajax({
+					// 	type: "GET",
+					// 	contentType: "application/json",
+					// 	url: this.sPrefix + "/node/ZDLR_CLAIM_SRV/zc_authorizationSet?$filter=" + "PricingOption eq'P'and DBOperation eq 'POST'and " +
+					// 		auClaimtype + " eq '" + oAuthNum + "'and DealerPer eq '" +
+					// 		oDealerPer +
+					// 		"'and CustomerPer eq '" + oCustomerPer +
+					// 		"'and TCIPer eq '" + oTciPer + "'",
+					// 	dataType: "json",
+					// 	async: true,
+					// 	success: function (data, textStatus, jqXHR) {
+					// 		console.log(data);
 
-						}
+					// 	}
 
-					});
+					// });
 
 					oClaimModel.read("/zc_authorizationSet", {
 						urlParameters: {
@@ -4498,6 +4498,7 @@ sap.ui.define([
 			}
 
 		},
+
 		onPressClearPartiDisc: function (oEvent) {
 			var oRadioInd = this.getView().byId("idPricingOpt").getSelectedIndex();
 			var oRadioIndGW = this.getView().byId("idPricingOptGW").getSelectedIndex();
@@ -4516,6 +4517,20 @@ sap.ui.define([
 			var oClaimtype = this.getModel("LocalDataModel").getProperty("/GroupDescriptionName");
 			var oClmType = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType");
 			var auClaimtype;
+			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
+			if (this.getView().getModel("DataPercetCalculate").getProperty("/AuthorizationNumber")) {
+				oClaimModel.read("/zc_authorization_detailsSet", {
+					urlParameters: {
+						"$filter": "DBOperation eq 'ACLR' and ClaimNumber eq '" + oClaimNum + "'"
+					},
+					success: $.proxy(function (oAuthData) {
+						if (oAuthData.results.length > 0) {
+							this.getModel("LocalDataModel").setProperty("/DataAuthDetails", []);
+						}
+					}, this)
+				});
+			}
+
 			if (oGroupType == "Claim" && oClmType == "ZGGW") {
 				auClaimtype = "Numberofwarrantyclaim";
 			} else if (oGroupType == "Claim" && oClmType == "ZWP1") {
@@ -4529,7 +4544,7 @@ sap.ui.define([
 			if (oRadioInd == 0 && oClmType != "ZWP1") {
 				oClaimModel.read("/zc_authorizationSet", {
 					urlParameters: {
-						"$filter": "PricingOption eq'P'and DBOperation eq 'POST'and " + auClaimtype + " eq '" + oAuthNum +
+						"$filter": "PricingOption eq'P'and DBOperation eq 'ACLR'and " + auClaimtype + " eq '" + oAuthNum +
 							"'and DealerPer eq '00'and CustomerPer eq '00'and TCIPer eq '00'"
 					},
 					success: $.proxy(function (sdata) {
@@ -4565,7 +4580,7 @@ sap.ui.define([
 			} else if (oRadioInd == 1 || oRadioIndP1 == 0 || oClmType == "ZWP1") {
 				oClaimModel.read("/zc_authorizationSet", {
 					urlParameters: {
-						"$filter": "PricingOption eq 'D'and DBOperation eq 'POST'and " + auClaimtype + " eq '" + oAuthNum +
+						"$filter": "PricingOption eq 'D'and DBOperation eq 'ACLR'and " + auClaimtype + " eq '" + oAuthNum +
 							"'and PartPer eq '00'and LabourPer eq '00'and SubletPer eq '00'"
 					},
 					success: $.proxy(function (sdata) {
