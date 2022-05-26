@@ -4384,6 +4384,7 @@ sap.ui.define([
 				if ((oCustomerPer + oDealerPer + oTciPer) == 100) {
 					this.getModel("LocalDataModel").setProperty("/discountBusyIndicator", true);
 
+
 					// jQuery.ajax({
 					// 	type: "GET",
 					// 	contentType: "application/json",
@@ -4400,6 +4401,7 @@ sap.ui.define([
 					// 	}
 
 					// });
+
 
 					oClaimModel.read("/zc_authorizationSet", {
 						urlParameters: {
