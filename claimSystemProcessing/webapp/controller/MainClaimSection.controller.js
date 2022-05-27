@@ -4520,7 +4520,11 @@ sap.ui.define([
 			var oClmType = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType");
 			var auClaimtype;
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
-			if (this.getView().getModel("DataPercetCalculate").getProperty("/AuthorizationNumber")) {
+			if (
+				this.getView().getModel("DataPercetCalculate").getProperty("/AuthorizationNumber") &&
+				this.getView().getModel("DataPercetCalculate").getProperty("/AuthorizationType") == "ZAUT" &&
+				this.getView().getModel("DataPercetCalculate").getProperty("/TCIClaimNo")
+				) {
 				oClaimModel.read("/zc_authorization_detailsSet", {
 					urlParameters: {
 						"$filter": "DBOperation eq 'ACLR' and ClaimNumber eq '" + oClaimNum + "'"
@@ -4546,7 +4550,7 @@ sap.ui.define([
 			if (oRadioInd == 0 && oClmType != "ZWP1") {
 				oClaimModel.read("/zc_authorizationSet", {
 					urlParameters: {
-						"$filter": "PricingOption eq'P'and DBOperation eq 'ACLR'and " + auClaimtype + " eq '" + oAuthNum +
+						"$filter": "PricingOption eq'P'and DBOperation eq 'POST'and " + auClaimtype + " eq '" + oAuthNum +
 							"'and DealerPer eq '00'and CustomerPer eq '00'and TCIPer eq '00'"
 					},
 					success: $.proxy(function (sdata) {
@@ -4582,7 +4586,7 @@ sap.ui.define([
 			} else if (oRadioInd == 1 || oRadioIndP1 == 0 || oClmType == "ZWP1") {
 				oClaimModel.read("/zc_authorizationSet", {
 					urlParameters: {
-						"$filter": "PricingOption eq 'D'and DBOperation eq 'ACLR'and " + auClaimtype + " eq '" + oAuthNum +
+						"$filter": "PricingOption eq 'D'and DBOperation eq 'POST'and " + auClaimtype + " eq '" + oAuthNum +
 							"'and PartPer eq '00'and LabourPer eq '00'and SubletPer eq '00'"
 					},
 					success: $.proxy(function (sdata) {
