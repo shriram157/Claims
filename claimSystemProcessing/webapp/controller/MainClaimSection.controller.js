@@ -4521,9 +4521,9 @@ sap.ui.define([
 			var auClaimtype;
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			if (
-				this.getView().getModel("DataPercetCalculate").getProperty("/AuthorizationNumber") &&
-				this.getView().getModel("DataPercetCalculate").getProperty("/AuthorizationType") == "ZAUT" &&
-				this.getView().getModel("DataPercetCalculate").getProperty("/TCIClaimNo")
+				this.getModel("LocalDataModel").getProperty("/DataAuthDetails/AuthorizationNumber") &&
+				this.getModel("LocalDataModel").getProperty("/DataAuthDetails/AuthorizationType") == "ZAUT" &&
+				this.getModel("LocalDataModel").getProperty("/DataAuthDetails/TCIClaimNo")
 				) {
 				oClaimModel.read("/zc_authorization_detailsSet", {
 					urlParameters: {
