@@ -47,7 +47,7 @@ sap.ui.define(
 				//	oControl.attachSuggest("suggest", oControl._onSuggest);
 
 				//var oCallBack = this.initAutocomplete().bind(this);
-				var sBaseUrl = "https://maps.googleapis.com/maps/api/js?key=AIzaSyAz7irkOJQ4ydE2dHYrg868QV5jUQ-5FaY&libraries=places&sensor=false";
+				var sBaseUrl = "https://maps.googleapis.com/maps/api/js?key=AIzaSyBkaP8mLBO6ZHBxFcXWjifOJyI5gBbiPfI&libraries=places&sensor=false";
 				this._loadScript(sBaseUrl).then(function () {
 
 					// Create the autocomplete object, restricting the search predictions to

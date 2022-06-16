@@ -306,7 +306,7 @@ sap.ui.define([
 			var oControl = new DistanceMatrix({
 				origin: this.getModel("LocalDataModel").getProperty("/dealerPostalCode"),
 				destination: this.getView().byId("postal_code").getValue().toUpperCase(),
-				key: "AIzaSyAz7irkOJQ4ydE2dHYrg868QV5jUQ-5FaY",
+				key: "AIzaSyBkaP8mLBO6ZHBxFcXWjifOJyI5gBbiPfI",
 
 			});
 			return oControl;
