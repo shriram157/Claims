@@ -77,7 +77,7 @@ sap.ui.define([
 
 		getDealer: function () {
 			var that = this;
-			this.getUser();
+		//	this.getUser();
 
 			// get the attributes and BP Details - Minakshi to confirm if BP details needed	
 			$.ajax({
