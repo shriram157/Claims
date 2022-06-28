@@ -165,52 +165,56 @@ sap.ui.define([
 					//var userType = "Dealer_Parts_Services_Admin";
 					sap.ui.getCore().getModel("UserDataModel").setProperty("/LoggedInUser", userType);
 					sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "");
+					//this.getView().setBusy(true);
 					switch (userType) {
 					case "Dealer_Parts_Admin":
 						//"Dealer Parts"
 						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ManageAllParts");
 						/*Uncomment for security*/
-						that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", true);
-						that.getView().getModel("HeaderLinksModel").setProperty("/ViewUpdateClaims", true);
-						that.getView().getModel("HeaderLinksModel").setProperty("/QuickCoverageTool", true);
-						that.getView().getModel("HeaderLinksModel").setProperty("/ClaimInquiry", true);
-						that.getView().getModel("HeaderLinksModel").setProperty("/DealerLabourRateInquiry", true);
+						sap.ui.getCore().getModel("HeaderLinksModel").setProperty("/NewClaim", true);
+						sap.ui.getCore().getModel("HeaderLinksModel").setProperty("/ViewUpdateClaims", true);
+						sap.ui.getCore().getModel("HeaderLinksModel").setProperty("/QuickCoverageTool", true);
+						sap.ui.getCore().getModel("HeaderLinksModel").setProperty("/ClaimInquiry", true);
+						sap.ui.getCore().getModel("HeaderLinksModel").setProperty("/DealerLabourRateInquiry", true);
 						sap.ui.getCore().getModel("HeaderLinksModel").updateBindings(true);
+						that.getOwnerComponent().getRouter().navTo("SearchClaim");
 						/*Uncomment for security*/
 						break;
 					case "Dealer_Parts_Services_Admin":
 						//"Dealer service part"
 						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ManageAllWarrantyParts");
 						/*Uncomment for security*/
-						that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", true);
-						that.getView().getModel("HeaderLinksModel").setProperty("/ViewUpdateClaims", true);
-						that.getView().getModel("HeaderLinksModel").setProperty("/QuickCoverageTool", true);
-						that.getView().getModel("HeaderLinksModel").setProperty("/ClaimInquiry", true);
-						that.getView().getModel("HeaderLinksModel").setProperty("/DealerLabourRateInquiry", true);
+						sap.ui.getCore().getModel("HeaderLinksModel").setProperty("/NewClaim", true);
+						sap.ui.getCore().getModel("HeaderLinksModel").setProperty("/ViewUpdateClaims", true);
+						sap.ui.getCore().getModel("HeaderLinksModel").setProperty("/QuickCoverageTool", true);
+						sap.ui.getCore().getModel("HeaderLinksModel").setProperty("/ClaimInquiry", true);
+						sap.ui.getCore().getModel("HeaderLinksModel").setProperty("/DealerLabourRateInquiry", true);
 						sap.ui.getCore().getModel("HeaderLinksModel").updateBindings(true);
+						that.getOwnerComponent().getRouter().navTo("SearchClaim");
 						/*Uncomment for security*/
 						break;
 					case "Dealer_Services_Admin":
 						//"Dealer_Services_Admin"
 						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ManageAllServices");
 						/*Uncomment for security*/
-						that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", true);
-						that.getView().getModel("HeaderLinksModel").setProperty("/ViewUpdateClaims", true);
-						that.getView().getModel("HeaderLinksModel").setProperty("/QuickCoverageTool", true);
-						that.getView().getModel("HeaderLinksModel").setProperty("/ClaimInquiry", true);
-						that.getView().getModel("HeaderLinksModel").setProperty("/DealerLabourRateInquiry", true);
+						sap.ui.getCore().getModel("HeaderLinksModel").setProperty("/NewClaim", true);
+						sap.ui.getCore().getModel("HeaderLinksModel").setProperty("/ViewUpdateClaims", true);
+						sap.ui.getCore().getModel("HeaderLinksModel").setProperty("/QuickCoverageTool", true);
+						sap.ui.getCore().getModel("HeaderLinksModel").setProperty("/ClaimInquiry", true);
+						sap.ui.getCore().getModel("HeaderLinksModel").setProperty("/DealerLabourRateInquiry", true);
 						sap.ui.getCore().getModel("HeaderLinksModel").updateBindings(true);
+						that.getOwnerComponent().getRouter().navTo("SearchClaim");
 						/*Uncomment for security*/
 						break;
 					case "Dealer_User":
 						//"Dealer_User"
 						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ReadOnlyCoverageClaimLabour");
 
-						that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", false);
-						that.getView().getModel("HeaderLinksModel").setProperty("/ViewUpdateClaims", false);
-						that.getView().getModel("HeaderLinksModel").setProperty("/QuickCoverageTool", true);
-						that.getView().getModel("HeaderLinksModel").setProperty("/ClaimInquiry", true);
-						that.getView().getModel("HeaderLinksModel").setProperty("/DealerLabourRateInquiry", true);
+						sap.ui.getCore().getModel("HeaderLinksModel").setProperty("/NewClaim", false);
+						sap.ui.getCore().getModel("HeaderLinksModel").setProperty("/ViewUpdateClaims", false);
+						sap.ui.getCore().getModel("HeaderLinksModel").setProperty("/QuickCoverageTool", true);
+						sap.ui.getCore().getModel("HeaderLinksModel").setProperty("/ClaimInquiry", true);
+						sap.ui.getCore().getModel("HeaderLinksModel").setProperty("/DealerLabourRateInquiry", true);
 						sap.ui.getCore().getModel("HeaderLinksModel").updateBindings(true);
 						sap.ui.getCore().getModel("HeaderLinksModel").updateBindings(true);
 						that.getOwnerComponent().getRouter().navTo("QueryCoverageTools");
@@ -220,24 +224,25 @@ sap.ui.define([
 						//"TCI_Admin"
 						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ReadOnlyViewAll");
 						/*Uncomment for security*/
-						that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", false);
-						that.getView().getModel("HeaderLinksModel").setProperty("/ViewUpdateClaims", true);
-						that.getView().getModel("HeaderLinksModel").setProperty("/QuickCoverageTool", true);
-						that.getView().getModel("HeaderLinksModel").setProperty("/ClaimInquiry", true);
-						that.getView().getModel("HeaderLinksModel").setProperty("/DealerLabourRateInquiry", true);
+						sap.ui.getCore().getModel("HeaderLinksModel").setProperty("/NewClaim", false);
+						sap.ui.getCore().getModel("HeaderLinksModel").setProperty("/ViewUpdateClaims", true);
+						sap.ui.getCore().getModel("HeaderLinksModel").setProperty("/QuickCoverageTool", true);
+						sap.ui.getCore().getModel("HeaderLinksModel").setProperty("/ClaimInquiry", true);
+						sap.ui.getCore().getModel("HeaderLinksModel").setProperty("/DealerLabourRateInquiry", true);
 						that.getOwnerComponent().getModel("LocalDataModel").setProperty("/visibleNewBtn", false);
 						sap.ui.getCore().getModel("HeaderLinksModel").updateBindings(true);
+						that.getOwnerComponent().getRouter().navTo("SearchClaim");
 						/*Uncomment for security*/
 						break;
 					case "TCI_User":
 						//"TCI_User"
 						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ReadOnlyCoverageClaim");
 						/*Uncomment for security*/
-						that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", false);
-						that.getView().getModel("HeaderLinksModel").setProperty("/ViewUpdateClaims", false);
-						that.getView().getModel("HeaderLinksModel").setProperty("/QuickCoverageTool", true);
-						that.getView().getModel("HeaderLinksModel").setProperty("/ClaimInquiry", true);
-						that.getView().getModel("HeaderLinksModel").setProperty("/DealerLabourRateInquiry", false);
+						sap.ui.getCore().getModel("HeaderLinksModel").setProperty("/NewClaim", false);
+						sap.ui.getCore().getModel("HeaderLinksModel").setProperty("/ViewUpdateClaims", false);
+						sap.ui.getCore().getModel("HeaderLinksModel").setProperty("/QuickCoverageTool", true);
+						sap.ui.getCore().getModel("HeaderLinksModel").setProperty("/ClaimInquiry", true);
+						sap.ui.getCore().getModel("HeaderLinksModel").setProperty("/DealerLabourRateInquiry", false);
 
 						sap.ui.getCore().getModel("HeaderLinksModel").updateBindings(true);
 						sap.ui.getCore().getModel("HeaderLinksModel").updateBindings(true);
@@ -248,37 +253,40 @@ sap.ui.define([
 						//"Zone_User"
 						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ReadOnlyViewAll");
 						/*Uncomment for security*/
-						that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", false);
-						that.getView().getModel("HeaderLinksModel").setProperty("/ViewUpdateClaims", true);
-						that.getView().getModel("HeaderLinksModel").setProperty("/QuickCoverageTool", true);
-						that.getView().getModel("HeaderLinksModel").setProperty("/ClaimInquiry", true);
-						that.getView().getModel("HeaderLinksModel").setProperty("/DealerLabourRateInquiry", true);
+						sap.ui.getCore().getModel("HeaderLinksModel").setProperty("/NewClaim", false);
+						sap.ui.getCore().getModel("HeaderLinksModel").setProperty("/ViewUpdateClaims", true);
+						sap.ui.getCore().getModel("HeaderLinksModel").setProperty("/QuickCoverageTool", true);
+						sap.ui.getCore().getModel("HeaderLinksModel").setProperty("/ClaimInquiry", true);
+						sap.ui.getCore().getModel("HeaderLinksModel").setProperty("/DealerLabourRateInquiry", true);
 						that.getOwnerComponent().getModel("LocalDataModel").setProperty("/visibleNewBtn", false);
 						sap.ui.getCore().getModel("HeaderLinksModel").updateBindings(true);
+						that.getOwnerComponent().getRouter().navTo("SearchClaim");
 						// /*Uncomment for security*/
 						break;
 					case "Dealer_Services_Manager":
 						//"Dealer_Services_Manager"
 						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ManageAllShowAuthorization");
 						/*Uncomment for security*/
-						that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", true);
-						that.getView().getModel("HeaderLinksModel").setProperty("/ViewUpdateClaims", true);
-						that.getView().getModel("HeaderLinksModel").setProperty("/QuickCoverageTool", true);
-						that.getView().getModel("HeaderLinksModel").setProperty("/ClaimInquiry", true);
-						that.getView().getModel("HeaderLinksModel").setProperty("/DealerLabourRateInquiry", true);
+						sap.ui.getCore().getModel("HeaderLinksModel").setProperty("/NewClaim", true);
+						sap.ui.getCore().getModel("HeaderLinksModel").setProperty("/ViewUpdateClaims", true);
+						sap.ui.getCore().getModel("HeaderLinksModel").setProperty("/QuickCoverageTool", true);
+						sap.ui.getCore().getModel("HeaderLinksModel").setProperty("/ClaimInquiry", true);
+						sap.ui.getCore().getModel("HeaderLinksModel").setProperty("/DealerLabourRateInquiry", true);
 						sap.ui.getCore().getModel("HeaderLinksModel").updateBindings(true);
+						that.getOwnerComponent().getRouter().navTo("SearchClaim");
 						/*Uncomment for security*/
 						break;
 					default:
 						// console.log("Dealer_Services_Manager");
 						sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "ManageAllShowAuthorization");
 						/*Uncomment for security*/
-						that.getView().getModel("HeaderLinksModel").setProperty("/NewClaim", true);
-						that.getView().getModel("HeaderLinksModel").setProperty("/ViewUpdateClaims", true);
-						that.getView().getModel("HeaderLinksModel").setProperty("/QuickCoverageTool", true);
-						that.getView().getModel("HeaderLinksModel").setProperty("/ClaimInquiry", true);
-						that.getView().getModel("HeaderLinksModel").setProperty("/DealerLabourRateInquiry", true);
+						sap.ui.getCore().getModel("HeaderLinksModel").setProperty("/NewClaim", true);
+						sap.ui.getCore().getModel("HeaderLinksModel").setProperty("/ViewUpdateClaims", true);
+						sap.ui.getCore().getModel("HeaderLinksModel").setProperty("/QuickCoverageTool", true);
+						sap.ui.getCore().getModel("HeaderLinksModel").setProperty("/ClaimInquiry", true);
+						sap.ui.getCore().getModel("HeaderLinksModel").setProperty("/DealerLabourRateInquiry", true);
 						sap.ui.getCore().getModel("HeaderLinksModel").updateBindings(true);
+						that.getOwnerComponent().getRouter().navTo("SearchClaim");
 						/*Uncomment for security*/
 					}
 					// console.log(sap.ui.getCore().getModel("UserDataModel"));

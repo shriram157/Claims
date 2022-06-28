@@ -51,7 +51,8 @@ sap.ui.define([
 			var oModel = new sap.ui.model.json.JSONModel();
 			sap.ui.getCore().setModel(oModel, "UserDataModel");
 			var that = this;
-			this.getUser();
+		//	this.getView().setBusy(true);
+		//this.getUser();
 
 			// get the attributes and BP Details - Minakshi to confirm if BP details needed	
 			$.ajax({
@@ -199,7 +200,10 @@ sap.ui.define([
 		
 		fnResizeHandler : function(){
 			this.byId("idClaimTable");
-			var sLength = this.getModel("LocalDataModel").getProperty("/ZcClaimHeadNewData").length; 
+			
+			var ZcClaimHeadNewData = this.getModel("LocalDataModel").getProperty("/ZcClaimHeadNewData");
+			
+			var sLength = ZcClaimHeadNewData ? ZcClaimHeadNewData.length : 0; 
 			if(sLength > 0){
 				
 				if(window.innerWidth >= 1280){
