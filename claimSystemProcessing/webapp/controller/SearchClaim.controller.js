@@ -52,7 +52,7 @@ sap.ui.define([
 			sap.ui.getCore().setModel(oModel, "UserDataModel");
 			var that = this;
 		//	this.getView().setBusy(true);
-		//this.getUser();
+		this.getUser();
 
 			// get the attributes and BP Details - Minakshi to confirm if BP details needed	
 			$.ajax({
