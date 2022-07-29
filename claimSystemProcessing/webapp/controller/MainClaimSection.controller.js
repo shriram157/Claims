@@ -4940,19 +4940,12 @@ sap.ui.define([
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			var oClaim = this.getView().getModel("DataPercetCalculate").getProperty("/AuthorizationNumber");
 			var oClaimtype = this.getModel("LocalDataModel").getProperty("/GroupDescriptionName");
-			
-			var oCustomerPer = parseInt(this.getView().getModel("DataPercetCalculate").getProperty("/CustomerPer") || "0");
-			var oDealerPer = parseInt(this.getView().getModel("DataPercetCalculate").getProperty("/DealerPer") || "0");
-			var oTciPer = parseInt(this.getView().getModel("DataPercetCalculate").getProperty("/TCIPer") || "0");
-			var PartPer = parseInt(this.getView().getModel("DataPercetCalculate").getProperty("/PartPer") || "0");
-			var LabourPer = parseInt(this.getView().getModel("DataPercetCalculate").getProperty("/LabourPer") || "0");
-			var SublPer = parseInt(this.getView().getModel("DataPercetCalculate").getProperty("/SubletPer") || "0");
 
 			oProssingModel.read("/zc_authorizationSet", {
 				urlParameters: {
 					"$filter": "DBOperation eq 'LINK'and Numberofwarrantyclaim eq '" + oClaimNum + "'and  AuthorizationNumber eq '" + oClaim +
 						"'and Language eq '" + sSelectedLocale.toUpperCase() +
-						"'and DealerPer eq '"+ oDealerPer +"'and CustomerPer eq '"+ oCustomerPer +"'and TCIPer eq '"+ oTciPer +"'and PartPer eq '"+ PartPer +"'and LabourPer eq '"+ LabourPer +"'and SubletPer eq '"+ SublPer +"'"
+						"'and DealerPer eq '00'and CustomerPer eq '00'and TCIPer eq '00'and PartPer eq '00'and LabourPer eq '00'and SubletPer eq '00'"
 				},
 				success: $.proxy(function (data) {
 					if (data.results[0].Message == "") {
