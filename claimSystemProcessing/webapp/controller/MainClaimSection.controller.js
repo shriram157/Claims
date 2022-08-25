@@ -4384,25 +4384,6 @@ sap.ui.define([
 				if ((oCustomerPer + oDealerPer + oTciPer) == 100) {
 					this.getModel("LocalDataModel").setProperty("/discountBusyIndicator", true);
 
-
-					// jQuery.ajax({
-					// 	type: "GET",
-					// 	contentType: "application/json",
-					// 	url: this.sPrefix + "/node/ZDLR_CLAIM_SRV/zc_authorizationSet?$filter=" + "PricingOption eq'P'and DBOperation eq 'POST'and " +
-					// 		auClaimtype + " eq '" + oAuthNum + "'and DealerPer eq '" +
-					// 		oDealerPer +
-					// 		"'and CustomerPer eq '" + oCustomerPer +
-					// 		"'and TCIPer eq '" + oTciPer + "'",
-					// 	dataType: "json",
-					// 	async: true,
-					// 	success: function (data, textStatus, jqXHR) {
-					// 		console.log(data);
-
-					// 	}
-
-					// });
-
-
 					oClaimModel.read("/zc_authorizationSet", {
 						urlParameters: {
 							"$filter": "PricingOption eq'P'and DBOperation eq 'POST'and " + auClaimtype + " eq '" + oAuthNum + "'and DealerPer eq '" +

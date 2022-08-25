@@ -5,7 +5,7 @@ sap.ui.define([
 
 	return BaseController.extend("zclaimProcessing.controller.App", {
 		onInit: function () {
-
+			
 			var isDivisionSent = window.location.search.match(/Division=([^&]*)/i);
 			var oLexusLogo = this.getView().byId("idLexusLogo");
 			var oToyotaLogo = this.getView().byId("idToyotaLogo");
@@ -36,6 +36,7 @@ sap.ui.define([
 			}
 			
 			this._setTheLanguage();
+			this.getUser();
 
 		},
 		_setTheLanguage: function (oEvent) {
