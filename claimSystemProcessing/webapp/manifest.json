@@ -213,7 +213,7 @@
 			},
 			"routes": [{
 				"name": "SearchClaim",
-				"pattern": "",
+				"pattern": "Search",
 				"target": [
 					"SearchClaim"
 				]

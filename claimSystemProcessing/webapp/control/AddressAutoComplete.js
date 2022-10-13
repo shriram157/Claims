@@ -6,24 +6,6 @@ sap.ui.define(
 		"use strict";
 		var placeSearch, autocomplete, oControl;
 
-		// 		var componentForm = {
-
-		// 			street_number: 'short_name',
-		// 			route: 'long_name',
-		// 			locality: 'long_name',
-		// 			administrative_area_level_1: 'short_name',
-
-		// 			postal_code: 'short_name'
-		// 		};
-
-		// 		var componentForm = {
-		// 			//street_number: 'short_name',
-		// 			//route: 'long_name',
-		// 			locality: 'long_name',
-		// 			//administrative_area_level_1: 'short_name',
-		// 			//country: 'long_name',
-		// 			postal_code: 'short_name'
-		// 		};
 		return Input.extend("zclaimProcessing.control.AddressAutoComplete", {
 			metadata: {
 				properties: {
@@ -47,7 +29,7 @@ sap.ui.define(
 				//	oControl.attachSuggest("suggest", oControl._onSuggest);
 
 				//var oCallBack = this.initAutocomplete().bind(this);
-				var sBaseUrl = "https://maps.googleapis.com/maps/api/js?key=AIzaSyAz7irkOJQ4ydE2dHYrg868QV5jUQ-5FaY&libraries=places&sensor=false";
+				var sBaseUrl = "https://maps.googleapis.com/maps/api/js?key=AIzaSyBkaP8mLBO6ZHBxFcXWjifOJyI5gBbiPfI&libraries=places&sensor=false";
 				this._loadScript(sBaseUrl).then(function () {
 
 					// Create the autocomplete object, restricting the search predictions to
@@ -103,6 +85,10 @@ sap.ui.define(
 				// 		}
 				// 	}
 				// }
+				
+				
+				var findPostalCode = place.address_components.find(elm => elm.types == "postal_code");
+				var findProvince = place.address_components.find(elm => elm.types[0] == "administrative_area_level_1");
 				if (place.address_components[1] != undefined) {
 					document.getElementById(prefix + "--street_number" + "-inner").value = place.address_components[0].short_name + " " +
 						place.address_components[1].short_name;
@@ -114,17 +100,21 @@ sap.ui.define(
 					document.getElementById(prefix + "--locality" + "-inner").value = "";
 				}
 
-				if (place.address_components[5] != undefined) {
-					document.getElementById(prefix + "--administrative_area_level_1" + "-inner").value = place.address_components[5].short_name || "";
-				} else {
-					document.getElementById(prefix + "--administrative_area_level_1" + "-inner").value = "";
-				}
+				if (findProvince) {
+					var province = place.address_components.filter(item => item.types[0] == "administrative_area_level_1")[0].short_name;
+					document.getElementById(prefix + "--administrative_area_level_1" + "-inner").value = province || "";
+				} 
+				// else {
+				// 	document.getElementById(prefix + "--administrative_area_level_1" + "-inner").value = "";
+				// }
 
-				if (place.address_components[7] != undefined) {
-					document.getElementById(prefix + "--postal_code" + "-inner").value = place.address_components[7].short_name || "";
-				} else {
-					document.getElementById(prefix + "--postal_code" + "-inner").value = "";
-				}
+				if (findPostalCode) {
+					var postalcode = place.address_components.filter(item => item.types[0] == "postal_code")[0].short_name;
+					document.getElementById(prefix + "--postal_code" + "-inner").value = postalcode || "";
+				} 
+				// else {
+				// 	document.getElementById(prefix + "--postal_code" + "-inner").value = "";
+				// }
 
 			},
 

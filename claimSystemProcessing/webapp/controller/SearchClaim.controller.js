@@ -5,9 +5,16 @@ sap.ui.define([
 	"sap/m/ViewSettingsDialog",
 	"sap/m/ViewSettingsItem",
 	"sap/ui/core/util/Export",
-	"sap/ui/core/util/ExportTypeCSV"
-], function (BaseController, ValueState, Sorter, ViewSettingsDialog, ViewSettingsItem, Export, ExportTypeCSV) {
+	"sap/ui/core/util/ExportTypeCSV",
+	'sap/m/MessageToast'
+], function (BaseController, ValueState, Sorter, ViewSettingsDialog, ViewSettingsItem, Export, ExportTypeCSV, MessageToast) {
 	"use strict";
+	// sap.ui.Device.media.attachHandler(function(param){
+	// 	alert(sap.ui.Device.resize.width);
+	// });
+	// sap.ui.Device.media.detachHandler(function(param){
+	// 	alert("detached");
+	// });
 	return BaseController.extend("zclaimProcessing.controller.SearchClaim", {
 		onInit: function () {
 			this.getModel("LocalDataModel").setProperty("/oVisibleRowTR", 0);
@@ -44,7 +51,8 @@ sap.ui.define([
 			var oModel = new sap.ui.model.json.JSONModel();
 			sap.ui.getCore().setModel(oModel, "UserDataModel");
 			var that = this;
-			this.getUser();
+		//	this.getView().setBusy(true);
+		this.getUser();
 
 			// get the attributes and BP Details - Minakshi to confirm if BP details needed	
 			$.ajax({
@@ -109,7 +117,8 @@ sap.ui.define([
 				prevBtnVsbl: false,
 				nextBtnVsbl: false,
 				FinalProcessFrom: null,
-				FinalProcessTo: null
+				FinalProcessTo: null,
+				tableHeight : "7rem"
 			});
 			this.getView().setModel(oDateModel, "DateModel");
 			var oBusinessModel = this.getModel("ApiBusinessModel");
@@ -184,7 +193,36 @@ sap.ui.define([
 			this._mViewSettingsDialogs = {};
 
 			this.getModel("LocalDataModel").setProperty("/oSelectedStatusKeys", ["ZTRC", "ZTIC", "ZTMR"]);
+			
+			jQuery(window).on("resize", this.fnResizeHandler.bind(this));
 
+		},
+		
+		fnResizeHandler : function(){
+			this.byId("idClaimTable");
+			
+			var ZcClaimHeadNewData = this.getModel("LocalDataModel").getProperty("/ZcClaimHeadNewData");
+			
+			var sLength = ZcClaimHeadNewData ? ZcClaimHeadNewData.length : 0; 
+			if(sLength > 0){
+				
+				if(window.innerWidth >= 1280){
+					if(sLength < 20){
+						this.getView().getModel("DateModel").setProperty("/tableHeight", (9+sLength)+"rem");
+					}else{
+					this.getView().getModel("DateModel").setProperty("/tableHeight", "30rem");
+					}
+				}else{
+					if(sLength < 20){
+						this.getView().getModel("DateModel").setProperty("/tableHeight", (8+sLength)+"rem");
+					}else{
+					this.getView().getModel("DateModel").setProperty("/tableHeight", "20rem");
+					}
+				}
+			}else{
+				
+				this.getView().getModel("DateModel").setProperty("/tableHeight", "7rem");
+			}
 		},
 
 		_onObjectMatched: function (oEvent) {
@@ -210,25 +248,11 @@ sap.ui.define([
 			var sDate = "";
 			var oResult = [];
 			var issueDealer = this.getModel("LocalDataModel").getProperty("/currentIssueDealer");
-		},
-
-		onAfterRendering: function () {
 
 		},
-		createViewSettingsDialog: function (sDialogFragmentName) {
-			var oDialog = this._mViewSettingsDialogs[sDialogFragmentName];
-
-			if (!oDialog) {
-				oDialog = sap.ui.xmlfragment(sDialogFragmentName, this);
-				this._mViewSettingsDialogs[sDialogFragmentName] = oDialog;
-				this.getView().addDependent(oDialog);
-			}
-
-			return oDialog;
-		},
-
+		
 		handleSortButtonPressed: function () {
-			this.createViewSettingsDialog("zclaimProcessing.view.fragments.SortOrder").open();
+			this._sortDialogPopUp();
 		},
 		handleSortDialogConfirm: function (oEvent) {
 			var oTable = this.byId("idClaimTable"),
@@ -318,13 +342,11 @@ sap.ui.define([
 						if (data.results.length > 0) {
 							//var oVinModel = data.results[0].Model;
 							if (data.results[0].Message == "Invalid VIN Number") {
-
 								this.getView().byId("idNewClaimMsgStrp").setProperty("visible", true);
 								this.getView().byId("idNewClaimMsgStrp").setText("Please Enter a Valid VIN.");
 								this.getView().byId("idNewClaimMsgStrp").setType("Error");
 								this.getView().byId("idSearchText").setValueState(ValueState.Error);
 							} else {
-
 								this.getView().byId("idNewClaimMsgStrp").setProperty("visible", false);
 								this.getView().byId("idNewClaimMsgStrp").setText("");
 								this.getView().byId("idNewClaimMsgStrp").setType("None");
@@ -345,15 +367,45 @@ sap.ui.define([
 			}
 		},
 		//Changes done on 02/03/2021 by singhmi start
-		onChangeSubDate: function (oEvent) {
-			if (oEvent.getSource().getValue() != "") {
-				oEvent.getSource().setValueState("None");
-			}
-		},
+
+		// onChangeSubDate: function (oEvent) {
+		// 	var DefaultToDate = new Date();
+		// 	var DefaulFromDate = new Date(new Date().setDate(DefaultToDate.getDate() - 30));
+		// 	var oBundle = this.getView().getModel("i18n").getResourceBundle();
+
+		// 	if (this.getView().getModel("DateModel").getProperty("/dateValueDRS2") != null && this.getView().getModel("DateModel").getProperty(
+		// 			"/secondDateValueDRS2") != null && this.getView().byId("idSearchText").getValue() == "") {
+
+		// 		var FinalSubFromFormated = moment(this.getView().getModel("DateModel").getProperty("/dateValueDRS2"), "YYYY-MM-DD");
+		// 		var FinalSubToFormated = moment(this.getView().getModel("DateModel").getProperty("/secondDateValueDRS2"), "YYYY-MM-DD");
+		// 		var DifferInDay = Math.round(moment.duration(FinalSubToFormated.diff(FinalSubFromFormated)).asDays());
+		// 		if (DifferInDay > 90) {
+		// 			MessageToast.show(oBundle.getText("seach90days"));
+		// 			this.getView().getModel("DateModel").setProperty("/dateValueDRS2", DefaulFromDate);
+		// 			this.getView().getModel("DateModel").setProperty("/secondDateValueDRS2", DefaultToDate);
+		// 		}
+		// 	}
+		// },
+		// onChangeFinalToDate: function (oEvent) {
+		// 	var oBundle = this.getView().getModel("i18n").getResourceBundle();
+
+		// 	if (this.getView().getModel("DateModel").getProperty("/FinalProcessFrom") != null && this.getView().getModel("DateModel").getProperty(
+		// 			"/FinalProcessTo") != null) {
+
+		// 		var FinalProFromFormated = moment(this.getView().getModel("DateModel").getProperty("/FinalProcessFrom"), "YYYY-MM-DD");
+		// 		var FinalProToFormated = moment(this.getView().getModel("DateModel").getProperty("/FinalProcessTo"), "YYYY-MM-DD");
+		// 		var DifferInDay = Math.round(moment.duration(FinalProToFormated.diff(FinalProFromFormated)).asDays());
+		// 		if (DifferInDay > 90) {
+		// 			MessageToast.show(oBundle.getText("seach90days"));
+		// 			this.getView().getModel("DateModel").setProperty("/FinalProcessFrom", null);
+		// 			this.getView().getModel("DateModel").setProperty("/FinalProcessTo", null);
+		// 		}
+		// 	}
+		// },
 		//Changes done on 02/03/2021 by singhmi end
+
 		onPressSearch: function () {
 			this.getView().getModel("LocalDataModel").setProperty("/oVisibleRowTR", 30);
-			this.getView().getModel("DateModel").setProperty("/tableBusyIndicator", true);
 			var oResultArray = [];
 			//this.getView().getModel("ProssingModel").setSizeLimit(1000);
 			var sQueryDealer = this.getView().byId("idDealerCode").getSelectedKey();
@@ -375,18 +427,25 @@ sap.ui.define([
 			var FinalProFrom = this.getView().getModel("DateModel").getProperty("/FinalProcessFrom");
 			var FinalProTo = this.getView().getModel("DateModel").getProperty("/FinalProcessTo");
 
-			var FinalProFromFormat, FinalProToFormat;
+			var FinalProFromFormat, FinalProToFormat, FromDateFormat, ToDateFormat, FinalProFromFormated, FinalProToFormated,
+				DifferInDayforFnal, DifferInDay;
 
 			if (FinalProFrom != null && FinalProTo != null) {
 				FinalProFromFormat = oDateFormat.format(FinalProFrom);
 				FinalProToFormat = oDateFormat.format(FinalProTo);
+				FinalProFromFormated = moment(FinalProFromFormat, "YYYY-MM-DD");
+				FinalProToFormated = moment(FinalProToFormat, "YYYY-MM-DD");
+				DifferInDayforFnal = Math.round(moment.duration(FinalProToFormated.diff(FinalProFromFormated)).asDays());
 			}
 			//Changes done on 02/03/2021 by singhmi start
 			if (FromDate != null && ToDate != null) {
 				this.getView().byId("DRS2").setValueState("None");
 				this.getView().byId("DRS3").setValueState("None");
-				var FromDateFormat = oDateFormat.format(FromDate);
-				var ToDateFormat = oDateFormat.format(ToDate);
+				FromDateFormat = oDateFormat.format(FromDate);
+				ToDateFormat = oDateFormat.format(ToDate);
+				FinalProFromFormated = moment(FromDateFormat, "YYYY-MM-DD");
+				FinalProToFormated = moment(ToDateFormat, "YYYY-MM-DD");
+				DifferInDay = Math.round(moment.duration(FinalProToFormated.diff(FinalProFromFormated)).asDays());
 			} else {
 				this.getView().byId("DRS2").setValueState("Error");
 				this.getView().byId("DRS3").setValueState("Error");
@@ -579,21 +638,46 @@ sap.ui.define([
 			}
 			// Phase2 changes for Claim Group multiple filter values end 18/02/2021 singhmi
 
-			oProssingModel.read("/ZC_CLAIM_HEAD_NEW", {
-				urlParameters: sParam,
-				success: $.proxy(function (data) {
-					this.getView().getModel("DateModel").setProperty("/tableBusyIndicator", false);
-					this.getModel("LocalDataModel").setProperty("/ZcClaimHeadNewData", data.results);
-				}, this),
-				error: $.proxy(function () {
-					this.getView().getModel("DateModel").setProperty("/tableBusyIndicator", false);
-				}, this)
-			});
+			var oBundle = this.getView().getModel("i18n").getResourceBundle();
+
+			if (DifferInDay > 90 && this.getView().byId("idSearchText").getValue() == "") {
+				MessageToast.show(oBundle.getText("seach90days"), {
+					my: "center center",
+					at: "center center"
+				});
+				this.getView().getModel("DateModel").setProperty("/FinalProcessFrom", null);
+				this.getView().getModel("DateModel").setProperty("/FinalProcessTo", null);
+			} else if (DifferInDayforFnal > 90) {
+
+				MessageToast.show(oBundle.getText("seach90days"), {
+					my: "center center",
+					at: "center center"
+				});
+				this.getView().getModel("DateModel").setProperty("/FinalProcessFrom", null);
+				this.getView().getModel("DateModel").setProperty("/FinalProcessTo", null);
+
+			} else {
+				this.getView().getModel("DateModel").setProperty("/tableBusyIndicator", true);
+				oProssingModel.read("/ZC_CLAIM_HEAD_NEW", {
+					urlParameters: sParam,
+					success: $.proxy(function (data) {
+						this.getView().getModel("DateModel").setProperty("/tableBusyIndicator", false);
+						this.getModel("LocalDataModel").setProperty("/ZcClaimHeadNewData", data.results);
+						this.fnResizeHandler();
+					}, this),
+					error: $.proxy(function () {
+						this.getView().getModel("DateModel").setProperty("/tableBusyIndicator", false);
+						MessageToast.show(oBundle.getText("LimitSearch"), {
+							my: "center center",
+							at: "center center"
+						});
+					}, this)
+				});
+			}
 
 		},
 
 		handleDealerLabourInq: function (oEvent) {
-
 			var oDialog;
 			var selectedKey = this.getView().byId("idDealerCode").getSelectedKey();
 
@@ -609,8 +693,11 @@ sap.ui.define([
 						}
 						oDialog.open();
 					}, this),
-					error: function () {
-
+					error: function (err) {
+						MessageToast.show(err, {
+							my: "center center",
+							at: "center center"
+						});
 					}
 				});
 
@@ -631,6 +718,8 @@ sap.ui.define([
 			this.getView().byId("idClaimType").setSelectedKey("");
 			this.getView().byId("idClaimStatus").setSelectedItems("");
 			this.getView().byId("idSearchBy").setSelectedKey("");
+			this.getView().getModel("DateModel").setProperty("/FinalProcessFrom", null);
+			this.getView().getModel("DateModel").setProperty("/FinalProcessTo", null);
 			this.getView().getModel("LocalDataModel").setProperty("/ZcClaimHeadNewData", []);
 
 		},
@@ -638,16 +727,17 @@ sap.ui.define([
 			var oClaimNum = oEvent.getSource().getText();
 			var oClaimModel = this.getModel("ProssingModel");
 
-			oClaimModel.read("/ZC_CLAIM_HEAD_NEW", {
-				urlParameters: {
-					"$filter": "NumberOfWarrantyClaim eq '" + oClaimNum + "'"
-				},
-				success: $.proxy(function (sdata) {
+			// oClaimModel.read("/ZC_CLAIM_HEAD_NEW", {
+			// 	urlParameters: {
+			// 		"$filter": "NumberOfWarrantyClaim eq '" + oClaimNum + "'"
+			// 	},
+			// 	success: $.proxy(function (sdata) {
 					//console.log(sdata);
 					//this.getModel("LocalDataModel").setProperty("/ClaimDetails", sdata.results[0]);
-					var oClaimType = sdata.results[0].WarrantyClaimType;
+					var sdata = this.getModel("LocalDataModel").getProperty("/ZcClaimHeadNewData").filter(item => item.NumberOfWarrantyClaim == oClaimNum);
+					var oClaimType = sdata[0].WarrantyClaimType;
 					//var oClaimGroup = sdata.results[0].WarrantyClaimGroupDes;
-					var claimTypeGroup = sdata.results[0].ClaimGroup;
+					var claimTypeGroup = sdata[0].ClaimGroup;
 
 					if (oClaimType == "ZACD" || oClaimType == "ZAUT") {
 						this.oSelectedClaimGroup = "Authorization";
@@ -683,8 +773,14 @@ sap.ui.define([
 						});
 					}
 
-				}, this)
-			});
+				//}, this),
+				// error: function (err) {
+				// 	MessageToast.show(err, {
+				// 		my: "center center",
+				// 		at: "center center"
+				// 	});
+				// }
+		//	});
 
 			// setTimeout(function(){ 
 			// 	$("html, body").animate({ scrollTop: 0 }, "slow");
@@ -703,14 +799,7 @@ sap.ui.define([
 
 				exportType: new sap.ui.core.util.ExportTypeCSV({
 
-					separatorChar: "\t",
-
-					mimeType: "application/vnd.ms-excel",
-
-					charset: "utf-8",
-
-					fileExtension: "xls"
-
+					fileExtension: "csv"
 				}),
 
 				models: this.getOwnerComponent().getModel("LocalDataModel"),
@@ -721,190 +810,101 @@ sap.ui.define([
 
 				},
 
-				columns: [
-
-					{
-
-						name: oBundle.getText("TCIClaim"),
-
-						template: {
-
-							content: "{NumberOfWarrantyClaim}"
-
-						}
-
-					}, {
-
-						name: oBundle.getText("DealerClaim"),
-
-						template: {
-
-							content: "{ExternalNumberOfClaim}"
-
-						}
-
-					}, {
-
-						name: oBundle.getText("RepairOrder"),
-
-						template: {
-
-							content: "{RepairOrderNumberExternal}"
-
-						}
-
-					}, {
-
-						name: oBundle.getText("RepairOrderDate"),
-
-						template: {
-
-							content: "{path:'RepairDate', formatter:'zclaimProcessing.utils.formatter.fnDateFormat'}"
-
-						}
-
-					}, {
-
-						name: oBundle.getText("ClaimSubmissionDate"),
-
-						template: {
-
-							content: "{path:'ReferenceDate', formatter:'zclaimProcessing.utils.formatter.fnDateFormat'}"
-
-						}
-
-					}, {
-
-						name: oBundle.getText("ClaimType"),
-
-						template: {
-
-							content: "{WarrantyClaimType}"
-
-						}
-
-					}, {
-
-						name: oBundle.getText("VIN"),
-
-						template: {
-
-							content: "{ExternalObjectNumber}"
-
-						}
-
-					}, {
-
-						name: oBundle.getText("ClaimStatus"),
-
-						template: {
-
-							content: "{DecisionCode}"
-
-						}
-
-					}, {
-
-						name: oBundle.getText("OFP"),
-
-						template: {
-
-							content: "{OFP}"
-
-						}
-
-					}, {
-
-						name: oBundle.getText("MainOpCode"),
-
-						template: {
-
-							content: "{MainOpsCode}"
-
-						}
-
-					}, {
-
-						name: oBundle.getText("ClaimAge"),
-
-						template: {
-
-							content: "{ClaimAge}"
-
-						}
-
-					}, {
-
-						name: oBundle.getText("ClaimAmount"),
-
-						template: {
-
-							content: "{ClaimAmountSum}"
-
-						}
-
-					}, {
-
-						name: oBundle.getText("AuthorizationNumber"),
-
-						template: {
-
-							content: "{AuthorizationNumber}"
-
-						}
-
-					}, {
-
-						name: oBundle.getText("FinalProcessedDate"),
-
-						template: {
-
-							content: "{path:'FinalProcdDate', formatter:'zclaimProcessing.utils.formatter.fnDateFormat'}"
-
-						}
-
-					}, {
-
-						name: oBundle.getText("Odometer"),
-
-						template: {
-
-							content: "{Odometer}"
-
-						}
-
-					}, {
-
-						name: oBundle.getText("Parts"),
-
-						template: {
-
-							content: "{PartPrice}"
-
-						}
-
-					}, {
-
-						name: oBundle.getText("Labour"),
-
-						template: {
-
-							content: "{LabourPrice}"
-
-						}
-
-					}, {
-
-						name: oBundle.getText("Sublet"),
-
-						template: {
-
-							content: "{SubletPrice}"
-
-						}
-
+				columns: [{
+					name: oBundle.getText("TCIClaim"),
+					template: {
+						content: "{NumberOfWarrantyClaim}"
 					}
-				]
+				}, {
+					name: oBundle.getText("DealerClaim"),
+					template: {
+						content: "{ExternalNumberOfClaim}"
+					}
+				}, {
+					name: oBundle.getText("RepairOrder"),
+					template: {
+						content: "{RepairOrderNumberExternal}"
+					}
+				}, {
+					name: oBundle.getText("RepairOrderDate"),
+					template: {
+						content: "{path:'RepairDate', formatter:'zclaimProcessing.utils.formatter.fnDateFormat'}"
+					}
+				}, {
+					name: oBundle.getText("ClaimSubmissionDate"),
+					template: {
+						content: "{path:'ReferenceDate', formatter:'zclaimProcessing.utils.formatter.fnDateFormat'}"
+					}
+				}, {
+					name: oBundle.getText("ClaimType"),
+					template: {
+						content: "{WarrantyClaimType}"
+					}
+
+				}, {
+					name: oBundle.getText("VIN"),
+					template: {
+						content: "{ExternalObjectNumber}"
+					}
+
+				}, {
+					name: oBundle.getText("ClaimStatus"),
+					template: {
+						content: "{DecisionCode}"
+					}
+				}, {
+					name: oBundle.getText("OFP"),
+					template: {
+						content: "{OFP}"
+					}
+				}, {
+					name: oBundle.getText("MainOpCode"),
+					template: {
+						content: "{MainOpsCode}"
+					}
+				}, {
+					name: oBundle.getText("ClaimAge"),
+					template: {
+						content: "{ClaimAge}"
+					}
+
+				}, {
+					name: oBundle.getText("ClaimAmount"),
+					template: {
+						content: "{ClaimAmountSum}"
+					}
+
+				}, {
+					name: oBundle.getText("AuthorizationNumber"),
+					template: {
+						content: "{AuthorizationNumber}"
+					}
+				}, {
+					name: oBundle.getText("FinalProcessedDate"),
+					template: {
+						content: "{path:'FinalProcdDate', formatter:'zclaimProcessing.utils.formatter.fnDateFormat'}"
+					}
+				}, {
+					name: oBundle.getText("Odometer"),
+					template: {
+						content: "{Odometer}"
+					}
+				}, {
+					name: oBundle.getText("Parts"),
+					template: {
+						content: "{PartPrice}"
+					}
+				}, {
+					name: oBundle.getText("Labour"),
+					template: {
+						content: "{LabourPrice}"
+					}
+				}, {
+					name: oBundle.getText("Sublet"),
+					template: {
+						content: "{SubletPrice}"
+					}
+				}]
 			});
 
 			//* download exported file

@@ -107,7 +107,8 @@ sap.ui.define([
 
 					}, this),
 					error: function (error) {
-						console.log(error);
+
+						MessageToast.show(error);
 					}
 				});
 
@@ -123,20 +124,10 @@ sap.ui.define([
 			}
 
 		},
-		createViewSettingsDialog: function (sDialogFragmentName) {
-			var oDialog = this._mViewSettingsDialogs[sDialogFragmentName];
-
-			if (!oDialog) {
-				oDialog = sap.ui.xmlfragment(sDialogFragmentName, this);
-				this._mViewSettingsDialogs[sDialogFragmentName] = oDialog;
-				this.getView().addDependent(oDialog);
-			}
-
-			return oDialog;
-		},
+		
 
 		handleSortButtonPressed: function () {
-			this.createViewSettingsDialog("zclaimProcessing.view.fragments.SortOrder").open();
+			this._sortDialogPopUp();
 		},
 		handleSortDialogConfirm: function (oEvent) {
 			var oTable = this.byId("idClaimInquiryTable"),
@@ -159,7 +150,7 @@ sap.ui.define([
 			var oClaimNum = oEvent.getSource().getParent().getCells()[2].getText();
 			var oClaimType = oEvent.getSource().getParent().getCells()[6].getText();
 			var sPath = oEvent.getSource().mBindingInfos.text.binding.oContext.sPath;
-			var selectedRow  = this.getModel("LocalDataModel").getProperty(sPath);
+			var selectedRow = this.getModel("LocalDataModel").getProperty(sPath);
 			if (oClaimType == "ZACD" || oClaimType == "ZAUT") {
 				this.oSelectedClaimGroup = "Authorization";
 			} else {
@@ -183,8 +174,6 @@ sap.ui.define([
 			var sDivision;
 			var oDialog;
 			var oPartner;
-			//this.getModel("LocalDataModel").getProperty("/ClaimDetails/Partner");
-			//console.log(this.getModel("LocalDataModel").getProperty("/ClaimDetails"));
 			if (this.getModel("LocalDataModel").getProperty("/ClaimDetails/Partner") != "" &&
 				this.getModel("LocalDataModel").getProperty("/ClaimDetails/Partner") != undefined) {
 				oPartner = this.getModel("LocalDataModel").getProperty("/ClaimDetails/Partner");

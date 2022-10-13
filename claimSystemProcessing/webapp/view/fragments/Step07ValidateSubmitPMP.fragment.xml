@@ -36,7 +36,7 @@
 		</Panel>
 	<core:Fragment fragmentName="zclaimProcessing.view.fragments.ClaimAmountSummery" type="XML"/>
 		<VBox class="clMinHeight">
-			<List noDataText="{i18n>NoData}" headerText="{i18n>Validations}" items="{path: 'LocalDataModel>/oErrorSet'}" busy="{DateModel>/errorBusyIndicator}">
+			<List noDataText="{i18n>NoData}" headerText="{i18n>Validations}" items="{path: 'LocalDataModel>/oErrorSet'}">
 				<CustomListItem>
 					<HBox class="sapUiSmallMargin">
 						<Text text="{i18n>Error} : {LocalDataModel>NUMBER}" class="sapUiTinyMarginEnd"/>

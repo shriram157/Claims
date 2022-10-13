@@ -33,33 +33,33 @@
 					</custom:CustomCombo>
 					</HBox>
 					</VBox>
-					<VBox class="sapUiTinyMarginEnd clwidhth30">
+					<VBox class="sapUiTinyMarginEnd clwidhth26">
 						<HBox width="100%">
 					<Label class="clwidhth13" text="{i18n>FirstSubmissionDate} : ">
 					
 					</Label>
-					<Text text="{ path: 'HeadSetData>/ReferenceDate', formatter:'zclaimProcessing.utils.formatter.fnDateFormat'}"/>
+					<Text width="10rem" text="{ path: 'HeadSetData>/ReferenceDate', formatter:'zclaimProcessing.utils.formatter.fnDateFormat'}"/>
 					</HBox>
 					<HBox width="100%">
 					<Label  class="clwidhth13" text="{i18n>ClaimAge} : ">
 					
 					</Label>
-					<Text text="{HeadSetData>/ClaimAge}"/>
+					<Text width="10rem" text="{HeadSetData>/ClaimAge}"/>
 					</HBox>
 					<HBox width="100%">
 					<Label class="clwidhth13" text="{i18n>LastModifiedby} : ">
 					</Label>
-					<Text text="{HeadSetData>/NameOfPersonRespWhoChangedObj}"/>
+					<Text width="10rem" text="{HeadSetData>/NameOfPersonRespWhoChangedObj}"/>
 					</HBox>
 					</VBox>
 					<VBox  class="clwidhth26 sapUiTinyMarginEnd">
 					<HBox width="100%">
 					<Label class="clwidhth13" text="{i18n>LastSubmissionDate} : "/>
-					<Text text="{ path: 'HeadSetData>/DateOfApplication', formatter:'zclaimProcessing.utils.formatter.fnDateFormat'}"/>
+					<Text  width="10rem" text="{ path: 'HeadSetData>/DateOfApplication', formatter:'zclaimProcessing.utils.formatter.fnDateFormat'}"/>
 					</HBox>
 					<HBox width="100%">
 					<Label class="clwidhth13" text="{i18n>FinalProcessedDate} : "/>
-					<Text text="{ path: 'HeadSetData>/FinalProcdDate', formatter:'zclaimProcessing.utils.formatter.fnDateFormat' }"/>
+					<Text width="10rem" text="{ path: 'HeadSetData>/FinalProcdDate', formatter:'zclaimProcessing.utils.formatter.fnDateFormat' }"/>
 					<!--<Label text="{i18n>ClaimSubmissionAgeSinceRO}"/>-->
 					<!--<Text text="{HeadSetData>/ProcessingStatusOfWarrantyClm}"/>-->
 					</HBox>
@@ -212,7 +212,7 @@
 						value="{path:'HeadSetData>/ProbillNum', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 15 }}" required="true"/>
 					<core:Title/>
 					<Label text="{i18n>DeliveryDate}"/>
-					<DatePicker class="clDatePicker" id="idDeliveryDate" required="true" change="onDateEnter"
+					<DatePicker valueFormat="yyyy-MM-dd" displayFormat="yyyy-MM-dd" class="clDatePicker" id="idDeliveryDate" required="true" change="onDateEnter"
 						value="{path:'HeadSetData>/DeliveryDate', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'yyyy-MM-dd', strictParsing: true, UTC: true}}"
 						editable="{DateModel>/oFormEdit}"/>
 					<core:Title/>
@@ -438,15 +438,17 @@
 			</HBox>
 			<HBox width="100%" class="sapUiTinyMarginBottom clflexDirectionChange">
 				<VBox class="sapUiSmallMarginEnd clwidhth30">
-					<Label text="{i18n>Cause}" required="true" width="100%"/>
-					<TextArea width="100%" maxLength="100" growing="true" required="true" editable="{DateModel>/oFormEdit}" id="idCause"
-						value="{path:'HeadSetData>/Cause',type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 100 }}"></TextArea>
-				</VBox>
-				<VBox class="sapUiSmallMarginEnd clwidhth30">
 					<Label text="{i18n>Condition}" required="true" width="100%"/>
 					<TextArea width="100%" maxLength="100" growing="true" required="true" id="idCondition" editable="{DateModel>/oFormEdit}"
 						value="{path:'HeadSetData>/ZCondition', type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 100 }}"></TextArea>
 				</VBox>
+				
+				<VBox class="sapUiSmallMarginEnd clwidhth30">
+					<Label text="{i18n>Cause}" required="true" width="100%"/>
+					<TextArea width="100%" maxLength="100" growing="true" required="true" editable="{DateModel>/oFormEdit}" id="idCause"
+						value="{path:'HeadSetData>/Cause',type : 'sap.ui.model.type.String', constraints : { minLength : 3, maxLength : 100 }}"></TextArea>
+				</VBox>
+				
 				<VBox class="clwidhth30">
 					<Label text="{i18n>Remedy}" required="true" width="100%"/>
 					<TextArea width="100%" id="idRemedy" growing="true" required="true" editable="{DateModel>/oFormEdit}" maxLength="100"
@@ -470,7 +472,7 @@
 			<f:content>
 				<core:Title/>
 				<Label text="{i18n>InstallDate}"/>
-				<DatePicker id="idAccDate" class="clDatePicker" visible="{DateModel>/AcA1}" required="{DateModel>/AcA1}" change="onDateEnter"
+				<DatePicker id="idAccDate" class="clDatePicker" valueFormat="yyyy-MM-dd" displayFormat="yyyy-MM-dd" visible="{DateModel>/AcA1}" required="{DateModel>/AcA1}" change="onDateEnter"
 					value="{path:'HeadSetData>/AccessoryInstallDate', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'yyyy-MM-dd', UTC: true}}"
 					editable="{DateModel>/oFormEdit}"/>
 				<core:Title/>
@@ -487,12 +489,12 @@
 			<f:content>
 				<core:Title/>
 				<Label text="{i18n>PreviousROInvoice}"/>
-				<Input maxLength="20" required="{DateModel>/oPrevInvNumReq}" id="idPreInvNum"
-					value="{path:'HeadSetData>/PreviousROInvoice', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 20 }}"
+				<Input maxLength="15" required="{DateModel>/oPrevInvNumReq}" id="idPreInvNum"
+					value="{path:'HeadSetData>/PreviousROInvoice', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 15 }}"
 					editable="{DateModel>/oFormEdit}"/>
 				<core:Title/>
 				<Label text="{i18n>ROInvoiceDate}"/>
-				<DatePicker class="clDatePicker" id="idPrInvDate" required="{DateModel>/oPrevInvDateReq}" change="onPrevDateChange"
+				<DatePicker class="clDatePicker" valueFormat="yyyy-MM-dd" displayFormat="yyyy-MM-dd" id="idPrInvDate" required="{DateModel>/oPrevInvDateReq}" change="onPrevDateChange"
 					value="{path:'HeadSetData>/PreviousROInvoiceDate', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'yyyy-MM-dd', strictParsing: true, UTC: true}}"
 					editable="{DateModel>/oFormEdit}"/>
 				<core:Title/>

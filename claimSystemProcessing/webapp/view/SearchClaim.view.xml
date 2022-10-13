@@ -36,17 +36,13 @@
 												<Label text="{i18n>ClaimSubDate}" required="true" textAlign="Begin" id="idCLREDate"/>
 												<!--<DateRangeSelection id="DRS2" dateValue="{path:'DateModel>/dateValueDRS2'}" secondDateValue="{path:'DateModel>/secondDateValueDRS2'}"-->
 												<!--	minDate="" maxDate="" change="handleChange"/>-->
-												<DatePicker change="onChangeSubDate" valueState="None" required="true" id="DRS2" dateValue="{path:'DateModel>/dateValueDRS2'}">
+												<DatePicker valueState="None" required="true" id="DRS2" dateValue="{path:'DateModel>/dateValueDRS2'}">
 													<layoutData>
 														<l:GridData span="XL3 L3 M3 S12"/>
 													</layoutData>
 												</DatePicker>
-												<Text text="to" textAlign="Center">
-													<layoutData>
-														<l:GridData span="XL1 L1 M3 S12"/>
-													</layoutData>
-												</Text>
-												<DatePicker change="onChangeSubDate" id="DRS3" valueState="None" required="true" dateValue="{path:'DateModel>/secondDateValueDRS2'}">
+												<Text text="to" textAlign="Center"></Text>
+												<DatePicker id="DRS3" valueState="None" required="true" dateValue="{path:'DateModel>/secondDateValueDRS2'}">
 													<layoutData>
 														<l:GridData span="XL3 L3 M3 S12"/>
 													</layoutData>
@@ -73,11 +69,7 @@
 														<l:GridData span="XL3 L3 M3 S12"/>
 													</layoutData>
 												</DatePicker>
-												<Text text="to" textAlign="Center">
-													<layoutData>
-														<l:GridData span="XL1 L1 M3 S12"/>
-													</layoutData>
-												</Text>
+												<Text text="to" textAlign="Center"/>
 												<DatePicker dateValue="{path:'DateModel>/FinalProcessTo'}">
 													<layoutData>
 														<l:GridData span="XL3 L3 M3 S12"/>
@@ -119,8 +111,10 @@
 					</uxap:ObjectPageSubSection>
 					<uxap:ObjectPageSubSection>
 						<uxap:blocks>
-							<ScrollContainer horizontal="true" height="25rem" width="100%" vertical="true" focusable="true">
-								<Table width="100%" id="idClaimTable" noDataText="{i18n>NoData}" mode="None" busy="{DateModel>/tableBusyIndicator}"
+							<ScrollContainer height="{DateModel>/tableHeight}"  width="100%" vertical="true" horizontal="true" focusable="true" class="sapUiLargeMarginBottom">
+							
+								<Table sticky="ColumnHeaders" class="sapUiLargeMarginBottom" id="idClaimTable" noDataText="{i18n>NoData}" mode="None"
+									busy="{DateModel>/tableBusyIndicator}"
 									items="{path:'LocalDataModel>/ZcClaimHeadNewData', sorter:{path:'NumberOfWarrantyClaim', descending : false}}" growing="true"
 									growingThreshold="25" growingScrollToLoad="false" growingTriggerText="{i18n>Loadmore}">
 									<columns>
@@ -157,25 +151,25 @@
 										<Column width="6rem" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
 											<Label text="{i18n>ClaimAge}" wrapping="true" textAlign="Center" width="100%"/>
 										</Column>
-										<Column width="8rem" hAlign="Center">
+										<Column width="8rem" hAlign="Center" minScreenWidth="Tablet" demandPopin="true">
 											<Label text="{i18n>AuthorizationNumber}" wrapping="true" textAlign="Center" width="100%"/>
 										</Column>
-										<Column width="9em" minScreenWidth="desktop" demandPopin="true" hAlign="Center">
+										<Column width="9em" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
 											<Label text="{i18n>FinalProcessedDate}" wrapping="true" textAlign="Center" width="100%"/>
 										</Column>
-										<Column width="6rem" minScreenWidth="desktop" demandPopin="true" hAlign="Center">
+										<Column width="6rem" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
 											<Label text="{i18n>Odometer}" wrapping="true" textAlign="Center" width="100%"/>
 										</Column>
 										<Column width="8em" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
 											<Label text="{i18n>ClaimAmount}" wrapping="true" textAlign="Center" width="100%"/>
 										</Column>
-										<Column width="6rem" minScreenWidth="desktop" demandPopin="true" hAlign="Center">
+										<Column width="6rem" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
 											<Label text="{i18n>Parts}" wrapping="true" textAlign="Center" width="100%"/>
 										</Column>
-										<Column width="6rem" minScreenWidth="desktop" demandPopin="true" hAlign="Center">
+										<Column width="6rem" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
 											<Label text="{i18n>Labour}" wrapping="true" textAlign="Center" width="100%"/>
 										</Column>
-										<Column width="6rem" minScreenWidth="desktop" demandPopin="true" hAlign="Center">
+										<Column width="6rem" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
 											<Label text="{i18n>Sublet}" wrapping="true" textAlign="Center" width="100%"/>
 										</Column>
 										<Column width="2rem" visible="false" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
@@ -210,6 +204,7 @@
 										</ColumnListItem>
 									</items>
 								</Table>
+							  
 							</ScrollContainer>
 						</uxap:blocks>
 					</uxap:ObjectPageSubSection>

@@ -173,7 +173,8 @@ sap.ui.define([
 				chngClaimTypeVisible: false,
 				serialNoV: false,
 				enableVLC: false,
-				MainOpEnabled:true
+				MainOpEnabled:true,
+				submitVisible : true
 			});
 			return elm.getView().setModel(oDateModel, "DateModel");
 		},
@@ -344,7 +345,8 @@ sap.ui.define([
 				oView.byId("idT2Field"),
 				oView.byId("idRemedy"),
 				oView.byId("idCause"),
-				oView.byId("idCondition")
+				oView.byId("idCondition"),
+				oView.byId("idMainOps")
 			];
 
 			var aInputsArrZWMS = [

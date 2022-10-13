@@ -46,7 +46,7 @@
 				</Input>
 				<Button text="{i18n>Recalculate}" enabled="{DateModel>/oFormEdit}" class="sapUiSmallMarginEnd" type="Emphasized" press="onRecalculate">
 					<layoutData>
-						<l:GridData span="XL4 L4 M5 S6"/>
+						<l:GridData span="XL6 L6 M6 S6"/>
 					</layoutData>
 				</Button>
 			</f:content>
