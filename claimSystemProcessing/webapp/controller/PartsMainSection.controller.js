@@ -539,7 +539,7 @@ sap.ui.define([
 					this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
 
 					this.getView().getModel("multiHeaderConfig").setProperty("/multiheader5", 6);
-					this.getView().getModel("multiHeaderConfig").setProperty("/uploader", false);
+					this.getView().getModel("multiHeaderConfig").setProperty("/uploader", true);
 					this.getView().getModel("multiHeaderConfig").setProperty("/RetainPartV", true);
 					this.getView().getModel("multiHeaderConfig").setProperty("/PartNumberRcV", true);
 					this.getView().getModel("multiHeaderConfig").setProperty("/PartDescriptionOrdRcv", true);
