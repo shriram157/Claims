@@ -3299,7 +3299,7 @@ sap.ui.define([
 				this.getView().getModel("multiHeaderConfig").setProperty("/partDiscrepancies", true);
 				this.getView().getModel("multiHeaderConfig").setProperty("/partTransportation", false);
 				this.getView().getModel("multiHeaderConfig").setProperty("/multiheader5", 6);
-				this.getView().getModel("multiHeaderConfig").setProperty("/uploader", true);
+				this.getView().getModel("multiHeaderConfig").setProperty("/uploader", true);				//changes by swetha to enable upload for ZPPD claim type
 				this.getView().getModel("multiHeaderConfig").setProperty("/RetainPartV", true);
 				this.getView().getModel("multiHeaderConfig").setProperty("/PartNumberRcV", true);
 				this.getView().getModel("multiHeaderConfig").setProperty("/PartDescriptionOrdRcv", true);
@@ -3307,7 +3307,7 @@ sap.ui.define([
 				this.getView().getModel("multiHeaderConfig").setProperty("/RepAmountCol", false);
 				this.getView().getModel("multiHeaderConfig").setProperty("/PartRepaired", false);
 				this.getView().getModel("multiHeaderConfig").setProperty("/PartRepCol", false);
-				this.getView().getModel("multiHeaderConfig").setProperty("/AttachmentCol", false);
+				this.getView().getModel("multiHeaderConfig").setProperty("/AttachmentCol", true);			//changes by swetha to enable upload for ZPPD claim type
 				this.getView().getModel("multiHeaderConfig").setProperty("/RetainPartCol", true);
 				this.getView().getModel("multiHeaderConfig").setProperty("/DiscrepancyCol", true);
 				this.getView().getModel("multiHeaderConfig").setProperty("/DamageConditionCol", false);
