@@ -2749,7 +2749,7 @@ sap.ui.define([
 				"DropDownModel").getPath()).ClaimType;
 			var matrnr = this.getView().getModel("PartDataModel").getProperty("/matnr");
 			if (DDClaimType == "ZPPD") {
-				if (SelectedDD.DiscreCode == "2A") {
+				if (SelectedDD.DiscreCode == "2A") {//Shortage
 					this.getView().getModel("multiHeaderConfig").setProperty("/flagIncorrectPart", false);
 					this.getView().getModel("multiHeaderConfig").setProperty("/PartNumberEdit", false);
 					this.getView().getModel("HeadSetData").setProperty("/PartNumberRc", matrnr);
@@ -3322,6 +3322,17 @@ sap.ui.define([
 		},
 
 		onUploadChangeParts: function (oEvent) {
+			
+			//////////////////////  INC0220542: Code Start   20-10-2022 Claims Processing System not allowing dealers to "re-submit" the claim, once it has been "updated byt TCI" and rerurned to the dealer for additional documents 
+			var that = this;
+			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
+			if (oClaimNum != "nun" && oClaimNum != undefined) {
+				that._fnUpdateClaimParts(oEvent);
+			} else {
+				that._fnSaveClaimParts(oEvent);
+			}
+			
+			////////////////////// INC0220542:    Code End   20-10-2022//////////////////////////////////////////////////////////////////////////
 			this.getModel("LocalDataModel").setProperty("/IndicatorState", true);
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var that = this;
