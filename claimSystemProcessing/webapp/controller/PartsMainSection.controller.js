@@ -3323,16 +3323,6 @@ sap.ui.define([
 
 		onUploadChangeParts: function (oEvent) {
 			
-			//////////////////////  INC0220542: Code Start   20-10-2022 Claims Processing System not allowing dealers to "re-submit" the claim, once it has been "updated byt TCI" and rerurned to the dealer for additional documents 
-			var that = this;
-			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
-			if (oClaimNum != "nun" && oClaimNum != undefined) {
-				that._fnUpdateClaimParts(oEvent);
-			} else {
-				that._fnSaveClaimParts(oEvent);
-			}
-			
-			////////////////////// INC0220542:    Code End   20-10-2022//////////////////////////////////////////////////////////////////////////
 			this.getModel("LocalDataModel").setProperty("/IndicatorState", true);
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var that = this;
@@ -3716,8 +3706,10 @@ sap.ui.define([
 		},
 
 		_fnUpdateClaimParts: function (oEvent) {
-
+      
 			var oId = oEvent.getSource().getText();
+	
+			 
 			this.getModel("LocalDataModel").setProperty("/oIDBtn", oId);
 
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
