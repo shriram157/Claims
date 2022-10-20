@@ -3299,7 +3299,7 @@ sap.ui.define([
 				this.getView().getModel("multiHeaderConfig").setProperty("/partDiscrepancies", true);
 				this.getView().getModel("multiHeaderConfig").setProperty("/partTransportation", false);
 				this.getView().getModel("multiHeaderConfig").setProperty("/multiheader5", 6);
-				this.getView().getModel("multiHeaderConfig").setProperty("/uploader", false);
+				this.getView().getModel("multiHeaderConfig").setProperty("/uploader", true);				//changes by swetha to enable upload for ZPPD claim type
 				this.getView().getModel("multiHeaderConfig").setProperty("/RetainPartV", true);
 				this.getView().getModel("multiHeaderConfig").setProperty("/PartNumberRcV", true);
 				this.getView().getModel("multiHeaderConfig").setProperty("/PartDescriptionOrdRcv", true);
@@ -3307,7 +3307,7 @@ sap.ui.define([
 				this.getView().getModel("multiHeaderConfig").setProperty("/RepAmountCol", false);
 				this.getView().getModel("multiHeaderConfig").setProperty("/PartRepaired", false);
 				this.getView().getModel("multiHeaderConfig").setProperty("/PartRepCol", false);
-				this.getView().getModel("multiHeaderConfig").setProperty("/AttachmentCol", false);
+				this.getView().getModel("multiHeaderConfig").setProperty("/AttachmentCol", true);			//changes by swetha to enable upload for ZPPD claim type
 				this.getView().getModel("multiHeaderConfig").setProperty("/RetainPartCol", true);
 				this.getView().getModel("multiHeaderConfig").setProperty("/DiscrepancyCol", true);
 				this.getView().getModel("multiHeaderConfig").setProperty("/DamageConditionCol", false);
@@ -3862,6 +3862,7 @@ sap.ui.define([
 									success: $.proxy(function (sdata) {
 										this.getView().getModel("HeadSetData").setData(sdata.results[0]);
 										PmpDataManager._fnStatusCheck(this);
+										this.getModel("LocalDataModel").setProperty("/BPPartner", sdata.results[0].Partner);
 
 										oClaimModel.read("/zc_headSet", {
 											urlParameters: {
@@ -4234,6 +4235,7 @@ sap.ui.define([
 							},
 							success: $.proxy(function (sdata) {
 								var oPartner = sdata.results[0].Partner;
+								this.getModel("LocalDataModel").setProperty("/BPPartner", oPartner);
 								this.getView().getModel("DateModel").setProperty("/FeedEnabled", true);
 								this.getModel("LocalDataModel").setProperty("/ClaimDetails", sdata.results[0]);
 								this.getModel("LocalDataModel").setProperty("/UploadEnableHeader", true);
@@ -4424,7 +4426,8 @@ sap.ui.define([
 			var oClaimModel = this.getModel("ProssingModel");
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			this.obj.WarrantyClaimType = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType");
-			this.obj.Partner = this.getModel("LocalDataModel").getProperty("/BPDealerDetails/BusinessPartnerKey");
+			this.obj.Partner = this.getModel("LocalDataModel").getProperty("/BPPartner");
+			
 			this.obj.ActionCode = "";
 			this.obj.NameOfPersonRespWhoChangedObj = this.getModel("LocalDataModel").getProperty("/LoginId");
 			this.obj.NumberOfWarrantyClaim = this.getView().getModel("HeadSetData").getProperty("/NumberOfWarrantyClaim");
@@ -4569,6 +4572,7 @@ sap.ui.define([
 												this.getView().getModel("HeadSetData").setData(sdata.results[0]);
 												this.getView().getModel("HeadSetData").setProperty("/DecisionCode", sdata.results[0].DecisionCode);
 												this.ClaimStatus = sdata.results[0].DecisionCode;
+												this.getModel("LocalDataModel").setProperty("/BPPartner", sdata.results[0].Partner);
 												PmpDataManager._fnStatusCheck(this);
 												if (sdata.results[0].DecisionCode == "ZTIC" || sdata.results[0].DecisionCode == "ZTRC") {
 													this.getView().getModel("DateModel").setProperty("/claimEditSt", false);
@@ -4829,6 +4833,7 @@ sap.ui.define([
 										},
 										success: $.proxy(function (sdata) {
 											this.getView().getModel("HeadSetData").setData(sdata.results[0]);
+											this.getModel("LocalDataModel").setProperty("/BPPartner", sdata.results[0].Partner);
 											this.getView().getModel("HeadSetData").setProperty("/DecisionCode", sdata.results[0].DecisionCode);
 											PmpDataManager._fnStatusCheck(this);
 										}, this)
@@ -4986,6 +4991,7 @@ sap.ui.define([
 										},
 										success: $.proxy(function (sdata) {
 											this.getView().getModel("HeadSetData").setData(sdata.results[0]);
+											this.getModel("LocalDataModel").setProperty("/BPPartner", sdata.results[0].Partner);
 											PmpDataManager._fnStatusCheck(this);
 											if (sdata.results[0].DecisionCode == "ZTIC" || sdata.results[0].DecisionCode == "ZTRC") {
 												this.getView().getModel("DateModel").setProperty("/claimEditSt", false);
@@ -5180,7 +5186,7 @@ sap.ui.define([
 			};
 			this.getView().getModel("DateModel").setProperty("/claimTypeEn", true);
 			this.getModel("LocalDataModel").setProperty("/ClaimSum", "");
-			this.getDealer();
+			//this.getDealer();
 
 			var LOIData = new sap.ui.model.json.JSONModel({
 				"claimNumber": "",
