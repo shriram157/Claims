@@ -245,7 +245,7 @@
 						<core:Title/>
 						<Label text="{i18n>Area}"/>
 						<custom:CustomCombo showSecondaryValues="true" editable="{DateModel>/oFormEdit}" required="true" filterSecondaryValues="true"
-							items="{LocalDataModel>/DataAreaCode}" selectedKey="" value="{HeadSetData>/DmgAreaCode}" enabled="{DateModel>/damageLine}">
+							items="{LocalDataModel>/DataAreaCode}" selectedKey="" value="{HeadSetData>/DmgAreaCode, type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 2 }}" enabled="{DateModel>/damageLine}">
 							<core:ListItem key="{LocalDataModel>DmgAreaCode}" text="{LocalDataModel>DmgAreaCode}" additionalText="{LocalDataModel>DmgAreaCodeDesc}"/>
 						</custom:CustomCombo>
 						<core:Title/>
