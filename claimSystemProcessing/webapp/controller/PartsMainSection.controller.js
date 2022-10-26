@@ -1012,7 +1012,7 @@ sap.ui.define([
 													filteredPriceData[m].TCIApprovedAmount = (-(parseFloat(filteredPriceData[m].TCIApprovedAmount))).toString();
 												}
 											}
-										//	this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
+											this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
 
 										}, this),
 										error: $.proxy(function (err) {
@@ -3497,10 +3497,10 @@ sap.ui.define([
 							success: $.proxy(function (response) {
 								this.getView().getModel("DateModel").setProperty("/SubmitPWBusyIndicator", false);
 								that.getModel("LocalDataModel").setProperty("/UploadEnable", true);
-								// MessageToast.show(oBundle.getText("ClaimUpdatedsuccessfully"), {
-								// 	my: "center center",
-								// 	at: "center center"
-								// });
+								MessageToast.show(oBundle.getText("ClaimUpdatedsuccessfully"), {
+									my: "center center",
+									at: "center center"
+								});
 								this.getModel("LocalDataModel").setProperty("/CancelEnable", true);
 								this.getView().byId("idMainClaimMessage").setProperty("visible", false);
 
