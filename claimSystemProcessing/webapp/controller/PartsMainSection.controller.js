@@ -1012,7 +1012,7 @@ sap.ui.define([
 													filteredPriceData[m].TCIApprovedAmount = (-(parseFloat(filteredPriceData[m].TCIApprovedAmount))).toString();
 												}
 											}
-											this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
+										//	this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
 
 										}, this),
 										error: $.proxy(function (err) {
@@ -3749,7 +3749,7 @@ sap.ui.define([
 		
 		/////////////////////26-OCT-2022   Work around for Claims ZPPD type Support document upload throws [Object object] error/////////////// CODE  END////////////////////////////////////////////////////////////
 		onUploadCompleteParts: function (oEvent) {
-			this._fnUpdateClaimPartsZPPD();
+		//	this._fnUpdateClaimPartsZPPD();
 			var oClaimModel = this.getModel("ProssingModel");
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
