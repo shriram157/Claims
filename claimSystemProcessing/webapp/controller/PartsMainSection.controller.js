@@ -791,6 +791,7 @@ sap.ui.define([
 											"$filter": "NumberOfWarrantyClaim eq '" + oClaim + "' and LanguageKey eq '" + sSelectedLocale + "'"
 										},
 										success: $.proxy(function (prdata) {
+											var test=prdata.results;
 
 											var pricingData = prdata.results;
 
@@ -867,7 +868,7 @@ sap.ui.define([
 													"results": []
 												},
 												"zc_claim_item_price_dataSet": {
-													"results": prdata.results
+													"results": test
 												},
 												"zc_claim_attachmentsSet": {
 													"results": []
