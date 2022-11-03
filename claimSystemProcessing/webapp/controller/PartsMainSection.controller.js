@@ -3752,12 +3752,14 @@ sap.ui.define([
 		onUploadCompleteParts: function (oEvent) {
 		//	this._fnUpdateClaimPartsZPPD();
 		var that = this;
-			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
+		if(this.claimType === "ZPPD"){
+			var oClaimNum = that.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			if (oClaimNum != "nun" && oClaimNum != undefined) {
 				that._fnUpdateClaimPartsZPPD(oEvent);
 			} else {
 				that._fnSaveClaimParts(oEvent);
 			}
+		}
 			var oClaimModel = this.getModel("ProssingModel");
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
