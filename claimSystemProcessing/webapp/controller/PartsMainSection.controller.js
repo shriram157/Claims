@@ -3751,6 +3751,13 @@ sap.ui.define([
 		/////////////////////26-OCT-2022   Work around for Claims ZPPD type Support document upload throws [Object object] error/////////////// CODE  END////////////////////////////////////////////////////////////
 		onUploadCompleteParts: function (oEvent) {
 		//	this._fnUpdateClaimPartsZPPD();
+		var that = this;
+			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
+			if (oClaimNum != "nun" && oClaimNum != undefined) {
+				that._fnUpdateClaimPartsZPPD(oEvent);
+			} else {
+				that._fnSaveClaimParts(oEvent);
+			}
 			var oClaimModel = this.getModel("ProssingModel");
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
