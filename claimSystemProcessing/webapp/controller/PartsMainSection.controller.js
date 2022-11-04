@@ -3300,7 +3300,7 @@ sap.ui.define([
 				this.getView().getModel("multiHeaderConfig").setProperty("/partDiscrepancies", true);
 				this.getView().getModel("multiHeaderConfig").setProperty("/partTransportation", false);
 				this.getView().getModel("multiHeaderConfig").setProperty("/multiheader5", 6);
-				this.getView().getModel("multiHeaderConfig").setProperty("/uploader", true);				//changes by swetha to enable upload for ZPPD claim type
+				this.getView().getModel("multiHeaderConfig").setProperty("/uploader", false);				//changes by swetha to enable upload for ZPPD claim type
 				this.getView().getModel("multiHeaderConfig").setProperty("/RetainPartV", true);
 				this.getView().getModel("multiHeaderConfig").setProperty("/PartNumberRcV", true);
 				this.getView().getModel("multiHeaderConfig").setProperty("/PartDescriptionOrdRcv", true);
@@ -3308,7 +3308,7 @@ sap.ui.define([
 				this.getView().getModel("multiHeaderConfig").setProperty("/RepAmountCol", false);
 				this.getView().getModel("multiHeaderConfig").setProperty("/PartRepaired", false);
 				this.getView().getModel("multiHeaderConfig").setProperty("/PartRepCol", false);
-				this.getView().getModel("multiHeaderConfig").setProperty("/AttachmentCol", true);			//changes by swetha to enable upload for ZPPD claim type
+				this.getView().getModel("multiHeaderConfig").setProperty("/AttachmentCol", false);			//changes by swetha to enable upload for ZPPD claim type
 				this.getView().getModel("multiHeaderConfig").setProperty("/RetainPartCol", true);
 				this.getView().getModel("multiHeaderConfig").setProperty("/DiscrepancyCol", true);
 				this.getView().getModel("multiHeaderConfig").setProperty("/DamageConditionCol", false);
@@ -3751,15 +3751,15 @@ sap.ui.define([
 		/////////////////////26-OCT-2022   Work around for Claims ZPPD type Support document upload throws [Object object] error/////////////// CODE  END////////////////////////////////////////////////////////////
 		onUploadCompleteParts: function (oEvent) {
 		//	this._fnUpdateClaimPartsZPPD();
-		var that = this;
-		if(this.claimType === "ZPPD"){
-			var oClaimNum = that.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
-			if (oClaimNum != "nun" && oClaimNum != undefined) {
-				that._fnUpdateClaimPartsZPPD(oEvent);
-			} else {
-				that._fnSaveClaimParts(oEvent);
-			}
-		}
+		// var that = this;
+		// if(this.claimType === "ZPPD"){
+		// 	var oClaimNum = that.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
+		// 	if (oClaimNum != "nun" && oClaimNum != undefined) {
+		// 		that._fnUpdateClaimPartsZPPD(oEvent);
+		// 	} else {
+		// 		that._fnSaveClaimParts(oEvent);
+		// 	}
+		// }
 			var oClaimModel = this.getModel("ProssingModel");
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
