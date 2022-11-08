@@ -3394,6 +3394,15 @@ sap.ui.define([
 				this.obj.zc_claim_attachmentsSet.results.push(itemObj);
 
 				oClaimModel.refreshSecurityToken();
+				
+				// Start of change by PATILSA- 11/08/2022 - INC0220542 (Attchment Issue)
+				
+				if (this.obj.WarrantyClaimType == 'ZPPD')
+				{
+				this.obj.zc_claim_item_price_dataSet = [];
+				}
+
+				// End of change by PATILSA- 11/08/2022 - INC0220542 (Attchment Issue)
 
 				oClaimModel.create("/zc_headSet", this.obj, {
 					success: $.proxy(function (data, response) {
