@@ -791,6 +791,7 @@ sap.ui.define([
 											"$filter": "NumberOfWarrantyClaim eq '" + oClaim + "' and LanguageKey eq '" + sSelectedLocale + "'"
 										},
 										success: $.proxy(function (prdata) {
+											var test=prdata.results;
 
 											var pricingData = prdata.results;
 
@@ -867,7 +868,7 @@ sap.ui.define([
 													"results": []
 												},
 												"zc_claim_item_price_dataSet": {
-													"results": prdata.results
+													"results": test
 												},
 												"zc_claim_attachmentsSet": {
 													"results": []
@@ -2749,7 +2750,7 @@ sap.ui.define([
 				"DropDownModel").getPath()).ClaimType;
 			var matrnr = this.getView().getModel("PartDataModel").getProperty("/matnr");
 			if (DDClaimType == "ZPPD") {
-				if (SelectedDD.DiscreCode == "2A") {
+				if (SelectedDD.DiscreCode == "2A") {//Shortage
 					this.getView().getModel("multiHeaderConfig").setProperty("/flagIncorrectPart", false);
 					this.getView().getModel("multiHeaderConfig").setProperty("/PartNumberEdit", false);
 					this.getView().getModel("HeadSetData").setProperty("/PartNumberRc", matrnr);
@@ -3299,7 +3300,7 @@ sap.ui.define([
 				this.getView().getModel("multiHeaderConfig").setProperty("/partDiscrepancies", true);
 				this.getView().getModel("multiHeaderConfig").setProperty("/partTransportation", false);
 				this.getView().getModel("multiHeaderConfig").setProperty("/multiheader5", 6);
-				this.getView().getModel("multiHeaderConfig").setProperty("/uploader", false);
+				this.getView().getModel("multiHeaderConfig").setProperty("/uploader", false);				//changes by swetha to enable upload for ZPPD claim type
 				this.getView().getModel("multiHeaderConfig").setProperty("/RetainPartV", true);
 				this.getView().getModel("multiHeaderConfig").setProperty("/PartNumberRcV", true);
 				this.getView().getModel("multiHeaderConfig").setProperty("/PartDescriptionOrdRcv", true);
@@ -3307,7 +3308,7 @@ sap.ui.define([
 				this.getView().getModel("multiHeaderConfig").setProperty("/RepAmountCol", false);
 				this.getView().getModel("multiHeaderConfig").setProperty("/PartRepaired", false);
 				this.getView().getModel("multiHeaderConfig").setProperty("/PartRepCol", false);
-				this.getView().getModel("multiHeaderConfig").setProperty("/AttachmentCol", false);
+				this.getView().getModel("multiHeaderConfig").setProperty("/AttachmentCol", false);			//changes by swetha to enable upload for ZPPD claim type
 				this.getView().getModel("multiHeaderConfig").setProperty("/RetainPartCol", true);
 				this.getView().getModel("multiHeaderConfig").setProperty("/DiscrepancyCol", true);
 				this.getView().getModel("multiHeaderConfig").setProperty("/DamageConditionCol", false);
@@ -3322,6 +3323,7 @@ sap.ui.define([
 		},
 
 		onUploadChangeParts: function (oEvent) {
+			
 			this.getModel("LocalDataModel").setProperty("/IndicatorState", true);
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var that = this;
@@ -3362,7 +3364,402 @@ sap.ui.define([
 				MessageToast.show(that.oBundle.getText("AttachmentMSG"));
 			}
 		},
+		///////////////////// 26-OCT-2022  Work around for Claims ZPPD type Support document upload throws [Object object] error//////////////// CODE START/////////////////////////////////////////////////
+		
+		_fnUpdateClaimPartsZPPD: function (oEvent) {
+      
+		//	var oId = oEvent.getSource().getText();
+		//		this.getModel("LocalDataModel").setProperty("/oIDBtn", oId);
+
+			var oBundle = this.getView().getModel("i18n").getResourceBundle();
+			this.getView().getModel("DateModel").setProperty("/PWPrintEnable", true);
+			if (this._fnValidatorParts()) {
+				this.getModel("LocalDataModel").setProperty("/SavePWClaimIndicator", false);
+				this.getView().byId("idMainClaimMessage").setText(oBundle.getText("FillUpMandatoryField"));
+				this.getView().byId("idMainClaimMessage").setType("Error");
+				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
+			} else {
+				var that = this;
+				this.getView().getModel("DateModel").setProperty("/SavePWClaimIndicator", true);
+				this.getView().getModel("DateModel").setProperty("/waybilltype", "None");
+				this.oBundle = this.getView().getModel("i18n").getResourceBundle();
+				var oClaimModel = this.getModel("ProssingModel");
+				var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
+
+				var oPartner = this.getModel("LocalDataModel").getProperty("/BpDealerModel/0/BusinessPartnerKey");
+
+				var oBusinessModel = this.getModel("ApiBusinessModel");
+				oBusinessModel.read("/A_BusinessPartner", {
+					urlParameters: {
+						"$filter": "BusinessPartner eq '" + oPartner + "'"
+					},
+					success: $.proxy(function (data) {
+						this.getModel("LocalDataModel").setProperty("/BPOrgName", data.results[0].OrganizationBPName1);
+					}, this)
+				});
+
+				var oActionCode = "";
+				oClaimModel.read("/zc_claim_item_price_dataSet", {
+					urlParameters: {
+						"$filter": "NumberOfWarrantyClaim eq '" + oClaimNum + "' "
+					},
+					success: $.proxy(function (data) {
+						this.getView().getModel("DateModel").setProperty("/SavePWClaimIndicator", false);
+						var pricingData = data.results;
+						var oFilteredData = pricingData.filter(function (val) {
+							return val.ItemType === "MAT";
+						});
+
+						this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
+
+						var PartItem = pricingData.map(function (item) {
+							if (item.RepairOrRetrunPart == oBundle.getText("Yes")) {
+								var RepairPart = "Y";
+							} else if (item.RepairOrRetrunPart == oBundle.getText("No")) {
+								RepairPart = "N";
+							} else {
+								RepairPart = "";
+							}
+							if (item.RetainPart == oBundle.getText("Yes")) {
+								var RetainPart = "Y";
+							} else if (item.RetainPart == oBundle.getText("No")) {
+								RetainPart = "N";
+							} else {
+								RetainPart = "";
+							}
+							return {
+								Type: "PART",
+								ItemType: "",
+								ControllingItemType: "MAT",
+								UnitOfMeasure: item.UnitOfMeasure,
+								MaterialNumber: item.ItemKey,
+								PartDescription: item.PartDescription,
+								PartQty: item.QuantityReceived,
+								LineRefnr: item.LineRefnr,
+								ItemKey: item.ItemKey,
+								RetainPart: RetainPart,
+								QuantityOrdered: item.QuantityOrdered,
+								QuantityReceived: item.QuantityReceived,
+								DiscreCode: item.DiscreCode,
+								ALMDiscreDesc: item.ALMDiscreDesc,
+								WrongPart: item.WrongPart,
+								RepairOrRetrunPart: RepairPart,
+								RepairAmount: item.RepairAmt.toString()
+							};
+						});
+
+						this.getView().getModel("HeadSetData").getProperty("/DateOfApplication", this.getView().getModel("HeadSetData").getProperty(
+							"/DateOfApplication").getTime() - (10.5 * 60 * 60));
+						this.getView().getModel("HeadSetData").getProperty("/ReferenceDate", this.getView().getModel("HeadSetData").getProperty(
+							"/ReferenceDate").getTime() - (10.5 * 60 * 60));
+						this.getView().getModel("HeadSetData").getProperty("/ShipmentReceivedDate", this.getView().getModel("HeadSetData").getProperty(
+							"/ShipmentReceivedDate").getTime() - (10.5 * 60 * 60));
+
+						this.obj = {
+							"DBOperation": "SAVE",
+							"Message": "",
+							"WarrantyClaimType": this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType"),
+							"Partner": this.getModel("LocalDataModel").getProperty("/BpDealerModel/0/BusinessPartnerKey"),
+							"ActionCode": oActionCode,
+							"NumberOfWarrantyClaim": this.getView().getModel("HeadSetData").getProperty("/NumberOfWarrantyClaim"),
+							"PartnerRole": "AS",
+							"NameOfPersonRespWhoChangedObj": this.getModel("LocalDataModel").getProperty("/LoginId"),
+							"ReferenceDate": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/ReferenceDate")),
+							"DateOfApplication": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/DateOfApplication")),
+							"TCIWaybillNumber": this.getView().getModel("HeadSetData").getProperty("/TCIWaybillNumber"),
+							"ShipmentReceivedDate": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/ShipmentReceivedDate")),
+							"DealerContact": this.getView().getModel("HeadSetData").getProperty("/DealerContact"),
+							"HeadText": this.getView().getModel("HeadSetData").getProperty("/HeadText"),
+							"Delivery": this.getView().getModel("HeadSetData").getProperty("/Delivery"),
+							"DeliveryDate": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/DeliveryDate")),
+							"DeliveringCarrier": this.getView().getModel("HeadSetData").getProperty("/DeliveringCarrier"),
+							"zc_itemSet": {
+								"results": PartItem
+							},
+							"zc_claim_attachmentsSet": {
+								"results": []
+							},
+							"zc_claim_vsrSet": {
+								"results": []
+							},
+							"zc_claim_item_price_dataSet": {
+								"results": []
+							},
+							"zc_claim_commentSet": {
+								"results": this.getModel("LocalDataModel").getProperty("/claim_commentSet")
+							}
+						};
+						var that = this;
+						oClaimModel.refreshSecurityToken();
+						if (this.obj.zc_claim_commentSet.results == "") {
+							this.obj.zc_claim_commentSet.results = [];
+						}
+						oClaimModel.create("/zc_headSet", this.obj, {
+							success: $.proxy(function (response) {
+								this.getView().getModel("DateModel").setProperty("/SubmitPWBusyIndicator", false);
+								that.getModel("LocalDataModel").setProperty("/UploadEnable", true);
+								MessageToast.show(oBundle.getText("ClaimUpdatedsuccessfully"), {
+									my: "center center",
+									at: "center center"
+								});
+								this.getModel("LocalDataModel").setProperty("/CancelEnable", true);
+								this.getView().byId("idMainClaimMessage").setProperty("visible", false);
+
+								oClaimModel.read("/ZC_CLAIM_HEAD_NEW", {
+									urlParameters: {
+										"$filter": "NumberOfWarrantyClaim eq '" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") +
+											"'"
+									},
+									success: $.proxy(function (sdata) {
+										this.getView().getModel("HeadSetData").setData(sdata.results[0]);
+										PmpDataManager._fnStatusCheck(this);
+										this.getModel("LocalDataModel").setProperty("/BPPartner", sdata.results[0].Partner);
+
+										oClaimModel.read("/zc_headSet", {
+											urlParameters: {
+												"$filter": "NumberOfWarrantyClaim eq '" + this.getModel("LocalDataModel").getProperty(
+														"/WarrantyClaimNum") +
+													"'and LanguageKey eq '" + sSelectedLocale.toUpperCase() + "'",
+												"$expand": "zc_claim_read_descriptionSet"
+											},
+											success: $.proxy(function (errorData) {
+												//// start pricing data
+
+												oClaimModel.read("/zc_claim_item_price_dataSet", {
+													urlParameters: {
+														"$filter": "NumberOfWarrantyClaim eq '" + this.getView().getModel("HeadSetData").getProperty(
+																"/NumberOfWarrantyClaim") +
+															"'and LanguageKey eq '" + sSelectedLocale + "'"
+													},
+													success: $.proxy(function (pricedata) {
+
+															var pricingData = pricedata.results;
+															var filteredPriceData = pricingData.filter(function (val) {
+																return val.ItemType === "MAT";
+															});
+
+															var enabledIntent = filteredPriceData.findIndex(function (item) {
+																return item.DiscreCode == "8A";
+															});
+
+															var oAttachmentList = this.getModel("LocalDataModel").getProperty("/PartHeadAttachData");
+															var oAttachmentCheck = oAttachmentList.findIndex(function (item) {
+																return item.FileName == "Letter Of Intent.pdf";
+															});
+
+															if (enabledIntent && this.claimType === "ZPDC" && !oAttachmentCheck || this.claimType == "ZPTS" &&
+																!oAttachmentCheck) {
+																this.getView().getModel("DateModel").setProperty("/oLetterOfIntent", true);
+															} else {
+																this.getView().getModel("DateModel").setProperty("/oLetterOfIntent", false);
+															}
+
+															var oLOIMAT = filteredPriceData.filter(function (item) {
+																return item.DiscreCode === "8A" || item.DiscreCode === "8B";
+															});
+
+															for (var n = 0; n < oLOIMAT.length; n++) {
+																arrPartLOI.push(" " + oLOIMAT[n].matnr + " - " + oLOIMAT[n].PartDescription);
+																this.getView().getModel("PartDataModel").setProperty("/arrPartLOI", arrPartLOI);
+															}
+
+															var IncorrectPartData = pricingData.filter(function (val) {
+																return val.DiscreCode === "4A";
+															});
+
+															if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZPPD") {
+																if (IncorrectPartData != undefined && IncorrectPartData.length > 1) {
+																	var IncorrectLineRef = IncorrectPartData.map(function (item) {
+																		return item.LineRefnr;
+																	});
+
+																	for (var i = 0; i < filteredPriceData.length; i++) {
+																		if (filteredPriceData[i].LineRefnr == IncorrectLineRef[0] || filteredPriceData[i].DiscreCode ===
+																			"4A") {
+																			filteredPriceData.splice(i, 1);
+																			i--;
+																		}
+																	}
+																}
+
+																if (IncorrectPartData.length > 1) {
+
+																	for (var m = 0; m < IncorrectPartData.length - 1; m++) {
+																		if (IncorrectPartData[m].LineRefnr == IncorrectPartData[m + 1].LineRefnr) {
+																			if (IncorrectPartData[m].DiscreCode == "4A" && IncorrectPartData[m].RetainPart == "Y") {
+																				IncorrectPartData[m].matnr = [
+																					"Ordered: " + IncorrectPartData[m].matnr,
+																					"Received: " + IncorrectPartData[m + 1].matnr
+																				].join("\n");
+																				IncorrectPartData[m].PartDescription = [
+																					"Ordered: " + IncorrectPartData[m].PartDescription,
+																					"Received: " + IncorrectPartData[m + 1].PartDescription
+																				].join("\n");
+																				IncorrectPartData[m].DealerNet = [
+																					"Ordered: " + IncorrectPartData[m].DealerNet,
+																					"Received: " + (-IncorrectPartData[m + 1].DealerNet)
+																				].join("\n");
+																				// IncorrectPartData[m].quant= IncorrectPartData[m].PartQty;
+																				IncorrectPartData[m].PartQty = [
+																					"Ordered: " + IncorrectPartData[m].PartQty,
+																					"Received: " + IncorrectPartData[m + 1].PartQty
+																				].join("\n");
+																				IncorrectPartData[m].quant = [
+																					"Ordered: " + IncorrectPartData[m].QuantityOrdered,
+																					"Received: " + IncorrectPartData[m + 1].QuantityReceived
+																				].join("\n");
+																				IncorrectPartData[m].AmtClaimed = [
+																					"Ordered: " + IncorrectPartData[m].AmtClaimed,
+																					"Received: " + (-IncorrectPartData[m + 1].AmtClaimed)
+																				].join("\n");
+																				IncorrectPartData[m].TCIApprovedAmount = [
+																					"Ordered: " + IncorrectPartData[m].TCIApprAmt,
+																					"Received: " + (-IncorrectPartData[m + 1].TCIApprAmt)
+																				].join("\n");
+																				IncorrectPartData[m].DiffAmt = [
+																					"Ordered: " + IncorrectPartData[m].DiffAmt,
+																					"Received: " + (-IncorrectPartData[m + 1].DiffAmt)
+																				].join("\n");
+																				filteredPriceData.push(IncorrectPartData[m]);
+
+																			} else {
+																				// if (IncorrectPartData[m].LineRefnr == IncorrectPartData[m + 1].LineRefnr) {
+																				IncorrectPartData[m].matnr = [
+																					"Ordered: " + IncorrectPartData[m].matnr,
+																					"Received: " + IncorrectPartData[m + 1].matnr
+																				].join("\n");
+																				IncorrectPartData[m].PartDescription = [
+																					"Ordered: " + IncorrectPartData[m].PartDescription,
+																					"Received: " + IncorrectPartData[m + 1].PartDescription
+																				].join("\n");
+																				IncorrectPartData[m].DealerNet = [
+																					"Ordered: " + IncorrectPartData[m].DealerNet,
+																					"Received: " + IncorrectPartData[m + 1].DealerNet
+																				].join("\n");
+																				// IncorrectPartData[m].quant= IncorrectPartData[m].PartQty;
+																				IncorrectPartData[m].PartQty = [
+																					"Ordered: " + IncorrectPartData[m].PartQty,
+																					"Received: " + IncorrectPartData[m + 1].PartQty
+																				].join("\n");
+																				IncorrectPartData[m].quant = [
+																					"Ordered: " + IncorrectPartData[m].QuantityOrdered,
+																					"Received: " + IncorrectPartData[m + 1].QuantityReceived
+																				].join("\n");
+																				IncorrectPartData[m].AmtClaimed = [
+																					"Ordered: " + IncorrectPartData[m].AmtClaimed,
+																					"Received: " + IncorrectPartData[m + 1].AmtClaimed
+																				].join("\n");
+																				IncorrectPartData[m].TCIApprovedAmount = [
+																					"Ordered: " + IncorrectPartData[m].TCIApprAmt,
+																					"Received: " + IncorrectPartData[m + 1].TCIApprAmt
+																				].join("\n");
+																				IncorrectPartData[m].DiffAmt = [
+																					"Ordered: " + IncorrectPartData[m].DiffAmt,
+																					"Received: " + IncorrectPartData[m + 1].DiffAmt
+																				].join("\n");
+																				filteredPriceData.push(IncorrectPartData[m]);
+																			}
+																		}
+
+																	}
+
+																} else {
+
+																	for (var m = 0; m < filteredPriceData.length; m++) {
+																		filteredPriceData[m].matnr = [
+																			"Ordered: " + filteredPriceData[m].matnr,
+																			"Received: " + filteredPriceData[m].matnr
+																		].join("\n");
+																		filteredPriceData[m].PartDescription = [
+																			"Ordered: " + filteredPriceData[m].PartDescription,
+																			"Received: " + filteredPriceData[m].PartDescription
+																		].join("\n");
+																		filteredPriceData[m].DealerNet = filteredPriceData[m].DealerNet;
+																		filteredPriceData[m].PartQty = filteredPriceData[m].PartQty;
+
+																		filteredPriceData[m].quant = [
+																			"Ordered: " + filteredPriceData[m].QuantityOrdered,
+																			"Received: " + filteredPriceData[m].QuantityReceived
+																		].join("\n");
+																		filteredPriceData[m].AmtClaimed = filteredPriceData[m].AmtClaimed;
+																		filteredPriceData[m].TCIApprovedAmount = filteredPriceData[m].TCIApprAmt;
+																		filteredPriceData[m].DiffAmt = filteredPriceData[m].DiffAmt;
+																	}
+
+																}
+
+																var oFilteredData = filteredPriceData;
+																for (var m = 0; m < oFilteredData.length; m++) {
+																	oFilteredData[m].ALMDiscreDesc = oFilteredData[m].ALMDiscreDesc;
+																	if (filteredPriceData[m].DiscreCode == "3A" && filteredPriceData[m].RetainPart == "Y") {
+																		filteredPriceData[m].DealerNet = -(parseFloat(filteredPriceData[m].DealerNet));
+																		filteredPriceData[m].DiffAmt = -(parseFloat(filteredPriceData[m].DiffAmt));
+																		filteredPriceData[m].AmtClaimed = -(parseFloat(filteredPriceData[m].AmtClaimed));
+																		filteredPriceData[m].RepairAmt = -(parseFloat(filteredPriceData[m].RepairAmt));
+																		filteredPriceData[m].TCIApprovedAmount = -(parseFloat(filteredPriceData[m].TCIApprovedAmount));
+																	}
+																}
+																this.getModel("LocalDataModel").setProperty("/PricingDataModel", oFilteredData);
+															}
+
+															this._fnClaimSum();
+														},
+														this),
+													error: $.proxy(function (err) {
+														this.getView().getModel("DateModel").setProperty("/SavePWPartIndicator", false);
+														var err = JSON.parse(err.responseText);
+														var msg = err.error.message.value;
+														MessageBox.show(msg, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
+													}, this)
+												});
+
+												////end of pricing data	    
+
+												this.getView().getModel("HeadSetData").setProperty("/HeadText", errorData.results[0].zc_claim_read_descriptionSet
+													.results[0].HeadText);
+												this.getView().getModel("HeadSetData").setProperty("/ReferenceDate", response.ReferenceDate);
+												this.getView().getModel("HeadSetData").setProperty("/ShipmentReceivedDate", response.ShipmentReceivedDate);
+												this.getView().getModel("HeadSetData").setProperty("/DeliveryDate", response.DeliveryDate);
+												this.getView().getModel("HeadSetData").setProperty("/DateOfApplication", response.DateOfApplication);
+												that.getView().getModel("DateModel").setProperty("/SavePWClaimIndicator", false);
+
+												if (this.getModel("LocalDataModel").getProperty("/oIDBtn") == oBundle.getText("Yes")) {
+													this.getRouter().navTo("SearchClaim");
+												}
+
+											}, this)
+										});
+									}, this)
+								});
+								that.getModel("LocalDataModel").setProperty("/step01Next", true);
+							}, this),
+							error: $.proxy(function () {
+								that.getModel("LocalDataModel").setProperty("/step01Next", false);
+								that.getView().getModel("DateModel").setProperty("/SavePWClaimIndicator", false);
+							}, this)
+						});
+
+					}, this),
+					error: $.proxy(function () {
+						this.getView().getModel("DateModel").setProperty("/SavePWClaimIndicator", false);
+					}, this)
+				});
+			}
+		},
+		
+		
+		/////////////////////26-OCT-2022   Work around for Claims ZPPD type Support document upload throws [Object object] error/////////////// CODE  END////////////////////////////////////////////////////////////
 		onUploadCompleteParts: function (oEvent) {
+		//	this._fnUpdateClaimPartsZPPD();
+		// var that = this;
+		// if(this.claimType === "ZPPD"){
+		// 	var oClaimNum = that.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
+		// 	if (oClaimNum != "nun" && oClaimNum != undefined) {
+		// 		that._fnUpdateClaimPartsZPPD(oEvent);
+		// 	} else {
+		// 		that._fnSaveClaimParts(oEvent);
+		// 	}
+		// }
 			var oClaimModel = this.getModel("ProssingModel");
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
@@ -3714,8 +4111,10 @@ sap.ui.define([
 		},
 
 		_fnUpdateClaimParts: function (oEvent) {
-
+      
 			var oId = oEvent.getSource().getText();
+	
+			 
 			this.getModel("LocalDataModel").setProperty("/oIDBtn", oId);
 
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
