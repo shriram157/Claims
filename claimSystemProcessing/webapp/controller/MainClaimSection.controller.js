@@ -6164,8 +6164,8 @@ sap.ui.define([
 						success: $.proxy(function (data, response) {
 							this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", false);
 
-					//	var pricinghData = response.data.zc_claim_item_price_dataSet.results;
-						var pricinghData=response.data.zc_claim_item_labourSet.results;
+						var pricinghData = response.data.zc_claim_item_price_dataSet.results;
+					//	var pricinghData=response.data.zc_claim_item_labourSet.results;
 							var oFilteredData = pricinghData.filter(function (val) {
 								return val.ItemType === "FR" && val.ItemKey[0] != "P";
 							});
