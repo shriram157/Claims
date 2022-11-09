@@ -192,12 +192,12 @@ zclaimProcessing.utils.formatter = {
 		var oArr = [];
 		if (sum) {
 			for (var i = 0; i < sum.length; i++) {
-				// oArr.push(
-				// 	parseFloat(sum[i].QtyHrs)
-				// );
-					oArr.push(
-					parseFloat(sum[i].ClaimedHours)
+				oArr.push(
+					parseFloat(sum[i].QtyHrs)
 				);
+				// 	oArr.push(
+				// 	parseFloat(sum[i].ClaimedHours)
+				// );
 
 			}
 			if (oArr.length > 0) {
