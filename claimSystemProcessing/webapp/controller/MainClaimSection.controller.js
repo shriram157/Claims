@@ -1092,8 +1092,8 @@ sap.ui.define([
 									.results[0].MainOpsCodeDescription);
 								this.getModel("LocalDataModel").setProperty("/claim_commentSet", errorData.results[0].zc_claim_commentSet.results);
  
-							//	oProssingModel.read("/zc_claim_item_price_dataSet", {
-								oProssingModel.read("/zc_claim_item_labourSet", {
+								oProssingModel.read("/zc_claim_item_price_dataSet", {
+                               // oProssingModel.read("/zc_claim_item_labourSet", {
 									urlParameters: {
 										"$filter": "NumberOfWarrantyClaim eq '" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") +
 											"'and LanguageKey eq '" + sSelectedLocale.toUpperCase() + "' "
