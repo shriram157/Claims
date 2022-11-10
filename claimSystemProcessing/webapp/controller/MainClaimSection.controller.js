@@ -6896,7 +6896,7 @@ sap.ui.define([
 				"DmgTypeCode": this.getView().getModel("HeadSetData").getProperty("/DmgTypeCode"),
 				"DmgSevrCode": this.getView().getModel("HeadSetData").getProperty("/DmgSevrCode")
 			};
-			if ("DmgAreaCode"!="" && "DmdTypeCode"!="" && "DmgSevrCode"!="") {               //changes by swetha
+		//	if ("DmgAreaCode"!="" && "DmdTypeCode"!="" && "DmgSevrCode"!="") {               //changes by swetha
 			this.obj.zc_claim_item_damageSet.results.push(itemObj);
 			this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", true);
 			oClaimModel.refreshSecurityToken();
@@ -6926,7 +6926,9 @@ sap.ui.define([
 				}, this)
 			});
 
-		}},
+		//}
+			
+		},
 		onAddDamageLine: function () {
 			this.getView().getModel("DateModel").setProperty("/damageLine", true);
 		},
