@@ -1091,8 +1091,9 @@ sap.ui.define([
 								this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", errorData.results[0].zc_claim_read_descriptionSet
 									.results[0].MainOpsCodeDescription);
 								this.getModel("LocalDataModel").setProperty("/claim_commentSet", errorData.results[0].zc_claim_commentSet.results);
-
+ 
 								oProssingModel.read("/zc_claim_item_price_dataSet", {
+                               // oProssingModel.read("/zc_claim_item_labourSet", {
 									urlParameters: {
 										"$filter": "NumberOfWarrantyClaim eq '" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") +
 											"'and LanguageKey eq '" + sSelectedLocale.toUpperCase() + "' "
@@ -6163,7 +6164,8 @@ sap.ui.define([
 						success: $.proxy(function (data, response) {
 							this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", false);
 
-							var pricinghData = response.data.zc_claim_item_price_dataSet.results;
+						var pricinghData = response.data.zc_claim_item_price_dataSet.results;
+					//	var pricinghData=response.data.zc_claim_item_labourSet.results;
 							var oFilteredData = pricinghData.filter(function (val) {
 								return val.ItemType === "FR" && val.ItemKey[0] != "P";
 							});
@@ -6894,6 +6896,7 @@ sap.ui.define([
 				"DmgTypeCode": this.getView().getModel("HeadSetData").getProperty("/DmgTypeCode"),
 				"DmgSevrCode": this.getView().getModel("HeadSetData").getProperty("/DmgSevrCode")
 			};
+		//	if ("DmgAreaCode"!="" && "DmdTypeCode"!="" && "DmgSevrCode"!="") {               //changes by swetha
 			this.obj.zc_claim_item_damageSet.results.push(itemObj);
 			this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", true);
 			oClaimModel.refreshSecurityToken();
@@ -6923,6 +6926,8 @@ sap.ui.define([
 				}, this)
 			});
 
+		//}
+			
 		},
 		onAddDamageLine: function () {
 			this.getView().getModel("DateModel").setProperty("/damageLine", true);
