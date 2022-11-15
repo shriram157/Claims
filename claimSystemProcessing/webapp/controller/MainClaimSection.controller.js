@@ -6939,7 +6939,7 @@ sap.ui.define([
 		*15-11-2022 for handling field level validation
 		*/
 		HandleFieldValidation: function (sList){
-			return sList.findIndex(e => e === undefined) > -1;
+			return sList.findIndex(e => e === undefined || e === "") > -1;
 		},
 		onAddDamageLine: function () {
 			this.getView().getModel("DateModel").setProperty("/damageLine", true);
