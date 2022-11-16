@@ -6160,9 +6160,7 @@ sap.ui.define([
 						this.obj.zc_claim_item_labourSet.results.push(itemObj);
 					}
 					this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", true);
-					// opcode issue 16-11-22  code start
-					this.obj.zc_claim_item_price_dataSet.results = [];
-					// opcode issue 16-11-22  code end
+				
 					oClaimModel.create("/zc_headSet", this.obj, {
 						success: $.proxy(function (data, response) {
 							this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", false);
