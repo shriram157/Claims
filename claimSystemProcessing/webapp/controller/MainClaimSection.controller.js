@@ -6160,6 +6160,7 @@ sap.ui.define([
 						this.obj.zc_claim_item_labourSet.results.push(itemObj);
 					}
 					this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", true);
+				
 					oClaimModel.create("/zc_headSet", this.obj, {
 						success: $.proxy(function (data, response) {
 							this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", false);
@@ -6896,7 +6897,12 @@ sap.ui.define([
 				"DmgTypeCode": this.getView().getModel("HeadSetData").getProperty("/DmgTypeCode"),
 				"DmgSevrCode": this.getView().getModel("HeadSetData").getProperty("/DmgSevrCode")
 			};
-		//	if ("DmgAreaCode"!="" && "DmdTypeCode"!="" && "DmgSevrCode"!="") {               //changes by swetha
+			/* TODO: changes by Vikas -15-11-2022 for handling field level validation --Changes Start */
+			var sValidationPass = this.HandleFieldValidation(Object.values(itemObj));
+			if (sValidationPass=== true){
+				return MessageToast.show("Please enter all required fields");
+			}
+			/* TODO: changes by Vikas -15-11-2022 for handling field level validation -- Changes End */
 			this.obj.zc_claim_item_damageSet.results.push(itemObj);
 			this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", true);
 			oClaimModel.refreshSecurityToken();
@@ -6928,6 +6934,13 @@ sap.ui.define([
 
 		//}
 			
+		},
+		/*
+		*changes by Vikas -
+		*15-11-2022 for handling field level validation
+		*/
+		HandleFieldValidation: function (sList){
+			return sList.findIndex(e => e === undefined || e === "") > -1;
 		},
 		onAddDamageLine: function () {
 			this.getView().getModel("DateModel").setProperty("/damageLine", true);

@@ -162,7 +162,7 @@ sap.ui.define([
 					var userType = oData.loggedUserType[0];
 					//var userType = "Dealer_Services_Admin";
 					//var userType = "TCI_Admin";
-					//var userType = "Dealer_Parts_Services_Admin";
+					// var userType = "Dealer_Parts_Services_Admin";
 					sap.ui.getCore().getModel("UserDataModel").setProperty("/LoggedInUser", userType);
 					sap.ui.getCore().getModel("UserDataModel").setProperty("/UserScope", "");
 					//this.getView().setBusy(true);
