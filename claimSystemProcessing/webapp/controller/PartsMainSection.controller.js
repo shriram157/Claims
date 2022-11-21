@@ -4183,7 +4183,7 @@ sap.ui.define([
 								PartQty: item.QuantityReceived,
 								LineRefnr: item.LineRefnr,
 								ItemKey: item.ItemKey,
-								RetainPart: RetainPart,
+								RetainPart: item.RetainPart,       //changes by swetha for INC0222316 on 21-11-2022 added item.
 								QuantityOrdered: item.QuantityOrdered,
 								QuantityReceived: item.QuantityReceived,
 								DiscreCode: item.DiscreCode,
