@@ -7811,6 +7811,11 @@ sap.ui.define([
 			if (oLength < 5) {
 				oEvent.getSource().setValue("");
 			}
+		},
+		onOFPLiveChange: function(oEvent) {
+			var sValue= oEvent.getParameter("value");
+			var finalRes=sValue.replace(/[^\w\s]/gi, '');
+			oEvent.getSource().setValue(finalRes);
 		}
 
 	});

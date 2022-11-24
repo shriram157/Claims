@@ -381,7 +381,7 @@
 			<HBox width="100%" class="sapUiTinyMarginBottom clflexDirectionChange">
 				<VBox visible="{DateModel>/ofpEnabled}" class="sapUiSmallMarginEnd clwidhth22">
 					<Label text="{i18n>OFP}" required="{DateModel>/ofpRequired}" visible="{DateModel>/ofpEnabled}"/>
-					<Input id="idOFP" required="{DateModel>/ofpRequired}" change="onChangeOFP"
+					<Input id="idOFP" required="{DateModel>/ofpRequired}" change="onChangeOFP" liveChange="onOFPLiveChange"
 						value="{path:'HeadSetData>/OFP', type : 'sap.ui.model.type.String', constraints : { minLength : 2, maxLength : 40 }}"
 						editable="{DateModel>/oFormEdit}" visible="{DateModel>/ofpEnabled}" maxLength="40"/>
 				</VBox>
