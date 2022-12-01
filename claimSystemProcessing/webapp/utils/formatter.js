@@ -195,6 +195,9 @@ zclaimProcessing.utils.formatter = {
 				oArr.push(
 					parseFloat(sum[i].QtyHrs)
 				);
+				// 	oArr.push(
+				// 	parseFloat(sum[i].ClaimedHours)
+				// );
 
 			}
 			if (oArr.length > 0) {

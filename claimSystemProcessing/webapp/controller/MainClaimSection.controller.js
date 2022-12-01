@@ -1091,8 +1091,9 @@ sap.ui.define([
 								this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", errorData.results[0].zc_claim_read_descriptionSet
 									.results[0].MainOpsCodeDescription);
 								this.getModel("LocalDataModel").setProperty("/claim_commentSet", errorData.results[0].zc_claim_commentSet.results);
-
+ 
 								oProssingModel.read("/zc_claim_item_price_dataSet", {
+                               // oProssingModel.read("/zc_claim_item_labourSet", {
 									urlParameters: {
 										"$filter": "NumberOfWarrantyClaim eq '" + this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum") +
 											"'and LanguageKey eq '" + sSelectedLocale.toUpperCase() + "' "
@@ -6159,11 +6160,13 @@ sap.ui.define([
 						this.obj.zc_claim_item_labourSet.results.push(itemObj);
 					}
 					this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", true);
+				
 					oClaimModel.create("/zc_headSet", this.obj, {
 						success: $.proxy(function (data, response) {
 							this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", false);
 
-							var pricinghData = response.data.zc_claim_item_price_dataSet.results;
+						var pricinghData = response.data.zc_claim_item_price_dataSet.results;
+					//	var pricinghData=response.data.zc_claim_item_labourSet.results;
 							var oFilteredData = pricinghData.filter(function (val) {
 								return val.ItemType === "FR" && val.ItemKey[0] != "P";
 							});
@@ -6894,6 +6897,12 @@ sap.ui.define([
 				"DmgTypeCode": this.getView().getModel("HeadSetData").getProperty("/DmgTypeCode"),
 				"DmgSevrCode": this.getView().getModel("HeadSetData").getProperty("/DmgSevrCode")
 			};
+			/* TODO: changes by Vikas -15-11-2022 for handling field level validation --Changes Start */
+			var sValidationPass = this.HandleFieldValidation(Object.values(itemObj));
+			if (sValidationPass=== true){
+				return MessageToast.show("Please enter all required fields");
+			}
+			/* TODO: changes by Vikas -15-11-2022 for handling field level validation -- Changes End */
 			this.obj.zc_claim_item_damageSet.results.push(itemObj);
 			this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", true);
 			oClaimModel.refreshSecurityToken();
@@ -6923,6 +6932,15 @@ sap.ui.define([
 				}, this)
 			});
 
+		//}
+			
+		},
+		/*
+		*changes by Vikas -
+		*15-11-2022 for handling field level validation
+		*/
+		HandleFieldValidation: function (sList){
+			return sList.findIndex(e => e === undefined || e === "") > -1;
 		},
 		onAddDamageLine: function () {
 			this.getView().getModel("DateModel").setProperty("/damageLine", true);
