@@ -39,12 +39,12 @@
 					"localUri": "localService/API_BUSINESS_PARTNER/metadata.xml"
 				}
 			},
-			"MD_PRODUCT_FS_SRV": {
-				"uri": "/node/MD_PRODUCT_FS_SRV/",
+			"Z_MD_PRODUCT_FS_SRV": {
+				"uri": "/node/Z_MD_PRODUCT_FS_SRV/",
 				"type": "OData",
 				"settings": {
 					"odataVersion": "2.0",
-					"localUri": "localService/MD_PRODUCT_FS_SRV/metadata.xml"
+					"localUri": "localService/Z_MD_PRODUCT_FS_SRV/metadata.xml"
 				}
 			},
 			"Z_VEHICLE_MASTER_SRV": {
@@ -175,7 +175,7 @@
 			},
 			"ProductMaster": {
 				"type": "sap.ui.model.odata.v2.ODataModel",
-				"dataSource": "MD_PRODUCT_FS_SRV",
+				"dataSource": "Z_MD_PRODUCT_FS_SRV",
 				"preload": true,
 				"settings": {
 					"defaultOperationMode": "Server",
