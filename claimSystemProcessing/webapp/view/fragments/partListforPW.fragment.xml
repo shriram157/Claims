@@ -1,7 +1,7 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
-	<SelectDialog title="{i18n>SelectPartNumber}" class="sapUiPopupWithPadding" items="{ProductMasterModel>/C_Product_Fs}"
+	<SelectDialog title="{i18n>SelectPartNumber}" class="sapUiPopupWithPadding" items="{ProductMasterModel>/C_PRODUCT}"
 		search="_handleValueHelpSearch" liveChange="_handleLiveSearch" confirm="_handleValueHelpClose" cancel="_handleValueHelpClose">
-		<StandardListItem title="{ProductMasterModel>Material}" description="{ProductMasterModel>Material_Text}"
+		<StandardListItem title="{ProductMasterModel>Product}" description="{ProductMasterModel>ProductDescription}"
 			info="{ProductMasterModel>BaseUnit}"/>
 	</SelectDialog>
 </core:FragmentDefinition>

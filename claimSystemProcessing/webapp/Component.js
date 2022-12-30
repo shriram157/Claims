@@ -73,7 +73,7 @@ sap.ui.define([
 			// });
 			// this.setModel(oDataModel01, "ApiBusinessModel");
 
-			// var mConfig02 = this.getMetadata().getManifestEntry("/sap.app/dataSources/Z_MD_PRODUCT_FS_SRV");
+			// var mConfig02 = this.getMetadata().getManifestEntry("/sap.app/dataSources/MD_PRODUCT_OP_SRV");
 			// if (sLocation_conf == 0) {
 			// 	mConfig02.uri = "/Claim_Destination" + mConfig02.uri;
 			// } else {
