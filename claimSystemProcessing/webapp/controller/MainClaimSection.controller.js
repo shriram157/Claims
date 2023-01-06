@@ -5414,7 +5414,7 @@ sap.ui.define([
 
 			if (sValue) {
 				var oFilter = new Filter(
-					"Material",
+					"Product",
 					sap.ui.model.FilterOperator.StartsWith, sValue
 				);
 				//console.log(oFilter);
@@ -5429,7 +5429,7 @@ sap.ui.define([
 
 			if (sValue) {
 				var oFilter = new Filter(
-					"Material",
+					"Product",
 					sap.ui.model.FilterOperator.StartsWith, sValue
 				);
 				//console.log(oFilter);
