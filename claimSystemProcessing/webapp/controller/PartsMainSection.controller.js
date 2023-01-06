@@ -1488,7 +1488,7 @@ sap.ui.define([
 			if (sValue) {
 				var oFilter = new Filter(
 					"Product",
-					sap.ui.model.FilterOperator.Contains, sValue
+					sap.ui.model.FilterOperator.StartsWith, sValue
 				);
 				evt.getSource().getBinding("items").filter([oFilter]);
 			} else {
@@ -1501,7 +1501,7 @@ sap.ui.define([
 			if (sValue) {
 				var oFilter = new Filter(
 					"Product",
-					sap.ui.model.FilterOperator.Contains, sValue
+					sap.ui.model.FilterOperator.StartsWith, sValue
 				);
 				evt.getSource().getBinding("items").filter([oFilter]);
 			} else {
