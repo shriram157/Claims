@@ -1487,7 +1487,7 @@ sap.ui.define([
 
 			if (sValue) {
 				var oFilter = new Filter(
-					"Material",
+					"Product",
 					sap.ui.model.FilterOperator.Contains, sValue
 				);
 				evt.getSource().getBinding("items").filter([oFilter]);
@@ -1500,7 +1500,7 @@ sap.ui.define([
 
 			if (sValue) {
 				var oFilter = new Filter(
-					"Material",
+					"Product",
 					sap.ui.model.FilterOperator.Contains, sValue
 				);
 				evt.getSource().getBinding("items").filter([oFilter]);
