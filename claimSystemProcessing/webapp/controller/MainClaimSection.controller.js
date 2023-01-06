@@ -5423,7 +5423,7 @@ sap.ui.define([
 				evt.getSource().getBinding("items").filter([]);
 			}
 		},
-
+         //Filter option changed to Product from Filter
 		_handleLiveSearch: function (evt) {
 			var sValue = evt.getParameter("value");
 
