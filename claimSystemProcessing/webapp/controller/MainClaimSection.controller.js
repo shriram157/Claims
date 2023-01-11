@@ -5469,6 +5469,7 @@ sap.ui.define([
 			}
 
 			this.getView().getModel("PartDataModel").setProperty("/PartDescription", oDescription);
+			this.getView().getModel("LocalDataModel").setProperty("/BaseUnit", oBaseUint);      //changes by swetha for defect 17609 on 11/1/23 
 			if (oSelectedItem) {
 				var productInput = this.byId(this.inputId);
 				productInput.setValue(this.oSelectedTitle);
