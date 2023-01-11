@@ -5454,9 +5454,10 @@ sap.ui.define([
 						if (data.results.length > 0) {
 							if (data.results[0].VALUE != "?") {
 								this.getView().getModel("LocalDataModel").setProperty("/BaseUnit", data.results[0].VALUE);
-							} else {
+							} 
+							/*else {                                            //changes by swetha for defect 17609 on 11/1/23 
 								this.getView().getModel("LocalDataModel").setProperty("/BaseUnit", oBaseUint);
-							}
+							}*/
 
 						} else {
 							this.getView().getModel("LocalDataModel").setProperty("/BaseUnit", oBaseUint);
