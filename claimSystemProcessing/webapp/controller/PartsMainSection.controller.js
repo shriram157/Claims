@@ -495,6 +495,7 @@ sap.ui.define([
 					this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
 
 				} else if (this.claimType === "ZPTS") {
+					// sap.ui.getCore().byId
 					this.SelectedClaimType = "ZPTS";
 					this.getView().getModel("DateModel").setProperty("/DelDateEdit", false);
 					this.getView().byId("idPdcCode").setProperty("editable", false);
@@ -2547,7 +2548,13 @@ sap.ui.define([
 				var valid6 = true;
 				// this._openDialog02();
 			}
-			if (valid1 == true && valid2 == true && valid3 == true && valid4 == true && valid5 == true && valid6 == true) {
+			if (this.getView().getModel("LOIDataModel").getProperty("/RepresntativeName") == "") {
+				// this.getView().getModel("DateModel").setProperty("/partTypeState", "Error");
+			} else {
+				var valid7 = true;
+				// this._openDialog02();
+			}
+			if (valid1 == true && valid2 == true && valid3 == true && valid4 == true && valid5 == true && valid6 == true && valid7 == true) {
 				this._openDialog02();
 				oEvent.getSource().getParent().getParent().close();
 				oEvent.getSource().getParent().getParent().destroy();
@@ -2691,6 +2698,15 @@ sap.ui.define([
 		},
 		onPressLetterOfIntent: function () {
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
+			
+			var ExceptionNoted;
+			
+			if(this.claimType="ZTPC")
+			{
+				ExceptionNoted=1;
+			}else{
+				ExceptionNoted=0;
+			}
 
 			var LOIData = new sap.ui.model.json.JSONModel({
 				"claimNumber": "",
@@ -2721,7 +2737,8 @@ sap.ui.define([
 				"PhoneLOI": "",
 				"LOIExt": "",
 				"LOIEmail": "",
-				"ReAddress": ""
+				"ReAddress": "",
+				"ExceptionNoted":ExceptionNoted
 			});
 			LOIData.setDefaultBindingMode("TwoWay");
 			this.getView().setModel(LOIData, "LOIDataModel");
