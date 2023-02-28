@@ -495,7 +495,7 @@ sap.ui.define([
 					this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
 
 				} else if (this.claimType === "ZPTS") {
-					// sap.ui.getCore().byId
+				
 					this.SelectedClaimType = "ZPTS";
 					this.getView().getModel("DateModel").setProperty("/DelDateEdit", false);
 					this.getView().byId("idPdcCode").setProperty("editable", false);
@@ -2699,14 +2699,14 @@ sap.ui.define([
 		onPressLetterOfIntent: function () {
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			
-			var ExceptionNoted;
+			var ExceptionNoted;//DMND0003991 | Letter Of Intent Changes On Transport Damage and Transport Shortage Claims  Code Start Shriram 28_Feb_2023
 			
-			if(this.claimType="ZTPC")
+			if(this.claimType=="ZPTS")
 			{
 				ExceptionNoted=1;
 			}else{
 				ExceptionNoted=0;
-			}
+			}// End
 
 			var LOIData = new sap.ui.model.json.JSONModel({
 				"claimNumber": "",
@@ -2738,7 +2738,7 @@ sap.ui.define([
 				"LOIExt": "",
 				"LOIEmail": "",
 				"ReAddress": "",
-				"ExceptionNoted":ExceptionNoted
+				"ExceptionNoted":ExceptionNoted   //DMND0003991
 			});
 			LOIData.setDefaultBindingMode("TwoWay");
 			this.getView().setModel(LOIData, "LOIDataModel");
