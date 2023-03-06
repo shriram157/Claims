@@ -495,7 +495,7 @@ sap.ui.define([
 					this.getModel("LocalDataModel").setProperty("/UploadEnable", false);
 
 				} else if (this.claimType === "ZPTS") {
-				
+
 					this.SelectedClaimType = "ZPTS";
 					this.getView().getModel("DateModel").setProperty("/DelDateEdit", false);
 					this.getView().byId("idPdcCode").setProperty("editable", false);
@@ -792,7 +792,7 @@ sap.ui.define([
 											"$filter": "NumberOfWarrantyClaim eq '" + oClaim + "' and LanguageKey eq '" + sSelectedLocale + "'"
 										},
 										success: $.proxy(function (prdata) {
-											var test=prdata.results;
+											var test = prdata.results;
 
 											var pricingData = prdata.results;
 
@@ -1719,18 +1719,18 @@ sap.ui.define([
 				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
 				this.getView().byId("idMainClaimMessage").setText(this.oBundle.getText("FillUpMandatoryField"));
 				this.getView().byId("idMainClaimMessage").setType("Error");
-			}else if ( this.getView().getModel("PartDataModel").getProperty("/DiscreCode") == "4A" &&
-			this.getView().getModel("PartDataModel").getProperty("/matnr") == this.getView().getModel("HeadSetData").getProperty("/PartNumberRc")
+			} else if (this.getView().getModel("PartDataModel").getProperty("/DiscreCode") == "4A" &&
+				this.getView().getModel("PartDataModel").getProperty("/matnr") == this.getView().getModel("HeadSetData").getProperty(
+					"/PartNumberRc")
 			) {
 				//this.getView().byId("idMainClaimMessage").setProperty("visible", true);
 				//this.getView().byId("idMainClaimMessage").setText(this.oBundle.getText("wrongPartmismatchError"));
 				//this.getView().byId("idMainClaimMessage").setType("Error");
 				this.getView().getModel("HeadSetData").setProperty("/PartNumberRc", "");
-				MessageToast.show(oBundle.getText("wrongPartmismatchError"),
-						{
-							my: "center center",
-							at: "center center"
-						});
+				MessageToast.show(oBundle.getText("wrongPartmismatchError"), {
+					my: "center center",
+					at: "center center"
+				});
 			} else {
 				this.getView().getModel("DateModel").setProperty("/SavePWPartIndicator", true);
 				this.getView().getModel("DateModel").setProperty("/RetainPartType", "None");
@@ -2386,6 +2386,20 @@ sap.ui.define([
 										'X-CSRF-Token': this._oToken
 									}
 								});
+								this.oBundle = this.getView().getModel("i18n").getResourceBundle();//DMND0003991 | Letter Of Intent Changes On Transport Damage and Transport Shortage Claims Shriram 06_March_2023  Code Start 
+
+								var oVal;
+								// var oVal = oEN.getSource().getSelectedButton().getText();
+								if (sap.ui.getCore()byId("IDRadioException").getSelectedButton().getText() == this.oBundle.getText("Damage")) {
+									oVal = this.oBundle.getText("Damage");
+								} else if sap.ui.getCore()byId("IDRadioException").getSelectedButton().getText() == this.oBundle.getText("MissingPieces")) {
+									oVal = this.oBundle.getText("MissingPieces");
+								} else {
+									oVal = this.oBundle.getText("OptionBoth");
+								}
+								this.getView().getModel("LOIDataModel").setProperty("/RadioException", oVal);//DMND0003991 | Letter Of Intent Changes On Transport Damage and Transport Shortage Claims Shriram 06_March_2023  Code end 
+
+
 								var obj = {
 									"Claim": this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum"),
 									"Partner": this.getModel("LocalDataModel").getProperty("/BpDealerModel/0/BusinessPartnerKey"),
@@ -2698,15 +2712,14 @@ sap.ui.define([
 		},
 		onPressLetterOfIntent: function () {
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
-			
-			var ExceptionNoted;//DMND0003991 | Letter Of Intent Changes On Transport Damage and Transport Shortage Claims  Code Start Shriram 28_Feb_2023
-			
-			if(this.claimType=="ZPTS")
-			{
-				ExceptionNoted=1;
-			}else{
-				ExceptionNoted=0;
-			}// End
+
+			var ExceptionNoted; //DMND0003991 | Letter Of Intent Changes On Transport Damage and Transport Shortage Claims  Code Start Shriram 28_Feb_2023
+
+			if (this.claimType == "ZPTS") {
+				ExceptionNoted = 1;
+			} else {
+				ExceptionNoted = 0;
+			} // End
 
 			var LOIData = new sap.ui.model.json.JSONModel({
 				"claimNumber": "",
@@ -2738,7 +2751,7 @@ sap.ui.define([
 				"LOIExt": "",
 				"LOIEmail": "",
 				"ReAddress": "",
-				"ExceptionNoted":ExceptionNoted   //DMND0003991
+				"ExceptionNoted": ExceptionNoted //DMND0003991
 			});
 			LOIData.setDefaultBindingMode("TwoWay");
 			this.getView().setModel(LOIData, "LOIDataModel");
@@ -2767,7 +2780,7 @@ sap.ui.define([
 				"DropDownModel").getPath()).ClaimType;
 			var matrnr = this.getView().getModel("PartDataModel").getProperty("/matnr");
 			if (DDClaimType == "ZPPD") {
-				if (SelectedDD.DiscreCode == "2A") {//Shortage
+				if (SelectedDD.DiscreCode == "2A") { //Shortage
 					this.getView().getModel("multiHeaderConfig").setProperty("/flagIncorrectPart", false);
 					this.getView().getModel("multiHeaderConfig").setProperty("/PartNumberEdit", false);
 					this.getView().getModel("HeadSetData").setProperty("/PartNumberRc", matrnr);
@@ -3317,7 +3330,7 @@ sap.ui.define([
 				this.getView().getModel("multiHeaderConfig").setProperty("/partDiscrepancies", true);
 				this.getView().getModel("multiHeaderConfig").setProperty("/partTransportation", false);
 				this.getView().getModel("multiHeaderConfig").setProperty("/multiheader5", 6);
-				this.getView().getModel("multiHeaderConfig").setProperty("/uploader", false);				//changes by swetha to enable upload for ZPPD claim type
+				this.getView().getModel("multiHeaderConfig").setProperty("/uploader", false); //changes by swetha to enable upload for ZPPD claim type
 				this.getView().getModel("multiHeaderConfig").setProperty("/RetainPartV", true);
 				this.getView().getModel("multiHeaderConfig").setProperty("/PartNumberRcV", true);
 				this.getView().getModel("multiHeaderConfig").setProperty("/PartDescriptionOrdRcv", true);
@@ -3325,7 +3338,7 @@ sap.ui.define([
 				this.getView().getModel("multiHeaderConfig").setProperty("/RepAmountCol", false);
 				this.getView().getModel("multiHeaderConfig").setProperty("/PartRepaired", false);
 				this.getView().getModel("multiHeaderConfig").setProperty("/PartRepCol", false);
-				this.getView().getModel("multiHeaderConfig").setProperty("/AttachmentCol", false);			//changes by swetha to enable upload for ZPPD claim type
+				this.getView().getModel("multiHeaderConfig").setProperty("/AttachmentCol", false); //changes by swetha to enable upload for ZPPD claim type
 				this.getView().getModel("multiHeaderConfig").setProperty("/RetainPartCol", true);
 				this.getView().getModel("multiHeaderConfig").setProperty("/DiscrepancyCol", true);
 				this.getView().getModel("multiHeaderConfig").setProperty("/DamageConditionCol", false);
@@ -3340,7 +3353,7 @@ sap.ui.define([
 		},
 
 		onUploadChangeParts: function (oEvent) {
-			
+
 			this.getModel("LocalDataModel").setProperty("/IndicatorState", true);
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var that = this;
@@ -3382,11 +3395,11 @@ sap.ui.define([
 			}
 		},
 		///////////////////// 26-OCT-2022  Work around for Claims ZPPD type Support document upload throws [Object object] error//////////////// CODE START/////////////////////////////////////////////////
-		
+
 		_fnUpdateClaimPartsZPPD: function (oEvent) {
-      
-		//	var oId = oEvent.getSource().getText();
-		//		this.getModel("LocalDataModel").setProperty("/oIDBtn", oId);
+
+			//	var oId = oEvent.getSource().getText();
+			//		this.getModel("LocalDataModel").setProperty("/oIDBtn", oId);
 
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			this.getView().getModel("DateModel").setProperty("/PWPrintEnable", true);
@@ -3763,20 +3776,19 @@ sap.ui.define([
 				});
 			}
 		},
-		
-		
+
 		/////////////////////26-OCT-2022   Work around for Claims ZPPD type Support document upload throws [Object object] error/////////////// CODE  END////////////////////////////////////////////////////////////
 		onUploadCompleteParts: function (oEvent) {
-		//	this._fnUpdateClaimPartsZPPD();
-		// var that = this;
-		// if(this.claimType === "ZPPD"){
-		// 	var oClaimNum = that.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
-		// 	if (oClaimNum != "nun" && oClaimNum != undefined) {
-		// 		that._fnUpdateClaimPartsZPPD(oEvent);
-		// 	} else {
-		// 		that._fnSaveClaimParts(oEvent);
-		// 	}
-		// }
+			//	this._fnUpdateClaimPartsZPPD();
+			// var that = this;
+			// if(this.claimType === "ZPPD"){
+			// 	var oClaimNum = that.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
+			// 	if (oClaimNum != "nun" && oClaimNum != undefined) {
+			// 		that._fnUpdateClaimPartsZPPD(oEvent);
+			// 	} else {
+			// 		that._fnSaveClaimParts(oEvent);
+			// 	}
+			// }
 			var oClaimModel = this.getModel("ProssingModel");
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
@@ -3808,12 +3820,11 @@ sap.ui.define([
 				this.obj.zc_claim_attachmentsSet.results.push(itemObj);
 
 				oClaimModel.refreshSecurityToken();
-				
+
 				// Start of change by PATILSA- 11/08/2022 - INC0220542 (Attchment Issue)
-				
-				if (this.obj.WarrantyClaimType == 'ZPPD')
-				{
-				this.obj.zc_claim_item_price_dataSet = [];
+
+				if (this.obj.WarrantyClaimType == 'ZPPD') {
+					this.obj.zc_claim_item_price_dataSet = [];
 				}
 
 				// End of change by PATILSA- 11/08/2022 - INC0220542 (Attchment Issue)
@@ -4128,10 +4139,9 @@ sap.ui.define([
 		},
 
 		_fnUpdateClaimParts: function (oEvent) {
-      
+
 			var oId = oEvent.getSource().getText();
-	
-			 
+
 			this.getModel("LocalDataModel").setProperty("/oIDBtn", oId);
 
 			var oBundle = this.getView().getModel("i18n").getResourceBundle();
@@ -4200,7 +4210,7 @@ sap.ui.define([
 								PartQty: item.QuantityReceived,
 								LineRefnr: item.LineRefnr,
 								ItemKey: item.ItemKey,
-								RetainPart: item.RetainPart,       //changes by swetha for INC0222316 on 21-11-2022 added item.
+								RetainPart: item.RetainPart, //changes by swetha for INC0222316 on 21-11-2022 added item.
 								QuantityOrdered: item.QuantityOrdered,
 								QuantityReceived: item.QuantityReceived,
 								DiscreCode: item.DiscreCode,
@@ -4841,7 +4851,7 @@ sap.ui.define([
 			var oClaimNum = this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum");
 			this.obj.WarrantyClaimType = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType");
 			this.obj.Partner = this.getModel("LocalDataModel").getProperty("/BPPartner");
-			
+
 			this.obj.ActionCode = "";
 			this.obj.NameOfPersonRespWhoChangedObj = this.getModel("LocalDataModel").getProperty("/LoginId");
 			this.obj.NumberOfWarrantyClaim = this.getView().getModel("HeadSetData").getProperty("/NumberOfWarrantyClaim");
