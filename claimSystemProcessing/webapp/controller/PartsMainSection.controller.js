@@ -2390,9 +2390,9 @@ sap.ui.define([
 
 								var oVal;//
 								// var oVal = oEN.getSource().getSelectedButton().getText();
-								if (sap.ui.getCore()byId("IDRadioException").getSelectedButton().getText() == _that.oBundle.getText("Damage")) {
+								if (sap.ui.getCore().byId("IDRadioException").getSelectedButton().getText() == _that.oBundle.getText("Damage")) {
 									oVal = _that.oBundle.getText("Damage");
-								} elseif (sap.ui.getCore()byId("IDRadioException").getSelectedButton().getText() == _that.oBundle.getText("MissingPieces")) {
+								} else if (sap.ui.getCore().byId("IDRadioException").getSelectedButton().getText() == _that.oBundle.getText("MissingPieces")) {
 									oVal = _that.oBundle.getText("MissingPieces");
 								} else {
 									oVal = _that.oBundle.getText("OptionBoth");
