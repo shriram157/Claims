@@ -2386,19 +2386,7 @@ sap.ui.define([
 										'X-CSRF-Token': this._oToken
 									}
 								});
-								this.oBundle = this.getView().getModel("i18n").getResourceBundle();//DMND0003991 | Letter Of Intent Changes On Transport Damage and Transport Shortage Claims Shriram 06_March_2023  Code Start 
-
-								var oVal;//
-								// var oVal = oEN.getSource().getSelectedButton().getText();
-								if (sap.ui.getCore()byId("IDRadioException").getSelectedButton().getText() == this.oBundle.getText("Damage")) {
-									oVal = this.oBundle.getText("Damage");
-								} else if sap.ui.getCore()byId("IDRadioException").getSelectedButton().getText() == this.oBundle.getText("MissingPieces")) {
-									oVal = this.oBundle.getText("MissingPieces");
-								} else {
-									oVal = this.oBundle.getText("OptionBoth");
-								}
-								this.getView().getModel("LOIDataModel").setProperty("/RadioException", oVal);//DMND0003991 | Letter Of Intent Changes On Transport Damage and Transport Shortage Claims Shriram 06_March_2023  Code end 
-
+						
 
 								var obj = {
 									"Claim": this.getModel("LocalDataModel").getProperty("/WarrantyClaimNum"),
