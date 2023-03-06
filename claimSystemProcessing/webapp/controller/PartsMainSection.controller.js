@@ -2388,7 +2388,7 @@ sap.ui.define([
 								});
 								this.oBundle = this.getView().getModel("i18n").getResourceBundle();//DMND0003991 | Letter Of Intent Changes On Transport Damage and Transport Shortage Claims Shriram 06_March_2023  Code Start 
 
-								var oVal;
+								var oVal;//
 								// var oVal = oEN.getSource().getSelectedButton().getText();
 								if (sap.ui.getCore()byId("IDRadioException").getSelectedButton().getText() == this.oBundle.getText("Damage")) {
 									oVal = this.oBundle.getText("Damage");
