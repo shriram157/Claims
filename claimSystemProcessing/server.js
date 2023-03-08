@@ -12,6 +12,7 @@ instance.first.use((req, res, next) => {
 	if (logNetwork && req.loggingContext) {
 		req.loggingContext.enableNetworkLog(res);
 	}
+	
 	next();
 });
 

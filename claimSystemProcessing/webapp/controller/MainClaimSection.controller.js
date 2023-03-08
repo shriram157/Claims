@@ -7811,7 +7811,14 @@ sap.ui.define([
 			if (oLength < 5) {
 				oEvent.getSource().setValue("");
 			}
+		},
+		/* TODO: changes by Vikas -25-11-2022 for Handling special characters DMND0002868 --Changes Start */
+		onOFPLiveChange: function(oEvent) {
+			var sValue= oEvent.getParameter("value");
+			var finalRes=sValue.replace(/[^\w\s]/gi, '').replace(/_/g,'');
+			oEvent.getSource().setValue(finalRes);
 		}
+		/* TODO: changes by Vikas -15-11-2022 for Handling special characters --Changes end */
 
 	});
 
