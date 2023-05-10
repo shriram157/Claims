@@ -222,7 +222,9 @@ sap.ui.define([
 				this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", false);
 				var oProssingModel = this.getModel("ProssingModel");
 				var DeliNum = oDelNum.getParameters().newValue;
-				var numQuery = "(DeliNum='" + DeliNum +"'"," DeliType='"+this.SelectedClaimType+"')?$format=json";          //changes for DMND0004037 by swetha on 10th May,2023 added DeliType to send the claim type for backend 
+				var DeliType = this.SelectedClaimType;
+				var numQuery = "(DeliNum='" + DeliNum + "')?$format=json";
+			//var numQuery = "(DeliNum='" + DeliNum +"', DeliType='"+this.SelectedClaimType+"')?$format=json";          //changes for DMND0004037 by swetha on 10th May,2023 added DeliType to send the claim type for backend 
 				oProssingModel.read("/zc_get_delidateSet" + numQuery, {
 					success: $.proxy(function (delNumdata) {
 						if (delNumdata.DeliDate == null) {
