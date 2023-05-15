@@ -74,77 +74,7 @@
 					</f:content>
 				</f:SimpleForm>
 			</VBox>
-			<VBox>
-				<f:SimpleForm minWidth="1024" id="id_LOIForm03" editable="true" layout="ResponsiveGridLayout" title="{i18n>ActionTakenCareToResolveClaim}"
-					labelSpanXL="2" labelSpanL="2" labelSpanM="2" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" columnsXL="1"
-					columnsL="1" columnsM="1" singleContainerFullSize="false">
-					<f:content>
-						<HBox>
-							<Label text="{i18n>CarrierContactedBy}" class="sapUiTinyMarginBeginEnd sapUiSmallMarginTop" required="true"/>
-							<RadioButtonGroup valueState="{DateModel>/partTypeState}" id="RadioCCPhoneEmail" select="onRadioChangeCPhone" columns="2"
-								class="sapUiMediumMarginBottom" selectedIndex="0">
-								<buttons>
-									<RadioButton id="LOI01-1" text="{i18n>Yes}"/>
-									<RadioButton id="LOI02-2" text="{i18n>No}"/>
-								</buttons>
-							</RadioButtonGroup>
-							<Label text="{i18n>PartsDate}" class="sapUiTinyMarginBeginEnd sapUiSmallMarginTop"/>
-							<DatePicker valueState="{DateModel>/partTypeState}"
-								value="{path:'LOIDataModel>/DateLOI', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd' } }"
-								required="true" id="idDateLOI02"/>
-							<Label text="{i18n>TextAt}" class="sapUiTinyMarginBeginEnd sapUiSmallMarginTop"/>
-							<!--<Input value="{path:'LOIDataModel>/AtLOI02'}"/>-->
-							<TimePicker value="{path:'LOIDataModel>/AtLOI02', type: 'sap.ui.model.type.Time'}"/>
-						</HBox>
-						<Label text="{i18n>Representative}" class="sapUiTinyMarginBeginEnd"required="true"/>
-						<!--DMND0003991-->
-						<Input value="{path:'LOIDataModel>/RepresntativeName'}" width="100%"/>
-						<!--</HBox>-->
-						<Label text="{i18n>TraceRequest}" class="sapUiTinyMarginBeginEnd" required="true"/>
-						<RadioButtonGroup valueState="{DateModel>/partTypeState}" id="RadioTR" select="onRadioChangeTR" columns="4" class="sapUiMediumMarginBottom"
-							selectedIndex="0">
-							<buttons>
-								<RadioButton id="LOITR-1" text="{i18n>Yes}"/>
-								<RadioButton id="LOITR-2" text="{i18n>No}"/>
-								<RadioButton id="LOITR-3" text="{i18n>NotApplicable}"/>
-							</buttons>
-						</RadioButtonGroup>
-						<Label text="{i18n>CarrierRighttoInspectionWaived}" class="sapUiTinyMarginBeginEnd" required="true"/>
-						<RadioButtonGroup valueState="{DateModel>/partTypeState}" id="RadioCR" select="onRadioChangeCR" columns="4" class="sapUiMediumMarginBottom"
-							selectedIndex="0">
-							<buttons>
-								<RadioButton id="LOICR-1" text="{i18n>Yes}"/>
-								<RadioButton id="LOICR-2" text="{i18n>No}"/>
-								<RadioButton id="LOICR-3" text="{i18n>NotApplicable}"/>
-							</buttons>
-						</RadioButtonGroup>
-						<Label text="{i18n>PartsWillBe}" class="sapUiTinyMarginBeginEnd" required="true"/>
-						<RadioButtonGroup valueState="{DateModel>/partTypeState}" id="RadioParts" select="onRadioChangeParts" columns="1" width="100%"
-							class="sapUiMediumMarginBottom" selectedIndex="0">
-							<buttons>
-								<RadioButton width="100%" id="LOIPR-1" text="{i18n>PartsOption1}"/>
-								<RadioButton width="100%" id="LOIPR-2" text="{i18n>PartsOption2}"/>
-								<RadioButton width="100%" id="LOIPR-3" text="{i18n>PartsOption3}"/>
-							</buttons>
-						</RadioButtonGroup>
-						<Label text=""/>
-						<HBox>
-							<Text width="100%" text="{i18n>LOINote2}"/>
-						</HBox>
-						<!--<HBox>-->
-						<Label text="{i18n>YoursTruly}" class="sapUiTinyMarginBeginEnd"/>
-						<Input valueState="{DateModel>/partTypeState}" value="{path:'LOIDataModel>/ursTrulyText'}" required="true" width="25%"/>
-						<Label text="{i18n>Phone}" class="sapUiTinyMarginBeginEnd"/>
-						<Input value="{path:'LOIDataModel>/PhoneLOI'}" width="25%"/>
-						<Label text="{i18n>Extension}" class="sapUiTinyMarginBeginEnd"/>
-						<Input value="{path:'LOIDataModel>/LOIExt'}" width="25%"/>
-						<Label text="{i18n>EmailID}" class="sapUiTinyMarginBeginEnd"/>
-						<Input value="{path:'LOIDataModel>/LOIEmail'}" required="true" width="75%" valueState="{DateModel>/partTypeState}"/>
-						<Text text="{path:'LOIDataModel>/ReAddress'}"/>
-						<!--</HBox>-->
-					</f:content>
-				</f:SimpleForm>
-			</VBox>
+			
 			<MessageStrip id="idMainClaimMessage2" text="" showIcon="true" showCloseButton="false" visible="false"></MessageStrip>
 			<HBox class="sapUiSmallMarginTop btnPaddings" width="50%" alignContent="Center">
 				<Button class="sapUiSmallMarginBeginEnd" type="Emphasized" text="{i18n>Close}" press="onCloseLetterOfIntent"/>
