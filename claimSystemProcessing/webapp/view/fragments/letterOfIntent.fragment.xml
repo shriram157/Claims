@@ -53,7 +53,7 @@
 						<!--<HBox>-->
 						<Label text="{i18n>ExceptionNoted}" class="sapUiTinyMarginBeginEnd" required="true"/>
 						<RadioButtonGroup valueState="{DateModel>/partTypeState}" id="IDRadioException" select="onRadioChangeEN" columns="3"
-							class="sapUiMediumMarginBottom" selectedIndex="{path:'LOIDataModel>/ExceptionNoted'">
+							class="sapUiMediumMarginBottom" selectedIndex="{path:'LOIDataModel>/ExceptionNoted'}">
 						<!--DMND0003991	 Letter Of Intent Changes On Transport Damage and Transport Shortage Claims shriram 28_Feb-2023-->
 							<buttons>
 								<RadioButton id="LOI1-1" text="{i18n>Damage}"/>
