@@ -221,13 +221,11 @@ sap.ui.define([
 				var that = this;
 				this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", false);
 				var oProssingModel = this.getModel("ProssingModel");
-				//var DeliNum = oDelNum.getParameters().newValue;
-				var ClaimType = this.SelectedClaimType;											//changes by swetha on 17th May, 2023 for DMND0004037 changed zc_get_delidateSet to zc_discre_codesSet and added ClaimType, LanguageKey
+				var DeliNum = oDelNum.getParameters().newValue;
+				var ClaimType = this.SelectedClaimType;											//changes by swetha on 17th May, 2023 for DMND0004037 added ClaimType
 				//var numQuery = "(DeliNum='" + DeliNum + "')?$format=json";
-				var LanguageKey = window.location.search.match(/language=([^&]*)/i)[1];
-				var numQuery = "(ClaimType='" + ClaimType + "',LanguageKey='"+ LanguageKey +"')?$format=json";
-				//oProssingModel.read("/zc_get_delidateSet" + numQuery, {
-				  oProssingModel.read("/zc_discre_codesSet" + numQuery, {
+				var numQuery = "(DeliNum='" + DeliNum + "',ClaimType='"+ ClaimType +"')?$format=json";
+				oProssingModel.read("/zc_get_delidateSet" + numQuery, {
 					success: $.proxy(function (delNumdata) {
 						if (delNumdata.DeliDate == null) {
 							MessageBox.show(delNumdata.Message, MessageBox.Icon.INFORMATION, "Information", MessageBox.Action.OK, null, null);
