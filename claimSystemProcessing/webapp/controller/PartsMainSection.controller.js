@@ -228,7 +228,11 @@ sap.ui.define([
 				oProssingModel.read("/zc_get_delidateSet" + numQuery, {
 					success: $.proxy(function (delNumdata) {
 						if (delNumdata.DeliDate == null) {
+							//  DMND0004037  To Recover from FedEx Custom goods: was showing empty popup, so added this condition. Shriram 7-Jun-2023  Code Start  
+							if(delNumdata.Message !=="")
+							{
 							MessageBox.show(delNumdata.Message, MessageBox.Icon.INFORMATION, "Information", MessageBox.Action.OK, null, null);
+					    	}//DMND0004037  Code Start
 							this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", false);
 						} else {
 							that.getView().getModel("HeadSetData").setProperty("/DeliveryDate", delNumdata.DeliDate);
