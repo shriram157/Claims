@@ -1060,8 +1060,9 @@ sap.ui.define([
 				});
 				this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", false);
 				var oProssingModel = this.getModel("ProssingModel");
-				var DeliNum = this.getView().getModel("HeadSetData").getProperty("/Delivery");
-				var numQuery = "(DeliNum='" + DeliNum + "')?$format=json";
+				var ClaimType = this.SelectedClaimType;	                                                           //changes by Swetha on 16th June, 2023 added Claim Type for DMND0004037
+				var DeliNum = this.getView().getModel("HeadSetData").getProperty("/Delivery");           
+				var numQuery = "(DeliNum='" + DeliNum + "',ClaimType='"+ ClaimType +"')?$format=json";             //changes by Swetha on 16th June, 2023 added Claim Type for DMND0004037
 				oProssingModel.read("/zc_get_delidateSet" + numQuery, {
 					success: $.proxy(function (delNumdata) {
 						if (delNumdata.DeliDate === null) {
