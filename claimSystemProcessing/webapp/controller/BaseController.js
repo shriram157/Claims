@@ -15,7 +15,7 @@ sap.ui.define([
 	}
 
 	var sSelectedLocale;
-	//  get the locale to determine the language.
+	//   get the locale to determine the language.
 	var isLocaleSent = window.location.search.match(/language=([^&]*)/i);
 	if (isLocaleSent) {
 		sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
