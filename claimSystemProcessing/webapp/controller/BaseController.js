@@ -6,7 +6,7 @@ sap.ui.define([
 ], function (Controller, History, Device, MessageToast) {
 	"use strict";
 	var sDivision;
-	// get the locale to determine the language.
+	//  get the locale to determine the language.
 	var isDivision = window.location.search.match(/Division=([^&]*)/i);
 	if (isDivision) {
 		sDivision = window.location.search.match(/Division=([^&]*)/i)[1];
