@@ -11,7 +11,7 @@ sap.ui.define([
 	if (isDivision) {
 		sDivision = window.location.search.match(/Division=([^&]*)/i)[1];
 	} else {
-		sDivision = "10"; //default is english
+		sDivision = "10"; // default is english
 	}
 
 	var sSelectedLocale;
