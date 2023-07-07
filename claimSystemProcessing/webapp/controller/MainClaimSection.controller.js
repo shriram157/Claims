@@ -5446,13 +5446,13 @@ sap.ui.define([
 			var oDescription = evt.mParameters.selectedItems[0].getCells()[1].getText();
 			var oProductModel = this.getModel("ProductMaster");
 			if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZSCR") {
-				sap.ui.core.BusyIndicator.show();// 6-Jun-23  Shriram  INC0235295
+				sap.ui.core.BusyIndicator.show();// 6-JuLY-23  Shriram  INC0235295
 				oProductModel.read("/ZC_Characteristic_InfoSet", {
 					urlParameters: {
 						"$filter": "MATERIAL eq '" + this.oSelectedTitle + "' and CLASS eq 'WARRANTY_INFO' and CHARAC eq 'Warranty Alternate Unit'"
 					},
 					success: $.proxy(function (data) {
-						sap.ui.core.BusyIndicator.hide(); // 6-Jun-23  Shriram INC0235295
+						sap.ui.core.BusyIndicator.hide(); // 6-JuLY-23  Shriram INC0235295
 						if (data.results.length > 0) {
 							if (data.results[0].VALUE != "?") {
 								this.getView().getModel("LocalDataModel").setProperty("/BaseUnit", data.results[0].VALUE);
@@ -5470,7 +5470,10 @@ sap.ui.define([
 			} else {
 				this.getView().getModel("LocalDataModel").setProperty("/BaseUnit", oBaseUint);
 			}
-
+           if(this.getView().getModel("LocalDataModel").getProperty("/BaseUnit") == "/PC")// 6-JuLY-23  Shriram  INC0235295 Code start
+		   {
+			   this.getView().getModel("LocalDataModel").setProperty("/BaseUnit","EA");
+		   } // 7-JuLY-23  Shriram  INC0235295 CODE END
 			this.getView().getModel("PartDataModel").setProperty("/PartDescription", oDescription);
 			this.getView().getModel("LocalDataModel").setProperty("/BaseUnit", oBaseUint);      //changes by swetha for defect 17609 on 11/1/23 
 			if (oSelectedItem) {

@@ -1781,6 +1781,10 @@ sap.ui.define([
 							RepairAmt = this.getView().getModel("HeadSetData").getProperty("/RepairAmount");
 						}
 						var matNum = this.getView().getModel("PartDataModel").getProperty("/matnr");
+							if(this.getModel("LocalDataModel").getProperty("/BaseUnit")== "/PC")
+						{
+						this.getModel("LocalDataModel").setProperty("/BaseUnit", "EA");	
+						}
 						var itemObj = {
 							"Type": "PART",
 							"ItemType": "MAT",
@@ -1978,6 +1982,10 @@ sap.ui.define([
 								"PartDataModel").getProperty("/DiscreCode") == "2A" ||
 							this.getView().getModel("PartDataModel").getProperty("/QuantityReceived") > 0 && this.getView().getModel(
 								"PartDataModel").getProperty("/DiscreCode") == "2A") {
+								if(this.getModel("LocalDataModel").getProperty("/BaseUnit")== "/PC")
+						{
+						this.getModel("LocalDataModel").setProperty("/BaseUnit", "EA");	
+						}
 							var itemObj2 = {
 								"Type": "PART",
 								"ItemType": "MAT",
