@@ -5473,9 +5473,12 @@ sap.ui.define([
            if(this.getView().getModel("LocalDataModel").getProperty("/BaseUnit") == "/PC")// 6-JuLY-23  Shriram  INC0235295 Code start
 		   {
 			   this.getView().getModel("LocalDataModel").setProperty("/BaseUnit","EA");
+		   }else
+		   {
+            this.getView().getModel("LocalDataModel").setProperty("/BaseUnit", oBaseUint);      //changes by swetha for defect 17609 on 11/1/23 
 		   } // 7-JuLY-23  Shriram  INC0235295 CODE END
 			this.getView().getModel("PartDataModel").setProperty("/PartDescription", oDescription);
-			this.getView().getModel("LocalDataModel").setProperty("/BaseUnit", oBaseUint);      //changes by swetha for defect 17609 on 11/1/23 
+			
 			if (oSelectedItem) {
 				var productInput = this.byId(this.inputId);
 				productInput.setValue(this.oSelectedTitle);
