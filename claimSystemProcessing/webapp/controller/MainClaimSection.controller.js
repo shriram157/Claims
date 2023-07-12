@@ -5464,18 +5464,24 @@ sap.ui.define([
 						} else {
 							this.getView().getModel("LocalDataModel").setProperty("/BaseUnit", oBaseUint);
 						}
-
+						 if(this.getView().getModel("LocalDataModel").getProperty("/BaseUnit") == "/PC"||this.getView().getModel("LocalDataModel").getProperty("/BaseUnit") == '***')// 12-JuLY-23  Shriram  INC0235295 Code start
+		   {
+			   this.getView().getModel("LocalDataModel").setProperty("/BaseUnit","EA");
+		   }	
 					}, this)
 				});
 			} else {
 				this.getView().getModel("LocalDataModel").setProperty("/BaseUnit", oBaseUint);
 			}
-           if(this.getView().getModel("LocalDataModel").getProperty("/BaseUnit") == "/PC")// 6-JuLY-23  Shriram  INC0235295 Code start
+           if(this.getView().getModel("LocalDataModel").getProperty("/BaseUnit") == "/PC"||this.getView().getModel("LocalDataModel").getProperty("/BaseUnit") == '***')// 6-JuLY-23  Shriram  INC0235295 Code start
 		   {
 			   this.getView().getModel("LocalDataModel").setProperty("/BaseUnit","EA");
+		   }else
+		   {
+            this.getView().getModel("LocalDataModel").setProperty("/BaseUnit", oBaseUint);      //changes by swetha for defect 17609 on 11/1/23 
 		   } // 7-JuLY-23  Shriram  INC0235295 CODE END
 			this.getView().getModel("PartDataModel").setProperty("/PartDescription", oDescription);
-			this.getView().getModel("LocalDataModel").setProperty("/BaseUnit", oBaseUint);      //changes by swetha for defect 17609 on 11/1/23 
+			
 			if (oSelectedItem) {
 				var productInput = this.byId(this.inputId);
 				productInput.setValue(this.oSelectedTitle);
@@ -6496,6 +6502,14 @@ sap.ui.define([
 		},
 		onChangeSublet: function (oEvent) {
 			var AdditonalUnit = oEvent.getParameters().selectedItem.getAdditionalText();
+			if(AdditonalUnit == "/PC" )// 12-JuLY-23  Shriram  INC0235295 Code start
+		   {
+			   AdditonalUnit ="EA";
+		   }// 12-JuLY-23  Shriram  INC0235295 Code end
+		   if(AdditonalUnit == '***') // 13-JuLY-23  Shriram  INC0235295 Code start
+		   {
+			   AdditonalUnit ="D";
+		   }
 			this.getView().getModel("SubletDataModel").setProperty("/unitOfMeasure", AdditonalUnit);
 			var oSelectedSublet = oEvent.getParameters().selectedItem.getKey();
 			if (oSelectedSublet == "L2" || oSelectedSublet == "L3" ||
