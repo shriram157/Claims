@@ -5464,7 +5464,7 @@ sap.ui.define([
 						} else {
 							this.getView().getModel("LocalDataModel").setProperty("/BaseUnit", oBaseUint);
 						}
-						 if(this.getView().getModel("LocalDataModel").getProperty("/BaseUnit") == "/PC")// 12-JuLY-23  Shriram  INC0235295 Code start
+						 if(this.getView().getModel("LocalDataModel").getProperty("/BaseUnit") == "/PC"||this.getView().getModel("LocalDataModel").getProperty("/BaseUnit") == '***')// 12-JuLY-23  Shriram  INC0235295 Code start
 		   {
 			   this.getView().getModel("LocalDataModel").setProperty("/BaseUnit","EA");
 		   }	
@@ -5473,7 +5473,7 @@ sap.ui.define([
 			} else {
 				this.getView().getModel("LocalDataModel").setProperty("/BaseUnit", oBaseUint);
 			}
-           if(this.getView().getModel("LocalDataModel").getProperty("/BaseUnit") == "/PC")// 6-JuLY-23  Shriram  INC0235295 Code start
+           if(this.getView().getModel("LocalDataModel").getProperty("/BaseUnit") == "/PC"||this.getView().getModel("LocalDataModel").getProperty("/BaseUnit") == '***')// 6-JuLY-23  Shriram  INC0235295 Code start
 		   {
 			   this.getView().getModel("LocalDataModel").setProperty("/BaseUnit","EA");
 		   }else
