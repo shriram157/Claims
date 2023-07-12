@@ -6502,6 +6502,10 @@ sap.ui.define([
 		},
 		onChangeSublet: function (oEvent) {
 			var AdditonalUnit = oEvent.getParameters().selectedItem.getAdditionalText();
+			if(AdditonalUnit == "/PC")// 12-JuLY-23  Shriram  INC0235295 Code start
+		   {
+			   AdditonalUnit ="EA";
+		   }// 12-JuLY-23  Shriram  INC0235295 Code end
 			this.getView().getModel("SubletDataModel").setProperty("/unitOfMeasure", AdditonalUnit);
 			var oSelectedSublet = oEvent.getParameters().selectedItem.getKey();
 			if (oSelectedSublet == "L2" || oSelectedSublet == "L3" ||
