@@ -5464,7 +5464,10 @@ sap.ui.define([
 						} else {
 							this.getView().getModel("LocalDataModel").setProperty("/BaseUnit", oBaseUint);
 						}
-
+						 if(this.getView().getModel("LocalDataModel").getProperty("/BaseUnit") == "/PC")// 12-JuLY-23  Shriram  INC0235295 Code start
+		   {
+			   this.getView().getModel("LocalDataModel").setProperty("/BaseUnit","EA");
+		   }	
 					}, this)
 				});
 			} else {
