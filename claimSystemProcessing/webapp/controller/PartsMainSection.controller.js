@@ -1781,7 +1781,7 @@ sap.ui.define([
 							RepairAmt = this.getView().getModel("HeadSetData").getProperty("/RepairAmount");
 						}
 						var matNum = this.getView().getModel("PartDataModel").getProperty("/matnr");
-							if(this.getModel("LocalDataModel").getProperty("/BaseUnit")== "/PC") // 7-JuLY-23  Shriram  INC0235295 Code start
+							if(this.getModel("LocalDataModel").getProperty("/BaseUnit")== "/PC"||this.getView().getModel("LocalDataModel").getProperty("/BaseUnit") == '***') // 7-JuLY-23  Shriram  INC0235295 Code start
 						{
 						this.getModel("LocalDataModel").setProperty("/BaseUnit", "EA");	
 						}// 7-JuLY-23  Shriram  INC0235295 Code end
@@ -1982,7 +1982,7 @@ sap.ui.define([
 								"PartDataModel").getProperty("/DiscreCode") == "2A" ||
 							this.getView().getModel("PartDataModel").getProperty("/QuantityReceived") > 0 && this.getView().getModel(
 								"PartDataModel").getProperty("/DiscreCode") == "2A") {
-								if(this.getModel("LocalDataModel").getProperty("/BaseUnit")== "/PC")// 7-JuLY-23  Shriram  INC0235295 Code start
+								if(this.getModel("LocalDataModel").getProperty("/BaseUnit")== "/PC" ||this.getView().getModel("LocalDataModel").getProperty("/BaseUnit") == '***')// 7-JuLY-23  Shriram  INC0235295 Code start
 						{
 						this.getModel("LocalDataModel").setProperty("/BaseUnit", "EA");	
 						}// 7-JuLY-23  Shriram  INC0235295 Code end
