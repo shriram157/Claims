@@ -6502,7 +6502,7 @@ sap.ui.define([
 		},
 		onChangeSublet: function (oEvent) {
 			var AdditonalUnit = oEvent.getParameters().selectedItem.getAdditionalText();
-			if(AdditonalUnit == "/PC")// 12-JuLY-23  Shriram  INC0235295 Code start
+			if(AdditonalUnit == "/PC" ||AdditonalUnit == '***')// 12-JuLY-23  Shriram  INC0235295 Code start
 		   {
 			   AdditonalUnit ="EA";
 		   }// 12-JuLY-23  Shriram  INC0235295 Code end
