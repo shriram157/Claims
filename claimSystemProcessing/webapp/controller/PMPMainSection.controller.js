@@ -1016,9 +1016,9 @@ sap.ui.define([
 		_handleLiveSearch: function (evt) {
 			var sValue = evt.getParameter("value");
 
-			if (sValue) {
+			if (sValue) {// 13-July-2023  INC0235553  Shriram    Filter property changed from Material to Product
 				var oFilter = new Filter(
-					"Material",
+					"Product",
 					sap.ui.model.FilterOperator.StartsWith, sValue
 				);
 			
