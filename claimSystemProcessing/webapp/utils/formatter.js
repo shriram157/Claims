@@ -728,5 +728,25 @@ zclaimProcessing.utils.formatter = {
 		return Oval;
 
 	},
+	fnOutboundDeliveryNumber: function (WarrantyClaimType) {         //changes by swetha on 4th May, 2023 for DMND0004037
+		var sSelectedLocale;		
+		sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
+		if (WarrantyClaimType == "ZPDC" || WarrantyClaimType == "ZPTS" ) {
+			if(sSelectedLocale == "en"){
+				return "Outbound Delivery/Invoice Number";
+			} else {
+				return "Livraison sortante/Numéro de facture";
+		}
+		} else {
+			if(sSelectedLocale == "en") {
+				return "Outbound Delivery Number"
+			} else {
+				return "Numéro de livraison sortante"
+			}
+		}
+		
+		
+	},
+
 
 };
