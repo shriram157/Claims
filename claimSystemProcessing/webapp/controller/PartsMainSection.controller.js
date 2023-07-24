@@ -222,13 +222,18 @@ sap.ui.define([
 				this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", false);
 				var oProssingModel = this.getModel("ProssingModel");
 				var DeliNum = oDelNum.getParameters().newValue;
-				var numQuery = "(DeliNum='" + DeliNum + "')?$format=json";
+				var ClaimType = this.SelectedClaimType;											//changes by swetha on 17th May, 2023 for DMND0004037 added ClaimType
+				var numQuery = "(DeliNum='" + DeliNum + "',ClaimType='"+ ClaimType +"')?$format=json";
+			//	var numQuery = "(DeliNum='" + DeliNum + "')?$format=json";    //changes by swetha on 17th May, 2023 for DMND0004037 added ClaimType
 				oProssingModel.read("/zc_get_delidateSet" + numQuery, {
 					success: $.proxy(function (delNumdata) {
 						if (delNumdata.DeliDate == null) {
 							
-						
+							//  DMND0004037  To Recover from FedEx Custom goods: was showing empty popup, so added this condition. Shriram 7-Jun-2023  Code Start  
+							if(delNumdata.Message !=="")
+							{
 							MessageBox.show(delNumdata.Message, MessageBox.Icon.INFORMATION, "Information", MessageBox.Action.OK, null, null);
+					    	}//DMND0004037  Code Start
 					    	
 							
 							this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", false);
@@ -1057,8 +1062,10 @@ sap.ui.define([
 				});
 				this.getView().getModel("DateModel").setProperty("/oFormShipmentEdit", false);
 				var oProssingModel = this.getModel("ProssingModel");
+				var ClaimType = this.SelectedClaimType;	                                                           //changes by Swetha on 16th June, 2023 added Claim Type for DMND0004037
 				var DeliNum = this.getView().getModel("HeadSetData").getProperty("/Delivery");
-				var numQuery = "(DeliNum='" + DeliNum + "')?$format=json";
+				//var numQuery = "(DeliNum='" + DeliNum + "')?$format=json";
+				var numQuery = "(DeliNum='" + DeliNum + "',ClaimType='"+ ClaimType +"')?$format=json";             //changes by Swetha on 16th June, 2023 added Claim Type for DMND0004037
 				oProssingModel.read("/zc_get_delidateSet" + numQuery, {
 					success: $.proxy(function (delNumdata) {
 						if (delNumdata.DeliDate === null) {

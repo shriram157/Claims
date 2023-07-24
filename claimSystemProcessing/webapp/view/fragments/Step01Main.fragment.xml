@@ -53,7 +53,8 @@
 			>
 			<f:content>
 				<core:Title text=""/>
-				<Label text="{i18n>OutboundDeliveryNumber}"/>
+				<!--<Label text="{i18n>OutboundDeliveryNumber}"/>-->
+				<Label text="{path:'HeadSetData>/WarrantyClaimType' , formatter:'zclaimProcessing.utils.formatter.fnOutboundDeliveryNumber'}"/>        <!--changes by swetha on 4th May,2023 for DMND0004037-->
 				<Input value="{path:'HeadSetData>/Delivery', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 10 } }"
 					required="true" id="idOutboundDNum" enabled="{DateModel>/oFormEdit}" change="onDelNumChange"/>
 				<core:Title text=""/>
