@@ -97,6 +97,9 @@
 					value="{path:'HeadSetData>/RepairDate', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'yyyy-MM-dd', strictParsing: true, UTC: true}}"
 					editable="{DateModel>/oFormEdit}" visible="{DateModel>/oVisibleRepDate}"/>
 				<core:Title/>
+				<!-- Changes by Swetha for DMND0003836 on 29th Aug, 2023 Added RO Close Date Field Start-->
+				<Label text="{i18n>ROCloseDate}"/>        
+				<!-- Changes by Swetha for DMND0003836 on 29th Aug, 2023 Added RO Close Date Field End -->
 				<Label text="{i18n>RepairOrder}" visible="{DateModel>/oVisibleReOrder}"/>
 				<Input required="{DateModel>/oRepOrdReq}" maxLength="10"
 					value="{path:'HeadSetData>/RepairOrderNumberExternal', type : 'sap.ui.model.type.String', constraints : { minLength : 2, maxLength : 10 }}"
