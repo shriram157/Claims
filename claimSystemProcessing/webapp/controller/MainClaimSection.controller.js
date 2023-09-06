@@ -1795,7 +1795,7 @@ sap.ui.define([
 									oTable.getItems()[i].getCells()[0].setProperty("enabled", false);
 									oTable.getItems()[i].getCells()[0].setProperty("selected", false);
 								} else if (data.results[i].AgreementStatus == "Expired" && data.results[i].AgreementthruDate <
-									this.getView().getModel("HeadSetData").getProperty("/RepairDate")) {
+									(this.getView().getModel("HeadSetData").getProperty("/RepairDate") && this.getView().getModel("HeadSetData").getProperty("/RepairCDate"))) {
 									oTable.getItems()[i].getCells()[0].setProperty("enabled", false);
 									oTable.getItems()[i].getCells()[0].setProperty("selected", false);
 								} else {
@@ -1814,14 +1814,15 @@ sap.ui.define([
 								this.getView().getModel("HeadSetData").setProperty("/AgreementNumber", data.results[
 									oTableSelectedRow].AgreementNumber);
 							}
-							//changes by Swetha for DMND0003836 on 6th Sept, 2023 
-							//if (this.getView().getModel("HeadSetData").getProperty("/RepairDate") > this.getView().getModel("HeadSetData").getProperty("/RepairCDate")){
-							//	MessageToast.show(oBundle.getText("RO open date cannot be greater than RO close date");	
-							//}
+							
 						}, this),
 						error: function () {}
 					});
 				}
+			}
+			//changes by Swetha for DMND0003836 on 6th Sept, 2023 
+			if (this.getView().getModel("HeadSetData").getProperty("/RepairDate") > this.getView().getModel("HeadSetData").getProperty("/RepairCDate")){
+				MessageToast.show(oBundle.getText("RO open date cannot be greater than RO close date");	
 			}
 			//console.log(oEvent.getSource().getDateValue());
 		},
