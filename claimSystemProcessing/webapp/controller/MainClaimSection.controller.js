@@ -1795,7 +1795,7 @@ sap.ui.define([
 									oTable.getItems()[i].getCells()[0].setProperty("enabled", false);
 									oTable.getItems()[i].getCells()[0].setProperty("selected", false);
 								} else if (data.results[i].AgreementStatus == "Expired" && data.results[i].AgreementthruDate <
-									(this.getView().getModel("HeadSetData").getProperty("/RepairDate") && this.getView().getModel("HeadSetData").getProperty("/RepairCDate"))) {
+									this.getView().getModel("HeadSetData").getProperty("/RepairDate") {
 									oTable.getItems()[i].getCells()[0].setProperty("enabled", false);
 									oTable.getItems()[i].getCells()[0].setProperty("selected", false);
 								} else {
