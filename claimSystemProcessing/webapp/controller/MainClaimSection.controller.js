@@ -1821,9 +1821,9 @@ sap.ui.define([
 				}
 			}
 			//changes by Swetha for DMND0003836 on 6th Sept, 2023 
-			if (this.getView().getModel("HeadSetData").getProperty("/RepairDate") > this.getView().getModel("HeadSetData").getProperty("/RepairCDate")){
-				MessageToast.show(oBundle.getText("RO open date cannot be greater than RO close date");	
-			}
+			//if (this.getView().getModel("HeadSetData").getProperty("/RepairDate") > this.getView().getModel("HeadSetData").getProperty("/RepairCDate")){
+			//	MessageToast.show(oBundle.getText("RO open date cannot be greater than RO close date");	
+			//}
 			//console.log(oEvent.getSource().getDateValue());
 		},
 
