@@ -174,7 +174,7 @@ sap.ui.define([
 				serialNoV: false,
 				enableVLC: false,
 				MainOpEnabled:true,
-				submitVisible : true
+				submitVisible : true,
 			});
 			return elm.getView().setModel(oDateModel, "DateModel");
 		},
