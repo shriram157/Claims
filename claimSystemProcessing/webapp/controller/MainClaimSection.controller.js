@@ -291,6 +291,7 @@ sap.ui.define([
 			this.getView().getModel("DataPercetCalculate").setProperty("/SubletPerAmt", "");
 			this.getModel("LocalDataModel").setProperty("/ClaimSumAuth", "");
 			this.getView().byId("id_Date").setValueState("None");
+			this.getView().byId("id_CDate").setValueState("None");       //changes by swetha for DMND0003836
 			this.getView().byId("idPrInvDate").setValueState("None");
 			this.getView().byId("idPreInvNum").setValueState("None");
 			this.getView().byId("idOFP").setValueState("None");
@@ -2550,6 +2551,7 @@ sap.ui.define([
 				oView.byId("idClaimType"),
 				oView.byId("idDealerClaim"),
 				oView.byId("id_Date"),
+				oView.byId("id_CDate"),       //changes by swetha for DMND0003836
 				oView.byId("idOdometer"),
 				oView.byId("idRepairOrder"),
 				oView.byId("idVinNum"),
@@ -2620,6 +2622,7 @@ sap.ui.define([
 			// var oValid01 = oValidator.validate(this.getView().byId("idVehicleInfo"));
 			var oValid02 = oValidator.validate(this.getView().byId("idpart01Form"));
 			oValidator.validate(!(this.getView().byId("id_Date")));
+			oValidator.validate(!(this.getView().byId("id_CDate")));       //changes by swetha for DMND0003836
 			var oClaimModel = this.getModel("ProssingModel");
 			var oCurrentDt = new Date();
 			var clmGrp = this.getModel("LocalDataModel").getProperty("/clmTypeGroup");
@@ -2673,6 +2676,7 @@ sap.ui.define([
 
 			} else if (this.getView().getModel("HeadSetData").getProperty("/RepairDate") > new Date()) {
 				this.getView().byId("id_Date").setValueState("Error");
+				this.getView().byId("id_CDate").setValueState("Error");       //changes by swetha for DMND0003836
 				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
 				this.getView().byId("idMainClaimMessage").setText(oBundle.getText("FutureDateNotallowed"));
 				this.getView().byId("idMainClaimMessage").setType("Error");
@@ -2680,6 +2684,7 @@ sap.ui.define([
 			} else {
 				this.getView().byId("idMainClaimMessage").setProperty("visible", false);
 				this.getView().byId("id_Date").setValueState("None");
+				this.getView().byId("id_CDate").setValueState("None");     //changes by swetha for DMND0003836
 				this.getView().byId("idPrInvDate").setValueState("None");
 				this.getView().byId("idPreInvNum").setValueState("None");
 				this.getView().byId("idT2Field").setValueState("None");
@@ -3492,6 +3497,7 @@ sap.ui.define([
 
 							} else if (this.getView().getModel("HeadSetData").getProperty("/RepairDate") > new Date() && oId != "changeclaimtype") {
 								this.getView().byId("id_Date").setValueState("Error");
+								this.getView().byId("id_CDate").setValueState("Error");     //changes by swetha for DMND0003836
 								this.getView().byId("idMainClaimMessage").setProperty("visible", true);
 								this.getView().byId("idMainClaimMessage").setText(oBundle.getText("FutureDateNotallowed"));
 								this.getView().byId("idMainClaimMessage").setType("Error");
@@ -7212,6 +7218,7 @@ sap.ui.define([
 
 							} else if (this.getView().getModel("HeadSetData").getProperty("/RepairDate") > new Date()) {
 								this.getView().byId("id_Date").setValueState("Error");
+								this.getView().byId("id_CDate").setValueState("Error");    //changes by swetha for DMND0003836
 								this.getView().byId("idMainClaimMessage").setProperty("visible", true);
 								this.getView().byId("idMainClaimMessage").setText(oBundle.getText("FutureDateNotallowed"));
 								this.getView().byId("idMainClaimMessage").setType("Error");
