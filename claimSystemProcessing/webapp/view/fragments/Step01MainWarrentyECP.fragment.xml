@@ -97,12 +97,6 @@
 					value="{path:'HeadSetData>/RepairDate', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'yyyy-MM-dd', strictParsing: true, UTC: true}}"
 					editable="{DateModel>/oFormEdit}" visible="{DateModel>/oVisibleRepDate}"/>
 				<core:Title/>
-				<!-- Changes by Swetha for DMND0003836 on 29th Aug, 2023 Added RO Close Date Field Start-->
-				<Label text="{i18n>ROCloseDate}" visible="{DateModel>/oVisibleRepDate}"/>        
-				<DatePicker valueFormat="yyyy-MM-dd" displayFormat="yyyy-MM-dd" class="clDatePicker" editable="{DateModel>/oFormEdit}" id="id_CDate"
-					value="{path:'HeadSetData>/RepairCDate', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'yyyy-MM-dd', strictParsing: true, UTC: true}}"
-					visible="{DateModel>/oVisibleRepDate}" required="{DateModel>/oRepOrdDateReq}" change="onChangeDate"/>
-				<!-- Changes by Swetha for DMND0003836 on 29th Aug, 2023 Added RO Close Date Field End -->
 				<Label text="{i18n>RepairOrder}" visible="{DateModel>/oVisibleReOrder}"/>
 				<Input required="{DateModel>/oRepOrdReq}" maxLength="10"
 					value="{path:'HeadSetData>/RepairOrderNumberExternal', type : 'sap.ui.model.type.String', constraints : { minLength : 2, maxLength : 10 }}"
@@ -131,6 +125,13 @@
 						<l:GridData span="XL4 L4 M4 S6"/>
 					</layoutData>
 				</Text>
+				<!-- Changes by Swetha for DMND0003836 on 29th Aug, 2023 Added RO Close Date Field Start-->
+				<core:Title/>
+				<Label text="{i18n>ROCloseDate}" visible="{DateModel>/oVisibleRepDate}"/>        
+				<DatePicker valueFormat="yyyy-MM-dd" displayFormat="yyyy-MM-dd" class="clDatePicker" editable="{DateModel>/oFormEdit}" id="id_CDate"
+					value="{path:'HeadSetData>/RepairCDate', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'yyyy-MM-dd', strictParsing: true, UTC: true}}"
+					visible="{DateModel>/oVisibleRepDate}" required="{DateModel>/oRepOrdDateReq}" change="onChangeDate"/>
+				<!-- Changes by Swetha for DMND0003836 on 29th Aug, 2023 Added RO Close Date Field End -->
 			</f:content>
 		</f:SimpleForm>
 		<f:SimpleForm editable="" id="idVehicleInfo" title="{i18n>VehicleInformation} - {path:'LocalDataModel>/DataVinDetails/VehicleDescription'} {path:'LocalDataModel>/DataVinDetails/ModelYear'}"

@@ -2676,7 +2676,7 @@ sap.ui.define([
 
 			} else if (this.getView().getModel("HeadSetData").getProperty("/RepairDate") > new Date()) {
 				this.getView().byId("id_Date").setValueState("Error");
-				this.getView().byId("id_CDate").setValueState("Error");       //changes by swetha for DMND0003836
+				this.getView().byId("id_CDate").setValueState("None");       //changes by swetha for DMND0003836
 				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
 				this.getView().byId("idMainClaimMessage").setText(oBundle.getText("FutureDateNotallowed"));
 				this.getView().byId("idMainClaimMessage").setType("Error");
@@ -2713,6 +2713,7 @@ sap.ui.define([
 					"DateOfApplication": this._fnDateFormat(oCurrentDt),
 					"FinalProcdDate": null,
 					"RepairDate": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairDate")),
+					"RepairCDate": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairCDate")),          //Changes by Swetha for DMND0003836
 					"RepairOrderNumberExternal": this.getView().getModel("HeadSetData").getProperty("/RepairOrderNumberExternal"),
 					"ExternalNumberOfClaim": this.getView().getModel("HeadSetData").getProperty("/ExternalNumberOfClaim"),
 					"ExternalObjectNumber": this.getView().getModel("HeadSetData").getProperty("/ExternalObjectNumber"),
@@ -7091,6 +7092,7 @@ sap.ui.define([
 			this.obj.DateOfApplication = this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/DateOfApplication"));
 			this.obj.FinalProcdDate = null;
 			this.obj.RepairDate = this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairDate"));
+			this.obj.RepairCDate = this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairCDate")),
 			this.obj.RepairOrderNumberExternal = this.getView().getModel("HeadSetData").getProperty("/RepairOrderNumberExternal");
 			this.obj.ExternalNumberOfClaim = this.getView().getModel("HeadSetData").getProperty("/ExternalNumberOfClaim");
 			this.obj.ExternalObjectNumber = this.getView().getModel("HeadSetData").getProperty("/ExternalObjectNumber");
