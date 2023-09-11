@@ -3677,6 +3677,9 @@ sap.ui.define([
 										this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", false);
 									}, this)
 								});
+								if (this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairDate")) > this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairCDate"))) {           //changes by swetha for DMND0003836                      
+									MessageToast.show(oBundle.getText("TheopeningdatecannotbelaterthantheROclosingdate"));
+								}
 							}
 						}, this),
 						error: function () {}
