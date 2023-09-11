@@ -2,6 +2,7 @@ sap.ui.define([
 	'sap/m/Dialog',
 	'sap/m/Label',
 	'sap/m/MessageToast',
+	'sap/m/MessageBox',
 	'sap/m/Text',
 	"zclaimProcessing/controller/BaseController",
 	"zclaimProcessing/libs/jQuery.base64",
@@ -3678,7 +3679,8 @@ sap.ui.define([
 									}, this)
 								});
 								if (this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairDate")) > this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairCDate"))) {           //changes by swetha for DMND0003836                      
-									return "TheopeningdatecannotbelaterthantheROclosingdate";
+									MessageBox.error("RO Open Date cannot be greater than RO Close Date");
+									
 								}
 							}
 						}, this),
