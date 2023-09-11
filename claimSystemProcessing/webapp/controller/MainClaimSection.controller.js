@@ -14,7 +14,7 @@ sap.ui.define([
 	"sap/ui/model/resource/ResourceModel",
 	"zclaimProcessing/utils/WarrantyDataManager",
 	"zclaimProcessing/utils/PmpDataManager"
-], function (Dialog, Label, MessageToast, Text, BaseController, base64, ValueState, Validator, Filter, Button, DateFormat, ResourceModel,
+], function (Dialog, Label, MessageToast, MessageBox, Text, BaseController, base64, ValueState, Validator, Filter, Button, DateFormat, ResourceModel,
 	WarrantyDataManager, PmpDataManager) {
 	"use strict";
 	var oBundle;
