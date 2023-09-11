@@ -2678,11 +2678,12 @@ sap.ui.define([
 
 			} else if (this.getView().getModel("HeadSetData").getProperty("/RepairDate") > new Date()) {
 				this.getView().byId("id_Date").setValueState("Error");
-				this.getView().byId("id_CDate").setValueState("None");       //changes by swetha for DMND0003836
 				this.getView().byId("idMainClaimMessage").setProperty("visible", true);
 				this.getView().byId("idMainClaimMessage").setText(oBundle.getText("FutureDateNotallowed"));
 				this.getView().byId("idMainClaimMessage").setType("Error");
 
+			} else if (this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairDate")) > this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairCDate"))) {      //changes by swetha for DMND0003836
+				MessageBox.error(oBundle.getText("RO open date cannot be greater than RO close date"));
 			} else {
 				this.getView().byId("idMainClaimMessage").setProperty("visible", false);
 				this.getView().byId("id_Date").setValueState("None");
@@ -3466,7 +3467,7 @@ sap.ui.define([
 									"results": pricinghData
 								}
 							};
-
+							
 							if (bValidationError && oId != "changeclaimtype") {
 								this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", false);
 								this.getView().byId("idMainClaimMessage").setText(oBundle.getText("FillUpMandatoryField"));
@@ -3501,7 +3502,6 @@ sap.ui.define([
 
 							} else if (this.getView().getModel("HeadSetData").getProperty("/RepairDate") > new Date() && oId != "changeclaimtype") {
 								this.getView().byId("id_Date").setValueState("Error");
-								this.getView().byId("id_CDate").setValueState("Error");     //changes by swetha for DMND0003836
 								this.getView().byId("idMainClaimMessage").setProperty("visible", true);
 								this.getView().byId("idMainClaimMessage").setText(oBundle.getText("FutureDateNotallowed"));
 								this.getView().byId("idMainClaimMessage").setType("Error");
@@ -3526,7 +3526,10 @@ sap.ui.define([
 										my: "center center",
 										at: "center center"
 									});
-							} else {
+							} else if {(this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairDate")) > this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairCDate"))) {      //changes by swetha for DMND0003836
+									MessageBox.error(oBundle.getText("RO open date cannot be greater than RO close date"));
+							} 
+							else {
 								this.getView().byId("idRepairOrder").setValueState("None");
 								this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", true);
 								this.getView().byId("idMainClaimMessage").setProperty("visible", false);
@@ -3678,10 +3681,7 @@ sap.ui.define([
 										this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", false);
 									}, this)
 								});
-								if (this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairDate")) > this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairCDate"))) {           //changes by swetha for DMND0003836                      
-									MessageBox.error("RO Open Date cannot be greater than RO Close Date");
-									
-								}
+								
 							}
 						}, this),
 						error: function () {}
@@ -7227,7 +7227,6 @@ sap.ui.define([
 
 							} else if (this.getView().getModel("HeadSetData").getProperty("/RepairDate") > new Date()) {
 								this.getView().byId("id_Date").setValueState("Error");
-								this.getView().byId("id_CDate").setValueState("Error");    //changes by swetha for DMND0003836
 								this.getView().byId("idMainClaimMessage").setProperty("visible", true);
 								this.getView().byId("idMainClaimMessage").setText(oBundle.getText("FutureDateNotallowed"));
 								this.getView().byId("idMainClaimMessage").setType("Error");
