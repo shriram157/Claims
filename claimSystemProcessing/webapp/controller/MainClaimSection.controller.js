@@ -2684,6 +2684,7 @@ sap.ui.define([
 
 			} else if (this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairDate")) > this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairCDate"))) {      //changes by swetha for DMND0003836
 				MessageBox.error(oBundle.getText("RO open date cannot be greater than RO close date"));
+				this.getView().byId("id_Date").setValueState("Error");
 			} else {
 				this.getView().byId("idMainClaimMessage").setProperty("visible", false);
 				this.getView().byId("id_Date").setValueState("None");
@@ -3528,6 +3529,7 @@ sap.ui.define([
 									});
 							} else if (this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairDate")) > this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairCDate"))) {      //changes by swetha for DMND0003836
 									MessageBox.error(oBundle.getText("RO open date cannot be greater than RO close date"));
+									this.getView().byId("id_Date").setValueState("Error");
 							} 
 							else {
 								this.getView().byId("idRepairOrder").setValueState("None");
