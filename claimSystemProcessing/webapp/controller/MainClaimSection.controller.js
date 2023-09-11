@@ -3526,7 +3526,7 @@ sap.ui.define([
 										my: "center center",
 										at: "center center"
 									});
-							} else if {(this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairDate")) > this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairCDate"))) {      //changes by swetha for DMND0003836
+							} else if (this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairDate")) > this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairCDate"))) {      //changes by swetha for DMND0003836
 									MessageBox.error(oBundle.getText("RO open date cannot be greater than RO close date"));
 							} 
 							else {
