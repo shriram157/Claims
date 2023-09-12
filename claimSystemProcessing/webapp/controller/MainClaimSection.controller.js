@@ -2678,15 +2678,15 @@ sap.ui.define([
 				this.getView().byId("idMainClaimMessage").setText(oBundle.getText("FutureDateNotallowed"));
 				this.getView().byId("idMainClaimMessage").setType("Error");
 
-			} else if (this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairDate")) > this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairCDate"))) {      //changes by swetha for DMND0003836 on 12th Sept, 2023 added Validation msg if RO Open Date > RO Close Date 
-				var sSelectedLocale;		
-				sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
-				if (sSelectedLocale == "en") {
-				   MessageBox.error(oBundle.getText("RO open date cannot be greater than RO close date"));
-				} else {
-				   MessageBox.error(oBundle.getText("La date d’ouverture ne peut pas être supérieure à la date de clôture de RO"));
-				}
-				this.getView().byId("id_Date").setValueState("Error");
+		//	} else if (this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairDate")) > this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairCDate"))) {      //changes by swetha for DMND0003836 on 12th Sept, 2023 added Validation msg if RO Open Date > RO Close Date 
+		//		var sSelectedLocale;		
+		//		sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
+		//		if (sSelectedLocale == "en") {
+		//		   MessageBox.error(oBundle.getText("RO open date cannot be greater than RO close date"));
+		//		} else {
+		//		   MessageBox.error(oBundle.getText("La date d’ouverture ne peut pas être supérieure à la date de clôture de RO"));
+		//		}
+		//		this.getView().byId("id_Date").setValueState("Error");
 			} else {
 				this.getView().byId("idMainClaimMessage").setProperty("visible", false);
 				this.getView().byId("id_Date").setValueState("None");
@@ -3529,15 +3529,15 @@ sap.ui.define([
 										my: "center center",
 										at: "center center"
 									});
-							} else if (this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairDate")) > this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairCDate"))) {      //changes by swetha for DMND0003836 on 12th Sept, 2023 added Validation msg if RO Open Date > RO Close Date
-								var sSelectedLocale;		
-								sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
-								if (sSelectedLocale == "en") {
-					 			MessageBox.error(oBundle.getText("RO open date cannot be greater than RO close date"));
-								} else {
-									MessageBox.error(oBundle.getText("La date d’ouverture ne peut pas être supérieure à la date de clôture de RO"));
-								}
-									this.getView().byId("id_Date").setValueState("Error");
+						//	} else if (this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairDate")) > this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairCDate"))) {      //changes by swetha for DMND0003836 on 12th Sept, 2023 added Validation msg if RO Open Date > RO Close Date
+						//		var sSelectedLocale;		
+						//		sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
+						//		if (sSelectedLocale == "en") {
+					 	//		MessageBox.error(oBundle.getText("RO open date cannot be greater than RO close date"));
+						//		} else {
+						//			MessageBox.error(oBundle.getText("La date d’ouverture ne peut pas être supérieure à la date de clôture de RO"));
+						//		}
+						//			this.getView().byId("id_Date").setValueState("Error");
 							} 
 							else {
 								this.getView().byId("idRepairOrder").setValueState("None");
@@ -7241,15 +7241,15 @@ sap.ui.define([
 								this.getView().byId("idMainClaimMessage").setText(oBundle.getText("FutureDateNotallowed"));
 								this.getView().byId("idMainClaimMessage").setType("Error");
 
-							} else if (this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairDate")) > this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairCDate"))) {      //changes by swetha for DMND0003836 on 12th Sept, 2023 added Validation msg if RO Open Date > RO Close Date 
-								var sSelectedLocale;		
-								sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
-								if (sSelectedLocale == "en") {
-									MessageBox.error(oBundle.getText("RO open date cannot be greater than RO close date"));
-								} else {
-									MessageBox.error(oBundle.getText("La date d’ouverture ne peut pas être supérieure à la date de clôture de RO"));
-								}
-								this.getView().byId("id_Date").setValueState("Error");
+						//	} else if (this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairDate")) > this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairCDate"))) {      //changes by swetha for DMND0003836 on 12th Sept, 2023 added Validation msg if RO Open Date > RO Close Date 
+							//	var sSelectedLocale;		
+							//	sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
+							//	if (sSelectedLocale == "en") {
+							//		MessageBox.error(oBundle.getText("RO open date cannot be greater than RO close date"));
+							//	} else {
+							//		MessageBox.error(oBundle.getText("La date d’ouverture ne peut pas être supérieure à la date de clôture de RO"));
+							//	}
+							//	this.getView().byId("id_Date").setValueState("Error");
 							} else {
 								this.getView().getModel("DateModel").setProperty("/claimTypeState", "None");
 								this.getView().getModel("DateModel").setProperty("/claimTypeState2", "None");
