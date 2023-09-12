@@ -292,7 +292,7 @@ sap.ui.define([
 			this.getView().getModel("DataPercetCalculate").setProperty("/SubletPerAmt", "");
 			this.getModel("LocalDataModel").setProperty("/ClaimSumAuth", "");
 			this.getView().byId("id_Date").setValueState("None");
-		//	this.getView().byId("id_CDate").setValueState("None");       //changes by swetha for DMND0003836 on 8th Sept, 2023
+			this.getView().byId("id_CDate").setValueState("None");       //changes by swetha for DMND0003836 on 8th Sept, 2023
 			this.getView().byId("idPrInvDate").setValueState("None");
 			this.getView().byId("idPreInvNum").setValueState("None");
 			this.getView().byId("idOFP").setValueState("None");
@@ -1227,7 +1227,7 @@ sap.ui.define([
 														"/DateOfApplication")),
 													"FinalProcdDate": null,
 													"RepairDate": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairDate")),
-												//	"RepairCDate": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairCDate")),
+										        	"RepairCDate": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairCDate")),            //changes by swetha for DMND0003830
 													"RepairOrderNumberExternal": this.getView().getModel("HeadSetData").getProperty(
 														"/RepairOrderNumberExternal"),
 													"ExternalNumberOfClaim": this.getView().getModel("HeadSetData").getProperty("/ExternalNumberOfClaim"),
@@ -2549,7 +2549,7 @@ sap.ui.define([
 				oView.byId("idClaimType"),
 				oView.byId("idDealerClaim"),
 				oView.byId("id_Date"),
-			//	oView.byId("id_CDate"),       //changes by swetha for DMND0003836 on 8th Sept, 2023
+				oView.byId("id_CDate"),       //changes by swetha for DMND0003836 on 8th Sept, 2023
 				oView.byId("idOdometer"),
 				oView.byId("idRepairOrder"),
 				oView.byId("idVinNum"),
@@ -2620,7 +2620,7 @@ sap.ui.define([
 			// var oValid01 = oValidator.validate(this.getView().byId("idVehicleInfo"));
 			var oValid02 = oValidator.validate(this.getView().byId("idpart01Form"));
 			oValidator.validate(!(this.getView().byId("id_Date")));
-		//	oValidator.validate(!(this.getView().byId("id_CDate")));       //changes by swetha for DMND0003836 on 8th Sept, 2023
+			oValidator.validate(!(this.getView().byId("id_CDate")));       //changes by swetha for DMND0003836 on 8th Sept, 2023
 			var oClaimModel = this.getModel("ProssingModel");
 			var oCurrentDt = new Date();
 			var clmGrp = this.getModel("LocalDataModel").getProperty("/clmTypeGroup");
@@ -2678,19 +2678,19 @@ sap.ui.define([
 				this.getView().byId("idMainClaimMessage").setText(oBundle.getText("FutureDateNotallowed"));
 				this.getView().byId("idMainClaimMessage").setType("Error");
 
-		//	} else if (this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairDate")) > this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairCDate"))) {      //changes by swetha for DMND0003836 on 12th Sept, 2023 added Validation msg if RO Open Date > RO Close Date 
-		//		var sSelectedLocale;		
-		//		sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
-	//			if (sSelectedLocale == "en") {
-		//		   MessageBox.error(oBundle.getText("RO open date cannot be greater than RO close date"));
-		//		} else {
-		//		   MessageBox.error(oBundle.getText("La date d’ouverture ne peut pas être supérieure à la date de clôture de RO"));
-		//		}
-		//		this.getView().byId("id_Date").setValueState("Error");
+			} else if (this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairDate")) > this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairCDate"))) {      //changes by swetha for DMND0003836 on 12th Sept, 2023 added Validation msg if RO Open Date > RO Close Date 
+				var sSelectedLocale;		
+				sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
+				if (sSelectedLocale == "en") {
+				   MessageBox.error(oBundle.getText("RO open date cannot be greater than RO close date"));
+				} else {
+				   MessageBox.error(oBundle.getText("La date d’ouverture ne peut pas être supérieure à la date de clôture de RO"));
+				}
+				this.getView().byId("id_Date").setValueState("Error");
 			} else {
 				this.getView().byId("idMainClaimMessage").setProperty("visible", false);
 				this.getView().byId("id_Date").setValueState("None");
-		//		this.getView().byId("id_CDate").setValueState("None");     //changes by swetha for DMND0003836 on 8th Sept, 2023
+				this.getView().byId("id_CDate").setValueState("None");     //changes by swetha for DMND0003836 on 8th Sept, 2023
 				this.getView().byId("idPrInvDate").setValueState("None");
 				this.getView().byId("idPreInvNum").setValueState("None");
 				this.getView().byId("idT2Field").setValueState("None");
@@ -2719,7 +2719,7 @@ sap.ui.define([
 					"DateOfApplication": this._fnDateFormat(oCurrentDt),
 					"FinalProcdDate": null,
 					"RepairDate": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairDate")),
-				//	"RepairCDate": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairCDate")),          //Changes by Swetha for DMND0003836 on 8th Sept, 2023
+					"RepairCDate": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairCDate")),          //Changes by Swetha for DMND0003836 on 8th Sept, 2023
 					"RepairOrderNumberExternal": this.getView().getModel("HeadSetData").getProperty("/RepairOrderNumberExternal"),
 					"ExternalNumberOfClaim": this.getView().getModel("HeadSetData").getProperty("/ExternalNumberOfClaim"),
 					"ExternalObjectNumber": this.getView().getModel("HeadSetData").getProperty("/ExternalObjectNumber"),
@@ -3407,7 +3407,7 @@ sap.ui.define([
 								"DateOfApplication": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/DateOfApplication")),
 								"FinalProcdDate": null,
 								"RepairDate": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairDate")),
-								//"RepairCDate": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairCDate")),
+								"RepairCDate": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairCDate")),        //changes by swetha for DMND0003836
 								"RepairOrderNumberExternal": this.getView().getModel("HeadSetData").getProperty("/RepairOrderNumberExternal"),
 								"ExternalNumberOfClaim": this.getView().getModel("HeadSetData").getProperty("/ExternalNumberOfClaim"),
 								"ExternalObjectNumber": this.getView().getModel("HeadSetData").getProperty("/ExternalObjectNumber"),
@@ -3529,15 +3529,15 @@ sap.ui.define([
 										my: "center center",
 										at: "center center"
 									});
-						//	} else if (this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairDate")) > this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairCDate"))) {      //changes by swetha for DMND0003836 on 12th Sept, 2023 added Validation msg if RO Open Date > RO Close Date
-						//		var sSelectedLocale;		
-						//		sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
-						//		if (sSelectedLocale == "en") {
-						//			MessageBox.error(oBundle.getText("RO open date cannot be greater than RO close date"));
-						//		} else {
-						//			MessageBox.error(oBundle.getText("La date d’ouverture ne peut pas être supérieure à la date de clôture de RO"));
-						//		}
-						//			this.getView().byId("id_Date").setValueState("Error");
+							} else if (this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairDate")) > this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairCDate"))) {      //changes by swetha for DMND0003836 on 12th Sept, 2023 added Validation msg if RO Open Date > RO Close Date
+								var sSelectedLocale;		
+								sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
+								if (sSelectedLocale == "en") {
+					 			MessageBox.error(oBundle.getText("RO open date cannot be greater than RO close date"));
+								} else {
+									MessageBox.error(oBundle.getText("La date d’ouverture ne peut pas être supérieure à la date de clôture de RO"));
+								}
+									this.getView().byId("id_Date").setValueState("Error");
 							} 
 							else {
 								this.getView().byId("idRepairOrder").setValueState("None");
@@ -7109,7 +7109,7 @@ sap.ui.define([
 			this.obj.DateOfApplication = this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/DateOfApplication"));
 			this.obj.FinalProcdDate = null;
 			this.obj.RepairDate = this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairDate"));
-		//	this.obj.RepairCDate = this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairCDate")),
+			this.obj.RepairCDate = this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairCDate"));                         //changes by swetha for DMND0003836
 			this.obj.RepairOrderNumberExternal = this.getView().getModel("HeadSetData").getProperty("/RepairOrderNumberExternal");
 			this.obj.ExternalNumberOfClaim = this.getView().getModel("HeadSetData").getProperty("/ExternalNumberOfClaim");
 			this.obj.ExternalObjectNumber = this.getView().getModel("HeadSetData").getProperty("/ExternalObjectNumber");
@@ -7241,6 +7241,15 @@ sap.ui.define([
 								this.getView().byId("idMainClaimMessage").setText(oBundle.getText("FutureDateNotallowed"));
 								this.getView().byId("idMainClaimMessage").setType("Error");
 
+							} else if (this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairDate")) > this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairCDate"))) {      //changes by swetha for DMND0003836 on 12th Sept, 2023 added Validation msg if RO Open Date > RO Close Date 
+								var sSelectedLocale;		
+								sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
+								if (sSelectedLocale == "en") {
+									MessageBox.error(oBundle.getText("RO open date cannot be greater than RO close date"));
+								} else {
+									MessageBox.error(oBundle.getText("La date d’ouverture ne peut pas être supérieure à la date de clôture de RO"));
+								}
+								this.getView().byId("id_Date").setValueState("Error");
 							} else {
 								this.getView().getModel("DateModel").setProperty("/claimTypeState", "None");
 								this.getView().getModel("DateModel").setProperty("/claimTypeState2", "None");
