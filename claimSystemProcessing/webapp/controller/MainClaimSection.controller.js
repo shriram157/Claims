@@ -2588,7 +2588,7 @@ sap.ui.define([
 				sValueState = "Error";
 				bValidationError = true;
 			}
-			if (oInput.getValue() == "" && oInput.mProperties.required == true) {
+			if ((oInput.getValue() == "" || oInput.getValue() == null) && oInput.mProperties.required == true) {       //changes by swetha for DMND0003836 for RO Close date validation message
 				sValueState = "Error";
 				bValidationError = true;
 			}
@@ -2685,8 +2685,6 @@ sap.ui.define([
 				   MessageBox.error("La date d’ouverture ne peut pas être supérieure à la date de clôture de RO");
 				}
 				this.getView().byId("id_Date").setValueState("Error");
-			} else if (this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairCDate")) == "" ||this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairCDate")) == null) {
-				this.getView().byId("id_CDate").setValueState("Error");	
 			} else {
 				this.getView().byId("idMainClaimMessage").setProperty("visible", false);
 				this.getView().byId("id_Date").setValueState("None");
@@ -3537,8 +3535,7 @@ sap.ui.define([
 									MessageBox.error("La date d’ouverture ne peut pas être supérieure à la date de clôture de RO");
 								}
 									this.getView().byId("id_Date").setValueState("Error");
-							} else if (this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairCDate")) == "" ||this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairCDate")) == null) {
-								this.getView().byId("id_CDate").setValueState("Error");	
+							
 							}
 							else {
 								this.getView().byId("idRepairOrder").setValueState("None");
@@ -7249,8 +7246,6 @@ sap.ui.define([
 									MessageBox.error("La date d’ouverture ne peut pas être supérieure à la date de clôture de RO");
 								}
 								this.getView().byId("id_Date").setValueState("Error");
-							} else if (this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairCDate")) == "" ||this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairCDate")) == null) {
-								this.getView().byId("id_CDate").setValueState("Error");	
 							} else {
 								this.getView().getModel("DateModel").setProperty("/claimTypeState", "None");
 								this.getView().getModel("DateModel").setProperty("/claimTypeState2", "None");
