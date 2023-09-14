@@ -2685,6 +2685,8 @@ sap.ui.define([
 				   MessageBox.error("La date d’ouverture ne peut pas être supérieure à la date de clôture de RO");
 				}
 				this.getView().byId("id_Date").setValueState("Error");
+			} else if (this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairCDate")) == "" ||this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairCDate")) == null) {
+				this.getView().byId("id_CDate").setValueState("Error");	
 			} else {
 				this.getView().byId("idMainClaimMessage").setProperty("visible", false);
 				this.getView().byId("id_Date").setValueState("None");
@@ -3535,7 +3537,9 @@ sap.ui.define([
 									MessageBox.error("La date d’ouverture ne peut pas être supérieure à la date de clôture de RO");
 								}
 									this.getView().byId("id_Date").setValueState("Error");
-							} 
+							} else if (this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairCDate")) == "" ||this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairCDate")) == null) {
+								this.getView().byId("id_CDate").setValueState("Error");	
+							}
 							else {
 								this.getView().byId("idRepairOrder").setValueState("None");
 								this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", true);
@@ -7245,6 +7249,8 @@ sap.ui.define([
 									MessageBox.error("La date d’ouverture ne peut pas être supérieure à la date de clôture de RO");
 								}
 								this.getView().byId("id_Date").setValueState("Error");
+							} else if (this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairCDate")) == "" ||this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairCDate")) == null) {
+								this.getView().byId("id_CDate").setValueState("Error");	
 							} else {
 								this.getView().getModel("DateModel").setProperty("/claimTypeState", "None");
 								this.getView().getModel("DateModel").setProperty("/claimTypeState2", "None");
