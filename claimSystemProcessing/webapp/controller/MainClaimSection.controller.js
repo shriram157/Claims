@@ -2588,7 +2588,7 @@ sap.ui.define([
 				sValueState = "Error";
 				bValidationError = true;
 			}
-			if (oInput.getValue() == "" || oInput.getValue() == null){
+			if (oInput.getValue() == "" || oInput.getValue() == "null"){
 				if (oInput.mProperties.required == true) {       //changes by swetha for DMND0003836 for RO Close date validation message
 					sValueState = "Error";
 					bValidationError = true;
