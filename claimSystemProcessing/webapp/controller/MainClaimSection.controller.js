@@ -2595,7 +2595,7 @@ sap.ui.define([
 			if (oInput.getValue() == "" && oInput.mProperties.required == true) {       
 					sValueState = "Error";
 					bValidationError = true;
-				}
+			}
 			
 			oInput.setValueState(sValueState);
 
