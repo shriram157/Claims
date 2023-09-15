@@ -161,6 +161,7 @@ sap.ui.define([
 				VisiblePageLine: false,
 				oRadioVinIndex: 0,
 				oVisibleRepDate: true,
+				oVisibleRepCDate: true,            //changes by swetha for DMND0003836
 				oVisibleReOrder: true,
 				oOdoEnabled: true,
 				OdometerReqMan: true,
@@ -169,6 +170,7 @@ sap.ui.define([
 				ShipmentVisible: false,
 				oECPfields: false,
 				oRepOrdDateReq: true,
+				oRepOrdCDateReq: true,             //changes by swetha for DMND0003836
 				oRepOrdReq: true,
 				chngClaimTypeVisible: false,
 				serialNoV: false,

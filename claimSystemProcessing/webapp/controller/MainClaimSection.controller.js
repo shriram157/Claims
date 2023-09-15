@@ -114,6 +114,7 @@ sap.ui.define([
 			if (oGroupDescription == "ZSSM") {
 				this.getView().getModel("DateModel").setProperty("/oRepOrdReq", false);
 				this.getView().getModel("DateModel").setProperty("/oRepOrdDateReq", false);
+				this.getView().getModel("DateModel").setProperty("/oRepOrdCDateReq", false);   //changes by swetha for DMND0003836
 				this.getView().byId("idRepairOrder").setValueState("None");
 			}
 			if (oClaimSelectedGroup == "Authorization" || oGroupDescription == "ZGGW" || oGroupDescription == "ZWP1") {
@@ -801,6 +802,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/AcA1", false);
 							this.getView().getModel("DateModel").setProperty("/P1p2", false);
 							this.getView().getModel("DateModel").setProperty("/oVisibleRepDate", false);
+							this.getView().getModel("DateModel").setProperty("/oVisibleRepCDate", false);       //changes by swetha for DMND0003836
 							this.getView().getModel("DateModel").setProperty("/oVisibleReOrder", false);
 							this.getView().getModel("DateModel").setProperty("/OdometerReqMan", false);
 							this.getView().getModel("DateModel").setProperty("/oPrevInvNumReq", false);
@@ -1578,6 +1580,7 @@ sap.ui.define([
 					this.getView().getModel("DateModel").setProperty("/P1p2", false);
 					this.getView().getModel("DateModel").setProperty("/oMainOpsReq", false);
 					this.getView().getModel("DateModel").setProperty("/oVisibleRepDate", false);
+					this.getView().getModel("DateModel").setProperty("/oVisibleRepCDate", false);   //changes by swetha for DMND0003836
 					this.getView().getModel("DateModel").setProperty("/oVisibleReOrder", false);
 					this.getView().getModel("DateModel").setProperty("/OdometerReqMan", false);
 				}
@@ -2285,6 +2288,7 @@ sap.ui.define([
 			} else if (elm == "ZSCR") {
 				this.getView().getModel("DateModel").setProperty("/OdometerReqMan", false);
 				this.getView().getModel("DateModel").setProperty("/oVisibleRepDate", false);
+				this.getView().getModel("DateModel").setProperty("/oVisibleRepCDate", false);   //changes by swetha for DMND0003836
 				this.getView().getModel("DateModel").setProperty("/oVisibleReOrder", false);
 
 			} else {
@@ -2588,12 +2592,11 @@ sap.ui.define([
 				sValueState = "Error";
 				bValidationError = true;
 			}
-			if (oInput.getValue() == "" || oInput.getValue() == "null"){
-				if (oInput.mProperties.required == true) {       //changes by swetha for DMND0003836 for RO Close date validation message
+			if (oInput.getValue() == "" && oInput.mProperties.required == true) {       
 					sValueState = "Error";
 					bValidationError = true;
 				}
-			}
+			
 			oInput.setValueState(sValueState);
 
 			return bValidationError;
