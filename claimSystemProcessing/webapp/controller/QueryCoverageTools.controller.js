@@ -494,6 +494,8 @@ sap.ui.define([
 			this.getView().getModel("DateModel").setProperty("/foreignVinInd", false);
 			this.getView().getModel("DateModel").setProperty("/writtenOffInd", false);
 			this.getView().getModel("DateModel").setProperty("/specialVinInd", false);
+			
+			agreementno = '' //INC0239353  CPS quick coverage tool	  Shriram 18-SEPT-2023
 		}
 	});
 
