@@ -435,12 +435,13 @@ sap.ui.define([
 						}
 						else
 						{
+							var tableData=this.getModel("LocalDataModel").getProperty("/CoverageSet");
 							for(var i=0;i<data.results.length;i++)
 							{
-							this.getModel("LocalDataModel").setProperty("/CoverageSet",this.getModel("LocalDataModel").getProperty("/CoverageSet").push(data.results[i]));	
-							this.getModel("LocalDataModel").updateBindings(true);
+						           tableData= tableData.push(data.results[i]);
 							}
-							
+							this.getModel("LocalDataModel").setProperty("/CoverageSet",tableData);	
+							this.getModel("LocalDataModel").updateBindings(true);
 						}
 							//INC0239353     CPS quick coverage tool   Shriram  11-OCT-2023    Code End
 						// this.getModel("LocalDataModel").setProperty("/CoverageSet", data.results);
