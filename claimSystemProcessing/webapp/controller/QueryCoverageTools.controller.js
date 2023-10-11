@@ -438,7 +438,7 @@ sap.ui.define([
 							var tableData=this.getModel("LocalDataModel").getProperty("/CoverageSet");
 							for(var i=0;i<data.results.length;i++)
 							{
-						           tableData= tableData.push(data.results[i]);
+						           tableData.push(data.results[i]);
 							}
 							this.getModel("LocalDataModel").setProperty("/CoverageSet",tableData);	
 							this.getModel("LocalDataModel").updateBindings(true);
