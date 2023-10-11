@@ -429,7 +429,7 @@ sap.ui.define([
 					success: $.proxy(function (data) {
 						
 						//INC0239353     CPS quick coverage tool   Shriram  11-OCT-2023    Code Start
-						if(this.getModel("LocalDataModel").getProperty("/CoverageSet") == undefined )
+						if(this.getModel("LocalDataModel").getProperty("/CoverageSet") == undefined ||this.getModel("LocalDataModel").getProperty("/CoverageSet") =="")
 						{
 							this.getModel("LocalDataModel").setProperty("/CoverageSet", data.results);
 						}
