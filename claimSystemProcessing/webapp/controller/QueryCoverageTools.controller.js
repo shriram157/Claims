@@ -429,21 +429,21 @@ sap.ui.define([
 					success: $.proxy(function (data) {
 						
 						//INC0239353     CPS quick coverage tool   Shriram  11-OCT-2023    Code Start
-						if(this.getModel("LocalDataModel").getProperty("/CoverageSet") == undefined )
-						{
-							this.getModel("LocalDataModel").setProperty("/CoverageSet", data.results);
-						}
-						else
-						{
-							for(var i=0;i<data.results.length;i++)
-							{
-							this.getModel("LocalDataModel").setProperty("/CoverageSet",this.getModel("LocalDataModel").getProperty("/CoverageSet).push(data.results[i]));	
-							this.getModel("LocalDataModel").updateBindings(true);
-							}
+						// if(this.getModel("LocalDataModel").getProperty("/CoverageSet") == undefined )
+						// {
+						// 	this.getModel("LocalDataModel").setProperty("/CoverageSet", data.results);
+						// }
+						// else
+						// {
+						// 	for(var i=0;i<data.results.length;i++)
+						// 	{
+						// 	this.getModel("LocalDataModel").setProperty("/CoverageSet",this.getModel("LocalDataModel").getProperty("/CoverageSet).push(data.results[i]));	
+						// 	this.getModel("LocalDataModel").updateBindings(true);
+						// 	}
 							
-						}
+						// }
 							//INC0239353     CPS quick coverage tool   Shriram  11-OCT-2023    Code End
-						//this.getModel("LocalDataModel").setProperty("/CoverageSet", data.results);
+						this.getModel("LocalDataModel").setProperty("/CoverageSet", data.results);
 					}, this),
 					error: function (error) {
 						var oError = error.responseText.split("{")[3].split(":")[2].split("}")[0];
