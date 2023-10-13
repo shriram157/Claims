@@ -161,6 +161,7 @@ sap.ui.define([
 				VisiblePageLine: false,
 				oRadioVinIndex: 0,
 				oVisibleRepDate: true,
+		//		oVisibleRepCDate: true,            //changes by swetha for DMND0003836
 				oVisibleReOrder: true,
 				oOdoEnabled: true,
 				OdometerReqMan: true,
@@ -169,12 +170,13 @@ sap.ui.define([
 				ShipmentVisible: false,
 				oECPfields: false,
 				oRepOrdDateReq: true,
+		//		oRepOrdCDateReq: true,             //changes by swetha for DMND0003836
 				oRepOrdReq: true,
 				chngClaimTypeVisible: false,
 				serialNoV: false,
 				enableVLC: false,
 				MainOpEnabled:true,
-				submitVisible : true
+				submitVisible : true,
 			});
 			return elm.getView().setModel(oDateModel, "DateModel");
 		},
@@ -193,6 +195,7 @@ sap.ui.define([
 				"DateOfApplication": null,
 				"FinalProcdDate": null,
 				"RepairDate": null,
+		//		"RepairCDate": null, //changes by swetha for DMND0003836
 				"RepairOrderNumberExternal": "",
 				"ExternalNumberOfClaim": "",
 				"ExternalObjectNumber": "",
@@ -286,6 +289,7 @@ sap.ui.define([
 				oView.byId("idClaimType"),
 				oView.byId("idDealerClaim"),
 				oView.byId("id_Date"),
+	//			oView.byId("id_CDate"),      //changes by swetha for DMND0003836
 				oView.byId("idOdometer"),
 				oView.byId("idRepairOrder"),
 				oView.byId("idVinNum"),
@@ -308,6 +312,7 @@ sap.ui.define([
 				oView.byId("idAccDate"),
 				oView.byId("idInsOdo"),
 				oView.byId("id_Date"),
+			//	oView.byId("id_CDate"),   //changes by swetha for DMND0003836
 				oView.byId("idOdometer"),
 				oView.byId("idRepairOrder"),
 				oView.byId("idVinNum"),
@@ -324,6 +329,7 @@ sap.ui.define([
 				oView.byId("idPreInvNum"),
 				oView.byId("idPrInvDate"),
 				oView.byId("id_Date"),
+		//		oView.byId("id_CDate"),  //changes by swetha for DMND0003836
 				oView.byId("idRepairOrder"),
 
 				oView.byId("idT1Field"),
@@ -339,6 +345,7 @@ sap.ui.define([
 				oView.byId("idPreInvNum"),
 				oView.byId("idPrInvDate"),
 				oView.byId("id_Date"),
+		//		oView.byId("id_CDate"),       //changes by swetha for DMND0003836
 				oView.byId("idRepairOrder"),
 				oView.byId("idPrvOdomtr"),
 				oView.byId("idT1Field"),
@@ -352,7 +359,8 @@ sap.ui.define([
 			var aInputsArrZWMS = [
 				oView.byId("idClaimType"),
 				oView.byId("idDealerClaim"),
-				oView.byId("id_Date"),
+				oView.byId("id_Date"), 
+	//			oView.byId("id_CDate"),      //changes by swetha for DMND0003836
 				oView.byId("idRepairOrder"),
 				oView.byId("idT1Field"),
 				oView.byId("idT2Field"),
@@ -365,6 +373,7 @@ sap.ui.define([
 				oView.byId("idClaimType"),
 				oView.byId("idDealerClaim"),
 				oView.byId("id_Date"),
+		//		oView.byId("id_CDate"),      //changes by swetha for DMND0003836
 				oView.byId("idOdometer"),
 				oView.byId("idRepairOrder"),
 				oView.byId("idVinNum"),
@@ -378,6 +387,7 @@ sap.ui.define([
 				oView.byId("idClaimType"),
 				oView.byId("idDealerClaim"),
 				oView.byId("id_Date"),
+//				oView.byId("id_CDate"),      //changes by swetha for DMND0003836
 				oView.byId("idOFP"),
 				oView.byId("idOdometer"),
 				oView.byId("idRepairOrder"),
@@ -391,6 +401,7 @@ sap.ui.define([
 			var aInputsOECP = [
 				oView.byId("idClaimType"),
 				oView.byId("id_Date"),
+		//		oView.byId("id_CDate"),     //changes by swetha for DMND0003836
 				oView.byId("idDealerClaim"),
 				oView.byId("idClientLastName"),
 				oView.byId("idPostalCode"),
@@ -410,6 +421,7 @@ sap.ui.define([
 				oView.byId("idDealerClaim"),
 				oView.byId("idDealerContact"),
 				oView.byId("id_Date"),
+		//		oView.byId("id_CDate"),    //changes by swetha for DMND0003836
 				oView.byId("idOdometer"),
 				oView.byId("idRepairOrder"),
 				oView.byId("idVinNum"),
@@ -425,6 +437,7 @@ sap.ui.define([
 				oView.byId("idClaimType"),
 				oView.byId("idDealerClaim"),
 				oView.byId("id_Date"),
+		//		oView.byId("id_CDate"),  //changes by swetha for DMND0003836
 				oView.byId("idOdometer"),
 				oView.byId("idRepairOrder"),
 				oView.byId("idVinNum"),
@@ -439,6 +452,7 @@ sap.ui.define([
 				oView.byId("idClaimType"),
 				oView.byId("idDealerClaim"),
 				oView.byId("id_Date"),
+		//		oView.byId("id_CDate"),        //changes by swetha for DMND0003836
 				oView.byId("idOdometer"),
 				oView.byId("idRepairOrder"),
 				oView.byId("idMainOps"),

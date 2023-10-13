@@ -427,6 +427,23 @@ sap.ui.define([
 							sSelectedLocale.toUpperCase() + "'and OdometerUOM eq '" + dometerunit + "'and AgreementNumber eq '" + agreementselected + "'"
 					},
 					success: $.proxy(function (data) {
+						
+						//INC0239353     CPS quick coverage tool   Shriram  11-OCT-2023    Code Start
+						// if(this.getModel("LocalDataModel").getProperty("/CoverageSet") == undefined ||this.getModel("LocalDataModel").getProperty("/CoverageSet") =="")
+						// {
+						// 	this.getModel("LocalDataModel").setProperty("/CoverageSet", data.results);
+						// }
+						// else
+						// {
+						// 	var tableData=this.getModel("LocalDataModel").getProperty("/CoverageSet");
+						// 	for(var i=0;i<data.results.length;i++)
+						// 	{
+						//           tableData.push(data.results[i]);
+						// 	}
+						// 	this.getModel("LocalDataModel").setProperty("/CoverageSet",tableData);	
+						// 	this.getModel("LocalDataModel").updateBindings(true);
+						// }
+							//INC0239353     CPS quick coverage tool   Shriram  11-OCT-2023    Code End
 						this.getModel("LocalDataModel").setProperty("/CoverageSet", data.results);
 					}, this),
 					error: function (error) {
@@ -494,6 +511,8 @@ sap.ui.define([
 			this.getView().getModel("DateModel").setProperty("/foreignVinInd", false);
 			this.getView().getModel("DateModel").setProperty("/writtenOffInd", false);
 			this.getView().getModel("DateModel").setProperty("/specialVinInd", false);
+			
+			agreementno = '' //INC0239353  CPS quick coverage tool	  Shriram 18-SEPT-2023
 		}
 	});
 
