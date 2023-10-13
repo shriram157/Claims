@@ -6,7 +6,7 @@ sap.ui.define([
 ], function (BaseController, formatter, MessageBox, MessageToast) {
 	"use strict";
 	var agreementno = '',
-		dometerunit, that;
+		dometerunit, that,tableAgreementNumber=[];
 	return BaseController.extend("zclaimProcessing.controller.QueryCoverageTools", {
 		formatter: formatter,
 		/**
@@ -418,6 +418,16 @@ sap.ui.define([
 			// 			and RepairDate eq datetime '2018-12-18T00:00:00'
 			// 			and LanguageKey eq 'EN'
 			// 			and AgreementNumber eq 'A0000000000000520' & $format = json
+					var alreadyExists = tableAgreementNumber.filter(function (k) {
+						
+						if(k == agreementselected)
+						{
+							console.log("Value of K"+k);
+							return k
+						}
+							console.log("alreadyExists...."+alreadyExists); 
+						
+					});
 
 			if (oVin != '' && odmeter != '' && partofp != '' && mainop != '') {
 				oProssingModel.read("/zc_coverageSet", {
@@ -448,6 +458,13 @@ sap.ui.define([
 
 							this.getModel("LocalDataModel").setProperty("/CoverageSet", tableData);
 							this.getModel("LocalDataModel").updateBindings(true);
+
+							for (var i = 0; i < tableAgreementNumber.length; i++) {
+								if (i == tableAgreementNumber.length) {
+									tableAgreementNumber[i] = agreementselected;
+								}
+							}
+
 						}
 						//INC0239353     CPS quick coverage tool   Shriram  11-OCT-2023    Code End
 						//	this.getModel("LocalDataModel").setProperty("/CoverageSet", data.results);
