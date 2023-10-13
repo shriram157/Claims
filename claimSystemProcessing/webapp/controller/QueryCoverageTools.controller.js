@@ -57,13 +57,13 @@ sap.ui.define([
 				type: "GET",
 				dataType: "json",
 				success: $.proxy(function (appData) {
-				
+
 					this.getModel("LocalDataModel").setProperty("/oECPURL", appData.ecpSalesAppUrl);
 					this.getModel("LocalDataModel").setProperty("/oCICURL", appData.cicUrl);
 					this.getModel("LocalDataModel").setProperty("/oCVSHURL", appData.cvshUrl);
 				}, this),
 				error: function (err) {
-				MessageToast.show(err);
+					MessageToast.show(err);
 				}
 			});
 
@@ -217,7 +217,7 @@ sap.ui.define([
 			if (window.document.domain == "localhost") {
 				isProxy = "proxy";
 			}
-		
+
 			var w = window.open(this.getModel("LocalDataModel").getProperty("/oECPURL") + "?Division=" + sDivision + "&Language=" +
 				sSelectedLocale +
 				"#/AgreementInquiry/" + oECPAgr + "/" + this.getView().getModel("DateModel").getProperty("/VIN") + "",
@@ -427,24 +427,30 @@ sap.ui.define([
 							sSelectedLocale.toUpperCase() + "'and OdometerUOM eq '" + dometerunit + "'and AgreementNumber eq '" + agreementselected + "'"
 					},
 					success: $.proxy(function (data) {
-						
+
 						//INC0239353     CPS quick coverage tool   Shriram  11-OCT-2023    Code Start
-						if(this.getModel("LocalDataModel").getProperty("/CoverageSet") == undefined ||this.getModel("LocalDataModel").getProperty("/CoverageSet") =="")
-						{
+
+						if (this.getModel("LocalDataModel").getProperty("/CoverageSet") == undefined || this.getModel("LocalDataModel").getProperty(
+								"/CoverageSet") == "") {
 							this.getModel("LocalDataModel").setProperty("/CoverageSet", data.results);
-						}
-						else
-						{
-							var tableData=this.getModel("LocalDataModel").getProperty("/CoverageSet");
-							for(var i=0;i<data.results.length;i++)
-							{
-						          tableData.push(data.results[i]);
-							}
-							this.getModel("LocalDataModel").setProperty("/CoverageSet",tableData);	
+						} else {
+							var tableData = this.getModel("LocalDataModel").getProperty("/CoverageSet");
+							var alreadyExists = data.results.filter(function (k) {
+								for (var i = 0; i < tableData.length; i++) {
+
+									if (k.OFP != tableData[i].OFP && k.PartDes != tableData[i].PartDes && k.MainOp != tableData[i].MainOp && k.MainOpDes !=
+										tableData[i].MainOpDes && k.Coverage != tableData[i].Coverage) {
+										tableData.push(k);
+									}
+								}
+
+							});
+
+							this.getModel("LocalDataModel").setProperty("/CoverageSet", tableData);
 							this.getModel("LocalDataModel").updateBindings(true);
 						}
-							//INC0239353     CPS quick coverage tool   Shriram  11-OCT-2023    Code End
-					//	this.getModel("LocalDataModel").setProperty("/CoverageSet", data.results);
+						//INC0239353     CPS quick coverage tool   Shriram  11-OCT-2023    Code End
+						//	this.getModel("LocalDataModel").setProperty("/CoverageSet", data.results);
 					}, this),
 					error: function (error) {
 						var oError = error.responseText.split("{")[3].split(":")[2].split("}")[0];
@@ -511,7 +517,7 @@ sap.ui.define([
 			this.getView().getModel("DateModel").setProperty("/foreignVinInd", false);
 			this.getView().getModel("DateModel").setProperty("/writtenOffInd", false);
 			this.getView().getModel("DateModel").setProperty("/specialVinInd", false);
-			
+
 			agreementno = '' //INC0239353  CPS quick coverage tool	  Shriram 18-SEPT-2023
 		}
 	});
