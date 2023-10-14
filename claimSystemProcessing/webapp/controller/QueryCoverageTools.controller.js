@@ -6,7 +6,7 @@ sap.ui.define([
 ], function (BaseController, formatter, MessageBox, MessageToast) {
 	"use strict";
 	var agreementno = '',
-		dometerunit, that,tableAgreementNumber=[];
+		dometerunit, that, tableActiveAgreement = [];
 	return BaseController.extend("zclaimProcessing.controller.QueryCoverageTools", {
 		formatter: formatter,
 		/**
@@ -418,17 +418,30 @@ sap.ui.define([
 			// 			and RepairDate eq datetime '2018-12-18T00:00:00'
 			// 			and LanguageKey eq 'EN'
 			// 			and AgreementNumber eq 'A0000000000000520' & $format = json
-					var alreadyExists = tableAgreementNumber.filter(function (k) {
-						
-						if(k == agreementselected)
-						{
-							console.log("Value of K"+k);
-							return k
-						}
-							console.log("alreadyExists...."+alreadyExists); 
-						
-					});
+			// reqFilterObj.VIN = oVin
+			// reqFilterObj.OdometerReading = odmeter
+			// reqFilterObj.OFP = partofp
+			// reqFilterObj.MainOpsCode = mainop
+			// reqFilterObj.RepairDate = currentdate
+			// reqFilterObj.LanguageKey = sSelectedLocale.toUpperCase()
+			// reqFilterObj.OdometerUOM = dometerunit
+			// reqFilterObj.AgreementNumber = agreementselected
+			var alreadyExists = tableActiveAgreement.filter(function (k) {
 
+				if (k.VIN == oVin && k.OdometerReading == odmeter && K.OFP == partofp && k.MainOpsCode = mainop = && k.RepairDate = currentdate &&
+					k.LanguageKey = sSelectedLocale.toUpperCase() && k.OdometerUOM = dometerunit &&
+					reqFilterObj.AgreementNumber = agreementselected) {
+					console.log("Value of K" + k);
+					return exit;
+				} else {
+					return notExit;
+				}
+				console.log("alreadyExists...." + alreadyExists);
+
+			});
+			
+              if(alreadyExists=="notExit")
+              {
 			if (oVin != '' && odmeter != '' && partofp != '' && mainop != '') {
 				oProssingModel.read("/zc_coverageSet", {
 					urlParameters: {
@@ -445,27 +458,39 @@ sap.ui.define([
 							this.getModel("LocalDataModel").setProperty("/CoverageSet", data.results);
 						} else {
 							var tableData = this.getModel("LocalDataModel").getProperty("/CoverageSet");
-							var alreadyExists = data.results.filter(function (k) {
-								for (var i = 0; i < tableData.length; i++) {
+							// var alreadyExists = data.results.filter(function (k) {
+							// 	for (var i = 0; i < tableData.length; i++) {
 
-									if (k.OFP != tableData[i].OFP && k.PartDes != tableData[i].PartDes && k.MainOp != tableData[i].MainOp && k.MainOpDes !=
-										tableData[i].MainOpDes && k.Coverage != tableData[i].Coverage) {
-										tableData.push(k);
-									}
-								}
+							// 		// if (k.OFP != tableData[i].OFP && k.PartDes != tableData[i].PartDes && k.MainOp != tableData[i].MainOp && k.MainOpDes !=
+							// 		// 	tableData[i].MainOpDes && k.Coverage != tableData[i].Coverage) {
+								tableData.push(data.results);
+							// 		// }
+							// 	}
 
-							});
+							// });
 
 							this.getModel("LocalDataModel").setProperty("/CoverageSet", tableData);
 							this.getModel("LocalDataModel").updateBindings(true);
 
-							for (var i = 0; i < tableAgreementNumber.length; i++) {
-								if (i == tableAgreementNumber.length) {
-									tableAgreementNumber[i] = agreementselected;
-								}
-							}
+							// for (var i = 0; i < tableAgreementNumber.length; i++) {
+							// 	if (i == tableAgreementNumber.length) {
+							// 		tableAgreementNumber[i] = agreementselected;
+							// 	}
+							// }
 
 						}
+						var reqFilterObj = {};
+						reqFilterObj.VIN = oVin;
+						reqFilterObj.OdometerReading = odmeter;
+						reqFilterObj.OFP = partofp;
+						reqFilterObj.MainOpsCode = mainop;
+						reqFilterObj.RepairDate = currentdate;
+						reqFilterObj.LanguageKey = sSelectedLocale.toUpperCase();
+						reqFilterObj.OdometerUOM = dometerunit;
+						reqFilterObj.AgreementNumber = agreementselected;
+
+						tableActiveAgreement.push(reqFilterObj);
+
 						//INC0239353     CPS quick coverage tool   Shriram  11-OCT-2023    Code End
 						//	this.getModel("LocalDataModel").setProperty("/CoverageSet", data.results);
 					}, this),
@@ -511,6 +536,7 @@ sap.ui.define([
 			} else {
 				//	MessageBox.show(Messagevalidf, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
 			}
+              }
 
 		},
 
