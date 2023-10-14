@@ -432,15 +432,14 @@ sap.ui.define([
 					k.LanguageKey == sSelectedLocale.toUpperCase() && k.OdometerUOM == dometerunit &&
 					reqFilterObj.AgreementNumber == agreementselected) {
 					console.log("Value of K" + k);
-					return "exit";
-				} else {
-					return "notExit";
+					return k;
 				}
+				
 				console.log("alreadyExists...." + alreadyExists);
 
 			});
 
-			if (alreadyExists == "notExit" || tableActiveAgreement.length == 0) {
+			if (alreadyExists.length == 0) {
 				if (oVin != '' && odmeter != '' && partofp != '' && mainop != '') {
 					oProssingModel.read("/zc_coverageSet", {
 						urlParameters: {
