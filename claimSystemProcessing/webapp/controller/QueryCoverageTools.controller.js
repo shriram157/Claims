@@ -440,7 +440,7 @@ sap.ui.define([
 
 			});
 
-			if (alreadyExists == "notExit") {
+			if (alreadyExists == "notExit" || tableActiveAgreement.length == 0) {
 				if (oVin != '' && odmeter != '' && partofp != '' && mainop != '') {
 					oProssingModel.read("/zc_coverageSet", {
 						urlParameters: {
