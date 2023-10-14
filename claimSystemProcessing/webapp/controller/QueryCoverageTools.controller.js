@@ -432,9 +432,9 @@ sap.ui.define([
 					k.LanguageKey == sSelectedLocale.toUpperCase() && k.OdometerUOM == dometerunit &&
 					reqFilterObj.AgreementNumber == agreementselected) {
 					console.log("Value of K" + k);
-					return exit;
+					return "exit";
 				} else {
-					return notExit;
+					return "notExit";
 				}
 				console.log("alreadyExists...." + alreadyExists);
 
