@@ -428,7 +428,7 @@ sap.ui.define([
 			// reqFilterObj.AgreementNumber = agreementselected
 			var alreadyExists = tableActiveAgreement.filter(function (k) {
 
-				if (k.VIN == oVin && k.OdometerReading == odmeter && K.OFP == partofp && k.MainOpsCode == mainop && k.RepairDate == currentdate &&
+				if (k.VIN == oVin && k.OdometerReading == odmeter && k.OFP == partofp && k.MainOpsCode == mainop && k.RepairDate == currentdate &&
 					k.LanguageKey == sSelectedLocale.toUpperCase() && k.OdometerUOM == dometerunit &&
 					reqFilterObj.AgreementNumber == agreementselected) {
 					console.log("Value of K" + k);
