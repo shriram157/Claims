@@ -428,9 +428,8 @@ sap.ui.define([
 			// reqFilterObj.AgreementNumber = agreementselected
 			var alreadyExists = tableActiveAgreement.filter(function (k) {
 
-				if (k.VIN == oVin && k.OdometerReading == odmeter && k.OFP == partofp && k.MainOpsCode == mainop && k.RepairDate == currentdate &&
-					k.LanguageKey == sSelectedLocale.toUpperCase() && k.OdometerUOM == dometerunit &&
-					reqFilterObj.AgreementNumber == agreementselected) {
+				if (k.VIN == oVin && k.OdometerReading == odmeter && k.OFP == partofp && k.MainOpsCode == mainop && k.LanguageKey == sSelectedLocale.toUpperCase() && k.OdometerUOM == dometerunit &&
+					k.AgreementNumber == agreementselected) {
 					console.log("Value of K" + k);
 					return k;
 				}
@@ -458,11 +457,13 @@ sap.ui.define([
 							} else {
 								var tableData = this.getModel("LocalDataModel").getProperty("/CoverageSet");
 								// var alreadyExists = data.results.filter(function (k) {
-								// 	for (var i = 0; i < tableData.length; i++) {
+									for (var i = 0; i < data.results.length; i++) {
+											tableData.push(data.results[i]);
+									}
 
 								// 		// if (k.OFP != tableData[i].OFP && k.PartDes != tableData[i].PartDes && k.MainOp != tableData[i].MainOp && k.MainOpDes !=
 								// 		// 	tableData[i].MainOpDes && k.Coverage != tableData[i].Coverage) {
-								tableData.push(data.results);
+							
 								// 		// }
 								// 	}
 
