@@ -428,9 +428,9 @@ sap.ui.define([
 			// reqFilterObj.AgreementNumber = agreementselected
 			var alreadyExists = tableActiveAgreement.filter(function (k) {
 
-				if (k.VIN == oVin && k.OdometerReading == odmeter && K.OFP == partofp && k.MainOpsCode = mainop = && k.RepairDate = currentdate &&
-					k.LanguageKey = sSelectedLocale.toUpperCase() && k.OdometerUOM = dometerunit &&
-					reqFilterObj.AgreementNumber = agreementselected) {
+				if (k.VIN == oVin && k.OdometerReading == odmeter && K.OFP == partofp && k.MainOpsCode == mainop && k.RepairDate == currentdate &&
+					k.LanguageKey == sSelectedLocale.toUpperCase() && k.OdometerUOM == dometerunit &&
+					reqFilterObj.AgreementNumber == agreementselected) {
 					console.log("Value of K" + k);
 					return exit;
 				} else {
@@ -439,104 +439,104 @@ sap.ui.define([
 				console.log("alreadyExists...." + alreadyExists);
 
 			});
-			
-              if(alreadyExists=="notExit")
-              {
-			if (oVin != '' && odmeter != '' && partofp != '' && mainop != '') {
-				oProssingModel.read("/zc_coverageSet", {
-					urlParameters: {
-						"$filter": "VIN eq '" + oVin + "'and OdometerReading eq '" + odmeter + "'and OFP eq '" + partofp + "'and MainOpsCode eq '" +
-							mainop + "'and RepairDate eq datetime'" + currentdate + "'and LanguageKey eq '" +
-							sSelectedLocale.toUpperCase() + "'and OdometerUOM eq '" + dometerunit + "'and AgreementNumber eq '" + agreementselected + "'"
-					},
-					success: $.proxy(function (data) {
 
-						//INC0239353     CPS quick coverage tool   Shriram  11-OCT-2023    Code Start
+			if (alreadyExists == "notExit") {
+				if (oVin != '' && odmeter != '' && partofp != '' && mainop != '') {
+					oProssingModel.read("/zc_coverageSet", {
+						urlParameters: {
+							"$filter": "VIN eq '" + oVin + "'and OdometerReading eq '" + odmeter + "'and OFP eq '" + partofp + "'and MainOpsCode eq '" +
+								mainop + "'and RepairDate eq datetime'" + currentdate + "'and LanguageKey eq '" +
+								sSelectedLocale.toUpperCase() + "'and OdometerUOM eq '" + dometerunit + "'and AgreementNumber eq '" + agreementselected +
+								"'"
+						},
+						success: $.proxy(function (data) {
 
-						if (this.getModel("LocalDataModel").getProperty("/CoverageSet") == undefined || this.getModel("LocalDataModel").getProperty(
-								"/CoverageSet") == "") {
-							this.getModel("LocalDataModel").setProperty("/CoverageSet", data.results);
-						} else {
-							var tableData = this.getModel("LocalDataModel").getProperty("/CoverageSet");
-							// var alreadyExists = data.results.filter(function (k) {
-							// 	for (var i = 0; i < tableData.length; i++) {
+							//INC0239353     CPS quick coverage tool   Shriram  11-OCT-2023    Code Start
 
-							// 		// if (k.OFP != tableData[i].OFP && k.PartDes != tableData[i].PartDes && k.MainOp != tableData[i].MainOp && k.MainOpDes !=
-							// 		// 	tableData[i].MainOpDes && k.Coverage != tableData[i].Coverage) {
+							if (this.getModel("LocalDataModel").getProperty("/CoverageSet") == undefined || this.getModel("LocalDataModel").getProperty(
+									"/CoverageSet") == "") {
+								this.getModel("LocalDataModel").setProperty("/CoverageSet", data.results);
+							} else {
+								var tableData = this.getModel("LocalDataModel").getProperty("/CoverageSet");
+								// var alreadyExists = data.results.filter(function (k) {
+								// 	for (var i = 0; i < tableData.length; i++) {
+
+								// 		// if (k.OFP != tableData[i].OFP && k.PartDes != tableData[i].PartDes && k.MainOp != tableData[i].MainOp && k.MainOpDes !=
+								// 		// 	tableData[i].MainOpDes && k.Coverage != tableData[i].Coverage) {
 								tableData.push(data.results);
-							// 		// }
-							// 	}
+								// 		// }
+								// 	}
 
-							// });
+								// });
 
-							this.getModel("LocalDataModel").setProperty("/CoverageSet", tableData);
-							this.getModel("LocalDataModel").updateBindings(true);
+								this.getModel("LocalDataModel").setProperty("/CoverageSet", tableData);
+								this.getModel("LocalDataModel").updateBindings(true);
 
-							// for (var i = 0; i < tableAgreementNumber.length; i++) {
-							// 	if (i == tableAgreementNumber.length) {
-							// 		tableAgreementNumber[i] = agreementselected;
-							// 	}
-							// }
+								// for (var i = 0; i < tableAgreementNumber.length; i++) {
+								// 	if (i == tableAgreementNumber.length) {
+								// 		tableAgreementNumber[i] = agreementselected;
+								// 	}
+								// }
+
+							}
+							var reqFilterObj = {};
+							reqFilterObj.VIN = oVin;
+							reqFilterObj.OdometerReading = odmeter;
+							reqFilterObj.OFP = partofp;
+							reqFilterObj.MainOpsCode = mainop;
+							reqFilterObj.RepairDate = currentdate;
+							reqFilterObj.LanguageKey = sSelectedLocale.toUpperCase();
+							reqFilterObj.OdometerUOM = dometerunit;
+							reqFilterObj.AgreementNumber = agreementselected;
+
+							tableActiveAgreement.push(reqFilterObj);
+
+							//INC0239353     CPS quick coverage tool   Shriram  11-OCT-2023    Code End
+							//	this.getModel("LocalDataModel").setProperty("/CoverageSet", data.results);
+						}, this),
+						error: function (error) {
+							var oError = error.responseText.split("{")[3].split(":")[2].split("}")[0];
+							MessageToast.show(oError, {
+								my: "center center",
+								at: "center center"
+							});
 
 						}
-						var reqFilterObj = {};
-						reqFilterObj.VIN = oVin;
-						reqFilterObj.OdometerReading = odmeter;
-						reqFilterObj.OFP = partofp;
-						reqFilterObj.MainOpsCode = mainop;
-						reqFilterObj.RepairDate = currentdate;
-						reqFilterObj.LanguageKey = sSelectedLocale.toUpperCase();
-						reqFilterObj.OdometerUOM = dometerunit;
-						reqFilterObj.AgreementNumber = agreementselected;
+					});
+					// var filters = [];
+					// filters = [
+					// 	new sap.ui.model.Filter("VIN", sap.ui.model.FilterOperator.EQ, oVin),
+					// 	new sap.ui.model.Filter("OdometerReading", sap.ui.model.FilterOperator.EQ, odmeter),
+					// 	new sap.ui.model.Filter("OFP", sap.ui.model.FilterOperator.EQ, partofp),
+					// 	new sap.ui.model.Filter("LanguageKey", sap.ui.model.FilterOperator.EQ, 'EN'),
+					// 	new sap.ui.model.Filter("MainOpsCode", sap.ui.model.FilterOperator.EQ, mainop),
+					// 	new sap.ui.model.Filter("RepairDate", sap.ui.model.FilterOperator.EQ, currentdate),
+					// 	new sap.ui.model.Filter("AgreementNumber", sap.ui.model.FilterOperator.EQ, agreementselected),
+					// 	new sap.ui.model.Filter("OdometerUOM", sap.ui.model.FilterOperator.EQ, dometerunit) //till iget the odmeter km
+					// ];
 
-						tableActiveAgreement.push(reqFilterObj);
+					// this.getView().byId('ofptable').getBinding('rows').filter(new sap.ui.model.Filter(filters, true));
+					// this.getView().byId('ofptable').getModel('ProssingModel').attachRequestFailed(function (e) {
+					// 	if (e.getParameters().response) {
+					// 		if (e.getParameters().response.responseText && that.getView().byId('partofp').getValue() != '') {
+					// 			var x = jQuery.parseXML(e.getParameters().response.responseText);
+					// 			oXMLMsg = x.querySelector("message");
+					// 			// 			MessageBox.show(oXMLMsg.textContent, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
+					// 			MessageToast.show(oXMLMsg.textContent, {
+					// 				my: "center center",
+					// 				at: "center center"
+					// 			});
+					// 		} else {
+					// 			// 			oXMLMsg = "";
+					// 			// 			MessageBox.Action.CLOSE();
+					// 		}
+					// 	}
+					// });
 
-						//INC0239353     CPS quick coverage tool   Shriram  11-OCT-2023    Code End
-						//	this.getModel("LocalDataModel").setProperty("/CoverageSet", data.results);
-					}, this),
-					error: function (error) {
-						var oError = error.responseText.split("{")[3].split(":")[2].split("}")[0];
-						MessageToast.show(oError, {
-							my: "center center",
-							at: "center center"
-						});
-
-					}
-				});
-				// var filters = [];
-				// filters = [
-				// 	new sap.ui.model.Filter("VIN", sap.ui.model.FilterOperator.EQ, oVin),
-				// 	new sap.ui.model.Filter("OdometerReading", sap.ui.model.FilterOperator.EQ, odmeter),
-				// 	new sap.ui.model.Filter("OFP", sap.ui.model.FilterOperator.EQ, partofp),
-				// 	new sap.ui.model.Filter("LanguageKey", sap.ui.model.FilterOperator.EQ, 'EN'),
-				// 	new sap.ui.model.Filter("MainOpsCode", sap.ui.model.FilterOperator.EQ, mainop),
-				// 	new sap.ui.model.Filter("RepairDate", sap.ui.model.FilterOperator.EQ, currentdate),
-				// 	new sap.ui.model.Filter("AgreementNumber", sap.ui.model.FilterOperator.EQ, agreementselected),
-				// 	new sap.ui.model.Filter("OdometerUOM", sap.ui.model.FilterOperator.EQ, dometerunit) //till iget the odmeter km
-				// ];
-
-				// this.getView().byId('ofptable').getBinding('rows').filter(new sap.ui.model.Filter(filters, true));
-				// this.getView().byId('ofptable').getModel('ProssingModel').attachRequestFailed(function (e) {
-				// 	if (e.getParameters().response) {
-				// 		if (e.getParameters().response.responseText && that.getView().byId('partofp').getValue() != '') {
-				// 			var x = jQuery.parseXML(e.getParameters().response.responseText);
-				// 			oXMLMsg = x.querySelector("message");
-				// 			// 			MessageBox.show(oXMLMsg.textContent, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
-				// 			MessageToast.show(oXMLMsg.textContent, {
-				// 				my: "center center",
-				// 				at: "center center"
-				// 			});
-				// 		} else {
-				// 			// 			oXMLMsg = "";
-				// 			// 			MessageBox.Action.CLOSE();
-				// 		}
-				// 	}
-				// });
-
-			} else {
-				//	MessageBox.show(Messagevalidf, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
+				} else {
+					//	MessageBox.show(Messagevalidf, MessageBox.Icon.ERROR, "Error", MessageBox.Action.OK, null, null);
+				}
 			}
-              }
 
 		},
 
