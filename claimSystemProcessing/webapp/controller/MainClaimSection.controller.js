@@ -1229,7 +1229,7 @@ sap.ui.define([
 														"/DateOfApplication")),
 													"FinalProcdDate": null,
 													"RepairDate": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairDate")),
-										        	"RepairCDate": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairCDate")),            //changes by swetha for DMND0003830
+										        	"RepairCDate": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairCDate")),            //changes by swetha for DMND0003836
 													"RepairOrderNumberExternal": this.getView().getModel("HeadSetData").getProperty(
 														"/RepairOrderNumberExternal"),
 													"ExternalNumberOfClaim": this.getView().getModel("HeadSetData").getProperty("/ExternalNumberOfClaim"),
