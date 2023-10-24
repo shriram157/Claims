@@ -20,7 +20,7 @@
 					<Label text="{i18n>Effdate}" design="Bold" class="greenlable"/>
 					<Text
 						text="{path:'LocalDataModel>/oDealerLabour/WTYEffectiveDate', type: 'sap.ui.model.type.Date', formatOptions: { pattern: 'YYYY-MM-dd', UTC:true}}"/>
-						<!--changes by swetha for INC0241595 added UTC:true on 11th Oct, 2023-->
+						<!--changes by swetha for INC0241595 added UTC:true on 11th Oct, 2023 -->
 				</f:content>
 			</f:SimpleForm>
 			<MessageStrip text="{i18n>Ecp}" class="messagestrip"/>
