@@ -130,8 +130,8 @@
 				<core:Title/>
 				<Label text="{i18n>ROCloseDate}" visible="{DateModel>/oVisibleRepCDate}"/>     
 				<DatePicker valueFormat="yyyy-MM-dd" displayFormat="yyyy-MM-dd" class="clDatePicker" editable="{DateModel>/oFormEdit}" id="id_CDate"  
-					value="{path:'HeadSetData>/RepairCDate', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'yyyy-MM-dd', strictParsing: true, UTC: true}}"  
-					visible="{DateModel>/oVisibleRepCDate}" required="{DateModel>/oRepOrdCDateReq}" change="onChangeDate" formatter:'zclaimProcessing.utils.formatter.fnROCDate'/>
+					value="{path:'HeadSetData>/RepairCDate', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'yyyy-MM-dd', strictParsing: true, UTC: true}, formatter:'zclaimProcessing.utils.formatter.fnROCDate'}"  
+					visible="{DateModel>/oVisibleRepCDate}" required="{DateModel>/oRepOrdCDateReq}" change="onChangeDate" />
 				<!-- Changes by Swetha for DMND0003836 on 29th Aug, 2023 Added RO Close Date Field End -->
 			</f:content>
 		</f:SimpleForm>
