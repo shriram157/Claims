@@ -1629,6 +1629,10 @@ sap.ui.define([
 				this.getModel("LocalDataModel").setProperty("/ClaimSum", "");
 				this.getView().setModel(this.HeadSetData, "HeadSetData");
 			}
+			//changes by swetha for DMND0003836
+			if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType")=="ZAUT") {
+				this.getView().byId("oVisibleRepCDate").setVisible(false);	
+			}
 
 		},
 
