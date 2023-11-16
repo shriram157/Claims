@@ -879,11 +879,15 @@ sap.ui.define([
 						var HeadSetData = new sap.ui.model.json.JSONModel(data.results[0]);
 						HeadSetData.setDefaultBindingMode("TwoWay");
 						this.getView().setModel(HeadSetData, "HeadSetData");
-						//changes by swetha for DMND0003836 start
-						if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType")=="ZAUT") {
-							this.getView().byId("id_CDate").setVisible(false);	
+						//changes by swetha for DMND0003836 RO Close Date should be visible for the following claim type only ---- start
+						var WarrantyClaimType = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType");
+						if (WarrantyClaimType == "ZCSR" || WarrantyClaimType == "ZCAE" || WarrantyClaimType == "ZCLS" || WarrantyClaimType == "ZCER" || WarrantyClaimType == "ZCWE" || WarrantyClaimType == "ZCPD" || WarrantyClaimType == "ZCLT" ||
+							WarrantyClaimType == "ZGGW" || WarrantyClaimType == "ZSSE" || WarrantyClaimType == "ZWA1" || WarrantyClaimType == "ZWAC" || WarrantyClaimType == "ZWP1" || WarrantyClaimType == "ZWVE") {) {
+							this.getView().byId("id_CDate").setVisible(true);	
+						} else {
+							this.getView().byId("id_CDate").setVisible(false);
 						}
-						//changes by swetha for DMND0003836 end
+						//changes by swetha for DMND0003836 RO Close Date should be visible for the following claim type only ---- end
 						this.getView().getModel("LocalDataModel").setProperty("/step01Next", true);
 
 						if (data.results[0].DecisionCode == "") {
