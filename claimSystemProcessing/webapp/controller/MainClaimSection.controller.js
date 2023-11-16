@@ -332,6 +332,7 @@ sap.ui.define([
 			this.getView().byId("idFilter07").setProperty("enabled", false);
 			this.getView().byId("idFilter08").setProperty("enabled", false);
 			this.getModel("LocalDataModel").setProperty("/oClaimSelectedGroup", oClaimSelectedGroup);
+			
 			if (sClaimGroup == "VLC") {
 				this.fn_damageCallforVLC();
 				this.getView().getModel("DateModel").setProperty("/enableVLC", true);
@@ -878,7 +879,11 @@ sap.ui.define([
 						var HeadSetData = new sap.ui.model.json.JSONModel(data.results[0]);
 						HeadSetData.setDefaultBindingMode("TwoWay");
 						this.getView().setModel(HeadSetData, "HeadSetData");
-
+						//changes by swetha for DMND0003836 start
+						if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType")=="ZAUT") {
+							this.getView().byId("id_CDate").setVisible(false);	
+						}
+						//changes by swetha for DMND0003836 end
 						this.getView().getModel("LocalDataModel").setProperty("/step01Next", true);
 
 						if (data.results[0].DecisionCode == "") {
@@ -1628,10 +1633,6 @@ sap.ui.define([
 				this._fnDealerContact();
 				this.getModel("LocalDataModel").setProperty("/ClaimSum", "");
 				this.getView().setModel(this.HeadSetData, "HeadSetData");
-			}
-			//changes by swetha for DMND0003836
-			if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType")=="ZAUT") {
-				this.getView().byId("oVisibleRepCDate").setVisible(false);	
 			}
 
 		},
