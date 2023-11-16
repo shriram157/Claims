@@ -753,7 +753,9 @@ zclaimProcessing.utils.formatter = {
 		if (WarrantyClaimType == "ZCSR" || WarrantyClaimType == "ZCAE" || WarrantyClaimType == "ZCLS" || WarrantyClaimType == "ZCER" || WarrantyClaimType == "ZCWE" || WarrantyClaimType == "ZCPD" || WarrantyClaimType == "ZCLT" ||
 			WarrantyClaimType == "ZGGW" || WarrantyClaimType == "ZSSE" || WarrantyClaimType == "ZWA1" || WarrantyClaimType == "ZWAC" || WarrantyClaimType == "ZWP1" || WarrantyClaimType == "ZWVE") {
 				return "RO Close Date";
-		} 
+		} else {
+			return "";
+		}
 	}
 
 
