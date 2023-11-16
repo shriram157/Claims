@@ -748,16 +748,12 @@ zclaimProcessing.utils.formatter = {
 		
 	},
 	//changes by swetha for DMND0003836 on 16th Nov, 2023 ---- RO Close Date field should be visible to below claim types only 
-	fnROCDate: function(WClaimType) {
+	fnROCDate: function(WarrantyClaimType) {
 		var WClaimType = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType");
 		if (WClaimType == "ZCSR" || WClaimType == "ZCAE" || WClaimType == "ZCLS" || WClaimType == "ZCER" || WClaimType == "ZCWE" || WClaimType == "ZCPD" || WClaimType == "ZCLT" ||
-			WClaimType == "ZGGw" || WClaimType == "ZSSE" || WClaimType == "ZWA1" || WClaimType == "ZWAC" || WClaimType == "ZWP1" || WClaimType == "ZWVE") {
-				return true;
-		} else {
-			return false;
-		}
-		
-		
+			WClaimType == "ZGGW" || WClaimType == "ZSSE" || WClaimType == "ZWA1" || WClaimType == "ZWAC" || WClaimType == "ZWP1" || WClaimType == "ZWVE") {
+				return "RO Close Date";
+		} 
 	}
 
 
