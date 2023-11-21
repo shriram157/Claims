@@ -885,7 +885,7 @@ sap.ui.define([
 						if (WarrantyClaimType == "ZCSR" || WarrantyClaimType == "ZCAE" || WarrantyClaimType == "ZCLS" || WarrantyClaimType == "ZCER" ||
 							WarrantyClaimType == "ZCWE" || WarrantyClaimType == "ZCPD" || WarrantyClaimType == "ZCLT" ||
 							WarrantyClaimType == "ZGGW" || WarrantyClaimType == "ZSSE" || WarrantyClaimType == "ZWA1" || WarrantyClaimType == "ZWAC" ||
-							WarrantyClaimType == "ZWP1" || WarrantyClaimType == "ZWVE") {
+							WarrantyClaimType == "ZWP1" || WarrantyClaimType == "ZWVE" || WarrantyClaimType == "ZAUT") {
 							this.getView().byId("id_CDate").setVisible(true);
 						} else {
 							this.getView().byId("id_CDate").setVisible(false);
@@ -2017,7 +2017,7 @@ sap.ui.define([
 			 if (WarrantyClaimType == "ZCSR" || WarrantyClaimType == "ZCAE" || WarrantyClaimType == "ZCLS" || WarrantyClaimType == "ZCER" ||
 			 	WarrantyClaimType == "ZCWE" || WarrantyClaimType == "ZCPD" || WarrantyClaimType == "ZCLT" ||
 			 	WarrantyClaimType == "ZGGW" || WarrantyClaimType == "ZSSE" || WarrantyClaimType == "ZWA1" || WarrantyClaimType == "ZWAC" ||
-			 	WarrantyClaimType == "ZWP1" || WarrantyClaimType == "ZWVE") {
+			 	WarrantyClaimType == "ZWP1" || WarrantyClaimType == "ZWVE" || WarrantyClaimType == "ZAUT") {
 			 	this.getView().byId("id_CDate").setVisible(true);
 			 } else {
 			 	this.getView().byId("id_CDate").setVisible(false);
@@ -2044,7 +2044,6 @@ sap.ui.define([
 				this.getView().getModel("DateModel").setProperty("/authHide", true);
 				this.getView().getModel("DateModel").setProperty("/oMainOpsReq", false);
 				this.getView().getModel("DateModel").setProperty("/oPrvOdomtrReq", false);
-		//		this.getView().byId("id_CDate").setVisible(false);               //changes by swetha for DMND0003836
 			} else if (oKey == "ZWAC" || oKey == "ZWA1") {
 				this.getView().getModel("DateModel").setProperty("/oMainOps", true);
 				this.getView().getModel("DateModel").setProperty("/Authorization", true);
