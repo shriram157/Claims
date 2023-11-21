@@ -2021,6 +2021,8 @@ sap.ui.define([
 			 	this.getView().byId("id_CDate").setVisible(true);
 			 } else {
 			 	this.getView().byId("id_CDate").setVisible(false);
+			 	this.getView().byId("id_CDate").setValue("");
+			 	
 			 }
 			//changes by swetha for DMND0003836 RO Close Date should be visible for the following claim type only ---- end
 
