@@ -885,12 +885,13 @@ sap.ui.define([
 						if (WarrantyClaimType == "ZCSR" || WarrantyClaimType == "ZCAE" || WarrantyClaimType == "ZCLS" || WarrantyClaimType == "ZCER" ||
 							WarrantyClaimType == "ZCWE" || WarrantyClaimType == "ZCPD" || WarrantyClaimType == "ZCLT" ||
 							WarrantyClaimType == "ZGGW" || WarrantyClaimType == "ZSSE" || WarrantyClaimType == "ZWA1" || WarrantyClaimType == "ZWAC" ||
-							WarrantyClaimType == "ZWP1" || WarrantyClaimType == "ZWVE" || WarrantyClaimType == "ZAUT") {
-							this.getView().byId("id_CDate").setVisible(true);
-						} else if (WarrantyClaimType == "ZAUT" && submissionType == "ZECP") {
+							WarrantyClaimType == "ZWP1" || WarrantyClaimType == "ZWVE") {
+								this.getView().byId("id_CDate").setVisible(true);
+						} 
+						if (WarrantyClaimType == "ZAUT" && submissionType == "ZECP") {
 							this.getView.byId("id_CDate").setVisible(false);
 						} else {	
-							this.getView().byId("id_CDate").setVisible(false);
+							this.getView().byId("id_CDate").setVisible(true);
 						}
 						//changes by swetha for DMND0003836 RO Close Date should be visible for the following claim type only ---- end
 						this.getView().getModel("LocalDataModel").setProperty("/step01Next", true);
@@ -2019,12 +2020,11 @@ sap.ui.define([
 			 if (WarrantyClaimType == "ZCSR" || WarrantyClaimType == "ZCAE" || WarrantyClaimType == "ZCLS" || WarrantyClaimType == "ZCER" ||
 			 	WarrantyClaimType == "ZCWE" || WarrantyClaimType == "ZCPD" || WarrantyClaimType == "ZCLT" ||
 			 	WarrantyClaimType == "ZGGW" || WarrantyClaimType == "ZSSE" || WarrantyClaimType == "ZWA1" || WarrantyClaimType == "ZWAC" ||
-			 	WarrantyClaimType == "ZWP1" || WarrantyClaimType == "ZWVE" || WarrantyClaimType == "ZAUT") {
+			 	WarrantyClaimType == "ZWP1" || WarrantyClaimType == "ZWVE") {
 			 	this.getView().byId("id_CDate").setVisible(true);
 			 } else {
 			 	this.getView().byId("id_CDate").setVisible(false);
 			 	this.getView().byId("id_CDate").setValue("");
-			 	
 			 }
 			//changes by swetha for DMND0003836 RO Close Date should be visible for the following claim type only ---- end
 
