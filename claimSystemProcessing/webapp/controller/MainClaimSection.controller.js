@@ -889,7 +889,7 @@ sap.ui.define([
 								this.getView().byId("id_CDate").setVisible(true);
 						} 
 						if (WarrantyClaimType == "ZAUT" && submissionType == "ZECP") {
-							this.getView.byId("id_CDate").setVisible(false);
+							this.getView().byId("id_CDate").setVisible(false);
 						} else {	
 							this.getView().byId("id_CDate").setVisible(true);
 						}
