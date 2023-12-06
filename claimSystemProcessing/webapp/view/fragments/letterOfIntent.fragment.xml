@@ -42,7 +42,7 @@
 							<Label text="{i18n>DeliveryReceivedDate}" class="sapUiTinyMarginBeginEnd sapUiSmallMarginTop"/>
 							<DatePicker valueState="{DateModel>/partTypeState}"
 								value="{path:'LOIDataModel>/DeliveryDateLOI', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd' } }"
-								required="true" id="idDDLOI"/>
+								required="true" id="idDDLOI" editable="false"/> <!-- changes for INC0245168 by Swetha on 6th Dec, 2023-->
 							<Label text="{i18n>TextAt}" class="sapUiTinyMarginBeginEnd sapUiSmallMarginTop"/>
 							<!--<DateTimeInput type="Time" class="sapUiSmallMarginBottom" value="{path:'LOIDataModel>/AtLOI', type: 'sap.ui.model.type.Time'}"/>-->
 							<TimePicker value="{path:'LOIDataModel>/AtLOI', type: 'sap.ui.model.type.Time'}"/>
