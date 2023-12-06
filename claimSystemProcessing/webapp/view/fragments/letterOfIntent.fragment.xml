@@ -90,8 +90,8 @@
 							</RadioButtonGroup>
 							<Label text="{i18n>PartsDate}" class="sapUiTinyMarginBeginEnd sapUiSmallMarginTop"/>
 							<DatePicker valueState="{DateModel>/partTypeState}"
-								value="{path:'LOIDataModel>/DateLOI', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd' } }"
-								required="true" id="idDateLOI02"/>
+								value="{path:'LOIDataModel>/DateLOI', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd', UTC: true } }"
+								required="true" id="idDateLOI02"/>                                                <!--changes by Swetha for INC0245645 added UTC:true on 6th Dec, 2023-->
 							<Label text="{i18n>TextAt}" class="sapUiTinyMarginBeginEnd sapUiSmallMarginTop"/>
 							<!--<Input value="{path:'LOIDataModel>/AtLOI02'}"/>-->
 							<TimePicker value="{path:'LOIDataModel>/AtLOI02', type: 'sap.ui.model.type.Time'}"/>
