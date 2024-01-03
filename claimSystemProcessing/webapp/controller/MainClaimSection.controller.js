@@ -896,9 +896,9 @@ sap.ui.define([
 						
 						if (WarrantyClaimType == "ZAUT" && submissionType == "ZECP") {
 							this.getView().byId("id_CDate").setVisible(false);
-						} else {	
-							this.getView().byId("id_CDate").setVisible(true);
-						}
+						// } else {	
+						// 	this.getView().byId("id_CDate").setVisible(true);
+						// }
 						//changes by swetha for DMND0003836 RO Close Date should be visible for the following claim type only ---- end
 						this.getView().getModel("LocalDataModel").setProperty("/step01Next", true);
 
