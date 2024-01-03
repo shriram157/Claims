@@ -887,7 +887,11 @@ sap.ui.define([
 							WarrantyClaimType == "ZGGW" || WarrantyClaimType == "ZSSE" || WarrantyClaimType == "ZWA1" || WarrantyClaimType == "ZWAC" ||
 							WarrantyClaimType == "ZWP1" || WarrantyClaimType == "ZWVE") {
 								this.getView().byId("id_CDate").setVisible(true);
-						} 
+						}
+						else {
+							this.getView().byId("id_CDate").setVisible(false);
+						}
+						
 						if (WarrantyClaimType == "ZAUT" && submissionType == "ZECP") {
 							this.getView().byId("id_CDate").setVisible(false);
 						} else {	
