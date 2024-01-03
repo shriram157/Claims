@@ -2310,6 +2310,7 @@ sap.ui.define([
 		onP2Claim: function (elm) {
 			if (elm == "ZLDC" || elm == "ZRCR") {
 				this.getView().getModel("DateModel").setProperty("/nonVinHide", false);
+				this.getView().getModel("DateModel").setProperty("/oVisibleRepCDate", false);//changes by swetha for DMND0003836
 			} else {
 				this.getView().getModel("DateModel").setProperty("/nonVinHide", true);
 			}
