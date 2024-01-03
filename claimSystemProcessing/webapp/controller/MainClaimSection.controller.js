@@ -845,6 +845,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/P1p2", false);
 							this.getView().getModel("DateModel").setProperty("/oFieldActionInput", false);
 							this.getView().getModel("DateModel").setProperty("/oPrevInvNumReq", false);
+							this.getView().getModel("DateModel").setProperty("/oVisibleRepCDate", false); //changes by swetha for DMND0003836
 							this.getView().getModel("DateModel").setProperty("/oPrevInvDateReq", false);
 							this.getView().getModel("DateModel").setProperty("/PreroOdometerVisible", false);
 							this.getView().getModel("DateModel").setProperty("/RepairdDetailVisible", true);
@@ -867,6 +868,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/AcA1", false);
 							this.getView().getModel("DateModel").setProperty("/P1p2", false);
 							this.getView().getModel("DateModel").setProperty("/oPrevInvNumReq", false);
+							this.getView().getModel("DateModel").setProperty("/oVisibleRepCDate", false); //changes by swetha for DMND0003836
 							this.getView().getModel("DateModel").setProperty("/oPrevInvDateReq", false);
 							this.getView().getModel("DateModel").setProperty("/PreroOdometerVisible", false);
 							this.getView().getModel("DateModel").setProperty("/oMainOpsReq", false);
