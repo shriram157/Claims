@@ -897,7 +897,7 @@ sap.ui.define([
 						if (WarrantyClaimType == "ZAUT" && submissionType == "ZECP") {
 							this.getView().byId("id_CDate").setVisible(false);
 						 } 
-						 else if(WarrantyClaimType=="ZLCD"||WarrantyClaimType=="ZRCR")  {	
+						 else if(WarrantyClaimType=="ZLDC"||WarrantyClaimType=="ZRCR")  {	
 						 	this.getView().byId("id_CDate").setVisible(false);
 						 }
 						 else {
