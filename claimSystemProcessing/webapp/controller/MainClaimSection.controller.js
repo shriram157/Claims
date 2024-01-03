@@ -1621,6 +1621,7 @@ sap.ui.define([
 					this.getView().getModel("DateModel").setProperty("/oECPfields", false);
 					this.getView().getModel("DateModel").setProperty("/RepairdDetailVisible", false);
 					this.getView().getModel("DateModel").setProperty("/ShipmentVisible", true);
+					this.getView().getModel("DateModel").setProperty("/oVisibleRepCDate", false); //changes by swetha for DMND0003836
 					this.getModel("LocalDataModel").setProperty("/step01Next", false);
 					this.getView().getModel("DateModel").setProperty("/damageLine", false);
 					this.getView().getModel("DateModel").setProperty("/oDamageLineBtn", false);
