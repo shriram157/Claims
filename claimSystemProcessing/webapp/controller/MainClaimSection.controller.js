@@ -897,12 +897,12 @@ sap.ui.define([
 						if (WarrantyClaimType == "ZAUT" && submissionType == "ZECP") {
 							this.getView().byId("id_CDate").setVisible(false);
 						 } 
-						 else if(WarrantyClaimType=="ZLDC"||WarrantyClaimType=="ZRCR")  {	
-						 	this.getView().byId("id_CDate").setVisible(false);
-						 }
-						 else {
-						 		this.getView().byId("id_CDate").setVisible(true);
-						 }
+						 //else if(WarrantyClaimType=="ZLDC"||WarrantyClaimType=="ZRCR")  {	
+						 //	this.getView().byId("id_CDate").setVisible(false);
+						 //}
+						 //else {
+						 //		this.getView().byId("id_CDate").setVisible(true);
+						 //}
 						//changes by swetha for DMND0003836 RO Close Date should be visible for the following claim type only ---- end
 						this.getView().getModel("LocalDataModel").setProperty("/step01Next", true);
 
@@ -1642,6 +1642,7 @@ sap.ui.define([
 					this.getView().getModel("DateModel").setProperty("/Authorization", false);
 					this.getView().getModel("DateModel").setProperty("/oECPfields", false);
 					this.getView().getModel("DateModel").setProperty("/RepairdDetailVisible", true);
+					this.getView().getModel("DateModel").setProperty("/oVisibleRepCDate", false); //changes by swetha for DMND0003836
 					this.getModel("LocalDataModel").setProperty("/step01Next", false);
 					this.getView().getModel("DateModel").setProperty("/AcA1", false);
 					this.getView().getModel("DateModel").setProperty("/P1p2", false);
@@ -2229,7 +2230,7 @@ sap.ui.define([
 				this.getView().getModel("DateModel").setProperty("/Labour", true);
 				this.getView().getModel("DateModel").setProperty("/oFieldActionInput", false);
 				this.getView().getModel("DateModel").setProperty("/Authorization", true);
-
+				this.getView().getModel("DateModel").setProperty("/oVisibleRepCDate", false); //changes by swetha for DMND0003836
 				this.getView().getModel("DateModel").setProperty("/RepairdDetailVisible", true);
 				this.getView().getModel("DateModel").setProperty("/ShipmentVisible", false);
 				this.getView().getModel("DateModel").setProperty("/AcA1", false);
