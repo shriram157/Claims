@@ -894,9 +894,14 @@ sap.ui.define([
 							this.getView().byId("id_CDate").setVisible(false);
 						}
 						
-						if (WarrantyClaimType == "ZAUT" && submissionType == "ZECP") {
-							this.getView().byId("id_CDate").setVisible(false);
-						 } 
+						if (WarrantyClaimType == "ZAUT"){
+							if (submissionType == "ZECP"||submissionType == "ZWA2"||submissionType == "ZWP2") {
+								this.getView().byId("id_CDate").setVisible(false);
+							} else {
+								this.getView().byId("id_CDate").setVisible(true);	
+						 }
+						}
+						 //changes by swetha for DMND0003836 RO Close Date should be visible for the following claim type only ---- end
 						 //else if(WarrantyClaimType=="ZLDC"||WarrantyClaimType=="ZRCR")  {	
 						 //	this.getView().byId("id_CDate").setVisible(false);
 						 //}
