@@ -115,7 +115,7 @@ sap.ui.define([
 			if (oGroupDescription == "ZSSM") {
 				this.getView().getModel("DateModel").setProperty("/oRepOrdReq", false);
 				this.getView().getModel("DateModel").setProperty("/oRepOrdDateReq", false);
-				this.getView().getModel("DateModel").setProperty("/oRepOrdCDateReq", false); //changes by swetha for DMND0003836
+			//	this.getView().getModel("DateModel").setProperty("/oRepOrdCDateReq", false); //changes by swetha for DMND0003836
 				this.getView().byId("idRepairOrder").setValueState("None");
 			}
 			if (oClaimSelectedGroup == "Authorization" || oGroupDescription == "ZGGW" || oGroupDescription == "ZWP1") {

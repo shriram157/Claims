@@ -170,7 +170,7 @@ sap.ui.define([
 				ShipmentVisible: false,
 				oECPfields: false,
 				oRepOrdDateReq: true,
-				oRepOrdCDateReq: true,             //changes by swetha for DMND0003836
+			//	oRepOrdCDateReq: true,             //changes by swetha for DMND0003836
 				oRepOrdReq: true,
 				chngClaimTypeVisible: false,
 				serialNoV: false,
