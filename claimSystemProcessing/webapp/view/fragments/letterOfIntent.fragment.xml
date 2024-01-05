@@ -18,7 +18,7 @@
 						<Text text="{LOIDataModel>/TopTextLOI}"/>
 						<Label text="{i18n>PartsDate}"/>
 						<!--<Text text="{path:'LOIDataModel>LOIDate'}"/>-->
-						<Text text="{path:'LOIDataModel>/LOIDate', formatter: 'zclaimProcessing.utils.formatter.fnFormatDisplayDate'}"/>
+						<Text text="{path:'LOIDataModel>/LOIDate', formatter: 'zclaimProcessing.utils.formatter.fnFormatDisplayDate', UTC:true}"/>
 						<!--</HBox>-->
 						<core:Title text="" level="H6" class="H6ID"/>
 						<HBox width="100%">
