@@ -41,8 +41,8 @@
 						<HBox>
 							<Label text="{i18n>DeliveryReceivedDate}" class="sapUiTinyMarginBeginEnd sapUiSmallMarginTop"/>
 							<DatePicker valueState="{DateModel>/partTypeState}"
-								value="{path:'LOIDataModel>/DeliveryDateLOI', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd' } }"
-								required="true" id="idDDLOI"/>
+								value="{path:'LOIDataModel>/DeliveryDateLOI', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd', UTC: true  } }"
+								required="true" id="idDDLOI" editable="false"/> <!-- changes for INC0245168 by Swetha on 6th Dec, 2023-->
 							<Label text="{i18n>TextAt}" class="sapUiTinyMarginBeginEnd sapUiSmallMarginTop"/>
 							<!--<DateTimeInput type="Time" class="sapUiSmallMarginBottom" value="{path:'LOIDataModel>/AtLOI', type: 'sap.ui.model.type.Time'}"/>-->
 							<TimePicker value="{path:'LOIDataModel>/AtLOI', type: 'sap.ui.model.type.Time'}"/>
@@ -90,8 +90,8 @@
 							</RadioButtonGroup>
 							<Label text="{i18n>PartsDate}" class="sapUiTinyMarginBeginEnd sapUiSmallMarginTop"/>
 							<DatePicker valueState="{DateModel>/partTypeState}"
-								value="{path:'LOIDataModel>/DateLOI', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd' } }"
-								required="true" id="idDateLOI02"/>
+								value="{path:'LOIDataModel>/DateLOI', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium', pattern: 'YYYY-MM-dd', UTC: true } }"
+								required="true" id="idDateLOI02"/>                                                <!--changes by Swetha for INC0245645 added UTC:true on 6th Dec, 2023-->
 							<Label text="{i18n>TextAt}" class="sapUiTinyMarginBeginEnd sapUiSmallMarginTop"/>
 							<!--<Input value="{path:'LOIDataModel>/AtLOI02'}"/>-->
 							<TimePicker value="{path:'LOIDataModel>/AtLOI02', type: 'sap.ui.model.type.Time'}"/>

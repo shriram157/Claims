@@ -746,7 +746,7 @@ zclaimProcessing.utils.formatter = {
 		}
 		
 		
-	},
-
+	}
+	
 
 };
