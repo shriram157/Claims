@@ -12,9 +12,10 @@ sap.ui.define([
 	"sap/ui/core/format/DateFormat",
 	"sap/ui/model/resource/ResourceModel",
 	"zclaimProcessing/utils/WarrantyDataManager",
-	"zclaimProcessing/utils/PmpDataManager"
+	"zclaimProcessing/utils/PmpDataManager",
+	"sap/m/MessageBox"
 ], function (Dialog, Label, MessageToast, Text, BaseController, base64, ValueState, Validator, Filter, Button, DateFormat, ResourceModel,
-	WarrantyDataManager, PmpDataManager) {
+	WarrantyDataManager, PmpDataManager, MessageBox) {
 	"use strict";
 	var oBundle;
 	return BaseController.extend("zclaimProcessing.controller.MainClaimSection", {
