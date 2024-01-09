@@ -2613,7 +2613,7 @@ sap.ui.define([
 						var ofpValue = this.getView().byId("idOFP").getValue();
 						if (ofpValue && ofpValue.toUpperCase() != "DIAGNOSTIC" && ofpValue.toUpperCase().startsWith("DIA") {
 								MessageBox.warning("Enter Correct OFP Value");//oBundle.getText("Error.EnterCorrectOFPValue"));
-								return;
+								//return;
 							}
 						//End for demand DMND0004200	
 
