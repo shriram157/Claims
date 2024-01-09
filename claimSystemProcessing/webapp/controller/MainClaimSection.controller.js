@@ -2609,6 +2609,14 @@ sap.ui.define([
 		},
 
 		_fnSaveClaim: function () {
+			//Changes by Devika for Demand DMND0004200 on 09-01-2024
+			var ofpValue = this.getView().byId("idOFP").getValue();
+			if (ofpValue && ofpValue.toUpperCase() != "DIAGNOSTIC" && ofpValue.toUpperCase().startsWith("DIA")) {
+				MessageBox.error("Enter Correct OFP Value"); //oBundle.getText("Error.EnterCorrectOFPValue"));
+				return false;
+			}
+			//End for demand DMND0004200
+
 			var oValidator = new Validator();
 			//var oValid = oValidator.validate(this.getView().byId("idClaimMainForm"));
 			// var oValid01 = oValidator.validate(this.getView().byId("idVehicleInfo"));
@@ -3201,7 +3209,13 @@ sap.ui.define([
 		},
 
 		_fnUpdateClaim: function (oEvent) {
-
+			//Changes by Devika for Demand DMND0004200 on 09-01-2024
+			var ofpValue = this.getView().byId("idOFP").getValue();
+			if (ofpValue && ofpValue.toUpperCase() != "DIAGNOSTIC" && ofpValue.toUpperCase().startsWith("DIA")) {
+				MessageBox.error("Enter Correct OFP Value"); //oBundle.getText("Error.EnterCorrectOFPValue"));
+				return false;
+			}
+			//End for demand DMND0004200
 			var bValidationError;
 			this.getModel("LocalDataModel").setProperty("/PrintEnable", true);
 			var oId;
@@ -5024,14 +5038,6 @@ sap.ui.define([
 
 		},
 		onStep01Next: function (oEvent) {
-			//Changes by Devika for Demand DMND0004200 on 09-01-2024
-			var ofpValue = this.getView().byId("idOFP").getValue();
-			if (ofpValue && ofpValue.toUpperCase() != "DIAGNOSTIC" && ofpValue.toUpperCase().startsWith("DIA")) {
-					MessageBox.warning("Enter Correct OFP Value");//oBundle.getText("Error.EnterCorrectOFPValue"));
-					//return;
-				}
-			//End for demand DMND0004200	
-
 			if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZWMS" ||
 				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") == "ZWMS" || this.getModel("LocalDataModel").getProperty(
 					"/GroupDescriptionName") === "CRC" || this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") ===
