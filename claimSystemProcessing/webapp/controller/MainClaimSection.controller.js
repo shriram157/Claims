@@ -2612,7 +2612,7 @@ sap.ui.define([
 						//Changes by Devika for Demand DMND0004200 on 09-01-2024
 						var ofpValue = this.getView().byId("idOFP").getValue();
 						if (ofpValue && ofpValue.toUpperCase() != "DIAGNOSTIC" && ofpValue.toUpperCase().startsWith("DIA") {
-								MessageBox.warning(oBundle.getText("Error.EnterCorrectOFPValue"));
+								MessageBox.warning("Enter Correct OFP Value");//oBundle.getText("Error.EnterCorrectOFPValue"));
 								return;
 							}
 						//End for demand DMND0004200	
