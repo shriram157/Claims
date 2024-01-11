@@ -747,18 +747,22 @@ zclaimProcessing.utils.formatter = {
 
 	},
 
-	// Changes made by Devika for DMND0004327 on 11-01-2024
 	fnOutboundDeliveryDate: function (WarrantyClaimType) { //changes by swetha on 4th May, 2023 for DMND0004037
 		var sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
-		var oBundle = this.getView().getModel("i18n").getResourceBundle();
 		if (WarrantyClaimType == "ZPDC" || WarrantyClaimType == "ZPTS") {
-			//French translation has not been added yet
-			return oBundle.getText("OutBoundDeliveryInvoiceDate");
+			if (sSelectedLocale == "en") {
+				return "Outbound Delivery/Invoice Date";
+			} else { //French Translation has not done yet
+				return "Livraison sortante/Numéro de facture";
+			}
 		} else {
-			return oBundle.getText("OutboundDeliveryDate");
+			if (sSelectedLocale == "en") {
+				return "Outbound Delivery Date"
+			} else {
+				return "Date de livraison sortante"
+			}
 		}
+
 	}
-	
-	//End of changes for DMND0004327
 
 };
