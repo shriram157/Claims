@@ -728,25 +728,37 @@ zclaimProcessing.utils.formatter = {
 		return Oval;
 
 	},
-	fnOutboundDeliveryNumber: function (WarrantyClaimType) {         //changes by swetha on 4th May, 2023 for DMND0004037
-		var sSelectedLocale;		
+	fnOutboundDeliveryNumber: function (WarrantyClaimType) { //changes by swetha on 4th May, 2023 for DMND0004037
+		var sSelectedLocale;
 		sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
-		if (WarrantyClaimType == "ZPDC" || WarrantyClaimType == "ZPTS" ) {
-			if(sSelectedLocale == "en"){
+		if (WarrantyClaimType == "ZPDC" || WarrantyClaimType == "ZPTS") {
+			if (sSelectedLocale == "en") {
 				return "Outbound Delivery/Invoice Number";
 			} else {
 				return "Livraison sortante/Numéro de facture";
-		}
+			}
 		} else {
-			if(sSelectedLocale == "en") {
+			if (sSelectedLocale == "en") {
 				return "Outbound Delivery Number"
 			} else {
 				return "Numéro de livraison sortante"
 			}
 		}
-		
-		
+
+	},
+
+	// Changes made by Devika for DMND0004327 on 11-01-2024
+	fnOutboundDeliveryDate: function (WarrantyClaimType) { //changes by swetha on 4th May, 2023 for DMND0004037
+		var sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
+		var oBundle = this.getView().getModel("i18n").getResourceBundle();
+		if (WarrantyClaimType == "ZPDC" || WarrantyClaimType == "ZPTS") {
+			//French translation has not been added yet
+			return oBundle.getText("OutBoundDeliveryInvoiceDate");
+		} else {
+			return oBundle.getText("OutboundDeliveryDate");
+		}
 	}
 	
+	//End of changes for DMND0004327
 
 };

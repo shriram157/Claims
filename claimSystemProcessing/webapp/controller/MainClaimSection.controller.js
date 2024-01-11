@@ -2627,6 +2627,15 @@ sap.ui.define([
 			var oCurrentDt = new Date();
 			var clmGrp = this.getModel("LocalDataModel").getProperty("/clmTypeGroup");
 			var oClmType = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType");
+			
+			//Changes made by Devika on 11-01-2024 for Demand DMND0004327
+			if(oClmType == "ZPDC" || oClmType == "ZPTS"){
+				var oDeliveryDate =this.getView().getModel("HeadSetData").getProperty("/DeliveryDate");
+				if(oDeliveryDate == null){
+					MessageBox.error(oBundle.getText("InvoiceDateNotFound"));
+				}
+			}
+			// End of Demand DMND0004327
 			var oClmSubType = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType");
 			var oGroupType = this.getModel("LocalDataModel").getProperty("/WarrantyClaimTypeGroup");
 			var that = this;
@@ -3210,13 +3219,15 @@ sap.ui.define([
 		},
 
 		_fnUpdateClaim: function (oEvent) {
+			
 			//Changes by Devika for Demand DMND0004200 on 09-01-2024
 			var ofpValue = this.getView().byId("idOFP").getValue();
 			if (ofpValue && ofpValue.toUpperCase() != "DIAGNOSTIC" && ofpValue.toUpperCase().startsWith("DIA")) {
 				MessageBox.error(oBundle.getText("EnterCorrectOFPValue"));
 				return false;
 			}
-			//End for demand DMND0004200
+			//End of demand DMND0004200
+			
 			var bValidationError;
 			this.getModel("LocalDataModel").setProperty("/PrintEnable", true);
 			var oId;
@@ -3239,6 +3250,16 @@ sap.ui.define([
 
 			// 	var oCurrentDt = new Date();
 			var oClaimtype = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType");
+			
+			//Changes made by Devika on 11-01-2024 for Demand DMND0004327
+			if(oClaimtype == "ZPDC" || oClaimtype == "ZPTS"){
+				var oDeliveryDate =this.getView().getModel("HeadSetData").getProperty("/DeliveryDate");
+				if(oDeliveryDate == null){
+					MessageBox.error(oBundle.getText("InvoiceDateNotFound"));
+				}
+			}
+			// End of Demand DMND0004327
+			
 			var oClmType = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType");
 			var oClmSubType = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType");
 			//var oGroupType = this.getModel("LocalDataModel").getProperty("/WarrantyClaimTypeGroup");
