@@ -2627,15 +2627,6 @@ sap.ui.define([
 			var oCurrentDt = new Date();
 			var clmGrp = this.getModel("LocalDataModel").getProperty("/clmTypeGroup");
 			var oClmType = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType");
-			
-			//Changes made by Devika on 11-01-2024 for Demand DMND0004327
-			if(oClmType == "ZPDC" || oClmType == "ZPTS"){
-				var oDeliveryDate =this.getView().getModel("HeadSetData").getProperty("/DeliveryDate");
-				if(oDeliveryDate == null){
-					MessageBox.warning(oBundle.getText("InvoiceDateNotFound"));
-				}
-			}
-			// End of Demand DMND0004327
 			var oClmSubType = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType");
 			var oGroupType = this.getModel("LocalDataModel").getProperty("/WarrantyClaimTypeGroup");
 			var that = this;
@@ -3250,16 +3241,6 @@ sap.ui.define([
 
 			// 	var oCurrentDt = new Date();
 			var oClaimtype = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType");
-			
-			//Changes made by Devika on 11-01-2024 for Demand DMND0004327
-			if(oClaimtype == "ZPDC" || oClaimtype == "ZPTS"){
-				var oDeliveryDate =this.getView().getModel("HeadSetData").getProperty("/DeliveryDate");
-				if(oDeliveryDate == null){
-					MessageBox.warning(oBundle.getText("InvoiceDateNotFound"));
-				}
-			}
-			// End of Demand DMND0004327
-			
 			var oClmType = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType");
 			var oClmSubType = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType");
 			//var oGroupType = this.getModel("LocalDataModel").getProperty("/WarrantyClaimTypeGroup");
