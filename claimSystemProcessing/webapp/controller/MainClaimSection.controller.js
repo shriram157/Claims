@@ -2632,7 +2632,7 @@ sap.ui.define([
 			if(oClmType == "ZPDC" || oClmType == "ZPTS"){
 				var oDeliveryDate =this.getView().getModel("HeadSetData").getProperty("/DeliveryDate");
 				if(oDeliveryDate == null){
-					MessageBox.error(oBundle.getText("InvoiceDateNotFound"));
+					MessageBox.warning(oBundle.getText("InvoiceDateNotFound"));
 				}
 			}
 			// End of Demand DMND0004327
@@ -3255,7 +3255,7 @@ sap.ui.define([
 			if(oClaimtype == "ZPDC" || oClaimtype == "ZPTS"){
 				var oDeliveryDate =this.getView().getModel("HeadSetData").getProperty("/DeliveryDate");
 				if(oDeliveryDate == null){
-					MessageBox.error(oBundle.getText("InvoiceDateNotFound"));
+					MessageBox.warning(oBundle.getText("InvoiceDateNotFound"));
 				}
 			}
 			// End of Demand DMND0004327

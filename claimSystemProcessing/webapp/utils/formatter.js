@@ -746,14 +746,16 @@ zclaimProcessing.utils.formatter = {
 		}
 
 	},
+	
+	//changes by Devika on 11-01-2024 for DMND0004327
 
-	fnOutboundDeliveryDate: function (WarrantyClaimType) { //changes by swetha on 4th May, 2023 for DMND0004037
+	fnOutboundDeliveryDate: function (WarrantyClaimType) { 
 		var sSelectedLocale = window.location.search.match(/language=([^&]*)/i)[1];
 		if (WarrantyClaimType == "ZPDC" || WarrantyClaimType == "ZPTS") {
 			if (sSelectedLocale == "en") {
 				return "Outbound Delivery/Invoice Date";
-			} else { //French Translation has not done yet
-				return "Livraison sortante/Numéro de facture";
+			} else { 
+				return "Date de livraison/facture sortante";
 			}
 		} else {
 			if (sSelectedLocale == "en") {
