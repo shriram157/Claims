@@ -4117,6 +4117,7 @@ sap.ui.define([
 		},
 
 		_fnValidatorParts: function () {
+			
 			var oClmType = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType");
 			var that = this;
 			var aInputs;
@@ -4155,9 +4156,12 @@ sap.ui.define([
 
 		_fnUpdateClaimParts: function (oEvent) {
 			//Changes made by Devika on 11-01-2024 for Demand DMND0004327
-			var oDeliveryDate = this.getView().getModel("HeadSetData").getProperty("/DeliveryDate");
-			if (oDeliveryDate === null) {
-				MessageBox.warning(oBundle.getText("InvoiceDateNotFound"));
+			var oClaimType = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType")
+			if(oClaimType == "ZPDC" || oClaimType == "ZPTS"){
+				var oDeliveryDate =this.getView().getModel("HeadSetData").getProperty("/DeliveryDate");
+				if(oDeliveryDate == null){
+					MessageBox.warning(oBundle.getText("InvoiceDateNotFound"));
+				}
 			}
 			// End of Demand DMND0004327
 
