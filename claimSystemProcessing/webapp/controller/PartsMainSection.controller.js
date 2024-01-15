@@ -4160,7 +4160,7 @@ sap.ui.define([
 			if(oClaimType == "ZPDC" || oClaimType == "ZPTS"){
 				var oDeliveryDate =this.getView().getModel("HeadSetData").getProperty("/DeliveryDate");
 				if(oDeliveryDate == null){
-					MessageBox.warning(oBundle.getText("InvoiceDateNotFound"));
+					MessageBox.warning("InvoiceDateNotFound");//oBundle.getText("InvoiceDateNotFound"));
 				}
 			}
 			// End of Demand DMND0004327
