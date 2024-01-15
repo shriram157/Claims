@@ -4560,7 +4560,6 @@ sap.ui.define([
 				}
 			}
 			// End of Demand DMND0004327
-			
 			var oClaimModel = this.getModel("ProssingModel");
 			var oValidator = new Validator();
 			var oCurrentDt = new Date();
