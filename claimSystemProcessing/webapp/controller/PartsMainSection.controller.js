@@ -4156,11 +4156,12 @@ sap.ui.define([
 
 		_fnUpdateClaimParts: function (oEvent) {
 			//Changes made by Devika on 11-01-2024 for Demand DMND0004327
+			var oBundle = this.getView().getModel("i18n").getResourceBundle();
 			var oClaimType = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType")
 			if(oClaimType == "ZPDC" || oClaimType == "ZPTS"){
 				var oDeliveryDate =this.getView().getModel("HeadSetData").getProperty("/DeliveryDate");
 				if(oDeliveryDate == null){
-					MessageBox.warning("InvoiceDateNotFound");//oBundle.getText("InvoiceDateNotFound"));
+					MessageBox.warning(oBundle.getText("InvoiceDateNotFound"));
 				}
 			}
 			// End of Demand DMND0004327
