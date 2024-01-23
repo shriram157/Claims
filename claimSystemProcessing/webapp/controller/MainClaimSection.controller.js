@@ -2,6 +2,7 @@ sap.ui.define([
 	'sap/m/Dialog',
 	'sap/m/Label',
 	'sap/m/MessageToast',
+	'sap/m/MessageBox',
 	'sap/m/Text',
 	"zclaimProcessing/controller/BaseController",
 	"zclaimProcessing/libs/jQuery.base64",
@@ -12,10 +13,10 @@ sap.ui.define([
 	"sap/ui/core/format/DateFormat",
 	"sap/ui/model/resource/ResourceModel",
 	"zclaimProcessing/utils/WarrantyDataManager",
-	"zclaimProcessing/utils/PmpDataManager",
-	"sap/m/MessageBox"
-], function (Dialog, Label, MessageToast, Text, BaseController, base64, ValueState, Validator, Filter, Button, DateFormat, ResourceModel,
-	WarrantyDataManager, PmpDataManager, MessageBox) {
+	"zclaimProcessing/utils/PmpDataManager"
+], function (Dialog, Label, MessageToast, MessageBox, Text, BaseController, base64, ValueState, Validator, Filter, Button, DateFormat,
+	ResourceModel,
+	WarrantyDataManager, PmpDataManager) {
 	"use strict";
 	var oBundle;
 	return BaseController.extend("zclaimProcessing.controller.MainClaimSection", {
@@ -114,6 +115,7 @@ sap.ui.define([
 			if (oGroupDescription == "ZSSM") {
 				this.getView().getModel("DateModel").setProperty("/oRepOrdReq", false);
 				this.getView().getModel("DateModel").setProperty("/oRepOrdDateReq", false);
+			//	this.getView().getModel("DateModel").setProperty("/oRepOrdCDateReq", false); //changes by swetha for DMND0003836
 				this.getView().byId("idRepairOrder").setValueState("None");
 			}
 			if (oClaimSelectedGroup == "Authorization" || oGroupDescription == "ZGGW" || oGroupDescription == "ZWP1") {
@@ -292,6 +294,7 @@ sap.ui.define([
 			this.getView().getModel("DataPercetCalculate").setProperty("/SubletPerAmt", "");
 			this.getModel("LocalDataModel").setProperty("/ClaimSumAuth", "");
 			this.getView().byId("id_Date").setValueState("None");
+			this.getView().byId("id_CDate").setValueState("None"); //changes by swetha for DMND0003836 on 8th Sept, 2023
 			this.getView().byId("idPrInvDate").setValueState("None");
 			this.getView().byId("idPreInvNum").setValueState("None");
 			this.getView().byId("idOFP").setValueState("None");
@@ -330,6 +333,7 @@ sap.ui.define([
 			this.getView().byId("idFilter07").setProperty("enabled", false);
 			this.getView().byId("idFilter08").setProperty("enabled", false);
 			this.getModel("LocalDataModel").setProperty("/oClaimSelectedGroup", oClaimSelectedGroup);
+
 			if (sClaimGroup == "VLC") {
 				this.fn_damageCallforVLC();
 				this.getView().getModel("DateModel").setProperty("/enableVLC", true);
@@ -800,6 +804,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/AcA1", false);
 							this.getView().getModel("DateModel").setProperty("/P1p2", false);
 							this.getView().getModel("DateModel").setProperty("/oVisibleRepDate", false);
+							this.getView().getModel("DateModel").setProperty("/oVisibleRepCDate", false); //changes by swetha for DMND0003836
 							this.getView().getModel("DateModel").setProperty("/oVisibleReOrder", false);
 							this.getView().getModel("DateModel").setProperty("/OdometerReqMan", false);
 							this.getView().getModel("DateModel").setProperty("/oPrevInvNumReq", false);
@@ -840,6 +845,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/P1p2", false);
 							this.getView().getModel("DateModel").setProperty("/oFieldActionInput", false);
 							this.getView().getModel("DateModel").setProperty("/oPrevInvNumReq", false);
+							this.getView().getModel("DateModel").setProperty("/oVisibleRepCDate", false); //changes by swetha for DMND0003836
 							this.getView().getModel("DateModel").setProperty("/oPrevInvDateReq", false);
 							this.getView().getModel("DateModel").setProperty("/PreroOdometerVisible", false);
 							this.getView().getModel("DateModel").setProperty("/RepairdDetailVisible", true);
@@ -862,6 +868,7 @@ sap.ui.define([
 							this.getView().getModel("DateModel").setProperty("/AcA1", false);
 							this.getView().getModel("DateModel").setProperty("/P1p2", false);
 							this.getView().getModel("DateModel").setProperty("/oPrevInvNumReq", false);
+							this.getView().getModel("DateModel").setProperty("/oVisibleRepCDate", false); //changes by swetha for DMND0003836
 							this.getView().getModel("DateModel").setProperty("/oPrevInvDateReq", false);
 							this.getView().getModel("DateModel").setProperty("/PreroOdometerVisible", false);
 							this.getView().getModel("DateModel").setProperty("/oMainOpsReq", false);
@@ -875,7 +882,33 @@ sap.ui.define([
 						var HeadSetData = new sap.ui.model.json.JSONModel(data.results[0]);
 						HeadSetData.setDefaultBindingMode("TwoWay");
 						this.getView().setModel(HeadSetData, "HeadSetData");
-
+						//changes by swetha for DMND0003836 RO Close Date should be visible for the following claim type only ---- start
+						var WarrantyClaimType = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType");
+						if (WarrantyClaimType == "ZCSR" || WarrantyClaimType == "ZCAE" || WarrantyClaimType == "ZCLS" || WarrantyClaimType == "ZCER" ||
+							WarrantyClaimType == "ZCWE" || WarrantyClaimType == "ZCPD" || WarrantyClaimType == "ZCLT" ||
+							WarrantyClaimType == "ZGGW" || WarrantyClaimType == "ZSSE" || WarrantyClaimType == "ZWA1" || WarrantyClaimType == "ZWAC" ||
+							WarrantyClaimType == "ZWP1" || WarrantyClaimType == "ZWVE") {
+								this.getView().byId("id_CDate").setVisible(true);
+						}
+						else {
+							this.getView().byId("id_CDate").setVisible(false);
+						}
+						
+						if (WarrantyClaimType == "ZAUT"){
+							if (submissionType == "ZECP"||submissionType == "ZWA2"||submissionType == "ZWP2") {
+								this.getView().byId("id_CDate").setVisible(false);
+							} else {
+								this.getView().byId("id_CDate").setVisible(true);	
+						 }
+						}
+						 //changes by swetha for DMND0003836 RO Close Date should be visible for the following claim type only ---- end
+						 //else if(WarrantyClaimType=="ZLDC"||WarrantyClaimType=="ZRCR")  {	
+						 //	this.getView().byId("id_CDate").setVisible(false);
+						 //}
+						 //else {
+						 //		this.getView().byId("id_CDate").setVisible(true);
+						 //}
+						//changes by swetha for DMND0003836 RO Close Date should be visible for the following claim type only ---- end
 						this.getView().getModel("LocalDataModel").setProperty("/step01Next", true);
 
 						if (data.results[0].DecisionCode == "") {
@@ -1226,6 +1259,7 @@ sap.ui.define([
 														"/DateOfApplication")),
 													"FinalProcdDate": null,
 													"RepairDate": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairDate")),
+													"RepairCDate": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairCDate")), //changes by swetha for DMND0003836
 													"RepairOrderNumberExternal": this.getView().getModel("HeadSetData").getProperty(
 														"/RepairOrderNumberExternal"),
 													"ExternalNumberOfClaim": this.getView().getModel("HeadSetData").getProperty("/ExternalNumberOfClaim"),
@@ -1552,6 +1586,7 @@ sap.ui.define([
 					this.getView().getModel("DateModel").setProperty("/Authorization", true);
 					this.getView().getModel("DateModel").setProperty("/oECPfields", true);
 					this.getView().getModel("DateModel").setProperty("/RepairdDetailVisible", true);
+					this.getView().getModel("DateModel").setProperty("/oVisibleRepCDate", false); //changes by swetha for DMND0003836
 					this.getView().getModel("DateModel").setProperty("/ShipmentVisible", false);
 					this.getView().getModel("DateModel").setProperty("/AcA1", false);
 					this.getView().getModel("DateModel").setProperty("/P1p2", false);
@@ -1576,6 +1611,7 @@ sap.ui.define([
 					this.getView().getModel("DateModel").setProperty("/P1p2", false);
 					this.getView().getModel("DateModel").setProperty("/oMainOpsReq", false);
 					this.getView().getModel("DateModel").setProperty("/oVisibleRepDate", false);
+					this.getView().getModel("DateModel").setProperty("/oVisibleRepCDate", false); //changes by swetha for DMND0003836
 					this.getView().getModel("DateModel").setProperty("/oVisibleReOrder", false);
 					this.getView().getModel("DateModel").setProperty("/OdometerReqMan", false);
 				}
@@ -1591,6 +1627,7 @@ sap.ui.define([
 					this.getView().getModel("DateModel").setProperty("/oECPfields", false);
 					this.getView().getModel("DateModel").setProperty("/RepairdDetailVisible", false);
 					this.getView().getModel("DateModel").setProperty("/ShipmentVisible", true);
+					this.getView().getModel("DateModel").setProperty("/oVisibleRepCDate", false); //changes by swetha for DMND0003836
 					this.getModel("LocalDataModel").setProperty("/step01Next", false);
 					this.getView().getModel("DateModel").setProperty("/damageLine", false);
 					this.getView().getModel("DateModel").setProperty("/oDamageLineBtn", false);
@@ -1611,6 +1648,7 @@ sap.ui.define([
 					this.getView().getModel("DateModel").setProperty("/Authorization", false);
 					this.getView().getModel("DateModel").setProperty("/oECPfields", false);
 					this.getView().getModel("DateModel").setProperty("/RepairdDetailVisible", true);
+					this.getView().getModel("DateModel").setProperty("/oVisibleRepCDate", false); //changes by swetha for DMND0003836
 					this.getModel("LocalDataModel").setProperty("/step01Next", false);
 					this.getView().getModel("DateModel").setProperty("/AcA1", false);
 					this.getView().getModel("DateModel").setProperty("/P1p2", false);
@@ -1815,12 +1853,13 @@ sap.ui.define([
 								this.getView().getModel("HeadSetData").setProperty("/AgreementNumber", data.results[
 									oTableSelectedRow].AgreementNumber);
 							}
+
 						}, this),
 						error: function () {}
 					});
 				}
 			}
-			//console.log(oEvent.getSource().getDateValue());
+
 		},
 
 		onPrevDateChange: function (oEvent) {
@@ -1993,6 +2032,19 @@ sap.ui.define([
 			if (oKey != "") {
 				this.getView().getModel("DateModel").setProperty("/claimTypeState2", "None");
 			}
+			//changes by swetha for DMND0003836 RO Close Date should be visible for the following claim type only ---- start
+			 //var WarrantyClaimType = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType");
+			 var WarrantyClaimType = oKey;
+			 if (WarrantyClaimType == "ZCSR" || WarrantyClaimType == "ZCAE" || WarrantyClaimType == "ZCLS" || WarrantyClaimType == "ZCER" ||
+			 	WarrantyClaimType == "ZCWE" || WarrantyClaimType == "ZCPD" || WarrantyClaimType == "ZCLT" ||
+			 	WarrantyClaimType == "ZGGW" || WarrantyClaimType == "ZSSE" || WarrantyClaimType == "ZWA1" || WarrantyClaimType == "ZWAC" ||
+			 	WarrantyClaimType == "ZWP1" || WarrantyClaimType == "ZWVE") {
+			 	this.getView().byId("id_CDate").setVisible(true);
+			 } else {
+			 	this.getView().byId("id_CDate").setVisible(false);
+			 	this.getView().byId("id_CDate").setValue("");
+			 }
+			//changes by swetha for DMND0003836 RO Close Date should be visible for the following claim type only ---- end
 
 			if (oKey == "ZGGW") {
 				this.getView().getModel("DateModel").setProperty("/oMainOps", true);
@@ -2184,7 +2236,7 @@ sap.ui.define([
 				this.getView().getModel("DateModel").setProperty("/Labour", true);
 				this.getView().getModel("DateModel").setProperty("/oFieldActionInput", false);
 				this.getView().getModel("DateModel").setProperty("/Authorization", true);
-
+				this.getView().getModel("DateModel").setProperty("/oVisibleRepCDate", false); //changes by swetha for DMND0003836
 				this.getView().getModel("DateModel").setProperty("/RepairdDetailVisible", true);
 				this.getView().getModel("DateModel").setProperty("/ShipmentVisible", false);
 				this.getView().getModel("DateModel").setProperty("/AcA1", false);
@@ -2270,6 +2322,7 @@ sap.ui.define([
 		onP2Claim: function (elm) {
 			if (elm == "ZLDC" || elm == "ZRCR") {
 				this.getView().getModel("DateModel").setProperty("/nonVinHide", false);
+				this.getView().getModel("DateModel").setProperty("/oVisibleRepCDate", false);//changes by swetha for DMND0003836
 			} else {
 				this.getView().getModel("DateModel").setProperty("/nonVinHide", true);
 			}
@@ -2282,6 +2335,7 @@ sap.ui.define([
 			} else if (elm == "ZSCR") {
 				this.getView().getModel("DateModel").setProperty("/OdometerReqMan", false);
 				this.getView().getModel("DateModel").setProperty("/oVisibleRepDate", false);
+				this.getView().getModel("DateModel").setProperty("/oVisibleRepCDate", false); //changes by swetha for DMND0003836
 				this.getView().getModel("DateModel").setProperty("/oVisibleReOrder", false);
 
 			} else {
@@ -2546,6 +2600,7 @@ sap.ui.define([
 				oView.byId("idClaimType"),
 				oView.byId("idDealerClaim"),
 				oView.byId("id_Date"),
+				oView.byId("id_CDate"), //changes by swetha for DMND0003836 on 8th Sept, 2023
 				oView.byId("idOdometer"),
 				oView.byId("idRepairOrder"),
 				oView.byId("idVinNum"),
@@ -2588,6 +2643,7 @@ sap.ui.define([
 				sValueState = "Error";
 				bValidationError = true;
 			}
+
 			oInput.setValueState(sValueState);
 
 			return bValidationError;
@@ -2623,6 +2679,7 @@ sap.ui.define([
 			// var oValid01 = oValidator.validate(this.getView().byId("idVehicleInfo"));
 			var oValid02 = oValidator.validate(this.getView().byId("idpart01Form"));
 			oValidator.validate(!(this.getView().byId("id_Date")));
+			oValidator.validate(!(this.getView().byId("id_CDate"))); //changes by swetha for DMND0003836 on 8th Sept, 2023
 			var oClaimModel = this.getModel("ProssingModel");
 			var oCurrentDt = new Date();
 			var clmGrp = this.getModel("LocalDataModel").getProperty("/clmTypeGroup");
@@ -2680,9 +2737,18 @@ sap.ui.define([
 				this.getView().byId("idMainClaimMessage").setText(oBundle.getText("FutureDateNotallowed"));
 				this.getView().byId("idMainClaimMessage").setType("Error");
 
+			} else if (this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairDate")) > this._fnDateFormat(this.getView()
+					.getModel("HeadSetData").getProperty("/RepairCDate"))) { //changes by swetha for DMND0003836 on 12th Sept, 2023 added Validation msg if RO Open Date > RO Close Date 
+				if (sSelectedLocale == "en") {
+					MessageBox.error("RO open date cannot be greater than RO close date");
+				} else {
+					MessageBox.error("La date d’ouverture ne peut pas être supérieure à la date de clôture de RO");
+				}
+				this.getView().byId("id_Date").setValueState("Error");
 			} else {
 				this.getView().byId("idMainClaimMessage").setProperty("visible", false);
 				this.getView().byId("id_Date").setValueState("None");
+				this.getView().byId("id_CDate").setValueState("None"); //changes by swetha for DMND0003836 on 8th Sept, 2023
 				this.getView().byId("idPrInvDate").setValueState("None");
 				this.getView().byId("idPreInvNum").setValueState("None");
 				this.getView().byId("idT2Field").setValueState("None");
@@ -2711,6 +2777,7 @@ sap.ui.define([
 					"DateOfApplication": this._fnDateFormat(oCurrentDt),
 					"FinalProcdDate": null,
 					"RepairDate": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairDate")),
+					"RepairCDate": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairCDate")), //Changes by Swetha for DMND0003836 on 8th Sept, 2023
 					"RepairOrderNumberExternal": this.getView().getModel("HeadSetData").getProperty("/RepairOrderNumberExternal"),
 					"ExternalNumberOfClaim": this.getView().getModel("HeadSetData").getProperty("/ExternalNumberOfClaim"),
 					"ExternalObjectNumber": this.getView().getModel("HeadSetData").getProperty("/ExternalObjectNumber"),
@@ -3210,7 +3277,6 @@ sap.ui.define([
 		},
 
 		_fnUpdateClaim: function (oEvent) {
-			
 			//Changes by Devika for Demand DMND0004200 on 09-01-2024
 			var ofpValue = this.getView().byId("idOFP").getValue();
 			if (ofpValue && ofpValue.toUpperCase() != "DIAGNOSTIC" && ofpValue.toUpperCase().startsWith("DIA")) {
@@ -3218,7 +3284,7 @@ sap.ui.define([
 				return false;
 			}
 			//End of demand DMND0004200
-			
+
 			var bValidationError;
 			this.getModel("LocalDataModel").setProperty("/PrintEnable", true);
 			var oId;
@@ -3406,6 +3472,7 @@ sap.ui.define([
 								"DateOfApplication": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/DateOfApplication")),
 								"FinalProcdDate": null,
 								"RepairDate": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairDate")),
+								"RepairCDate": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairCDate")), //changes by swetha for DMND0003836
 								"RepairOrderNumberExternal": this.getView().getModel("HeadSetData").getProperty("/RepairOrderNumberExternal"),
 								"ExternalNumberOfClaim": this.getView().getModel("HeadSetData").getProperty("/ExternalNumberOfClaim"),
 								"ExternalObjectNumber": this.getView().getModel("HeadSetData").getProperty("/ExternalObjectNumber"),
@@ -3429,8 +3496,7 @@ sap.ui.define([
 								"PreviousROOdometer": this.getView().getModel("HeadSetData").getProperty("/PreviousROOdometer"),
 								"PreviousROInvoice": this.getView().getModel("HeadSetData").getProperty("/PreviousROInvoice"),
 								"AccessoryInstallOdometer": this.getView().getModel("HeadSetData").getProperty("/AccessoryInstallOdometer"),
-								"AccessoryInstallDate": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty(
-									"/AccessoryInstallDate")),
+								"AccessoryInstallDate": this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/AccessoryInstallDate")),
 								"AgreementNumber": this.getView().getModel("HeadSetData").getProperty("/AgreementNumber"),
 								"CustomerPostalCode": this.getView().getModel("HeadSetData").getProperty("/CustomerPostalCode").toUpperCase(),
 								"CustomerFullName": this.getView().getModel("HeadSetData").getProperty("/CustomerFullName"),
@@ -3475,8 +3541,7 @@ sap.ui.define([
 								this.getView().byId("idMainClaimMessage").setText(oBundle.getText("FillUpMandatoryField"));
 								this.getView().byId("idMainClaimMessage").setType("Error");
 								this.getView().byId("idMainClaimMessage").setProperty("visible", true);
-							} else if (oClaimtype == "ZECP" && this.getView().getModel("HeadSetData").getProperty("/AgreementNumber") == "" &&
-								oId !=
+							} else if (oClaimtype == "ZECP" && this.getView().getModel("HeadSetData").getProperty("/AgreementNumber") == "" && oId !=
 								"changeclaimtype") {
 								this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", false);
 								this.getView().byId("idMainClaimMessage").setText(oBundle.getText("PleaseSelectAgreement"));
@@ -3495,8 +3560,7 @@ sap.ui.define([
 								this.getView().byId("idMainClaimMessage").setType("Error");
 
 							} else if (
-								this.getView().getModel("HeadSetData").getProperty("/AccessoryInstallDate") > this.getView().getModel("HeadSetData")
-								.getProperty(
+								this.getView().getModel("HeadSetData").getProperty("/AccessoryInstallDate") > this.getView().getModel("HeadSetData").getProperty(
 									"/RepairDate") && oId != "changeclaimtype"
 							) {
 								this.getView().byId("idAccDate").setValueState("Error");
@@ -3530,6 +3594,16 @@ sap.ui.define([
 										my: "center center",
 										at: "center center"
 									});
+							} else if (this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairDate")) > this._fnDateFormat(
+									this.getView().getModel("HeadSetData").getProperty("/RepairCDate"))) { //changes by swetha for DMND0003836 on 12th Sept, 2023 added Validation msg if RO Open Date > RO Close Date
+
+								if (sSelectedLocale == "en") {
+									MessageBox.error("RO open date cannot be greater than RO close date");
+								} else {
+									MessageBox.error("La date d’ouverture ne peut pas être supérieure à la date de clôture de RO");
+								}
+								this.getView().byId("id_Date").setValueState("Error");
+
 							} else {
 								this.getView().byId("idRepairOrder").setValueState("None");
 								this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", true);
@@ -3599,8 +3673,7 @@ sap.ui.define([
 														this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", false);
 														this.getView().getModel("LocalDataModel").setProperty("/OFPDescription", errorData.results[0].zc_claim_read_descriptionSet
 															.results[0].OFPDescription);
-														this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", errorData.results[
-																0]
+														this.getView().getModel("LocalDataModel").setProperty("/MainOpsCodeDescription", errorData.results[0]
 															.zc_claim_read_descriptionSet
 															.results[0].MainOpsCodeDescription);
 														this.getView().getModel("HeadSetData").setProperty("/HeadText", errorData.results[0].zc_claim_read_descriptionSet
@@ -3683,6 +3756,7 @@ sap.ui.define([
 										this.getModel("LocalDataModel").setProperty("/oSavePartIndicator", false);
 									}, this)
 								});
+
 							}
 						}, this),
 						error: function () {}
@@ -5041,6 +5115,7 @@ sap.ui.define([
 
 		},
 		onStep01Next: function (oEvent) {
+
 			if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") == "ZWMS" ||
 				this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimSubType") == "ZWMS" || this.getModel("LocalDataModel").getProperty(
 					"/GroupDescriptionName") === "CRC" || this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") ===
@@ -5433,7 +5508,7 @@ sap.ui.define([
 
 			if (sValue) {
 				var oFilter = new Filter(
-					"Material",
+					"Product",
 					sap.ui.model.FilterOperator.StartsWith, sValue
 				);
 				//console.log(oFilter);
@@ -5442,13 +5517,13 @@ sap.ui.define([
 				evt.getSource().getBinding("items").filter([]);
 			}
 		},
-
+		//Filter option changed to Product from Filter
 		_handleLiveSearch: function (evt) {
 			var sValue = evt.getParameter("value");
 
 			if (sValue) {
 				var oFilter = new Filter(
-					"Material",
+					"Product",
 					sap.ui.model.FilterOperator.StartsWith, sValue
 				);
 				//console.log(oFilter);
@@ -5465,29 +5540,43 @@ sap.ui.define([
 			var oDescription = evt.mParameters.selectedItems[0].getCells()[1].getText();
 			var oProductModel = this.getModel("ProductMaster");
 			if (this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType") != "ZSCR") {
+				sap.ui.core.BusyIndicator.show(); // 6-JuLY-23  Shriram  INC0235295
 				oProductModel.read("/ZC_Characteristic_InfoSet", {
 					urlParameters: {
 						"$filter": "MATERIAL eq '" + this.oSelectedTitle + "' and CLASS eq 'WARRANTY_INFO' and CHARAC eq 'Warranty Alternate Unit'"
 					},
 					success: $.proxy(function (data) {
+						sap.ui.core.BusyIndicator.hide(); // 6-JuLY-23  Shriram INC0235295
 						if (data.results.length > 0) {
 							if (data.results[0].VALUE != "?") {
 								this.getView().getModel("LocalDataModel").setProperty("/BaseUnit", data.results[0].VALUE);
-							} else {
-								this.getView().getModel("LocalDataModel").setProperty("/BaseUnit", oBaseUint);
 							}
+							/*else {                                            //changes by swetha for defect 17609 on 11/1/23 
+								this.getView().getModel("LocalDataModel").setProperty("/BaseUnit", oBaseUint);
+							}*/
 
 						} else {
 							this.getView().getModel("LocalDataModel").setProperty("/BaseUnit", oBaseUint);
 						}
-
+						if (this.getView().getModel("LocalDataModel").getProperty("/BaseUnit") == "/PC" || this.getView().getModel("LocalDataModel")
+							.getProperty("/BaseUnit") == '***') // 12-JuLY-23  Shriram  INC0235295 Code start
+						{
+							this.getView().getModel("LocalDataModel").setProperty("/BaseUnit", "EA");
+						}
 					}, this)
 				});
 			} else {
 				this.getView().getModel("LocalDataModel").setProperty("/BaseUnit", oBaseUint);
 			}
-
+			if (this.getView().getModel("LocalDataModel").getProperty("/BaseUnit") == "/PC" || this.getView().getModel("LocalDataModel").getProperty(
+					"/BaseUnit") == '***') // 6-JuLY-23  Shriram  INC0235295 Code start
+			{
+				this.getView().getModel("LocalDataModel").setProperty("/BaseUnit", "EA");
+			} else {
+				this.getView().getModel("LocalDataModel").setProperty("/BaseUnit", oBaseUint); //changes by swetha for defect 17609 on 11/1/23 
+			} // 7-JuLY-23  Shriram  INC0235295 CODE END
 			this.getView().getModel("PartDataModel").setProperty("/PartDescription", oDescription);
+
 			if (oSelectedItem) {
 				var productInput = this.byId(this.inputId);
 				productInput.setValue(this.oSelectedTitle);
@@ -6508,6 +6597,14 @@ sap.ui.define([
 		},
 		onChangeSublet: function (oEvent) {
 			var AdditonalUnit = oEvent.getParameters().selectedItem.getAdditionalText();
+			if (AdditonalUnit == "/PC") // 12-JuLY-23  Shriram  INC0235295 Code start
+			{
+				AdditonalUnit = "EA";
+			} // 12-JuLY-23  Shriram  INC0235295 Code end
+			if (AdditonalUnit == '***') // 13-JuLY-23  Shriram  INC0235295 Code start
+			{
+				AdditonalUnit = "D";
+			}
 			this.getView().getModel("SubletDataModel").setProperty("/unitOfMeasure", AdditonalUnit);
 			var oSelectedSublet = oEvent.getParameters().selectedItem.getKey();
 			if (oSelectedSublet == "L2" || oSelectedSublet == "L3" ||
@@ -7078,6 +7175,7 @@ sap.ui.define([
 			this.obj.DateOfApplication = this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/DateOfApplication"));
 			this.obj.FinalProcdDate = null;
 			this.obj.RepairDate = this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairDate"));
+			this.obj.RepairCDate = this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairCDate")); //changes by swetha for DMND0003836
 			this.obj.RepairOrderNumberExternal = this.getView().getModel("HeadSetData").getProperty("/RepairOrderNumberExternal");
 			this.obj.ExternalNumberOfClaim = this.getView().getModel("HeadSetData").getProperty("/ExternalNumberOfClaim");
 			this.obj.ExternalObjectNumber = this.getView().getModel("HeadSetData").getProperty("/ExternalObjectNumber");
@@ -7209,6 +7307,14 @@ sap.ui.define([
 								this.getView().byId("idMainClaimMessage").setText(oBundle.getText("FutureDateNotallowed"));
 								this.getView().byId("idMainClaimMessage").setType("Error");
 
+							} else if (this._fnDateFormat(this.getView().getModel("HeadSetData").getProperty("/RepairDate")) > this._fnDateFormat(
+									this.getView().getModel("HeadSetData").getProperty("/RepairCDate"))) { //changes by swetha for DMND0003836 on 12th Sept, 2023 added Validation msg if RO Open Date > RO Close Date 
+								if (sSelectedLocale == "EN") {
+									MessageBox.error("RO open date cannot be greater than RO close date");
+								} else {
+									MessageBox.error("La date d’ouverture ne peut pas être supérieure à la date de clôture de RO");
+								}
+								this.getView().byId("id_Date").setValueState("Error");
 							} else {
 								this.getView().getModel("DateModel").setProperty("/claimTypeState", "None");
 								this.getView().getModel("DateModel").setProperty("/claimTypeState2", "None");
