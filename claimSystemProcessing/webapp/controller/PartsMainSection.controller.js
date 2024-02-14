@@ -4166,7 +4166,7 @@ sap.ui.define([
 			if(oClaimType == "ZPDC" || oClaimType == "ZPTS"){
 				var oDeliveryDate = this.getView().getModel("HeadSetData").getProperty("/DeliveryDate");
 				var that = this;
-				if(oDeliveryDate == null){
+				if(oDeliveryDate == ""){
 					MessageBox.show(oBundle.getText("InvoiceDateNotFound"), MessageBox.Icon.INFORMATION, "Information", MessageBox.Action.OK, null, null);
 					//MessageBox.show(oBundle.getText("InvoiceDateNotFound"));
 				}
@@ -4562,7 +4562,7 @@ sap.ui.define([
 			var oClaimType = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType")
 			if(oClaimType == "ZPDC" || oClaimType == "ZPTS"){
 				var oDeliveryDate =this.getView().getModel("HeadSetData").getProperty("/DeliveryDate");
-				if(oDeliveryDate == null){
+				if(oDeliveryDate == ""){
 					MessageBox.warning(oBundle.getText("InvoiceDateNotFound"));
 				}
 			}
