@@ -228,7 +228,8 @@ sap.ui.define([
 				oProssingModel.read("/zc_get_delidateSet" + numQuery, {
 					success: $.proxy(function (delNumdata) {
 						if (delNumdata.DeliDate == null) {
-
+							//Changes by Devika on 14-02-2024 for DMND0004327
+							this.getView().getModel("HeadSetData").setProperty("/DeliveryDate","");
 							//  DMND0004037  To Recover from FedEx Custom goods: was showing empty popup, so added this condition. Shriram 7-Jun-2023  Code Start  
 							if (delNumdata.Message !== "") {
 								MessageBox.show(delNumdata.Message, MessageBox.Icon.INFORMATION, "Information", MessageBox.Action.OK, null, null);
@@ -3248,6 +3249,10 @@ sap.ui.define([
 			// this._getDropDownData(oEvent.getSource().getProperty("selectedKey"));
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			this._getDropDownData(oEvent.getSource().getProperty("selectedKey"));
+			//Changes by Devika on 14-02-2024 for INC0246749
+			this.getView().getModel("HeadSetData").setProperty("/Delivery","");
+			this.getView().getModel("HeadSetData").setProperty("/DeliveryDate","");
+			//End of changes for INC0246749
 			if (oEvent.getSource().getProperty("selectedKey") === "ZPDC") {
 				this.SelectedClaimType = "ZPDC";
 				this.getView().byId("idPdcCode").setProperty("editable", false);
@@ -4162,8 +4167,6 @@ sap.ui.define([
 				var oDeliveryDate = this.getView().getModel("HeadSetData").getProperty("/DeliveryDate");
 				var that = this;
 				if(oDeliveryDate == null){
-					//Changes made by Devika on 14-02-2024 for DMND0004327
-					that.getView().getModel("HeadSetData").setProperty("/DeliveryDate","");
 					MessageBox.show(oBundle.getText("InvoiceDateNotFound"), MessageBox.Icon.INFORMATION, "Information", MessageBox.Action.OK, null, null);
 					//MessageBox.show(oBundle.getText("InvoiceDateNotFound"));
 				}
