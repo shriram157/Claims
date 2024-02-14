@@ -4162,8 +4162,8 @@ sap.ui.define([
 				var oDeliveryDate = this.getView().getModel("HeadSetData").getProperty("/DeliveryDate");
 				var that = this;
 				if(oDeliveryDate == null){
-					//Chnages made by Devika on 14-02-2024 for DMND0004327
-					this.getView().getModel("HeadSetData").setProperty("/DeliveryDate")="";
+					//Changes made by Devika on 14-02-2024 for DMND0004327
+					that.getView().getModel("HeadSetData").setProperty("/DeliveryDate","");
 					MessageBox.show(oBundle.getText("InvoiceDateNotFound"), MessageBox.Icon.INFORMATION, "Information", MessageBox.Action.OK, null, null);
 					//MessageBox.show(oBundle.getText("InvoiceDateNotFound"));
 				}
