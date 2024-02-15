@@ -4166,9 +4166,16 @@ sap.ui.define([
 			if(oClaimType == "ZPDC" || oClaimType == "ZPTS"){
 				var oDeliveryDate = this.getView().getModel("HeadSetData").getProperty("/DeliveryDate");
 				var that = this;
-				if(oDeliveryDate == ""){
-					MessageBox.show(oBundle.getText("InvoiceDateNotFound"), MessageBox.Icon.INFORMATION, "Information", MessageBox.Action.OK, null, null);
-					//MessageBox.show(oBundle.getText("InvoiceDateNotFound"));
+				if(oDeliveryDate == "" || oDeliveryDate == null){
+				//	MessageBox.show(oBundle.getText("InvoiceDateNotFound"), MessageBox.Icon.INFORMATION, "Information", MessageBox.Action.OK, null, null);
+					MessageBox.warning(oBundle.getText("InvoiceDateNotFound"));
+				}
+			}
+			if(oClaimType == "ZPDD"){
+				var oDeliveryDate = this.getView().getModel("HeadSetData").getProperty("/DeliveryDate");
+				var that = this;
+				if(oDeliveryDate == "" || oDeliveryDate == null){
+					MessageBox.show(oBundle.getText("DeliveryDateNotFound"), MessageBox.Icon.INFORMATION, "Information", MessageBox.Action.OK, null, null);
 				}
 			}
 			// End of Demand DMND0004327
@@ -4562,8 +4569,16 @@ sap.ui.define([
 			var oClaimType = this.getView().getModel("HeadSetData").getProperty("/WarrantyClaimType")
 			if(oClaimType == "ZPDC" || oClaimType == "ZPTS"){
 				var oDeliveryDate =this.getView().getModel("HeadSetData").getProperty("/DeliveryDate");
-				if(oDeliveryDate == ""){
+				if(oDeliveryDate == "" || oDeliveryDate == null ){
 					MessageBox.warning(oBundle.getText("InvoiceDateNotFound"));
+				}
+			}
+			if(oClaimType == "ZPDD"){
+				var oDeliveryDate = this.getView().getModel("HeadSetData").getProperty("/DeliveryDate");
+				var that = this;
+				if(oDeliveryDate == "" || oDeliveryDate == null){
+					//MessageBox.show(oBundle.getText("DeliveryDateNotFound"), MessageBox.Icon.INFORMATION, "Information", MessageBox.Action.OK, null, null);
+					MessageBox.warning(oBundle.getText("DeliveryDateNotFound"));
 				}
 			}
 			// End of Demand DMND0004327
