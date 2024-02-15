@@ -4167,11 +4167,11 @@ sap.ui.define([
 				var oDeliveryDate = this.getView().getModel("HeadSetData").getProperty("/DeliveryDate");
 				var that = this;
 				if(oDeliveryDate == "" || oDeliveryDate == null){
-				//	MessageBox.show(oBundle.getText("InvoiceDateNotFound"), MessageBox.Icon.INFORMATION, "Information", MessageBox.Action.OK, null, null);
-					MessageBox.warning(oBundle.getText("InvoiceDateNotFound"));
+					MessageBox.show(oBundle.getText("InvoiceDateNotFound"), MessageBox.Icon.INFORMATION, "Information", MessageBox.Action.OK, null, null);
+					//MessageBox.warning(oBundle.getText("InvoiceDateNotFound"));
 				}
 			}
-			if(oClaimType == "ZPDD"){
+			if(oClaimType == "ZPPD"){
 				var oDeliveryDate = this.getView().getModel("HeadSetData").getProperty("/DeliveryDate");
 				var that = this;
 				if(oDeliveryDate == "" || oDeliveryDate == null){
@@ -4573,7 +4573,7 @@ sap.ui.define([
 					MessageBox.warning(oBundle.getText("InvoiceDateNotFound"));
 				}
 			}
-			if(oClaimType == "ZPDD"){
+			if(oClaimType == "ZPPD"){
 				var oDeliveryDate = this.getView().getModel("HeadSetData").getProperty("/DeliveryDate");
 				var that = this;
 				if(oDeliveryDate == "" || oDeliveryDate == null){
