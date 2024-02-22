@@ -4169,6 +4169,7 @@ sap.ui.define([
 				if(oDeliveryDate == "" || oDeliveryDate == null){
 				//	MessageBox.show(oBundle.getText("InvoiceDateNotFound"), MessageBox.Icon.INFORMATION, "Information", MessageBox.Action.OK, null, null);
 					MessageBox.warning(oBundle.getText("InvoiceDateNotFound"));
+					return false;
 				}
 			}
 			if(oClaimType == "ZPPD"){
@@ -4176,6 +4177,7 @@ sap.ui.define([
 				var that = this;
 				if(oDeliveryDate == "" || oDeliveryDate == null){
 					MessageBox.show(oBundle.getText("DeliveryDateNotFound"), MessageBox.Icon.INFORMATION, "Information", MessageBox.Action.OK, null, null);
+					return false;
 				}
 			}
 			// End of Demand DMND0004327
@@ -4571,6 +4573,7 @@ sap.ui.define([
 				var oDeliveryDate =this.getView().getModel("HeadSetData").getProperty("/DeliveryDate");
 				if(oDeliveryDate == "" || oDeliveryDate == null ){
 					MessageBox.warning(oBundle.getText("InvoiceDateNotFound"));
+					return false;
 				}
 			}
 			if(oClaimType == "ZPPD"){
@@ -4579,6 +4582,7 @@ sap.ui.define([
 				if(oDeliveryDate == "" || oDeliveryDate == null){
 					//MessageBox.show(oBundle.getText("DeliveryDateNotFound"), MessageBox.Icon.INFORMATION, "Information", MessageBox.Action.OK, null, null);
 					MessageBox.warning(oBundle.getText("DeliveryDateNotFound"));
+					return false;
 				}
 			}
 			// End of Demand DMND0004327
