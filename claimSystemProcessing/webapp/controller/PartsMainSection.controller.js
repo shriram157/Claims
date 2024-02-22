@@ -4169,7 +4169,7 @@ sap.ui.define([
 				if(oDeliveryDate == "" || oDeliveryDate == null){
 				//	MessageBox.show(oBundle.getText("InvoiceDateNotFound"), MessageBox.Icon.INFORMATION, "Information", MessageBox.Action.OK, null, null);
 					MessageBox.warning(oBundle.getText("InvoiceDateNotFound"));
-					// return false;
+					return false;
 				}
 			}
 			if(oClaimType == "ZPPD"){
@@ -4177,7 +4177,7 @@ sap.ui.define([
 				var that = this;
 				if(oDeliveryDate == "" || oDeliveryDate == null){
 					MessageBox.show(oBundle.getText("DeliveryDateNotFound"), MessageBox.Icon.INFORMATION, "Information", MessageBox.Action.OK, null, null);
-					// return false;
+					return false;
 				}
 			}
 			// End of Demand DMND0004327
