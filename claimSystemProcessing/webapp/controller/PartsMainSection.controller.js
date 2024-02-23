@@ -4167,8 +4167,7 @@ sap.ui.define([
 				var oDeliveryDate = this.getView().getModel("HeadSetData").getProperty("/DeliveryDate");
 				var that = this;
 				if(oDeliveryDate == "" || oDeliveryDate == null){
-				//	MessageBox.show(oBundle.getText("InvoiceDateNotFound"), MessageBox.Icon.INFORMATION, "Information", MessageBox.Action.OK, null, null);
-					MessageBox.warning(oBundle.getText("InvoiceDateNotFound"));
+					MessageBox.error(oBundle.getText("InvoiceDateNotFound"));
 					return false;
 				}
 			}
@@ -4176,7 +4175,8 @@ sap.ui.define([
 				var oDeliveryDate = this.getView().getModel("HeadSetData").getProperty("/DeliveryDate");
 				var that = this;
 				if(oDeliveryDate == "" || oDeliveryDate == null){
-					MessageBox.show(oBundle.getText("DeliveryDateNotFound"), MessageBox.Icon.INFORMATION, "Information", MessageBox.Action.OK, null, null);
+					MessageBox.error(oBundle.getText("DeliveryDateNotFound"));
+					//MessageBox.error(oBundle.getText("DeliveryDateNotFound"), MessageBox.Icon.INFORMATION, "Information", MessageBox.Action.OK, null, null);
 					return false;
 				}
 			}
@@ -4572,7 +4572,7 @@ sap.ui.define([
 			if(oClaimType == "ZPDC" || oClaimType == "ZPTS"){
 				var oDeliveryDate =this.getView().getModel("HeadSetData").getProperty("/DeliveryDate");
 				if(oDeliveryDate == "" || oDeliveryDate == null ){
-					MessageBox.warning(oBundle.getText("InvoiceDateNotFound"));
+					MessageBox.error(oBundle.getText("InvoiceDateNotFound"));
 				}
 				return false;
 			}
@@ -4581,7 +4581,7 @@ sap.ui.define([
 				var that = this;
 				if(oDeliveryDate == "" || oDeliveryDate == null){
 					//MessageBox.show(oBundle.getText("DeliveryDateNotFound"), MessageBox.Icon.INFORMATION, "Information", MessageBox.Action.OK, null, null);
-					MessageBox.warning(oBundle.getText("DeliveryDateNotFound"));
+					MessageBox.error(oBundle.getText("DeliveryDateNotFound"));
 				}
 				return false;
 			}
