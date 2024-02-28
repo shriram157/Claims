@@ -67,7 +67,8 @@
 				<Input value="{path:'HeadSetData>/DealerContact', type : 'sap.ui.model.type.String', constraints : { minLength : 1, maxLength : 10 } }"
 					required="true" id="idDealerContact" enabled="{DateModel>/oFormEdit}"/>
 				<core:Title text=""/>
-				<Label text="{i18n>OutboundDeliveryDate}"/>
+				<!--<Label text="{i18n>OutboundDeliveryDate}"/>-->
+				<Label text="{path:'HeadSetData>/WarrantyClaimType' , formatter:'zclaimProcessing.utils.formatter.fnOutboundDeliveryDate'}"/>        <!--changes by Devika on 11-01-2024 for DMND0004327-->
 				<DatePicker id="idOutBoundDD" valueState="{DateModel>/obdValueState}"
 					value="{path:'HeadSetData>/DeliveryDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'medium' , pattern: 'YYYY-MM-dd', strictParsing: true, UTC: true}}"
 					enabled="{DateModel>/oFormEdit}" editable="{DateModel>/DelDateEdit}" change="onDelDateChange"/>

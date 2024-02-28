@@ -2666,6 +2666,13 @@ sap.ui.define([
 		},
 
 		_fnSaveClaim: function () {
+			//Changes by Devika for Demand DMND0004200 on 09-01-2024
+			// var ofpValue = this.getView().byId("idOFP").getValue();
+			// if (ofpValue && ofpValue.toUpperCase() != "DIAGNOSTIC" && ofpValue.toUpperCase().startsWith("DIA")) {
+			// 	MessageBox.error(oBundle.getText("EnterCorrectOFPValue"));
+			// 	return false;
+			// }
+			//End for demand DMND0004200
 
 			var oValidator = new Validator();
 			//var oValid = oValidator.validate(this.getView().byId("idClaimMainForm"));
@@ -3270,6 +3277,13 @@ sap.ui.define([
 		},
 
 		_fnUpdateClaim: function (oEvent) {
+			//Changes by Devika for Demand DMND0004200 on 09-01-2024
+			// var ofpValue = this.getView().byId("idOFP").getValue();
+			// if (ofpValue && ofpValue.toUpperCase() != "DIAGNOSTIC" && ofpValue.toUpperCase().startsWith("DIA")) {
+			// 	MessageBox.error(oBundle.getText("EnterCorrectOFPValue"));
+			// 	return false;
+			// }
+			//End of demand DMND0004200
 
 			var bValidationError;
 			this.getModel("LocalDataModel").setProperty("/PrintEnable", true);
